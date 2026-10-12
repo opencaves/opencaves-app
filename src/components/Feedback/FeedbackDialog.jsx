@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { collection, doc, serverTimestamp, writeBatch } from 'firebase/firestore'
 import { Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, IconButton, InputAdornment, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import BugReportRounded from '@mui/icons-material/BugReportRounded'
 import ReportGmailerrorredRounded from '@mui/icons-material/ReportGmailerrorredRounded'
@@ -13,7 +12,7 @@ import TipsAndUpdatesRounded from '@mui/icons-material/TipsAndUpdatesRounded'
 import LinkRounded from '@mui/icons-material/LinkRounded'
 import SendRounded from '@mui/icons-material/SendRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
-import { auth, db } from '@/config/firebase.js'
+import { loadFirebase } from '@/utils/loadFirebase.js'
 import { FEEDBACK_COLLECTION, FEEDBACK_PRIVATE_COLLECTION } from '@/config/collections.js'
 import { FEEDBACK_KINDS, OPEN_FEEDBACK_EVENT } from '@/utils/feedback.js'
 import { toServiceLanguage } from '@/utils/lang.js'
@@ -124,6 +123,7 @@ export default function FeedbackDialog() {
   async function send() {
     setSending(true)
     try {
+      const { auth, db, collection, doc, serverTimestamp, writeBatch } = await loadFirebase()
       const report = { kind, message: message.trim(), page: page.trim().slice(0, 500), language: toServiceLanguage(i18n.language), userId: auth.currentUser.uid, createdAt: serverTimestamp(), status: 'new' }
       // The report, read by every member, and its browser, admins only (one
       // batch: firestore.rules accepts the private doc only with its report).

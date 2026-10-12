@@ -1,5 +1,4 @@
-import { collection, getDocs, onSnapshot } from 'firebase/firestore'
-import { db } from '@/config/firebase.js'
+import { loadFirebase, whenFirebaseNeeded } from '@/utils/loadFirebase.js'
 
 const COLLECTION_NAMES = {
   caves: 'caves',
@@ -14,6 +13,7 @@ const COLLECTION_NAMES = {
 }
 
 async function readCollection(name) {
+  const { db, collection, getDocs } = await loadFirebase()
   const snapshot = await getDocs(collection(db, name))
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
 }
@@ -32,6 +32,15 @@ export async function readCaveDataFromFirestore() {
   return Object.fromEntries(entries)
 }
 
+/**
+ * Follows the 9 cave-data collections, live, once Firebase is needed
+ * (utils/loadFirebase.js: on a page the server rendered, which has its data,
+ * not at once).
+ *
+ * @param {(data: object) => void} onData - With every collection, each time one changes.
+ * @param {(error: Error) => void} onError
+ * @returns {() => void} Unsubscribes.
+ */
 export function subscribeToCaveData(onData, onError) {
   const data = {}
   const names = Object.entries(COLLECTION_NAMES)
@@ -41,17 +50,23 @@ export function subscribeToCaveData(onData, onError) {
   // one long block of main-thread work. Snapshots arriving close together
   // are coalesced into one onData.
   let scheduled = null
-  const unsubscribers = names.map(([key, name]) => onSnapshot(collection(db, name), snapshot => {
-    data[key] = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-    if (Object.keys(data).length === names.length && !scheduled) {
-      scheduled = setTimeout(() => {
-        scheduled = null
-        onData({ ...data })
-      })
-    }
-  }, onError))
+  let unsubscribers = []
+  let stopped = false
+  whenFirebaseNeeded().then(({ db, collection, onSnapshot }) => {
+    if (stopped) return
+    unsubscribers = names.map(([key, name]) => onSnapshot(collection(db, name), snapshot => {
+      data[key] = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+      if (Object.keys(data).length === names.length && !scheduled) {
+        scheduled = setTimeout(() => {
+          scheduled = null
+          onData({ ...data })
+        })
+      }
+    }, onError))
+  }, onError)
 
   return () => {
+    stopped = true
     clearTimeout(scheduled)
     unsubscribers.forEach(unsubscribe => unsubscribe())
   }

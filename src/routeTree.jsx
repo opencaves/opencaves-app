@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Loading from '@/routes/Loading.jsx'
-import Account from '@/routes/Account.jsx'
 import AboutRoute from '@/routes/About.jsx'
 import NoMatch from '@/routes/NoMatch.jsx'
 import Layout from '@/components/App/Layout.jsx'
@@ -275,11 +274,7 @@ export const routes = [
               },
               {
                 path: 'account',
-                element: (
-                  <RequireAuth>
-                    <Account />
-                  </RequireAuth>
-                ),
+                ...requireAuth(() => import('@/routes/Account.jsx')),
               },
               {
                 path: 'loading',

@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { collection, doc, serverTimestamp, writeBatch } from 'firebase/firestore'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, ListItemIcon, ListItemText, Menu, MenuItem, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import BlockRounded from '@mui/icons-material/BlockRounded'
 import LockRounded from '@mui/icons-material/LockRounded'
@@ -9,7 +8,7 @@ import PaymentsRounded from '@mui/icons-material/PaymentsRounded'
 import AltRouteRounded from '@mui/icons-material/AltRouteRounded'
 import InfoOutlined from '@mui/icons-material/InfoOutlined'
 import WarningAmberRounded from '@mui/icons-material/WarningAmberRounded'
-import { auth, db } from '@/config/firebase.js'
+import { loadFirebase } from '@/utils/loadFirebase.js'
 import { FEEDBACK_COLLECTION, FEEDBACK_PRIVATE_COLLECTION } from '@/config/collections.js'
 import { CAVE_REPORT_KINDS, CAVE_REPORT_NOTE_MAX_LENGTH, CAVE_WARNING_REPORTS } from '@/config/caveReview.js'
 import { toServiceLanguage } from '@/utils/lang.js'
@@ -61,6 +60,7 @@ export default function CaveReportMenu({ cave, anchorEl, onClose }) {
   async function send() {
     setSending(true)
     try {
+      const { auth, db, collection, doc, serverTimestamp, writeBatch } = await loadFirebase()
       const name = cave.name?.value?.trim() || tPages('unnamedCavePlain')
       const message = [t(`message.${kind}`, { name }), note.trim()].filter(Boolean).join('\n\n')
       const report = { kind: 'misleading', caveId: cave.id, caveReport: kind, message, page: `/caves/${cave.id}`, language: toServiceLanguage(i18n.language), userId: auth.currentUser.uid, createdAt: serverTimestamp(), status: 'new' }

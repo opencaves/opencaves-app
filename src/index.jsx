@@ -13,6 +13,7 @@ import { isPhone, loadIonic } from '@/utils/loadIonic.js'
 // Drags of the page's own pictures never start the "drop to add" process.
 import '@/utils/externalFileDrag.js'
 import { watchFirestoreFailures } from '@/utils/firestoreRecovery.js'
+import { deferFirebase, loadFirebase } from '@/utils/loadFirebase.js'
 import { analyticsAllowed, applyAnalyticsOptOut } from '@/utils/analytics.js'
 
 // Ionic is for phones only (see utils/ionic.js), and only the map uses it:
@@ -36,6 +37,13 @@ watchFirestoreFailures()
 const ssr = window.__OC_SSR__
 const hydrate = Boolean(ssr) && ssr.path === window.location.pathname && i18n.resolvedLanguage === ssr.language
 const container = document.getElementById('root')
+
+// Firebase (utils/loadFirebase.js): a page the server rendered has its
+// content and data in its HTML - Firebase waits for the person's first
+// interaction, or a few seconds after the page's load. Any other page needs
+// it at once (the cave data, the session): fetched now, beside the app.
+if (hydrate) deferFirebase()
+else loadFirebase().catch((error) => console.error('[firebase] not loaded: %o', error))
 
 // In a build, index.html's loader adds the app's stylesheets next to this
 // script, after the page's first paint (see vite.config.js): render once

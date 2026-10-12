@@ -1,4 +1,8 @@
-// Import the functions you need from the SDKs you need
+// Firebase: the app, Auth and Firestore set up for the browser. Loaded on
+// demand (utils/loadFirebase.js), not with every page: only code that is
+// itself loaded on demand (the admin pages, the sign-in dialogs, the map's
+// panes...) imports it directly; the rest asks loadFirebase() for it, and
+// gets the SDK functions it calls with it (firebaseSdk.js).
 import { initializeApp } from 'firebase/app'
 import { browserLocalPersistence, browserPopupRedirectResolver, browserSessionPersistence, connectAuthEmulator, getAuth, getRedirectResult, indexedDBLocalPersistence, initializeAuth, signInWithPopup, signInWithRedirect } from 'firebase/auth'
 import { connectFirestoreEmulator, getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from 'firebase/firestore'
@@ -6,7 +10,9 @@ import { connectFirestoreEmulator, getFirestore, initializeFirestore, persistent
 import i18n from '../i18n.js'
 import { toServiceLanguage } from '../utils/lang.js'
 import { FIREBASE_CONFIG } from './firebase.config.js'
-import { savePendingLink } from '../services/pendingLink.js'
+import { savePendingLink } from '../services/pendingLinkAuth.js'
+
+export * from './firebaseSdk.js'
 
 // Initialize Firebase
 const app = initializeApp(FIREBASE_CONFIG)
@@ -112,10 +118,23 @@ if (location.hostname === 'localhost') {
 // instead, so only that one load pays for the resolver.
 const AUTH_REDIRECT_PENDING_KEY = 'oc-auth-redirect-pending'
 
+/**
+ * Signs in with a provider (Google, Microsoft...) in a popup.
+ *
+ * @param {import('firebase/auth').AuthProvider} provider
+ * @returns {Promise<import('firebase/auth').UserCredential>}
+ */
 export function signInWithProviderPopup(provider) {
   return signInWithPopup(auth, provider, browserPopupRedirectResolver)
 }
 
+/**
+ * Signs in with a provider by leaving for its page (phones), finished when
+ * the app loads again.
+ *
+ * @param {import('firebase/auth').AuthProvider} provider
+ * @returns {Promise<never>}
+ */
 export function signInWithProviderRedirect(provider) {
   try {
     sessionStorage.setItem(AUTH_REDIRECT_PENDING_KEY, '1')

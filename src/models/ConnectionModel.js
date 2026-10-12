@@ -1,13 +1,14 @@
-import { getDocs, query, where } from 'firebase/firestore'
 import pushId from 'unique-push-id'
 import { createCollectionModel } from './firestoreCollectionModel.js'
+import { loadFirebase } from '@/utils/loadFirebase.js'
 
 const ConnectionModel = createCollectionModel('connections')
 
 // A sistema has at most one outgoing connection (to its parent). Finds it,
 // if any, so the sistema edit form can show/change the current parent.
 ConnectionModel.getBySistemaId = async function getBySistemaId(sistemaId) {
-  const q = query(ConnectionModel.collectionRef, where('sistemaId', '==', sistemaId))
+  const [{ getDocs, query, where }, collectionRef] = await Promise.all([loadFirebase(), ConnectionModel.collectionRef()])
+  const q = query(collectionRef, where('sistemaId', '==', sistemaId))
   const snapshot = await getDocs(q)
   return snapshot.empty ? null : snapshot.docs[0].data()
 }

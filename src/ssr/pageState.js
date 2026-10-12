@@ -114,8 +114,9 @@ export function fullPageData(raw) {
  * @param {{id: string, data: object}[]} [sources.assets=[]] - The page's
  *   cave's photos ([{ id, data }]), if a cave's page.
  * @param {{id: string, data: object}[]} [sources.covers] - The cover photos outside the trash ([{ id, data }]):
- *   the caves' list's (its No photo filter), sent with their caveId only. Not given (an older server):
- *   the browser reads them.
+ *   the caves' list's (its No photo filter), sent with their caveId only; the landing page's (its
+ *   header and Discover photos, picked in the browser), with what their addresses need. Not given
+ *   (an older server): the browser reads them.
  * @param {{id: string, data: object}[]} [sources.caveReports] - A cave's page: its _caveReports document
  *   ([{ id, data }], none without one): the warnings it shows (useCaveReports).
  * @returns {{data: object, queries: object, found: boolean}} { data (the page's
@@ -160,6 +161,11 @@ export function buildPageState(page, { raw, maps = [], assets = [], covers, cave
   // The caves with a cover photo (useCoverCaveIds): which have none.
   if (page.kind === 'caves' && covers) {
     queries.covers = covers.filter(({ data: asset }) => !isTrashed(asset)).map(({ id, data: asset }) => ({ id, data: { caveId: asset.caveId } }))
+  }
+  // The landing page's photos (Home's useCoverPhotos): without Firestore,
+  // which the page doesn't load until the person does something.
+  if (page.kind === 'home' && covers) {
+    queries.covers = covers.filter(({ data: asset }) => !isTrashed(asset)).map(({ id, data: asset }) => ({ id, data: pick(asset, ['id', 'caveId', 'type', 'isCover', 'thumbnailRevision', 'viewThumbnailRevision']) }))
   }
   if (cave) {
     const images = assets.filter(({ data: asset }) => asset.caveId === cave.id && asset.type === 'image')
