@@ -73,12 +73,14 @@ export default function SectionReview({ cave, section, sx }) {
 
   return (
     <Box className={`oc-section-review oc-section-review--${section}`} sx={[{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 1 }, ...(Array.isArray(sx) ? sx : [sx])]}>
-      <Button className="oc-section-review--confirm" size="small" startIcon={state === 'recent' ? <CheckRounded /> : <WarningAmberRounded />} onClick={confirm} disabled={saving} aria-label={t('stillAccurateLabel', { section: sectionName })} sx={{ textTransform: 'none', borderRadius: 5, px: 1.25, ml: -1.25 }}>
+      {/* The primary's dark shade in light mode: AAA contrast (7:1) on the
+          page's ground; the dark theme's primary already has it. */}
+      <Button className="oc-section-review--confirm" size="small" startIcon={state === 'recent' ? <CheckRounded /> : <WarningAmberRounded />} onClick={confirm} disabled={saving} aria-label={t('stillAccurateLabel', { section: sectionName })} sx={(theme) => ({ textTransform: 'none', borderRadius: 5, px: 1.25, ml: -1.25, color: theme.vars.palette.primary.dark, ...theme.applyStyles('dark', { color: theme.vars.sys.color.primary }) })}>
         {state === 'recent' ? t('stillAccurate') : t('stillAccurateQuestion')}
       </Button>
       {/* Its age under it, in line with the button's text (the button pulled
           left by its padding, its icon by MUI's -4px: the text 18px in). */}
-      <Typography className="oc-section-review--age" variant="body2" component="p" sx={{ color: 'text.secondary', fontSize: '0.8125rem', pl: '18px' }}>
+      <Typography className="oc-section-review--age" variant="body2" component="p" sx={{ color: 'text.secondary', fontSize: '0.8125rem', pl: '18px', mt: '-4px' }}>
         {age}
       </Typography>
     </Box>
