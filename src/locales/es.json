@@ -1075,7 +1075,7 @@
         "openScan": "Abrir el mapa original"
       },
       "panelTitle": "Capas del mapa",
-      "show": "Mostrar las galerías"
+      "show": "Mostrar las galerías inundadas"
     },
     "controls": {
       "locationNotAvailable": "Ubicación no disponible",
