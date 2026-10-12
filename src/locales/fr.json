@@ -1602,7 +1602,7 @@
   "appBarSearch": {
     "placeholder": "Chercher des grottes et des réseaux",
     "open": "Chercher",
-    "close": "Fermer la recherche",
+    "clear": "Effacer la recherche",
     "none": "Aucune grotte ni aucun réseau ne correspond.",
     "hint": "Tapez un nom",
     "groups": {

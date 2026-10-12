@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Autocomplete, Box, ClickAwayListener, IconButton, InputAdornment, InputBase, Tooltip, useTheme } from '@mui/material'
-import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import SearchRounded from '@mui/icons-material/SearchRounded'
+import CloseRounded from '@mui/icons-material/CloseRounded'
 import { useSiteSearch } from '@/hooks/useSiteSearch.js'
 import { renderSearchGroup, renderSearchOption } from '@/components/IndexPage/searchSuggestions.jsx'
 
@@ -14,10 +14,10 @@ import { renderSearchGroup, renderSearchOption } from '@/components/IndexPage/se
  * Enter on free text opens the caves' list filtered by it. A search button
  * that opens the field over the bar's links (wide screens: from the links'
  * start to the button, the logo and the account left in sight) or over the
- * whole bar (narrower, where the links are in the drawer), with a back arrow
- * to close it - revealed in a circle growing from the button, and closed
+ * whole bar (narrower, where the links are in the drawer) - revealed in a circle growing from the button, and closed
  * back into it (M3's container transform, as a circular reveal). Empty, it
- * also closes on Escape or a click elsewhere; with text, Escape clears it.
+ * also closes on Escape or a click elsewhere; with text, Escape or its ×
+ * button clears it.
  */
 export default function AppBarSearch() {
   const { t } = useTranslation('appBarSearch')
@@ -148,6 +148,23 @@ export default function AppBarSearch() {
                 <SearchRounded />
               </InputAdornment>
             }
+            // With text: a button emptying it (the field keeps the focus).
+            endAdornment={input && (
+              <InputAdornment position="end" sx={{ color: 'inherit', mr: -0.5 }}>
+                <IconButton
+                  className="oc-app-bar-search--clear"
+                  size="small"
+                  color="inherit"
+                  aria-label={t('clear')}
+                  onClick={() => {
+                    setInput('')
+                    inputRef.current?.focus()
+                  }}
+                >
+                  <CloseRounded fontSize="small" />
+                </IconButton>
+              </InputAdornment>
+            )}
             onKeyDown={(event) => {
               if (event.key !== 'Escape') return
               // Its text cleared first, then closed.
@@ -181,7 +198,7 @@ export default function AppBarSearch() {
       </Tooltip>
       {mounted && (
         // Over the bar's links or the whole bar (fixed, like it: 64px at the
-        // top), in its colors: a back arrow, then the field. Empty, a click
+        // top), in its colors: the field. Empty, a click
         // or tap anywhere else closes it (its suggestions, in a portal, count
         // as inside).
         <ClickAwayListener onClickAway={() => open && !input && closeOverlay()}>
@@ -212,11 +229,6 @@ export default function AppBarSearch() {
               }
             }}
           >
-            <Tooltip title={t('close')}>
-              <IconButton color="inherit" aria-label={t('close')} onClick={() => closeOverlay()} sx={{ p: 1.5 }}>
-                <ArrowBackRounded />
-              </IconButton>
-            </Tooltip>
             <Box sx={{ flex: 1, minWidth: 0, display: 'flex', pr: { xs: 1, sm: 0 } }}>{field}</Box>
           </Box>
         </ClickAwayListener>

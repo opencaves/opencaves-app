@@ -1603,7 +1603,7 @@
   "appBarSearch": {
     "placeholder": "Buscar cuevas y sistemas",
     "open": "Buscar",
-    "close": "Cerrar la búsqueda",
+    "clear": "Borrar la búsqueda",
     "none": "Ninguna cueva ni sistema coincide.",
     "hint": "Escribe un nombre",
     "groups": {
