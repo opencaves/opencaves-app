@@ -5,6 +5,7 @@ import { styled } from '@mui/material'
 import HelpOutlineRounded from '@mui/icons-material/HelpOutlineRounded'
 import Markdown from '../Markdown/Markdown.jsx'
 import TextSource from '@/components/TextSource.jsx'
+import SectionReview from '@/components/CaveReview/SectionReview.jsx'
 import KeyIcon from '@/images/accesses/key.svg?react'
 import NoIcon from '@/images/accesses/no.svg?react'
 import YesIcon from '@/images/accesses/yes.svg?react'
@@ -22,6 +23,15 @@ import FeesYesIcon from '@/images/fees/fees-yes.svg?react'
 import FeesNoIcon from '@/images/fees/fees-no.svg?react'
 import './Access.scss'
 
+/**
+ * A cave's access (its page, the map's pane): its access, accessibility,
+ * whether it's a cenote entrance and its fees, each an icon over its label,
+ * their details below - then how old the access is, and the fees when they
+ * show ("Still right?", SectionReview).
+ *
+ * @param {object} props
+ * @param {Cave} props.cave
+ */
 export default function Access({ cave }) {
   const { t } = useTranslation(['resultPane', 'accesses', 'accessibilities'])
   const { accesses, accessibilities } = useCaveData()
@@ -153,6 +163,11 @@ export default function Access({ cave }) {
           <TextSource record={cave} field="accessibilityDetails" />
         </div>
       )}
+
+      <div className="details-container oc-access oc-access--review">
+        <SectionReview cave={cave} section="access" sx={{ mt: 0 }} />
+        {cave.fees && <SectionReview cave={cave} section="fees" />}
+      </div>
     </>
   )
 }

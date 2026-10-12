@@ -43,9 +43,10 @@ const PROJECT_ID = 'opencaves'
 const BUCKET = 'opencaves.appspot.com'
 // Production's own: its users, which accounts are frozen, its audit log, its
 // ratings' summaries (the ratings themselves, under the caves, aren't copied),
-// its testers' reports, its What's new, its caves' and systems' popularity
+// its testers' reports and the caves' open reports (their warnings), its
+// What's new, its caves' and systems' popularity
 // (built from its Google Analytics and its accounts) and its error reports.
-const KEEP = ['_users', '_frozenUsers', '_auditLog', '_caveRatings', '_feedback', '_feedbackPrivate', '_whatsNew', '_popularity', '_errorReports']
+const KEEP = ['_users', '_frozenUsers', '_auditLog', '_caveRatings', '_caveReports', '_feedback', '_feedbackPrivate', '_whatsNew', '_popularity', '_errorReports']
 const STORAGE_PREFIXES = ['caves/', 'maps/']
 const FIRESTORE_EMULATOR = process.env.FIRESTORE_EMULATOR_HOST || '127.0.0.1:8080'
 const STORAGE_EMULATOR = process.env.FIREBASE_STORAGE_EMULATOR_HOST || '127.0.0.1:9199'

@@ -526,7 +526,8 @@
         "directions": "No directions",
         "fees": "Fees unknown",
         "facilities": "Facilities unknown",
-        "system": "No system"
+        "system": "No system",
+        "review": "Not confirmed recently"
       },
       "hint": "Shows only the caves missing all the items switched on."
     }
@@ -1724,7 +1725,8 @@
       "activities": "activities",
       "photoOrder": "photo order",
       "mapOrder": "map order",
-      "videoOrder": "video order"
+      "videoOrder": "video order",
+      "reviewed": "confirmed still accurate"
     }
   },
   "feedback": {
@@ -1894,8 +1896,8 @@
       "sub": "With a free account: sign up with your email, Google or Microsoft.",
       "checkWhatsThere": {
         "title": "Check what's there",
-        "text": "Things change over time. Dived there lately? Correct what changed (the access, the fees, the road) or tell us a cave has closed.",
-        "action": "Send a report"
+        "text": "Things change over time. Dived there lately? Confirm what's still accurate, or report what changed: the access, the fees, the road, a cave that closed.",
+        "action": "Find caves to check"
       },
       "checkFacts": {
         "title": "Confirm the positions",
@@ -2071,6 +2073,14 @@
     "default": {
       "title": "An account is needed",
       "text": "Create a free account, or log in, to do this."
+    },
+    "confirm": {
+      "title": "Confirm what's there",
+      "text": "Create a free account to confirm a cave's information is still accurate."
+    },
+    "report": {
+      "title": "Report a change",
+      "text": "Create a free account to report a change on a cave, so the OpenCaves team can check it."
     }
   },
   "languagePicker": {
@@ -2348,5 +2358,60 @@
     "saved": "Order saved",
     "savedCover": "Order saved. This photo is now the cover image.",
     "saveError": "Couldn't save the new order. Please try again."
+  },
+  "caveReview": {
+    "sections": {
+      "access": "Access",
+      "directions": "Getting there",
+      "fees": "Fees and facilities",
+      "description": "Description"
+    },
+    "confirmed": "{{section}}: confirmed {{date}}",
+    "stale": "{{section}}: last confirmed in {{year}}",
+    "never": "{{section}}: not confirmed yet",
+    "question": "Still right?",
+    "stillAccurate": "Still accurate",
+    "stillAccurateLabel": "{{section}} is still accurate",
+    "somethingChanged": "Something changed",
+    "somethingChangedLabel": "{{section}}: something changed",
+    "saved": "Thank you! {{section}} confirmed for {{name}}.",
+    "saveError": "The confirmation couldn't be saved. Try again.",
+    "report": {
+      "button": "Report a change",
+      "menuLabel": "What changed?",
+      "kinds": {
+        "closed": "Closed",
+        "private": "Now private",
+        "fees": "Fees changed",
+        "road": "Road changed"
+      },
+      "kindText": {
+        "closed": "It can't be visited any more",
+        "private": "Only its owners or their guests may go",
+        "fees": "The price or what it includes changed",
+        "road": "The road or the way in changed"
+      },
+      "dialogTitle": "Report: {{kind}}",
+      "warningNote": "A warning shows on this cave as soon as you send it, until the OpenCaves team checks it.",
+      "teamNote": "The OpenCaves team gets your report, checks it and updates the cave.",
+      "noteLabel": "Note (optional)",
+      "notePlaceholder": "What you saw, and when",
+      "cancel": "Cancel",
+      "send": "Send",
+      "close": "Close",
+      "sent": "Thank you! Your report was sent to the OpenCaves team.",
+      "error": "Your report couldn't be sent. Try again.",
+      "itemName": "Your report",
+      "message": {
+        "closed": "{{name}} is closed.",
+        "private": "{{name}} is now private.",
+        "fees": "{{name}}: the fees changed.",
+        "road": "{{name}}: the road changed."
+      }
+    },
+    "warning": {
+      "closed": "Reported closed on {{date}}, being checked",
+      "private": "Reported now private on {{date}}, being checked"
+    }
   }
 }

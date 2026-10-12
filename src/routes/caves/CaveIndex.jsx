@@ -14,6 +14,7 @@ import IndexLinkList from '@/components/IndexPage/IndexLinkList.jsx'
 import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import IndexSearchField, { fold, useIndexSearch, useProgressiveCount } from '@/components/IndexPage/IndexSearchField.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
+import { useReviewMonth } from '@/hooks/useReviewMonth.js'
 
 // A kind's values in their address order: by id, unknown last.
 const byIdUnknownLast = (a, b) => (a === UNKNOWN_VALUE ? 1 : b === UNKNOWN_VALUE ? -1 : a.localeCompare(b))
@@ -93,15 +94,17 @@ export default function CaveIndex() {
   }, [data, t])
   // The caves the text search finds, then those the filters keep.
   const searched = useMemo(() => data.caves.filter((cave) => matchesFolded(rows.get(cave.id).text)), [data, rows, matchesFolded])
-  const caves = useMemo(() => (filtered ? searched.filter((cave) => matchesCaveFilters(cave, filters, covers)) : searched), [searched, filters, filtered, covers])
+  // The month confirmations' age is counted in: the server's until hydrated.
+  const month = useReviewMonth()
+  const caves = useMemo(() => (filtered ? searched.filter((cave) => matchesCaveFilters(cave, filters, covers, month)) : searched), [searched, filters, filtered, covers, month])
   // The menu's counts: how many caves the list shows with a value added.
   const countWith = useCallback(
     (kind, value) => {
       if (kind === 'missing' && value === 'photo' && !covers) return null
       const next = withCaveFilter(filters, kind, value)
-      return searched.reduce((count, cave) => count + Number(matchesCaveFilters(cave, next, covers)), 0)
+      return searched.reduce((count, cave) => count + Number(matchesCaveFilters(cave, next, covers, month)), 0)
     },
-    [searched, filters, covers],
+    [searched, filters, covers, month],
   )
   const order = (kind) => options[kind].map(({ value }) => value)
   const onToggle = (kind, value, on) => setFilters(withCaveFilter(filters, kind, value, on, order(kind)))

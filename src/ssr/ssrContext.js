@@ -51,6 +51,17 @@ export function ssrPageData() {
 }
 
 /**
+ * The month ('YYYY-MM') the server counted the caves' confirmations' age in
+ * for this page (entry-server.jsx), or undefined (not a server-rendered page).
+ *
+ * @returns {string|undefined}
+ */
+export function ssrMonth() {
+  if (import.meta.env.SSR) return serverContext?.month
+  return window.__OC_SSR__?.month
+}
+
+/**
  * Whether the address pathname is the server-rendered page at path, or one of
  * its galleries over it (/caves/<id>/photos/<mediaId>, .../maps/<mapId>) -
  * the page stays drawn under them. Not its edit forms (.../edit), which need

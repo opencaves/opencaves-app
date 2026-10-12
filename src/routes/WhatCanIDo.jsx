@@ -34,9 +34,9 @@ const EXPLORE = [
   { key: 'whatsNew', icon: <NewReleasesRounded />, to: '/whats-new' },
 ]
 const CONTRIBUTE = [
-  // Reviewing what's there (it ages): a report to the team (FeedbackDialog) -
-  // or an edit, said in its text.
-  { key: 'checkWhatsThere', icon: <FactCheckRounded />, onClick: () => openFeedback() },
+  // Reviewing what's there (it ages): the caves whose information wasn't
+  // confirmed lately, each section to confirm ("Still accurate") or report.
+  { key: 'checkWhatsThere', icon: <FactCheckRounded />, to: '/caves?missing=review' },
   // Filling or confirming: each leads to the caves concerned (caveFilters.js).
   { key: 'checkFacts', icon: <MyLocationRounded />, to: '/caves?missing=position' },
   { key: 'passages', icon: <RouteRounded />, onClick: () => openFeedback() },

@@ -41,6 +41,17 @@ export const FEEDBACK_COLL_NAME = '_feedback'
 // What of a report only admins read (its browser, its reply token), apart
 // from the report the members read.
 export const FEEDBACK_PRIVATE_COLL_NAME = '_feedbackPrivate'
+// Each cave's open "closed" and "now private" quick reports (a report's
+// caveId and caveReport), public: the warnings shown on the cave, kept by
+// onCaveReportChanged - { reports: [{ kind, at, feedbackId }] }.
+export const CAVE_REPORTS_COLL_NAME = '_caveReports'
+// The quick reports that show a warning (src/config/caveReview.js'
+// CAVE_WARNING_REPORTS): "Fees changed" and "Road changed" only reach the
+// admins.
+export const CAVE_WARNING_REPORTS = ['closed', 'private']
+// A report's stages while it's open (src/utils/feedback.js'
+// OPEN_FEEDBACK_STATUSES): done, rejected or duplicate resolve it.
+export const OPEN_FEEDBACK_STATUSES = ['new', 'confirmed', 'inProgress']
 // A report's thread: the team's replies (from the app, emailed to its
 // author by onFeedbackReplied) and its author's answers by email
 // (feedbackInbound).

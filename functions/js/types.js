@@ -25,6 +25,8 @@
  * @property {string} [sistemaId]
  * @property {string[]} [photoOrder] - Its photos' order after the cover (cavesAssets ids; assets/photoOrder.js).
  * @property {string[]} [videos] - Video URLs, in the order shown.
+ * @property {Record<string, string>} [reviewed] - The month ('YYYY-MM') each section (access, directions, fees,
+ *   description) was last confirmed still accurate, by editors from the app.
  */
 
 /**
@@ -58,6 +60,17 @@
  * @property {Timestamp} [reporterEmailedAt]
  * @property {number} [messageCount]
  * @property {Timestamp} [lastMessageAt]
+ * @property {string} [caveId] - A cave's quick report: the cave.
+ * @property {'closed'|'private'|'fees'|'road'} [caveReport] - A cave's quick report: what changed; closed and
+ *   private show a warning on the cave ({@link CaveReports}).
+ */
+
+/**
+ * A cave's open "closed" and "now private" reports (`_caveReports/{caveId}`),
+ * public, kept by onCaveReportChanged.
+ *
+ * @typedef {object} CaveReports
+ * @property {{kind: string, at: Timestamp|null, feedbackId: string}[]} reports - Oldest first.
  */
 
 /**

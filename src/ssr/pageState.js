@@ -17,7 +17,8 @@ import { compactCaveFacts } from '@/utils/caveFilters.js'
 //     which caves have a cover photo (the covers query);
 //   /sistemas: every public system's name, area and colour;
 //   /caves/<id>: the cave, its system and the systems that one joined, in
-//     full, their connections, the small reference collections;
+//     full, their connections, the small reference collections, and its
+//     open reports' warnings (the caveReports query, _caveReports);
 //   /sistemas/<id>: the same for the system, and the systems that joined it
 //     and their caves (their names, for its connections and its caves, and
 //     whether each is an entrance - the list's mark).
@@ -115,10 +116,12 @@ export function fullPageData(raw) {
  * @param {{id: string, data: object}[]} [sources.covers] - The cover photos outside the trash ([{ id, data }]):
  *   the caves' list's (its No photo filter), sent with their caveId only. Not given (an older server):
  *   the browser reads them.
+ * @param {{id: string, data: object}[]} [sources.caveReports] - A cave's page: its _caveReports document
+ *   ([{ id, data }], none without one): the warnings it shows (useCaveReports).
  * @returns {{data: object, queries: object, found: boolean}} { data (the page's
  *   cave data: useCaveData), queries, found }.
  */
-export function buildPageState(page, { raw, maps = [], assets = [], covers }) {
+export function buildPageState(page, { raw, maps = [], assets = [], covers, caveReports }) {
   const { data: all, index, areas } = processedData(raw)
   const cave = page.kind === 'cave' ? all.caves.find(({ id }) => id === page.id) : null
   // The page's system (or its cave's), and the systems it joined, and those
@@ -162,6 +165,8 @@ export function buildPageState(page, { raw, maps = [], assets = [], covers }) {
     const images = assets.filter(({ data: asset }) => asset.caveId === cave.id && asset.type === 'image')
     queries[`photos:${cave.id}`] = images
     queries[`cover:${cave.id}`] = images.filter(({ data: asset }) => asset.isCover === true)
+    // Its warnings (models/caveReports.js); not given (an older server): the browser reads them.
+    if (caveReports) queries[`caveReports:${cave.id}`] = caveReports.filter(({ id }) => id === cave.id)
   }
   return { data, queries, found: page.kind === 'cave' ? Boolean(cave) : page.kind === 'sistema' ? publicSistemas.some(({ id }) => id === page.id) : true }
 }
