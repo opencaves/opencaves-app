@@ -38,6 +38,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import './Map.scss'
 import './Marker.scss'
 import { homeBounds } from './homeBounds.js'
+import { slugify } from '@/utils/slug.js'
 
 // Pins revealed per frame on first load (see markerLimit).
 const MARKER_REVEAL_BATCH = 15
@@ -238,6 +239,8 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
           })
         },
       ],
+      // The areas turned off (an area the list doesn't name is shown).
+      areas: [(cave) => !searchOptions.showAreas.some((area) => area.key === (slugify(cave.area) || 'unknown') && !area.checked)],
       accessibilities: [
         (cave) => {
           return searchOptions.showAccessibilities.some((accessibility) => {
@@ -317,7 +320,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
       }
     }
 
-    return chain(caves).reduce(or(filters.coordinates), []).reduce(or(filters.cenoteTypes), []).reduce(or(filters.accesses), []).value()
+    return chain(caves).reduce(or(filters.coordinates), []).reduce(or(filters.cenoteTypes), []).reduce(or(filters.accesses), []).reduce(or(filters.areas), []).reduce(or(filters.accessibilities), []).value()
   }
 
   // The pin clicked, waiting for the camera's flight to start its bounce.
