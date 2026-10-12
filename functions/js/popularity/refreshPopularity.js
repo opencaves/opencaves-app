@@ -32,6 +32,10 @@ const END_DATE = 'today'
 const PATH_KINDS = { '/caves/': 'caves', '/map/': 'caves', '/sistemas/': 'sistemas' }
 // The sections whose /edit is their editors' list, no record.
 const LIST_EDIT = ['/caves/', '/sistemas/']
+// The real site's visits only: the reports before 2026-10-11 hold the dev
+// server's (localhost) and automated tests' too (docs/maintenance.md,
+// "Analytics: whose visits count").
+const HOST_NAMES = ['opencaves.org', 'www.opencaves.org']
 // Rows per request (the API's most); more are read page by page.
 const PAGE_SIZE = 100000
 const DATA_API = 'https://analyticsdata.googleapis.com/v1beta'
@@ -101,7 +105,14 @@ async function readPageViews(propertyId) {
         dateRanges: [{ startDate: START_DATE, endDate: END_DATE }],
         dimensions: [{ name: 'pagePath' }],
         metrics: [{ name: 'screenPageViews' }],
-        dimensionFilter: { orGroup: { expressions: Object.keys(PATH_KINDS).map((value) => ({ filter: { fieldName: 'pagePath', stringFilter: { matchType: 'BEGINS_WITH', value } } })) } },
+        dimensionFilter: {
+          andGroup: {
+            expressions: [
+              { orGroup: { expressions: Object.keys(PATH_KINDS).map((value) => ({ filter: { fieldName: 'pagePath', stringFilter: { matchType: 'BEGINS_WITH', value } } })) } },
+              { filter: { fieldName: 'hostName', inListFilter: { values: HOST_NAMES } } },
+            ],
+          },
+        },
         limit: PAGE_SIZE,
         offset,
       },

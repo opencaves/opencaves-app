@@ -53,8 +53,8 @@ The local emulators hold the original data; production (users' tests) is
 refreshed from them. The script makes production identical to local -
 every collection and the `caves/` (photos) and `maps/` (scans) files - except
 its users' data (accounts, `_users/*`: settings and saved caves; the caves'
-ratings and `_caveRatings`), frozen accounts, audit log and What's new
-(`_whatsNew`, built from that log), which stay untouched - except that the local audit log's additions that production
+ratings and `_caveRatings`), frozen accounts, audit log, What's new
+(`_whatsNew`, built from that log) and popularity (`_popularity`, built from its Google Analytics and its accounts), which stay untouched - except that the local audit log's additions that production
 lacks (its "create" entries for caves, systems, connections, maps and photos,
 and the caves' changes that added videos) are copied to it, so the What's new page (`/whats-new`, built from the audit log) lists them
 there too. Local edits and deletions aren't copied: production's What's new
@@ -326,6 +326,24 @@ Google Tag Manager (and with it Google Analytics) loads only for the real site's
 - never on a device that opted out: open any page with `?no-analytics` (e.g. `https://opencaves.org/?no-analytics`) once on each of your own devices and browsers to keep your visits out; `?analytics` counts them again. The choice is kept in that browser's storage (`oc-no-analytics`), so clearing site data or a private window forgets it.
 
 Visits recorded before this (from 2026-10-11) include the dev server and some automated test runs: filter reports by **Hostname** = `opencaves.org` to leave them out.
+
+## Popularity: the most useful caves first
+
+`/caves` with a Needs help filter (`?missing=photo`... - the What can I do? page's Contribute cards link there) lists the caves in one list, the most useful first (`src/utils/caveRank.js`): the most visited, then the cenote entrances, those open to anyone, those of the largest systems, those that lack the least, those whose position is confirmed. How visited comes from `_popularity/caves`, rebuilt every night at 04:00 (Cancún time) by the `refreshPopularity` function (`functions/js/popularity/`):
+
+- **views**: each cave's page views in Google Analytics over the last 90 days (`/caves/<id>` and `/map/<id>`, their sub-pages included; the real site's visits only, `opencaves.org` and `www.opencaves.org`), read with the GA4 Data API's `runReport`;
+- **saves**: how many accounts saved it (`_users/{uid}/savedCaves`), each counting as 10 views.
+
+The same report fills `_popularity/sistemas` (each system's `/sistemas/<id>` views), which nothing reads yet. Each document is written only when it changed; when Google Analytics can't be read, the function logs the error and keeps both as they are.
+
+It needs the GA4 property's id, which isn't set yet:
+
+1. In Google Analytics, **Admin > Property details**: copy the **Property ID** (a number, e.g. `123456789`; not the `G-...` measurement id).
+2. Put it in `functions/js/.env` (create the file if it isn't there; it isn't in git, so keep it on the computer you deploy from): `GA_PROPERTY_ID=123456789`.
+3. In **Admin > Property access management**, add the functions' service account, `800148490732-compute@developer.gserviceaccount.com`, with the **Viewer** role. (The Google Analytics Data API is already enabled on the project.)
+4. Deploy the function: `firebase deploy --only functions:js:refreshPopularity`. To build the documents at once rather than at night, run its job from Google Cloud's **Cloud Scheduler** page (**Force run**).
+
+While `GA_PROPERTY_ID` is empty, the function logs a warning and writes the caves' saves only, with no views: the list then ranks from the entrances on. The emulators have no `_popularity` documents (no Google Analytics there, and scheduled functions don't run): the local list ranks the same way.
 
 ## Apply the Storage CORS config
 
