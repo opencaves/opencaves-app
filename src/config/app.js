@@ -1,7 +1,11 @@
 const PANE_SM_MINIMAL_HEIGHT = /* padding top: var(--oc-pane-padding-block) * 1.4 */ (16 * 1.4) + /* header height */ 30 + /* padding bottom  */ (16 * .6) + 73.33
 
 export const APP_NAME = 'OpenCaves'
-export const APP_TITLE = 'OpenCaves' // For use in the page <title> and in the app title bar
+export const APP_TITLE = 'OpenCaves' // For use in the app title bar
+// The name ending the pages' <title> ("Caves / Open Caves"): one setting,
+// the server's (functions/js/constants.js, which imports nothing), for the
+// app's titles and the server-rendered pages' alike.
+export { TITLE_NAME } from '../../functions/js/constants.js'
 // The site's address (canonical URLs, shared links) and its source code; the
 // Cloud Functions repeat them (functions/js/constants.js).
 export const SITE_URL = 'https://opencaves.org'
