@@ -2,7 +2,7 @@ import { onRequest } from 'firebase-functions/v2/https'
 import { logger } from 'firebase-functions/v2'
 import { REGION, CAVES_COLL_NAME } from '../constants.js'
 import { db } from '../init.js'
-import { APP_TITLE, SITE_URL } from '../constants.js'
+import { SITE_URL, TITLE_NAME } from '../constants.js'
 import { escapeHtml, jsonLdScript, plainParagraphs, renderPage, sendHtml, shellFor, truncate } from './shared.js'
 import { loadSistemaSlugs } from './indexData.js'
 import { slugify } from './slug.js'
@@ -49,7 +49,7 @@ export function cavePageMeta(cave, id, sistema, path = `/map/${id}`) {
   const subject = name ? label : 'An unnamed cave'
   // As the app's (seo.caveDescriptionPrefix / caveDescriptionFallback).
   const description = truncate(summary ? `${subject} (Yucatán, Mexico): ${summary}` : `${subject}, a cave in the Yucatán, Mexico: location, access, pictures and maps on OpenCaves.`)
-  const title = `${label} / ${APP_TITLE}`
+  const title = `${label} / ${TITLE_NAME}`
   const canonical = `/caves/${id}`
   const url = `${SITE_URL}${canonical}`
   const aka = Array.isArray(cave.aka) ? cave.aka.filter(Boolean) : []

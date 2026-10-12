@@ -5,7 +5,7 @@ import CheckRounded from '@mui/icons-material/CheckRounded'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
-import { APP_TITLE } from '@/config/app.js'
+import { TITLE_NAME } from '@/config/app.js'
 import { setHeadLink, setHeadMeta } from '@/utils/headTags.js'
 import { Link, isRouteErrorResponse, useLocation, useNavigate, useRevalidator, useRouteError } from 'react-router-dom'
 import { Button } from '@mui/material'
@@ -137,7 +137,7 @@ export default function NoMatch({ inLayout = false }) {
         noindex: the SPA can't send a real 404 status, so tell crawlers
         directly not to index this as a page. */}
     <Helmet>
-      <title>{`${kind === 'notFound' ? tSeo('notFoundTitle') : t(`${kind}.header`)} / ${APP_TITLE}`}</title>
+      <title>{`${kind === 'notFound' ? tSeo('notFoundTitle') : t(`${kind}.header`)} / ${TITLE_NAME}`}</title>
     </Helmet>
     <Grid container className={`oc-no-match no-match--container${kind === 'notFound' ? '' : ' no-match--error'}${kind === 'offline' ? ' no-match--with-back' : ''}${inLayout ? ' no-match--in-layout' : ''}`} sx={{ flexDirection: 'column', height: inLayout ? 'auto' : '100dvh', py: inLayout ? 6 : 0, justifyContent: 'center', alignItems: 'center', flexWrap: 'nowrap' }}>
       {/* Offline: a way back to what's on the device (MD3: a full-screen

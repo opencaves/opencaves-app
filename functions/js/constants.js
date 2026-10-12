@@ -4,6 +4,10 @@ export const REGION = 'northamerica-northeast1'
 // title, and its source code. The app's src/config/app.js repeats them.
 export const SITE_URL = 'https://opencaves.org'
 export const APP_TITLE = 'OpenCaves'
+// The name ending the pages' <title> ("Caves / Open Caves"), in two words:
+// people search "open caves". The one setting: the app imports it too
+// (src/config/app.js), so keep this file free of imports.
+export const TITLE_NAME = 'Open Caves'
 export const GITHUB_URL = 'https://github.com/opencaves/opencaves-app'
 
 // Firestore database constants

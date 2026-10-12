@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { APP_TITLE, PANE_INITIAL_BREAKPOINT } from '@/config/app'
+import { PANE_INITIAL_BREAKPOINT, TITLE_NAME } from '@/config/app'
 import { PANE_BREAKPOINTS } from '@/config/app'
 
 const initialState = {
   // name: "OpenCaves",
-  title: APP_TITLE,
+  title: TITLE_NAME,
   searchBarOff: false,
   filterMenuOpen: false,
   resultPaneSmOpen: true,
