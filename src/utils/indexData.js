@@ -1,4 +1,5 @@
 import { slugify } from './slug.js'
+import { caveFacts } from './caveFilters.js'
 
 // What the public index pages (/caves, /sistemas,
 // /sistemas/<id>) show, from the store's cave data. Mirrors the server's
@@ -38,8 +39,9 @@ export function buildIndexData({ caves = [], sistemas = [], areas = [], connecti
   // located: whether it has coordinates - given as such by the data a
   // server-rendered page carries (src/ssr/pageState.js), without them.
   // cenoteEntrance: an entrance into its system (a system page's list marks it).
+  // With the other facts the caves' search criteria test (caveFacts).
   const caveItems = caves
-    .map((cave) => ({ id: cave.id, name: cave.name?.value?.trim() || null, aka: Array.isArray(cave.aka) ? cave.aka : [], area: cave.area || null, sistemaId: cave.sistemaId || null, located: cave.located ?? (cave.location?.latitude != null && cave.location?.longitude != null), cenoteEntrance: Boolean(cave.cenoteEntrance) }))
+    .map((cave) => ({ ...caveFacts(cave), aka: Array.isArray(cave.aka) ? cave.aka : [], sistemaId: cave.sistemaId || null }))
     .sort((a, b) => (!a.name || !b.name ? Number(!a.name) - Number(!b.name) : byName(a, b)))
 
   const slugs = sistemaSlugs(sistemas)

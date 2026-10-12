@@ -461,7 +461,8 @@
           "label": "Inconnu",
           "description": "L'accès est inconnu."
         }
-      ]
+      ],
+      "chip": "Accès : {{label}}"
     },
     "accessibility": {
       "heading": "Accessibilité",
@@ -501,14 +502,30 @@
           "label": "Accès variable",
           "description": "L'accès à cette zone varie en fonction de l'heure ou du point d'entrée."
         }
-      ]
+      ],
+      "chip": "Accessibilité : {{label}}"
     },
     "cenoteType": {
       "heading": "Type de grotte",
       "showCenoteEntrances": "Afficher les cénotes d'entrée",
-      "showOtherCenotes": "Afficher les autres grottes"
+      "showOtherCenotes": "Afficher les autres grottes",
+      "entrance": "Cénotes d'entrée",
+      "other": "Autres grottes"
     },
-    "closeBtn": "Fermer les filtres"
+    "closeBtn": "Fermer les filtres",
+    "needsHelp": {
+      "heading": "À compléter",
+      "items": {
+        "coordinates": "Sans coordonnées",
+        "name": "Sans nom",
+        "photo": "Sans photo",
+        "description": "Sans description",
+        "directions": "Sans itinéraire",
+        "fees": "Frais inconnus",
+        "facilities": "Commodités inconnues",
+        "parking": "Sans stationnement"
+      }
+    }
   },
   "resultPane": {
     "title": "{{name}}",
@@ -1534,11 +1551,12 @@
     "sistemaCount_other": "{{count}} réseaux",
     "caves": {
       "filters": {
-        "unnamed_one": "{{count}} grotte sans nom",
-        "unnamed_other": "{{count}} grottes sans nom",
-        "no-coordinates_one": "{{count}} grotte sans coordonnées",
-        "no-coordinates_other": "{{count}} grottes sans coordonnées",
-        "clear": "Afficher toutes les grottes"
+        "add": "Ajouter un filtre",
+        "remove": "Retirer le filtre {{label}}",
+        "clearAll": "Effacer les filtres",
+        "count_one": "{{count}} grotte correspond",
+        "count_other": "{{count}} grottes correspondent",
+        "photosFailed": "Les photos des grottes n'ont pas pu être lues : le filtre Sans photo est indisponible."
       },
       "title": "Les grottes du Yucatán par région",
       "description": "Toutes les cénotes du Yucatán, au Mexique, répertoriées sur OpenCaves par région, chacune avec son emplacement, son accès, des photos et des plans.",

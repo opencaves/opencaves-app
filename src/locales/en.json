@@ -462,7 +462,8 @@
           "label": "Unknown",
           "description": "The access is unknown."
         }
-      ]
+      ],
+      "chip": "Access: {{label}}"
     },
     "accessibility": {
       "heading": "Accessibility",
@@ -502,14 +503,30 @@
           "label": "Variable access",
           "description": "Access to this area varies depending on time or entry point."
         }
-      ]
+      ],
+      "chip": "Accessibility: {{label}}"
     },
     "cenoteType": {
       "heading": "Cave type",
       "showCenoteEntrances": "Show cenote entrances",
-      "showOtherCenotes": "Show other caves"
+      "showOtherCenotes": "Show other caves",
+      "entrance": "Cenote entrances",
+      "other": "Other caves"
     },
-    "closeBtn": "Close the filters"
+    "closeBtn": "Close the filters",
+    "needsHelp": {
+      "heading": "Needs help",
+      "items": {
+        "coordinates": "No coordinates",
+        "name": "No name",
+        "photo": "No photo",
+        "description": "No description",
+        "directions": "No directions",
+        "fees": "Fees unknown",
+        "facilities": "Facilities unknown",
+        "parking": "No parking spot"
+      }
+    }
   },
   "resultPane": {
     "title": "{{name}}",
@@ -1535,11 +1552,12 @@
     "sistemaCount_other": "{{count}} cave systems",
     "caves": {
       "filters": {
-        "unnamed_one": "{{count}} unnamed cave",
-        "unnamed_other": "{{count}} unnamed caves",
-        "no-coordinates_one": "{{count}} cave without coordinates",
-        "no-coordinates_other": "{{count}} caves without coordinates",
-        "clear": "Show every cave"
+        "add": "Add filter",
+        "remove": "Remove the filter {{label}}",
+        "clearAll": "Clear filters",
+        "count_one": "{{count}} cave matches",
+        "count_other": "{{count}} caves match",
+        "photosFailed": "The caves' photos couldn't be read: the No photo filter is unavailable."
       },
       "title": "Caves of the Yucatán by area",
       "description": "Every cenote of the Yucatán, Mexico, listed on OpenCaves by area, each with its location, access, pictures and maps.",
