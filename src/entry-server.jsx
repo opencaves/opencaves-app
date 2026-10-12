@@ -12,6 +12,7 @@ import { routes } from './routeTree.jsx'
 import { createServerStore } from './redux/store.server.jsx'
 import { setServerContext } from './ssr/ssrContext.js'
 import { buildPageState, fullPageData, pageOf } from './ssr/pageState.js'
+import { monthOf } from './utils/caveReview.js'
 
 // The server's rendering of the public pages - /, /caves, /caves/<id>,
 // /sistemas, /sistemas/<id> - with the app's own components (built by `vite
@@ -45,16 +46,18 @@ export const ROUTE_MODULES = {
  * @param {{id: string, data: CaveMap}[]} options.maps - The maps collection ([{ id, data }]).
  * @param {{id: string, data: object}[]} options.assets - The page's cave's photos ([{ id, data }]).
  * @param {{id: string, data: object}[]} [options.covers] - The cover photos ([{ id, data }]): /caves' No photo filter.
+ * @param {{id: string, data: object}[]} [options.caveReports] - A cave's page: its _caveReports document
+ *   ([{ id, data }], none without one) - the warnings it shows.
  * @param {string} options.title - The page's <title> (the server's, functions/js/seo), the app's own title
  *   (App's Helmet) until the page sets it.
  * @returns {Promise<object>} { html, styles, status, ssr } or { notFound: true }.
  */
-export async function render({ url, raw, maps, assets, covers, title }) {
+export async function render({ url, raw, maps, assets, covers, caveReports, title }) {
   const started = performance.now()
   const { pathname, hostname } = new URL(url)
   const page = pageOf(pathname)
   if (!page) return { notFound: true }
-  const { data, queries, found } = buildPageState(page, { raw, maps, assets, covers })
+  const { data, queries, found } = buildPageState(page, { raw, maps, assets, covers, caveReports })
   if (!found) return { notFound: true }
   // The store: the app's title (the cave data is useCaveData's).
   const state = title ? { app: { ...createServerStore().getState().app, title } } : {}
@@ -65,6 +68,9 @@ export async function render({ url, raw, maps, assets, covers, title }) {
   const context = await handler.query(new Request(url))
   if (context instanceof Response) return { notFound: true }
   const router = createStaticRouter(handler.dataRoutes, context)
+  // The month the caves' confirmations' age is counted in (useReviewMonth):
+  // the browser hydrates with the same.
+  const month = monthOf()
 
   // The page drawn with pageData (state.data's shape, useCaveData), and the
   // Emotion styles it used.
@@ -77,7 +83,7 @@ export async function render({ url, raw, maps, assets, covers, title }) {
     // extracting (compat), instead of writing them in the HTML.
     const emotionServer = createEmotionServer(cache)
     // One page at a time: rendering is synchronous, the context set around it.
-    setServerContext({ hostname, queries, data: { path: pathname, data: pageData } })
+    setServerContext({ hostname, queries, month, data: { path: pathname, data: pageData } })
     try {
       return {
         emotionServer,
@@ -132,6 +138,7 @@ export async function render({ url, raw, maps, assets, covers, title }) {
       state,
       data: pageData,
       queries,
+      month,
       router: { loaderData: context.loaderData, actionData: context.actionData, errors: context.errors },
     },
   }

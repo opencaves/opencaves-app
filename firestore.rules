@@ -34,9 +34,15 @@ service cloud.firestore {
     // the admins and adds authorName (the account's display name), which
     // clients never write.
     match /_feedback/{report} {
+      // A cave's quick report (Report a change) also names the cave and what
+      // changed (caveId, caveReport: both or neither); onCaveReportChanged
+      // shows the closed and private ones as warnings on the cave.
       allow create: if isSignedIn() && request.auth.token.firebase.sign_in_provider != 'anonymous'
-        && request.resource.data.keys().hasOnly(['kind', 'message', 'page', 'language', 'userId', 'createdAt', 'status'])
+        && request.resource.data.keys().hasOnly(['kind', 'message', 'page', 'language', 'userId', 'createdAt', 'status', 'caveId', 'caveReport'])
         && request.resource.data.kind in ['bug', 'misleading', 'idea']
+        && (('caveId' in request.resource.data) == ('caveReport' in request.resource.data))
+        && (!('caveId' in request.resource.data) || (request.resource.data.caveId is string && request.resource.data.caveId.matches('[-_A-Za-z0-9]{1,64}')
+          && request.resource.data.caveReport in ['closed', 'private', 'fees', 'road']))
         && request.resource.data.message is string && request.resource.data.message.size() > 0 && request.resource.data.message.size() <= 4000
         && request.resource.data.page is string && request.resource.data.page.size() <= 500
         && (!('language' in request.resource.data) || (request.resource.data.language is string && request.resource.data.language.size() <= 10))
@@ -179,6 +185,12 @@ service cloud.firestore {
       allow read: if true
     }
 
+    // Each cave's open "closed" and "now private" reports, the warnings shown
+    // on it: public, written by the server only (onCaveReportChanged).
+    match /_caveReports/{caveId} {
+      allow read: if true
+    }
+
     // What's new, built by the server (refreshWhatsNew): public, written by it only.
     match /_whatsNew/{document} {
       allow read: if true
@@ -223,6 +235,15 @@ service cloud.firestore {
     function color(d, k, f) {
       return !(f in k) || !(f in d) || (d[f] is string && d[f].matches('#[0-9a-fA-F]{6}'))
     }
+    // "Still right?": the month ('YYYY-MM') each section was last confirmed
+    // (src/config/caveReview.js' REVIEW_SECTIONS).
+    function reviewed(d, k) {
+      return !('reviewed' in k) || !('reviewed' in d) || (d.reviewed is map && d.reviewed.keys().hasOnly(['access', 'directions', 'fees', 'description'])
+        && (!('access' in d.reviewed) || (d.reviewed.access is string && d.reviewed.access.matches('[0-9]{4}-(0[1-9]|1[0-2])')))
+        && (!('directions' in d.reviewed) || (d.reviewed.directions is string && d.reviewed.directions.matches('[0-9]{4}-(0[1-9]|1[0-2])')))
+        && (!('fees' in d.reviewed) || (d.reviewed.fees is string && d.reviewed.fees.matches('[0-9]{4}-(0[1-9]|1[0-2])')))
+        && (!('description' in d.reviewed) || (d.reviewed.description is string && d.reviewed.description.matches('[0-9]{4}-(0[1-9]|1[0-2])'))))
+    }
     // A year, month or day ("1990", "1986-07", "2004-06-14"), or years ("2004-2006").
     // A Markdown field's source (textSources.<field>): the source record, when
     // it was checked.
@@ -253,7 +274,7 @@ service cloud.firestore {
     function isValidCave(d, k) {
       return k.hasOnly(['name', 'nameTranslations', 'aka', 'keys', 'location', 'entrance', 'parking', 'sistemaId', 'sistemaColor', 'area', 'source',
           'access', 'accessDetails', 'accessibility', 'accessibilityDetails', 'description', 'direction', 'note', 'reporter',
-          'explorationDate', 'videos', 'photoOrder', 'cenoteEntrance', 'facilities', 'fees', 'textSources'])
+          'explorationDate', 'videos', 'photoOrder', 'cenoteEntrance', 'facilities', 'fees', 'textSources', 'reviewed'])
         && (!('name' in k) || !('name' in d) || d.name == null || (d.name is map && d.name.keys().hasOnly(['value', 'languageCode'])
           && d.name.value is string && d.name.value.size() <= 240
           && (!('languageCode' in d.name) || (d.name.languageCode is string && d.name.languageCode.size() <= 8))))
@@ -267,6 +288,7 @@ service cloud.firestore {
         && items(d, k, 'photoOrder', 1000)
         && flag(d, k, 'cenoteEntrance') && flag(d, k, 'facilities') && flag(d, k, 'fees')
         && textSources(d, k, ['description', 'direction', 'accessDetails', 'accessibilityDetails'])
+        && reviewed(d, k)
     }
 
     function isValidSistema(d, k) {

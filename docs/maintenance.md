@@ -295,6 +295,45 @@ Resend's received email), with a webhook signed with the test secret of
 `functions/js/.secret.local` (`RESEND_WEBHOOK_SECRET=whsec_...`; never
 committed).
 
+## Cave reports and confirmations
+
+Much cave data is old, so each section of a cave - its access, getting there,
+its fees and facilities (shown when it charges fees), its description - says
+how old it is, on the cave's page and in the map's pane: "Confirmed Oct 2026",
+"Last confirmed in 2024" (a confirmation counts for 2 years), or "Not
+confirmed yet". Under it:
+
+- **Still accurate**: an editor (every verified account) stamps the section
+  with this month (the cave's `reviewed` field). It's a cave edit like any
+  other: it shows in the audit log (Audits) and in What's new, and can be
+  undone. Visitors are asked to sign in.
+- **Something changed**: an editor goes to the cave's edit form; anyone else
+  gets the quick reports below.
+
+The caves list's **Not confirmed recently** filter (`/caves?missing=review`,
+also What can I do?'s "Check what's there") keeps the caves none of whose
+shown sections was confirmed within 2 years.
+
+**Report a change** (on the cave's page and pane, for any signed-in account)
+offers Closed, Now private, Fees changed and Road changed, with an optional
+note. Each one is a `/feedback` report (kind Misleading, its page the cave's,
+its message saying what changed), emailed to the admins like any report, with
+a "Cave report" line.
+
+- **Closed** and **Now private** also put a warning on the cave at once,
+  public ("Reported closed on Oct 12, being checked"): the
+  `onCaveReportChanged` function keeps the cave's open ones in
+  `_caveReports/{caveId}`.
+- **Fees changed** and **Road changed** only reach the admins: no warning.
+
+To resolve a report: check it, edit the cave if it's right (its access,
+fees, directions...), then set the report's stage on the Feedback page to
+Done - or Rejected (or Duplicate) to dismiss it, or delete it. The warning
+goes as soon as the report leaves the open stages (New, Confirmed, In
+progress); Confirmed keeps it showing, and reopening the report brings it
+back. `scripts/sync-to-production.js` leaves production's `_caveReports`
+alone.
+
 ## Error reports
 
 When a page fails to load ("Something went wrong" - not a missing page, not

@@ -14,6 +14,9 @@ import TerrainRounded from '@mui/icons-material/TerrainRounded'
 import { Link as RouterLink } from 'react-router-dom'
 import Markdown from '@/components/Markdown/Markdown.jsx'
 import TextSource from '@/components/TextSource.jsx'
+import SectionReview from '@/components/CaveReview/SectionReview.jsx'
+import CaveReportButton from '@/components/CaveReview/CaveReportButton.jsx'
+import CaveReportWarnings from '@/components/CaveReview/CaveReportWarnings.jsx'
 import ConditionalWrapper from '@/components/utils/ConditionalWrapper.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { openDirections } from '@/utils/directions.js'
@@ -38,6 +41,15 @@ function DirectionsAction({ point, label }) {
   )
 }
 
+/**
+ * The map's cave pane, read-only: its open reports' warnings, quick actions,
+ * photos and videos, location, systems, access, description and getting
+ * there - each of the last three with how old its information is ("Still
+ * right?") - and Report a change.
+ *
+ * @param {object} props
+ * @param {Cave} props.cave
+ */
 export default function CurrentCaveDetailsContent({ cave }) {
   const { t } = useTranslation('resultPane')
 
@@ -107,6 +119,9 @@ export default function CurrentCaveDetailsContent({ cave }) {
   return (
     <Box className="oc-current-cave-details-content oc-result-pane--content">
       {/* Its sections, each a rounded block (CurrentCaveDetailsContent.scss). */}
+      {/* Its open "closed" or "now private" reports, first. */}
+      <CaveReportWarnings caveId={cave.id} sx={{ px: 'var(--oc-pane-padding-inline)', '&:empty': { display: 'none' } }} />
+
       <Box component="section" className="oc-details-section">
         <QuickActions cave={cave}></QuickActions>
       </Box>
@@ -194,6 +209,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
           <div className="details-container details-text">
             <Markdown>{cave.description}</Markdown>
             <TextSource record={cave} field="description" />
+            <SectionReview cave={cave} section="description" />
           </div>
         </Box>
       )}
@@ -206,9 +222,17 @@ export default function CurrentCaveDetailsContent({ cave }) {
           <div className="details-container details-text">
             <Markdown>{cave.direction}</Markdown>
             <TextSource record={cave} field="direction" />
+            <SectionReview cave={cave} section="directions" />
           </div>
         </Box>
       )}
+
+      {/* Something changed there (closed, private, fees, road): to the team. */}
+      <Box component="section" className="oc-details-section oc-current-cave-details-content--report">
+        <div className="details-container">
+          <CaveReportButton cave={cave} />
+        </div>
+      </Box>
 
     </Box>
   )

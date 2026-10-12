@@ -526,7 +526,8 @@
         "directions": "Sin indicaciones",
         "fees": "Costos desconocidos",
         "facilities": "Instalaciones desconocidas",
-        "system": "Sin sistema"
+        "system": "Sin sistema",
+        "review": "Sin confirmar recientemente"
       },
       "hint": "Muestra solo las cuevas a las que les faltan todos los elementos activados."
     }
@@ -1724,7 +1725,8 @@
       "activities": "actividades",
       "photoOrder": "orden de las fotos",
       "mapOrder": "orden de las topografías",
-      "videoOrder": "orden de los videos"
+      "videoOrder": "orden de los videos",
+      "reviewed": "confirmación de exactitud"
     }
   },
   "feedback": {
@@ -1894,8 +1896,8 @@
       "sub": "Con una cuenta gratuita: regístrate con tu correo, Google o Microsoft.",
       "checkWhatsThere": {
         "title": "Revisar la información",
-        "text": "Las cosas cambian con el tiempo. ¿Buceaste ahí hace poco? Corrige lo que cambió (el acceso, los costos, el camino) o avísanos si una cueva cerró.",
-        "action": "Enviar un reporte"
+        "text": "Las cosas cambian con el tiempo. ¿Buceaste ahí hace poco? Confirma lo que sigue correcto, o reporta lo que cambió: el acceso, los costos, el camino, una cueva que cerró.",
+        "action": "Buscar cuevas para revisar"
       },
       "checkFacts": {
         "title": "Confirmar las posiciones",
@@ -2071,6 +2073,14 @@
     "default": {
       "title": "Se necesita una cuenta",
       "text": "Crea una cuenta gratuita, o inicia sesión, para hacer esto."
+    },
+    "confirm": {
+      "title": "Confirmar la información",
+      "text": "Crea una cuenta gratis para confirmar que la información de una cueva sigue siendo correcta."
+    },
+    "report": {
+      "title": "Reportar un cambio",
+      "text": "Crea una cuenta gratis para reportar un cambio en una cueva, para que el equipo de OpenCaves lo revise."
     }
   },
   "languagePicker": {
@@ -2348,5 +2358,60 @@
     "saved": "Orden guardado",
     "savedCover": "Orden guardado. Esta foto es ahora la imagen de portada.",
     "saveError": "No se pudo guardar el nuevo orden. Inténtalo de nuevo."
+  },
+  "caveReview": {
+    "sections": {
+      "access": "Acceso",
+      "directions": "Cómo llegar",
+      "fees": "Costos e instalaciones",
+      "description": "Descripción"
+    },
+    "confirmed": "{{section}} · confirmación: {{date}}",
+    "stale": "{{section}} · última confirmación en {{year}}",
+    "never": "{{section}} · sin confirmar aún",
+    "question": "¿Sigue siendo correcto?",
+    "stillAccurate": "Sigue correcto",
+    "stillAccurateLabel": "{{section}}: sigue siendo correcto",
+    "somethingChanged": "Algo cambió",
+    "somethingChangedLabel": "{{section}}: algo cambió",
+    "saved": "¡Gracias! Confirmación guardada: {{section}}, {{name}}.",
+    "saveError": "No se pudo guardar la confirmación. Inténtalo de nuevo.",
+    "report": {
+      "button": "Reportar un cambio",
+      "menuLabel": "¿Qué cambió?",
+      "kinds": {
+        "closed": "Cerrada",
+        "private": "Ahora privada",
+        "fees": "Costos cambiados",
+        "road": "Camino cambiado"
+      },
+      "kindText": {
+        "closed": "Ya no se puede visitar",
+        "private": "Solo sus dueños o sus invitados pueden ir",
+        "fees": "El precio o lo que incluye cambió",
+        "road": "El camino o la entrada cambió"
+      },
+      "dialogTitle": "Reporte: {{kind}}",
+      "warningNote": "Un aviso aparece en esta cueva en cuanto lo envías, hasta que el equipo de OpenCaves lo revise.",
+      "teamNote": "El equipo de OpenCaves recibe tu reporte, lo revisa y actualiza la cueva.",
+      "noteLabel": "Nota (opcional)",
+      "notePlaceholder": "Lo que viste, y cuándo",
+      "cancel": "Cancelar",
+      "send": "Enviar",
+      "close": "Cerrar",
+      "sent": "¡Gracias! Tu reporte se envió al equipo de OpenCaves.",
+      "error": "No se pudo enviar tu reporte. Inténtalo de nuevo.",
+      "itemName": "Tu reporte",
+      "message": {
+        "closed": "{{name}} está cerrada.",
+        "private": "{{name}} ahora es privada.",
+        "fees": "{{name}}: los costos cambiaron.",
+        "road": "{{name}}: el camino cambió."
+      }
+    },
+    "warning": {
+      "closed": "Reportada cerrada el {{date}}, en revisión",
+      "private": "Reportada como privada el {{date}}, en revisión"
+    }
   }
 }

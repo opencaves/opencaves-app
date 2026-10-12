@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import { logger } from 'firebase-functions/v2'
 import { db } from '../init.js'
-import { CAVES_ASSETS_COLL_NAME, CAVES_COLL_NAME } from '../constants.js'
+import { CAVE_REPORTS_COLL_NAME, CAVES_ASSETS_COLL_NAME, CAVES_COLL_NAME } from '../constants.js'
 import { renderSsrPage, shellFor } from './shared.js'
 import { groupIndexData } from './indexData.js'
 
@@ -170,23 +170,30 @@ export async function renderWithApp(req, meta) {
   const page = ssr.pageOf(req.path)
   if (!page) return null
   const { raw, maps, covers } = await readData()
-  const assets = page.kind === 'cave'
-    ? (await db.collection(CAVES_ASSETS_COLL_NAME).where('caveId', '==', page.id).where('type', '==', 'image').get()).docs.map((doc) => ({ id: doc.id, data: plain(doc.data()) }))
-    : []
+  // A cave's page: its photos, and its open reports' warnings (_caveReports,
+  // read fresh: a report shows at once).
+  const [assets, caveReports] = page.kind === 'cave'
+    ? await Promise.all([
+      db.collection(CAVES_ASSETS_COLL_NAME).where('caveId', '==', page.id).where('type', '==', 'image').get().then((snap) => snap.docs.map((doc) => ({ id: doc.id, data: plain(doc.data()) }))),
+      db.collection(CAVE_REPORTS_COLL_NAME).doc(page.id).get().then((doc) => (doc.exists ? [{ id: doc.id, data: plain(doc.data()) }] : [])),
+    ])
+    : [[], []]
   // Its host: the emulators' file addresses on localhost (CaveAsset.js).
   const host = req.get('x-forwarded-host') || req.get('host') || 'opencaves.org'
   const url = `https://${host}${req.originalUrl || req.url}`
   // Drawn once per address while the data is the same (the CDN's edges each
   // ask for it): a render takes ~100-300 ms.
+  // Its warnings change apart from the data: a page drawn with others is drawn again.
+  const reportsKey = JSON.stringify(caveReports)
   const cached = rendered.get(url)
-  if (cached?.raw === raw) return cached.html
+  if (cached?.raw === raw && cached.reportsKey === reportsKey) return cached.html
   const started = Date.now()
-  const result = await ssr.render({ url, raw, maps, assets, covers, title: meta.title })
+  const result = await ssr.render({ url, raw, maps, assets, covers, caveReports, title: meta.title })
   if (result.notFound) return null
   logger.debug('[ssr] rendered', { path: req.path, ms: Date.now() - started, ...result.timings })
   const html = renderSsrPage(ssr.shell, meta, result, ssr.links(page.kind))
   rendered.delete(url)
-  rendered.set(url, { raw, html })
+  rendered.set(url, { raw, reportsKey, html })
   // The oldest out past the limit (a Map keeps its insertion order).
   if (rendered.size > RENDERED_MAX) rendered.delete(rendered.keys().next().value)
   return html

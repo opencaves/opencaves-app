@@ -1,4 +1,5 @@
 import { slugify } from './slug.js'
+import { isRecentReview, lastReviewedMonth, monthOf } from './caveReview.js'
 
 // The caves' search criteria, shared by the caves' list (/caves) and the
 // map's filter menu: each criterion once, its test on a cave's facts
@@ -26,9 +27,11 @@ const VALUE_PATTERN = /^[a-z0-9-]+$/
 /**
  * What a cave lacks that people can add (the Needs help criteria), in their
  * order: each one's test on a cave's facts ({@link caveFacts}), photo's on
- * the caves with a cover photo.
+ * the caves with a cover photo, review's against the month it's counted in
+ * ('YYYY-MM': one for the whole page view, so the server and the browser
+ * count alike - hooks/useReviewMonth.js).
  *
- * @type {{value: string, test: (facts: CaveFacts, covers: Set<string>|null) => boolean}[]}
+ * @type {{value: string, test: (facts: CaveFacts, covers: Set<string>|null, month: string) => boolean}[]}
  */
 export const MISSING_CRITERIA = [
   { value: 'coordinates', test: (facts) => !facts.located },
@@ -43,6 +46,9 @@ export const MISSING_CRITERIA = [
   { value: 'fees', test: (facts) => !facts.feesKnown },
   { value: 'facilities', test: (facts) => !facts.facilitiesKnown },
   { value: 'system', test: (facts) => !facts.hasSystem },
+  // Not confirmed recently: none of the sections it shows was confirmed
+  // ("Still accurate") within the last two years (utils/caveReview.js).
+  { value: 'review', test: (facts, covers, month) => !isRecentReview(facts.lastReviewed, month) },
 ]
 
 /** The cave types: a cenote entrance into a system, or another cave. */
@@ -96,14 +102,15 @@ export function caveFacts(cave) {
     hasVideo: cave.hasVideo ?? hasVideos(cave.videos),
     // Its system's id travels with it (a server-rendered list's too).
     hasSystem: Boolean(cave.sistemaId),
+    lastReviewed: cave.lastReviewed ?? lastReviewedMonth(cave),
   }
 }
 
 /**
  * The facts {@link caveFacts} gives that a server-rendered list sends for a
  * cave (src/ssr/pageState.js): those that are true - whether it's an
- * entrance included (a missing one reads as false) - and its access and
- * accessibility.
+ * entrance included (a missing one reads as false) - its access and
+ * accessibility, and the last month a section it shows was confirmed.
  *
  * @param {Cave} cave
  * @returns {Partial<CaveFacts>}
@@ -114,6 +121,7 @@ export function compactCaveFacts(cave) {
   ;['cenoteEntrance', 'positionConfirmed', 'hasDescription', 'hasDirections', 'feesKnown', 'facilitiesKnown', 'hasVideo'].forEach((key) => facts[key] && (compact[key] = true))
   if (facts.access) compact.access = facts.access
   if (facts.accessibility) compact.accessibility = facts.accessibility
+  if (facts.lastReviewed) compact.lastReviewed = facts.lastReviewed
   return compact
 }
 
@@ -228,13 +236,15 @@ export function withCaveFilter(filters, kind, value, on = true, order) {
  * @param {CaveFacts} facts - {@link caveFacts}'.
  * @param {CaveFilters} filters
  * @param {Set<string>|null} covers - The caves with a cover photo (null until known).
+ * @param {string} [month] - The month the confirmations' age is counted in ('YYYY-MM'), the
+ *   device's ({@link monthOf}) if not given.
  * @returns {boolean}
  */
-export function matchesCaveFilters(facts, filters, covers) {
+export function matchesCaveFilters(facts, filters, covers, month = monthOf()) {
   return FILTER_KINDS.every(({ key }) => {
     const values = filters[key]
     if (values.length === 0) return true
-    if (key === 'missing') return values.every((value) => MISSING_CRITERIA.find((criterion) => criterion.value === value)?.test(facts, covers) ?? true)
+    if (key === 'missing') return values.every((value) => MISSING_CRITERIA.find((criterion) => criterion.value === value)?.test(facts, covers, month) ?? true)
     const value = caveValue(facts, key)
     return values.includes(value)
   })
@@ -246,8 +256,9 @@ export function matchesCaveFilters(facts, filters, covers) {
  * @param {CaveFacts} facts
  * @param {string} missing - The criterion's value.
  * @param {Set<string>|null} covers
+ * @param {string} [month] - As {@link matchesCaveFilters}'.
  * @returns {boolean}
  */
-export function caveMisses(facts, missing, covers) {
-  return Boolean(MISSING_CRITERIA.find(({ value }) => value === missing)?.test(facts, covers))
+export function caveMisses(facts, missing, covers, month = monthOf()) {
+  return Boolean(MISSING_CRITERIA.find(({ value }) => value === missing)?.test(facts, covers, month))
 }

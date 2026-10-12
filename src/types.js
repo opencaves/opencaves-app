@@ -82,6 +82,10 @@
  * @property {boolean} [facilities]
  * @property {boolean} [fees]
  * @property {Record<string, TextSource>} [textSources] - By Markdown field (utils/textSources.js).
+ * @property {Partial<Record<'access'|'directions'|'fees'|'description', string>>} [reviewed] - The month ('YYYY-MM') each
+ *   section was last confirmed still accurate ("Still right?", config/caveReview.js' REVIEW_SECTIONS).
+ * @property {string} [lastReviewed] - Derived: the latest of its shown sections' {@link Cave.reviewed} months, in a
+ *   server-rendered list's data (ssr/pageState.js), which leaves reviewed out.
  * @property {SistemaAncestor[]} [sistemas] - Derived: its system and that system's ancestors, its own first
  *   (postProcessCaveData.js, at read time).
  * @property {boolean} [located] - Derived: whether it has coordinates, in a server-rendered page's data
@@ -108,6 +112,8 @@
  * @property {boolean} facilitiesKnown
  * @property {boolean} hasVideo - It has a video ({@link Cave.videos}).
  * @property {boolean} hasSystem - It's attached to a cave system ({@link Cave.sistemaId}).
+ * @property {string|null} lastReviewed - The latest month ('YYYY-MM') a section it shows was confirmed in
+ *   (utils/caveReview.js' lastReviewedMonth), or null.
  */
 
 /**
@@ -309,6 +315,18 @@
  * @property {Timestamp} [reporterEmailedAt] - Server: when a team reply was last emailed to the author.
  * @property {number} [messageCount] - Server: its thread's messages.
  * @property {Timestamp} [lastMessageAt] - Server.
+ * @property {string} [caveId] - A cave's quick report (Report a change): the cave.
+ * @property {'closed'|'private'|'fees'|'road'} [caveReport] - A cave's quick report: what changed
+ *   (config/caveReview.js' CAVE_REPORT_KINDS); closed and private show a warning on the cave ({@link CaveReports}).
+ */
+
+/**
+ * A cave's open "closed" and "now private" reports (`_caveReports/{caveId}`),
+ * public, written by the server only (onCaveReportChanged): one warning
+ * each on the cave, until an admin resolves the report.
+ *
+ * @typedef {object} CaveReports
+ * @property {{kind: 'closed'|'private', at: Timestamp|null, feedbackId: string}[]} reports - Oldest first.
  */
 
 /**

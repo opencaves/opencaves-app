@@ -525,7 +525,8 @@
         "directions": "Sans itinéraire",
         "fees": "Frais inconnus",
         "facilities": "Commodités inconnues",
-        "system": "Sans réseau"
+        "system": "Sans réseau",
+        "review": "Sans confirmation récente"
       },
       "hint": "N'affiche que les grottes où manquent tous les éléments activés."
     }
@@ -1723,7 +1724,8 @@
       "activities": "activités",
       "photoOrder": "ordre des photos",
       "mapOrder": "ordre des topographies",
-      "videoOrder": "ordre des vidéos"
+      "videoOrder": "ordre des vidéos",
+      "reviewed": "confirmation d'exactitude"
     }
   },
   "feedback": {
@@ -1893,8 +1895,8 @@
       "sub": "Avec un compte gratuit : inscrivez-vous avec votre courriel, Google ou Microsoft.",
       "checkWhatsThere": {
         "title": "Vérifier les informations",
-        "text": "Les choses changent avec le temps. Vous y avez plongé récemment ? Corrigez ce qui a changé (l'accès, les frais, la route) ou signalez-nous une grotte fermée.",
-        "action": "Envoyer un signalement"
+        "text": "Les choses changent avec le temps. Vous y avez plongé récemment ? Confirmez ce qui est toujours exact, ou signalez ce qui a changé : l'accès, les frais, la route, une grotte fermée.",
+        "action": "Trouver des grottes à vérifier"
       },
       "checkFacts": {
         "title": "Confirmer les positions",
@@ -2070,6 +2072,14 @@
     "default": {
       "title": "Un compte est nécessaire",
       "text": "Créez un compte gratuit, ou connectez-vous, pour faire ceci."
+    },
+    "confirm": {
+      "title": "Confirmer les informations",
+      "text": "Créez un compte gratuit pour confirmer que les informations d'une grotte sont toujours exactes."
+    },
+    "report": {
+      "title": "Signaler un changement",
+      "text": "Créez un compte gratuit pour signaler un changement sur une grotte, afin que l'équipe d'OpenCaves le vérifie."
     }
   },
   "languagePicker": {
@@ -2347,5 +2357,60 @@
     "saved": "Ordre enregistré",
     "savedCover": "Ordre enregistré. Cette photo est maintenant l’image de couverture.",
     "saveError": "Impossible d’enregistrer le nouvel ordre. Veuillez réessayer."
+  },
+  "caveReview": {
+    "sections": {
+      "access": "Accès",
+      "directions": "S'y rendre",
+      "fees": "Frais et commodités",
+      "description": "Description"
+    },
+    "confirmed": "{{section}} · confirmation : {{date}}",
+    "stale": "{{section}} · dernière confirmation en {{year}}",
+    "never": "{{section}} · aucune confirmation pour l'instant",
+    "question": "Toujours exact ?",
+    "stillAccurate": "Toujours exact",
+    "stillAccurateLabel": "{{section}} : c'est toujours exact",
+    "somethingChanged": "Quelque chose a changé",
+    "somethingChangedLabel": "{{section}} : quelque chose a changé",
+    "saved": "Merci ! Confirmation enregistrée : {{section}}, {{name}}.",
+    "saveError": "La confirmation n'a pas pu être enregistrée. Réessayez.",
+    "report": {
+      "button": "Signaler un changement",
+      "menuLabel": "Qu'est-ce qui a changé ?",
+      "kinds": {
+        "closed": "Fermée",
+        "private": "Devenue privée",
+        "fees": "Frais changés",
+        "road": "Route changée"
+      },
+      "kindText": {
+        "closed": "On ne peut plus la visiter",
+        "private": "Seuls ses propriétaires ou leurs invités peuvent y aller",
+        "fees": "Le prix ou ce qu'il comprend a changé",
+        "road": "La route ou l'accès a changé"
+      },
+      "dialogTitle": "Signalement : {{kind}}",
+      "warningNote": "Un avertissement s'affiche sur cette grotte dès l'envoi, jusqu'à ce que l'équipe d'OpenCaves le vérifie.",
+      "teamNote": "L'équipe d'OpenCaves reçoit votre signalement, le vérifie et met la grotte à jour.",
+      "noteLabel": "Note (facultative)",
+      "notePlaceholder": "Ce que vous avez vu, et quand",
+      "cancel": "Annuler",
+      "send": "Envoyer",
+      "close": "Fermer",
+      "sent": "Merci ! Votre signalement a été envoyé à l'équipe d'OpenCaves.",
+      "error": "Votre signalement n'a pas pu être envoyé. Réessayez.",
+      "itemName": "Votre signalement",
+      "message": {
+        "closed": "{{name}} est fermée.",
+        "private": "{{name}} est devenue privée.",
+        "fees": "{{name}} : les frais ont changé.",
+        "road": "{{name}} : la route a changé."
+      }
+    },
+    "warning": {
+      "closed": "Signalée fermée le {{date}}, en cours de vérification",
+      "private": "Signalée devenue privée le {{date}}, en cours de vérification"
+    }
   }
 }

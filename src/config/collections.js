@@ -36,3 +36,9 @@ export const FEEDBACK_PRIVATE_COLLECTION = '_feedbackPrivate'
 // A report's thread (_feedback/{id}/messages): the team's replies, emailed to
 // its author (onFeedbackReplied).
 export const FEEDBACK_MESSAGES_COLLECTION = 'messages'
+
+// Each cave's open "closed" and "now private" reports, public: the warnings
+// shown on the cave (src/components/CaveReview/CaveReportWarnings.jsx),
+// written by the server only (onCaveReportChanged) - { reports: [{ kind,
+// at, feedbackId }] }, the document gone once none is open.
+export const CAVE_REPORTS_COLLECTION = '_caveReports'

@@ -13,6 +13,8 @@ interface Window {
     router?: object
     data?: object
     queries?: Record<string, { id: string; data: object }[]>
+    /** The month ('YYYY-MM') the page counted the caves' confirmations' age in (useReviewMonth). */
+    month?: string
   }
   /**
    * The app's stylesheets added after the first paint (index.html's loader,

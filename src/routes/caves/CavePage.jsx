@@ -19,6 +19,9 @@ import { COORDINATE_DECIMALS } from '@/config/map.js'
 import { staticMapUrl } from '@/utils/staticMap.js'
 import Markdown from '@/components/Markdown/Markdown.jsx'
 import TextSource from '@/components/TextSource.jsx'
+import SectionReview from '@/components/CaveReview/SectionReview.jsx'
+import CaveReportButton from '@/components/CaveReview/CaveReportButton.jsx'
+import CaveReportWarnings from '@/components/CaveReview/CaveReportWarnings.jsx'
 import Picture from '@/components/Picture.jsx'
 import Access from '@/components/ResultPane/Access.jsx'
 import ExplorationHistory from '@/components/ResultPane/ExplorationHistory.jsx'
@@ -111,7 +114,10 @@ function CaveMapTile({ cave, location, color, alone = false }) {
  * /caves/<id>: a cave's own page - what the map's details pane shows, as a
  * page: its area and system, location, access, description, photos and its
  * system's exploration history, and a small map of its spot linking to it
- * on the map (/map/<id>) - beside its cover photo.
+ * on the map (/map/<id>) - beside its cover photo. Its open "closed" or "now
+ * private" reports lead it (CaveReportWarnings); each section says how old
+ * its information is, to confirm or correct (SectionReview); anyone can
+ * report a change (CaveReportButton).
  * Editors edit it at /caves/<id>/edit.
  */
 export default function CavePage() {
@@ -187,6 +193,9 @@ export default function CavePage() {
         editLabel={t('cave.edit', { name: label })}
       />
 
+      {/* Its open "closed" or "now private" reports, above all else. */}
+      <CaveReportWarnings caveId={cave.id} sx={{ mb: 3, '&:empty': { display: 'none' } }} />
+
       {location ? (
         // The cover photo and a small map of the cave's spot side by side
         // (4:1, with room around the photo: it leads the page; stacked on
@@ -256,6 +265,7 @@ export default function CavePage() {
         <IndexSection id="getting-there" title={tPane('directionsHeader')} className="oc-cave-page--directions" card>
           <Markdown>{cave.direction}</Markdown>
           <TextSource record={cave} field="direction" />
+          <SectionReview cave={cave} section="directions" sx={{ mt: 2 }} />
         </IndexSection>
       )}
 
@@ -263,8 +273,14 @@ export default function CavePage() {
         <Box component="section" id="description" className="oc-cave-page--description" sx={{ scrollMarginTop: 'calc(64px + var(--oc-page-title-height, 0px) + 8px)', ...DASHBOARD_SURFACE_SX, p: { xs: 2, sm: 3 }, mb: 3, '& > :first-child > :first-child': { mt: 0 }, '& > :last-child > :last-child': { mb: 0 } }}>
           <Markdown>{cave.description}</Markdown>
           <TextSource record={cave} field="description" />
+          <SectionReview cave={cave} section="description" sx={{ mt: 2 }} />
         </Box>
       )}
+
+      {/* Something changed there (closed, private, fees, road): to the team. */}
+      <Box className="oc-cave-page--report" sx={{ display: 'flex', justifyContent: 'flex-end', mb: 3 }}>
+        <CaveReportButton cave={cave} />
+      </Box>
 
       {/* Offline, a cave not saved: what's missing, and how to keep it all -
           above the photos, even when their list (never loaded online) can't
