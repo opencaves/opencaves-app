@@ -32,6 +32,7 @@ const SWAP = { duration: 450, easing: 'cubic-bezier(0.2, 0, 0, 1)' }
 // it (its <img> at 100% of it: a photo wider than its tile kept its own
 // height otherwise, a band of the tile left under it).
 const GRID_SX = { '& .oc-carousel--media': { borderRadius: `${ITEM_RADIUS}px` }, '& .oc-carousel--media > picture': { width: '100%', height: '100%' } }
+const PANE_EDGE_SX = (theme) => ({ '& .MuiDialog-paper': { border: `4px solid ${theme.vars.sys.color.primary}` } })
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 /**
@@ -102,6 +103,10 @@ export function ShowAllPane({ open, onClose, title, gridMinWidth = '200px', grid
       maxWidth="lg"
       aria-labelledby="oc-carousel-pane-title"
       scroll="paper"
+      // On wider screens, a primary-coloured edge (4dp, inside the pane's
+      // rounded corners) sets the pane apart from the page behind it; full
+      // screen on phones, it has no page around it to stand out from.
+      sx={isPhone ? undefined : PANE_EDGE_SX}
       {...(swap && {
         hideBackdrop: true,
         transitionDuration: 0,
