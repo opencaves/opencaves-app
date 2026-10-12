@@ -20,7 +20,7 @@ import { CAVES_COLL_NAME, POPULARITY_COLL_NAME, REGION, SAVED_CAVES_COLL_NAME } 
  * set in functions/js/.env (GA_PROPERTY_ID=...). Empty: no views read, the
  * caves' saves only (see docs/maintenance.md, "Popularity").
  */
-export const GA_PROPERTY_ID = defineString('GA_PROPERTY_ID', { default: '', description: 'The GA4 property id whose page views make the caves' and systems' popularity (empty: none read)' })
+export const GA_PROPERTY_ID = defineString('GA_PROPERTY_ID', { default: '', description: 'The GA4 property id whose page views make the popularity of caves and systems (empty: none read)' })
 
 // Nightly, in the region's own time (after the day's visits).
 const SCHEDULE = 'every day 04:00'
