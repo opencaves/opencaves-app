@@ -420,7 +420,8 @@
       "showUnconfirmedCoordinates": "Afficher les coordonnées non confirmées"
     },
     "areas": {
-      "heading": "Régions"
+      "heading": "Régions",
+      "unknown": "Région inconnue"
     },
     "access": {
       "heading": "Accès",

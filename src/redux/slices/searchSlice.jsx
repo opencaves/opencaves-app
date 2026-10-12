@@ -11,22 +11,9 @@ const initialState = {
   showCenoteEntrances: true,
   showOtherCenotes: true,
 
-  // Areas
-  showAreas: [
-    { key: "Akumal", checked: true },
-    { key: "Boca Paila - Sian Ka'an Biosphere Reserve", checked: true },
-    { key: "Chemuyil", checked: true },
-    { key: "Coba Road", checked: true },
-    { key: "Cozumel Island", checked: true },
-    { key: "Isla Alamo", checked: true },
-    { key: "Muyil", checked: true },
-    { key: "Nohoch Nah Chich", checked: true },
-    { key: "Playa Del Carmen North", checked: true },
-    { key: "Puerto Aventuras", checked: true },
-    { key: "Puerto Morelos", checked: true },
-    { key: "Tulum North", checked: true },
-    { key: "Tulum South", checked: true },
-  ],
+  // Areas: those turned off ({ key: its slug, or 'unknown' for no area,
+  // checked: false }); an area not listed is shown (the menu lists the data's).
+  showAreas: [],
 
   // Accesses
   showAccesses: [

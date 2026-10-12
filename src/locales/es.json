@@ -421,7 +421,8 @@
       "showUnconfirmedCoordinates": "Mostrar coordenadas sin confirmar"
     },
     "areas": {
-      "heading": "Zonas"
+      "heading": "Zonas",
+      "unknown": "Zona desconocida"
     },
     "access": {
       "heading": "Acceso",

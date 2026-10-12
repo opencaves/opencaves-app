@@ -421,7 +421,8 @@
       "showUnconfirmedCoordinates": "Show unconfirmed coordinates"
     },
     "areas": {
-      "heading": "Areas"
+      "heading": "Areas",
+      "unknown": "Unknown area"
     },
     "access": {
       "heading": "Access",
