@@ -23,6 +23,11 @@ const CYLINDER = {
   flat: 0.4,
   radius: 100,
 }
+// A tile's controls (a menu's button, `.oc-media-strip--live`): drawn in its
+// copies, curved with it, the real ones (hidden) taking the pointer - their
+// state shown on the copies: the tile hovered (`data-oc-hover` on each
+// copy), a menu open (`aria-expanded`).
+const LIVE = '.oc-media-strip--live'
 // The flat strip for reduced motion. Browser only: effects and handlers
 // call it; rendering goes through useHydrated (the server has no window).
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -64,7 +69,9 @@ function snapPoints(view) {
  * On the cylinder, an item is drawn as slices: an `.oc-media-strip--picture`
  * from its `<img>` (as object-fit: cover), an `.oc-media-strip--tile` from
  * copies of itself (its overlays curved with it; `.oc-media-strip--see-through`
- * when its background is, so its slices don't overlap). Every item carries
+ * when its background is, so its slices don't overlap; its controls marked
+ * `.oc-media-strip--live`, a menu's button, show their hover and open state
+ * on the copies: `[data-oc-hover]` on the copy, `[aria-expanded]`). Every item carries
  * `.oc-media-strip--item` (snapping, keyboard).
  *
  * @param {object} props - Also its root's (a Box's).
@@ -209,6 +216,34 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
     let slices = []
     let images = []
     let tiles = []
+    // The tiles with controls, and their copies (build's).
+    let copiesOf = new Map()
+    // A tile's hover, on its copies.
+    const hoverOf = (on) => (event) => {
+      const tile = event.target.closest?.('.oc-media-strip--tile')
+      if (!tile || !copiesOf.has(tile) || tile.contains(event.relatedTarget)) return
+      for (const copy of copiesOf.get(tile)) copy.toggleAttribute('data-oc-hover', on)
+    }
+    const hoverOn = hoverOf(true)
+    const hoverOff = hoverOf(false)
+    row.addEventListener('pointerover', hoverOn)
+    row.addEventListener('pointerout', hoverOff)
+    // A control's menu open, on its copies.
+    const liveState = new MutationObserver((records) => {
+      for (const { target } of records) {
+        const element = /** @type {HTMLElement} */ (target)
+        const tile = element.matches(LIVE) && element.closest('.oc-media-strip--tile')
+        if (!tile || !copiesOf.has(tile)) continue
+        const index = [...tile.querySelectorAll(LIVE)].indexOf(element)
+        const expanded = element.getAttribute('aria-expanded')
+        for (const copy of copiesOf.get(tile)) {
+          const twin = copy.querySelectorAll(LIVE)[index]
+          if (expanded == null) twin?.removeAttribute('aria-expanded')
+          else twin?.setAttribute('aria-expanded', expanded)
+        }
+      }
+    })
+    liveState.observe(row, { subtree: true, attributes: true, attributeFilter: ['aria-expanded'] })
     // Each column's flat place in the row and its width, measured by build
     // (offsets ignore transforms, and scrolling doesn't move them): layout
     // reads these, not the columns, every frame.
@@ -226,6 +261,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       // Shown again before measuring (opacity: no layout change).
       tiles = /** @type {HTMLElement[]} */ ([...row.querySelectorAll('.oc-media-strip--tile')])
       for (const tile of tiles) tile.style.opacity = ''
+      copiesOf = new Map(tiles.filter((tile) => tile.querySelector(LIVE)).map((tile) => [tile, []]))
       const loaded = (img) => Boolean(img.currentSrc && img.naturalWidth)
 
       // --- Read: every place, size and style first.
@@ -314,6 +350,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
             // Not what the cylinder set on the real one, when it's a column
             // itself (turned, or hidden past a side).
             Object.assign(copy.style, { position: 'absolute', left: `${-sx}px`, top: '0', width: `${w}px`, height: `${h}px`, margin: '0', opacity: '', transform: 'none', visibility: 'visible', pointerEvents: 'none' })
+            copiesOf.get(tile)?.push(copy)
             prepare(copy)
             slice.append(copy)
             track.append(slice)
@@ -677,6 +714,9 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       stageTrack.replaceChildren()
       for (const img of images) img.style.opacity = ''
       for (const tile of tiles) tile.style.opacity = ''
+      row.removeEventListener('pointerover', hoverOn)
+      row.removeEventListener('pointerout', hoverOff)
+      liveState.disconnect()
       for (const column of columnsOf()) {
         column.style.transform = ''
         column.style.visibility = ''

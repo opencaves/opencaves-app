@@ -12,6 +12,7 @@ import { useRequireLogin } from '@/hooks/useRequireLogin.jsx'
 import { useCaveAssetsList } from '@/models/CaveAsset.js'
 import { usePhotoReorder } from '@/hooks/usePhotoReorder.js'
 import Picture from '@/components/Picture.jsx'
+import PhotoItemMenu from '@/components/MediaPane/PhotoItemMenu.jsx'
 import MediaStrip from '@/components/ResultPane/MediaStrip.jsx'
 import StripShowAll from '@/components/ResultPane/StripShowAll.jsx'
 import { PAGE_STRIP } from '@/config/resultPane.js'
@@ -46,23 +47,30 @@ export default function CavePhotosSection({ caveId, title }) {
   const photoPath = (id) => `/caves/${caveId}/photos/${id}`
   const shown = photos.slice(0, MAX_PHOTOS)
   const { height, gap, itemWidth: width, itemHeight } = PAGE_STRIP
-  // One photo a column (a picture: the strip slices its <img>).
+  // One photo a column: a tile (the strip slices its <img>, its menu drawn
+  // on copies of it, curved with it).
   const items = shown.map((photo, index) => (
-    <Box key={photo.id} className="oc-cave-page--photo oc-media-strip--picture oc-media-strip--item" sx={{ width, height: itemHeight, flexShrink: 0, borderRadius: '.5rem', overflow: 'hidden' }}>
+    <Box key={photo.id} className="oc-cave-page--photo oc-media-strip--tile oc-media-strip--item" sx={{ position: 'relative', width, height: itemHeight, flexShrink: 0, borderRadius: '.5rem', overflow: 'hidden' }}>
       <ButtonBase component={RouterLink} to={photoPath(photo.id)} state={{ fromPage: true }} aria-label={t('cave.openPhoto', { n: index + 1 })} sx={{ display: 'block', width: '100%', height: '100%' }}>
         {/* Its tint on the picture, not the box: on the cylinder the box is
             over the photo's slices (its picture hidden), a tint there would
             cover them. */}
         <Picture sources={photo.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', backgroundColor: 'var(--mui-palette-action-hover)' }} />
       </ButtonBase>
+      {/* Admins: its menu (cover, delete), as the videos'. */}
+      <PhotoItemMenu mediaAsset={photo} variant="card" />
     </Box>
   ))
-  // Every photo, for the Show all pane's grid.
+  // Every photo, for the Show all pane's grid; admins get its menu (cover,
+  // delete) over it.
   const allItems = photos.map((photo, index) => (
     <li key={photo.id}>
-      <ButtonBase component={RouterLink} to={photoPath(photo.id)} state={{ fromPage: true }} aria-label={t('cave.openPhoto', { n: index + 1 })} className="oc-carousel--media" sx={{ display: 'block', width: '100%', aspectRatio: '4 / 3', overflow: 'hidden', bgcolor: 'action.hover' }}>
-        <Picture sources={photo.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-      </ButtonBase>
+      <Box sx={{ position: 'relative' }}>
+        <ButtonBase component={RouterLink} to={photoPath(photo.id)} state={{ fromPage: true }} aria-label={t('cave.openPhoto', { n: index + 1 })} className="oc-carousel--media" sx={{ display: 'block', width: '100%', aspectRatio: '4 / 3', overflow: 'hidden', bgcolor: 'action.hover' }}>
+          <Picture sources={photo.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+        </ButtonBase>
+        <PhotoItemMenu mediaAsset={photo} />
+      </Box>
     </li>
   ))
 
