@@ -327,14 +327,14 @@ Google Tag Manager (and with it Google Analytics) loads only for the real site's
 
 Visits recorded before this (from 2026-10-11) include the dev server and some automated test runs: filter reports by **Hostname** = `opencaves.org` to leave them out.
 
-## Popularity: the most useful caves first
+## Popularity: the most visited caves and systems
 
-`/caves` with a Needs help filter (`?missing=photo`... - the What can I do? page's Contribute cards link there) lists the caves in one list, the most useful first (`src/utils/caveRank.js`): the most visited, then the cenote entrances, those open to anyone, those of the largest systems, those that lack the least, those whose position is confirmed. How visited comes from `_popularity/caves`, rebuilt every night at 04:00 (Cancún time) by the `refreshPopularity` function (`functions/js/popularity/`):
+How popular the caves and the cave systems are, for the search fields' suggestions to list the most visited first (the app bar's, the landing page's and the map's search - to come; `src/hooks/usePopularity.js` reads it, and nothing calls it yet: the `/caves` and `/sistemas` lists stay alphabetical, by area). It's kept in `_popularity/caves`, rebuilt every night at 04:00 (Cancún time) by the `refreshPopularity` function (`functions/js/popularity/`):
 
 - **views**: each cave's page views in Google Analytics over the last 90 days (`/caves/<id>` and `/map/<id>`, their sub-pages included; the real site's visits only, `opencaves.org` and `www.opencaves.org`), read with the GA4 Data API's `runReport`;
-- **saves**: how many accounts saved it (`_users/{uid}/savedCaves`), each counting as 10 views.
+- **saves**: how many accounts saved it (`_users/{uid}/savedCaves`).
 
-The same report fills `_popularity/sistemas` (each system's `/sistemas/<id>` views), which nothing reads yet. Each document is written only when it changed; when Google Analytics can't be read, the function logs the error and keeps both as they are.
+The same report fills `_popularity/sistemas` (each system's `/sistemas/<id>` views). Each document is written only when it changed; when Google Analytics can't be read, the function logs the error and keeps both as they are.
 
 It needs the GA4 property's id, which isn't set yet:
 
@@ -343,7 +343,7 @@ It needs the GA4 property's id, which isn't set yet:
 3. In **Admin > Property access management**, add the functions' service account, `800148490732-compute@developer.gserviceaccount.com`, with the **Viewer** role. (The Google Analytics Data API is already enabled on the project.)
 4. Deploy the function: `firebase deploy --only functions:js:refreshPopularity`. To build the documents at once rather than at night, run its job from Google Cloud's **Cloud Scheduler** page (**Force run**).
 
-While `GA_PROPERTY_ID` is empty, the function logs a warning and writes the caves' saves only, with no views: the list then ranks from the entrances on. The emulators have no `_popularity` documents (no Google Analytics there, and scheduled functions don't run): the local list ranks the same way.
+While `GA_PROPERTY_ID` is empty, the function logs a warning and writes the caves' saves only, keeping the views already there (none at first). The emulators have no `_popularity` documents (no Google Analytics there, and scheduled functions don't run).
 
 ## Apply the Storage CORS config
 

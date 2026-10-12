@@ -30,8 +30,8 @@ export const WHATS_NEW_COLL_NAME = '_whatsNew'
 export const WHATS_NEW_DOC_ID = 'latest'
 // How popular the caves and the cave systems are (their pages' views, how
 // many saved a cave), built by the server (refreshPopularity) into one
-// public document per kind, _popularity/caves and _popularity/sistemas: the
-// lists ranked by usefulness (src/utils/caveRank.js).
+// public document per kind, _popularity/caves and _popularity/sistemas: for
+// the search fields' suggestions (the most visited first; to come).
 export const POPULARITY_COLL_NAME = '_popularity'
 // The caves an account saved (_users/{uid}/savedCaves/{caveId}).
 export const SAVED_CAVES_COLL_NAME = 'savedCaves'

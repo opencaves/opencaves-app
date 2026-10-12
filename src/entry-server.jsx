@@ -12,7 +12,6 @@ import { routes } from './routeTree.jsx'
 import { createServerStore } from './redux/store.server.jsx'
 import { setServerContext } from './ssr/ssrContext.js'
 import { buildPageState, fullPageData, pageOf } from './ssr/pageState.js'
-import { parseCaveFilters } from './utils/caveFilters.js'
 
 // The server's rendering of the public pages - /, /caves, /caves/<id>,
 // /sistemas, /sistemas/<id> - with the app's own components (built by `vite
@@ -46,20 +45,16 @@ export const ROUTE_MODULES = {
  * @param {{id: string, data: CaveMap}[]} options.maps - The maps collection ([{ id, data }]).
  * @param {{id: string, data: object}[]} options.assets - The page's cave's photos ([{ id, data }]).
  * @param {{id: string, data: object}[]} [options.covers] - The cover photos ([{ id, data }]): /caves' No photo filter.
- * @param {Popularity|null} [options.popularity] - _popularity/caves' data (null: none): /caves
- *   ranked by usefulness (a Needs help filter).
  * @param {string} options.title - The page's <title> (the server's, functions/js/seo), the app's own title
  *   (App's Helmet) until the page sets it.
  * @returns {Promise<object>} { html, styles, status, ssr } or { notFound: true }.
  */
-export async function render({ url, raw, maps, assets, covers, popularity, title }) {
+export async function render({ url, raw, maps, assets, covers, title }) {
   const started = performance.now()
-  const { pathname, hostname, searchParams } = new URL(url)
+  const { pathname, hostname } = new URL(url)
   const page = pageOf(pathname)
   if (!page) return { notFound: true }
-  // /caves with a Needs help filter: ranked by usefulness (CaveIndex).
-  const ranked = page.kind === 'caves' && parseCaveFilters(searchParams).missing.length > 0
-  const { data, queries, found } = buildPageState(page, { raw, maps, assets, covers, popularity, ranked })
+  const { data, queries, found } = buildPageState(page, { raw, maps, assets, covers })
   if (!found) return { notFound: true }
   // The store: the app's title (the cave data is useCaveData's).
   const state = title ? { app: { ...createServerStore().getState().app, title } } : {}

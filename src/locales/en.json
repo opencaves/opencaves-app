@@ -1567,11 +1567,7 @@
       "description": "Every cenote of the Yucatán, Mexico, listed on OpenCaves by area, each with its location, access, pictures and maps.",
       "add": "Add a cave",
       "subtitle_one": "{{count}} cave, by area.",
-      "subtitle_other": "{{count}} caves, by area.",
-      "ranked": {
-        "title": "Most useful first",
-        "description": "The caves people visit most come first, then cenote entrances, caves open to anyone, those of the largest systems and those that lack the least."
-      }
+      "subtitle_other": "{{count}} caves, by area."
     },
     "sistemas": {
       "title": "Cave systems of the Yucatán",

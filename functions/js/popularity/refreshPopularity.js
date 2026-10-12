@@ -9,17 +9,18 @@ import { CAVES_COLL_NAME, POPULARITY_COLL_NAME, REGION, SAVED_CAVES_COLL_NAME } 
 // kind, rebuilt nightly by refreshPopularity:
 //   _popularity/caves: { views, saves, updatedAt } - each cave's pages' views
 //     in Google Analytics (GA4: /caves/<id> and /map/<id>, the last 90 days)
-//     and how many accounts saved it; the caves' list ranked by usefulness
-//     reads it (/caves with a Needs help filter, src/utils/caveRank.js);
+//     and how many accounts saved it;
 //   _popularity/sistemas: { views, updatedAt } - each system's page views
-//     (/sistemas/<id>), for a systems' list ranked the same way (none yet).
+//     (/sistemas/<id>).
+// For the search fields' suggestions (the app bar's, the landing page's and
+// the map's: the most visited first) - to come, src/hooks/usePopularity.js.
 
 /**
  * The GA4 property the views are read from (its number, e.g. "123456789"):
  * set in functions/js/.env (GA_PROPERTY_ID=...). Empty: no views read, the
  * caves' saves only (see docs/maintenance.md, "Popularity").
  */
-export const GA_PROPERTY_ID = defineString('GA_PROPERTY_ID', { default: '', description: 'The GA4 property id whose page views rank the caves and systems (empty: none read)' })
+export const GA_PROPERTY_ID = defineString('GA_PROPERTY_ID', { default: '', description: 'The GA4 property id whose page views make the caves' and systems' popularity (empty: none read)' })
 
 // Nightly, in the region's own time (after the day's visits).
 const SCHEDULE = 'every day 04:00'

@@ -18,8 +18,8 @@ export const WHATS_NEW_DOC_ID = 'latest'
 // server (refreshPopularity) into one public document per kind, by id:
 // _popularity/caves { views, saves, updatedAt } - their pages' views
 // (Google Analytics) and how many accounts saved them - and
-// _popularity/sistemas { views, updatedAt }. The caves' list ranked by
-// usefulness reads the caves' (src/utils/caveRank.js).
+// _popularity/sistemas { views, updatedAt }. For the search fields'
+// suggestions, the most visited first (to come: hooks/usePopularity.js).
 export const POPULARITY_COLLECTION = '_popularity'
 
 // Who changed or deleted what (written by the server's audit trigger, read
