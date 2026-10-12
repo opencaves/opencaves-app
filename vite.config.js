@@ -206,6 +206,12 @@ export default defineConfig(({ isSsrBuild }) => ({
     emptyOutDir: true,
   } : {
     outDir: 'build',
+    // Source maps published with the client's files (Hosting serves them):
+    // stack traces and the browser's tools read the real code (Lighthouse's
+    // valid-source-maps). Fetched only by those tools - the pages don't load
+    // them, and the service worker doesn't precache them (globIgnores).
+    // Not the server build's (functions/js/ssr/).
+    sourcemap: true,
     // .vite/manifest.json: the files each page needs, for the server-rendered
     // pages' <link>s (functions/js/seo/ssr.js). Not served (Hosting ignores
     // dot folders, firebase.json).
@@ -304,6 +310,8 @@ export default defineConfig(({ isSsrBuild }) => ({
         // the lists', the error pages' - ~1.4 MB): every page, the "You're
         // offline" one included, shows its photo offline, even never seen.
         globPatterns: ['**/*.{js,css,html,woff,woff2}', '**/{error-bg,bg}-*.webp'],
+        // The source maps (build.sourcemap): for the browser's tools only.
+        globIgnores: ['**/*.map'],
         // The app registers this with a plain (non-module) `register()`
         // call, so it needs to be a classic script, not an ES module -
         // also makes the output land at service-worker.js instead of .mjs.
