@@ -1074,7 +1074,7 @@
         "openScan": "Ouvrir la carte d’origine"
       },
       "panelTitle": "Couches de la carte",
-      "show": "Afficher les galeries"
+      "show": "Afficher les galeries inondées"
     },
     "controls": {
       "locationNotAvailable": "Position non disponible",
