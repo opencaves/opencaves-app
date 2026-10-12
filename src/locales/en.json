@@ -2370,6 +2370,7 @@
     "stale": "{{section}}: last confirmed in {{year}}",
     "never": "{{section}}: not confirmed yet",
     "stillAccurate": "Still accurate",
+    "stillAccurateQuestion": "Still accurate?",
     "stillAccurateLabel": "{{section}} is still accurate",
     "saved": "Thank you! {{section}} confirmed for {{name}}.",
     "saveError": "The confirmation couldn't be saved. Try again.",

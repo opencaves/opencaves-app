@@ -2370,6 +2370,7 @@
     "stale": "{{section}} · última confirmación en {{year}}",
     "never": "{{section}} · sin confirmar aún",
     "stillAccurate": "Sigue correcto",
+    "stillAccurateQuestion": "¿Sigue correcto?",
     "stillAccurateLabel": "{{section}}: sigue siendo correcto",
     "saved": "¡Gracias! Confirmación guardada: {{section}}, {{name}}.",
     "saveError": "No se pudo guardar la confirmación. Inténtalo de nuevo.",
