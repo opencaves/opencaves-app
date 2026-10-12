@@ -1612,7 +1612,9 @@
       "sistema": "Sistema de cuevas",
       "location": "Ubicación",
       "photos": "Fotos",
-      "openPhoto": "Abrir la foto {{n}}"
+      "openPhoto": "Abrir la foto {{n}}",
+      "noPhoto": "Aún no hay fotos de esta cueva",
+      "dropPhotos": "o suéltalas aquí"
     },
     "notOnMap": "No está en el mapa: aún sin coordenadas",
     "maps": "Topografías",

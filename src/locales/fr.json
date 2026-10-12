@@ -1611,7 +1611,9 @@
       "sistema": "Réseau",
       "location": "Emplacement",
       "photos": "Photos",
-      "openPhoto": "Ouvrir la photo {{n}}"
+      "openPhoto": "Ouvrir la photo {{n}}",
+      "noPhoto": "Aucune photo de cette grotte pour l'instant",
+      "dropPhotos": "ou déposez-les ici"
     },
     "notOnMap": "Pas sur la carte : aucune coordonnée pour l’instant",
     "maps": "Topographies",
