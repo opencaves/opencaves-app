@@ -6,6 +6,7 @@ import { SITE_URL, TITLE_NAME } from '../constants.js'
 import { escapeHtml, jsonLdScript, plainParagraphs, renderPage, sendHtml, shellFor, truncate } from './shared.js'
 import { loadSistemaSlugs } from './indexData.js'
 import { slugify } from './slug.js'
+import { answerWarmPing, isWarmPing } from './keepWarm.js'
 
 // A cave's page (/map/<caveId>) served with its content already in the HTML,
 // for search engines and link previews: Google's renderer didn't run the app
@@ -98,6 +99,11 @@ const CAVE_ID_PATTERN = /^[-_A-Za-z0-9]{1,64}$/
  * /map/<caveId>, server-rendered for search engines ({@link cavePageHtml}).
  */
 export const cavePage = onRequest({ region: REGION }, async (req, res) => {
+  // keepPagesWarm's ping: answered at once.
+  if (isWarmPing(req)) {
+    answerWarmPing(res)
+    return
+  }
   let id = ''
   try {
     id = decodeURIComponent((req.path.match(/^\/map\/([^/]+)\/?$/) || [])[1] || '')

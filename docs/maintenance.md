@@ -382,6 +382,27 @@ It needs the GA4 property's id, which isn't set yet:
 
 While `GA_PROPERTY_ID` is empty, the function logs a warning and writes the caves' saves only, keeping the views already there (none at first). The emulators have no `_popularity` documents (no Google Analytics there, and scheduled functions don't run).
 
+## Keep the page functions warm
+
+The functions that draw the public pages, `indexPages` (`/`, `/caves`, `/sistemas` and their records' pages) and `cavePage` (`/map/<id>`), took 2 to 6.6 seconds to answer when an instance had to start first (a cold start). The `keepPagesWarm` function (`functions/js/seo/keepWarm.js`) pings each of them every 5 minutes so an instance stays started. It asks the site for `/?warm=<time>` and `/map/warm?warm=<time>`, so the pings go through the Hosting rewrites like a visit.
+
+- Each function answers the ping with a 204 before it reads or renders anything; `indexPages` also loads its server build once per instance.
+- Each ping has a new `?warm=` value, so the CDN's cached pages never answer instead. It doesn't matter that `firebase.json` gives these addresses an hour's `s-maxage`.
+
+Cost:
+
+- **Cloud Scheduler:** 3 jobs are free per billing account. This is the third, after `refreshWhatsNew` and `refreshPopularity`; a fourth scheduled function would be billed (about $0.10 a month per job).
+- **Functions:** about 576 very short invocations a day (2 every 5 minutes).
+- **Idle instances:** while kept warm, each instance is billed for its idle time like any started instance. That costs much less than a minimum instance (`minInstances`), which this replaces.
+
+Deploy it with the functions:
+
+```
+firebase deploy --only functions:js:keepPagesWarm,functions:js:indexPages,functions:js:cavePage
+```
+
+To check it, look in the function's logs: `[keepPagesWarm] pinged` lines at debug level, and a warning on any answer other than 204. A visit to an idle page should then answer in well under a second. To stop it, delete the function (`firebase functions:delete keepPagesWarm --region northamerica-northeast1`), which removes its Scheduler job.
+
 ## Apply the Storage CORS config
 
 ```
