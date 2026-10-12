@@ -2091,7 +2091,7 @@
     "yes": "Yes"
   },
   "tours": {
-    "menuEntry": "Take the tour",
+    "menuEntry": "Take the tours",
     "dialog": {
       "title": "Take a tour",
       "text": "Pick a tour: a few steps that point out what's on the screen."
@@ -2220,7 +2220,7 @@
         },
         "end": {
           "title": "You're all set",
-          "text": "Take another tour any time from the menu: Take the tour. Happy diving!"
+          "text": "Take another tour any time from the menu: Take the tours. Happy diving!"
         }
       },
       "install": {
@@ -2325,7 +2325,7 @@
     "prompt": {
       "title": "Welcome to {{name}}",
       "text": "New here? Take a short guided tour to see what you can do on OpenCaves.",
-      "hint": "You can start a tour any time from the menu: Take the tour.",
+      "hint": "You can start a tour any time from the menu: Take the tours.",
       "notNow": "Not now",
       "start": "Take the tour"
     }

@@ -33,7 +33,7 @@ export function useStartTour() {
 }
 
 /**
- * "Take the tour", over any page (openToursDialog, from the menus): the
+ * "Take the tours", over any page (openToursDialog, from the menus): the
  * guided tours, each with its title and what it shows; picking one closes
  * the dialog and starts it.
  */

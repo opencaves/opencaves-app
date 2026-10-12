@@ -2090,7 +2090,7 @@
     "yes": "Oui"
   },
   "tours": {
-    "menuEntry": "Faire la visite",
+    "menuEntry": "Faire les visites",
     "dialog": {
       "title": "Visites guidées",
       "text": "Choisissez une visite : quelques étapes qui vous montrent ce qu'il y a à l'écran."
@@ -2219,7 +2219,7 @@
         },
         "end": {
           "title": "À vous de jouer",
-          "text": "Refaites une visite quand vous voulez depuis le menu : Faire la visite. Bonnes plongées !"
+          "text": "Refaites une visite quand vous voulez depuis le menu : Faire les visites. Bonnes plongées !"
         }
       },
       "install": {
@@ -2324,7 +2324,7 @@
     "prompt": {
       "title": "Bienvenue sur {{name}}",
       "text": "Nouveau ici ? Faites une courte visite guidée pour découvrir ce que vous pouvez faire sur OpenCaves.",
-      "hint": "Vous pouvez lancer une visite à tout moment depuis le menu : Faire la visite.",
+      "hint": "Vous pouvez lancer une visite à tout moment depuis le menu : Faire les visites.",
       "notNow": "Pas maintenant",
       "start": "Faire la visite"
     }
