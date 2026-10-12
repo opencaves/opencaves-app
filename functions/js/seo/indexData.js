@@ -12,7 +12,11 @@ const DATA_TTL_MS = 5 * 60 * 1000
 
 let cached = null
 
-const byName = (a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
+// Alphabetically, case and accents aside; one collator for every comparison
+// (localeCompare with options builds a new one each call). As the app's
+// (src/utils/indexData.js).
+const nameCollator = new Intl.Collator('en', { sensitivity: 'base' })
+const byName = (a, b) => nameCollator.compare(a.name, b.name)
 
 async function readIndexData() {
   const [cavesSnap, sistemasSnap, areasSnap, connectionsSnap] = await Promise.all([

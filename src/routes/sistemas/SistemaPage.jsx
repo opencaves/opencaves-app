@@ -29,9 +29,8 @@ import NoMatch from '@/routes/NoMatch.jsx'
 import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
 import { teamNames } from '@/utils/explorationTeam.js'
 import { formatPartialDate } from '@/utils/partialDate.js'
+import { byName } from '@/utils/indexData.js'
 
-
-const byName = (a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
 
 // A system's name: a link to its page, or plain text when it has none (not
 // public).
