@@ -230,6 +230,24 @@
  */
 
 /**
+ * An error the "Something went wrong" page showed (`_errorReports`, written by
+ * the browser: src/utils/errorReports.js; read by admins).
+ *
+ * @typedef {object} ErrorReport
+ * @property {string} message - The error's message, or a loader's "status text".
+ * @property {string} [stack] - Its stack ('' for a loader's response).
+ * @property {number|null} [status] - A loader's HTTP status.
+ * @property {string} digest - Groups the reports of one error (its message and first stack frame, hashed).
+ * @property {string} path - The page's path and query.
+ * @property {string} [version] - The app's version.
+ * @property {string} [userAgent]
+ * @property {string} [language] - The browser's.
+ * @property {string|null} [uid] - The signed-in account, if any.
+ * @property {import('firebase/firestore').Timestamp} createdAt
+ * @property {import('firebase/firestore').Timestamp} expireAt - Deleted then (TTL policy).
+ */
+
+/**
  * A feedback report (`_feedback`), sent from the Send feedback form - read by
  * every registered account (Ideas and fixes): nothing private on it (see
  * {@link FeedbackPrivate}).

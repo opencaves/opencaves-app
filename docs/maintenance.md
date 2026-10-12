@@ -442,6 +442,28 @@ Resend's received email), with a webhook signed with the test secret of
 `functions/js/.secret.local` (`RESEND_WEBHOOK_SECRET=whsec_...`; never
 committed).
 
+## Error reports
+
+When a page fails to load ("Something went wrong" - not a missing page, not
+offline), the browser sends a digest of the error to `_errorReports`: its
+message, stack, a loader's HTTP status, the page's path, the app's version, the
+browser (user agent), its language, and the account if signed in
+(`src/utils/errorReports.js`). Each error once per browser session (`digest`:
+its message and first stack frame, hashed - the same bug's reports share it),
+at most 10 per session. Anyone can create one, but `firestore.rules` checks
+every field; only admins read and delete them, on the Error reports page
+(`/error-reports`, from the dashboard): the latest 500, live, grouped by
+error, with each report's date and time, page, version, browser and account;
+an error's reports are deleted together.
+
+They're deleted 90 days after they're written, by a TTL policy on `expireAt`
+deployed with the indexes (`firebase deploy --only firestore:indexes`).
+`scripts/sync-to-production.js` leaves production's alone.
+
+A development build (`npm run dev`) sends them too, to the emulators'
+database (`/dev/error/page` fails on purpose, to try it); set
+`VITE_ERROR_REPORTS=false` in `.env.local` to send none.
+
 ## Analytics: whose visits count
 
 Google Tag Manager (and with it Google Analytics) loads only for the real site's visitors (`src/utils/analytics.js`):

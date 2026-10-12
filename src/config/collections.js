@@ -5,6 +5,10 @@ export const USERS_COLLECTION = '_users'
 export const SETTINGS_COLLECTION = '_settings'
 export const CAVE_RATINGS_COLLECTION = '_caveRatings'
 
+// The errors the "Something went wrong" page showed (src/utils/errorReports.js):
+// created by anyone, read by admins, deleted after 90 days (expireAt's TTL).
+export const ERROR_REPORTS_COLLECTION = '_errorReports'
+
 // What's new, built by the server (refreshWhatsNew) into one public document
 // the page reads: { items, builtAt }.
 export const WHATS_NEW_COLLECTION = '_whatsNew'

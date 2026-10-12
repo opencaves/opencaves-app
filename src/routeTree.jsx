@@ -418,6 +418,12 @@ export const routes = [
                 ...requireAdmin(() => import('@/routes/audits/Audits.jsx')),
               },
               {
+                // The errors the "Something went wrong" page showed
+                // (_errorReports), grouped by error.
+                path: 'error-reports',
+                ...requireAdmin(() => import('@/routes/error-reports/ErrorReports.jsx')),
+              },
+              {
                 // The members' reports (Send feedback), listed like
                 // GitHub's issues (?state, q, kind, stage, sort)... Every
                 // registered account reads them (Ideas and fixes: what's
