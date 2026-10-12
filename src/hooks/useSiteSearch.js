@@ -6,7 +6,7 @@ import { foldSearch, searchMatcher } from '@/utils/searchText.js'
 // How many suggestions show at once.
 const MAX_SUGGESTIONS = 8
 // The kinds' order in the suggestions.
-const KIND_ORDER = ['areas', 'sistemas', 'caves']
+const KIND_ORDER = ['caves', 'sistemas', 'areas']
 
 // Names compared as every search of the site does (utils/searchText.js).
 const fold = foldSearch
