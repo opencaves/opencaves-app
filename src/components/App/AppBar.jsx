@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -9,12 +9,14 @@ import PersonAddAlt1Rounded from '@mui/icons-material/PersonAddAlt1Rounded'
 import { Grid } from '@mui/material'
 import MenuRounded from '@mui/icons-material/MenuRounded'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
+import TourRounded from '@mui/icons-material/TourRounded'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import LogoIcon from './LogoIcon.jsx'
 import AppMenu from './AppMenu.jsx'
 import NavDrawer, { useNavItems } from './NavDrawer.jsx'
 import AppBarSearch from './AppBarSearch.jsx'
 import { APP_NAME, APP_TITLE } from '@/config/app.js'
+import { openToursDialog } from '@/tours/tourList.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 
 // The bar's links, as MD3's navigation items: 40dp pills, a 24dp icon 8dp
@@ -56,7 +58,13 @@ const MAP_ICON_SX = (theme) => ({ '& .MuiButton-startIcon': { color: theme.vars.
 // container color once the page scrolls under it (M3's on-scroll state).
 const APP_BAR_TOOLBAR_SX = { '&&': { minHeight: 64 }, px: { xs: 0.5, sm: 3 } }
 
-
+/**
+ * The app bar: the logo and the app's name (or, on phones, a page's title
+ * scrolled away, with its back arrow), the site's links on wider screens -
+ * Take the tour (the guided tours' dialog) before What's new - or the drawer's
+ * button on phones, the search, then Log in and Sign up, or the dashboard and
+ * the account button.
+ */
 export default function AppBar() {
   const dispatch = useDispatch()
   const location = useLocation()
@@ -71,6 +79,7 @@ export default function AppBar() {
   const [pageHasBack, setPageHasBack] = useState(false)
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
   const { t: tApp } = useTranslation('app')
+  const { t: tTours } = useTranslation('tours')
   const theme = useTheme()
   const isSmall = useSmall(theme.breakpoints.down('md'))
   // Phones only: once the page's heading scrolls under the bar, the bar shows
@@ -231,9 +240,18 @@ export default function AppBar() {
             {!isSmall && (
               <Grid className="oc-app-bar--nav" sx={{ mr: 1, display: 'flex', alignItems: 'center', gap: 0.5 }}>
                 {barItems.map(({ key, to, icon, onClick }) => (
-                  <Button key={key} component={Link} to={to} onClick={onClick} startIcon={icon} aria-current={current(to)} sx={key === 'map' ? [NAV_LINK_SX, MAP_ICON_SX] : NAV_LINK_SX}>
-                    {t(`${key}`, { name: APP_NAME })}
-                  </Button>
+                  <Fragment key={key}>
+                    {/* The guided tours (a dialog listing them), before
+                        What's new - as in the phone drawer. */}
+                    {key === 'whatsNew' && (
+                      <Button className="oc-app-bar--tours" onClick={openToursDialog} startIcon={<TourRounded />} sx={NAV_LINK_SX}>
+                        {tTours('menuEntry')}
+                      </Button>
+                    )}
+                    <Button component={Link} to={to} onClick={onClick} startIcon={icon} aria-current={current(to)} sx={key === 'map' ? [NAV_LINK_SX, MAP_ICON_SX] : NAV_LINK_SX}>
+                      {t(`${key}`, { name: APP_NAME })}
+                    </Button>
+                  </Fragment>
                 ))}
               </Grid>
             )}
