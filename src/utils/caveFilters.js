@@ -32,14 +32,18 @@ const VALUE_PATTERN = /^[a-z0-9-]+$/
  */
 export const MISSING_CRITERIA = [
   { value: 'coordinates', test: (facts) => !facts.located },
+  // Placed (with coordinates), but not confirmed on site.
+  { value: 'position', test: (facts) => facts.located && !facts.positionConfirmed },
   { value: 'name', test: (facts) => !facts.name },
   // Unknown until the covers are read: no cave counted as missing one.
   { value: 'photo', test: (facts, covers) => Boolean(covers) && !covers.has(facts.id) },
+  { value: 'video', test: (facts) => !facts.hasVideo },
   { value: 'description', test: (facts) => !facts.hasDescription },
   { value: 'directions', test: (facts) => !facts.hasDirections },
   { value: 'fees', test: (facts) => !facts.feesKnown },
   { value: 'facilities', test: (facts) => !facts.facilitiesKnown },
   { value: 'parking', test: (facts) => !facts.hasParking },
+  { value: 'system', test: (facts) => !facts.hasSystem },
 ]
 
 /** The cave types: a cenote entrance into a system, or another cave. */
@@ -64,6 +68,8 @@ const LEGACY_FILTERS = { 'no-coordinates': 'coordinates', unnamed: 'name' }
 
 const hasText = (value) => typeof value === 'string' && value.trim() !== ''
 const hasPoint = (point) => point?.latitude != null && point?.longitude != null
+// Videos: a list of addresses, or (older records) one "|"-separated string.
+const hasVideos = (videos) => (Array.isArray(videos) ? videos : typeof videos === 'string' ? videos.split('|') : []).some(hasText)
 
 /**
  * A cave's facts the criteria test, from a cave record (the store's), or from
@@ -79,6 +85,7 @@ export function caveFacts(cave) {
     id: cave.id,
     name: name?.trim() || null,
     located: cave.located ?? hasPoint(cave.location),
+    positionConfirmed: cave.positionConfirmed ?? cave.location?.validity === 'valid',
     cenoteEntrance: Boolean(cave.cenoteEntrance),
     area: cave.area || null,
     access: cave.access || null,
@@ -88,6 +95,9 @@ export function caveFacts(cave) {
     feesKnown: cave.feesKnown ?? cave.fees != null,
     facilitiesKnown: cave.facilitiesKnown ?? cave.facilities != null,
     hasParking: cave.hasParking ?? hasPoint(cave.parking),
+    hasVideo: cave.hasVideo ?? hasVideos(cave.videos),
+    // Its system's id travels with it (a server-rendered list's too).
+    hasSystem: Boolean(cave.sistemaId),
   }
 }
 
@@ -103,7 +113,7 @@ export function caveFacts(cave) {
 export function compactCaveFacts(cave) {
   const facts = caveFacts(cave)
   const compact = {}
-  ;['cenoteEntrance', 'hasDescription', 'hasDirections', 'feesKnown', 'facilitiesKnown', 'hasParking'].forEach((key) => facts[key] && (compact[key] = true))
+  ;['cenoteEntrance', 'positionConfirmed', 'hasDescription', 'hasDirections', 'feesKnown', 'facilitiesKnown', 'hasParking', 'hasVideo'].forEach((key) => facts[key] && (compact[key] = true))
   if (facts.access) compact.access = facts.access
   if (facts.accessibility) compact.accessibility = facts.accessibility
   return compact

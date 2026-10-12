@@ -97,6 +97,7 @@
  * @property {string} id
  * @property {string|null} name
  * @property {boolean} located - It has coordinates.
+ * @property {boolean} positionConfirmed - Its coordinates are confirmed (location.validity "valid").
  * @property {boolean} cenoteEntrance
  * @property {string|null} area - Its area's name.
  * @property {string|null} access
@@ -106,6 +107,8 @@
  * @property {boolean} feesKnown - Its fees are known (yes or no).
  * @property {boolean} facilitiesKnown
  * @property {boolean} hasParking
+ * @property {boolean} hasVideo - It has a video ({@link Cave.videos}).
+ * @property {boolean} hasSystem - It's attached to a cave system ({@link Cave.sistemaId}).
  */
 
 /**

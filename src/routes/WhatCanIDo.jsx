@@ -8,15 +8,13 @@ import MapRounded from '@mui/icons-material/MapRounded'
 import MenuBookRounded from '@mui/icons-material/MenuBookRounded'
 import DirectionsRounded from '@mui/icons-material/DirectionsRounded'
 import NewReleasesRounded from '@mui/icons-material/NewReleasesRounded'
-import BookmarkBorderRounded from '@mui/icons-material/BookmarkBorderRounded'
-import StarOutlineRounded from '@mui/icons-material/StarOutlineRounded'
-import AddLocationAltRounded from '@mui/icons-material/AddLocationAltRounded'
 import EditLocationAltRounded from '@mui/icons-material/EditLocationAltRounded'
-import DriveFileRenameOutlineRounded from '@mui/icons-material/DriveFileRenameOutlineRounded'
 import FactCheckRounded from '@mui/icons-material/FactCheckRounded'
-import KeyRounded from '@mui/icons-material/KeyRounded'
+import RouteRounded from '@mui/icons-material/RouteRounded'
+import MyLocationRounded from '@mui/icons-material/MyLocationRounded'
 import EditNoteRounded from '@mui/icons-material/EditNoteRounded'
 import AddAPhotoRounded from '@mui/icons-material/AddAPhotoRounded'
+import VideoLibraryRounded from '@mui/icons-material/VideoLibraryRounded'
 import PublicRounded from '@mui/icons-material/PublicRounded'
 import HistoryRounded from '@mui/icons-material/HistoryRounded'
 import AdminPanelSettingsRounded from '@mui/icons-material/AdminPanelSettingsRounded'
@@ -36,15 +34,18 @@ const EXPLORE = [
   { key: 'whatsNew', icon: <NewReleasesRounded />, to: '/whats-new' },
 ]
 const CONTRIBUTE = [
-  { key: 'rate', icon: <StarOutlineRounded /> },
-  { key: 'addCave', icon: <AddLocationAltRounded />, to: '/caves' },
+  // Reviewing what's there (it ages): a report to the team (FeedbackDialog) -
+  // or an edit, said in its text.
+  { key: 'checkWhatsThere', icon: <FactCheckRounded />, onClick: () => openFeedback() },
+  // Filling or confirming: each leads to the caves concerned (caveFilters.js).
+  { key: 'checkFacts', icon: <MyLocationRounded />, to: '/caves?missing=position' },
+  { key: 'passages', icon: <RouteRounded />, onClick: () => openFeedback() },
   { key: 'coordinates', icon: <EditLocationAltRounded />, to: '/caves?missing=coordinates' },
-  { key: 'names', icon: <DriveFileRenameOutlineRounded />, to: '/caves?missing=name' },
-  { key: 'checkFacts', icon: <FactCheckRounded /> },
-  { key: 'access', icon: <KeyRounded /> },
-  { key: 'texts', icon: <EditNoteRounded /> },
-  { key: 'media', icon: <AddAPhotoRounded /> },
-  { key: 'systems', icon: <SvgIcon component={CaveSystemIcon} inheritViewBox />, to: '/sistemas' },
+  { key: 'media', icon: <AddAPhotoRounded />, to: '/caves?missing=photo' },
+  { key: 'videos', icon: <VideoLibraryRounded />, to: '/caves?missing=video' },
+  { key: 'texts', icon: <EditNoteRounded />, to: '/caves?missing=description' },
+  { key: 'directions', icon: <DirectionsRounded />, to: '/caves?missing=directions' },
+  { key: 'attach', icon: <SvgIcon component={CaveSystemIcon} inheritViewBox />, to: '/caves?missing=system' },
 ]
 const GOOD_TO_KNOW = [
   { key: 'public', icon: <PublicRounded /> },

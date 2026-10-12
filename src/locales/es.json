@@ -518,13 +518,16 @@
       "heading": "Por completar",
       "items": {
         "coordinates": "Sin coordenadas",
+        "position": "Posición no confirmada",
         "name": "Sin nombre",
         "photo": "Sin foto",
+        "video": "Sin video",
         "description": "Sin descripción",
         "directions": "Sin indicaciones",
         "fees": "Costos desconocidos",
         "facilities": "Instalaciones desconocidas",
-        "parking": "Sin estacionamiento"
+        "parking": "Sin estacionamiento",
+        "system": "Sin sistema"
       },
       "hint": "Muestra solo las cuevas a las que les faltan todos los elementos activados."
     }
@@ -1890,45 +1893,50 @@
     "contribute": {
       "title": "Contribuir",
       "sub": "Con una cuenta gratuita: regístrate con tu correo, Google o Microsoft.",
-      "rate": {
-        "title": "Calificar tus inmersiones",
-        "text": "Da de 1 a 5 estrellas a las cuevas donde buceaste. Tu calificación es privada; solo se muestra el promedio."
+      "checkWhatsThere": {
+        "title": "Revisar la información",
+        "text": "Las cosas cambian con el tiempo. ¿Buceaste ahí hace poco? Corrige lo que cambió (el acceso, los costos, el camino) o avísanos si una cueva cerró.",
+        "action": "Enviar un reporte"
       },
-      "addCave": {
-        "title": "Añadir una cueva que falta",
-        "text": "Su nombre, su sistema y zona, sus coordenadas: desde el botón Añadir de la lista de cuevas.",
-        "action": "Ir a las cuevas"
+      "checkFacts": {
+        "title": "Confirmar las posiciones",
+        "text": "Las posiciones de algunas cuevas aún no están confirmadas. ¿Estuviste ahí? Confírmalas o corrígelas con tu GPS en el lugar.",
+        "action": "Encontrarlas"
+      },
+      "passages": {
+        "title": "Revisar las galerías trazadas",
+        "text": "Las galerías inundadas del mapa se trazan a partir de topografías. ¿Conoces una cueva? Dinos dónde salta una línea o falta una galería.",
+        "action": "Enviar un reporte"
       },
       "coordinates": {
         "title": "Poner cuevas en el mapa",
         "text": "Un icono de mapa tachado en las listas señala una cueva aún sin coordenadas. ¿Estuviste allí? Añádelas.",
         "action": "Encontrarlas"
       },
-      "names": {
-        "title": "Nombrar las cuevas sin nombre",
-        "text": "Algunas cuevas aparecen como (Cueva sin nombre). ¿Sabes cómo la llaman los buzos o la gente del lugar? Dale su nombre.",
+      "media": {
+        "title": "Agregar fotos",
+        "text": "Agrega tus fotos desde la página de una cueva.",
         "action": "Encontrarlas"
       },
-      "checkFacts": {
-        "title": "Verificar los datos",
-        "text": "Las posiciones tomadas de un mapa o de una guía están marcadas como no confirmadas: confírmalas o corrígelas con tu GPS en el lugar."
-      },
-      "access": {
-        "title": "Actualizar el acceso",
-        "text": "Quién tiene la llave, a quién pedir permiso, la cuota, la caminata hasta el agua. Cambia a menudo, y tú lo sabes mejor que nadie."
+      "videos": {
+        "title": "Agregar videos",
+        "text": "Agrega enlaces a los videos de una cueva en YouTube, Vimeo o Facebook, desde su página.",
+        "action": "Encontrarlas"
       },
       "texts": {
-        "title": "Escribir los textos",
-        "text": "Describe una cueva y cómo llegar con tus propias palabras, e indica de dónde vienen."
+        "title": "Escribir las descripciones",
+        "text": "Describe una cueva con tus propias palabras, e indica de dónde vienen.",
+        "action": "Encontrarlas"
       },
-      "media": {
-        "title": "Compartir fotos, vídeos y mapas",
-        "text": "Añade fotos desde la página de una cueva, enlaces de vídeos de YouTube, Vimeo o Facebook, y mapas topográficos con su año y sus cartógrafos."
+      "directions": {
+        "title": "Decir cómo llegar",
+        "text": "El camino, el desvío, la caminata hasta el agua: describe cómo llegar a una cueva con tus propias palabras.",
+        "action": "Encontrarlas"
       },
-      "systems": {
-        "title": "Completar los sistemas",
-        "text": "Su longitud y profundidad, la historia de su exploración, y sus conexiones.",
-        "action": "Ver los sistemas"
+      "attach": {
+        "title": "Vincular las cuevas a su sistema",
+        "text": "Algunas cuevas aún no están vinculadas a su sistema. ¿Sabes a cuál pertenecen? Indícalo en el formulario de la cueva.",
+        "action": "Encontrarlas"
       }
     },
     "goodToKnow": {

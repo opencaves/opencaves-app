@@ -517,13 +517,16 @@
       "heading": "À compléter",
       "items": {
         "coordinates": "Sans coordonnées",
+        "position": "Position non confirmée",
         "name": "Sans nom",
         "photo": "Sans photo",
+        "video": "Sans vidéo",
         "description": "Sans description",
         "directions": "Sans itinéraire",
         "fees": "Frais inconnus",
         "facilities": "Commodités inconnues",
-        "parking": "Sans stationnement"
+        "parking": "Sans stationnement",
+        "system": "Sans réseau"
       },
       "hint": "N'affiche que les grottes où manquent tous les éléments activés."
     }
@@ -1889,45 +1892,50 @@
     "contribute": {
       "title": "Contribuer",
       "sub": "Avec un compte gratuit : inscrivez-vous avec votre courriel, Google ou Microsoft.",
-      "rate": {
-        "title": "Noter vos plongées",
-        "text": "Donnez de 1 à 5 étoiles aux grottes où vous avez plongé. Votre note reste privée ; seule la moyenne est affichée."
+      "checkWhatsThere": {
+        "title": "Vérifier les informations",
+        "text": "Les choses changent avec le temps. Vous y avez plongé récemment ? Corrigez ce qui a changé (l'accès, les frais, la route) ou signalez-nous une grotte fermée.",
+        "action": "Envoyer un signalement"
       },
-      "addCave": {
-        "title": "Ajouter une grotte qui manque",
-        "text": "Son nom, son réseau et sa région, ses coordonnées : depuis le bouton Ajouter de la liste des grottes.",
-        "action": "Aller aux grottes"
+      "checkFacts": {
+        "title": "Confirmer les positions",
+        "text": "Les positions de certaines grottes ne sont pas encore confirmées. Vous y êtes allé ? Confirmez-les ou corrigez-les avec votre GPS sur place.",
+        "action": "Les trouver"
+      },
+      "passages": {
+        "title": "Vérifier les galeries tracées",
+        "text": "Les galeries inondées de la carte sont tracées d'après des topographies. Vous connaissez une grotte ? Dites-nous où une ligne saute ou où il manque une galerie.",
+        "action": "Envoyer un signalement"
       },
       "coordinates": {
         "title": "Mettre des grottes sur la carte",
         "text": "Une icône de carte barrée dans les listes signale une grotte encore sans coordonnées. Vous y êtes allé ? Ajoutez-les.",
         "action": "Les trouver"
       },
-      "names": {
-        "title": "Nommer les grottes sans nom",
-        "text": "Certaines grottes sont listées comme (Grotte sans nom). Vous savez comment les plongeurs ou les gens du coin l'appellent ? Donnez-lui son nom.",
+      "media": {
+        "title": "Ajouter des photos",
+        "text": "Ajoutez vos photos depuis la page d'une grotte.",
         "action": "Les trouver"
       },
-      "checkFacts": {
-        "title": "Vérifier les faits",
-        "text": "Les positions tirées d'une carte ou d'un guide sont marquées comme non confirmées : confirmez-les ou corrigez-les avec votre GPS sur place."
-      },
-      "access": {
-        "title": "Mettre à jour l'accès",
-        "text": "Qui a la clé, de qui il faut la permission, les frais, la marche jusqu'à l'eau. Cela change souvent, et vous le savez mieux que personne."
+      "videos": {
+        "title": "Ajouter des vidéos",
+        "text": "Ajoutez des liens vers les vidéos d'une grotte sur YouTube, Vimeo ou Facebook, depuis sa page.",
+        "action": "Les trouver"
       },
       "texts": {
-        "title": "Écrire les textes",
-        "text": "Décrivez une grotte et comment s'y rendre avec vos propres mots, et indiquez d'où viennent les mots."
+        "title": "Écrire les descriptions",
+        "text": "Décrivez une grotte avec vos propres mots, et indiquez d'où viennent les mots.",
+        "action": "Les trouver"
       },
-      "media": {
-        "title": "Partager photos, vidéos et cartes",
-        "text": "Ajoutez des photos depuis la page d'une grotte, des liens de vidéos YouTube, Vimeo ou Facebook, et des cartes topographiques avec leur année et leurs cartographes."
+      "directions": {
+        "title": "Dire comment s'y rendre",
+        "text": "La route, l'embranchement, la marche jusqu'à l'eau : décrivez le chemin vers une grotte avec vos propres mots.",
+        "action": "Les trouver"
       },
-      "systems": {
-        "title": "Compléter les réseaux",
-        "text": "Leur longueur et leur profondeur, l'historique de leur exploration, et leurs connexions.",
-        "action": "Parcourir les réseaux"
+      "attach": {
+        "title": "Rattacher les grottes à leur réseau",
+        "text": "Certaines grottes ne sont pas encore liées à leur réseau. Vous savez auquel elles appartiennent ? Indiquez-le dans le formulaire de la grotte.",
+        "action": "Les trouver"
       }
     },
     "goodToKnow": {
