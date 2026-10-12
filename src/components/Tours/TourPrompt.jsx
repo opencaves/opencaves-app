@@ -18,6 +18,9 @@ const DELAY_MS = 1200
 // a link to one cave or system (a shared link: what was asked for comes first,
 // the prompt waits for a later visit).
 const SKIPPED_PATHS = /^\/(login|signup|dev)(\/|$)|^\/(caves|sistemas|map)\/[^/]+/
+// ?no-welcome-splash=true: not this visit, nothing noted - for measuring the
+// pages themselves (Lighthouse), the prompt being temporary.
+const SKIP_PARAM = 'no-welcome-splash'
 
 // Whether to ask: a device not asked yet. A browser that keeps nothing
 // (private mode, blocked storage) is never asked - better than on every visit.
@@ -41,7 +44,9 @@ function markSeen() {
  * On a first visit (once per device), a moment after the page shows: would
  * they like the guided tour? Take the tour starts Discover OpenCaves (the
  * only tour that starts without the menus' Take the tour); Not now or
- * closing it lets them be. Either way it isn't asked again.
+ * closing it lets them be. Either way it isn't asked again. Not on a link to
+ * one cave or system, nor with ?no-welcome-splash=true (for measuring the
+ * page itself): a later visit asks.
  */
 export default function TourPrompt() {
   const { t } = useTranslation('tours', { keyPrefix: 'prompt' })
@@ -60,7 +65,7 @@ export default function TourPrompt() {
     if (decided.current || !authResolved) return undefined
     // Arrived on a skipped page: not this visit (nothing noted, so a later
     // visit asks).
-    if (!firstVisit() || SKIPPED_PATHS.test(location.pathname)) {
+    if (!firstVisit() || SKIPPED_PATHS.test(location.pathname) || new URLSearchParams(location.search).get(SKIP_PARAM) === 'true') {
       decided.current = true
       return undefined
     }
