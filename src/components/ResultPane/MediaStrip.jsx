@@ -42,6 +42,9 @@ const SLICE_OVERLAP = 2
 // How long thumbnails must stop loading before the strip is built again
 // with them, in ms (lazy ones arrive one by one: one build, not one each).
 const LOADS_SETTLE_MS = 150
+// A strip starting at its start: its first item this far in from the
+// viewing area's edge (px).
+const START_MARGIN = 8
 // The longest a build waits for its slices' images to be decoded before it
 // shows them anyway (ms); and the longest the strip stays hidden at first,
 // built or not (CSS, so without JavaScript too).
@@ -512,11 +515,10 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
         // positions).
         if (holdStart) {
           const half = view.clientWidth / 2
-          // At the content's edge (the padding's), in line with what's above
-          // the strip; with no padding (a page's strip), 8px in from the
-          // viewing area's edge, so the projection's rounding never clips its
-          // corner.
-          const startLeft = padding + roomBefore - half + Math.max(startEdgeDistance(half - Math.max(padding, 8), half), columns[0].offsetWidth / 2)
+          // 8px in from the viewing area's edge (its band's), whatever the
+          // padding: a margin the projection's rounding never clips a corner
+          // across.
+          const startLeft = padding + roomBefore - half + Math.max(startEdgeDistance(half - START_MARGIN, half), columns[0].offsetWidth / 2)
           view.scrollLeft = rtl ? -startLeft : startLeft
         }
         // The row's flat plane is in front of the turned items: it lets the
