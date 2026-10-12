@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GOOGLE_BUTTON_SX } from './providerButtonSx.js'
 import { GoogleAuthProvider } from 'firebase/auth'
-import { noop } from 'lodash'
+import noop from 'lodash/noop'
 import LogInWithProvider from './LogInWithProvider.jsx'
 import GoogleGLogo from '@/images/app/auth/google-g-logo.svg?react'
 
