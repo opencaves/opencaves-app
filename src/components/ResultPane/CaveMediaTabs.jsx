@@ -67,7 +67,7 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
   const requireLoginForMaps = useRequireLogin('maps')
 
   return (
-    <Box className="oc-cave-media-tabs" sx={{ my: editable ? 0 : 'var(--oc-pane-padding-block)' }}>
+    <Box sx={{ my: editable ? 0 : 'var(--oc-pane-padding-block)' }}>
       {/* Offline, a cave not saved: what's missing, and how to keep it all. */}
       {!editable && !isNew && <OfflineSaveHint caveId={caveId} sx={{ mx: 'var(--oc-pane-padding-inline)' }} />}
       <Tabs value={activeTab} onChange={(_, nextTab) => handleTabChange(nextTab)} aria-label={`${t('pictures')} / ${t('videos')} / ${t('maps')}`} sx={{ borderBottom: 1, borderColor: 'divider', px: editable ? 0 : 'var(--oc-pane-padding-inline)' }}>

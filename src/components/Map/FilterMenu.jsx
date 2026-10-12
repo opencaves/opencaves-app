@@ -41,7 +41,7 @@ function FilterMenuHead({ title, children, ...props }) {
         {...props}
       >
         <Grid>
-          <IconButton className="oc-filter-menu--close" aria-label={t('closeBtn')} onClick={onFilterMenuCloseBtnClick}>
+          <IconButton aria-label={t('closeBtn')} onClick={onFilterMenuCloseBtnClick}>
             <Close />
           </IconButton>
         </Grid>

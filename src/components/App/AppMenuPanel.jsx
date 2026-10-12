@@ -11,7 +11,6 @@ import FeedbackRounded from '@mui/icons-material/FeedbackRounded'
 import LogoutRounded from '@mui/icons-material/LogoutRounded'
 import SettingsRounded from '@mui/icons-material/SettingsRounded'
 import TipsAndUpdatesRounded from '@mui/icons-material/TipsAndUpdatesRounded'
-import TourRounded from '@mui/icons-material/TourRounded'
 import { auth } from '@/config/firebase.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
@@ -20,7 +19,6 @@ import { LanguageListItem } from '@/components/LanguagePicker.jsx'
 import { APP_NAME } from '@/config/app.js'
 import { openAboutDialog } from '@/utils/aboutDialog.js'
 import { openFeedback } from '@/utils/feedback.js'
-import { openToursDialog } from '@/tours/tourList.js'
 import { offlineSupported } from '@/services/offline/offlineMedia.js'
 import { loadPendingUploads } from '@/services/offline/pendingUploads.js'
 import { TOUCH_TARGET_SX } from '@/components/touchTarget.js'
@@ -32,7 +30,7 @@ import { useNewFeedbackCount } from '@/routes/feedback/useNewFeedbackCount.js'
  * welcome with Log in / Sign up when not), the other actions grouped on white
  * rounded sections over the card's tinted surface - among them, once signed
  * in, Ideas and fixes (/feedback: the testers' reports and what the team does
- * about them), Take the tour (the guided tours' dialog) and, for admins, the count of new reports beside Dashboard -
+ * about them) and, for admins, the count of new reports beside Dashboard -
  * and the legal links at the bottom. Rendered in AppMenu's
  * Popover.
  */
@@ -40,7 +38,6 @@ export default function AppMenuPanel({ onClose, titleId }) {
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
   const { t: tLegal } = useTranslation('legal', { keyPrefix: 'links' })
   const { t: tDashboard } = useTranslation('dashboard')
-  const { t: tTours } = useTranslation('tours')
   const dispatch = useDispatch()
   const location = useLocation()
   const [openSnackbar] = useSnackbar()
@@ -93,7 +90,7 @@ export default function AppMenuPanel({ onClose, titleId }) {
   return (
     <Box className="oc-app-menu-panel" sx={{ width: 'min(360px, calc(100vw - 16px))', p: 1, pb: 1.5 }}>
       <Box sx={{ position: 'relative', textAlign: 'center', px: 2, pt: 1.5, pb: 2 }}>
-        <IconButton className="oc-app-menu-panel--close" aria-label={t('close')} onClick={onClose} sx={{ position: 'absolute', top: 4, right: 4 }}>
+        <IconButton aria-label={t('close')} onClick={onClose} sx={{ position: 'absolute', top: 4, right: 4 }}>
           <CloseRounded />
         </IconButton>
 
@@ -191,20 +188,6 @@ export default function AppMenuPanel({ onClose, titleId }) {
             <ListItemText primary={t('feedbackList')} />
           </ListItemButton>
         )}
-        {/* The guided tours (a dialog listing them). */}
-        <ListItemButton
-          className="oc-app-menu--tours"
-          onClick={() => {
-            onClose()
-            openToursDialog()
-          }}
-          sx={rowSx}
-        >
-          <ListItemIcon>
-            <TourRounded />
-          </ListItemIcon>
-          <ListItemText primary={tTours('menuEntry')} />
-        </ListItemButton>
         <ListItemButton
           component={Link}
           to="/about"

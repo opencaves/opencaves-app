@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { AppBar as MUIAppBar, Box, IconButton, ListItemIcon, Menu, MenuItem, Toolbar, Tooltip, Typography, Button, useTheme } from '@mui/material'
+import { AppBar as MUIAppBar, IconButton, ListItemIcon, Menu, MenuItem, Toolbar, Tooltip, Typography, Button, useTheme } from '@mui/material'
 import AccountCircleRounded from '@mui/icons-material/AccountCircleRounded'
 import LoginRounded from '@mui/icons-material/LoginRounded'
 import PersonAddAlt1Rounded from '@mui/icons-material/PersonAddAlt1Rounded'
@@ -161,7 +161,7 @@ export default function AppBar() {
       >
         <Toolbar sx={APP_BAR_TOOLBAR_SX}>
           {isSmall && (
-            <IconButton className="oc-app-bar--menu" color="inherit" aria-label={t('drawer.ariaLabel')} onClick={handleDrawerToggle} sx={{ p: 1.5, mr: { xs: 0.5, sm: 2 } }}>
+            <IconButton color="inherit" aria-label={t('drawer.ariaLabel')} onClick={handleDrawerToggle} sx={{ p: 1.5, mr: { xs: 0.5, sm: 2 } }}>
               <MenuRounded />
             </IconButton>
           )}
@@ -229,7 +229,7 @@ export default function AppBar() {
               sat 4 px higher than the buttons on the right). */}
           <Grid container sx={{ flexWrap: 'nowrap', flex: '1 1 auto', minWidth: 'fit-content', alignItems: 'center' }}>
             {!isSmall && (
-              <Grid className="oc-app-bar--nav" sx={{ mr: 1, display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <Grid sx={{ mr: 1, display: 'flex', alignItems: 'center', gap: 0.5 }}>
                 {barItems.map(({ key, to, icon, onClick }) => (
                   <Button key={key} component={Link} to={to} onClick={onClick} startIcon={icon} aria-current={current(to)} sx={key === 'map' ? [NAV_LINK_SX, MAP_ICON_SX] : NAV_LINK_SX}>
                     {t(`${key}`, { name: APP_NAME })}
@@ -270,7 +270,7 @@ export default function AppBar() {
                 </>
               )}
               {!isLoggedIn && !isSmall && (
-                <Box className="oc-app-bar--auth" sx={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+                <>
                   {/* MD3's 40dp buttons; the last 12px from the bar's end. */}
                   {/* MD3's text and outlined buttons, in the bar's action color. */}
                   <Button variant="text" component={Link} to="/login" onClick={captureContinueUrl} sx={{ height: 40, whiteSpace: 'nowrap', color: 'var(--oc-app-bar-action)' }}>
@@ -279,7 +279,7 @@ export default function AppBar() {
                   <Button variant="outlined" component={Link} to="/signup" onClick={captureContinueUrl} sx={{ height: 40, whiteSpace: 'nowrap', ml: 1, mr: { xs: 1, sm: 0 }, color: 'var(--oc-app-bar-action)', borderColor: 'var(--oc-app-bar-outline)' }}>
                     {t('signup')}
                   </Button>
-                </Box>
+                </>
               )}
               {canAccessDashboard && !isSmall && (
                 <Button className="oc-app-bar--dashboard" component={Link} to="/dashboard" startIcon={dashboardItem.icon} aria-current={current('/dashboard')} sx={[NAV_LINK_SX, { mr: 1 }]}>

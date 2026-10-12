@@ -439,7 +439,6 @@ export default function SearchBar() {
         onFocus={onSearchbarFocus}
       >
         <Box
-          className="oc-search-bar--box"
           sx={{
             boxShadow: SEARCH_BAR_SHADOW,
             borderRadius: SEARCH_BAR_RADIUS,
@@ -529,7 +528,6 @@ export default function SearchBar() {
               <IconButton
                 disableRipple
                 id="oc-search-filter-btn"
-                className="oc-search-bar--filter"
                 aria-label={t('actionButton.filter.ariaLabel')}
                 sx={{ m: 0.5 }}
                 onClick={onFilterBtnClick}
