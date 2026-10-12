@@ -11,7 +11,6 @@ import InfoRounded from '@mui/icons-material/InfoRounded'
 import NewReleasesRounded from '@mui/icons-material/NewReleasesRounded'
 import VolunteerActivismRounded from '@mui/icons-material/VolunteerActivismRounded'
 import DashboardRounded from '@mui/icons-material/DashboardRounded'
-import TourRounded from '@mui/icons-material/TourRounded'
 import CaveIcon from '@/images/map/cave.svg?react'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
 import { APP_NAME, APP_TITLE } from '@/config/app.js'
@@ -19,7 +18,6 @@ import { openAboutDialog } from '@/utils/aboutDialog.js'
 import LogoIcon from './LogoIcon.jsx'
 import { resetView } from '@/redux/slices/mapSlice.jsx'
 import { LanguageButton } from '@/components/LanguagePicker.jsx'
-import { openToursDialog } from '@/tours/tourList.js'
 
 const DRAWER_WIDTH = 240
 
@@ -65,10 +63,9 @@ export function useNavItems() {
 /**
  * The phone's navigation drawer, opened from the app bar's menu button or the
  * map search bar's: its header (the logo and title, a link home, and a close
- * button), the site's pages - Take the tour (the guided tours' dialog) just
- * over What's new - then the dashboard (editors), then About last, each group
- * set apart by a divider, and the language, compact, at its foot. No Home
- * item: the header links there.
+ * button), the site's pages, then the dashboard (editors), then About last,
+ * each group set apart by a divider, and the language, compact, at its foot.
+ * No Home item: the header links there.
  *
  * @param {object} props
  * @param {boolean} props.open
@@ -77,7 +74,6 @@ export function useNavItems() {
  */
 export default function NavDrawer({ open, onClose, zIndex }) {
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
-  const { t: tTours } = useTranslation('tours')
   const { navItems, dashboardItem, canAccessDashboard, current } = useNavItems()
   const aboutItem = navItems.find((item) => item.key === 'about')
   const items = [...navItems.filter((item) => item !== aboutItem && item.key !== 'home'), ...(canAccessDashboard ? [dashboardItem] : []), aboutItem]
@@ -113,18 +109,6 @@ export default function NavDrawer({ open, onClose, zIndex }) {
             {items.map(({ key, to, icon, onClick }) => (
               <Fragment key={key}>
                 {(key === dashboardItem.key || key === aboutItem.key) && <Divider component="li" role="none" sx={{ my: 1 }} />}
-                {/* The guided tours (a dialog listing them), over What's new.
-                    The drawer closes on any click in it. */}
-                {key === 'whatsNew' && (
-                  <ListItem disablePadding>
-                    <ListItemButton className="oc-nav-drawer--tours" onClick={openToursDialog}>
-                      <ListItemIcon>
-                        <TourRounded />
-                      </ListItemIcon>
-                      <ListItemText primary={tTours('menuEntry')} />
-                    </ListItemButton>
-                  </ListItem>
-                )}
                 <ListItem disablePadding>
                   <ListItemButton component={Link} to={to} onClick={onClick} selected={Boolean(current(to))} aria-current={current(to)}>
                     {/* The Map entry's icon in the app's gold, as in the app bar. */}
