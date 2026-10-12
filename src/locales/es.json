@@ -2369,11 +2369,8 @@
     "confirmed": "{{section}} · confirmación: {{date}}",
     "stale": "{{section}} · última confirmación en {{year}}",
     "never": "{{section}} · sin confirmar aún",
-    "question": "¿Sigue siendo correcto?",
     "stillAccurate": "Sigue correcto",
     "stillAccurateLabel": "{{section}}: sigue siendo correcto",
-    "somethingChanged": "Algo cambió",
-    "somethingChangedLabel": "{{section}}: algo cambió",
     "saved": "¡Gracias! Confirmación guardada: {{section}}, {{name}}.",
     "saveError": "No se pudo guardar la confirmación. Inténtalo de nuevo.",
     "report": {
