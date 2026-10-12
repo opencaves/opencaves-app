@@ -14,7 +14,7 @@ export const WHATS_NEW_DOC_ID = 'latest'
 // by admins on the Audits page).
 export const AUDIT_LOG_COLLECTION = '_auditLog'
 
-// The beta testers' reports (the Send feedback form): written by their
+// The members' reports (the Send feedback form): written by their
 // author, read by every registered account (Ideas and fixes), closed by
 // admins (the Feedback page), emailed to them.
 export const FEEDBACK_COLLECTION = '_feedback'

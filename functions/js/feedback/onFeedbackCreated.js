@@ -38,7 +38,7 @@ export function feedbackAuthorName(author) {
 }
 
 /**
- * A tester's report (the beta's Send feedback form, _feedback): it gets its
+ * A member's report (the Send feedback form, _feedback): it gets its
  * author's name (authorName - the members reading it can't look accounts
  * up), and the admins get it by email - its kind, the page it's about, who
  * sent it, the browser (its _feedbackPrivate doc) and the message - and read
@@ -75,7 +75,7 @@ export const onFeedbackCreated = onDocumentCreated({ document: `${FEEDBACK_COLL_
     const from = author ? `${author.displayName || '-'} <${author.email || '-'}>` : report.userId
     const { html, text } = renderEmail({
       preheader: String(report.message).slice(0, 120),
-      hero: { overline: 'Beta feedback', title: `${ICONS[report.kind] || ''} ${kind}`.trim() },
+      hero: { overline: 'Feedback', title: `${ICONS[report.kind] || ''} ${kind}`.trim() },
       blocks: [
         { type: 'facts', items: [{ label: 'From', value: from }, { label: 'Page', value: page || '-', href: page || undefined }, ...(browser ? [{ label: 'Browser', value: browser }] : [])] },
         { type: 'quote', text: report.message },
@@ -86,7 +86,7 @@ export const onFeedbackCreated = onDocumentCreated({ document: `${FEEDBACK_COLL_
     await sendEmail({
       to,
       bcc,
-      subject: `[OpenCaves beta] ${kind}: ${String(report.message).split('\n')[0].slice(0, 70)}`,
+      subject: `[OpenCaves] ${kind}: ${String(report.message).split('\n')[0].slice(0, 70)}`,
       html,
       text,
       ...(replyTo && { replyTo }),

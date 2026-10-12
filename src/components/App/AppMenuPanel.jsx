@@ -31,7 +31,7 @@ import { useNewFeedbackCount } from '@/routes/feedback/useNewFeedbackCount.js'
  * header (avatar, greeting and "Manage your account" when signed in; a
  * welcome with Log in / Sign up when not), the other actions grouped on white
  * rounded sections over the card's tinted surface - among them, once signed
- * in, Ideas and fixes (/feedback: the testers' reports and what the team does
+ * in, Ideas and fixes (/feedback: the members' reports and what the team does
  * about them), Take the tour (the guided tours' dialog) and, for admins, the count of new reports beside Dashboard -
  * and the legal links at the bottom. Rendered in AppMenu's
  * Popover.
@@ -168,7 +168,7 @@ export default function AppMenuPanel({ onClose, titleId }) {
 
       <List component="div" disablePadding sx={sectionSx}>
         <LanguageListItem sx={rowSx} />
-        {/* The beta: tell the team about a bug, something misleading, an idea. */}
+        {/* Tell the team about a bug, something misleading, an idea. */}
         <ListItemButton
           className="oc-app-menu--feedback"
           onClick={() => {

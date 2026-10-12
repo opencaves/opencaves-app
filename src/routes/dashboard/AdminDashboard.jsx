@@ -51,7 +51,7 @@ const dashboardItemSx = (theme) => ({
  * editors the caves, systems, connections and reference data; admins also
  * the users, map layers, feedback (with the count of new reports) and
  * audits. Anyone who isn't an admin gets Ideas and fixes instead: the
- * testers' reports, to read (/feedback).
+ * members' reports, to read (/feedback).
  */
 export default function AdminDashboard() {
   const { t } = useTranslation('dashboard')
@@ -59,7 +59,7 @@ export default function AdminDashboard() {
   const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
   const isEditor = roles.includes('editor')
   const isAdmin = roles.includes('admin')
-  // The testers' reports still to read.
+  // The members' reports still to read.
   const newFeedback = useNewFeedbackCount(isAdmin)
   const mapsToProcess = useMapsToProcess().toProcess.length
 
@@ -185,7 +185,7 @@ export default function AdminDashboard() {
             </Box>
           )}
 
-          {/* Everyone else: the testers' reports, to read (Ideas and fixes) -
+          {/* Everyone else: the members' reports, to read (Ideas and fixes) -
               the admins' Feedback entry above manages them. */}
           {!isAdmin && (
             <Box component="section" className="oc-admin-dashboard--feedback" sx={{ gridArea: 'admin' }}>

@@ -1180,7 +1180,7 @@
     "manageMapLayers": "Capas del mapa",
     "manageFeedback": "Comentarios",
     "followFeedback": "Ideas y correcciones",
-    "followFeedbackText": "Lo que han señalado los participantes de la beta y lo que viene",
+    "followFeedbackText": "Lo que han señalado los miembros y lo que viene",
     "newFeedback_one": "{{count}} nuevo",
     "newFeedback_other": "{{count}} nuevos",
     "manageAudits": "Auditorías",
@@ -1800,7 +1800,7 @@
     },
     "members": {
       "title": "Ideas y correcciones",
-      "intro": "Lo que han señalado los participantes de la beta y lo que hace el equipo de OpenCaves al respecto: sigue lo que viene.",
+      "intro": "Lo que han señalado los miembros y lo que hace el equipo de OpenCaves al respecto: sigue lo que viene.",
       "you": "Tú",
       "someone": "Un miembro"
     },

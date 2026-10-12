@@ -41,7 +41,7 @@ const subscribe = (listener) => {
 }
 
 /**
- * How many testers' reports are still new (stage new) - the account button's
+ * How many members' reports are still new (stage new) - the account button's
  * badge, its menu's Dashboard entry and the dashboard's Feedback entry show
  * it. Admins only (firestore.rules): 0 for anyone else. Every user shares one
  * Firestore listener.

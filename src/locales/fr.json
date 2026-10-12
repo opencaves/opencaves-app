@@ -1179,7 +1179,7 @@
     "manageMapLayers": "Couches de la carte",
     "manageFeedback": "Commentaires",
     "followFeedback": "Idées et corrections",
-    "followFeedbackText": "Ce que les testeurs ont signalé, et ce qui s’en vient",
+    "followFeedbackText": "Ce que les membres ont signalé, et ce qui s’en vient",
     "newFeedback_one": "{{count}} nouveau",
     "newFeedback_other": "{{count}} nouveaux",
     "manageAudits": "Audits",
@@ -1799,7 +1799,7 @@
     },
     "members": {
       "title": "Idées et corrections",
-      "intro": "Ce que les testeurs ont signalé, et ce que l’équipe d’OpenCaves en fait : suivez ce qui s’en vient.",
+      "intro": "Ce que les membres ont signalé, et ce que l’équipe d’OpenCaves en fait : suivez ce qui s’en vient.",
       "you": "Vous",
       "someone": "Un membre"
     },

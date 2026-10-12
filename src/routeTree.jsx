@@ -418,7 +418,7 @@ export const routes = [
                 ...requireAdmin(() => import('@/routes/audits/Audits.jsx')),
               },
               {
-                // The beta testers' reports (Send feedback), listed like
+                // The members' reports (Send feedback), listed like
                 // GitHub's issues (?state, q, kind, stage, sort)... Every
                 // registered account reads them (Ideas and fixes: what's
                 // coming), admins manage them; anonymous visitors are sent

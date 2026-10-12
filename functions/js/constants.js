@@ -21,7 +21,7 @@ export const CAVE_RATINGS_COLL_NAME = '_caveRatings'
 // the page reads.
 export const WHATS_NEW_COLL_NAME = '_whatsNew'
 export const WHATS_NEW_DOC_ID = 'latest'
-// The beta testers' reports (Send feedback): read by every registered
+// The members' reports (Send feedback): read by every registered
 // account (Ideas and fixes), managed by admins, emailed to them.
 export const FEEDBACK_COLL_NAME = '_feedback'
 // What of a report only admins read (its browser, its reply token), apart
