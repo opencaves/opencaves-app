@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, ButtonBase, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, useTheme } from '@mui/material'
@@ -9,6 +9,7 @@ import UseAsCoverImage from '@/components/MediaPane/menuItems/UseAsCoverImage.js
 import DeleteMedia, { useDeleteMediaConfirm } from '@/components/MediaPane/menuItems/DeleteMedia.jsx'
 import noop from '@/utils/noop.js'
 import { getStorageService } from '@/config/firebase.js'
+import { CoverBadge } from '@/components/Reorder/Reorderable.jsx'
 import { mediaItemPadding, mediaItemRadius } from './config.js'
 
 // How long the active thumbnail follows the list's growth after it becomes active.
@@ -22,8 +23,10 @@ const FOLLOW_GROWTH_MS = 2000
  * @param {object} props.mediaAsset - The photo (a CaveAsset document).
  * @param {boolean} [props.isActive] - The one shown.
  * @param {(mediaAsset: object, isActive: boolean) => void} [props.onBeforeDelete] - Before it's deleted.
+ * @param {boolean} [props.isDragging] - Being dragged: raised.
+ * @param {boolean} [props.isCover] - The first of a list editors reorder: says it's the cover.
  */
-export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = noop, ...props }) {
+function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = noop, isDragging = false, isCover = false, ...props }) {
 
   const { direction, palette } = useTheme()
   const { t } = useTranslation('mediaPane')
@@ -141,6 +144,8 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
             backgroundColor: '#181818',
             width: '100%',
             textAlign: 'center',
+            transition: (theme) => theme.transitions.create('box-shadow', { duration: theme.sys.motion.duration.standard, easing: theme.sys.motion.easing.standard }),
+            ...(isDragging && { boxShadow: 8 }),
             ...activeStyles
           }}
         >
@@ -155,6 +160,7 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
             alt=''
           />
         </ButtonBase>
+        {isCover && <CoverBadge sx={{ top: 8, insetInlineStart: 8 }} />}
         <Box
           className="oc-media-thumbnail--toolbar"
           sx={{
@@ -226,3 +232,7 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
     </Box>
   )
 }
+
+// Re-rendered only when its own props change (a drag starting in the list
+// re-renders the list).
+export default memo(MediaThumbnail)

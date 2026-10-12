@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { Children, isValidElement, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Dialog, IconButton, Typography } from '@mui/material'
+import { Box, Button, Dialog, IconButton, Typography, styled } from '@mui/material'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import { useSmall } from '@/hooks/useSmall.jsx'
+import Reorderable, { CoverBadge } from '@/components/Reorder/Reorderable.jsx'
 
 // MD3's carousel, uncontained layout
 // (m3.material.io/components/carousel/specs): 16dp leading padding, 8dp
@@ -27,6 +28,10 @@ const PARALLAX = 0.2
 // reverse. MD3's emphasized easing, long duration. With reduced motion, a
 // fade.
 const SWAP = { duration: 450, easing: 'cubic-bezier(0.2, 0, 0, 1)' }
+// The pane's items: their visual's corners, and a photo's <picture> filling
+// it (its <img> at 100% of it: a photo wider than its tile kept its own
+// height otherwise, a band of the tile left under it).
+const GRID_SX = { '& .oc-carousel--media': { borderRadius: `${ITEM_RADIUS}px` }, '& .oc-carousel--media > picture': { width: '100%', height: '100%' } }
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 /**
@@ -43,8 +48,9 @@ const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: r
  * @param {string} [props.gridMinWidth='200px'] - A column's narrowest.
  * @param {number | string} [props.gridGap=2]
  * @param {React.ReactNode} [props.children]
+ * @param {ShowAllSortable} [props.sortable] - Editors reorder the items (each `<li>` keyed by its id).
  */
-export function ShowAllPane({ open, onClose, title, gridMinWidth = '200px', gridGap = 2, children }) {
+export function ShowAllPane({ open, onClose, title, gridMinWidth = '200px', gridGap = 2, children, sortable }) {
   const { t } = useTranslation('app')
   const isPhone = useSmall()
   const swap = isPhone && !prefersReducedMotion()
@@ -113,12 +119,69 @@ export function ShowAllPane({ open, onClose, title, gridMinWidth = '200px', grid
         </Typography>
       </Box>
       <Box sx={{ overflowY: 'auto', overflowX: 'hidden', px: 2, pb: 2 }}>
-        <Grid gridMinWidth={gridMinWidth} gridGap={gridGap} label={title} columns={isPhone ? 2 : undefined} sx={{ '& .oc-carousel--media': { borderRadius: `${ITEM_RADIUS}px` } }}>
-          {children}
-        </Grid>
+        {sortable ? (
+          <SortableGrid sortable={sortable} wrap={(items) => <Grid gridMinWidth={gridMinWidth} gridGap={gridGap} label={title} columns={isPhone ? 2 : undefined} sx={GRID_SX}>{items}</Grid>}>
+            {children}
+          </SortableGrid>
+        ) : (
+          <Grid gridMinWidth={gridMinWidth} gridGap={gridGap} label={title} columns={isPhone ? 2 : undefined} sx={GRID_SX}>
+            {children}
+          </Grid>
+        )}
       </Box>
     </Dialog>
   )
+}
+
+/**
+ * A Show all pane's items, editors reordering them: what to reorder and how
+ * it's saved.
+ *
+ * @typedef {object} ShowAllSortable
+ * @property {boolean} enabled - Editors: sortable (the others see the items as they are).
+ * @property {string[]} ids - The items' ids, in the order shown (each `<li>`'s key).
+ * @property {(ids: string[]) => void} onReorder - The new order, on a drop.
+ * @property {(id: string) => string} [groupOf] - An item's group, which it can't leave (a cave's maps: their system).
+ * @property {boolean} [coverFirst] - The first item is the cover (photos): it says so.
+ */
+
+// A sortable item: raised while dragged. Styled once (not an sx computed per
+// item and render: a drag starting re-renders them all).
+const SortableItemLi = styled('li')(({ theme }) => ({
+  '& .oc-carousel--media': { transition: theme.transitions.create('box-shadow', { duration: theme.sys.motion.duration.standard, easing: theme.sys.motion.easing.standard }) },
+  '&[data-dragging] .oc-carousel--media': { boxShadow: theme.shadows[8] },
+}))
+const COVER_BADGE_SX = { top: 12, insetInlineStart: 12 }
+
+/**
+ * The pane's items, sortable by editors ({@link Reorderable}): each `<li>`
+ * child drawn again, dragged as a whole (it still opens on a click),
+ * lifted while dragged (MD3's dragged state: a raised shadow), and, with
+ * coverFirst, "Cover" on the first.
+ *
+ * @param {object} props
+ * @param {ShowAllSortable} props.sortable
+ * @param {(items: React.ReactNode[]) => React.ReactNode} props.wrap - Puts the items in the grid.
+ * @param {React.ReactNode} [props.children] - `<li>`s keyed by their ids.
+ */
+function SortableGrid({ sortable, wrap, children }) {
+  const byId = new Map()
+  Children.forEach(children, (child) => {
+    if (isValidElement(child) && child.key != null) byId.set(String(child.key), child)
+  })
+  const ids = sortable.ids.filter((id) => byId.has(id))
+  /** @type {SortableRenderItem} */
+  const renderItem = (id, index, state) => {
+    const child = /** @type {React.ReactElement<{children?: React.ReactNode}>} */ (byId.get(id))
+    if (!state) return child
+    return (
+      <SortableItemLi key={id} {...state.itemProps} className="oc-carousel--sortable-item" data-dragging={state.isDragging || undefined}>
+        {child.props.children}
+        {sortable.coverFirst && index === 0 && <CoverBadge sx={COVER_BADGE_SX} />}
+      </SortableItemLi>
+    )
+  }
+  return <Reorderable enabled={sortable.enabled} ids={ids} renderItem={renderItem} onReorder={sortable.onReorder} groupOf={sortable.groupOf} wrap={wrap} />
 }
 
 /**

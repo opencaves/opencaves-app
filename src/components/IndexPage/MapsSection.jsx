@@ -6,7 +6,8 @@ import { Box, ButtonBase, Typography } from '@mui/material'
 import MapRounded from '@mui/icons-material/MapRounded'
 import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded'
 import mapsModel from '@/models/MapModel.js'
-import { compareMapsByDate, getSistemaMapRefs } from '@/utils/sistemaMaps.js'
+import { getSistemaMapRefs, orderSistemaMaps } from '@/utils/sistemaMaps.js'
+import { useMapReorder } from '@/hooks/useMapReorder.js'
 import IndexSection from './IndexSection.jsx'
 import MediaStrip from '@/components/ResultPane/MediaStrip.jsx'
 import { PAGE_STRIP } from '@/config/resultPane.js'
@@ -50,8 +51,21 @@ export default function MapsSection({ sistemaId, sistemas, connections, pagePath
   const requireLogin = useRequireLogin('maps')
   const pendingMapsOf = useCallback((item) => item.kind === 'map' && item.sistemaId === sistemaId, [sistemaId])
   const byId = new Map(allMaps.map((map) => [map.id, map]))
-  // Newest first, the undated last (as every list of maps).
-  const maps = sistemaId ? getSistemaMapRefs(sistemaId, sistemas, connections).map(({ id }) => byId.get(id)).filter(Boolean).sort(compareMapsByDate) : []
+  // Each system's together (its own first), in its order: the editors',
+  // the maps they haven't placed (new ones) first, newest first, the undated
+  // last (as every list of maps).
+  const sorted = sistemaId
+    ? orderSistemaMaps(
+        getSistemaMapRefs(sistemaId, sistemas, connections)
+          .map(({ id, sistemaId: ownerId }) => byId.get(id) && { ...byId.get(id), sistemaId: ownerId })
+          .filter(Boolean),
+        sistemas,
+      )
+    : []
+  // Editors reorder them in Show all, each among its own system's.
+  const [order, reorder, groupOf] = useMapReorder(sorted, sistemas)
+  const sortedById = new Map(sorted.map((map) => [map.id, map]))
+  const maps = order.map((id) => sortedById.get(id)).filter(Boolean)
   if (loading || (maps.length === 0 && !sistemaId && !isEditor)) return null
   // A map opens in the page's gallery; named by its name and year.
   const mapLink = (map) => ({ component: RouterLink, to: `${pagePath}/maps/${map.id}`, state: { fromPage: true }, 'aria-label': [map.name, mapYear(map)].filter(Boolean).join(', ') })
@@ -72,7 +86,7 @@ export default function MapsSection({ sistemaId, sistemas, connections, pagePath
               </ButtonBase>
             ))}
           </MediaStrip>
-          <StripShowAll title={title}>
+          <StripShowAll title={title} sortable={isEditor ? { enabled: true, ids: maps.map((map) => map.id), onReorder: reorder, groupOf } : undefined}>
             {maps.map((map) => (
               <li key={map.id}>
                 <ButtonBase {...mapLink(map)} className="oc-maps-section--item oc-carousel--media" sx={{ display: 'block', width: '100%', aspectRatio: '4 / 3', textAlign: 'left', color: 'inherit', textDecoration: 'none' }}>

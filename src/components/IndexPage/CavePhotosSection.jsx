@@ -10,6 +10,7 @@ import AddMediasButton from '@/components/MediaPane/AddMediasButton.jsx'
 import PendingUploadsStrip from '@/components/Offline/PendingUploadsStrip.jsx'
 import { useRequireLogin } from '@/hooks/useRequireLogin.jsx'
 import { useCaveAssetsList } from '@/models/CaveAsset.js'
+import { usePhotoReorder } from '@/hooks/usePhotoReorder.js'
 import Picture from '@/components/Picture.jsx'
 import MediaStrip from '@/components/ResultPane/MediaStrip.jsx'
 import StripShowAll from '@/components/ResultPane/StripShowAll.jsx'
@@ -37,8 +38,11 @@ export default function CavePhotosSection({ caveId, title }) {
   const requireLogin = useRequireLogin('photos')
   const pendingPhotosOf = useCallback((item) => item.kind === 'photo' && item.caveId === caveId, [caveId])
   const [list, loading] = useCaveAssetsList(caveId)
+  // Editors reorder them in Show all; the first is the cover.
+  const [order, reorder] = usePhotoReorder(caveId, list)
   if (loading || !list) return null
-  const photos = list.docs.map((doc) => doc.data())
+  const byId = new Map(list.docs.map((doc) => [doc.id, doc.data()]))
+  const photos = order.map((id) => byId.get(id)).filter(Boolean)
   const photoPath = (id) => `/caves/${caveId}/photos/${id}`
   const shown = photos.slice(0, MAX_PHOTOS)
   const { height, gap, itemWidth: width, itemHeight } = PAGE_STRIP
@@ -82,7 +86,7 @@ export default function CavePhotosSection({ caveId, title }) {
           <MediaStrip start="start" fill className="oc-cave-page--photo-strip" itemHeight={height} height={itemHeight} gap={gap} rebuildKey={shown.map((photo) => photo.id).join(' ')}>
             {items}
           </MediaStrip>
-          <StripShowAll title={title} gridMinWidth="240px">
+          <StripShowAll title={title} gridMinWidth="240px" sortable={isEditor ? { enabled: true, ids: photos.map((photo) => photo.id), onReorder: reorder, coverFirst: true } : undefined}>
             {allItems}
           </StripShowAll>
         </Box>
