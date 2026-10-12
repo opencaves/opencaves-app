@@ -89,6 +89,38 @@
  */
 
 /**
+ * What the caves' search criteria test of a cave (utils/caveFilters.js's
+ * caveFacts): from its record, or sent as such by a server-rendered list
+ * (ssr/pageState.js), which leaves the fields out.
+ *
+ * @typedef {object} CaveFacts
+ * @property {string} id
+ * @property {string|null} name
+ * @property {boolean} located - It has coordinates.
+ * @property {boolean} cenoteEntrance
+ * @property {string|null} area - Its area's name.
+ * @property {string|null} access
+ * @property {string|null} accessibility
+ * @property {boolean} hasDescription
+ * @property {boolean} hasDirections - It has a getting there ({@link Cave.direction}).
+ * @property {boolean} feesKnown - Its fees are known (yes or no).
+ * @property {boolean} facilitiesKnown
+ * @property {boolean} hasParking
+ */
+
+/**
+ * The caves' search filters (utils/caveFilters.js), each kind's values as
+ * the address holds them.
+ *
+ * @typedef {object} CaveFilters
+ * @property {string[]} type - 'entrance', 'other'.
+ * @property {string[]} area - Area slugs ('unknown': no area).
+ * @property {string[]} access - Access ids ('unknown': none).
+ * @property {string[]} accessibility - Accessibility ids ('unknown': none).
+ * @property {string[]} missing - What the caves lack (caveFilters.js's MISSING_CRITERIA).
+ */
+
+/**
  * One exploration of a system (a sistema's `explorations`).
  *
  * @typedef {object} Exploration

@@ -382,6 +382,22 @@ const converter = {
   }
 }
 
+/**
+ * The caves that have photos - those with a cover outside the trash (every
+ * cave with photos has one) - live, from one query (the server's on /caves,
+ * which it rendered: ssr/pageState.js). The caves' No photo filter
+ * (utils/caveFilters.js).
+ *
+ * @returns {{caveIds: Set<string>|null, loading: boolean, error: Error|undefined}} caveIds: null until read.
+ */
+export function useCoverCaveIds() {
+  // No converter: only the caveId is read (and the server sends no more).
+  const q = useMemo(() => query(COLL, where('type', '==', 'image'), where('isCover', '==', true)), [])
+  const [snapshot, loading, error] = useSsrCollection('covers', q)
+  const caveIds = useMemo(() => (snapshot ? new Set(snapshot.docs.filter((d) => !isTrashed(d)).map((d) => d.get('caveId'))) : null), [snapshot])
+  return { caveIds, loading, error }
+}
+
 export const getById = CaveAsset.getById
 export const deleteById = CaveAsset.deleteById
 export const restoreById = CaveAsset.restoreById

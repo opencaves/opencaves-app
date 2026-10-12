@@ -37,8 +37,8 @@ const EXPLORE = [
 const CONTRIBUTE = [
   { key: 'rate', icon: <StarOutlineRounded /> },
   { key: 'addCave', icon: <AddLocationAltRounded />, to: '/caves' },
-  { key: 'coordinates', icon: <EditLocationAltRounded />, to: '/caves?filter=no-coordinates' },
-  { key: 'names', icon: <DriveFileRenameOutlineRounded />, to: '/caves?filter=unnamed' },
+  { key: 'coordinates', icon: <EditLocationAltRounded />, to: '/caves?missing=coordinates' },
+  { key: 'names', icon: <DriveFileRenameOutlineRounded />, to: '/caves?missing=name' },
   { key: 'checkFacts', icon: <FactCheckRounded /> },
   { key: 'access', icon: <KeyRounded /> },
   { key: 'texts', icon: <EditNoteRounded /> },

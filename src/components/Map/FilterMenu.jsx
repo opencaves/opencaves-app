@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Grid, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer, Switch, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import Close from '@mui/icons-material/CloseRounded'
 import { toggleFilterMenu, setResultPaneSmOpen } from '@/redux/slices/appSlice.jsx'
-import { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnconfirmedCoordinates, setShowCenoteEntrances, setShowOtherCenotes, setShowAccesses, setShowAccessibilities } from '@/redux/slices/searchSlice.jsx'
+import { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnconfirmedCoordinates, setShowCenoteEntrances, setShowOtherCenotes, setMissing, setShowAreas, setShowAccesses, setShowAccessibilities } from '@/redux/slices/searchSlice.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
+import { slugify } from '@/utils/slug.js'
+import { MISSING_CRITERIA, caveFacts, caveMisses } from '@/utils/caveFilters.js'
+import { useCoverCaveIds } from '@/models/CaveAsset.js'
 import './FilterMenu.scss'
 
 /**
@@ -169,6 +172,9 @@ export default function MapFilterMenu() {
   const showAccessibilities = useSelector((/** @type {RootState} */ state) => state.search.showAccessibilities)
 
   const dataStats = useSelector((/** @type {RootState} */ state) => state.map.dataStats)
+  const mapData = useSelector((/** @type {RootState} */ state) => state.map.data)
+  const missing = useSelector((/** @type {RootState} */ state) => state.search.missing) || []
+  const { caveIds: covers } = useCoverCaveIds()
 
   const dispatch = useDispatch()
   const { t } = useTranslation('filter')
@@ -215,14 +221,16 @@ export default function MapFilterMenu() {
     dispatch(setShowAccesses(newAccesses))
   }
 
+  function handleMissing(value) {
+    const on = !missing.includes(value)
+    // In the criteria's order, as the caves' list's address.
+    dispatch(setMissing(MISSING_CRITERIA.map((criterion) => criterion.value).filter((item) => (item === value ? on : missing.includes(item)))))
+  }
+
+  // An area's switch: stored only once turned off or back on (an area the
+  // list doesn't name is shown).
   function handleShowAreas(checked, areaKey) {
-    const newAreas = showAreas.map((area) => {
-      if (area.key === areaKey) {
-        return { ...area, checked }
-      }
-      return area
-    })
-    dispatch(setShowAccesses(newAreas))
+    dispatch(setShowAreas([...showAreas.filter(({ key }) => key !== areaKey), { key: areaKey, checked }]))
   }
 
   function handleShowAccessibilities(checked, accessKey) {
@@ -243,6 +251,27 @@ export default function MapFilterMenu() {
   const accessibilities = /** @type {{ key: string, label: string, description: string }[]} */ (t('accessibility.items', { returnObjects: true }))
   const accesses = /** @type {{ key: string, label: string, description: string }[]} */ (t('access.items', { returnObjects: true }))
   const isSmall = useSmall()
+
+  // The areas the map's caves name, by slug (two spellings are one area),
+  // with their count, alphabetically; the caves with none last.
+  const areaItems = useMemo(() => {
+    const areas = new Map()
+    mapData.forEach((cave) => {
+      const key = slugify(cave.area) || 'unknown'
+      const area = areas.get(key) || { key, name: key === 'unknown' ? null : cave.area, count: 0 }
+      area.count++
+      areas.set(key, area)
+    })
+    return [...areas.values()].sort((a, b) => (!a.name ? 1 : !b.name ? -1 : a.name.localeCompare(b.name)))
+  }, [mapData])
+
+  // Needs help: how many of the map's caves lack each thing (the map shows
+  // only caves with coordinates: not that one); the photos', once the
+  // covers are read.
+  const missingItems = useMemo(() => {
+    const facts = mapData.map((cave) => caveFacts(cave))
+    return MISSING_CRITERIA.filter(({ value }) => value !== 'coordinates').map(({ value }) => ({ value, count: value === 'photo' && !covers ? '' : facts.filter((item) => caveMisses(item, value, covers)).length }))
+  }, [mapData, covers])
 
   return (
     <SwipeableDrawer
@@ -292,14 +321,22 @@ export default function MapFilterMenu() {
           <FilterMenuItem primary={t('cenoteType.showOtherCenotes')} nb={getDataStat('cenoteEntrance', false) + getDataStat('cenoteEntrance', 'unknown')} onClick={handleShowOtherCenotes} checked={showOtherCenotes} />
         </List>
 
+        <FilterMenuSectionHeader>{t('needsHelp.heading')}</FilterMenuSectionHeader>
+        {/* Unlike the other sections' switches (what's shown), these narrow. */}
+        <Typography variant="mapTextSecondary" component="p" sx={{ px: 2, pb: 1 }}>
+          {t('needsHelp.hint')}
+        </Typography>
+        <List disablePadding className="oc-filter-menu--needs-help">
+          {missingItems.map(({ value, count }) => (
+            <FilterMenuItem key={value} primary={t(`needsHelp.items.${value}`)} nb={count} checked={missing.includes(value)} onClick={() => handleMissing(value)} />
+          ))}
+        </List>
+
         <FilterMenuSectionHeader>{t('areas.heading')}</FilterMenuSectionHeader>
         <List disablePadding>
-          {showAreas.map(({ key, checked }) => {
-            const primary = `${key}`
-            const nb = getDataStat('area', key)
-            const onClick = (e) => handleShowAreas(!checked, key)
-
-            return <FilterMenuItem key={key} primary={primary} nb={nb} checked={checked} onClick={onClick} />
+          {areaItems.map(({ key, name, count }) => {
+            const checked = !showAreas.some((area) => area.key === key && !area.checked)
+            return <FilterMenuItem key={key} primary={name || t('areas.unknown')} nb={count} checked={checked} onClick={() => handleShowAreas(!checked, key)} />
           })}
         </List>
 

@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import { logger } from 'firebase-functions/v2'
 import { db } from '../init.js'
-import { CAVES_COLL_NAME } from '../constants.js'
+import { CAVES_ASSETS_COLL_NAME, CAVES_COLL_NAME } from '../constants.js'
 import { renderSsrPage, shellFor } from './shared.js'
 import { groupIndexData } from './indexData.js'
 
@@ -98,11 +98,18 @@ const rendered = new Map()
 
 async function readData() {
   if (dataCache && Date.now() - dataCache.at < DATA_TTL_MS) return dataCache.data
-  const [entries, mapsSnap] = await Promise.all([
+  const [entries, mapsSnap, coversSnap] = await Promise.all([
     Promise.all(Object.entries(DATA_COLLECTIONS).map(async ([key, name]) => [key, (await db.collection(name).get()).docs.map((doc) => ({ id: doc.id, ...plain(doc.data()) }))])),
     db.collection('maps').get(),
+    // The cover photos (one per cave that has photos): which caves have
+    // none, /caves' No photo filter (src/ssr/pageState.js keeps their caveId).
+    db.collection(CAVES_ASSETS_COLL_NAME).where('type', '==', 'image').where('isCover', '==', true).get(),
   ])
-  const data = { raw: Object.fromEntries(entries), maps: mapsSnap.docs.map((doc) => ({ id: doc.id, data: plain(doc.data()) })) }
+  const data = {
+    raw: Object.fromEntries(entries),
+    maps: mapsSnap.docs.map((doc) => ({ id: doc.id, data: plain(doc.data()) })),
+    covers: coversSnap.docs.map((doc) => ({ id: doc.id, data: plain(doc.data()) })),
+  }
   dataCache = { data, at: Date.now() }
   return data
 }
@@ -162,9 +169,9 @@ export async function renderWithApp(req, meta) {
   if (!ssr || !(await isSiteBuild(req, ssr))) return null
   const page = ssr.pageOf(req.path)
   if (!page) return null
-  const { raw, maps } = await readData()
+  const { raw, maps, covers } = await readData()
   const assets = page.kind === 'cave'
-    ? (await db.collection('cavesAssets').where('caveId', '==', page.id).where('type', '==', 'image').get()).docs.map((doc) => ({ id: doc.id, data: plain(doc.data()) }))
+    ? (await db.collection(CAVES_ASSETS_COLL_NAME).where('caveId', '==', page.id).where('type', '==', 'image').get()).docs.map((doc) => ({ id: doc.id, data: plain(doc.data()) }))
     : []
   // Its host: the emulators' file addresses on localhost (CaveAsset.js).
   const host = req.get('x-forwarded-host') || req.get('host') || 'opencaves.org'
@@ -174,7 +181,7 @@ export async function renderWithApp(req, meta) {
   const cached = rendered.get(url)
   if (cached?.raw === raw) return cached.html
   const started = Date.now()
-  const result = await ssr.render({ url, raw, maps, assets, title: meta.title })
+  const result = await ssr.render({ url, raw, maps, assets, covers, title: meta.title })
   if (result.notFound) return null
   logger.debug('[ssr] rendered', { path: req.path, ms: Date.now() - started, ...result.timings })
   const html = renderSsrPage(ssr.shell, meta, result, ssr.links(page.kind))

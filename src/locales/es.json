@@ -421,7 +421,8 @@
       "showUnconfirmedCoordinates": "Mostrar coordenadas sin confirmar"
     },
     "areas": {
-      "heading": "Zonas"
+      "heading": "Zonas",
+      "unknown": "Zona desconocida"
     },
     "access": {
       "heading": "Acceso",
@@ -461,7 +462,8 @@
           "label": "Desconocido",
           "description": "Se desconoce el acceso."
         }
-      ]
+      ],
+      "chip": "Acceso: {{label}}"
     },
     "accessibility": {
       "heading": "Accesibilidad",
@@ -501,14 +503,31 @@
           "label": "Acceso variable",
           "description": "El acceso a esta zona varía según la hora o el punto de entrada."
         }
-      ]
+      ],
+      "chip": "Accesibilidad: {{label}}"
     },
     "cenoteType": {
       "heading": "Tipo de cueva",
       "showCenoteEntrances": "Mostrar cenotes de entrada",
-      "showOtherCenotes": "Mostrar otras cuevas"
+      "showOtherCenotes": "Mostrar otras cuevas",
+      "entrance": "Cenotes de entrada",
+      "other": "Otras cuevas"
     },
-    "closeBtn": "Cerrar los filtros"
+    "closeBtn": "Cerrar los filtros",
+    "needsHelp": {
+      "heading": "Por completar",
+      "items": {
+        "coordinates": "Sin coordenadas",
+        "name": "Sin nombre",
+        "photo": "Sin foto",
+        "description": "Sin descripción",
+        "directions": "Sin indicaciones",
+        "fees": "Costos desconocidos",
+        "facilities": "Instalaciones desconocidas",
+        "parking": "Sin estacionamiento"
+      },
+      "hint": "Muestra solo las cuevas a las que les faltan todos los elementos activados."
+    }
   },
   "resultPane": {
     "title": "{{name}}",
@@ -1534,11 +1553,12 @@
     "sistemaCount_other": "{{count}} sistemas de cuevas",
     "caves": {
       "filters": {
-        "unnamed_one": "{{count}} cueva sin nombre",
-        "unnamed_other": "{{count}} cuevas sin nombre",
-        "no-coordinates_one": "{{count}} cueva sin coordenadas",
-        "no-coordinates_other": "{{count}} cuevas sin coordenadas",
-        "clear": "Mostrar todas las cuevas"
+        "add": "Agregar filtro",
+        "remove": "Quitar el filtro {{label}}",
+        "clearAll": "Borrar filtros",
+        "count_one": "{{count}} cueva coincide",
+        "count_other": "{{count}} cuevas coinciden",
+        "photosFailed": "No se pudieron leer las fotos de las cuevas: el filtro Sin foto no está disponible."
       },
       "title": "Cuevas de Yucatán por zona",
       "description": "Todos los cenotes de Yucatán, México, listados en OpenCaves por zona, cada uno con su ubicación, acceso, fotos y mapas.",
