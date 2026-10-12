@@ -43,6 +43,16 @@ function swallowClicksUntilRelease() {
   window.addEventListener('touchcancel', release, true)
 }
 
+// Escape while dragging cancels the drag only: a dialog around the list
+// (Show all) would take it first, close, and keep it from dnd-kit's
+// listener (on the document) - so it's caught first and handed to that
+// listener alone. Listened to during a drag.
+function escapeOnly(event) {
+  if (event.key !== 'Escape' || !event.isTrusted) return
+  event.stopPropagation()
+  document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', code: 'Escape' }))
+}
+
 /**
  * One item of a {@link SortableList}: its sortable state handed to the
  * list's renderItem - the props for its root (`itemProps`). Its link or
@@ -132,7 +142,9 @@ const MemoSortableItem = memo(SortableItem)
 export default function SortableList({ ids, onReorder, renderItem, wrap = (items) => items, groupOf, strategy = 'grid' }) {
   const { t } = useTranslation('reorder')
   const instructionsId = `oc-sortable-instructions-${useId().replace(/:/g, '')}`
-  const [activeId, setActiveId] = useState(null)
+  // The group of the item dragged (state only with groups: a drag starting
+  // re-renders the list then, to close the other groups' places).
+  const [activeGroup, setActiveGroup] = useState(null)
   const [announcement, setAnnouncement] = useState('')
   const nodes = useRef(new Map())
   const refocus = useRef(null)
@@ -156,22 +168,19 @@ export default function SortableList({ ids, onReorder, renderItem, wrap = (items
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [t, ids],
   )
-  const activeGroup = activeId != null && groupOf ? groupOf(activeId) : null
 
-  // Escape while dragging cancels the drag only: a dialog around the list
-  // (Show all) would take it first, close, and keep it from dnd-kit's
-  // listener (on the document) - so it's caught first and handed to that
-  // listener alone.
-  useEffect(() => {
-    if (activeId == null) return undefined
-    const onKeyDown = (event) => {
-      if (event.key !== 'Escape' || !event.isTrusted) return
-      event.stopPropagation()
-      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', code: 'Escape' }))
-    }
-    window.addEventListener('keydown', onKeyDown, true)
-    return () => window.removeEventListener('keydown', onKeyDown, true)
-  }, [activeId])
+  useEffect(() => () => window.removeEventListener('keydown', escapeOnly, true), [])
+
+  function dragStarted(id) {
+    if (groupOf) setActiveGroup(groupOf(id))
+    window.addEventListener('keydown', escapeOnly, true)
+    swallowClicksUntilRelease()
+  }
+
+  function dragEnded() {
+    if (groupOf) setActiveGroup(null)
+    window.removeEventListener('keydown', escapeOnly, true)
+  }
 
   // A keyboard move keeps the focus on the item moved.
   useEffect(() => {
@@ -223,7 +232,7 @@ export default function SortableList({ ids, onReorder, renderItem, wrap = (items
   const onMoveKey = useCallback((id, event) => moveKeyRef.current(id, event), [])
 
   function onDragEnd({ active, over }) {
-    setActiveId(null)
+    dragEnded()
     if (!over || active.id === over.id) return
     if (groupOf && groupOf(String(active.id)) !== groupOf(String(over.id))) return
     const from = ids.indexOf(String(active.id))
@@ -237,12 +246,9 @@ export default function SortableList({ ids, onReorder, renderItem, wrap = (items
       sensors={sensors}
       collisionDetection={closestCenter}
       accessibility={accessibility}
-      onDragStart={({ active }) => {
-        setActiveId(String(active.id))
-        swallowClicksUntilRelease()
-      }}
+      onDragStart={({ active }) => dragStarted(String(active.id))}
       onDragEnd={onDragEnd}
-      onDragCancel={() => setActiveId(null)}
+      onDragCancel={dragEnded}
     >
       <SortableContext items={ids} strategy={strategy === 'vertical' ? verticalListSortingStrategy : rectSortingStrategy}>
         {wrap(ids.map((id, index) => <MemoSortableItem key={id} id={id} index={index} dropDisabled={activeGroup != null && groupOf(id) !== activeGroup} render={renderItem} describedBy={instructionsId} onMoveKey={onMoveKey} register={register} />))}

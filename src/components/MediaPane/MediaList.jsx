@@ -95,7 +95,7 @@ export default function MediaList() {
 
                 return (
                   <Collapse key={mediaAsset.id} {...sortable?.transitionProps} easing={theme.sys.motion.easing.emphasizedAccelerate}>
-                    <Box {...sortable?.itemProps}>
+                    <Box {...sortable?.itemProps} className="oc-media-list--item">
                     <MediaThumbnail
                       mediaAsset={mediaAsset}
                       isActive={isActive}
