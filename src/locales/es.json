@@ -526,7 +526,6 @@
         "directions": "Sin indicaciones",
         "fees": "Costos desconocidos",
         "facilities": "Instalaciones desconocidas",
-        "parking": "Sin estacionamiento",
         "system": "Sin sistema"
       },
       "hint": "Muestra solo las cuevas a las que les faltan todos los elementos activados."

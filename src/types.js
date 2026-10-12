@@ -106,7 +106,6 @@
  * @property {boolean} hasDirections - It has a getting there ({@link Cave.direction}).
  * @property {boolean} feesKnown - Its fees are known (yes or no).
  * @property {boolean} facilitiesKnown
- * @property {boolean} hasParking
  * @property {boolean} hasVideo - It has a video ({@link Cave.videos}).
  * @property {boolean} hasSystem - It's attached to a cave system ({@link Cave.sistemaId}).
  */
@@ -375,6 +374,20 @@
  * @property {Array<object|string>} [media] - Photos ({ id, thumbnailRevision, viewThumbnailRevision }) or video URLs: the first few.
  * @property {string|null} at - ISO date of the change (a group's latest).
  * @property {string|null} authorName - Its author's display name.
+ */
+
+/**
+ * How popular the records of a kind are (`_popularity/caves`,
+ * `_popularity/sistemas`, built nightly by the server's refreshPopularity;
+ * its twin is in functions/js/types.js): public, by record id - for the
+ * search fields' suggestions, the most visited first (to come:
+ * hooks/usePopularity.js).
+ *
+ * @typedef {object} Popularity
+ * @property {Record<string, number>} views - Its pages' views in Google Analytics, the last 90 days (a
+ *   cave: /caves/<id> and /map/<id>; a system: /sistemas/<id>).
+ * @property {Record<string, number>} [saves] - Caves: how many accounts saved it.
+ * @property {Timestamp} [updatedAt]
  */
 
 /**

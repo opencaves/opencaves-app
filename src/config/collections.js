@@ -14,6 +14,14 @@ export const ERROR_REPORTS_COLLECTION = '_errorReports'
 export const WHATS_NEW_COLLECTION = '_whatsNew'
 export const WHATS_NEW_DOC_ID = 'latest'
 
+// How popular the caves and the cave systems are, built nightly by the
+// server (refreshPopularity) into one public document per kind, by id:
+// _popularity/caves { views, saves, updatedAt } - their pages' views
+// (Google Analytics) and how many accounts saved them - and
+// _popularity/sistemas { views, updatedAt }. For the search fields'
+// suggestions, the most visited first (to come: hooks/usePopularity.js).
+export const POPULARITY_COLLECTION = '_popularity'
+
 // Who changed or deleted what (written by the server's audit trigger, read
 // by admins on the Audits page).
 export const AUDIT_LOG_COLLECTION = '_auditLog'

@@ -122,3 +122,14 @@
  * @property {string|null} at - ISO date of the change (a group's latest).
  * @property {string|null} authorName - Its author's display name.
  */
+
+/**
+ * How popular the records of a kind are (`_popularity/caves`,
+ * `_popularity/sistemas`; refreshPopularity): public, by record id.
+ *
+ * @typedef {object} Popularity
+ * @property {Record<string, number>} views - Its pages' views in Google Analytics, the last 90 days (a
+ *   cave: /caves/<id> and /map/<id>; a system: /sistemas/<id>).
+ * @property {Record<string, number>} [saves] - Caves: how many accounts saved it.
+ * @property {Timestamp} updatedAt
+ */

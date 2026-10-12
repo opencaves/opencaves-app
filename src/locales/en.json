@@ -526,7 +526,6 @@
         "directions": "No directions",
         "fees": "Fees unknown",
         "facilities": "Facilities unknown",
-        "parking": "No parking spot",
         "system": "No system"
       },
       "hint": "Shows only the caves missing all the items switched on."
