@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.0.0-beta-16](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-15...v1.0.0-beta-16) (2026-10-12)
+
+Directions that take you through the cave's entrance to its parking, a What's new page that opens at once, and seven more connections between cave systems.
+
+
+### Features
+
+* **Directions:** the Directions button plans the route through the cave's entrance to its parking, in Google Maps on every phone, iPhones included.
+* **What's new:** the page opens at once - its list is prepared on the server ahead of time - and shows the last list it had when you're offline.
+* **Cave-system data:** seven connections between systems reported by the Quintana Roo Speleological Survey are added, with their dates (Ramon to Naranjal, Regina to Ox Bel Ha, Kiix Pepem to Sac Pepem, Borges to Swan Lake, Mul Tun Spring to K'oox Baal, Chac Ah to Zebra, X'cacel Pequeña to Xunaan Ha).
+
+### Changes
+
+* **Guided tours:** set aside for the 1.0 release; first-time visitors get the welcome dialog again.
+
 ## [1.0.0-beta-15](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-14...v1.0.0-beta-15) (2026-10-11)
 
 A guided tour of the app, galleries in 3D on every page, a full-screen video player on phones, and much more cave-system data: newer lengths and 82 new systems from the Quintana Roo Speleological Survey.
