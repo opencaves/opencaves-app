@@ -3,6 +3,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Alert, Box, Button, ButtonBase, Stack, SvgIcon, Typography } from '@mui/material'
+import { LineArrow } from '@/components/icons.jsx'
 import MapRounded from '@mui/icons-material/MapRounded'
 import MenuBookRounded from '@mui/icons-material/MenuBookRounded'
 import DirectionsRounded from '@mui/icons-material/DirectionsRounded'
@@ -130,7 +131,8 @@ function CardGrid({ group, items, min = 230 }) {
 }
 
 /**
- * A section's heading, with a line under it.
+ * A section's heading, a cave diver's line arrow before it (decorative,
+ * {@link LineArrow}), with a line under it, in line with the heading's text.
  *
  * @param {object} props
  * @param {import('react').ReactNode} props.children
@@ -138,11 +140,13 @@ function CardGrid({ group, items, min = 230 }) {
  */
 function SectionTitle({ children, sub }) {
   return (
-    <Box sx={{ mb: 2.5 }}>
+    <Box className="oc-what-can-i-do--section-title" sx={{ mb: 2.5, display: 'grid', gridTemplateColumns: 'auto 1fr', columnGap: 1.5, alignItems: 'center' }}>
+      {/* In the secondary colour, pointing the reading way: flipped right to left. */}
+      <LineArrow aria-hidden="true" sx={{ color: 'secondary.main', fontSize: { xs: '1.75rem', sm: '2.125rem' }, '[dir="rtl"] &': { transform: 'scaleX(-1)' } }} />
       <Typography component="h2" sx={{ typography: { xs: 'h5', sm: 'h4' }, fontWeight: 500 }}>
         {children}
       </Typography>
-      {sub && <Typography sx={{ color: 'text.secondary', mt: 0.5 }}>{sub}</Typography>}
+      {sub && <Typography sx={{ gridColumn: 2, color: 'text.secondary', mt: 0.5 }}>{sub}</Typography>}
     </Box>
   )
 }
