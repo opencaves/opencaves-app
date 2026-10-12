@@ -12,7 +12,7 @@ import { isTrashed } from '@/utils/trash.js'
 import CardOptionsMenu from './CardOptionsMenu.jsx'
 import SistemaModel from '@/models/SistemaModel.js'
 import ConnectionModel from '@/models/ConnectionModel.js'
-import { compareMapsByDate, getSistemaMapRefs } from '@/utils/sistemaMaps.js'
+import { getSistemaMapRefs, orderSistemaMaps } from '@/utils/sistemaMaps.js'
 import AddMapButton from '@/components/MapsPicker/AddMapButton.jsx'
 import { useCanTrashMaps, useTrashMapConfirm } from '@/components/MapPane/TrashMap.jsx'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
@@ -123,14 +123,19 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
   // Admins: deleting the map itself (to the trash), not only from this sistema.
   const canTrash = useCanTrashMaps()
   const { requestTrash, dialog: trashDialog } = useTrashMapConfirm()
-  const selectedMaps = getSistemaMapRefs(sistemaId, sistemas, connections)
-    .map(({ id: value, sistemaId: ownerId }) => {
-      const file = mapFiles.find((map) => map.id === value)
-      return { value, file, url: file?.url || value, inherited: ownerId !== sistemaId }
-    })
-    .filter((map) => !isTrashed(map.file))
-    // Newest first, the undated last.
-    .sort((a, b) => compareMapsByDate(a.file, b.file))
+  // Each system's together (the cave's own first), in its order: the
+  // editors', the maps they haven't placed first, newest first, the undated
+  // last.
+  const selectedMaps = orderSistemaMaps(
+    getSistemaMapRefs(sistemaId, sistemas, connections)
+      .map(({ id: value, sistemaId: ownerId }) => {
+        const file = mapFiles.find((map) => map.id === value)
+        return { value, file, url: file?.url || value, inherited: ownerId !== sistemaId, ownerId }
+      })
+      .filter((map) => !isTrashed(map.file)),
+    sistemas,
+    { sistemaOf: (map) => map.ownerId, idOf: (map) => map.value, mapOf: (map) => map.file },
+  )
   const mapWidth = ASSETS_LIST_CONFIG.height * ASSETS_LIST_CONFIG.widthRatio
   const mapHeight = ASSETS_LIST_CONFIG.height
 

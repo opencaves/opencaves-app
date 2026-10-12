@@ -23,6 +23,8 @@
  * @property {string} [direction] - Markdown: getting there.
  * @property {{latitude: number, longitude: number}} [location]
  * @property {string} [sistemaId]
+ * @property {string[]} [photoOrder] - Its photos' order after the cover (cavesAssets ids; assets/photoOrder.js).
+ * @property {string[]} [videos] - Video URLs, in the order shown.
  */
 
 /**

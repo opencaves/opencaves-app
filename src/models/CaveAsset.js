@@ -1,7 +1,8 @@
 import { useMemo } from 'react'
-import { collection, deleteField, doc, getDoc, getDocs, onSnapshot, orderBy, query, serverTimestamp, updateDoc, where } from 'firebase/firestore'
+import { collection, deleteField, doc, getDoc, getDocs, onSnapshot, orderBy, query, serverTimestamp, updateDoc, where, writeBatch } from 'firebase/firestore'
 import getId from 'unique-push-id'
 import { useSsrCollection } from '@/hooks/useSsrCollection.js'
+import { useCaveData } from '@/hooks/useCaveData.js'
 import { pageHostname } from '@/ssr/ssrContext.js'
 import { breakpoints } from '@/theme/Theme.jsx'
 import { auth, callable, db, getStorageService } from '@/config/firebase.js'
@@ -20,15 +21,50 @@ function photoTime(doc) {
   return date?.toMillis?.() ?? (date?.seconds != null ? date.seconds * 1000 : 0)
 }
 
-// A cave's photo list in the order every view shows it (the Photos tab, the
-// viewer, the cave page, the gallery): its cover first, then the newest
-// first; the same date in upload order (the ids, push ids, sort by time),
-// so photos never swap places.
-function photoOrder(list) {
+/**
+ * A cave's photo list in the order every view shows it (the Photos tab, the
+ * viewer, the cave page, the galleries): its cover first; then the photos
+ * the cave's `photoOrder` doesn't name (new ones, or a cave never
+ * reordered), newest first - the same date in upload order (the ids, push
+ * ids, sort by time), so photos never swap places; then those it names, in
+ * its order (ids of photos gone ignored).
+ *
+ * @param {{docs: import('firebase/firestore').QueryDocumentSnapshot[], empty?: boolean, size?: number}} list - A snapshot of the
+ *   cave's photos (or the same shape).
+ * @param {string[]} [order] - The cave's `photoOrder`.
+ * @returns {any} The same shape, its docs in order.
+ */
+export function photoOrder(list, order) {
   if (!list) return list
-  const docs = [...list.docs].sort((a, b) => (b.get('isCover') ? 1 : 0) - (a.get('isCover') ? 1 : 0) || photoTime(b) - photoTime(a) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
+  const rank = new Map((Array.isArray(order) ? order : []).map((id, index) => [id, index]))
+  const docs = [...list.docs].sort((a, b) => (b.get('isCover') ? 1 : 0) - (a.get('isCover') ? 1 : 0)
+    || (rank.has(a.id) ? 1 : 0) - (rank.has(b.id) ? 1 : 0)
+    || (rank.has(a.id) ? rank.get(a.id) - rank.get(b.id) : 0)
+    || photoTime(b) - photoTime(a) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
   return { ...list, docs, forEach: (callback, thisArg) => docs.forEach(callback, thisArg) }
 }
+
+/**
+ * Saves a cave's photos in a new order (editors): the cave's `photoOrder`
+ * (every photo after the first), and, when the first changed, the cover -
+ * the first photo is always the cover. One batch, applied on the device at
+ * once (offline too: synced later, useSettleWrite).
+ *
+ * @param {string} caveId
+ * @param {string[]} ids - Every photo shown (outside the trash), in the new order.
+ * @param {string} [coverId] - The cover now, if any.
+ * @returns {Promise<void>} Resolved once the server has it.
+ */
+export function savePhotoOrder(caveId, ids, coverId) {
+  const batch = writeBatch(db)
+  batch.update(doc(db, 'caves', caveId), { photoOrder: ids.slice(1) })
+  if (ids[0] && ids[0] !== coverId) {
+    if (coverId) batch.update(doc(db, CAVES_ASSETS_COLL_NAME, coverId), { isCover: false })
+    batch.update(doc(db, CAVES_ASSETS_COLL_NAME, ids[0]), { isCover: true })
+  }
+  return batch.commit()
+}
+
 const COLL = collection(db, CAVES_ASSETS_COLL_NAME)
 
 export default class CaveAsset {
@@ -276,6 +312,14 @@ export default class CaveAsset {
   }
 }
 
+/**
+ * A cave's photos, live (the server's on a page it rendered), without those
+ * in the trash, in the order every view shows them ({@link photoOrder}, by
+ * the cave's `photoOrder`).
+ *
+ * @param {string} caveId
+ * @returns {[any, boolean, Error | undefined]} The list (docs, empty, size), whether it's loading, the error.
+ */
 export function useCaveAssetsList(caveId) {
   const q = useMemo(
     () => query(COLL, where('caveId', '==', caveId), where('type', '==', 'image')).withConverter(converter),
@@ -285,9 +329,12 @@ export function useCaveAssetsList(caveId) {
   const [snapshot, loading, error] = useSsrCollection(`photos:${caveId}`, q, {
     snapshotListenOptions: { includeMetadataChanges: true }
   })
+  // The cave's own order (photoOrder): the page's data on a page the
+  // server rendered, as the photos.
+  const order = useCaveData().caves.find((cave) => cave.id === caveId)?.photoOrder
   // Without the photos in the trash (same shape: docs, empty, size), in
   // their order (photoOrder).
-  const visible = useMemo(() => photoOrder(withoutTrashed(snapshot)), [snapshot])
+  const visible = useMemo(() => photoOrder(withoutTrashed(snapshot), order), [snapshot, order])
 
   return [visible, loading, error]
 }

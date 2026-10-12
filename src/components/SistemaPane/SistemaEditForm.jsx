@@ -555,7 +555,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
           <Grid container spacing={2}>
 
         <Grid size={12}>
-          <MapsPicker label={t('maps')} value={form.maps} onChange={(maps) => setForm((f) => ({ ...f, maps }))} sistemaName={form.name || sistemaId} labelProps={sectionHeadingProps} />
+          <MapsPicker label={t('maps')} value={form.maps} onChange={(maps) => setForm((f) => ({ ...f, maps }))} sistemaName={form.name || sistemaId} mapOrder={sistema?.mapOrder} labelProps={sectionHeadingProps} />
         </Grid>
           </Grid>
         </FormSection>

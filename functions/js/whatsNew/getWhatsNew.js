@@ -76,10 +76,18 @@ const actionOf = (entry) => (entry.action === 'undo' ? entry.undoAction : entry.
 const trashes = (entry) => actionOf(entry) === 'update' && entry.changedFields?.includes('deletedAt') && Boolean(entry.after?.deletedAt) && !entry.before?.deletedAt
 const restores = (entry) => actionOf(entry) === 'update' && entry.changedFields?.includes('deletedAt') && !entry.after?.deletedAt && Boolean(entry.before?.deletedAt)
 
-// The fields an update changed that the page lists (none: not a modification).
+// The same URLs, in another order (a cave's videos reordered).
+const reordered = (before, after) => Array.isArray(before) && Array.isArray(after) && before.length === after.length && before.join(' ') !== after.join(' ') && after.every((item) => before.includes(item))
+
+// The fields an update changed that the page lists (none: not a
+// modification). A cave's videos only reordered: their order changed
+// (`videoOrder`), nothing added.
 function shownFields(entry) {
   const media = MEDIA_FIELDS[entry.collection] || []
-  return (Array.isArray(entry.changedFields) ? entry.changedFields : []).filter((field) => !IGNORED_FIELDS.has(field) && !media.includes(field))
+  const changed = Array.isArray(entry.changedFields) ? entry.changedFields : []
+  const fields = changed.filter((field) => !IGNORED_FIELDS.has(field) && !media.includes(field))
+  if (entry.collection === 'caves' && changed.includes('videos') && reordered(entry.before?.videos, entry.after?.videos)) fields.push('videoOrder')
+  return fields
 }
 
 // Photos or videos added to a cave, one item per cave, author and day.

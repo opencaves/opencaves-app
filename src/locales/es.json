@@ -1699,7 +1699,10 @@
       "contentType": "tipo de archivo",
       "videos": "videos",
       "maps": "topografías",
-      "activities": "actividades"
+      "activities": "actividades",
+      "photoOrder": "orden de las fotos",
+      "mapOrder": "orden de las topografías",
+      "videoOrder": "orden de los videos"
     }
   },
   "feedback": {
@@ -2310,5 +2313,17 @@
       "notNow": "Ahora no",
       "start": "Hacer el recorrido"
     }
+  },
+  "reorder": {
+    "cover": "Portada",
+    "instructions": "Para cambiar el orden, arrastra este elemento a su nuevo lugar o pulsa Ctrl+Mayús (Cmd+Mayús en Mac) y una flecha.",
+    "pickedUp": "Elemento {{position}} de {{count}} tomado.",
+    "movedTo": "Movido a la posición {{position}} de {{count}}.",
+    "notOver": "El elemento no está sobre un lugar posible.",
+    "dropped": "Soltado en la posición {{position}} de {{count}}.",
+    "cancelled": "Reordenación cancelada. El elemento volvió a la posición {{position}} de {{count}}.",
+    "saved": "Orden guardado",
+    "savedCover": "Orden guardado. Esta foto es ahora la imagen de portada.",
+    "saveError": "No se pudo guardar el nuevo orden. Inténtalo de nuevo."
   }
 }

@@ -7,7 +7,7 @@ import DescriptionRounded from '@mui/icons-material/DescriptionRounded'
 import ImageRounded from '@mui/icons-material/ImageRounded'
 import AddButton from '@/components/AddButton.jsx'
 import mapsModel from '@/models/MapModel.js'
-import { compareMapsByDate } from '@/utils/sistemaMaps.js'
+import { orderMaps } from '@/utils/sistemaMaps.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import AuthorsField from './AuthorsField.jsx'
 import MapSistemaField from './MapSistemaField.jsx'
@@ -48,8 +48,9 @@ function MapThumbnail({ map, size }) {
  * @param {(value: string[]) => void} props.onChange - Receives the updated array.
  * @param {string} [props.sistemaName=''] - The system's, a new map's default title.
  * @param {object} [props.labelProps={}] - The label's.
+ * @param {string[]} [props.mapOrder] - The system's maps' order (its `mapOrder`), as its lists show them.
  */
-export default function MapsPicker({ label, value = [], onChange, sistemaName = '', labelProps = {} }) {
+export default function MapsPicker({ label, value = [], onChange, sistemaName = '', labelProps = {}, mapOrder }) {
   const { t } = useTranslation('mapsPicker')
   const isSmall = useSmall()
   const [maps] = mapsModel.useAll()
@@ -60,8 +61,9 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
   const open = Boolean(anchorEl)
   const previewSize = isSmall ? 240 : 440
 
-  // Shown newest first, the undated last (the saved order stays).
-  const selectedMaps = value.map((id) => maps.find((m) => m.id === id)).filter(Boolean).sort(compareMapsByDate)
+  // Shown as the system's lists show them (orderMaps: its editors' order,
+  // the maps not placed first, newest first); the saved `maps` order stays.
+  const selectedMaps = orderMaps(value.map((id) => maps.find((m) => m.id === id)).filter(Boolean), mapOrder)
 
   function handleOpen(event) {
     setAnchorEl(event.currentTarget)
