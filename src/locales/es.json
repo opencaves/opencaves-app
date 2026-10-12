@@ -2091,7 +2091,7 @@
     "yes": "Sí"
   },
   "tours": {
-    "menuEntry": "Hacer el recorrido",
+    "menuEntry": "Hacer los recorridos",
     "dialog": {
       "title": "Recorridos guiados",
       "text": "Elige un recorrido: unos pasos que te señalan lo que hay en la pantalla."
@@ -2220,7 +2220,7 @@
         },
         "end": {
           "title": "¡Listo!",
-          "text": "Haz otro recorrido cuando quieras desde el menú: Hacer el recorrido. ¡Buenas inmersiones!"
+          "text": "Haz otro recorrido cuando quieras desde el menú: Hacer los recorridos. ¡Buenas inmersiones!"
         }
       },
       "install": {
@@ -2325,7 +2325,7 @@
     "prompt": {
       "title": "Bienvenido a {{name}}",
       "text": "¿Eres nuevo? Haz un breve recorrido guiado para ver lo que puedes hacer en OpenCaves.",
-      "hint": "Puedes empezar un recorrido cuando quieras desde el menú: Hacer el recorrido.",
+      "hint": "Puedes empezar un recorrido cuando quieras desde el menú: Hacer los recorridos.",
       "notNow": "Ahora no",
       "start": "Hacer el recorrido"
     }

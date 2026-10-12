@@ -8,11 +8,11 @@ export const TOUR_IDS = ['discover', 'install', 'offline', 'whatsNew']
 // The main tour, offered on a first visit (TourPrompt).
 export const MAIN_TOUR_ID = 'discover'
 
-// The "Take the tour" dialog, opened from anywhere (the menus).
+// The "Take the tours" dialog, opened from anywhere (the menus).
 export const OPEN_TOURS_EVENT = 'oc-open-tours'
 
 /**
- * Opens the "Take the tour" dialog (ToursDialog), over the page shown.
+ * Opens the "Take the tours" dialog (ToursDialog), over the page shown.
  */
 export function openToursDialog() {
   window.dispatchEvent(new Event(OPEN_TOURS_EVENT))
