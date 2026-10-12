@@ -45,6 +45,10 @@ const LOADS_SETTLE_MS = 150
 // A strip starting at its start: its first item this far in from the
 // viewing area's edge (px).
 const START_MARGIN = 8
+// The space around the cylinder's band, above and below it (px): the
+// strip's ground (surface container high) between the band's curved edges
+// and what's around the strip, kept along the curve (bandShape).
+const BAND_MARGIN = 8
 // The longest a build waits for its slices' images to be decoded before it
 // shows them anyway (ms); and the longest the strip stays hidden at first,
 // built or not (CSS, so without JavaScript too).
@@ -130,7 +134,10 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
   // A filling strip (a page's): the gap between its items above and below
   // too, so the zoomed front isn't flush with its band.
   const zoomShare = renderCylinder ? (zoom - 1) / 2 : 0
-  const margin = fill ? gap : 0
+  // Its band's margin above and below (BAND_MARGIN), with a filling strip's
+  // gap.
+  const bandMargin = renderCylinder ? BAND_MARGIN : 0
+  const margin = (fill ? gap : 0) + bandMargin
   const zoomRoom = `calc(${rowHeight} * ${zoomShare} + ${margin}px)`
   const zoomRoomMax = Math.ceil(itemHeight * zoomShare) + margin
 
@@ -469,14 +476,82 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
 
     // How far from the middle (px, on the screen) a point of the strip shows,
     // `distance` from the middle on the flat strip: bent on the sides, then
-    // enlarged by the perspective as `place` sets it.
+    // enlarged by the perspective as `place` sets it - by `scale` (its
+    // heights too: the front zoom times larger).
     function onScreen(distance, radius) {
       const flat = radius * flatShare
       const bend = bendFor(radius)
       const theta = Math.max(0, distance - flat) / bend
       const lateral = Math.min(distance, flat) + bend * Math.sin(theta)
       const depth = forward + bend * (Math.cos(theta) - 1)
-      return { theta, offset: (lateral * perspective) / (perspective - depth) }
+      const scale = perspective / (perspective - depth)
+      return { theta, offset: lateral * scale, scale }
+    }
+
+    // The band's outline (the root's ::before, --oc-strip-band-shape), and
+    // its frame's (::after, --oc-strip-frame-shape: its margin around it): its
+    // top and bottom edges following the cylinder's - the items' top and
+    // bottom as the perspective draws them, smaller toward the sides - at
+    // the same distance from them as in front. Its place is the viewing
+    // area's: worked out on each build (a resize), not on scrolling.
+    function bandShape() {
+      const band = getComputedStyle(root, '::before')
+      const bandHeight = parseFloat(band.height)
+      if (!bandHeight) return
+      const bandTop = parseFloat(band.top) || 0
+      const rootRect = root.getBoundingClientRect()
+      const viewRect = view.getBoundingClientRect()
+      const rowRect = row.getBoundingClientRect()
+      const width = rootRect.width
+      const cx = viewRect.left + view.clientLeft + view.clientWidth / 2 - rootRect.left
+      const cy = rowRect.top + rowRect.height / 2 - rootRect.top - bandTop
+      const half = row.offsetHeight / 2
+      const radius = view.clientWidth / 2
+      const front = onScreen(0, radius).scale
+      const above = cy - half * front
+      const below = bandHeight - (cy + half * front)
+      // The edges, from the middle out, while the cylinder still widens.
+      const reach = Math.max(cx, width - cx)
+      const steps = []
+      const furthest = radius * flatShare + (bendFor(radius) * Math.PI) / 2
+      for (let i = 0; i <= 64; i++) {
+        const point = onScreen((furthest * i) / 64, radius)
+        if (steps.length && point.offset <= steps.at(-1).offset) break
+        steps.push(point)
+        if (point.offset >= reach) break
+      }
+      const top = ({ scale }) => above + half * (front - scale)
+      const bottom = ({ scale }) => bandHeight - below - half * (front - scale)
+      const at = (x, y) => `${Math.min(width, Math.max(0, x)).toFixed(1)}px ${y.toFixed(1)}px`
+      const last = steps.at(-1)
+      const points = [
+        at(0, top(last)),
+        ...[...steps].reverse().map((step) => at(cx - step.offset, top(step))),
+        ...steps.map((step) => at(cx + step.offset, top(step))),
+        at(width, top(last)),
+        at(width, bottom(last)),
+        ...[...steps].reverse().map((step) => at(cx + step.offset, bottom(step))),
+        ...steps.map((step) => at(cx - step.offset, bottom(step))),
+        at(0, bottom(last)),
+      ]
+      root.style.setProperty('--oc-strip-band-shape', `polygon(${points.join(', ')})`)
+      // The frame (::after, from the strip's top): the band's outline
+      // widened by its margin (bandTop) above and below.
+      const frameHeight = bandHeight + 2 * bandTop
+      const frameTop = (step) => bandTop + top(step) - bandTop
+      const frameBottom = (step) => bandTop + bottom(step) + bandTop
+      const atFrame = (x, y) => `${Math.min(width, Math.max(0, x)).toFixed(1)}px ${Math.min(frameHeight, Math.max(0, y)).toFixed(1)}px`
+      const framePoints = [
+        atFrame(0, frameTop(last)),
+        ...[...steps].reverse().map((step) => atFrame(cx - step.offset, frameTop(step))),
+        ...steps.map((step) => atFrame(cx + step.offset, frameTop(step))),
+        atFrame(width, frameTop(last)),
+        atFrame(width, frameBottom(last)),
+        ...[...steps].reverse().map((step) => atFrame(cx + step.offset, frameBottom(step))),
+        ...steps.map((step) => atFrame(cx - step.offset, frameBottom(step))),
+        atFrame(0, frameBottom(last)),
+      ]
+      root.style.setProperty('--oc-strip-frame-shape', `polygon(${framePoints.join(', ')})`)
     }
     // The distance from the middle on the flat strip that shows `target` px
     // from it on the screen - or, past what the sides reach (turned at most
@@ -532,6 +607,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
         const areaRect = view.getBoundingClientRect()
         Object.assign(stage.style, { left: `${areaRect.left - rootRect.left}px`, top: `${areaRect.top - rootRect.top}px`, width: `${view.clientWidth}px`, height: `${view.clientHeight}px` })
         Object.assign(stageTrack.style, { width: `${row.offsetWidth}px`, height: `${row.offsetHeight}px` })
+        bandShape()
         stale = false
       }
       const viewRect = view.getBoundingClientRect()
@@ -757,6 +833,8 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
         column.style.pointerEvents = ''
       }
       Object.assign(row.style, { marginInlineStart: '', marginInlineEnd: '', pointerEvents: '' })
+      root.style.removeProperty('--oc-strip-band-shape')
+      root.style.removeProperty('--oc-strip-frame-shape')
     }
   }, [rebuildKey, start, cylinder, sideRadius, flatShare, zoom, perspective, sliceWidth, fill])
 
@@ -767,6 +845,9 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       // flat, then half built.
       data-oc-building={renderCylinder ? '' : undefined}
       sx={[(theme) => ({
+        // Its own stacking context: the frame (::after, z-index -1) under
+        // the band (::before) and the items.
+        isolation: 'isolate',
         // Its content (not its band) hidden while it's first built, then
         // faded in; shown after DECODE_WAIT_MS whatever happens.
         '& > *': { transition: theme.transitions.create('opacity', { duration: theme.sys.motion.duration.standard, easing: theme.sys.motion.easing.standard }) },
@@ -780,13 +861,35 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
           position: 'absolute',
           left: 0,
           right: 0,
-          top: 0,
+          // In from the strip's top and bottom by its margin (the page's
+          // colour there).
+          top: bandMargin,
           // Filling (a page's strip): the whole strip, its scrollbar's room
           // too - no other colour around or between its items.
-          ...(fill ? { bottom: 0 } : { height: `calc(${rowHeight} + 2 * ${zoomRoom})` }),
+          ...(fill ? { bottom: bandMargin } : { height: `calc(${rowHeight} + 2 * ${zoomRoom} - ${2 * bandMargin}px)` }),
           bgcolor: theme.vars.sys.color.surfaceContainer,
           ...theme.applyStyles('dark', { bgcolor: theme.vars.sys.color.surfaceContainerHighest }),
+          // Its top and bottom curved with the cylinder (the effect's
+          // bandShape); straight while flat.
+          clipPath: 'var(--oc-strip-band-shape, none)',
         },
+        // Around the band, its margin (BAND_MARGIN) in the pane's own ground
+        // tone (M3's surface container high), curved as the band, the same
+        // below as above: as tall as the band and its margins (not over the
+        // scrollbar's room under a pane's strip). Only on the cylinder.
+        ...(renderCylinder && {
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            zIndex: -1,
+            left: 0,
+            right: 0,
+            top: 0,
+            height: `calc(${rowHeight} + 2 * ${zoomRoom})`,
+            bgcolor: theme.vars.sys.color.surfaceContainerHigh,
+            clipPath: 'var(--oc-strip-frame-shape, none)',
+          },
+        }),
       }), { position: 'relative', // What follows overlaps the scrollbar's room - not on a filling strip, whose band covers it.
         marginBottom: fill ? 0 : 'calc(var(--oc-pane-padding-block) * -1)', height: fill ? `calc(${rowHeight} + 2 * ${zoomRoom})` : `calc(var(--oc-pane-padding-block) + ${rowHeight} + 2 * ${zoomRoom})` }, ...(Array.isArray(sx) ? sx : [sx])]}
       {...props}
