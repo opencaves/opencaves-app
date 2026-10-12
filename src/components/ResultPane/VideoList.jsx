@@ -317,6 +317,20 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
     )
   }
 
+  // A video's menu (editors): edit its address; delete it (admins).
+  const videoActions = (video, index) => [
+    {
+      label: t('edit.editVideo'),
+      icon: <EditRounded fontSize="small" />,
+      onClick: () => {
+        setEditingIndex(index)
+        setNewVideoUrl(video)
+        setAddDialogOpen(true)
+      },
+    },
+    canDelete && { label: t('edit.deleteVideo'), icon: <DeleteOutlineRounded fontSize="small" />, onClick: () => requestDelete(index), danger: true },
+  ].filter(Boolean)
+
   if (videoUrls.length === 0 && !canEdit && !showAdd) {
     return null
   }
@@ -334,23 +348,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
                   return (
                     <Box key={`${video}-${index}`} className="oc-video-list--item oc-media-strip--tile oc-media-strip--item" sx={{ position: 'relative', width: shownWidth, height: shownHeight, flex: '0 0 auto', bgcolor: 'common.black', overflow: 'hidden', borderRadius: '.5rem' }}>
                       {videoStill(video, index)}
-                      {canEdit && (
-                        <CardOptionsMenu
-                          ariaLabel={t('edit.videoOptions')}
-                          actions={[
-                            {
-                              label: t('edit.editVideo'),
-                              icon: <EditRounded fontSize="small" />,
-                              onClick: () => {
-                                setEditingIndex(index)
-                                setNewVideoUrl(video)
-                                setAddDialogOpen(true)
-                              },
-                            },
-                            canDelete && { label: t('edit.deleteVideo'), icon: <DeleteOutlineRounded fontSize="small" />, onClick: () => requestDelete(index), danger: true },
-                          ].filter(Boolean)}
-                        />
-                      )}
+                      {canEdit && <CardOptionsMenu ariaLabel={t('edit.videoOptions')} actions={videoActions(video, index)} />}
                     </Box>
                   )
                 })}
@@ -362,6 +360,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
             <li key={sortableVideos ? video : `${video}-${index}`}>
               <Box className="oc-video-list--item oc-carousel--media" sx={{ position: 'relative', aspectRatio: '16 / 9', overflow: 'hidden', bgcolor: 'common.black' }}>
                 {videoStill(video, index)}
+                {canEdit && <CardOptionsMenu reveal ariaLabel={t('edit.videoOptions')} actions={videoActions(video, index)} />}
               </Box>
             </li>
           ))}
