@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
-import { Box, SpeedDial, SpeedDialAction, SpeedDialIcon, speedDialActionClasses } from '@mui/material'
+import { Box, SpeedDial, SpeedDialAction, SpeedDialIcon, speedDialActionClasses, speedDialClasses } from '@mui/material'
 import AddRounded from '@mui/icons-material/AddRounded'
 import EditOffRounded from '@mui/icons-material/EditOffRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
@@ -131,6 +131,13 @@ export default function EditCaveFab() {
         visibility: 'var(--oc-map-controls-visibility, visible)',
         transition: 'opacity 150ms ease, visibility 150ms ease',
         zIndex: 'var(--oc-app-menu-z-index)',
+        // Its button as the map's other buttons (CaveLayerButton, the
+        // geolocate control): the paper, the primary colour's icon, a surface
+        // container on hover; "on" - a cave being edited - in the primary
+        // colour.
+        [`& .${speedDialClasses.fab}`]: isEditingCave
+          ? { bgcolor: 'primary.main', color: 'primary.contrastText', '&:hover': { bgcolor: 'primary.dark' } }
+          : { bgcolor: 'background.paper', color: 'primary.main', '&:hover': { bgcolor: theme.vars.sys.color.surfaceContainerHigh } },
         // The icon in full text colour: MUI's default grey (text.secondary)
         // looked washed out, dark mode most.
         [`& .${speedDialActionClasses.fab}:not(.Mui-disabled)`]: {
