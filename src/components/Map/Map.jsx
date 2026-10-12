@@ -241,7 +241,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
       accessibilities: [
         (cave) => {
           return searchOptions.showAccessibilities.some((accessibility) => {
-            return (accessibility.key === 'unknown' ? Reflect.has(cave, 'accessibility') : accessibility.key === cave.accessibility) && accessibility.checked
+            return (accessibility.key === 'unknown' ? !Reflect.has(cave, 'accessibility') : accessibility.key === cave.accessibility) && accessibility.checked
           })
         },
       ],
