@@ -113,7 +113,7 @@
  * @property {GeoPoint} [location]
  * @property {number} [exploredLength] - Its total explored length, in metres.
  * @property {string} [exploredLengthDate] - When that length was surveyed or reported: a partial date ("2024-12", "2016").
- * @property {number} [length] - The older name of exploredLength (records not migrated yet: scripts/rename-sistema-length.js).
+ * @property {number} [length] - The older name of exploredLength (a record a one-time script, 2026-10-11, didn't rename).
  * @property {number} [maxDepth] - In metres.
  * @property {boolean} [public] - False: no page of its own.
  * @property {Exploration[]} [explorations]
@@ -257,7 +257,7 @@
  * @property {'bug'|'misleading'|'idea'} kind
  * @property {string} message
  * @property {string} page - The page it's about.
- * @property {string} [browser] - Older reports only, until scripts/move-feedback-private.js moves it to {@link FeedbackPrivate}.
+ * @property {string} [browser] - Older reports only, where a one-time script (2026-10-10) didn't move it to {@link FeedbackPrivate}.
  * @property {string} [language] - The app language it was sent in.
  * @property {string} userId - Its author.
  * @property {string} [authorName] - Server: its author's display name, shown to the members (none without one).

@@ -24,7 +24,8 @@ export function newReplyToken(length = 24) {
 // The report's token, created (by the server only) the first time one of its
 // emails needs it - kept in its _feedbackPrivate doc (admins only: every
 // registered account reads the report). A report's own replyToken is an
-// older one, until scripts/move-feedback-private.js moves it: still used.
+// older one, left there if a one-time script (2026-10-10) didn't move it:
+// still used.
 async function replyToken(reportRef) {
   const privateRef = db.collection(FEEDBACK_PRIVATE_COLL_NAME).doc(reportRef.id)
   return db.runTransaction(async (transaction) => {

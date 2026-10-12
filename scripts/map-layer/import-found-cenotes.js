@@ -11,9 +11,7 @@
 // - "fill": a name (and position) for an unnamed cave.
 // - "cenote-entrance": the cave's cenoteEntrance flag set.
 //
-// Re-runnable: only what is missing is written. scripts/migrate-sheet-to-firestore.js
-// replaces the caves collection with the Google Sheet's: run this again after
-// a Sheet sync.
+// Re-runnable: only what is missing is written.
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import yargs from 'yargs'

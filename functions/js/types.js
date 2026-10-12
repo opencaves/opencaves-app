@@ -41,7 +41,7 @@
  * @property {'bug'|'misleading'|'idea'} kind
  * @property {string} message
  * @property {string} page - The page it's about.
- * @property {string} [browser] - Older reports only, until scripts/move-feedback-private.js moves it to {@link FeedbackPrivate}.
+ * @property {string} [browser] - Older reports only, where a one-time script (2026-10-10) didn't move it to {@link FeedbackPrivate}.
  * @property {string} [language] - The app language it was sent in.
  * @property {string} userId - Its author.
  * @property {string} [authorName] - Its author's display name (onFeedbackCreated), shown to the members; none without one.
@@ -51,7 +51,7 @@
  * @property {string} [statusUpdatedBy] - An admin's uid, or the author's when their answer by email reopened it.
  * @property {string} [statusReplyId] - The team reply that set its stage.
  * @property {string} [note] - The admins' former note (shown as the thread's first reply).
- * @property {string} [replyToken] - Older reports only (now in {@link FeedbackPrivate}), until scripts/move-feedback-private.js moves it.
+ * @property {string} [replyToken] - Older reports only (now in {@link FeedbackPrivate}), where a one-time script (2026-10-10) didn't move it.
  * @property {boolean} [authorMuted] - The author turned the feedback emails off.
  * @property {Timestamp} [reporterEmailedAt]
  * @property {number} [messageCount]

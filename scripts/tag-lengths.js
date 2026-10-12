@@ -15,9 +15,6 @@
 // accessibilityDetails; sistemas' description, direction and their
 // explorations' descriptions. A dry run (the default) lists the changes;
 // --write saves them. Re-runnable: tagged lengths aren't matched again.
-//
-// scripts/migrate-sheet-to-firestore.js replaces the caves with the Google
-// Sheet's: a Sheet sync brings the untagged text back.
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 import { initializeApp, applicationDefault } from 'firebase-admin/app'
