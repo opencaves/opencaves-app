@@ -278,7 +278,7 @@ export default function CavePage() {
       )}
 
       {/* Something changed there (closed, private, fees, road): to the team. */}
-      <Box className="oc-cave-page--report" sx={{ display: 'flex', justifyContent: 'flex-end', mb: 3 }}>
+      <Box className="oc-cave-page--report" sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
         <CaveReportButton cave={cave} />
       </Box>
 

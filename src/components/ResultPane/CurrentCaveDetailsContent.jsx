@@ -229,9 +229,9 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
       {/* Something changed there (closed, private, fees, road): to the team. */}
       <Box component="section" className="oc-details-section oc-current-cave-details-content--report">
-        <div className="details-container">
+        <Box className="details-container" sx={{ display: 'flex', justifyContent: 'center' }}>
           <CaveReportButton cave={cave} />
-        </div>
+        </Box>
       </Box>
 
     </Box>
