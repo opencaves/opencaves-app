@@ -42,7 +42,6 @@ export const MISSING_CRITERIA = [
   { value: 'directions', test: (facts) => !facts.hasDirections },
   { value: 'fees', test: (facts) => !facts.feesKnown },
   { value: 'facilities', test: (facts) => !facts.facilitiesKnown },
-  { value: 'parking', test: (facts) => !facts.hasParking },
   { value: 'system', test: (facts) => !facts.hasSystem },
 ]
 
@@ -94,7 +93,6 @@ export function caveFacts(cave) {
     hasDirections: cave.hasDirections ?? hasText(cave.direction),
     feesKnown: cave.feesKnown ?? cave.fees != null,
     facilitiesKnown: cave.facilitiesKnown ?? cave.facilities != null,
-    hasParking: cave.hasParking ?? hasPoint(cave.parking),
     hasVideo: cave.hasVideo ?? hasVideos(cave.videos),
     // Its system's id travels with it (a server-rendered list's too).
     hasSystem: Boolean(cave.sistemaId),
@@ -113,7 +111,7 @@ export function caveFacts(cave) {
 export function compactCaveFacts(cave) {
   const facts = caveFacts(cave)
   const compact = {}
-  ;['cenoteEntrance', 'positionConfirmed', 'hasDescription', 'hasDirections', 'feesKnown', 'facilitiesKnown', 'hasParking', 'hasVideo'].forEach((key) => facts[key] && (compact[key] = true))
+  ;['cenoteEntrance', 'positionConfirmed', 'hasDescription', 'hasDirections', 'feesKnown', 'facilitiesKnown', 'hasVideo'].forEach((key) => facts[key] && (compact[key] = true))
   if (facts.access) compact.access = facts.access
   if (facts.accessibility) compact.accessibility = facts.accessibility
   return compact

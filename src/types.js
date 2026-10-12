@@ -106,7 +106,6 @@
  * @property {boolean} hasDirections - It has a getting there ({@link Cave.direction}).
  * @property {boolean} feesKnown - Its fees are known (yes or no).
  * @property {boolean} facilitiesKnown
- * @property {boolean} hasParking
  * @property {boolean} hasVideo - It has a video ({@link Cave.videos}).
  * @property {boolean} hasSystem - It's attached to a cave system ({@link Cave.sistemaId}).
  */
