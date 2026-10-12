@@ -1699,7 +1699,10 @@
       "contentType": "file type",
       "videos": "videos",
       "maps": "survey maps",
-      "activities": "activities"
+      "activities": "activities",
+      "photoOrder": "photo order",
+      "mapOrder": "map order",
+      "videoOrder": "video order"
     }
   },
   "feedback": {
@@ -2310,5 +2313,17 @@
       "notNow": "Not now",
       "start": "Take the tour"
     }
+  },
+  "reorder": {
+    "cover": "Cover",
+    "instructions": "To reorder, drag this item to its new place, or press Ctrl+Shift (Cmd+Shift on a Mac) and an arrow key.",
+    "pickedUp": "Picked up item {{position}} of {{count}}.",
+    "movedTo": "Moved to position {{position}} of {{count}}.",
+    "notOver": "Not over a place the item can go.",
+    "dropped": "Dropped at position {{position}} of {{count}}.",
+    "cancelled": "Reordering cancelled. The item is back at position {{position}} of {{count}}.",
+    "saved": "Order saved",
+    "savedCover": "Order saved. This photo is now the cover image.",
+    "saveError": "Couldn't save the new order. Please try again."
   }
 }

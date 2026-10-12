@@ -20,6 +20,7 @@ import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { videoSiteName, youtubeThumbnail } from '@/utils/videos.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
+import { useReorder } from '@/hooks/useReorder.js'
 
 // The video sites the player can show: YouTube, Vimeo and Facebook. A link
 // from anywhere else is refused by the Add video form.
@@ -170,8 +171,13 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
     return undefined
   }
   const [videoToDelete, setVideoToDelete] = useState(null)
-  const videoUrls = (Array.isArray(videos) ? videos : typeof videos === 'string' ? videos.split('|') : []).map((video) => video.trim()).filter(Boolean)
+  const savedUrls = (Array.isArray(videos) ? videos : typeof videos === 'string' ? videos.split('|') : []).map((video) => video.trim()).filter(Boolean)
+  // Editors reorder them in Show all: the array's order is theirs (saved at
+  // once, or, in an edit form, handed to it).
+  const [videoUrls, reorderVideos] = useReorder(savedUrls, async (next) => (onChange ? onChange(next) : CaveModel.save(caveId, { videos: next })), { name: caveName })
   const canEdit = roles.includes('editor') || roles.includes('admin')
+  // Each video once: the order is kept by URL.
+  const sortableVideos = canEdit && new Set(videoUrls).size === videoUrls.length
   // Deleting a video: admins only.
   const canDelete = roles.includes('admin')
   const videoWidth = VIDEO_WIDTH
@@ -351,9 +357,9 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
         </MediaStrip>
       )}
       {showAll && videoUrls.length > 0 && (
-        <StripShowAll title={t('videosHeader')} gridMinWidth="260px">
+        <StripShowAll title={t('videosHeader')} gridMinWidth="260px" sortable={sortableVideos ? { enabled: true, ids: videoUrls, onReorder: reorderVideos } : undefined}>
           {videoUrls.map((video, index) => (
-            <li key={`${video}-${index}`}>
+            <li key={sortableVideos ? video : `${video}-${index}`}>
               <Box className="oc-video-list--item oc-carousel--media" sx={{ position: 'relative', aspectRatio: '16 / 9', overflow: 'hidden', bgcolor: 'common.black' }}>
                 {videoStill(video, index)}
               </Box>

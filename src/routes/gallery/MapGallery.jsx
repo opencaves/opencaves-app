@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import mapsModel from '@/models/MapModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import ConnectionModel from '@/models/ConnectionModel.js'
-import { compareMapsByDate, getSistemaMapRefs } from '@/utils/sistemaMaps.js'
+import { getSistemaMapRefs, orderSistemaMaps } from '@/utils/sistemaMaps.js'
 import { isTrashed } from '@/utils/trash.js'
 import MapPaneDetails from '@/components/MapPane/MapPaneDetails.jsx'
 import { useCanTrashMaps, useTrashMapConfirm } from '@/components/MapPane/TrashMap.jsx'
@@ -34,14 +34,16 @@ export default function MapGallery() {
   const canTrash = useCanTrashMaps()
   // With the trashed ones: one trashed while open leaves the list.
   const [mapFiles, loading] = mapsModel.useAll({ includeTrashed: true })
-  const maps = getSistemaMapRefs(sistemaId, sistemas, connections)
-    .map(({ id, sistemaId: ownerId }) => {
-      const map = mapFiles.find((m) => m.id === id)
-      return map && !isTrashed(map) && { ...map, sistemaId: ownerId }
-    })
-    .filter(Boolean)
-    // As the page's list: newest first, the undated last.
-    .sort(compareMapsByDate)
+  // As the page's list: each system's together, in its order.
+  const maps = orderSistemaMaps(
+    getSistemaMapRefs(sistemaId, sistemas, connections)
+      .map(({ id, sistemaId: ownerId }) => {
+        const map = mapFiles.find((m) => m.id === id)
+        return map && !isTrashed(map) && { ...map, sistemaId: ownerId }
+      })
+      .filter(Boolean),
+    sistemas,
+  )
   // The page's address, whatever follows (a map, its /edit).
   const pagePath = location.pathname.replace(/\/maps\/.*$/, '')
   const mapPath = (id) => `${pagePath}/maps/${id}`

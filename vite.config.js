@@ -233,7 +233,15 @@ export default defineConfig(({ isSsrBuild }) => ({
     // The Markdown length tag's parser (lengthDirective.js) is only reached
     // from lazily loaded code: found late, its re-optimization left pages
     // asking for outdated deps (504 "Outdated Optimize Dep").
-    include: ['micromark-extension-directive', 'mdast-util-directive'],
+    include: [
+      'micromark-extension-directive',
+      'mdast-util-directive',
+      // The same for the lists editors reorder (components/Reorder/SortableList.jsx,
+      // loaded on demand): dnd-kit.
+      '@dnd-kit/core',
+      '@dnd-kit/sortable',
+      '@dnd-kit/utilities',
+    ],
     // Every source file scanned for dependencies at startup, not only what's
     // reachable from index.html: a lazily loaded page importing one not seen
     // yet (e.g. an @mui/icons-material/<Name> file) made Vite re-optimize and

@@ -13,7 +13,7 @@ import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded'
 import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import ConnectionModel from '@/models/ConnectionModel.js'
-import { compareMapsByDate, getSistemaMapRefs } from '@/utils/sistemaMaps.js'
+import { getSistemaMapRefs, orderSistemaMaps } from '@/utils/sistemaMaps.js'
 import mapsModel from '@/models/MapModel.js'
 import { isTrashed } from '@/utils/trash.js'
 import MapPaneDetails from './MapPaneDetails.jsx'
@@ -150,7 +150,8 @@ function MapListItem({ map, caveId, selected, state, onEdit, onTrash }) {
 /**
  * The map pane's route loader: the maps of the cave's sistema and of the ones it joined.
  *
- * @returns {Promise<{sistemaId: string|null, mapRefs: {id: string, sistemaId: string}[], maps: object[]}>}
+ * @returns {Promise<{sistemaId: string|null, mapRefs: {id: string, sistemaId: string}[], maps: object[], sistemas: Sistema[]}>} Also
+ *   the systems, for their maps' order.
  */
 export async function mapPaneLoader({ params }) {
   const cave = await CaveModel.getById(params.caveId)
@@ -158,7 +159,7 @@ export async function mapPaneLoader({ params }) {
   const [sistemas, connections] = sistemaId ? await Promise.all([SistemaModel.getAll(), ConnectionModel.getAll()]) : [[], []]
   const mapRefs = getSistemaMapRefs(sistemaId, sistemas, connections)
   const maps = (await Promise.all(mapRefs.map(({ id }) => mapsModel.getById(id)))).filter(Boolean)
-  return { sistemaId, mapRefs, maps }
+  return { sistemaId, mapRefs, maps, sistemas }
 }
 
 /**
@@ -190,16 +191,16 @@ export default function MapPane() {
   // Falls back to the loader's snapshot until the live listeners have data.
   const live = sistemas.length > 0 && !connectionsLoading
   const mapRefs = live ? getSistemaMapRefs(sistemaId, sistemas, connections) : initial.mapRefs
-  const maps = mapRefs
+  const unsorted = mapRefs
     .map(({ id, sistemaId: ownerId }) => {
       const map = mapFiles.find((m) => m.id === id) || initial.maps.find((m) => m.id === id)
       return map && !isTrashed(map) && { ...map, sistemaId: ownerId }
     })
     .filter(Boolean)
-  // Each system's maps together (the cave's own first), newest first in each,
-  // the undated last - the list and the viewer's slides alike.
-  const groupOrder = [...new Set(maps.map((map) => map.sistemaId))]
-  maps.sort((a, b) => groupOrder.indexOf(a.sistemaId) - groupOrder.indexOf(b.sistemaId) || compareMapsByDate(a, b))
+  // Each system's maps together (the cave's own first), in its order (the
+  // editors', the maps they haven't placed first, newest first, the undated
+  // last) - the list and the viewer's slides alike.
+  const maps = orderSistemaMaps(unsorted, sistemas.length > 0 ? sistemas : initial.sistemas || [])
 
   useEffect(() => {
     if (maps.length === 0) {

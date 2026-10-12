@@ -51,3 +51,49 @@ export function compareMapsByDate(a, b) {
   if (!dateA || !dateB) return (dateA ? 0 : 1) - (dateB ? 0 : 1)
   return dateB.localeCompare(dateA)
 }
+
+/**
+ * One system's maps in the order its lists show them: the maps its
+ * `mapOrder` doesn't name (new ones, or a system never reordered) first,
+ * by date ({@link compareMapsByDate}), then those it names, in its order (the
+ * ids no longer among the maps ignored).
+ *
+ * @template T
+ * @param {T[]} items - The maps, or items carrying one.
+ * @param {string[]} [mapOrder] - The system's `mapOrder`.
+ * @param {object} [options]
+ * @param {(item: T) => string} [options.idOf] - An item's map id (default: its `id`).
+ * @param {(item: T) => CaveMap | undefined} [options.mapOf] - An item's map, for its date (default: the item).
+ * @returns {T[]} A new array.
+ */
+export function orderMaps(items, mapOrder, { idOf = (item) => /** @type {any} */ (item).id, mapOf = (item) => /** @type {any} */ (item) } = {}) {
+  const rank = new Map((Array.isArray(mapOrder) ? mapOrder : []).map((id, index) => [id, index]))
+  const unordered = items.filter((item) => !rank.has(idOf(item))).sort((a, b) => compareMapsByDate(mapOf(a), mapOf(b)))
+  const ordered = items.filter((item) => rank.has(idOf(item))).sort((a, b) => rank.get(idOf(a)) - rank.get(idOf(b)))
+  return [...unordered, ...ordered]
+}
+
+/**
+ * Maps of several systems (a cave's: its system's and those it joined,
+ * {@link getSistemaMapRefs}) in the order their lists show them: each
+ * system's together, in the order the systems first appear (the cave's own
+ * first), each group in its system's order ({@link orderMaps}).
+ *
+ * @template T
+ * @param {T[]} items - The maps, or items carrying one.
+ * @param {Sistema[]} sistemas - Their systems (their `mapOrder`).
+ * @param {object} [options]
+ * @param {(item: T) => string} [options.sistemaOf] - The system holding an item's map (default: its `sistemaId`).
+ * @param {(item: T) => string} [options.idOf] - {@link orderMaps}'s.
+ * @param {(item: T) => CaveMap | undefined} [options.mapOf] - {@link orderMaps}'s.
+ * @returns {T[]} A new array.
+ */
+export function orderSistemaMaps(items, sistemas, { sistemaOf = (item) => /** @type {any} */ (item).sistemaId, ...options } = {}) {
+  const groups = new Map()
+  items.forEach((item) => {
+    const id = sistemaOf(item)
+    if (!groups.has(id)) groups.set(id, [])
+    groups.get(id).push(item)
+  })
+  return [...groups].flatMap(([id, group]) => orderMaps(group, sistemas.find((sistema) => sistema.id === id)?.mapOrder, options))
+}

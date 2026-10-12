@@ -75,7 +75,9 @@
  * @property {string} [note]
  * @property {string} [reporter]
  * @property {string} [explorationDate] - A partial date ("1990", "1986-07", "2004-06-14") or years ("2004-2006").
- * @property {string[]} [videos] - Video URLs (older records: one "|"-separated string).
+ * @property {string[]} [videos] - Video URLs (older records: one "|"-separated string), in the order shown.
+ * @property {string[]} [photoOrder] - Its photos' order after the cover (`cavesAssets` ids), as editors arranged them;
+ *   the photos it doesn't name come first, newest first (CaveAsset.js's photoOrder).
  * @property {boolean} [cenoteEntrance] - A cenote used to enter a cave system.
  * @property {boolean} [facilities]
  * @property {boolean} [fees]
@@ -118,6 +120,8 @@
  * @property {boolean} [public] - False: no page of its own.
  * @property {Exploration[]} [explorations]
  * @property {string[]} [maps] - Its `maps` records' ids.
+ * @property {string[]} [mapOrder] - Its maps' order as editors arranged them (`maps` ids); the maps it doesn't name
+ *   come first, by date (utils/sistemaMaps.js's orderMaps).
  * @property {Record<string, TextSource>} [textSources]
  */
 
@@ -350,4 +354,26 @@
  * theme), for the components that take one and pass it on.
  *
  * @typedef {import('@mui/material').SxProps<import('@mui/material').Theme>} Sx
+ */
+
+/**
+ * An item's state in a list editors reorder (components/Reorder): what its
+ * renderItem puts on the item's root (`itemProps`: its ref, its move while
+ * sorting, the drag's and the keyboard's listeners).
+ *
+ * @typedef {object} SortableState
+ * @property {{ref: (node: HTMLElement | null) => void, style: React.CSSProperties} & Record<string, any>} itemProps - Spread
+ *   on the item's root.
+ * @property {boolean} isDragging - The item being dragged.
+ * @property {object} transitionProps - A TransitionGroup's props for the item (`in`, `onExited`...), if in one.
+ */
+
+/**
+ * Draws one item of a list editors reorder (components/Reorder).
+ *
+ * @callback SortableRenderItem
+ * @param {string} id
+ * @param {number} index
+ * @param {SortableState | null} sortable - Null while the list isn't sortable (not an editor, or loading).
+ * @returns {React.ReactNode}
  */

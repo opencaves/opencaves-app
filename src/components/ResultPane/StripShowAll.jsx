@@ -13,8 +13,10 @@ import { ShowAllPane } from '@/components/Carousel/Carousel.jsx'
  * @param {string} props.title - The strip's name: the pane's title, and the link's label for screen readers.
  * @param {string} [props.gridMinWidth] - The pane's narrowest column.
  * @param {React.ReactNode} props.children
+ * @param {import('@/components/Carousel/Carousel.jsx').ShowAllSortable} [props.sortable] - Editors reorder the
+ *   items ({@link ShowAllPane}'s).
  */
-export default function StripShowAll({ title, gridMinWidth, children }) {
+export default function StripShowAll({ title, gridMinWidth, children, sortable }) {
   const { t } = useTranslation('app', { keyPrefix: 'carousel' })
   const [open, setOpen] = useState(false)
   return (
@@ -25,7 +27,7 @@ export default function StripShowAll({ title, gridMinWidth, children }) {
           {t('showAllLink')}
         </Button>
       </Box>
-      <ShowAllPane open={open} onClose={() => setOpen(false)} title={title} gridMinWidth={gridMinWidth}>
+      <ShowAllPane open={open} onClose={() => setOpen(false)} title={title} gridMinWidth={gridMinWidth} sortable={sortable}>
         {children}
       </ShowAllPane>
     </>

@@ -1698,7 +1698,10 @@
       "contentType": "type de fichier",
       "videos": "vidéos",
       "maps": "topographies",
-      "activities": "activités"
+      "activities": "activités",
+      "photoOrder": "ordre des photos",
+      "mapOrder": "ordre des topographies",
+      "videoOrder": "ordre des vidéos"
     }
   },
   "feedback": {
@@ -2309,5 +2312,17 @@
       "notNow": "Pas maintenant",
       "start": "Faire la visite"
     }
+  },
+  "reorder": {
+    "cover": "Couverture",
+    "instructions": "Pour changer l’ordre, faites glisser cet élément à sa nouvelle place, ou appuyez sur Ctrl+Maj (Cmd+Maj sur Mac) et une flèche.",
+    "pickedUp": "Élément {{position}} sur {{count}} saisi.",
+    "movedTo": "Déplacé à la position {{position}} sur {{count}}.",
+    "notOver": "L’élément n’est pas au-dessus d’une place possible.",
+    "dropped": "Déposé à la position {{position}} sur {{count}}.",
+    "cancelled": "Déplacement annulé. L’élément est revenu à la position {{position}} sur {{count}}.",
+    "saved": "Ordre enregistré",
+    "savedCover": "Ordre enregistré. Cette photo est maintenant l’image de couverture.",
+    "saveError": "Impossible d’enregistrer le nouvel ordre. Veuillez réessayer."
   }
 }
