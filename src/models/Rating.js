@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
-import { deleteDoc, doc, serverTimestamp, setDoc } from 'firebase/firestore'
-import { useDocument } from 'react-firebase-hooks/firestore'
-import { db } from '@/config/firebase.js'
+import { useLazyDocument } from '@/hooks/useLazyCollection.js'
+import { loadFirebase } from '@/utils/loadFirebase.js'
 import { CAVE_RATINGS_COLLECTION } from '@/config/collections.js'
 
 // Ratings live under their cave, one per user:
@@ -14,7 +13,8 @@ import { CAVE_RATINGS_COLLECTION } from '@/config/collections.js'
 const RATINGS = 'ratings'
 const SUMMARIES = CAVE_RATINGS_COLLECTION
 
-function ownRatingRef(caveId, userId) {
+// The user's own rating's reference, from the Firebase module (loadFirebase).
+function ownRatingRef({ db, doc }, caveId, userId) {
   return doc(db, 'caves', caveId, RATINGS, userId)
 }
 
@@ -26,7 +26,9 @@ function ownRatingRef(caveId, userId) {
  * @param {number|null} value
  */
 export async function setUserRating(caveId, userId, value) {
-  const ref = ownRatingRef(caveId, userId)
+  const firebase = await loadFirebase()
+  const { deleteDoc, serverTimestamp, setDoc } = firebase
+  const ref = ownRatingRef(firebase, caveId, userId)
   if (value === null) {
     await deleteDoc(ref)
     return
@@ -44,8 +46,10 @@ export async function setUserRating(caveId, userId, value) {
  * @returns {{loading: boolean, average: number|null, count: number, own: number|null}}
  */
 export function useCaveRatings(caveId, userId) {
-  const [summary, summaryLoading] = useDocument(caveId ? doc(db, SUMMARIES, caveId) : null)
-  const [own, ownLoading] = useDocument(caveId && userId ? ownRatingRef(caveId, userId) : null)
+  const summaryRef = useMemo(() => (caveId ? ({ db, doc }) => doc(db, SUMMARIES, caveId) : null), [caveId])
+  const ownRef = useMemo(() => (caveId && userId ? (firebase) => ownRatingRef(firebase, caveId, userId) : null), [caveId, userId])
+  const [summary, summaryLoading] = useLazyDocument(summaryRef)
+  const [own, ownLoading] = useLazyDocument(ownRef)
 
   return useMemo(() => {
     const data = summary?.data()

@@ -102,7 +102,8 @@ async function readData() {
     Promise.all(Object.entries(DATA_COLLECTIONS).map(async ([key, name]) => [key, (await db.collection(name).get()).docs.map((doc) => ({ id: doc.id, ...plain(doc.data()) }))])),
     db.collection('maps').get(),
     // The cover photos (one per cave that has photos): which caves have
-    // none, /caves' No photo filter (src/ssr/pageState.js keeps their caveId).
+    // none, /caves' No photo filter (src/ssr/pageState.js keeps their caveId),
+    // and the landing page's photos.
     db.collection(CAVES_ASSETS_COLL_NAME).where('type', '==', 'image').where('isCover', '==', true).get(),
   ])
   const data = {

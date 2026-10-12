@@ -8,7 +8,6 @@ import ResultPaneLg from './ResultPaneLg.jsx'
 import { ResultPaneExitContext } from './resultPaneExit.js'
 import CurrentCaveDetailsHeader from './CurrentCaveDetailsHeader.jsx'
 import CurrentCaveDetailsContent from './CurrentCaveDetailsContent.jsx'
-import CurrentCaveDetailsContentEdit from './CurrentCaveDetailsContentEdit.jsx'
 import Dropzone from '@/components/AddMedias/Dropzone.jsx'
 import { getCaveById } from '@/models/Cave.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
@@ -19,6 +18,9 @@ import { setCurrentCave } from '@/redux/slices/mapSlice.jsx'
 import CaveSeo from '@/components/Seo/CaveSeo.jsx'
 import './ResultPane.scss'
 import { useWindowFileDrop } from '@/hooks/useWindowFileDrop.jsx'
+
+// The edit form, editors only: loaded when opened (it brings the Firestore SDK).
+const CurrentCaveDetailsContentEdit = lazy(() => import('./CurrentCaveDetailsContentEdit.jsx'))
 
 // Phones only, and it brings Ionic along (see utils/ionic.js).
 const ResultPaneSm = lazy(() => import('./ResultPaneSm.jsx'))
@@ -130,7 +132,9 @@ export default function ResultPane() {
             // It animates its own height: opening, closing, content changes.
             <ResultPaneLg id="result-pane" cave={currentCave} editMode={showEditContent}>
               {!showEditContent && <CurrentCaveDetailsHeader cave={currentCave}></CurrentCaveDetailsHeader>}
-              <DetailsContent key={currentCave.id} cave={currentCave}></DetailsContent>
+              <Suspense fallback={null}>
+                <DetailsContent key={currentCave.id} cave={currentCave}></DetailsContent>
+              </Suspense>
             </ResultPaneLg>
           )
         }

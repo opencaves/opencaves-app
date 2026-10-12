@@ -15,7 +15,8 @@ import { useCaveData } from '@/hooks/useCaveData.js'
 import { homeFigures } from '@/utils/indexData.js'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 import SiteSearch from '@/components/IndexPage/SiteSearch.jsx'
-import CaveAsset from '@/models/CaveAsset.js'
+import CaveAsset, { converter as caveAssetConverter } from '@/models/CaveAsset.js'
+import { ssrQuerySnapshot } from '@/ssr/ssrContext.js'
 import { prefetchMap } from '@/routes/mapRoute.js'
 import { resetView } from '@/redux/slices/mapSlice.jsx'
 import { LanguageButton } from '@/components/LanguagePicker.jsx'
@@ -65,12 +66,18 @@ function IconBadge({ children, size = 48 }) {
 }
 
 // The caves' cover photos, in a random order each visit: the first for the
-// header's background, the next few for the Discover strip.
+// header's background, the next few for the Discover strip. On the page the
+// server rendered, the covers it sent (ssr/pageState.js): no Firestore,
+// which the page doesn't load until the person does something
+// (utils/loadFirebase.js).
 function useCoverPhotos() {
   const [photos, setPhotos] = useState([])
+  // Read while the page hydrates (offered then only).
+  const [serverCovers] = useState(() => ssrQuerySnapshot('covers', caveAssetConverter)?.docs.map((d) => d.data()))
   useEffect(() => {
     let cancelled = false
-    CaveAsset.getAllCoverImages()
+    const covers = serverCovers ? Promise.resolve(serverCovers) : CaveAsset.getAllCoverImages()
+    covers
       .then((covers) => {
         if (cancelled) return
         setPhotos([...covers].sort(() => Math.random() - 0.5).slice(0, DISCOVER_COUNT + 1))

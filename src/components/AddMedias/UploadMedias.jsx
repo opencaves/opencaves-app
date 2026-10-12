@@ -15,7 +15,7 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import pushId from 'unique-push-id'
 import { addPendingUpload } from '@/services/offline/pendingUploads.js'
 import { ACCEPTED_MIME_TYPES } from '@/config/mediaPane.js'
-import { auth } from '@/config/firebase.js'
+import { loadFirebase } from '@/utils/loadFirebase.js'
 
 const codeFontFamily = 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace'
 
@@ -44,7 +44,7 @@ export default function UploadMedias({ medias, caveId }) {
     if (!navigator.onLine && files.every((file) => ACCEPTED_MIME_TYPES.includes(file.type))) {
       try {
         for (const file of files) {
-          await addPendingUpload({ id: pushId(), kind: 'photo', uid: auth.currentUser?.uid ?? null, file, name: file.name, caveId: caveId ?? cave?.id })
+          await addPendingUpload({ id: pushId(), kind: 'photo', uid: (await loadFirebase()).auth.currentUser?.uid ?? null, file, name: file.name, caveId: caveId ?? cave?.id })
         }
         openSnackbar(tOffline('pending.photosSaved', { count: files.length }), { severity: 'success' })
       } catch (cause) {

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { savePendingLink } from '@/services/pendingLink.js'
+import { savePendingLink } from '@/services/pendingLinkAuth.js'
 import AuthButton from './AuthButton.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { auth, signInWithProviderPopup, signInWithProviderRedirect } from '@/config/firebase.js'

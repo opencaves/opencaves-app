@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { signOut } from 'firebase/auth'
 import { Avatar, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
 import AccountCircleRounded from '@mui/icons-material/AccountCircleRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
@@ -12,7 +11,7 @@ import LogoutRounded from '@mui/icons-material/LogoutRounded'
 import SettingsRounded from '@mui/icons-material/SettingsRounded'
 import TipsAndUpdatesRounded from '@mui/icons-material/TipsAndUpdatesRounded'
 import TourRounded from '@mui/icons-material/TourRounded'
-import { auth } from '@/config/firebase.js'
+import { loadFirebase } from '@/utils/loadFirebase.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import OfflinePreviewsToggle from './menu/OfflinePreviewsToggle.jsx'
@@ -69,6 +68,7 @@ export default function AppMenuPanel({ onClose, titleId }) {
   const { t: tPending } = useTranslation('offline', { keyPrefix: 'pending' })
 
   async function logOut({ confirmed = false } = {}) {
+    const { auth, signOut } = await loadFirebase()
     if (!confirmed) {
       const uid = auth.currentUser?.uid
       const waiting = uid ? (await loadPendingUploads()).filter((item) => item.uid === uid).length : 0

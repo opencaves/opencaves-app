@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { auth } from '@/config/firebase.js'
+import { loadFirebase } from '@/utils/loadFirebase.js'
 import CaveAsset from '@/models/CaveAsset.js'
 import useLoggedIn from '@/hooks/useLoggedin.jsx'
 import sleep from '@/utils/sleep.js'
@@ -11,7 +11,7 @@ function findWrongMediaTypeFiles(files) {
 }
 
 async function ensureEditorRole() {
-  const currentUser = auth.currentUser
+  const currentUser = (await loadFirebase()).auth.currentUser
 
   if (!currentUser) {
     throw new Error('You must be signed in to upload media.')

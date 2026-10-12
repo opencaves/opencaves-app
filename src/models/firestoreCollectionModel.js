@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
-import { collection, deleteDoc, deleteField, doc, getDoc, getDocs, orderBy, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
 import { useSsrCollection } from '@/hooks/useSsrCollection.js'
-import { auth, db } from '@/config/firebase.js'
+import { loadFirebase } from '@/utils/loadFirebase.js'
 import { isTrashed } from '@/utils/trash.js'
 
 const converter = {
@@ -14,7 +13,9 @@ const converter = {
  * (caves, sistemas, connections, and the reference-data collections). Mirrors
  * the converter + useCollection pattern established in models/CaveAsset.js,
  * the only other Firestore data-access precedent in this app, generalized
- * since these collections don't need per-entity classes/behavior.
+ * since these collections don't need per-entity classes/behavior. Firebase
+ * is loaded by the first read or write (utils/loadFirebase.js), not with the
+ * model.
  *
  * @param {string} collectionName
  * @param {object} [options]
@@ -24,19 +25,30 @@ const converter = {
  * @returns {object}
  */
 export function createCollectionModel(collectionName, { trash = false } = {}) {
-  const collectionRef = collection(db, collectionName).withConverter(converter)
   const visible = (item) => !trash || !isTrashed(item)
+  // The collection's reference, from the Firebase module (loadFirebase).
+  const refIn = ({ db, collection }) => collection(db, collectionName).withConverter(converter)
 
   return {
     collectionName,
-    collectionRef,
+
+    /**
+     * The collection's reference (with its converter), once Firebase is loaded.
+     *
+     * @returns {Promise<import('firebase/firestore').CollectionReference>}
+     */
+    async collectionRef() {
+      return refIn(await loadFirebase())
+    },
 
     async getAll() {
-      const snapshot = await getDocs(collectionRef)
+      const firebase = await loadFirebase()
+      const snapshot = await firebase.getDocs(refIn(firebase))
       return snapshot.docs.map(d => d.data()).filter(visible)
     },
 
     async getById(id) {
+      const { db, doc, getDoc } = await loadFirebase()
       const snapshot = await getDoc(doc(db, collectionName, id).withConverter(converter))
       return snapshot.exists() && visible(snapshot.data()) ? snapshot.data() : null
     },
@@ -52,33 +64,39 @@ export function createCollectionModel(collectionName, { trash = false } = {}) {
       const definedFields = Object.fromEntries(
         Object.entries(fields).filter(([, value]) => value !== undefined)
       )
+      const { db, doc, setDoc } = await loadFirebase()
       await setDoc(doc(db, collectionName, id), definedFields, { merge: true })
     },
 
     async remove(id) {
+      const { db, doc, deleteDoc } = await loadFirebase()
       await deleteDoc(doc(db, collectionName, id))
     },
 
     // To the trash (admins): kept, with who moved it there and when, until
     // it's restored or deleted for good (Audits > Trash).
     async moveToTrash(id) {
+      const { auth, db, doc, serverTimestamp, updateDoc } = await loadFirebase()
       await updateDoc(doc(db, collectionName, id), { deletedAt: serverTimestamp(), deletedBy: auth.currentUser?.uid ?? null })
     },
 
     async restore(id) {
+      const { db, deleteField, doc, updateDoc } = await loadFirebase()
       await updateDoc(doc(db, collectionName, id), { deletedAt: deleteField(), deletedBy: deleteField() })
     },
 
     // The records in the trash, most recently deleted first.
     async getTrashed() {
-      const snapshot = await getDocs(query(collectionRef, where('deletedAt', '!=', null), orderBy('deletedAt', 'desc')))
+      const firebase = await loadFirebase()
+      const { getDocs, orderBy, query, where } = firebase
+      const snapshot = await getDocs(query(refIn(firebase), where('deletedAt', '!=', null), orderBy('deletedAt', 'desc')))
       return snapshot.docs.map(d => d.data())
     },
 
     useAll({ includeTrashed = false } = {}) {
       // On a page the server rendered: the server's (ssrContext.js), by the
       // collection's name.
-      const [snapshot, loading, error] = useSsrCollection(collectionName, collectionRef)
+      const [snapshot, loading, error] = useSsrCollection(collectionName, refIn, { converter })
       const items = useMemo(() => snapshot?.docs.map(d => d.data()).filter((item) => includeTrashed || visible(item)) || [], [snapshot, includeTrashed])
       return [items, loading, error]
     }

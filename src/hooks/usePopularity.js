@@ -1,7 +1,5 @@
 import { useMemo, useState } from 'react'
-import { collection, documentId, query, where } from 'firebase/firestore'
-import { useCollection } from 'react-firebase-hooks/firestore'
-import { db } from '@/config/firebase.js'
+import { useLazyCollection } from '@/hooks/useLazyCollection.js'
 import { POPULARITY_COLLECTION } from '@/config/collections.js'
 
 /**
@@ -20,8 +18,8 @@ export function usePopularity(kind, needed = true) {
   const [asked, setAsked] = useState(needed)
   if (needed && !asked) setAsked(true)
   // The one document, as a query: none there reads as an empty result, not an error.
-  const q = useMemo(() => (asked ? query(collection(db, POPULARITY_COLLECTION), where(documentId(), '==', kind)) : null), [asked, kind])
-  const [snapshot, , error] = useCollection(q)
+  const makeQuery = useMemo(() => (asked ? ({ db, collection, documentId, query, where }) => query(collection(db, POPULARITY_COLLECTION), where(documentId(), '==', kind)) : null), [asked, kind])
+  const [snapshot, , error] = useLazyCollection(makeQuery)
   const popularity = useMemo(() => {
     if (!snapshot && !error) return null
     const data = snapshot?.docs[0]?.data()

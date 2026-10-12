@@ -1,18 +1,20 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { onAuthStateChanged } from 'firebase/auth'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
-import { auth, signInWithProviderPopup, signInWithProviderRedirect } from '@/config/firebase.js'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
-import { clearPendingLink, linkPendingCredential, PENDING_LINK_EVENT, readPendingLink } from '@/services/pendingLink.js'
-import { googleProvider, microsoftProvider } from './providers.jsx'
+import { clearPendingLink, PENDING_LINK_EVENT, readPendingLink } from '@/services/pendingLink.js'
+import { currentUser, loadFirebase, onAuthChange } from '@/utils/loadFirebase.js'
 import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 
+// provider: its export in providers.jsx (loaded with Firebase).
 const PROVIDERS = {
-  'google.com': { name: 'Google', provider: googleProvider },
-  'microsoft.com': { name: 'Microsoft', provider: microsoftProvider },
+  'google.com': { name: 'Google', provider: 'googleProvider' },
+  'microsoft.com': { name: 'Microsoft', provider: 'microsoftProvider' },
 }
+
+// What signing in with a provider needs: Firebase and the providers.
+const loadSignIn = () => Promise.all([loadFirebase(), import('./providers.jsx')]).then(([firebase, providers]) => ({ firebase, providers }))
 
 /**
  * When a provider sign-in is refused because its email already has an
@@ -25,20 +27,24 @@ export default function AccountLinking() {
   const [openSnackbar] = useSnackbar()
   const isSmall = useSmall()
   const [pending, setPending] = useState(null)
+  // Loaded once the dialog shows, so a click opens the sign-in popup at once
+  // (a popup opened after waiting for a download is blocked).
+  const signIn = useRef(null)
 
   useEffect(() => {
     const onPending = (event) => setPending(event.detail)
     window.addEventListener(PENDING_LINK_EVENT, onPending)
     // Kept before this mounted (a phone's redirect sign-in, or a reload).
     const kept = readPendingLink()
-    if (kept && !auth.currentUser?.email) setPending({ email: kept.email, providerId: kept.providerId })
+    if (kept && !currentUser()?.email) setPending({ email: kept.email, providerId: kept.providerId })
     return () => window.removeEventListener(PENDING_LINK_EVENT, onPending)
   }, [])
 
   useEffect(() => {
-    return onAuthStateChanged(auth, async (user) => {
+    return onAuthChange(async (user) => {
       if (!user || user.isAnonymous) return
       try {
+        const { linkPendingCredential } = await import('@/services/pendingLinkAuth.js')
         const linked = await linkPendingCredential(user)
         if (linked) {
           setPending(null)
@@ -52,16 +58,25 @@ export default function AccountLinking() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    if (pending && !signIn.current) loadSignIn().then((loaded) => (signIn.current = loaded), (error) => console.error('[AccountLinking] sign-in not loaded', error))
+  }, [pending])
+
   function cancel() {
     clearPendingLink()
     setPending(null)
   }
 
   // Signing in with the other provider: the link is made on sign-in (above).
-  function continueWith(provider) {
+  function continueWith(providerName) {
     setPending(null)
-    if (isSmall) signInWithProviderRedirect(provider)
-    else signInWithProviderPopup(provider).catch((error) => console.error('[AccountLinking] sign-in failed', error))
+    const start = ({ firebase, providers }) => {
+      const provider = providers[providerName]
+      if (isSmall) return firebase.signInWithProviderRedirect(provider)
+      return firebase.signInWithProviderPopup(provider)
+    }
+    const started = signIn.current ? start(signIn.current) : loadSignIn().then(start)
+    Promise.resolve(started).catch((error) => console.error('[AccountLinking] sign-in failed', error))
   }
 
   const refused = PROVIDERS[pending?.providerId]?.name || pending?.providerId

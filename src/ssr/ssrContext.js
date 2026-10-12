@@ -1,5 +1,3 @@
-import { Timestamp } from 'firebase/firestore'
-
 // What a page rendered on the server (entry-server.jsx) shares with the
 // browser rendering it again - hydrating it: the request's host, the cave
 // data the page shows (pageState.js) and the Firestore query results the
@@ -83,12 +81,48 @@ function queryResult(key) {
   return hydrating ? window.__OC_SSR__?.queries?.[key] : undefined
 }
 
+// Firestore's Timestamp as the pages read it (seconds, nanoseconds, toDate(),
+// toMillis()...), without the Firestore SDK: a page the server rendered
+// hydrates before it's loaded (utils/loadFirebase.js). Firestore's own
+// results replace them once it is.
+class SsrTimestamp {
+  constructor(seconds, nanoseconds) {
+    this.seconds = seconds
+    this.nanoseconds = nanoseconds
+  }
+
+  toMillis() {
+    return this.seconds * 1000 + Math.floor(this.nanoseconds / 1e6)
+  }
+
+  toDate() {
+    return new Date(this.toMillis())
+  }
+
+  isEqual(other) {
+    return other?.seconds === this.seconds && other?.nanoseconds === this.nanoseconds
+  }
+
+  valueOf() {
+    // As Firestore's: sortable as a string.
+    return `${String(this.seconds + 62135596800).padStart(12, '0')}.${String(this.nanoseconds).padStart(9, '0')}`
+  }
+
+  toJSON() {
+    return { seconds: this.seconds, nanoseconds: this.nanoseconds, type: 'firestore/timestamp/1.1' }
+  }
+
+  toString() {
+    return `Timestamp(seconds=${this.seconds}, nanoseconds=${this.nanoseconds})`
+  }
+}
+
 // Timestamps travel as { seconds, nanoseconds, type } (their toJSON):
 // Timestamps again, as Firestore gives them.
 function revive(value) {
   if (Array.isArray(value)) return value.map(revive)
   if (value && typeof value === 'object') {
-    if (value.type === 'firestore/timestamp/1.1' && typeof value.seconds === 'number') return new Timestamp(value.seconds, value.nanoseconds || 0)
+    if (value.type === 'firestore/timestamp/1.1' && typeof value.seconds === 'number') return new SsrTimestamp(value.seconds, value.nanoseconds || 0)
     return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, revive(item)]))
   }
   return value

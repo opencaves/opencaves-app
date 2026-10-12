@@ -1,5 +1,4 @@
-import { doc, getDoc, setDoc } from 'firebase/firestore'
-import { db } from '@/config/firebase.js'
+import { loadFirebase } from '@/utils/loadFirebase.js'
 import { USERS_COLLECTION } from '@/config/collections.js'
 
 // The display mode a person picked (the account page's AppearanceSection):
@@ -10,11 +9,12 @@ import { USERS_COLLECTION } from '@/config/collections.js'
 export const COLOR_MODES = ['system', 'light', 'dark']
 
 export async function loadAccountColorMode(uid) {
+  const { db, doc, getDoc } = await loadFirebase()
   const snapshot = await getDoc(doc(db, USERS_COLLECTION, uid))
   const mode = snapshot.exists() ? snapshot.get('colorMode') : null
   return COLOR_MODES.includes(mode) ? mode : null
 }
 
 export function saveAccountColorMode(uid, mode) {
-  return setDoc(doc(db, USERS_COLLECTION, uid), { colorMode: mode }, { merge: true })
+  return loadFirebase().then(({ db, doc, setDoc }) => setDoc(doc(db, USERS_COLLECTION, uid), { colorMode: mode }, { merge: true }))
 }

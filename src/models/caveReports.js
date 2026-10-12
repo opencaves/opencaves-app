@@ -1,6 +1,4 @@
 import { useMemo } from 'react'
-import { collection, documentId, query, where } from 'firebase/firestore'
-import { db } from '@/config/firebase.js'
 import { CAVE_REPORTS_COLLECTION } from '@/config/collections.js'
 import { CAVE_WARNING_REPORTS } from '@/config/caveReview.js'
 import { useSsrCollection } from '@/hooks/useSsrCollection.js'
@@ -16,8 +14,8 @@ import { useSsrCollection } from '@/hooks/useSsrCollection.js'
  */
 export function useCaveReports(caveId) {
   // A query on its id rather than the document: useSsrCollection's.
-  const q = useMemo(() => (caveId ? query(collection(db, CAVE_REPORTS_COLLECTION), where(documentId(), '==', caveId)) : null), [caveId])
-  const [snapshot, loading] = useSsrCollection(`caveReports:${caveId}`, q)
+  const makeQuery = useMemo(() => (caveId ? ({ db, collection, documentId, query, where }) => query(collection(db, CAVE_REPORTS_COLLECTION), where(documentId(), '==', caveId)) : null), [caveId])
+  const [snapshot, loading] = useSsrCollection(`caveReports:${caveId}`, makeQuery)
   const reports = useMemo(() => {
     const data = snapshot?.docs[0]?.data()
     return Array.isArray(data?.reports) ? data.reports.filter((report) => CAVE_WARNING_REPORTS.includes(report?.kind) && report.feedbackId) : []

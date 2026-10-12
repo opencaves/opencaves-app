@@ -6,7 +6,7 @@ import { ErrorAlert } from '@/components/Alert.jsx'
 import Snackbar from '@/components/Snackbar/Snackbar.jsx'
 import { UploadInfo } from '@/components/AddMedias/UploadMedias.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
-import { auth, getStorageService } from '@/config/firebase.js'
+import { loadFirebase } from '@/utils/loadFirebase.js'
 import mapsModel from '@/models/MapModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { assertOnline } from '@/utils/assertOnline.js'
@@ -26,7 +26,7 @@ import { addPendingUpload } from '@/services/offline/pendingUploads.js'
 export async function uploadMapFile(file, { title, authors = [], date, note } = {}, { id = pushId(), onProgress } = {}) {
   assertOnline()
   const isPdf = file.type === 'application/pdf'
-  const { storage, ref, uploadBytesResumable, getDownloadURL } = await getStorageService()
+  const { storage, ref, uploadBytesResumable, getDownloadURL } = await (await loadFirebase()).getStorageService()
   const storageRef = ref(storage, isPdf ? `maps/original-pdf/${id}` : `maps/${id}`)
   const task = uploadBytesResumable(storageRef, file)
   await new Promise((resolve, reject) => {
@@ -71,7 +71,7 @@ export function useMapUpload() {
     if (!navigator.onLine) {
       const id = pushId()
       try {
-        await addPendingUpload({ id, kind: 'map', uid: auth.currentUser?.uid ?? null, file, name: file.name, details: { title, authors, date, note }, sistemaId: attachToSistemaId })
+        await addPendingUpload({ id, kind: 'map', uid: (await loadFirebase()).auth.currentUser?.uid ?? null, file, name: file.name, details: { title, authors, date, note }, sistemaId: attachToSistemaId })
         openSnackbar(tOffline('pending.mapSaved', { name: title }), { severity: 'success' })
         return { id, pending: true, name: title, contentType: file.type }
       } catch (cause) {

@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { arrayUnion } from 'firebase/firestore'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { uploadMapFile } from '@/components/MapsPicker/MapUpload.jsx'
 import CaveAsset from '@/models/CaveAsset.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
+import { loadFirebase } from '@/utils/loadFirebase.js'
 import { isMeteredConnection } from '@/services/offline/offlineMedia.js'
 import { loadPendingUploads, removePendingUpload, subscribePendingUploads, updatePendingUpload } from '@/services/offline/pendingUploads.js'
 
@@ -50,7 +50,10 @@ export default function PendingUploadsSync() {
             if (item.kind === 'map') {
               const map = await uploadMapFile(item.file, item.details, { id: item.id })
               // Added from a system's maps list: added to it now.
-              if (item.sistemaId) await SistemaModel.save(item.sistemaId, { maps: arrayUnion(map.id) })
+              if (item.sistemaId) {
+                const { arrayUnion } = await loadFirebase()
+                await SistemaModel.save(item.sistemaId, { maps: arrayUnion(map.id) })
+              }
               invalidateData()
               getData().catch((error) => console.warn(error))
               openSnackbar(t('mapUploaded', { name: item.details?.title || item.name }), { severity: 'success' })

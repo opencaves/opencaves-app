@@ -1,9 +1,8 @@
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { useColorScheme } from '@mui/material/styles'
-import { onAuthStateChanged, onIdTokenChanged, signOut } from 'firebase/auth'
 import { setUser, setUserRoles } from '@/redux/slices/sessionSlice.jsx'
-import { auth, callable } from '@/config/firebase.js'
+import { KNOWN_ROLES_KEY, loadFirebase, onAuthChange, whenFirebaseNeeded } from '@/utils/loadFirebase.js'
 import i18n from '@/i18n.js'
 import { toServiceLanguage } from '@/utils/lang.js'
 import { applyLanguage, loadAccountLanguage } from '@/services/languagePreference.js'
@@ -12,8 +11,9 @@ import { loadAccountColorMode } from '@/services/colorModePreference.js'
 import { loadAccountMapLegendOpen } from '@/services/mapLegendPreference.js'
 import { setMapLegendOpen, setUnits } from '@/redux/slices/preferencesSlice.jsx'
 
-const ensureEditorRole = callable('ensureEditorRole')
-const sendWelcomeEmail = callable('sendWelcomeEmail')
+// The server's callables, once Firebase is loaded.
+const ensureEditorRole = () => loadFirebase().then(({ callable }) => callable('ensureEditorRole')())
+const sendWelcomeEmail = (data) => loadFirebase().then(({ callable }) => callable('sendWelcomeEmail')(data))
 
 // The welcome email (sendWelcomeEmail), asked for once per account on this
 // device once it's an editor; the server sends it only once, to new accounts.
@@ -40,8 +40,9 @@ function askWelcomeEmail(uid) {
 // app started offline with an expired token (over an hour old) can't read
 // them - refreshing it needs the network - and showed an editor the app as a
 // visitor until back online. Only the interface follows them: the database's
-// rules check the real token, so a changed copy here grants nothing.
-const KNOWN_ROLES_KEY = 'oc-known-roles'
+// rules check the real token, so a changed copy here grants nothing. Also
+// tells utils/loadFirebase.js that this device has a signed-in account
+// (KNOWN_ROLES_KEY).
 
 function rememberRoles(uid, roles) {
   try {
@@ -63,7 +64,8 @@ function knownRoles(uid) {
 
 /**
  * Follows the signed-in account (Firebase Auth) into the store: the session,
- * its roles, its settings. Renders nothing.
+ * its roles, its settings - once Firebase is needed (utils/loadFirebase.js:
+ * on a page the server rendered, not at once). Renders nothing.
  *
  * @returns {null}
  */
@@ -116,6 +118,7 @@ export default function ManageAuth() {
     }
 
     async function refreshCurrentUser() {
+      const { auth, signOut } = await loadFirebase()
       const user = auth.currentUser
       if (!user) return
 
@@ -133,11 +136,18 @@ export default function ManageAuth() {
       }
     }
 
-    const unsubscribe = onIdTokenChanged(auth, syncUser)
-    const refreshInterval = setInterval(refreshCurrentUser, 30000)
+    let unsubscribe = null
+    let refreshInterval = null
+    let stopped = false
+    whenFirebaseNeeded().then(({ auth, onIdTokenChanged }) => {
+      if (stopped) return
+      unsubscribe = onIdTokenChanged(auth, syncUser)
+      refreshInterval = setInterval(refreshCurrentUser, 30000)
+    }, (error) => console.error('[ManageAuth] Firebase not loaded:', error))
 
     return () => {
-      unsubscribe()
+      stopped = true
+      unsubscribe?.()
       clearInterval(refreshInterval)
     }
   }, [dispatch])
@@ -145,7 +155,7 @@ export default function ManageAuth() {
   // The account's own language (LanguageSection), applied on sign-in - once
   // per sign-in, not on every token refresh like onIdTokenChanged.
   useEffect(() => {
-    return onAuthStateChanged(auth, async (user) => {
+    return onAuthChange(async (user) => {
       if (!user || user.isAnonymous) return
       try {
         const language = await loadAccountLanguage(user.uid)

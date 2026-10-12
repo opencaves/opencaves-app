@@ -1,5 +1,4 @@
-import { deleteField, doc, getDoc, setDoc } from 'firebase/firestore'
-import { db } from '@/config/firebase.js'
+import { loadFirebase } from '@/utils/loadFirebase.js'
 import i18n from '@/i18n.js'
 import { APP_LANGUAGE_CODES, APP_LANGUAGE_STORAGE_KEY } from '@/config/appLanguages.js'
 import { USERS_COLLECTION } from '@/config/collections.js'
@@ -40,6 +39,7 @@ export function applyLanguage(code) {
 }
 
 export async function loadAccountLanguage(uid) {
+  const { db, doc, getDoc } = await loadFirebase()
   const snapshot = await getDoc(doc(db, USERS_COLLECTION, uid))
   const code = snapshot.exists() ? snapshot.get('language') : null
   return isSupportedLanguage(code) ? code : null
@@ -53,7 +53,7 @@ export async function loadAccountLanguage(uid) {
  * @returns {Promise<void>}
  */
 function saveAccountLanguage(uid, code) {
-  return setDoc(doc(db, USERS_COLLECTION, uid), { language: code || deleteField() }, { merge: true })
+  return loadFirebase().then(({ db, deleteField, doc, setDoc }) => setDoc(doc(db, USERS_COLLECTION, uid), { language: code || deleteField() }, { merge: true }))
 }
 
 /**

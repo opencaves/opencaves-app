@@ -1,5 +1,4 @@
-import { doc, onSnapshot, setDoc } from 'firebase/firestore'
-import { db } from '@/config/firebase.js'
+import { loadFirebase } from '@/utils/loadFirebase.js'
 import { USERS_COLLECTION } from '@/config/collections.js'
 
 /**
@@ -14,9 +13,17 @@ import { USERS_COLLECTION } from '@/config/collections.js'
  * @returns {() => void} The unsubscribe.
  */
 export function watchFeedbackEmails(uid, onChange, onError) {
-  return onSnapshot(doc(db, USERS_COLLECTION, uid), (snapshot) => onChange(snapshot.get('feedbackEmails') !== false), onError)
+  let unsubscribe = null
+  let stopped = false
+  loadFirebase().then(({ db, doc, onSnapshot }) => {
+    if (!stopped) unsubscribe = onSnapshot(doc(db, USERS_COLLECTION, uid), (snapshot) => onChange(snapshot.get('feedbackEmails') !== false), onError)
+  }, onError)
+  return () => {
+    stopped = true
+    unsubscribe?.()
+  }
 }
 
 export function saveFeedbackEmails(uid, enabled) {
-  return setDoc(doc(db, USERS_COLLECTION, uid), { feedbackEmails: Boolean(enabled) }, { merge: true })
+  return loadFirebase().then(({ db, doc, setDoc }) => setDoc(doc(db, USERS_COLLECTION, uid), { feedbackEmails: Boolean(enabled) }, { merge: true }))
 }

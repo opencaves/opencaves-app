@@ -38,13 +38,30 @@ function appShellName() {
   }
 }
 
+// The files of src/config/firebase.js's chunk and the chunks it imports, as
+// the page names them ('/assets/...'): Firebase is loaded on demand
+// (utils/loadFirebase.js), out of the app's own preloads.
+function firebaseFiles(bundle) {
+  const chunks = Object.values(bundle || {}).filter((chunk) => chunk.type === 'chunk')
+  const byFile = new Map(chunks.map((chunk) => [chunk.fileName, chunk]))
+  const start = chunks.find((chunk) => chunk.moduleIds.some((id) => path.normalize(id).endsWith(path.normalize('src/config/firebase.js'))))
+  const files = new Set()
+  const add = (chunk) => {
+    if (!chunk || files.has(chunk.fileName)) return
+    files.add(chunk.fileName)
+    chunk.imports.forEach((file) => add(byFile.get(file)))
+  }
+  add(start)
+  return [...files].map((file) => `/${file}`)
+}
+
 function loadAppAfterFirstPaint() {
   return {
     name: 'oc-load-app-after-first-paint',
     apply: 'build',
     transformIndexHtml: {
       order: 'post',
-      handler(html) {
+      handler(html, ctx) {
         const found = { stylesheets: [], preloads: [], entry: null }
         html = html
           .replace(/\s*<script type="module" crossorigin src="([^"]+)"><\/script>/, (_, src) => {
@@ -62,10 +79,16 @@ function loadAppAfterFirstPaint() {
         if (!found.entry) {
           throw new Error('oc-load-app-after-first-paint: no entry script found in index.html')
         }
+        // Firebase: fetched at once beside the app (index.jsx) - except on a
+        // page the server rendered, which waits for the person
+        // (utils/loadFirebase.js): preloaded with the app's on the others.
+        const firebasePreloads = firebaseFiles(ctx.bundle).filter((file) => file !== found.entry && !found.preloads.includes(file))
         const loader = `<script>
     (function () {
       var stylesheets = ${JSON.stringify(found.stylesheets)}
       var preloads = ${JSON.stringify(found.preloads)}
+      var firebasePreloads = ${JSON.stringify(firebasePreloads)}
+      var serverRendered = document.documentElement.hasAttribute('data-oc-ssr')
       var started = false
       function start() {
         if (started) return
@@ -84,7 +107,7 @@ function loadAppAfterFirstPaint() {
           })
         }))
         // A server-rendered page's own route code (functions/js/seo/ssr.js).
-        preloads.concat(window.__ocPagePreloads || []).forEach(function (href) {
+        preloads.concat(window.__ocPagePreloads || [], serverRendered ? [] : firebasePreloads).forEach(function (href) {
           var link = document.createElement('link')
           link.rel = 'modulepreload'
           link.crossOrigin = ''
@@ -102,7 +125,7 @@ function loadAppAfterFirstPaint() {
       // and its HTML in), or a second at most. Otherwise the splash: right
       // after the first frame.
       var observed = false
-      if (document.documentElement.hasAttribute('data-oc-ssr') && window.PerformanceObserver) {
+      if (serverRendered && window.PerformanceObserver) {
         try {
           new PerformanceObserver(function (list, observer) {
             if (list.getEntriesByName('first-contentful-paint').length) {
