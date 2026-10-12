@@ -28,6 +28,13 @@ export const ERROR_REPORTS_COLL_NAME = '_errorReports'
 // the page reads.
 export const WHATS_NEW_COLL_NAME = '_whatsNew'
 export const WHATS_NEW_DOC_ID = 'latest'
+// How popular each cave is (its pages' views, how many saved it), built by
+// the server (refreshCavePopularity) into one public document: the caves'
+// list ranked by usefulness (src/utils/caveRank.js).
+export const CAVE_POPULARITY_COLL_NAME = '_cavePopularity'
+export const CAVE_POPULARITY_DOC_ID = 'latest'
+// The caves an account saved (_users/{uid}/savedCaves/{caveId}).
+export const SAVED_CAVES_COLL_NAME = 'savedCaves'
 // The members' reports (Send feedback): read by every registered
 // account (Ideas and fixes), managed by admins, emailed to them.
 export const FEEDBACK_COLL_NAME = '_feedback'

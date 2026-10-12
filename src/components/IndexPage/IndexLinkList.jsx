@@ -39,8 +39,10 @@ const MAP_OFF_ICON = svgUrl(MAP_OFF_BODY)
  *   entrance: a cave that's an entrance into its system - a diver icon after
  *   its name, this text its tooltip and its name for screen readers (part of
  *   the link's).
+ * @param {boolean} [props.grid=false] - In rows, left to right then down (a ranked list: its order read
+ *   as text), instead of in columns, top to bottom.
  */
-function IndexLinkList({ items, className }) {
+function IndexLinkList({ items, className, grid = false }) {
   const { t } = useTranslation('indexPages')
   const [tip, setTip] = useState(null)
   // Whatever has a tooltip: a map icon, an entrance mark - or, focused, a
@@ -70,8 +72,7 @@ function IndexLinkList({ items, className }) {
           m: 0,
           mx: -1.5,
           p: 0,
-          columnWidth: '15rem',
-          columnGap: 2,
+          ...(grid ? { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))', columnGap: 2 } : { columnWidth: '15rem', columnGap: 2 }),
           '& > li': { breakInside: 'avoid', display: 'flex', alignItems: 'center', borderRadius: 2, '&:hover, &:focus-within': { bgcolor: 'action.hover' } },
           '& .oc-index-link-list--link': { flex: 1, minWidth: 0, minHeight: 40, px: 1.5, py: 0.75, borderRadius: 2, display: 'flex', gap: 1, alignItems: 'center', color: 'inherit', textDecoration: 'none' },
           // On the name's first line (body1: 24px high) when it wraps or has a

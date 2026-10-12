@@ -1567,7 +1567,11 @@
       "description": "Todos los cenotes de Yucatán, México, listados en OpenCaves por zona, cada uno con su ubicación, acceso, fotos y mapas.",
       "add": "Añadir una cueva",
       "subtitle_one": "{{count}} cueva, por zona.",
-      "subtitle_other": "{{count}} cuevas, por zona."
+      "subtitle_other": "{{count}} cuevas, por zona.",
+      "ranked": {
+        "title": "Las más útiles primero",
+        "description": "Primero las cuevas más consultadas, luego los cenotes de entrada, las cuevas abiertas a todos, las de los sistemas más grandes y aquellas a las que les faltan menos datos."
+      }
     },
     "sistemas": {
       "title": "Sistemas de cuevas de Yucatán",

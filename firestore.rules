@@ -184,6 +184,12 @@ service cloud.firestore {
       allow read: if true
     }
 
+    // How popular each cave is (page views, saves), built by the server
+    // (refreshCavePopularity): public, written by it only.
+    match /_cavePopularity/{document} {
+      allow read: if true
+    }
+
     // Data checks: an edit from the app may only set the fields the app
     // uses, with the right type and a sane size - limits about 4 times the
     // largest values in the data (2026-10). Only the fields an edit sets are

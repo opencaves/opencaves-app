@@ -378,6 +378,18 @@
  */
 
 /**
+ * How popular each cave is (`_cavePopularity/latest`, built nightly by the
+ * server's refreshCavePopularity; its twin is in functions/js/types.js):
+ * public, by cave id - what the caves' list ranked by usefulness reads first
+ * (utils/caveRank.js). A server-rendered page sends views and saves only.
+ *
+ * @typedef {object} CavePopularity
+ * @property {Record<string, number>} views - Its pages' views (/caves/<id>, /map/<id>) in Google Analytics, the last 90 days.
+ * @property {Record<string, number>} saves - How many accounts saved it.
+ * @property {Timestamp} [updatedAt]
+ */
+
+/**
  * The Redux store's state (redux/store.jsx), for useSelector's callbacks:
  * `useSelector((/** @type {RootState} *\/ state) => state.session.user)`.
  *

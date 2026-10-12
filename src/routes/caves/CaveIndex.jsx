@@ -5,6 +5,9 @@ import { useTranslation } from 'react-i18next'
 import { Typography } from '@mui/material'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { groupByArea } from '@/utils/indexData.js'
+import { slugify } from '@/utils/slug.js'
+import { rankCaves, sistemaReach } from '@/utils/caveRank.js'
+import { useCavePopularity } from '@/hooks/useCavePopularity.js'
 import { MISSING_CRITERIA, TYPE_VALUES, UNKNOWN_VALUE, caveFiltersParams, caveValue, emptyCaveFilters, matchesCaveFilters, noCaveFilters, parseCaveFilters, sameCaveFilterParams, withCaveFilter } from '@/utils/caveFilters.js'
 import { useCoverCaveIds } from '@/models/CaveAsset.js'
 import CaveFilterBar from './CaveFilterBar.jsx'
@@ -15,6 +18,10 @@ import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import IndexSearchField, { fold, useIndexSearch, useProgressiveCount } from '@/components/IndexPage/IndexSearchField.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 
+// The ranked list's rows per block: drawn a few blocks at a time
+// (useProgressiveCount), as the areas' sections are.
+const RANKED_BLOCK = 60
+
 // A kind's values in their address order: by id, unknown last.
 const byIdUnknownLast = (a, b) => (a === UNKNOWN_VALUE ? 1 : b === UNKNOWN_VALUE ? -1 : a.localeCompare(b))
 
@@ -23,10 +30,12 @@ const byIdUnknownLast = (a, b) => (a === UNKNOWN_VALUE ? 1 : b === UNKNOWN_VALUE
  * address's criteria (utils/caveFilters.js: ?type=entrance&missing=photo...,
  * the older ?filter=unnamed or ?filter=no-coordinates rewritten as such),
  * shown as chips with an Add filter menu (CaveFilterBar), with the text
- * search. The server renders the address with its query
- * (functions/js/seo/ssr.js): the first render is filtered on both sides, with
- * the facts pageState.js sends and the covers query's results. Editors'
- * list: /caves/edit.
+ * search. With a Needs help filter (?missing=), one list instead, the most
+ * useful caves first (utils/caveRank.js), each with its area beside it. The
+ * server renders the address with its query (functions/js/seo/ssr.js): the
+ * first render is filtered (and ranked) on both sides, with the facts
+ * pageState.js sends and the covers and popularity queries' results.
+ * Editors' list: /caves/edit.
  */
 export default function CaveIndex() {
   const { t } = useTranslation('indexPages')
@@ -76,6 +85,12 @@ export default function CaveIndex() {
   // No photo asked for, before the covers are known: the list waits (the
   // server's page has them: no wait there, nor in its hydration).
   const photosPending = filters.missing.includes('photo') && !covers && !coversError
+  // A Needs help filter: the list ranked (utils/caveRank.js), once the caves'
+  // popularity and their covers (how much each misses) are known - the
+  // server's page has them too.
+  const ranked = filters.missing.length > 0
+  const { popularity, loading: popularityLoading } = useCavePopularity(ranked)
+  const rankPending = ranked && (popularityLoading || (!covers && !coversError))
 
   // Every cave's row, and its search text (its name and other names, its
   // system's and its area's), made once - not on every letter typed.
@@ -86,8 +101,12 @@ export default function CaveIndex() {
     return new Map(
       data.caves.map((cave) => {
         const sistema = data.sistemasById.get(cave.sistemaId)
-        const row = { key: cave.id, cave: true, to: `/caves/${cave.id}`, mapTo: `/map/${cave.id}`, noMap: !cave.located, label: cave.name || t('unnamedCave'), secondary: sistema && bareName(sistema.name) !== bareName(cave.name) ? sistema.name : null }
-        return [cave.id, { row, text: fold([cave.name, ...cave.aka, sistema?.name, cave.area].join(' ')) }]
+        const sistemaName = sistema && bareName(sistema.name) !== bareName(cave.name) ? sistema.name : null
+        const row = { key: cave.id, cave: true, to: `/caves/${cave.id}`, mapTo: `/map/${cave.id}`, noMap: !cave.located, label: cave.name || t('unnamedCave'), secondary: sistemaName }
+        // The ranked list's (no areas' sections): its area after its system.
+        const areaName = cave.area ? data.areasBySlug.get(slugify(cave.area))?.name || cave.area : null
+        const rankedRow = { ...row, secondary: [sistemaName, areaName].filter(Boolean).join(' · ') || null }
+        return [cave.id, { row, rankedRow, text: fold([cave.name, ...cave.aka, sistema?.name, cave.area].join(' ')) }]
       }),
     )
   }, [data, t])
@@ -107,12 +126,20 @@ export default function CaveIndex() {
   const onToggle = (kind, value, on) => setFilters(withCaveFilter(filters, kind, value, on, order(kind)))
   // Each area's rows: the same arrays until the search changes (the lists
   // aren't drawn again meanwhile).
-  const groups = useMemo(() => groupByArea(caves, data.areasBySlug).map(({ area, items }) => ({ area, items, rows: items.map((cave) => rows.get(cave.id).row) })), [caves, data, rows])
+  const groups = useMemo(() => (ranked ? [] : groupByArea(caves, data.areasBySlug).map(({ area, items }) => ({ area, items, rows: items.map((cave) => rows.get(cave.id).row) }))), [ranked, caves, data, rows])
   const shownGroups = useProgressiveCount(groups.length, groups)
+  // Ranked: the caves most useful first, in blocks of rows.
+  const reachOf = useMemo(() => sistemaReach(data.sistemasById, data.connections), [data])
+  const blocks = useMemo(() => {
+    if (!ranked || rankPending) return []
+    const list = rankCaves(caves, { popularity, reachOf, covers, missing: filters.missing }).map((cave) => rows.get(cave.id).rankedRow)
+    return Array.from({ length: Math.ceil(list.length / RANKED_BLOCK) }, (_, index) => list.slice(index * RANKED_BLOCK, (index + 1) * RANKED_BLOCK))
+  }, [ranked, rankPending, caves, popularity, reachOf, covers, filters.missing, rows])
+  const shownBlocks = useProgressiveCount(blocks.length, blocks)
 
   useIndexPageHead({ title: t('caves.title'), description: t('caves.description') })
 
-  if (loading || photosPending) return <IndexPageSkeleton search card />
+  if (loading || photosPending || rankPending) return <IndexPageSkeleton search card />
 
   return (
     <div className="oc-cave-index">
@@ -139,6 +166,17 @@ export default function CaveIndex() {
       <CaveFilterBar filters={filters} options={options} onToggle={onToggle} onClear={() => setFilters(emptyCaveFilters())} countWith={countWith} />
 
       {filters.missing.includes('photo') && coversError && <Typography color="error" sx={{ mb: 2 }}>{t('caves.filters.photosFailed')}</Typography>}
+
+      {ranked && caves.length > 0 && (
+        <IndexSection card className="oc-cave-index--ranked" title={t('caves.ranked.title')} count={t('caveCount', { count: caves.length })}>
+          <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1.5, mt: -0.5 }}>
+            {t('caves.ranked.description')}
+          </Typography>
+          {blocks.slice(0, shownBlocks).map((block) => (
+            <IndexLinkList key={block[0].key} items={block} grid />
+          ))}
+        </IndexSection>
+      )}
 
       {groups.slice(0, shownGroups).map(({ area, items, rows: groupRows }) => (
         <IndexSection
