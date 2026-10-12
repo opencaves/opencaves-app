@@ -524,7 +524,8 @@
         "fees": "Frais inconnus",
         "facilities": "Commodités inconnues",
         "parking": "Sans stationnement"
-      }
+      },
+      "hint": "N'affiche que les grottes où manquent tous les éléments activés."
     }
   },
   "resultPane": {

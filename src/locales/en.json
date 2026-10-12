@@ -525,7 +525,8 @@
         "fees": "Fees unknown",
         "facilities": "Facilities unknown",
         "parking": "No parking spot"
-      }
+      },
+      "hint": "Shows only the caves missing all the items switched on."
     }
   },
   "resultPane": {

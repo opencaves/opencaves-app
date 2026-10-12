@@ -525,7 +525,8 @@
         "fees": "Costos desconocidos",
         "facilities": "Instalaciones desconocidas",
         "parking": "Sin estacionamiento"
-      }
+      },
+      "hint": "Muestra solo las cuevas a las que les faltan todos los elementos activados."
     }
   },
   "resultPane": {

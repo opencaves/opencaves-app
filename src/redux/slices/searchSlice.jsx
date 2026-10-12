@@ -11,6 +11,10 @@ const initialState = {
   showCenoteEntrances: true,
   showOtherCenotes: true,
 
+  // Needs help: what the caves shown must all lack (utils/caveFilters.js's
+  // MISSING_CRITERIA values); none, every cave.
+  missing: [],
+
   // Areas: those turned off ({ key: its slug, or 'unknown' for no area,
   // checked: false }); an area not listed is shown (the menu lists the data's).
   showAreas: [],
@@ -61,6 +65,9 @@ export const searchSlice = createSlice({
     setShowOtherCenotes: (state, action) => {
       state.showOtherCenotes = action.payload
     },
+    setMissing: (state, action) => {
+      state.missing = action.payload
+    },
     setShowAreas: (state, action) => {
       state.showAreas = action.payload
     },
@@ -74,6 +81,6 @@ export const searchSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnconfirmedCoordinates, setShowCenoteEntrances, setShowOtherCenotes, setShowAreas, setShowAccesses, setShowAccessibilities } = searchSlice.actions
+export const { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnconfirmedCoordinates, setShowCenoteEntrances, setShowOtherCenotes, setMissing, setShowAreas, setShowAccesses, setShowAccessibilities } = searchSlice.actions
 
 export default searchSlice.reducer

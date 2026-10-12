@@ -38,7 +38,8 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import './Map.scss'
 import './Marker.scss'
 import { homeBounds } from './homeBounds.js'
-import { slugify } from '@/utils/slug.js'
+import { caveFacts, caveMisses, caveValue } from '@/utils/caveFilters.js'
+import { useCoverCaveIds } from '@/models/CaveAsset.js'
 
 // Pins revealed per frame on first load (see markerLimit).
 const MARKER_REVEAL_BATCH = 15
@@ -228,26 +229,26 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     return () => observer.disconnect()
   }, [])
 
+  // The caves with photos (their cover's): the Needs help filter's No photo.
+  const { caveIds: covers } = useCoverCaveIds()
+  // Each cave's facts the filters test (utils/caveFilters.js, shared with
+  // the caves' list): made once per cave data, not per filter change.
+  const factsById = useMemo(() => new globalThis.Map((mapData || []).map((cave) => [cave.id, caveFacts(cave)])), [mapData])
+
   const filteredCaves = useMemo(() => {
+    const facts = (cave) => factsById.get(cave.id) || caveFacts(cave)
+    // A kind's switches ([{ key, checked }]): the cave's value switched on.
+    const shown = (switches, cave, kind) => switches.some(({ key, checked }) => checked && key === caveValue(facts(cave), kind))
+    const missing = searchOptions.missing || []
     const filters = {
       coordinates: [(cave) => searchOptions.showValidCoordinates && cave.location.validity === 'valid', (cave) => searchOptions.showInvalidCoordinates && cave.location.validity === 'invalid', (cave) => searchOptions.showUnconfirmedCoordinates && cave.location.validity === 'unknown'],
-      cenoteTypes: [(cave) => searchOptions.showCenoteEntrances !== false && !!cave.cenoteEntrance, (cave) => searchOptions.showOtherCenotes !== false && !cave.cenoteEntrance],
-      accesses: [
-        (cave) => {
-          return searchOptions.showAccesses.some((access) => {
-            return (access.key === 'unknown' ? !Reflect.has(cave, 'access') : access.key === cave.access) && access.checked
-          })
-        },
-      ],
+      cenoteTypes: [(cave) => searchOptions.showCenoteEntrances !== false && caveValue(facts(cave), 'type') === 'entrance', (cave) => searchOptions.showOtherCenotes !== false && caveValue(facts(cave), 'type') === 'other'],
+      accesses: [(cave) => shown(searchOptions.showAccesses, cave, 'access')],
       // The areas turned off (an area the list doesn't name is shown).
-      areas: [(cave) => !searchOptions.showAreas.some((area) => area.key === (slugify(cave.area) || 'unknown') && !area.checked)],
-      accessibilities: [
-        (cave) => {
-          return searchOptions.showAccessibilities.some((accessibility) => {
-            return (accessibility.key === 'unknown' ? !Reflect.has(cave, 'accessibility') : accessibility.key === cave.accessibility) && accessibility.checked
-          })
-        },
-      ],
+      areas: [(cave) => !searchOptions.showAreas.some((area) => area.key === caveValue(facts(cave), 'area') && !area.checked)],
+      accessibilities: [(cave) => shown(searchOptions.showAccessibilities, cave, 'accessibility')],
+      // Needs help: the caves missing every criterion switched on.
+      missing: [(cave) => missing.every((value) => caveMisses(facts(cave), value, covers))],
     }
 
     const result = filterCaves(mapData, filters)
@@ -257,7 +258,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     // anything to center on).
     const openCave = caveId && !result.some((cave) => cave.id === caveId) ? mapData?.find((cave) => cave.id === caveId) : null
     return openCave ? [...result, openCave] : result
-  }, [mapData, searchOptions, caveId])
+  }, [mapData, factsById, covers, searchOptions, caveId])
 
   const displayedCaves = useMemo(() => {
     if (!filteredCaves || !isWidePaneEditMode || !editFieldCoordinates.location) {
@@ -320,7 +321,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
       }
     }
 
-    return chain(caves).reduce(or(filters.coordinates), []).reduce(or(filters.cenoteTypes), []).reduce(or(filters.accesses), []).reduce(or(filters.areas), []).reduce(or(filters.accessibilities), []).value()
+    return chain(caves).reduce(or(filters.coordinates), []).reduce(or(filters.cenoteTypes), []).reduce(or(filters.accesses), []).reduce(or(filters.areas), []).reduce(or(filters.accessibilities), []).reduce(or(filters.missing), []).value()
   }
 
   // The pin clicked, waiting for the camera's flight to start its bounce.
