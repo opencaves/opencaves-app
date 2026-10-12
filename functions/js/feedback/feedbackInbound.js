@@ -64,8 +64,8 @@ export async function receiveFeedbackEmail(emailId, helpers) {
   const reason = automaticReason(email)
   if (reason) return { dropped: 'automatic', reason }
   // The token is in the report's private doc (replyAddress.js), whose id is
-  // the report's - or, not moved yet (scripts/move-feedback-private.js), on
-  // the report itself.
+  // the report's - or, for a report a one-time script (2026-10-10) didn't
+  // move, on the report itself.
   let found = await db.collection(FEEDBACK_PRIVATE_COLL_NAME).where('replyToken', '==', address.token).limit(1).get()
   if (found.empty) found = await db.collection(FEEDBACK_COLL_NAME).where('replyToken', '==', address.token).limit(1).get()
   if (found.empty) return { dropped: 'unknown token' }
