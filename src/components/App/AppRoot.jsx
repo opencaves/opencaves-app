@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
-import { debounce } from 'lodash'
+import debounce from 'lodash/debounce'
 import AboutDialog from './AboutDialog.jsx'
 import FeedbackDialog from '@/components/Feedback/FeedbackDialog.jsx'
 import ToursDialog from '@/components/Tours/ToursDialog.jsx'

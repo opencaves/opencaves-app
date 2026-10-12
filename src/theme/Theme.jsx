@@ -1,5 +1,5 @@
 import { extendTheme } from '@mui/material/styles'
-import { merge } from 'lodash'
+import merge from 'lodash/merge'
 
 // old
 // 1b4859
