@@ -1,22 +1,26 @@
 import { createBrowserRouter, matchRoutes } from 'react-router-dom'
 import { routes } from './routeTree.jsx'
+import { withPageTransitions } from '@/utils/pageTransitions.js'
 
 let router = null
 
 /**
  * The browser's router, made once. On a page the server rendered
  * (entry-server.jsx), with the server's router state (window.__OC_SSR__),
- * so its first render is the server's and hydrates it.
+ * so its first render is the server's and hydrates it. Its navigations
+ * animated (withPageTransitions).
  *
  * @returns {object}
  */
 export function getRouter() {
-  router ||= createBrowserRouter(routes, {
-    future: {
-      v7_normalizeFormMethod: true,
-    },
-    hydrationData: window.__OC_SSR__?.router,
-  })
+  router ||= withPageTransitions(
+    createBrowserRouter(routes, {
+      future: {
+        v7_normalizeFormMethod: true,
+      },
+      hydrationData: window.__OC_SSR__?.router,
+    }),
+  )
   return router
 }
 

@@ -1,0 +1,101 @@
+// Page transitions (utils/pageTransitions.js): M3's motion patterns on the
+// View Transitions API's snapshots, picked by <html data-oc-transition>.
+// Durations and easings from M3 (the theme's sys.motion: standard 300ms,
+// emphasized decelerate / accelerate).
+
+// The app bar stays put (its own snapshot, crossfaded) while the page moves.
+.oc-app-bar {
+  view-transition-name: oc-app-bar;
+}
+
+$standard: cubic-bezier(0.2, 0, 0, 1);
+$decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+$accelerate: cubic-bezier(0.3, 0, 0.8, 0.15);
+
+@keyframes oc-page-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes oc-page-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes oc-page-fade-in-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+}
+
+@keyframes oc-page-to-left {
+  to {
+    transform: translateX(-30px);
+  }
+}
+
+@keyframes oc-page-from-right {
+  from {
+    transform: translateX(30px);
+  }
+}
+
+@keyframes oc-page-to-right {
+  to {
+    transform: translateX(30px);
+  }
+}
+
+@keyframes oc-page-from-left {
+  from {
+    transform: translateX(-30px);
+  }
+}
+
+// Fade through (unrelated pages): the old page out, then the new one in,
+// growing from 92%.
+:root[data-oc-transition='fade']::view-transition-old(root) {
+  animation: 90ms $accelerate both oc-page-fade-out;
+}
+
+:root[data-oc-transition='fade']::view-transition-new(root) {
+  animation: 210ms $decelerate 90ms both oc-page-fade-in-scale;
+}
+
+// Shared axis, horizontal (a list and its items): forward, the new page
+// from the right; back, from the left - each crossing a short fade.
+:root[data-oc-transition='forward']::view-transition-old(root) {
+  animation:
+    90ms $accelerate both oc-page-fade-out,
+    300ms $standard both oc-page-to-left;
+}
+
+:root[data-oc-transition='forward']::view-transition-new(root) {
+  animation:
+    210ms $decelerate 90ms both oc-page-fade-in,
+    300ms $standard both oc-page-from-right;
+}
+
+:root[data-oc-transition='back']::view-transition-old(root) {
+  animation:
+    90ms $accelerate both oc-page-fade-out,
+    300ms $standard both oc-page-to-right;
+}
+
+:root[data-oc-transition='back']::view-transition-new(root) {
+  animation:
+    210ms $decelerate 90ms both oc-page-fade-in,
+    300ms $standard both oc-page-from-left;
+}
+
+// Less motion asked for: pages change at once.
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
