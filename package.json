@@ -35,7 +35,7 @@
     ]
   },
   "dependencies": {
-    "@capacitor/core": "^8.5.2",
+    "@capacitor/core": "^8.5.3",
     "@capacitor/share": "^8.0.3",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
