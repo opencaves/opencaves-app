@@ -30,6 +30,7 @@ import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
 import { teamNames } from '@/utils/explorationTeam.js'
 import { formatPartialDate } from '@/utils/partialDate.js'
 import { byName } from '@/utils/indexData.js'
+import { sistemaTitle } from '@/utils/sistemaTitle.js'
 
 
 // A system's name: a link to its page, or plain text when it has none (not
@@ -99,7 +100,7 @@ export default function SistemaPage() {
   const sistema = data.sistemasById.get(sistemaId)
   const details = useMemo(() => (sistema ? sistemaDetails(sistema, data) : null), [sistema, data])
 
-  const title = sistema ? t('sistema.title', { name: sistema.name }) : null
+  const title = sistema ? sistemaTitle(sistema.name, (name) => t('sistema.title', { name })) : null
   const summary = sistema ? markdownToPlainText(sistema.description) : ''
   const description = sistema ? truncate(summary ? `${t('sistema.descriptionPrefix', { name: sistema.name })} ${summary}` : t('sistema.description', { name: sistema.name })) : null
   useIndexPageHead({ title, description })

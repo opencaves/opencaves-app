@@ -86,6 +86,10 @@
           "function": { "functionId": "sitemap", "region": "northamerica-northeast1" }
         },
         {
+          "source": "/map",
+          "destination": "/map.html"
+        },
+        {
           "source": "/map/*",
           "function": { "functionId": "cavePage", "region": "northamerica-northeast1" }
         },
