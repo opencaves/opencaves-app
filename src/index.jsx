@@ -13,6 +13,7 @@ import { isPhone, loadIonic } from '@/utils/loadIonic.js'
 // Drags of the page's own pictures never start the "drop to add" process.
 import '@/utils/externalFileDrag.js'
 import { watchFirestoreFailures } from '@/utils/firestoreRecovery.js'
+import { watchFocusRestore } from '@/utils/restoreFocus.js'
 import { deferFirebase, loadFirebase } from '@/utils/loadFirebase.js'
 import { analyticsAllowed, applyAnalyticsOptOut } from '@/utils/analytics.js'
 
@@ -26,6 +27,9 @@ if (isPhone() && /^\/map(\/|$)/.test(window.location.pathname)) {
 
 // Firestore's internal failures, recovered rather than left on the error page.
 watchFirestoreFailures()
+
+// A dialog or menu closed: the focus back where it was (utils/restoreFocus.js).
+watchFocusRestore()
 
 // A page the server rendered (entry-server.jsx: the public pages, in
 // English) is hydrated - the app takes over the server's HTML - when the
