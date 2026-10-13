@@ -144,6 +144,16 @@ const installImage = ({ platform, language }) => INSTALL_IMAGES[platform]?.repla
 // Share, in its bottom bar), up for the others.
 const installPointer = ({ platform }) => (platform === 'ios' ? 'down' : 'up')
 
+// A step next to the browser's install control (a marker at the page's edge
+// nearest to it), its hand pointing there: Discover's install step and the
+// Install tour's How to install.
+const AT_INSTALL_CONTROL = {
+  target: browserControlAnchor,
+  pointer: installPointer,
+  side: ({ platform }) => (platform === 'ios' ? 'top' : 'bottom'),
+  align: ({ platform }) => (platform === 'ios' ? 'center' : platform === 'safari' ? 'start' : 'end'),
+}
+
 export const TOURS = {
   discover: {
     id: 'discover',
@@ -171,7 +181,7 @@ export const TOURS = {
       // account menu's switch, on the map where everyone has the menu.
       // Next to the browser's install control (a marker at the page's edge
       // nearest to it); centred where there's none.
-      { id: 'install', when: ({ installed, platform }) => !installed && Boolean(BROWSER_CONTROLS[platform]), target: browserControlAnchor, variant: ({ platform }) => platform, tip: true, image: installImage, pointer: installPointer, side: ({ platform }) => (platform === 'ios' ? 'top' : 'bottom'), align: ({ platform }) => (platform === 'ios' ? 'center' : platform === 'safari' ? 'start' : 'end') },
+      { id: 'install', when: ({ installed, platform }) => !installed && Boolean(BROWSER_CONTROLS[platform]), variant: ({ platform }) => platform, tip: true, image: installImage, ...AT_INSTALL_CONTROL },
       { id: 'install', when: ({ installed, platform }) => !installed && !BROWSER_CONTROLS[platform], variant: ({ platform }) => platform },
       { id: 'offline', route: '/map', open: 'appMenu', target: '.oc-offline-previews-toggle', side: 'left' },
       { id: 'feedback', target: '.oc-feedback-tab', side: 'left' },
@@ -183,7 +193,9 @@ export const TOURS = {
     steps: [
       { id: 'installed', when: ({ installed }) => installed },
       { id: 'why', when: ({ installed }) => !installed },
-      { id: 'how', when: ({ installed }) => !installed, variant: ({ platform }) => platform },
+      // Next to the browser's install control; centred where there's none.
+      { id: 'how', when: ({ installed, platform }) => !installed && Boolean(BROWSER_CONTROLS[platform]), variant: ({ platform }) => platform, ...AT_INSTALL_CONTROL },
+      { id: 'how', when: ({ installed, platform }) => !installed && !BROWSER_CONTROLS[platform], variant: ({ platform }) => platform },
       { id: 'updates' },
     ],
   },

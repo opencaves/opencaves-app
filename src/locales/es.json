@@ -2212,7 +2212,7 @@
           },
           "ios": {
             "title": "Instalar la aplicación",
-            "text": "Instala OpenCaves: su propio icono, a mano en el sitio de buceo incluso sin conexión, y siempre al día (se actualiza sola).\n\nPara instalarla, toca Compartir en Safari (si no lo ves, abre primero el menú [[dots]]), luego Añadir a pantalla de inicio y luego Añadir.",
+            "text": "Instala OpenCaves: su propio icono, a mano en el sitio de buceo incluso sin conexión, y siempre al día (se actualiza sola).\n\nPara instalarla, toca Compartir en Safari (si no lo ves, abre primero el menú [[safariMenu]]), luego Añadir a pantalla de inicio y luego Añadir.",
             "tip": "Ahí abajo: Compartir es el cuadrado con una flecha, en la barra de Safari (arriba en un iPad)."
           },
           "safari": {
@@ -2262,7 +2262,7 @@
           },
           "ios": {
             "title": "Cómo instalarla",
-            "text": "En Safari, toca Compartir (el cuadrado con una flecha; si no lo ves, abre primero el menú [[dots]]), luego Agregar a inicio y luego Agregar."
+            "text": "En Safari, toca Compartir (el cuadrado con una flecha; si no lo ves, abre primero el menú [[safariMenu]]), luego Agregar a inicio y luego Agregar."
           },
           "safari": {
             "title": "Cómo instalarla",
