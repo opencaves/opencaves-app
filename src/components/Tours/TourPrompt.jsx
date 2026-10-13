@@ -9,9 +9,10 @@ import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 import { MAIN_TOUR_ID } from '@/tours/tourList.js'
 import { useStartTour } from './ToursDialog.jsx'
 
-// The browser's note that this device was asked (the welcome dialog's key,
-// which this prompt replaced: a device that saw the welcome isn't asked).
-const SEEN_KEY = 'oc-welcome-seen'
+// The browser's note that this device was asked. Its own key, not the
+// welcome dialog's (oc-welcome-seen) it replaced: the beta testers, who saw
+// that dialog, are offered the tours once too.
+const SEEN_KEY = 'oc-tour-prompt-seen'
 // How long after the page shows before it opens (the page first).
 const DELAY_MS = 1200
 // Pages it never opens over: signing in or up is already the next step; and

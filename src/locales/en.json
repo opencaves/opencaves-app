@@ -2201,23 +2201,23 @@
           },
           "android": {
             "title": "Install the app",
-            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, open Chrome's menu, tap Add to Home screen or Install app, then confirm.",
+            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, open Chrome's menu, look for Install app or Add to Home screen, then confirm.",
             "tip": "Up there: Chrome's menu is the three dots [[dots]], at the top right.",
             "imageAlt": "Chrome's menu: Add to Home screen, circled"
           },
           "firefoxAndroid": {
             "title": "Install the app",
-            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, open Firefox's menu, tap Add app to Home screen, then confirm.",
+            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, open Firefox's menu, look for Add app to Home screen or Install, then confirm.",
             "tip": "Firefox's menu is the three dots [[dots]]: at the top right, or at the bottom if your address bar is there."
           },
           "ios": {
             "title": "Install the app",
-            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, tap Share in Safari, then Add to Home Screen, then Add.",
+            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, tap Share in Safari (if you don't see it, open the menu [[dots]] first), then Add to Home Screen, then Add.",
             "tip": "Down there: Share is the square with an arrow, in Safari's bar (at the top on an iPad)."
           },
           "safari": {
             "title": "Install the app",
-            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, choose File, then Add to Dock, then Add.",
+            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, look for Add to Dock in the File menu (or under Share), then confirm.",
             "tip": "Up there: the File menu, in the menu bar at the top of the screen."
           },
           "firefox": {
@@ -2254,19 +2254,19 @@
         "how": {
           "chromium": {
             "title": "How to install",
-            "text": "Click the install icon at the right end of the address bar (a screen with a down arrow), then Install. Or in Chrome's menu: Cast, save and share, then Install page as app."
+            "text": "Click the install icon at the right end of the address bar (a screen with a down arrow), then Install. No icon? Look for Install in Chrome's menu (the three dots [[dots]])."
           },
           "android": {
             "title": "How to install",
-            "text": "In Chrome, open the menu (the three dots [[dots]]), tap Add to Home screen or Install app, then confirm."
+            "text": "In Chrome, open the menu (the three dots [[dots]]), look for Install app or Add to Home screen, then confirm."
           },
           "ios": {
             "title": "How to install",
-            "text": "In Safari, tap Share (the square with an arrow), then Add to Home Screen, then Add."
+            "text": "In Safari, tap Share (the square with an arrow; if you don't see it, open the menu [[dots]] first), then Add to Home Screen, then Add."
           },
           "safari": {
             "title": "How to install",
-            "text": "In Safari, choose File, then Add to Dock, then Add."
+            "text": "In Safari, look for Add to Dock in the File menu (or under Share), then confirm."
           },
           "other": {
             "title": "How to install",
@@ -2274,7 +2274,7 @@
           },
           "firefoxAndroid": {
             "title": "How to install",
-            "text": "In Firefox, open the menu (the three dots [[dots]]), tap Add app to Home screen, then confirm."
+            "text": "In Firefox, open the menu (the three dots [[dots]]), look for Add app to Home screen or Install, then confirm."
           },
           "firefox": {
             "title": "How to install",
@@ -2282,7 +2282,7 @@
           },
           "edge": {
             "title": "How to install",
-            "text": "Click the App available icon at the right end of the address bar (squares with a plus), then Install. Or in the menu: Apps, then Install this site as an app."
+            "text": "Click the App available icon at the right end of the address bar (squares with a plus), then Install. No icon? Look for Install in Edge's menu (the three dots [[dots]]), under Apps."
           }
         },
         "updates": {
