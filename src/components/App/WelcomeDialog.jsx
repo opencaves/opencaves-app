@@ -18,6 +18,9 @@ const DELAY_MS = 1200
 // a link to one cave or system (a shared link: what was asked for comes first,
 // the welcome waits for a later visit).
 const SKIPPED_PATHS = /^\/(login|signup|dev)(\/|$)|^\/(caves|sistemas|map)\/[^/]+/
+// ?no-welcome-splash=true: not this visit, nothing noted - for measuring the
+// pages themselves (Lighthouse), the welcome being temporary.
+const SKIP_PARAM = 'no-welcome-splash'
 
 // Whether it's to show: a device that hasn't seen it. A browser that keeps
 // nothing (private mode, blocked storage) never sees it - better than on
@@ -42,7 +45,8 @@ function markSeen() {
  * A welcome on a first visit (once per device): what OpenCaves is, an
  * invitation to help complete the cave data - with an account to create, or
  * thanks for the one they have - and the beta's warning: edits aren't kept
- * for good yet, so it's the time to try.
+ * for good yet, so it's the time to try. Not with ?no-welcome-splash=true
+ * (for measuring the page itself): a later visit gets it.
  */
 export default function WelcomeDialog() {
   const { t } = useTranslation('welcome')
@@ -61,7 +65,7 @@ export default function WelcomeDialog() {
     if (decided.current || !authResolved) return undefined
     // Arrived on the sign-in pages: not this visit (nothing noted, so a later
     // visit gets it).
-    if (!firstVisit() || SKIPPED_PATHS.test(location.pathname)) {
+    if (!firstVisit() || SKIPPED_PATHS.test(location.pathname) || new URLSearchParams(location.search).get(SKIP_PARAM) === 'true') {
       decided.current = true
       return undefined
     }
