@@ -13,8 +13,9 @@ process.env.VITE_APP_VERSION = JSON.parse(readFileSync(new URL('./package.json',
 // alone. The tags Vite injects for the app - its stylesheets (which block
 // painting) and ~1 MB of preloaded modules - would otherwise all be requested
 // before that first paint and compete with it for a slow connection. This
-// moves them into a small loader that adds them right after the first paint
-// (or shortly anyway, in a background tab where no frame is painted); the
+// moves them into a small loader that adds them right after the first
+// contentful paint (or a second at most, in a background tab where nothing
+// is painted); the
 // app waits for its stylesheets before rendering (src/index.jsx). Build only.
 // The built page is app.html, not index.html: Firebase Hosting serves a
 // static index.html for / before any rewrite, and / is rendered by the
@@ -120,12 +121,15 @@ function loadAppAfterFirstPaint() {
         script.src = ${JSON.stringify(found.entry)}
         head.appendChild(script)
       }
-      // A page the server rendered with the app (functions/js/seo/ssr.js):
-      // its content is the first paint - after it has painted (its stylesheets
-      // and its HTML in), or a second at most. Otherwise the splash: right
-      // after the first frame.
+      // After the page's first contentful paint - the server's content, a
+      // cave's text (functions/js/seo/cavePage.js) or the splash: code
+      // requested before it competes with it (Lighthouse counts it in its
+      // LCP: the first frame came before the paint, the code was asked for
+      // at 46ms, the text painted at 131ms) - or a second at most (a
+      // background tab paints nothing). No paint timing: after the first
+      // frame.
       var observed = false
-      if (serverRendered && window.PerformanceObserver) {
+      if (window.PerformanceObserver) {
         try {
           new PerformanceObserver(function (list, observer) {
             if (list.getEntriesByName('first-contentful-paint').length) {
