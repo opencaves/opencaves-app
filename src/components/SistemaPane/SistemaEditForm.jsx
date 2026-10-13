@@ -255,8 +255,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
       description: sistema?.description || '',
       direction: sistema?.direction || '',
       textSources: textSourcesOf(sistema, SISTEMA_TEXT_FIELDS),
-      // exploredLength, or the older records' length (renamed).
-      length: shown(sistema?.exploredLength ?? sistema?.length ?? ''),
+      length: shown(sistema?.exploredLength ?? ''),
       lengthDate: sistema?.exploredLengthDate || '',
       maxDepth: shown(sistema?.maxDepth ?? ''),
       source: sistema?.source || '',
@@ -321,11 +320,9 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
         description: orDelete(form.description),
         direction: orDelete(form.direction),
         // Back to metres; a value left as shown keeps its stored metres exactly.
-        // Saved as exploredLength, the older name (length) removed.
-        exploredLength: form.length === '' ? orDelete() : length === shown(sistema?.exploredLength ?? sistema?.length ?? '') ? sistema.exploredLength ?? sistema.length : Math.round(toMetres(length, units) * 10) / 10,
+        exploredLength: form.length === '' ? orDelete() : length === shown(sistema?.exploredLength ?? '') ? sistema.exploredLength : Math.round(toMetres(length, units) * 10) / 10,
         // Its date goes with it (none without a length).
         exploredLengthDate: form.length === '' ? orDelete() : orDelete(form.lengthDate),
-        length: orDelete(),
         maxDepth: form.maxDepth === '' ? orDelete() : maxDepth === shown(sistema?.maxDepth ?? '') ? sistema.maxDepth : Math.round(toMetres(maxDepth, units) * 10) / 10,
         source: orDelete(form.source),
         explorations: orDelete(trimmedExplorations),
