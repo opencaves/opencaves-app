@@ -2211,7 +2211,7 @@
           },
           "ios": {
             "title": "Installer l'application",
-            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, touchez Partager dans Safari (si vous ne le voyez pas, ouvrez d'abord le menu [[dots]]), puis Sur l'écran d'accueil, puis Ajouter.",
+            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, touchez Partager dans Safari (si vous ne le voyez pas, ouvrez d'abord le menu [[safariMenu]]), puis Sur l'écran d'accueil, puis Ajouter.",
             "tip": "Là-bas : Partager, c'est le carré avec une flèche, dans la barre de Safari (en haut sur iPad)."
           },
           "safari": {
@@ -2261,7 +2261,7 @@
           },
           "ios": {
             "title": "Comment l'installer",
-            "text": "Dans Safari, touchez Partager (le carré avec une flèche ; si vous ne le voyez pas, ouvrez d'abord le menu [[dots]]), puis Sur l'écran d'accueil, puis Ajouter."
+            "text": "Dans Safari, touchez Partager (le carré avec une flèche ; si vous ne le voyez pas, ouvrez d'abord le menu [[safariMenu]]), puis Sur l'écran d'accueil, puis Ajouter."
           },
           "safari": {
             "title": "Comment l'installer",

@@ -42,8 +42,10 @@ const POINTER_HAND = 'M5.2 15.43c0-.65.6-1.13 1.24-.99l3.56.8V4.5c0-.83.67-1.5 1
 const pointerSvg = () => `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="${POINTER_HAND}"/></svg>`
 
 // Icons a step's text can show inline, by a [[name]] marker in its string
-// (after "the three dots": the browser's menu button as it looks).
+// (after "the three dots", "the menu": the browser's menu button as it
+// looks - Chrome's and Firefox's three dots, Safari's on an iPhone lying).
 const INLINE_ICONS = {
+  safariMenu: '<svg class="oc-tour-inline-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"/></svg>',
   dots: '<svg class="oc-tour-inline-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"/></svg>',
 }
 // Escaped text with its [[name]] markers drawn as their icons, each kept on

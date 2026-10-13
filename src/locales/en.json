@@ -2212,7 +2212,7 @@
           },
           "ios": {
             "title": "Install the app",
-            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, tap Share in Safari (if you don't see it, open the menu [[dots]] first), then Add to Home Screen, then Add.",
+            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, tap Share in Safari (if you don't see it, open the menu [[safariMenu]] first), then Add to Home Screen, then Add.",
             "tip": "Down there: Share is the square with an arrow, in Safari's bar (at the top on an iPad)."
           },
           "safari": {
@@ -2262,7 +2262,7 @@
           },
           "ios": {
             "title": "How to install",
-            "text": "In Safari, tap Share (the square with an arrow; if you don't see it, open the menu [[dots]] first), then Add to Home Screen, then Add."
+            "text": "In Safari, tap Share (the square with an arrow; if you don't see it, open the menu [[safariMenu]] first), then Add to Home Screen, then Add."
           },
           "safari": {
             "title": "How to install",
