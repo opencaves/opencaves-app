@@ -42,7 +42,7 @@
     "@emotion/styled": "^11.14.1",
     "@fontsource/roboto": "^5.3.0",
     "@ionic/react": "^9.0.7",
-    "@milkdown/core": "^7.22.2",
+    "@milkdown/core": "^7.22.3",
     "@milkdown/plugin-clipboard": "^7.22.3",
     "@milkdown/plugin-history": "^7.22.3",
     "@milkdown/plugin-listener": "^7.22.2",
