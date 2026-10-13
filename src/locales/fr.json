@@ -2200,23 +2200,23 @@
           },
           "android": {
             "title": "Installer l'application",
-            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, ouvrez le menu de Chrome, touchez Ajouter à l'écran d'accueil ou Installer l'application, puis confirmez.",
+            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, ouvrez le menu de Chrome, cherchez Installer l'application ou Ajouter à l'écran d'accueil, puis confirmez.",
             "tip": "Là-haut : le menu de Chrome, ce sont les trois points [[dots]] en haut à droite.",
             "imageAlt": "Le menu de Chrome : Ajouter à l'écran d'accueil, encerclé"
           },
           "firefoxAndroid": {
             "title": "Installer l'application",
-            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, ouvrez le menu de Firefox, touchez Ajouter l'application à l'écran d'accueil, puis confirmez.",
+            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, ouvrez le menu de Firefox, cherchez Ajouter l'application à l'écran d'accueil ou Installer, puis confirmez.",
             "tip": "Le menu de Firefox, ce sont les trois points [[dots]] : en haut à droite, ou en bas si votre barre d'adresse y est."
           },
           "ios": {
             "title": "Installer l'application",
-            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, touchez Partager dans Safari, puis Sur l'écran d'accueil, puis Ajouter.",
+            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, touchez Partager dans Safari (si vous ne le voyez pas, ouvrez d'abord le menu [[dots]]), puis Sur l'écran d'accueil, puis Ajouter.",
             "tip": "Là-bas : Partager, c'est le carré avec une flèche, dans la barre de Safari (en haut sur iPad)."
           },
           "safari": {
             "title": "Installer l'application",
-            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, choisissez Fichier, puis Ajouter au Dock, puis Ajouter.",
+            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, cherchez Ajouter au Dock dans le menu Fichier (ou sous Partager), puis confirmez.",
             "tip": "Là-haut : le menu Fichier, dans la barre des menus en haut de l'écran."
           },
           "firefox": {
@@ -2253,19 +2253,19 @@
         "how": {
           "chromium": {
             "title": "Comment l'installer",
-            "text": "Cliquez sur l'icône d'installation au bout de la barre d'adresse (un écran avec une flèche vers le bas), puis sur Installer. Ou dans le menu de Chrome : Caster, enregistrer et partager, puis Installer la page en tant qu'application."
+            "text": "Cliquez sur l'icône d'installation au bout de la barre d'adresse (un écran avec une flèche vers le bas), puis sur Installer. Pas d'icône ? Cherchez Installer dans le menu de Chrome (les trois points [[dots]])."
           },
           "android": {
             "title": "Comment l'installer",
-            "text": "Dans Chrome, ouvrez le menu (les trois points [[dots]]), touchez Ajouter à l'écran d'accueil ou Installer l'application, puis confirmez."
+            "text": "Dans Chrome, ouvrez le menu (les trois points [[dots]]), cherchez Installer l'application ou Ajouter à l'écran d'accueil, puis confirmez."
           },
           "ios": {
             "title": "Comment l'installer",
-            "text": "Dans Safari, touchez Partager (le carré avec une flèche), puis Sur l'écran d'accueil, puis Ajouter."
+            "text": "Dans Safari, touchez Partager (le carré avec une flèche ; si vous ne le voyez pas, ouvrez d'abord le menu [[dots]]), puis Sur l'écran d'accueil, puis Ajouter."
           },
           "safari": {
             "title": "Comment l'installer",
-            "text": "Dans Safari, choisissez Fichier, puis Ajouter au Dock, puis Ajouter."
+            "text": "Dans Safari, cherchez Ajouter au Dock dans le menu Fichier (ou sous Partager), puis confirmez."
           },
           "other": {
             "title": "Comment l'installer",
@@ -2273,7 +2273,7 @@
           },
           "firefoxAndroid": {
             "title": "Comment l'installer",
-            "text": "Dans Firefox, ouvrez le menu (les trois points [[dots]]), touchez Ajouter l'application à l'écran d'accueil, puis confirmez."
+            "text": "Dans Firefox, ouvrez le menu (les trois points [[dots]]), cherchez Ajouter l'application à l'écran d'accueil ou Installer, puis confirmez."
           },
           "firefox": {
             "title": "Comment l'installer",
@@ -2281,7 +2281,7 @@
           },
           "edge": {
             "title": "Comment l'installer",
-            "text": "Cliquez sur l'icône Application disponible au bout de la barre d'adresse (des carrés avec un plus), puis sur Installer. Ou dans le menu : Applications, puis Installer ce site en tant qu'application."
+            "text": "Cliquez sur l'icône Application disponible au bout de la barre d'adresse (des carrés avec un plus), puis sur Installer. Pas d'icône ? Cherchez Installer dans le menu d'Edge (les trois points [[dots]]), sous Applications."
           }
         },
         "updates": {
