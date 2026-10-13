@@ -124,9 +124,8 @@ export default function SistemaPage() {
         </Link>
       ),
     },
-    // exploredLength, or the older records' length (renamed).
     // With its date, when known: "379,569 m (December 2024)".
-    (sistema.exploredLength ?? sistema.length) > 0 && { key: 'length', label: t('sistema.length'), value: formatMeasure(sistema.exploredLength ?? sistema.length, units, i18n.language) + (sistema.exploredLengthDate ? ` (${formatPartialDate(sistema.exploredLengthDate, i18n.language)})` : '') },
+    sistema.exploredLength > 0 && { key: 'length', label: t('sistema.length'), value: formatMeasure(sistema.exploredLength, units, i18n.language) + (sistema.exploredLengthDate ? ` (${formatPartialDate(sistema.exploredLengthDate, i18n.language)})` : '') },
     sistema.maxDepth > 0 && { key: 'maxDepth', label: t('sistema.maxDepth'), value: formatMeasure(sistema.maxDepth, units, i18n.language) },
   ].filter(Boolean)
   // Its location, as the map pane lists a cave's: copied on a click, with
