@@ -670,6 +670,7 @@
       "accessGroup": "Accès",
       "accessibilityGroup": "Accessibilité",
       "newCave": "Nouvelle grotte",
+      "editCave": "Modifier la grotte",
       "caveTitle": "{{name}}",
       "backToCaves": "Retour aux grottes",
       "backToCave": "Retour à la page de la cénote",
@@ -879,6 +880,7 @@
     "explorationDescription": "Description",
     "explorationNotes": "Notes",
     "newSistema": "Nouveau réseau",
+    "editSistema": "Modifier le réseau",
     "sistemaTitle": "Réseau {{name}}",
     "backToSistemas": "Retour aux réseaux",
     "backToSistema": "Retour à la page du système",
@@ -1304,12 +1306,12 @@
     }
   },
   "seo": {
-    "defaultDescription": "OpenCaves est la référence pour trouver des cénotes au Yucatán, au Mexique : de nouvelles grottes à plonger, des coordonnées GPS vérifiées, des descriptions utiles, des photos et des cartes.",
     "mapHeading": "OpenCaves : carte des cénotes du Yucatán",
     "caveDescriptionPrefix": "{{name}} (Yucatán, Mexique) :",
     "caveDescriptionFallback": "{{name}}, une grotte du Yucatán, au Mexique : emplacement, accès, photos et cartes sur OpenCaves.",
     "notFoundTitle": "Page introuvable",
-    "mapTitle": "Carte des cénotes du Yucatán"
+    "mapTitle": "Carte des cénotes du Yucatán",
+    "mapDescription": "Carte des grottes et cénotes du Yucatán pour les plongeurs : trouvez une grotte, comment s'y rendre et y entrer, ses photos, ses topographies et ses galeries."
   },
   "mapLayersAdmin": {
     "title": "Couches de la carte",
@@ -1968,9 +1970,9 @@
   },
   "home": {
     "title": "Des données ouvertes pour la plongée souterraine",
-    "headTitle": "Open Caves : des données ouvertes pour la plongée souterraine",
+    "headTitle": "Des données ouvertes pour la plongée souterraine",
     "logoAlt": "Open Caves",
-    "description": "OpenCaves (Open Caves) : les grottes et réseaux pour les plongeurs souterrains du monde entier - emplacements, accès, topographies, connexions et historique d’exploration, ouverts et construits par des plongeurs. En commençant par les cénotes du Yucatán.",
+    "description": "Trouvez grottes et cénotes à plonger : emplacements, accès, topographies et liens entre réseaux. Des données ouvertes faites par des plongeurs, dès le Yucatán.",
     "hero": {
       "title": "Des données ouvertes pour la plongée souterraine",
       "lead": "OpenCaves rassemble ce que les plongeurs souterrains veulent savoir sur les grottes et les réseaux du monde entier : où elles sont, comment y entrer, comment elles se relient, ce que montrent les topographies. Ouvert, et construit par des plongeurs. Tout commence avec les cénotes du Yucatán.",

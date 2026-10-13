@@ -1,9 +1,10 @@
-import { copyFileSync, existsSync, mkdirSync, readFileSync, renameSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import svgrPlugin from 'vite-plugin-svgr'
 import { VitePWA } from 'vite-plugin-pwa'
+import { TITLE_NAME } from './functions/js/constants.js'
 
 // The app's version (About, the console banner): package.json's, passed on
 // like the .env variables, in dev and in builds.
@@ -35,8 +36,25 @@ function appShellName() {
     writeBundle() {
       const page = path.join(outDir, 'index.html')
       if (existsSync(page)) renameSync(page, path.join(outDir, 'app.html'))
+      writeMapPage(outDir)
     },
   }
+}
+
+// /map's page (firebase.json serves it there): the app's shell with the map's
+// own title and description in its <head> - the map isn't rendered on the
+// server, and search engines that don't run the app read only this. Its texts
+// are the English locale's (seo.mapTitle, seo.mapDescription), which the app
+// sets again in the visitor's language (RouteSeo). A file, not a function: no
+// cold start for the map.
+function writeMapPage(outDir) {
+  const shell = path.join(outDir, 'app.html')
+  if (!existsSync(shell)) return
+  const { seo } = JSON.parse(readFileSync(new URL('./src/locales/en.json', import.meta.url), 'utf8'))
+  const escape = (text) => text.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')
+  const html = readFileSync(shell, 'utf8').replace(/<title>[^<]*<\/title>/, () => `<title>${escape(`${seo.mapTitle} / ${TITLE_NAME}`)}</title>
+  <meta name="description" content="${escape(seo.mapDescription)}" />`)
+  writeFileSync(path.join(outDir, 'map.html'), html)
 }
 
 // The files of src/config/firebase.js's chunk and the chunks it imports, as

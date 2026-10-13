@@ -115,6 +115,7 @@ export default function CaveEdit() {
   const { setTitle } = useTitle()
   const { t, i18n } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const { t: tApp } = useTranslation('app')
+  const { t: tMap } = useTranslation('map')
   const [openSnackbar] = useSnackbar()
   const settleWrite = useSettleWrite()
   // descriptions[].lang is a 3-letter code (matching the languages
@@ -155,6 +156,9 @@ export default function CaveEdit() {
   // dropped from the form needs an explicit deleteField() sentinel to
   // actually clear it instead of just being silently omitted.
   const [originalCave, setOriginalCave] = useState(null)
+  // Its name in titles and messages - what's typed, else its record's, else
+  // "(Unnamed cave)" - never its id.
+  const caveName = form.name || originalCave?.name?.value || tMap('caveNameUnknown')
   const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { onSave: handleSave, canSave: !nameMissing && caveCoordinatesInRange(form), within: `/caves/${caveId}/edit` })
   // The form as loaded or last saved, to write only what changed since.
   const savedForm = useRef(null)
@@ -222,10 +226,11 @@ export default function CaveEdit() {
   }, [caveId])
 
   useEffect(() => {
-    // Every edit page's title says so ("Edit …"); a new one stays "New …".
-    setTitle(isNew ? t('newCave') : tApp('editTitle', { title: t('caveTitle', { name: form.name || originalCave?.name?.value || caveId }) }))
+    // Every edit page's title says so ("Edit …"); a new one stays "New …";
+    // the cave not loaded yet, "Edit cave" (never its id).
+    setTitle(isNew ? t('newCave') : form.name || originalCave ? tApp('editTitle', { title: t('caveTitle', { name: caveName }) }) : t('editCave'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isNew, form.name, t, tApp])
+  }, [isNew, form.name, originalCave, t, tApp])
 
   function field(name) {
     return {
@@ -315,7 +320,7 @@ export default function CaveEdit() {
       }
 
       // Offline, kept on the device and synced later (useSettleWrite says so).
-      const status = await settleWrite(CaveModel.save(caveId, fields), { name: t('caveTitle', { name: form.name || originalCave?.name?.value || caveId }) })
+      const status = await settleWrite(CaveModel.save(caveId, fields), { name: t('caveTitle', { name: caveName }) })
       setBaseline(formSaved)
       savedForm.current = formSaved
       setIsNew(false)
@@ -329,12 +334,12 @@ export default function CaveEdit() {
       }
       if (status === 'saved') {
         await refresh()
-        openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || originalCave?.name?.value || caveId }) }), { severity: 'success' })
+        openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: caveName }) }), { severity: 'success' })
       } else refresh().catch((error) => console.warn(error))
     } catch (error) {
       // Nothing saved: say so, and leave the form as it is (still changed).
       console.error(error)
-      openSnackbar(tApp('snackbar.saveError', { name: t('caveTitle', { name: form.name || originalCave?.name?.value || caveId }) }))
+      openSnackbar(tApp('snackbar.saveError', { name: t('caveTitle', { name: caveName }) }))
     } finally {
       setSaving(false)
     }
@@ -342,7 +347,7 @@ export default function CaveEdit() {
 
   async function handleDelete() {
     setDeleteDialogOpen(false)
-    const name = t('caveTitle', { name: form.name || originalCave?.name?.value || caveId })
+    const name = t('caveTitle', { name: caveName })
     const removal = CaveModel.remove(caveId)
     // Offline, Firestore only settles the delete once the server has it: it's
     // done on the device now, said so, and an error later still told.
@@ -417,7 +422,7 @@ export default function CaveEdit() {
             at the title's size. The heading, hidden, follows it - for screen
             readers and the phone's app bar (data-appbar-page-title). */}
         <Typography component="h1" variant="h5" data-appbar-page-title sx={visuallyHidden}>
-          {form.name || (isNew ? t('newCave') : t('caveTitle', { name: originalCave?.name?.value || caveId }))}
+          {form.name || (isNew ? t('newCave') : originalCave ? t('caveTitle', { name: caveName }) : t('editCave'))}
         </Typography>
         <TextField
           className="oc-cave-edit--name"
@@ -611,7 +616,7 @@ export default function CaveEdit() {
       <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
         <DialogTitle>{t('deleteCave')}</DialogTitle>
         <DialogContent>
-          <DialogContentText>{t('deleteCaveConfirm', { name: form.name || caveId })}</DialogContentText>
+          <DialogContentText>{t('deleteCaveConfirm', { name: caveName })}</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setDeleteDialogOpen(false)}>{t('cancel')}</Button>

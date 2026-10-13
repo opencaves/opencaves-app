@@ -671,6 +671,7 @@
       "accessGroup": "Acceso",
       "accessibilityGroup": "Accesibilidad",
       "newCave": "Nueva cueva",
+      "editCave": "Editar cueva",
       "caveTitle": "{{name}}",
       "backToCaves": "Volver a las cuevas",
       "backToCave": "Volver a la página del cenote",
@@ -880,6 +881,7 @@
     "explorationDescription": "Descripción",
     "explorationNotes": "Notas",
     "newSistema": "Nuevo sistema",
+    "editSistema": "Editar sistema",
     "sistemaTitle": "Sistema {{name}}",
     "backToSistemas": "Volver a los sistemas",
     "backToSistema": "Volver a la página del sistema",
@@ -1305,12 +1307,12 @@
     }
   },
   "seo": {
-    "defaultDescription": "OpenCaves es la referencia para encontrar cenotes en Yucatán, México: nuevas cuevas para bucear, coordenadas GPS verificadas, descripciones útiles, fotos y mapas.",
     "mapHeading": "OpenCaves: mapa de los cenotes de Yucatán",
     "caveDescriptionPrefix": "{{name}} (Yucatán, México):",
     "caveDescriptionFallback": "{{name}}, una cueva de Yucatán, México: ubicación, acceso, fotos y mapas en OpenCaves.",
     "notFoundTitle": "Página no encontrada",
-    "mapTitle": "Mapa de cenotes de Yucatán"
+    "mapTitle": "Mapa de cenotes de Yucatán",
+    "mapDescription": "Mapa de cuevas y cenotes de Yucatán para buzos de cuevas: encuentra una cueva, cómo llegar y entrar, sus fotos, sus topografías y las galerías bajo la selva."
   },
   "mapLayersAdmin": {
     "title": "Capas del mapa",
@@ -1969,9 +1971,9 @@
   },
   "home": {
     "title": "Datos abiertos para el buceo en cuevas",
-    "headTitle": "Open Caves: datos abiertos para el buceo en cuevas",
+    "headTitle": "Datos abiertos para el buceo en cuevas",
     "logoAlt": "Open Caves",
-    "description": "OpenCaves (Open Caves): cuevas y sistemas de cuevas para buzos de cuevas de todo el mundo - ubicaciones, acceso, topografías, conexiones e historia de exploración, abiertos y hechos por buzos. Empezando por los cenotes de Yucatán.",
+    "description": "Encuentra cuevas y cenotes para bucear: ubicación, acceso, topografías y conexiones entre sistemas. Datos abiertos hechos por buzos, empezando por Yucatán.",
     "hero": {
       "title": "Datos abiertos para el buceo en cuevas",
       "lead": "OpenCaves reúne lo que los buzos de cuevas quieren saber sobre las cuevas y los sistemas de cuevas del mundo: dónde están, cómo entrar, cómo se conectan, qué muestran las topografías. Abierto, y hecho por buzos. Empieza con los cenotes de Yucatán.",

@@ -39,6 +39,7 @@ import { SISTEMA_TEXT_FIELDS, textSourcesOf, textSourcesUpdate, withTextChange }
 import TextSourceField from '@/components/TextSourceField.jsx'
 import CreatableChipsField from '@/components/CreatableChipsField.jsx'
 import { teamNames } from '@/utils/explorationTeam.js'
+import { sistemaTitle } from '@/utils/sistemaTitle.js'
 
 const colorsModel = createCollectionModel('colors')
 // One of the colours list's hex values, at random ('' with none).
@@ -273,11 +274,18 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connections, connectionsLoading, colorsLoading, sistemaId, sistemas, sistemasLoading, setBaseline])
 
+  // Its name as titles say it (never its id): what's typed, else its record's.
+  const savedName = sistemas.find((item) => item.id === sistemaId)?.name
+  const titleOf = (name) => sistemaTitle(name, (value) => t('sistemaTitle', { name: value }))
+  const displayName = form.name || savedName ? titleOf(form.name || savedName) : t(isNew ? 'newSistema' : 'editSistema')
+
   useEffect(() => {
-    // Every edit page's title says so ("Edit …"); a new one stays "New …".
-    onTitleChange?.(isNew ? t('newSistema') : tApp('editTitle', { title: t('sistemaTitle', { name: form.name || sistemaId }) }))
+    // Every edit page's title says so ("Edit …"); a new one stays "New …";
+    // its name not known yet, "Edit cave system".
+    const name = form.name || savedName
+    onTitleChange?.(isNew ? t('newSistema') : name ? tApp('editTitle', { title: titleOf(name) }) : t('editSistema'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isNew, form.name, t, tApp])
+  }, [isNew, form.name, savedName, t, tApp])
 
   function field(name) {
     return {
@@ -334,7 +342,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
       }
 
       // Offline, kept on the device and synced later (useSettleWrite says so).
-      const status = await settleWrite([SistemaModel.save(sistemaId, fields), ConnectionModel.setParent(sistemaId, form.parentSistemaId || null)], { name: t('sistemaTitle', { name: form.name || sistemaId }) })
+      const status = await settleWrite([SistemaModel.save(sistemaId, fields), ConnectionModel.setParent(sistemaId, form.parentSistemaId || null)], { name: displayName })
       setBaseline(savedForm)
       // Stays on the form after saving; only cancel/delete leave it.
       setIsNew(false)
@@ -344,12 +352,12 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
       }
       if (status === 'saved') {
         await refresh()
-        openSnackbar(tApp('snackbar.saved', { name: t('sistemaTitle', { name: form.name || sistemaId }) }), { severity: 'success' })
+        openSnackbar(tApp('snackbar.saved', { name: displayName }), { severity: 'success' })
       } else refresh().catch((error) => console.warn(error))
     } catch (error) {
       // Nothing saved: say so, and leave the form as it is (still changed).
       console.error(error)
-      openSnackbar(tApp('snackbar.saveError', { name: t('sistemaTitle', { name: form.name || sistemaId }) }))
+      openSnackbar(tApp('snackbar.saveError', { name: displayName }))
     } finally {
       setSaving(false)
     }
@@ -393,7 +401,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
           <ArrowBackRounded />
         </IconButton>
         <Typography component="h1" variant="h5" data-appbar-page-title>
-          {t('sistemaTitle', { name: form.name || sistemas.find((item) => item.id === sistemaId)?.name || sistemaId })}
+          {displayName}
         </Typography>
       </EditPageHeader>
 

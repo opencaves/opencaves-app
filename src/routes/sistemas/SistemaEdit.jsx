@@ -30,7 +30,8 @@ export default function SistemaEdit() {
   const slugs = useSistemaSlugs()
   const resolvedRef = useRef(null)
   const sistemaId = dataLoading ? null : resolveSistemaId(param, sistemas, slugs, resolvedRef.current)
-  const [pageTitle, setPageTitle] = useState(param)
+  // The form names it (SistemaEditForm's onTitleChange); not the address meanwhile.
+  const [pageTitle, setPageTitle] = useState(null)
   const slug = sistemaId ? slugs.get(sistemaId) : null
 
   useEffect(() => {

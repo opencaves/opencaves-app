@@ -29,6 +29,7 @@ import heroBackgroundSmall from '@/images/404/bg-small.webp'
 import { openAboutDialog } from '@/utils/aboutDialog.js'
 import './Home.scss'
 import { CHANGELOG_URL, GITHUB_URL } from '@/config/app.js'
+import { sistemaTitle } from '@/utils/sistemaTitle.js'
 
 // How many cave photos the Discover strip shows, picked at random each visit.
 const DISCOVER_COUNT = 6
@@ -112,7 +113,7 @@ export default function Home() {
   const { regions } = figures
 
   // The brand first, in its two-word spelling (people search "open caves").
-  useIndexPageHead({ title: t('headTitle'), description: t('description'), fullTitle: true })
+  useIndexPageHead({ title: t('headTitle'), description: t('description') })
 
   // The map's code, fetched once the page has painted: most visitors go on
   // to the map, which then opens without waiting for it.
@@ -287,7 +288,7 @@ export default function Home() {
                         </Typography>
                         {sistema && (
                           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                            {tIndex('sistema.title', { name: sistema })}
+                            {sistemaTitle(sistema, (name) => tIndex('sistema.title', { name }))}
                           </Typography>
                         )}
                       </CardContent>
