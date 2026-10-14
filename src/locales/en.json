@@ -1698,7 +1698,9 @@
     "changes": {
       "added": "Added",
       "modified": "Modified",
-      "removed": "Removed"
+      "removed": "Removed",
+      "newCave": "New cave",
+      "newSistema": "New system"
     },
     "modifiedBy": "modified by {{name}}",
     "removedBy": "removed by {{name}}",
