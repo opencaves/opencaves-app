@@ -15,7 +15,6 @@ import { Link as RouterLink } from 'react-router-dom'
 import Markdown from '@/components/Markdown/Markdown.jsx'
 import TextSource from '@/components/TextSource.jsx'
 import SectionReview from '@/components/CaveReview/SectionReview.jsx'
-import CaveReportButton from '@/components/CaveReview/CaveReportButton.jsx'
 import CaveReportWarnings from '@/components/CaveReview/CaveReportWarnings.jsx'
 import ConditionalWrapper from '@/components/utils/ConditionalWrapper.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
@@ -45,7 +44,7 @@ function DirectionsAction({ point, label }) {
  * The map's cave pane, read-only: its open reports' warnings, quick actions,
  * photos and videos, location, systems, access, description and getting
  * there - each of the last three with how old its information is ("Still
- * right?") - and Report a change.
+ * right?") and Report a change for what changed there.
  *
  * @param {object} props
  * @param {Cave} props.cave
@@ -240,12 +239,6 @@ export default function CurrentCaveDetailsContent({ cave }) {
         </Box>
       )}
 
-      {/* Something changed there (closed, private, fees, road): to the team. */}
-      <Box component="section" className="oc-details-section oc-current-cave-details-content--report">
-        <Box className="details-container" sx={{ display: 'flex', justifyContent: 'center' }}>
-          <CaveReportButton cave={cave} />
-        </Box>
-      </Box>
 
     </Box>
   )

@@ -16,12 +16,16 @@ import { useRequireLogin } from '@/hooks/useRequireLogin.jsx'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import DialogCloseButton from '@/components/DialogCloseButton.jsx'
+import FlagRounded from '@mui/icons-material/FlagRounded'
+import { openFeedback } from '@/utils/feedback.js'
 
 const ICONS = { closed: <BlockRounded />, private: <LockRounded />, fees: <PaymentsRounded />, road: <AltRouteRounded /> }
 
 /**
- * A cave's quick reports (Report a change): a menu of what changed - Closed,
- * Now private, Fees changed, Road changed - opened at anchorEl. Picking one
+ * A cave's quick reports (Report a change): a menu of what changed - the
+ * section's own (`kinds`: Closed, Now private under Access; Fees changed;
+ * Road changed), then Something else (the Send feedback form about the
+ * section, `page`) - opened at anchorEl. Picking one
  * asks for an optional note, then sends it to the admins as a /feedback
  * report (kind misleading, with caveId and caveReport; its browser in
  * _feedbackPrivate, one batch, as FeedbackDialog). Closed and Now private
@@ -33,8 +37,10 @@ const ICONS = { closed: <BlockRounded />, private: <LockRounded />, fees: <Payme
  * @param {Cave} props.cave
  * @param {HTMLElement|null} props.anchorEl - The button it opens from; null: closed.
  * @param {() => void} props.onClose
+ * @param {string[]} [props.kinds] - Its quick reports ({@link CAVE_REPORT_KINDS}'s, every one by default).
+ * @param {string} [props.page] - What Something else is about: the section on the cave's page.
  */
-export default function CaveReportMenu({ cave, anchorEl, onClose }) {
+export default function CaveReportMenu({ cave, anchorEl, onClose, kinds = CAVE_REPORT_KINDS, page }) {
   const { t, i18n } = useTranslation('caveReview', { keyPrefix: 'report' })
   const { t: tPages } = useTranslation('indexPages')
   const theme = useTheme()
@@ -63,7 +69,7 @@ export default function CaveReportMenu({ cave, anchorEl, onClose }) {
       const { auth, db, collection, doc, serverTimestamp, writeBatch } = await loadFirebase()
       const name = cave.name?.value?.trim() || tPages('unnamedCavePlain')
       const message = [t(`message.${kind}`, { name }), note.trim()].filter(Boolean).join('\n\n')
-      const report = { kind: 'misleading', caveId: cave.id, caveReport: kind, message, page: `/caves/${cave.id}`, language: toServiceLanguage(i18n.language), userId: auth.currentUser.uid, createdAt: serverTimestamp(), status: 'new' }
+      const report = { kind: 'misleading', caveId: cave.id, caveReport: kind, message, page: page || `/caves/${cave.id}`, language: toServiceLanguage(i18n.language), userId: auth.currentUser.uid, createdAt: serverTimestamp(), status: 'new' }
       const reportRef = doc(collection(db, FEEDBACK_COLLECTION))
       const batch = writeBatch(db)
       batch.set(reportRef, report)
@@ -88,12 +94,20 @@ export default function CaveReportMenu({ cave, anchorEl, onClose }) {
         <Typography variant="overline" component="li" role="presentation" sx={{ display: 'block', px: 2, pt: 0.5, color: 'text.secondary', lineHeight: 2 }}>
           {t('menuLabel')}
         </Typography>
-        {CAVE_REPORT_KINDS.map((item) => (
+        {kinds.map((item) => (
           <MenuItem key={item} className={`oc-cave-report-menu--${item}`} onClick={() => pick(item)}>
             <ListItemIcon>{ICONS[item]}</ListItemIcon>
             <ListItemText primary={t(`kinds.${item}`)} secondary={t(`kindText.${item}`)} />
           </MenuItem>
         ))}
+        {/* Anything else wrong there: the feedback form, about the section. */}
+        <MenuItem className="oc-cave-report-menu--other" onClick={() => {
+          onClose()
+          openFeedback('misleading', { page: page || `/caves/${cave.id}` })
+        }} sx={kinds.length ? { borderTop: 1, borderColor: 'divider', mt: 0.5, pt: 1 } : undefined}>
+          <ListItemIcon><FlagRounded /></ListItemIcon>
+          <ListItemText primary={t('kinds.other')} secondary={t('kindText.other')} />
+        </MenuItem>
       </Menu>
 
       <Dialog className="oc-cave-report-dialog" open={Boolean(kind)} onClose={close} fullScreen={fullScreen} maxWidth="xs" fullWidth aria-labelledby="oc-cave-report-title" slotProps={{ paper: { sx: { borderRadius: fullScreen ? 0 : 7 } } }}>

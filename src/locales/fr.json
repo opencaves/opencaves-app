@@ -2394,13 +2394,15 @@
         "closed": "Fermée",
         "private": "Devenue privée",
         "fees": "Frais changés",
-        "road": "Route changée"
+        "road": "Route changée",
+        "other": "Autre chose…"
       },
       "kindText": {
         "closed": "On ne peut plus la visiter",
         "private": "Seuls ses propriétaires ou leurs invités peuvent y aller",
         "fees": "Le prix ou ce qu'il comprend a changé",
-        "road": "La route ou l'accès a changé"
+        "road": "La route ou l'accès a changé",
+        "other": "Autre chose qui n’est plus exact ici"
       },
       "dialogTitle": "Signalement : {{kind}}",
       "warningNote": "Un avertissement s'affiche sur cette grotte dès l'envoi, jusqu'à ce que l'équipe d'OpenCaves le vérifie.",
@@ -2423,6 +2425,8 @@
     "warning": {
       "closed": "Signalée fermée le {{date}}, en cours de vérification",
       "private": "Signalée devenue privée le {{date}}, en cours de vérification"
-    }
+    },
+    "undone": "Confirmation annulée : {{section}}, {{name}}.",
+    "undoError": "La confirmation n'a pas pu être annulée. Réessayez."
   }
 }

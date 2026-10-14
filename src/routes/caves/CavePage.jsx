@@ -20,7 +20,6 @@ import { staticMapUrl } from '@/utils/staticMap.js'
 import Markdown from '@/components/Markdown/Markdown.jsx'
 import TextSource from '@/components/TextSource.jsx'
 import SectionReview from '@/components/CaveReview/SectionReview.jsx'
-import CaveReportButton from '@/components/CaveReview/CaveReportButton.jsx'
 import AddAPhotoRounded from '@mui/icons-material/AddAPhotoRounded'
 import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
 import { useAddMedias } from '@/components/AddMedias/useAddMedias.jsx'
@@ -236,8 +235,8 @@ function CaveMapTile({ cave, location, color, alone = false }) {
  * system's exploration history, and a small map of its spot linking to it
  * on the map (/map/<id>) - beside its cover photo. Its open "closed" or "now
  * private" reports lead it (CaveReportWarnings); each section says how old
- * its information is, to confirm or correct (SectionReview); anyone can
- * report a change (CaveReportButton).
+ * its information is, to confirm, with Report a change next to it for what
+ * changed there (SectionReview, CaveReportButton).
  * Editors edit it at /caves/<id>/edit.
  */
 export default function CavePage() {
@@ -403,10 +402,6 @@ export default function CavePage() {
         </Box>
       )}
 
-      {/* Something changed there (closed, private, fees, road): to the team. */}
-      <Box className="oc-cave-page--report" sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
-        <CaveReportButton cave={cave} />
-      </Box>
 
       {/* Offline, a cave not saved: what's missing, and how to keep it all -
           above the photos, even when their list (never loaded online) can't

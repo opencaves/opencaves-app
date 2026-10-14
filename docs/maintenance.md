@@ -312,11 +312,16 @@ The caves list's **Not confirmed recently** filter (`/caves?missing=review`,
 also What can I do?'s "Check what's there") keeps the caves none of whose
 shown sections was confirmed within 2 years.
 
-**Report a change** (on the cave's page and pane, for any signed-in account)
-offers Closed, Now private, Fees changed and Road changed, with an optional
-note. Each one is a `/feedback` report (kind Misleading, its page the cave's,
+**Report a change** sits next to each section's Still accurate (on the cave's
+page and pane, for any signed-in account) and offers that section's own
+changes, with an optional note: Closed and Now private under Access, Fees
+changed under the fees, Road changed under Getting there
+(`SECTION_REPORT_KINDS`, `src/config/caveReview.js`). Each one is a
+`/feedback` report (kind Misleading, its page the section on the cave's page,
 its message saying what changed), emailed to the admins like any report, with
-a "Cave report" line.
+a "Cave report" line. Every section's menu ends with Something else, and the
+description's button opens it at once: the Send feedback form, about that
+section.
 
 - **Closed** and **Now private** also put a warning on the cave at once,
   public ("Reported closed on Oct 12, being checked"): the

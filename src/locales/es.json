@@ -2395,13 +2395,15 @@
         "closed": "Cerrada",
         "private": "Ahora privada",
         "fees": "Costos cambiados",
-        "road": "Camino cambiado"
+        "road": "Camino cambiado",
+        "other": "Otra cosa…"
       },
       "kindText": {
         "closed": "Ya no se puede visitar",
         "private": "Solo sus dueños o sus invitados pueden ir",
         "fees": "El precio o lo que incluye cambió",
-        "road": "El camino o la entrada cambió"
+        "road": "El camino o la entrada cambió",
+        "other": "Otra cosa que ya no es correcta aquí"
       },
       "dialogTitle": "Reporte: {{kind}}",
       "warningNote": "Un aviso aparece en esta cueva en cuanto lo envías, hasta que el equipo de OpenCaves lo revise.",
@@ -2424,6 +2426,8 @@
     "warning": {
       "closed": "Reportada cerrada el {{date}}, en revisión",
       "private": "Reportada como privada el {{date}}, en revisión"
-    }
+    },
+    "undone": "Confirmación anulada: {{section}}, {{name}}.",
+    "undoError": "No se pudo anular la confirmación. Inténtalo de nuevo."
   }
 }
