@@ -756,7 +756,7 @@
     "images": "photos",
     "menu": {
       "ariaLabel": "Plus",
-      "useAsCoverImage": "Utiliser comme photo de couverture",
+      "useAsCoverImage": "Définir comme photo de couverture",
       "useAsCoverSuccess": "Photo de couverture modifiée.",
       "useAsCoverFail": "La modification de la photo de couverture a échoué.",
       "useViewAsThumbnail": "Utiliser cette vue comme vignette",
@@ -769,7 +769,17 @@
       "deleteConfirmTitle": "Supprimer cette photo ?",
       "deleteConfirm": "La photo va à la corbeille : un administrateur peut la restaurer depuis Audits > Corbeille.",
       "deleteCancel": "Annuler",
-      "isCoverImage": "C’est la photo de couverture"
+      "isCoverImage": "C’est la photo de couverture",
+      "share": "Partager",
+      "download": "Télécharger",
+      "report": {
+        "photo": "Signaler cette photo",
+        "map": "Signaler cette topographie",
+        "video": "Signaler cette vidéo"
+      },
+      "linkCopied": "Lien copié.",
+      "shareFail": "Impossible de partager le lien.",
+      "downloadFail": "Impossible de télécharger le fichier."
     },
     "mediaThumbnailItem": {
       "openBtn": {
@@ -2359,7 +2369,7 @@
     "dropped": "Déposé à la position {{position}} sur {{count}}.",
     "cancelled": "Déplacement annulé. L’élément est revenu à la position {{position}} sur {{count}}.",
     "saved": "Ordre enregistré",
-    "savedCover": "Ordre enregistré. Cette photo est maintenant l’image de couverture.",
+    "savedCover": "Ordre enregistré. Cette photo est maintenant la photo de couverture.",
     "saveError": "Impossible d’enregistrer le nouvel ordre. Veuillez réessayer."
   },
   "caveReview": {

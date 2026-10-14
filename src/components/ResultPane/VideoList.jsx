@@ -13,6 +13,7 @@ import { centerItem } from '@/utils/mediaStrip.js'
 import MediaStrip from './MediaStrip.jsx'
 import StripShowAll from './StripShowAll.jsx'
 import CardOptionsMenu from './CardOptionsMenu.jsx'
+import { useMediaActionsFor, withOthers } from '@/components/MediaPane/menuItems/mediaActions.jsx'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import CaveModel from '@/models/CaveModel.js'
@@ -180,6 +181,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
   const sortableVideos = canEdit && new Set(videoUrls).size === videoUrls.length
   // Deleting a video: admins only.
   const canDelete = roles.includes('admin')
+  const mediaActionsFor = useMediaActionsFor()
   const videoWidth = VIDEO_WIDTH
   const videoHeight = (videoWidth * 9) / 16
   // Narrower where the place it's in says so (--oc-video-max-width, e.g. a
@@ -317,7 +319,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
     )
   }
 
-  // A video's menu (editors): edit its address; delete it (admins).
+  // A video's own actions (editors): edit its address; delete it (admins).
   const videoActions = (video, index) => [
     {
       label: t('edit.editVideo'),
@@ -330,6 +332,10 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
     },
     canDelete && { label: t('edit.deleteVideo'), icon: <DeleteOutlineRounded fontSize="small" />, onClick: () => requestDelete(index), danger: true },
   ].filter(Boolean)
+
+  // Its menu, for everyone: Share (its own link) and Report this video -
+  // no Download, a video is someone else's site's - then its own actions.
+  const videoMenu = (video, index) => withOthers(mediaActionsFor({ kind: 'video', shareUrl: video, reportPage: video }), canEdit ? videoActions(video, index) : [])
 
   if (videoUrls.length === 0 && !canEdit && !showAdd) {
     return null
@@ -348,7 +354,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
                   return (
                     <Box key={`${video}-${index}`} className="oc-video-list--item oc-media-strip--tile oc-media-strip--item" sx={{ position: 'relative', width: shownWidth, height: shownHeight, flex: '0 0 auto', bgcolor: 'common.black', overflow: 'hidden', borderRadius: '.5rem' }}>
                       {videoStill(video, index)}
-                      {canEdit && <CardOptionsMenu ariaLabel={t('edit.videoOptions')} actions={videoActions(video, index)} />}
+                      <CardOptionsMenu ariaLabel={t('edit.videoOptions')} actions={videoMenu(video, index)} />
                     </Box>
                   )
                 })}
@@ -360,7 +366,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
             <li key={sortableVideos ? video : `${video}-${index}`}>
               <Box className="oc-video-list--item oc-carousel--media" sx={{ position: 'relative', aspectRatio: '16 / 9', overflow: 'hidden', bgcolor: 'common.black' }}>
                 {videoStill(video, index)}
-                {canEdit && <CardOptionsMenu reveal ariaLabel={t('edit.videoOptions')} actions={videoActions(video, index)} />}
+                <CardOptionsMenu reveal ariaLabel={t('edit.videoOptions')} actions={videoMenu(video, index)} />
               </Box>
             </li>
           ))}

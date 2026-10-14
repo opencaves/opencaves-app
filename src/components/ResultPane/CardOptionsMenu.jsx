@@ -17,8 +17,8 @@ const keepFromCard = (event) => event.stopPropagation()
  *
  * @param {object} props
  * @param {string} props.ariaLabel - The trigger's.
- * @param {{ label: string, icon: import('react').ReactNode, onClick?: () => void, to?: string, danger?: boolean }[]} props.actions - The
- *   menu's items (`to`: a link); `danger` ones in the error color.
+ * @param {{ label: string, icon: import('react').ReactNode, onClick?: () => void, to?: string, danger?: boolean, divider?: boolean }[]} props.actions - The
+ *   menu's items (`to`: a link); `danger` ones in the error color; `divider`: a line under it.
  * @param {Sx} [props.sx] - The trigger's placement on a card with a title bar (centred on it).
  * @param {boolean} [props.reveal=false] - Shown only on its card's hover (in a grid), while focused or open; always on a
  *   touch screen.
@@ -81,6 +81,7 @@ export default function CardOptionsMenu({ ariaLabel, actions, sx, reveal = false
               focused?.blur()
               action.onClick?.()
             }}
+            divider={action.divider}
             sx={action.danger ? { color: 'error.main' } : undefined}
           >
             <ListItemIcon sx={action.danger ? { color: 'error.main' } : undefined}>{action.icon}</ListItemIcon>

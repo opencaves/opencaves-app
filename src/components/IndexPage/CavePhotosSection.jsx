@@ -72,12 +72,11 @@ export default function CavePhotosSection({ caveId, title }) {
         {/* Loaded after the page (afterLoad): not competing with the cover. */}
         <Picture sources={photo.getSources('resultThumbnail')} afterLoad alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', backgroundColor: 'var(--mui-palette-action-hover)' }} />
       </ButtonBase>
-      {/* Admins: its menu (cover, delete), as the videos'. */}
+      {/* Its menu (share, download, report; cover and delete for those allowed). */}
       <PhotoItemMenu mediaAsset={photo} variant="card" />
     </Box>
   ))
-  // Every photo, for the Show all pane's grid; admins get its menu (cover,
-  // delete) over it.
+  // Every photo, for the Show all pane's grid, its menu over it.
   const allItems = photos.map((photo, index) => (
     <li key={photo.id}>
       <Box sx={{ position: 'relative' }}>

@@ -770,7 +770,17 @@
       "deleteConfirmTitle": "Delete this photo?",
       "deleteConfirm": "The photo goes to the trash: an admin can restore it from Audits > Trash.",
       "deleteCancel": "Cancel",
-      "isCoverImage": "This is the cover photo"
+      "isCoverImage": "This is the cover photo",
+      "share": "Share",
+      "download": "Download",
+      "report": {
+        "photo": "Report this photo",
+        "map": "Report this map",
+        "video": "Report this video"
+      },
+      "linkCopied": "Link copied.",
+      "shareFail": "Couldn't share the link.",
+      "downloadFail": "Couldn't download the file."
     },
     "mediaThumbnailItem": {
       "openBtn": {
