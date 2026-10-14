@@ -27,6 +27,7 @@ import MapPaneMenu from './MapPaneMenu.jsx'
 import 'yet-another-react-lightbox/styles.css'
 import '@/components/MediaPane/lightbox.scss'
 import { track } from '@/utils/track.js'
+import { LIGHTBOX_COUNTER, LIGHTBOX_COUNTER_ROOM } from '@/components/MediaPane/config.js'
 
 const Main = styled('main')(({ theme }) => ({
   flexGrow: 1,
@@ -74,8 +75,8 @@ const IMMERSIVE_SX = { position: 'fixed', inset: 0, zIndex: 30000, width: 'auto'
  *   pane beside it).
  * @param {() => void} [props.onBack] - What it does (a link to returnTo otherwise).
  * @param {boolean} [props.canEdit=true] - The Edit item in its menu.
- * @param {boolean} [props.captioned=false] - "3 / 12" at the top and each
- *   map's name, year and cartographers under it (no list beside it).
+ * @param {boolean} [props.captioned=false] - "3 / 12" at the bottom right,
+ *   beside each map's name, year and cartographers (no list beside it).
  */
 export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTrash, mapPath, alwaysShowBack = false, onBack, canEdit = true, captioned = false }) {
   // The toolbar's back arrow only where nothing else leads back: on phones
@@ -187,7 +188,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
           ],
         }}
         plugins={[Menu, Inline, isFullscreenEnabled() ? Fullscreen : undefined, Download, Share, Zoom, captioned && maps.length > 1 && Counter, captioned && Captions].filter(Boolean)}
-        counter={{ container: { style: { top: 0, left: '50%', transform: 'translateX(-50%)', lineHeight: '64px', padding: 0, margin: 0 } } }}
+        counter={LIGHTBOX_COUNTER}
         captions={{ showToggle: false, descriptionTextAlign: 'start', descriptionMaxLines: 3 }}
         carousel={{ padding: 0, spacing: 0, imageFit: 'contain', finite: true, imageProps: { crossOrigin: 'anonymous' } }}
         inline={{ style: { width: '100%' } }}
@@ -195,7 +196,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
         // pan-y, whatever the controller asks, which let the browser take
         // vertical drags - a zoomed-in map couldn't be moved with a finger.
         // Its container reads it from this variable, set after the plugin's.
-        styles={{ container: { backgroundColor: '#000', '--yarl__controller_touch_action': 'none' }, slide: { justifyContent: 'stretch' } }}
+        styles={{ container: { backgroundColor: '#000', '--yarl__controller_touch_action': 'none' }, slide: { justifyContent: 'stretch' }, ...(maps.length > 1 && { captionsDescriptionContainer: { paddingRight: LIGHTBOX_COUNTER_ROOM } }) }}
         // scrollToZoom: the mouse wheel zooms the map instead of scrolling the pane.
         // maxZoomPixelRatio: how far past the image's own pixels it zooms - far,
         // for a map's small print and for vector (SVG) maps, whose stated size

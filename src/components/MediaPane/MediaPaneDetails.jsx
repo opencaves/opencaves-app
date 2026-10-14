@@ -26,6 +26,7 @@ import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import 'yet-another-react-lightbox/styles.css'
 import './lightbox.scss'
 import { track } from '@/utils/track.js'
+import { LIGHTBOX_COUNTER } from './config.js'
 
 const Main = styled('main')(
   ({ theme }) => {
@@ -51,7 +52,7 @@ const IMMERSIVE_SX = { position: 'fixed', inset: 0, zIndex: 30000, width: 'auto'
  * @param {boolean} [props.alwaysShowBack=false] - The back arrow whatever the screen (a page's gallery,
  *   with no list pane beside it).
  * @param {() => void} [props.onBack] - What it does (a link up otherwise).
- * @param {boolean} [props.showCounter=false] - "3 / 12" at the top (no list beside it either).
+ * @param {boolean} [props.showCounter=false] - "3 / 12" at the bottom right (no list beside it either).
  */
 export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete, alwaysShowBack = false, onBack, showCounter = false }) {
   // The toolbar's back arrow only where nothing else leads back: on phones
@@ -197,7 +198,7 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete, alwa
         }}
         // The ones that apply only: an undefined plugin crashes the lightbox.
         plugins={[Menu, Inline, isFullscreenEnabled() ? Fullscreen : undefined, Download, Share, showCounter && medias.size > 1 ? Counter : undefined].filter(Boolean)}
-        counter={{ container: { style: { top: 0, left: '50%', transform: 'translateX(-50%)', lineHeight: '64px', padding: 0, margin: 0 } } }}
+        counter={LIGHTBOX_COUNTER}
         carousel={{
           padding: 0,
           spacing: 0,
