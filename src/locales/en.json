@@ -2389,6 +2389,12 @@
     "saveError": "Couldn't save the new order. Please try again."
   },
   "caveReview": {
+    "card": {
+      "confirmed": "Confirmed {{date}}",
+      "stale": "Last confirmed in {{year}}",
+      "partly": "Partly confirmed",
+      "never": "Not confirmed yet"
+    },
     "sections": {
       "access": "Access",
       "directions": "Getting there",

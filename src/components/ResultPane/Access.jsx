@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { useCaveData } from '@/hooks/useCaveData.js'
-import { Tooltip } from '@mui/material'
+import { Box, Tooltip } from '@mui/material'
 import { styled } from '@mui/material'
 import HelpOutlineRounded from '@mui/icons-material/HelpOutlineRounded'
 import Markdown from '../Markdown/Markdown.jsx'
@@ -167,18 +167,19 @@ export default function Access({ cave, review = true }) {
       )}
 
       {review && (
-        <div className="details-container oc-access oc-access--review">
+        // Its Still accurate under the access, a line above it (as the pane's other sections').
+        <Box className="oc-access oc-access--review" sx={{ borderTop: 1, borderColor: 'divider', mx: 2, mt: 1, mb: 1, pt: 1.25 }}>
           <AccessReview cave={cave} />
-        </div>
+        </Box>
       )}
     </>
   )
 }
 
 /**
- * The access's Still accurate groups (SectionReview): the access, and the
- * fees when they show - for a page or pane drawing them after the access's
- * card, on its ground.
+ * The Access card's Still accurate (SectionReview): the access, and the fees
+ * when they show, confirmed together - for a page or pane drawing it on the
+ * card's foot.
  *
  * @param {object} props
  * @param {Cave} props.cave
@@ -186,8 +187,7 @@ export default function Access({ cave, review = true }) {
 export function AccessReview({ cave }) {
   return (
     <>
-      <SectionReview cave={cave} section="access" />
-      {cave.fees && <SectionReview cave={cave} section="fees" />}
+      <SectionReview cave={cave} sections={cave.fees ? ['access', 'fees'] : ['access']} />
     </>
   )
 }

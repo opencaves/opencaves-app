@@ -2388,6 +2388,12 @@
     "saveError": "Impossible d’enregistrer le nouvel ordre. Veuillez réessayer."
   },
   "caveReview": {
+    "card": {
+      "confirmed": "Confirmé : {{date}}",
+      "stale": "Dernière confirmation en {{year}}",
+      "partly": "Confirmé en partie",
+      "never": "Aucune confirmation pour l’instant"
+    },
     "sections": {
       "access": "Accès",
       "directions": "S'y rendre",

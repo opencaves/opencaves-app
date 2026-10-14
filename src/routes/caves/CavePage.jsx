@@ -30,7 +30,7 @@ import Picture from '@/components/Picture.jsx'
 import Access, { AccessReview } from '@/components/ResultPane/Access.jsx'
 import ExplorationHistory from '@/components/ResultPane/ExplorationHistory.jsx'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
-import IndexSection from '@/components/IndexPage/IndexSection.jsx'
+import IndexSection, { CARD_FOOTER_SX } from '@/components/IndexPage/IndexSection.jsx'
 import MapsSection from '@/components/IndexPage/MapsSection.jsx'
 import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
@@ -241,8 +241,8 @@ function CaveMapTile({ cave, location, color, alone = false }) {
  * system's exploration history, and a small map of its spot linking to it
  * on the map (/map/<id>) - beside its cover photo. Its open "closed" or "now
  * private" reports lead it (CaveReportWarnings); each section says how old
- * its information is, to confirm, with Report a change next to it for what
- * changed there (SectionReview, CaveReportButton).
+ * its information is, on its card's foot: Still accurate to confirm it,
+ * its arrow for what changed there (SectionReview).
  * Editors edit it at /caves/<id>/edit.
  */
 export default function CavePage() {
@@ -384,8 +384,8 @@ export default function CavePage() {
       )}
 
       {/* Access's own heading is the section's, above its card. */}
-      {/* Its Still accurate groups after the card, on the page's ground. */}
-      <IndexSection id="access" title={tPane('accessHeader')} className="oc-cave-page--access" card after={<Box className="oc-cave-page--review" sx={{ px: { xs: 2, sm: 3 }, pt: 1 }}><AccessReview cave={cave} /></Box>}>
+      {/* Its Still accurate (access and fees together) on the card's foot. */}
+      <IndexSection id="access" title={tPane('accessHeader')} className="oc-cave-page--access" card footer={<AccessReview cave={cave} />}>
         <Box sx={{ '& h2.h2': { display: 'none' }, '& .details-container': { px: 0 } }}>
           <Access cave={cave} review={false} />
         </Box>
@@ -393,7 +393,7 @@ export default function CavePage() {
 
       {/* How to get there - the map's pane had it, this page didn't. */}
       {cave.direction && (
-        <IndexSection id="getting-there" title={tPane('directionsHeader')} className="oc-cave-page--directions" card after={<Box className="oc-cave-page--review" sx={{ px: { xs: 2, sm: 3 }, pt: 1 }}><SectionReview cave={cave} section="directions" /></Box>}>
+        <IndexSection id="getting-there" title={tPane('directionsHeader')} className="oc-cave-page--directions" card footer={<SectionReview cave={cave} sections={['directions']} />}>
           <Markdown>{cave.direction}</Markdown>
           <TextSource record={cave} field="direction" />
         </IndexSection>
@@ -404,10 +404,10 @@ export default function CavePage() {
           <Box component="section" id="description" className="oc-cave-page--description" sx={{ scrollMarginTop: 'calc(64px + var(--oc-page-title-height, 0px) + 8px)', ...DASHBOARD_SURFACE_SX, p: { xs: 2, sm: 3 }, '& > :first-child > :first-child': { mt: 0 }, '& > :last-child > :last-child': { mb: 0 } }}>
             <Markdown>{cave.description}</Markdown>
             <TextSource record={cave} field="description" />
-          </Box>
-          {/* Its Still accurate group after the card, on the page's ground. */}
-          <Box className="oc-cave-page--review" sx={{ px: { xs: 2, sm: 3 }, pt: 1 }}>
-            <SectionReview cave={cave} section="description" />
+            {/* Its Still accurate on the card's foot, as the other cards'. */}
+            <Box className="oc-cave-page--review" sx={CARD_FOOTER_SX}>
+              <SectionReview cave={cave} sections={['description']} />
+            </Box>
           </Box>
         </Box>
       )}
