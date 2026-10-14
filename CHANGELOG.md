@@ -1,5 +1,40 @@
 # Changelog
 
+## [1.0.0](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-16...v1.0.0) (2026-10-14)
+
+OpenCaves 1.0: out of beta. A page that shows how you can help, a guided tour of the app, a "Still accurate?" check under each part of a cave's page, filters that find the caves needing help, menus on every photo, video and map, and pages that open much faster.
+
+
+### Features
+
+* **What can I do?:** a new page (in the app bar, the menu and the home page) shows what you can do with OpenCaves - explore caves, systems and maps, help where it's needed, and what's good to know before diving.
+* **Guided tours:** Take the tours (in the menus) walks you through the app - finding a cave, the map's filters and layers, a cave's actions and media, your account, What's new, installing the app (pointing at your browser's own install button) and using it offline; first-time visitors are offered it.
+* **Still accurate?:** under each part of a cave's page - access, getting there, fees and facilities, description - members confirm it's still right, and everyone sees when it was last confirmed; press it again to take your confirmation back.
+* **Report a change:** beside it, tell the team a cave closed, went private, changed its fees or its road, or anything else; a closed or private cave shows a warning at once.
+* **Needs help filters:** the cave list and the map find the caves missing coordinates (or a confirmed position), a name, a photo or video, a description, directions, fees or facilities, a cave system, or a recent confirmation - combined with the entrance, area, access and accessibility filters, and shared by their address.
+* **Media menus:** every photo, video and map has a ⋮ menu - Share and Download for photos and maps, Report for all; Use as cover and Delete for those allowed.
+* **Reorder media:** editors arrange a cave's photos, videos and maps by drag and drop.
+* **Search:** the app bar's search opens from an icon, lists caves first and the most visited first among equal matches, and has a clear button.
+* **Cave pages:** the cover photo with a small map beside it, and an Add photos button in its place when a cave has none yet.
+* **Galleries:** a photo grows out of its tile when opened; pages slide between lists and their items; the viewers' "3 / 12" counter sits at the bottom; no Show all for a single item.
+* **Map:** the passages switch is named Show underwater passages, and the page's splash shows while the map loads.
+
+### Changes
+
+* **Out of beta:** the beta notices and wording are gone.
+* **Page titles:** every page is titled "<page> / Open Caves", and only pages with their own description have one.
+
+### Speed
+
+* **Faster pages:** the database code loads only when a page needs it, the app's code after the page has painted, and a cave's cover photo first; the map now shows its first content in about a second instead of several.
+
+### Fixes
+
+* **Map filters:** the area and accessibility switches work again, and the area list follows the data.
+* **Accessibility:** focus comes back where it was after a dialog or menu closes; older dates are read out with their time; photos, maps and cover photos have text alternatives.
+* **Search engines:** pages that aren't drawn on the server still have their heading, and private pages say not to index them.
+* **Reliability:** when something goes wrong, the error is reported to the team so it can be fixed.
+
 ## [1.0.0-beta-16](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-15...v1.0.0-beta-16) (2026-10-12)
 
 Directions that take you through the cave's entrance to its parking, a What's new page that opens at once, and seven more connections between cave systems.
