@@ -31,10 +31,14 @@ The database is only read. Production by default (the source of the data
 since 1.0); -l / --local for the emulators.
 
 Usage: python scripts/photos-import/match_by_gps.py <photos folder> <output folder> [-l | -p] [--radius 100]
+       python scripts/photos-import/match_by_gps.py <photos folder> <output folder> --selected
+  (the second turns the review's export, selected.csv, into upload.csv for upload-photos.js)
 """
 import argparse
 import csv
+import hashlib
 import html
+import os
 import json
 import math
 import sys
@@ -152,11 +156,15 @@ def main():
     parser.add_argument('-l', '--local', action='store_true', help='Read the local emulators')
     parser.add_argument('-p', '--production', action='store_true', help='Read production (the default)')
     parser.add_argument('--radius', type=float, default=100, help='Metres within which a cave matches (default 100)')
+    parser.add_argument('--selected', action='store_true', help="Don't match: turn the review's export (<output>/selected.csv) into <output>/upload.csv for upload-photos.js")
     # No arguments: the help, not a run.
     if len(sys.argv) == 1:
         parser.print_help()
         return
     args = parser.parse_args()
+    if args.selected:
+        write_upload(Path(args.photos), Path(args.output))
+        return
     production = not args.local
     photos_dir, out = Path(args.photos), Path(args.output)
     (out / 'previews').mkdir(parents=True, exist_ok=True)
@@ -235,6 +243,33 @@ def main():
     print(f'already in OpenCaves: {count("inOpenCaves", "yes")} yes, {count("inOpenCaves", "maybe")} maybe')
     print(f'caves with new photos: {len({r["caveId"] for r in rows if r["status"] == "match" and not r["inOpenCaves"]})}')
     print(f'-> {out / "gps-matched.csv"}, {out / "review.html"}')
+
+
+def write_upload(photos_dir, out):
+    """The review's choices (selected.csv: file, caveId, cave...) as upload-photos.js reads
+    them (upload.csv): the image's path relative to the CSV, its hash (the import key, as
+    extract_photos.py computes it - a photo is never imported twice), its source and cave."""
+    rows = []
+    for row in csv.DictReader(open(out / 'selected.csv', encoding='utf-8-sig')):
+        path = photos_dir / row['file']
+        rows.append({
+            'image': os.path.relpath(path, out).replace(os.sep, '/'),
+            'source': f"Google Photos/{row['file'].replace(os.sep, '/')}",
+            'folder': row.get('album', ''),
+            'kind': 'photo',
+            'date': row.get('taken', ''),
+            'latitude': row.get('latitude', ''),
+            'longitude': row.get('longitude', ''),
+            'sha1': hashlib.sha1(path.read_bytes()).hexdigest()[:12],
+            'caveIds': row['caveId'],
+            'caveNames': row.get('cave', ''),
+        })
+    with open(out / 'upload.csv', 'w', encoding='utf-8-sig', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=list(rows[0]) if rows else ['image'])
+        writer.writeheader()
+        writer.writerows(rows)
+    print(f'{len(rows)} photos -> {out / "upload.csv"}')
+    print(f'next: node scripts/photos-import/upload-photos.js --csv "{out / "upload.csv"}" -l   (a dry run; --apply to upload, -p for production)')
 
 
 VIEWER = Path(__file__).with_name('gps_review.html')
