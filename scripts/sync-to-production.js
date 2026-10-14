@@ -1,5 +1,10 @@
 #!/usr/bin/env node
-// Mirrors the local emulators (the original data) to production: production
+// SINCE THE 1.0 RELEASE, PRODUCTION IS THE SOURCE OF THE DATA: this mirror
+// would overwrite what people changed there. Bring production's data to the
+// emulators with scripts/sync-from-production.js instead. --write refuses to
+// run without --i-know-production-is-the-source (a dry run still works).
+//
+// Mirrors the local emulators (the original data until 1.0) to production: production
 // ends up with exactly the local documents and files - everything but its
 // users (accounts, _users/* - settings, saved caves), its frozen accounts
 // (_frozenUsers), its audit log (_auditLog: only the additions it lacks -
@@ -64,13 +69,15 @@ try {
 const PAIRED_EMAILS = new Map((process.env.SYNC_ACCOUNTS || '').split(',').map((pair) => pair.split('=').map((email) => email.trim().toLowerCase())).filter(([from, to]) => from && to))
 
 const cli = yargs(hideBin(process.argv))
-  .usage('$0 --dry-run | --write [--no-files]\n\nMirrors the local emulators to production: every collection and the caves/ and maps/ files; production\'s users are kept.')
+  .usage('$0 --dry-run | --write --i-know-production-is-the-source [--no-files]\n\nMirrors the local emulators to production: every collection and the caves/ and maps/ files; production\'s users are kept.\nProduction is the source of the data since 1.0: use scripts/sync-from-production.js to bring its data to the emulators.')
   .option('dry-run', { type: 'boolean', default: false, describe: 'List the changes, change nothing' })
   .option('write', { type: 'boolean', default: false, describe: 'Back production\'s documents up, then mirror' })
   .option('files', { type: 'boolean', default: true, describe: 'Mirror the Storage files too (--no-files: documents only)' })
   .option('report', { type: 'string', describe: 'Also write the full list of changes (JSON) to this file' })
+  .option('i-know-production-is-the-source', { type: 'boolean', default: false, describe: 'Needed with --write: production is the source of the data since 1.0, and this overwrites it' })
   .check((args) => {
     if (args.dryRun === args.write) throw new Error('Use exactly one of --dry-run or --write.')
+    if (args.write && !args.iKnowProductionIsTheSource) throw new Error('Production is the source of the data since the 1.0 release: --write would overwrite what people changed there. Use scripts/sync-from-production.js to bring its data here; add --i-know-production-is-the-source only if you really mean to overwrite production.')
     return true
   })
   .help()
