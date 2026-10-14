@@ -1,10 +1,11 @@
-import { useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Lightbox, { addToolbarButton } from 'yet-another-react-lightbox'
 import Inline from 'yet-another-react-lightbox/plugins/inline'
 import Fullscreen from 'yet-another-react-lightbox/plugins/fullscreen'
 import Download from 'yet-another-react-lightbox/plugins/download'
+import Share from 'yet-another-react-lightbox/plugins/share'
 import Zoom from 'yet-another-react-lightbox/plugins/zoom'
 import Counter from 'yet-another-react-lightbox/plugins/counter'
 import Captions from 'yet-another-react-lightbox/plugins/captions'
@@ -17,6 +18,7 @@ import { useGalleryArrowKeys } from '@/hooks/useGalleryArrowKeys.js'
 import { useLightboxLabels } from '@/hooks/useLightboxLabels.js'
 import ArrowForwardIosRounded from '@mui/icons-material/ArrowForwardIosRounded'
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded'
+import ShareRoundedIcon from '@mui/icons-material/ShareRounded'
 import FullscreenRoundedIcon from '@mui/icons-material/FullscreenRounded'
 import FullscreenExitRoundedIcon from '@mui/icons-material/FullscreenExitRounded'
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded'
@@ -24,6 +26,8 @@ import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import MapPaneMenu from './MapPaneMenu.jsx'
 import 'yet-another-react-lightbox/styles.css'
 import '@/components/MediaPane/lightbox.scss'
+import { track } from '@/utils/track.js'
+import { LIGHTBOX_COUNTER, LIGHTBOX_COUNTER_ROOM } from '@/components/MediaPane/config.js'
 
 const Main = styled('main')(({ theme }) => ({
   flexGrow: 1,
@@ -71,8 +75,8 @@ const IMMERSIVE_SX = { position: 'fixed', inset: 0, zIndex: 30000, width: 'auto'
  *   pane beside it).
  * @param {() => void} [props.onBack] - What it does (a link to returnTo otherwise).
  * @param {boolean} [props.canEdit=true] - The Edit item in its menu.
- * @param {boolean} [props.captioned=false] - "3 / 12" at the top and each
- *   map's name, year and cartographers under it (no list beside it).
+ * @param {boolean} [props.captioned=false] - "3 / 12" at the bottom right,
+ *   beside each map's name, year and cartographers (no list beside it).
  */
 export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTrash, mapPath, alwaysShowBack = false, onBack, canEdit = true, captioned = false }) {
   // The toolbar's back arrow only where nothing else leads back: on phones
@@ -93,6 +97,11 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
   const labels = useLightboxLabels()
   const { t: tMaps } = useTranslation('mapsPicker')
   const currentIndex = maps.findIndex((map) => map.id === mapId)
+  // Opened on a map (not each one swiped to).
+  useEffect(() => {
+    track('select_content', { content_type: 'map', item_id: mapId })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   const currentMap = maps.find((map) => map.id === mapId)
   const navigate = useNavigate()
   const location = useLocation()
@@ -107,10 +116,15 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
     )
   }
 
+  // Each map's own address, for its Share button (as the photo viewer's):
+  // this gallery's, the map's id last.
+  const galleryBase = location.pathname.replace(/\/maps\/[^/]+(\/.*)?$/, '/maps/')
+  const shareTitle = t('share.title', { title: document.title })
   const slides = maps.map((map) => ({
     mapId: map.id,
     src: map.previewUrl || map.url,
     download: { url: map.url, filename: map.name },
+    share: { url: `${window.location.origin}${galleryBase}${map.id}`, title: shareTitle },
     // Its caption, at the bottom (a title would go in the toolbar, under its
     // buttons): its name, then its year (dates are "2000", "2012-10"...) and
     // who drew it.
@@ -165,14 +179,16 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
             // sends the others to the right.
             'zoom',
             <span key="oc-map-pane-details-spacer" style={{ marginRight: 'auto' }} />,
+            // As the photo viewer's: Share and Download as buttons, the rest
+            // in the menu (MapPaneMenu), there for everyone (Report this map).
+            'share',
             'download',
             'fullscreen',
-            // Its menu's place, when it has one (a name with no plugin shows as text).
-            ...(canEdit || onTrash ? ['menu'] : []),
+            'menu',
           ],
         }}
-        plugins={[canEdit || onTrash ? Menu : undefined, Inline, isFullscreenEnabled() ? Fullscreen : undefined, Download, Zoom, captioned && maps.length > 1 && Counter, captioned && Captions].filter(Boolean)}
-        counter={{ container: { style: { top: 0, left: '50%', transform: 'translateX(-50%)', lineHeight: '64px', padding: 0, margin: 0 } } }}
+        plugins={[Menu, Inline, isFullscreenEnabled() ? Fullscreen : undefined, Download, Share, Zoom, captioned && maps.length > 1 && Counter, captioned && Captions].filter(Boolean)}
+        counter={LIGHTBOX_COUNTER}
         captions={{ showToggle: false, descriptionTextAlign: 'start', descriptionMaxLines: 3 }}
         carousel={{ padding: 0, spacing: 0, imageFit: 'contain', finite: true, imageProps: { crossOrigin: 'anonymous' } }}
         inline={{ style: { width: '100%' } }}
@@ -180,7 +196,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
         // pan-y, whatever the controller asks, which let the browser take
         // vertical drags - a zoomed-in map couldn't be moved with a finger.
         // Its container reads it from this variable, set after the plugin's.
-        styles={{ container: { backgroundColor: '#000', '--yarl__controller_touch_action': 'none' }, slide: { justifyContent: 'stretch' } }}
+        styles={{ container: { backgroundColor: '#000', '--yarl__controller_touch_action': 'none' }, slide: { justifyContent: 'stretch' }, ...(maps.length > 1 && { captionsDescriptionContainer: { paddingRight: LIGHTBOX_COUNTER_ROOM } }) }}
         // scrollToZoom: the mouse wheel zooms the map instead of scrolling the pane.
         // maxZoomPixelRatio: how far past the image's own pixels it zooms - far,
         // for a map's small print and for vector (SVG) maps, whose stated size
@@ -193,12 +209,13 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
           iconEnterFullscreen: () => <FullscreenRoundedIcon sx={{ fontSize: '1.5rem' }} />,
           iconExitFullscreen: () => <FullscreenExitRoundedIcon sx={{ fontSize: '1.5rem' }} />,
           iconDownload: () => <DownloadRoundedIcon sx={{ fontSize: '1.5rem' }} />,
+          iconShare: () => <ShareRoundedIcon sx={{ fontSize: '1.5rem' }} />,
           iconPrev: () => <ArrowBackIosNewRoundedIcon />,
           iconNext: () => <ArrowForwardIosRounded />,
         }}
         noScroll={{ disabled: true }}
         controller={{ ref: controllerRef }}
-        on={{ view: onView, enterFullscreen: () => setIsFullscreen(true), exitFullscreen: () => setIsFullscreen(false) }}
+        on={{ view: onView, download: ({ index }) => track('download', { content_type: 'map', item_id: slides[index]?.mapId }), share: ({ index }) => track('share', { content_type: 'map', item_id: slides[index]?.mapId, method: 'share_sheet' }), enterFullscreen: () => setIsFullscreen(true), exitFullscreen: () => setIsFullscreen(false) }}
       />
     </Main>
   )

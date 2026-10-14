@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import { collection, doc as docRef, getDoc, getDocs, query, where } from 'firebase/firestore'
-import { db } from '@/config/firebase.js'
+import { loadFirebase } from '@/utils/loadFirebase.js'
 import { isTrashed } from '@/utils/trash.js'
 
 /**
@@ -21,9 +20,9 @@ export function useMapScan(importKey, mapId) {
     setScan(null)
     if (!importKey && !mapId) return undefined
     let cancelled = false
-    const found = importKey
+    const found = loadFirebase().then(({ db, collection, doc: docRef, getDoc, getDocs, query, where }) => importKey
       ? getDocs(query(collection(db, 'maps'), where('importKey', '==', importKey))).then((snapshot) => snapshot.docs.find((d) => !isTrashed(d)))
-      : getDoc(docRef(db, 'maps', mapId)).then((d) => (d.exists() && !isTrashed(d) ? d : null))
+      : getDoc(docRef(db, 'maps', mapId)).then((d) => (d.exists() && !isTrashed(d) ? d : null)))
     found
       .then((doc) => {
         if (!cancelled && doc) setScan({ id: doc.id, ...doc.data() })

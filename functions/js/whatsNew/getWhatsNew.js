@@ -3,7 +3,7 @@ import { onSchedule } from 'firebase-functions/v2/scheduler'
 import { logger } from 'firebase-functions/v2'
 import { auth, db } from '../init.js'
 import { CAVES_ASSETS_COLL_NAME, ENFORCE_APP_CHECK, REGION, WHATS_NEW_COLL_NAME, WHATS_NEW_DOC_ID } from '../constants.js'
-import { AUDIT_LOG_COLL_NAME, SERVER_FIELDS } from '../audit/log.js'
+import { AUDIT_LOG_COLL_NAME, SERVER_FIELDS, actionOf } from '../audit/log.js'
 
 // The records the What's new page (/whats-new) lists one by one - added,
 // modified or removed - and the photos, listed by cave (an upload's audit
@@ -70,16 +70,22 @@ const docs = async (refs) => (refs.length ? db.getAll(...refs) : [])
 const dayOf = (date) => date?.toISOString().slice(0, 10) || ''
 const atOf = (entry) => entry.at?.toDate?.() || null
 const recordKey = (entry) => `${entry.collection}/${entry.docId}`
-// What an entry did: an undo's own entry says it in undoAction.
-const actionOf = (entry) => (entry.action === 'undo' ? entry.undoAction : entry.action)
 // An update (or an undo that updated) moving a record to the trash, or out of it.
 const trashes = (entry) => actionOf(entry) === 'update' && entry.changedFields?.includes('deletedAt') && Boolean(entry.after?.deletedAt) && !entry.before?.deletedAt
 const restores = (entry) => actionOf(entry) === 'update' && entry.changedFields?.includes('deletedAt') && !entry.after?.deletedAt && Boolean(entry.before?.deletedAt)
 
-// The fields an update changed that the page lists (none: not a modification).
+// The same URLs, in another order (a cave's videos reordered).
+const reordered = (before, after) => Array.isArray(before) && Array.isArray(after) && before.length === after.length && before.join(' ') !== after.join(' ') && after.every((item) => before.includes(item))
+
+// The fields an update changed that the page lists (none: not a
+// modification). A cave's videos only reordered: their order changed
+// (`videoOrder`), nothing added.
 function shownFields(entry) {
   const media = MEDIA_FIELDS[entry.collection] || []
-  return (Array.isArray(entry.changedFields) ? entry.changedFields : []).filter((field) => !IGNORED_FIELDS.has(field) && !media.includes(field))
+  const changed = Array.isArray(entry.changedFields) ? entry.changedFields : []
+  const fields = changed.filter((field) => !IGNORED_FIELDS.has(field) && !media.includes(field))
+  if (entry.collection === 'caves' && changed.includes('videos') && reordered(entry.before?.videos, entry.after?.videos)) fields.push('videoOrder')
+  return fields
 }
 
 // Photos or videos added to a cave, one item per cave, author and day.

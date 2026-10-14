@@ -12,13 +12,15 @@ import { isTrashed } from '@/utils/trash.js'
 import CardOptionsMenu from './CardOptionsMenu.jsx'
 import SistemaModel from '@/models/SistemaModel.js'
 import ConnectionModel from '@/models/ConnectionModel.js'
-import { compareMapsByDate, getSistemaMapRefs } from '@/utils/sistemaMaps.js'
+import { getSistemaMapRefs, orderSistemaMaps } from '@/utils/sistemaMaps.js'
 import AddMapButton from '@/components/MapsPicker/AddMapButton.jsx'
 import { useCanTrashMaps, useTrashMapConfirm } from '@/components/MapPane/TrashMap.jsx'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
 import CloudOffRounded from '@mui/icons-material/CloudOffRounded'
 import { useOnline } from '@/hooks/useOnline.jsx'
 import PendingUploadsStrip from '@/components/Offline/PendingUploadsStrip.jsx'
+import { downloadName, useMediaActionsFor, withOthers } from '@/components/MediaPane/menuItems/mediaActions.jsx'
+import { SITE_URL } from '@/config/app.js'
 
 // The title bar over a map's thumbnail: a caption line and its padding. The
 // options menu sits on it, as tall as it and centred.
@@ -123,14 +125,38 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
   // Admins: deleting the map itself (to the trash), not only from this sistema.
   const canTrash = useCanTrashMaps()
   const { requestTrash, dialog: trashDialog } = useTrashMapConfirm()
-  const selectedMaps = getSistemaMapRefs(sistemaId, sistemas, connections)
-    .map(({ id: value, sistemaId: ownerId }) => {
-      const file = mapFiles.find((map) => map.id === value)
-      return { value, file, url: file?.url || value, inherited: ownerId !== sistemaId }
-    })
-    .filter((map) => !isTrashed(map.file))
-    // Newest first, the undated last.
-    .sort((a, b) => compareMapsByDate(a.file, b.file))
+  const mediaActionsFor = useMediaActionsFor()
+  // A map's menu, for everyone: Share, Download (not a PDF's: its Original
+  // file button is there) and Report this map, its address the cave page's
+  // gallery; then Edit (editors) and Move to trash (admins).
+  const mapMenu = (map) => withOthers(
+    mediaActionsFor({
+      kind: 'map',
+      itemId: map.value,
+      shareUrl: `${SITE_URL}/caves/${caveId}/maps/${map.value}`,
+      download: map.file && map.file.contentType !== 'application/pdf' ? { url: map.file.url, fileName: downloadName('opencaves-map', map.value, map.file.contentType) } : undefined,
+      reportPage: `/caves/${caveId}/maps/${map.value}`,
+    }),
+    canAdd
+      ? [
+          { label: t('editMap'), icon: <EditRounded fontSize="small" />, onClick: () => (mapPath ? navigate(`${mapPath(map.value)}/edit`, { state: { fromPage: true, editFromViewer: true } }) : navigate(`/map/${caveId}/maps/${map.value}/edit`, { state: { from: returnTo } })) },
+          canTrash && map.file && { label: t('trashMap'), icon: <DeleteForeverRounded fontSize="small" />, onClick: () => requestTrash(map.file), danger: true },
+        ].filter(Boolean)
+      : [],
+  )
+  // Each system's together (the cave's own first), in its order: the
+  // editors', the maps they haven't placed first, newest first, the undated
+  // last.
+  const selectedMaps = orderSistemaMaps(
+    getSistemaMapRefs(sistemaId, sistemas, connections)
+      .map(({ id: value, sistemaId: ownerId }) => {
+        const file = mapFiles.find((map) => map.id === value)
+        return { value, file, url: file?.url || value, inherited: ownerId !== sistemaId, ownerId }
+      })
+      .filter((map) => !isTrashed(map.file)),
+    sistemas,
+    { sistemaOf: (map) => map.ownerId, idOf: (map) => map.value, mapOf: (map) => map.file },
+  )
   const mapWidth = ASSETS_LIST_CONFIG.height * ASSETS_LIST_CONFIG.widthRatio
   const mapHeight = ASSETS_LIST_CONFIG.height
 
@@ -149,13 +175,13 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
                     // A thin outline over the picture's edge (not around it: the size stays).
                     '&::after': { content: '""', position: 'absolute', inset: 0, borderRadius: 'inherit', border: `1px solid ${theme.vars.sys.color.outlineVariant}`, pointerEvents: 'none' },
                   })}>
-                  <MapPreview caveId={caveId} map={map} index={index + 1} returnTo={returnTo} mapPath={mapPath} menu={canAdd} />
+                  <MapPreview caveId={caveId} map={map} index={index + 1} returnTo={returnTo} mapPath={mapPath} menu />
                   {map.file?.contentType === 'application/pdf' && (
                     <Button component="a" href={map.file.url} target="_blank" rel="noopener noreferrer" size="small" sx={{ position: 'absolute', bottom: 4, left: 4, bgcolor: 'background.paper', '&:hover': { bgcolor: 'background.paper' } }}>
                       {t('originalFile')}
                     </Button>
                   )}
-                  {canAdd && <CardOptionsMenu ariaLabel={t('mapOptions')} sx={TITLE_BAR_MENU_SX} actions={[{ label: t('editMap'), icon: <EditRounded fontSize="small" />, onClick: () => (mapPath ? navigate(`${mapPath(map.value)}/edit`, { state: { fromPage: true, editFromViewer: true } }) : navigate(`/map/${caveId}/maps/${map.value}/edit`, { state: { from: returnTo } })) }, canTrash && map.file && { label: t('trashMap'), icon: <DeleteForeverRounded fontSize="small" />, onClick: () => requestTrash(map.file), danger: true }].filter(Boolean)} />}
+                  <CardOptionsMenu ariaLabel={t('mapOptions')} sx={TITLE_BAR_MENU_SX} actions={mapMenu(map)} />
                 </Box>
               ))}
         </MediaStrip>

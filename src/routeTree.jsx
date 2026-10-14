@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Loading from '@/routes/Loading.jsx'
-import Account from '@/routes/Account.jsx'
 import AboutRoute from '@/routes/About.jsx'
 import NoMatch from '@/routes/NoMatch.jsx'
 import Layout from '@/components/App/Layout.jsx'
@@ -245,10 +244,9 @@ export const routes = [
                 lazy: () => import('@/routes/LegalPage.jsx').then(({ default: LegalPage }) => ({ Component: () => <LegalPage page="privacy" /> })),
               },
               {
-                // What OpenCaves' users can do - during the beta, test it and
-                // report (the 1.0 page waits on its own branch, what-can-i-do).
+                // What OpenCaves' users can do (exploring, contributing).
                 path: 'what-can-i-do',
-                lazy: () => import('@/routes/BetaWhatCanIDo.jsx').then(({ default: Component }) => ({ Component })),
+                lazy: () => import('@/routes/WhatCanIDo.jsx').then(({ default: Component }) => ({ Component })),
               },
               {
                 path: 'terms',
@@ -276,11 +274,7 @@ export const routes = [
               },
               {
                 path: 'account',
-                element: (
-                  <RequireAuth>
-                    <Account />
-                  </RequireAuth>
-                ),
+                ...requireAuth(() => import('@/routes/Account.jsx')),
               },
               {
                 path: 'loading',
@@ -419,7 +413,13 @@ export const routes = [
                 ...requireAdmin(() => import('@/routes/audits/Audits.jsx')),
               },
               {
-                // The beta testers' reports (Send feedback), listed like
+                // The errors the "Something went wrong" page showed
+                // (_errorReports), grouped by error.
+                path: 'error-reports',
+                ...requireAdmin(() => import('@/routes/error-reports/ErrorReports.jsx')),
+              },
+              {
+                // The members' reports (Send feedback), listed like
                 // GitHub's issues (?state, q, kind, stage, sort)... Every
                 // registered account reads them (Ideas and fixes: what's
                 // coming), admins manage them; anonymous visitors are sent

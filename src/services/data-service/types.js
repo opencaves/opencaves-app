@@ -1,5 +1,3 @@
-// Relative, not '@/': this file is also loaded by the Node migration script
-// (scripts/migrate-sheet-to-firestore.js).
 import { COORDINATE_DECIMALS } from '../../config/map.js'
 
 

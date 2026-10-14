@@ -15,6 +15,7 @@ import { PANE_WIDTH as baseWidth } from '@/config/app.js'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import { matchesId } from '@/utils/matchesId.js'
+import { useTitle } from '@/hooks/useTitle.jsx'
 
 const areasModel = createCollectionModel('areas')
 
@@ -47,8 +48,11 @@ export default function SistemaPane() {
   const [search, setSearch] = useState('')
   const searchInputRef = useRef(null)
 
+  // Its title as every page's ("… / Open Caves"), through the app's.
+  const { setTitle } = useTitle()
   useEffect(() => {
-    document.title = t('header')
+    setTitle(t('header'))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [t])
 
   useEffect(() => {

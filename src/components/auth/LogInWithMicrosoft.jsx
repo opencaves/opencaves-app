@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { MICROSOFT_BUTTON_SX } from './providerButtonSx.js'
-import { noop } from 'lodash'
+import noop from 'lodash/noop'
 import LogInWithProvider from './LogInWithProvider.jsx'
 import { MicrosoftAuthProvider } from './providers.jsx'
 import MicrosoftLogo from '@/images/app/auth/microsoft-logo.svg?react'

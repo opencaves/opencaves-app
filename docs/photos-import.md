@@ -66,9 +66,8 @@ wins; otherwise the closest name above 0.85 similarity is used, with
   folder's photos (by their GPS) is chosen.
 - **A folder spelled too differently** from its cave's name (e.g. "Minotoro"
   for Minotauro): add it to `FOLDER_CAVES` at the top of the script.
-- **A cave missing from the database:** add it to the Google Sheet, run
-  `node scripts/migrate-sheet-to-firestore.js -l` (and with `-p` for production),
-  then re-run the match.
+- **A cave missing from the database:** add it in the app (Caves > Add), then
+  re-run the match.
 - **GPS cross-check:** a photo more than 1 km from its cave is flagged
   `far from cave`. This is a hint only, and is often wrong: the photo's GPS fix
   can be bad (panoramas especially), or it was taken on the way there.
@@ -134,8 +133,6 @@ node scripts/photos-import/upload-photos.js --undo --apply     # remove everythi
   cover, and files left behind (see [maintenance.md](maintenance.md#check-the-cave-photos)).
 - `--undo` deletes the imported documents, files and thumbnails. Photos
   uploaded from the app have no `importKey` and are never touched.
-- `migrate-sheet-to-firestore.js` does not touch `cavesAssets`, so re-running
-  it doesn't remove imported photos.
 
 ## Known limitations
 

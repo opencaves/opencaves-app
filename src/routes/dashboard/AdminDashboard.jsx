@@ -11,6 +11,7 @@ import PaletteRounded from '@mui/icons-material/PaletteRounded'
 import PeopleRounded from '@mui/icons-material/PeopleRounded'
 import LayersRounded from '@mui/icons-material/LayersRounded'
 import HistoryRounded from '@mui/icons-material/HistoryRounded'
+import BugReportRounded from '@mui/icons-material/BugReportRounded'
 import FeedbackRounded from '@mui/icons-material/FeedbackRounded'
 import TipsAndUpdatesRounded from '@mui/icons-material/TipsAndUpdatesRounded'
 import PublicRounded from '@mui/icons-material/PublicRounded'
@@ -49,9 +50,9 @@ const dashboardItemSx = (theme) => ({
 /**
  * /dashboard: the pages to manage the data, as the account's roles allow -
  * editors the caves, systems, connections and reference data; admins also
- * the users, map layers, feedback (with the count of new reports) and
- * audits. Anyone who isn't an admin gets Ideas and fixes instead: the
- * testers' reports, to read (/feedback).
+ * the users, map layers, feedback (with the count of new reports), audits
+ * and error reports. Anyone who isn't an admin gets Ideas and fixes instead:
+ * the members' reports, to read (/feedback).
  */
 export default function AdminDashboard() {
   const { t } = useTranslation('dashboard')
@@ -59,7 +60,7 @@ export default function AdminDashboard() {
   const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
   const isEditor = roles.includes('editor')
   const isAdmin = roles.includes('admin')
-  // The testers' reports still to read.
+  // The members' reports still to read.
   const newFeedback = useNewFeedbackCount(isAdmin)
   const mapsToProcess = useMapsToProcess().toProcess.length
 
@@ -181,11 +182,19 @@ export default function AdminDashboard() {
                     <ListItemText primary={t('manageAudits')} />
                   </ListItemButton>
                 </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton className="oc-admin-dashboard--error-reports" component={Link} to="/error-reports" divider sx={dashboardItemSx}>
+                    <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
+                      <BugReportRounded />
+                    </ListItemIcon>
+                    <ListItemText primary={t('manageErrorReports')} />
+                  </ListItemButton>
+                </ListItem>
               </List>
             </Box>
           )}
 
-          {/* Everyone else: the testers' reports, to read (Ideas and fixes) -
+          {/* Everyone else: the members' reports, to read (Ideas and fixes) -
               the admins' Feedback entry above manages them. */}
           {!isAdmin && (
             <Box component="section" className="oc-admin-dashboard--feedback" sx={{ gridArea: 'admin' }}>

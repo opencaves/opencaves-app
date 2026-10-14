@@ -6,8 +6,9 @@ import { AddMediasContext } from './AddMediasContext.js'
 import { ACCEPTED_EXTENSIONS, ACCEPTED_MIME_TYPES } from '@/config/mediaPane.js'
 
 /**
- * Lets its children open the file picker to add photos (useAddMedias), and
- * uploads what's picked.
+ * Lets its children open the file picker to add photos (useAddMedias:
+ * promptForMedias), or hand it files themselves (addMedias: dropped ones),
+ * and uploads them.
  *
  * @param {object} props
  * @param {import('react').ReactNode} props.children
@@ -38,7 +39,7 @@ export default function AddMediasProvider({ children, caveId }) {
   }
 
   return (
-    <AddMediasContext.Provider value={{ promptForMedias }}>
+    <AddMediasContext.Provider value={{ promptForMedias, addMedias: setMedias }}>
       {children}
       <UploadMedias medias={medias} caveId={caveId} />
     </AddMediasContext.Provider>

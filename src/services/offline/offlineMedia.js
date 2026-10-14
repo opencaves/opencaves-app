@@ -4,6 +4,7 @@ import { getSistemaMapRefs } from '@/utils/sistemaMaps.js'
 import { breakpoints } from '@/theme/Theme.jsx'
 import { PANE_WIDTH } from '@/config/app.js'
 import { CAVE_LAYER } from '@/config/map.js'
+import { sleep } from '@/utils/sleep.js'
 
 // Offline downloads, kept in caches of their own (no expiry, unlike the
 // service worker's browsing caches): the service worker looks in these first
@@ -180,7 +181,7 @@ export async function clearPreviews() {
       const done = Math.min(keys.length, i + batch)
       setStatus(previewsStatusKey, { done })
       const behind = (CLEAR_MIN_MS * done) / keys.length - (Date.now() - started)
-      if (behind > 0) await new Promise((resolve) => setTimeout(resolve, behind))
+      if (behind > 0) await sleep(behind)
       if (run !== clearRun) return
     }
   }

@@ -12,7 +12,8 @@ const VISUALLY_HIDDEN = { position: 'absolute', width: 1, height: 1, p: 0, m: '-
  * Keyboard and screen-reader users after an in-app navigation: the focus
  * left on <body> (the link they used is gone) moves to the new page's h1, which
  * screen readers read. When the focus is still somewhere (the app bar's links,
- * its search), it stays there and the new page's title is announced instead.
+ * its search), or the page is under a dialog still open, it stays there and
+ * the new page's title is announced instead.
  */
 export default function RouteFocus() {
   const { pathname } = useLocation()
@@ -32,7 +33,9 @@ export default function RouteFocus() {
     const lost = () => !document.activeElement || document.activeElement === document.body
     const look = () => {
       const heading = [.../** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll('main h1, h1'))].find((h1) => h1.offsetParent && h1.textContent.trim())
-      if (heading && lost()) {
+      // Not under a dialog still open (Show all, after its photo's gallery
+      // closed): the page is aria-hidden, focus there is blocked.
+      if (heading && lost() && !heading.closest('[aria-hidden="true"]')) {
         if (!heading.hasAttribute('tabindex')) heading.setAttribute('tabindex', '-1')
         heading.focus({ preventScroll: true })
       } else if (heading || performance.now() >= until) {

@@ -1,5 +1,4 @@
-import { clearIndexedDbPersistence, terminate } from 'firebase/firestore'
-import { db } from '@/config/firebase.js'
+import { loadFirebase } from '@/utils/loadFirebase.js'
 
 // Firestore's own internal failures ("FIRESTORE (x.y.z) INTERNAL ASSERTION
 // FAILED", ids ca9, b815 - a bug of the SDK, firebase-js-sdk #10434, #10410):
@@ -47,7 +46,7 @@ export function recoverFromFirestoreFailure() {
     // Storage blocked: one plain reload, no loop (the flag can't be kept).
     if (steps > 0) return false
   }
-  const clear = steps === 1 ? terminate(db).then(() => clearIndexedDbPersistence(db)) : Promise.resolve()
+  const clear = steps === 1 ? loadFirebase().then(({ db, clearIndexedDbPersistence, terminate }) => terminate(db).then(() => clearIndexedDbPersistence(db))) : Promise.resolve()
   clear
     // Another tab still holding the cache: cleared on a later try, reload anyway.
     .catch((error) => console.warn('[firestore] offline cache not cleared: %o', error))

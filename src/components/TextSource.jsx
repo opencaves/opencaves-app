@@ -9,7 +9,8 @@ const sourcesModel = createCollectionModel('sources')
  * Under a text (a cave's or system's description, directions...): where its
  * words come from - its record's textSources entry for that field ("Source:
  * Gerrard 2015"). Nothing when it has none, and nothing for anyone but
- * admins: an editing note, not part of the public page.
+ * admins: an editing note, not part of the public page - in small print
+ * (M3's label small size).
  *
  * @param {object} props
  * @param {Cave | Sistema} props.record
@@ -26,7 +27,7 @@ export default function TextSource({ record, field, sx }) {
   const name = sources.find((source) => source.id === entry.source)?.name
   if (!name) return null
   return (
-    <Typography className="oc-text-source" variant="caption" component="p" sx={[{ display: 'block', mt: 0.5, color: 'text.secondary' }, ...(Array.isArray(sx) ? sx : [sx])]}>
+    <Typography className="oc-text-source" variant="caption" component="p" sx={[{ display: 'block', mt: 0.5, color: 'text.secondary', fontSize: '0.6875rem', lineHeight: '1rem', letterSpacing: '0.03em' }, ...(Array.isArray(sx) ? sx : [sx])]}>
       {t('known', { name })}
     </Typography>
   )

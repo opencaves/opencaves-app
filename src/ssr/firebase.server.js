@@ -9,6 +9,8 @@ import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 import { FIREBASE_CONFIG } from '../config/firebase.config.js'
 
+export * from '../config/firebaseSdk.js'
+
 const app = initializeApp(FIREBASE_CONFIG)
 
 export const auth = getAuth(app)

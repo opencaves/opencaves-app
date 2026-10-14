@@ -35,6 +35,7 @@ import SourceSelect from '@/components/SourceSelect.jsx'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { FIT_SELECT_MENU_PROPS, fitSelectSx } from '@/utils/fitSelect.js'
+import TriStateField from '@/components/ResultPane/TriStateField.jsx'
 
 const sectionHeadingProps = formSectionHeadingProps('oc-cave-edit--section-title')
 // For a heading placed directly in the form's column, whose 16dp gap already
@@ -87,8 +88,9 @@ const emptyForm = {
   direction: '',
   textSources: {},
   cenoteEntrance: false,
-  fees: false,
-  facilities: false,
+  // Unknown until someone says (TriStateField): saved as no field at all.
+  fees: null,
+  facilities: null,
   explorationDate: '',
   reporter: '',
   note: '',
@@ -115,6 +117,7 @@ export default function CaveEdit() {
   const { setTitle } = useTitle()
   const { t, i18n } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const { t: tApp } = useTranslation('app')
+  const { t: tMap } = useTranslation('map')
   const [openSnackbar] = useSnackbar()
   const settleWrite = useSettleWrite()
   // descriptions[].lang is a 3-letter code (matching the languages
@@ -155,6 +158,9 @@ export default function CaveEdit() {
   // dropped from the form needs an explicit deleteField() sentinel to
   // actually clear it instead of just being silently omitted.
   const [originalCave, setOriginalCave] = useState(null)
+  // Its name in titles and messages - what's typed, else its record's, else
+  // "(Unnamed cave)" - never its id.
+  const caveName = form.name || originalCave?.name?.value || tMap('caveNameUnknown')
   const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { onSave: handleSave, canSave: !nameMissing && caveCoordinatesInRange(form), within: `/caves/${caveId}/edit` })
   // The form as loaded or last saved, to write only what changed since.
   const savedForm = useRef(null)
@@ -184,8 +190,8 @@ export default function CaveEdit() {
         direction: cave?.direction || '',
         textSources: textSourcesOf(cave, CAVE_TEXT_FIELDS),
         cenoteEntrance: !!cave?.cenoteEntrance,
-        fees: !!cave?.fees,
-        facilities: !!cave?.facilities,
+        fees: typeof cave?.fees === 'boolean' ? cave.fees : null,
+        facilities: typeof cave?.facilities === 'boolean' ? cave.facilities : null,
         explorationDate: cave?.explorationDate || '',
         reporter: cave?.reporter || '',
         note: cave?.note || '',
@@ -222,10 +228,11 @@ export default function CaveEdit() {
   }, [caveId])
 
   useEffect(() => {
-    // Every edit page's title says so ("Edit …"); a new one stays "New …".
-    setTitle(isNew ? t('newCave') : tApp('editTitle', { title: t('caveTitle', { name: form.name || originalCave?.name?.value || caveId }) }))
+    // Every edit page's title says so ("Edit …"); a new one stays "New …";
+    // the cave not loaded yet, "Edit cave" (never its id).
+    setTitle(isNew ? t('newCave') : form.name || originalCave ? tApp('editTitle', { title: t('caveTitle', { name: caveName }) }) : t('editCave'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isNew, form.name, t, tApp])
+  }, [isNew, form.name, originalCave, t, tApp])
 
   function field(name) {
     return {
@@ -251,8 +258,8 @@ export default function CaveEdit() {
         description: orDelete(form.description),
         direction: orDelete(form.direction),
         cenoteEntrance: form.cenoteEntrance,
-        fees: form.fees,
-        facilities: form.facilities,
+        fees: orDelete(form.fees),
+        facilities: orDelete(form.facilities),
         explorationDate: orDelete(form.explorationDate),
         reporter: orDelete(form.reporter),
         note: orDelete(form.note),
@@ -315,7 +322,7 @@ export default function CaveEdit() {
       }
 
       // Offline, kept on the device and synced later (useSettleWrite says so).
-      const status = await settleWrite(CaveModel.save(caveId, fields), { name: t('caveTitle', { name: form.name || originalCave?.name?.value || caveId }) })
+      const status = await settleWrite(CaveModel.save(caveId, fields), { name: t('caveTitle', { name: caveName }) })
       setBaseline(formSaved)
       savedForm.current = formSaved
       setIsNew(false)
@@ -329,12 +336,12 @@ export default function CaveEdit() {
       }
       if (status === 'saved') {
         await refresh()
-        openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || originalCave?.name?.value || caveId }) }), { severity: 'success' })
+        openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: caveName }) }), { severity: 'success' })
       } else refresh().catch((error) => console.warn(error))
     } catch (error) {
       // Nothing saved: say so, and leave the form as it is (still changed).
       console.error(error)
-      openSnackbar(tApp('snackbar.saveError', { name: t('caveTitle', { name: form.name || originalCave?.name?.value || caveId }) }))
+      openSnackbar(tApp('snackbar.saveError', { name: t('caveTitle', { name: caveName }) }))
     } finally {
       setSaving(false)
     }
@@ -342,7 +349,7 @@ export default function CaveEdit() {
 
   async function handleDelete() {
     setDeleteDialogOpen(false)
-    const name = t('caveTitle', { name: form.name || originalCave?.name?.value || caveId })
+    const name = t('caveTitle', { name: caveName })
     const removal = CaveModel.remove(caveId)
     // Offline, Firestore only settles the delete once the server has it: it's
     // done on the device now, said so, and an error later still told.
@@ -417,7 +424,7 @@ export default function CaveEdit() {
             at the title's size. The heading, hidden, follows it - for screen
             readers and the phone's app bar (data-appbar-page-title). */}
         <Typography component="h1" variant="h5" data-appbar-page-title sx={visuallyHidden}>
-          {form.name || (isNew ? t('newCave') : t('caveTitle', { name: originalCave?.name?.value || caveId }))}
+          {form.name || (isNew ? t('newCave') : originalCave ? t('caveTitle', { name: caveName }) : t('editCave'))}
         </Typography>
         <TextField
           className="oc-cave-edit--name"
@@ -563,8 +570,8 @@ export default function CaveEdit() {
 
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           <BooleanToggleField name="cenoteEntrance" value={form.cenoteEntrance} onChange={(cenoteEntrance) => setForm((f) => ({ ...f, cenoteEntrance }))} />
-          <BooleanToggleField name="fees" value={form.fees} onChange={(fees) => setForm((f) => ({ ...f, fees }))} />
-          <BooleanToggleField name="facilities" value={form.facilities} onChange={(facilities) => setForm((f) => ({ ...f, facilities }))} />
+          <TriStateField name="fees" value={form.fees} onChange={(fees) => setForm((f) => ({ ...f, fees }))} />
+          <TriStateField name="facilities" value={form.facilities} onChange={(facilities) => setForm((f) => ({ ...f, facilities }))} />
         </Box>
 
         </FormSection>
@@ -611,7 +618,7 @@ export default function CaveEdit() {
       <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
         <DialogTitle>{t('deleteCave')}</DialogTitle>
         <DialogContent>
-          <DialogContentText>{t('deleteCaveConfirm', { name: form.name || caveId })}</DialogContentText>
+          <DialogContentText>{t('deleteCaveConfirm', { name: caveName })}</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setDeleteDialogOpen(false)}>{t('cancel')}</Button>

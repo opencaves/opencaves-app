@@ -131,7 +131,7 @@ export function authorAnswerEmail({ reportId, report, message, authorName, reply
   const dropped = message.droppedAttachments
   const { html, text } = renderEmail({
     preheader: String(message.text || '').replace(/\s+/g, ' ').slice(0, 120),
-    hero: { overline: 'Beta feedback', title: `${authorName} replied`, lead: `About “${title}”` },
+    hero: { overline: 'Feedback', title: `${authorName} replied`, lead: `About “${title}”` },
     blocks: [
       { type: 'quote', text: message.text },
       ...(dropped ? [{ type: 'p', text: `${dropped} attachment${dropped > 1 ? 's were' : ' was'} not kept.` }] : []),
@@ -139,7 +139,7 @@ export function authorAnswerEmail({ reportId, report, message, authorName, reply
     ],
     footer: replyTo ? 'You get this email because you are an OpenCaves admin. Reply to it to answer them: your reply joins the report.' : 'You get this email because you are an OpenCaves admin.',
   })
-  return { subject: `[OpenCaves beta] ${authorName} replied to “${title}”`, html, text }
+  return { subject: `[OpenCaves] ${authorName} replied to “${title}”`, html, text }
 }
 
 async function emailAdminsTheAnswer(id, reportRef, message) {

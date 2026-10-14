@@ -65,10 +65,12 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLab
     if (!sticky || !row || !main) return undefined
     const wide = window.matchMedia(STICKY_FROM)
     const update = () => main.style.setProperty(STICKY_HEIGHT_VAR, wide.matches ? `${row.offsetHeight}px` : '0px')
+    // Not measured at once: reading its height here, as the page mounts,
+    // would make the browser lay the whole page out on the spot. The
+    // observer's first call, made once the page is laid out, measures it.
     const observer = new ResizeObserver(update)
     observer.observe(row)
     wide.addEventListener('change', update)
-    update()
     return () => {
       observer.disconnect()
       wide.removeEventListener('change', update)

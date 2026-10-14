@@ -321,7 +321,8 @@ export default function WhatsNew() {
       {days.length === 0 && !failed && <Typography sx={{ color: 'text.secondary' }}>{t('none')}</Typography>}
 
       {days.map(({ label, rows: dayRows }) => (
-        <Box key={label} component="section" className="oc-whats-new--day" sx={{ mb: 3 }}>
+        // Scrolled to (the guided tour's step) below the app bar.
+        <Box key={label} component="section" className="oc-whats-new--day" sx={{ mb: 3, scrollMarginTop: 'calc(64px + 8px)' }}>
           <Typography component="h2" variant="subtitle1" sx={{ fontWeight: 600, mb: 1, ml: 0.5 }}>
             {label}
           </Typography>

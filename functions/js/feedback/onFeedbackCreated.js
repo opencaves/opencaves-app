@@ -1,13 +1,15 @@
 import { onDocumentCreated } from 'firebase-functions/v2/firestore'
 import { logger } from 'firebase-functions/v2'
 import { auth, db } from '../init.js'
-import { FEEDBACK_COLL_NAME, FEEDBACK_PRIVATE_COLL_NAME, REGION, SITE_URL, USERS_COLL_NAME } from '../constants.js'
+import { CAVE_WARNING_REPORTS, FEEDBACK_COLL_NAME, FEEDBACK_PRIVATE_COLL_NAME, REGION, SITE_URL, USERS_COLL_NAME } from '../constants.js'
 import { RESEND_API_KEY, sendEmail } from '../email/sendEmail.js'
 import { renderEmail } from '../email/layout.js'
 import { teamReplyAddress } from './replyAddress.js'
 
 const KINDS = { bug: 'Bug', misleading: 'Misleading', idea: 'Idea / comment' }
 const ICONS = { bug: '🐞', misleading: '🤔', idea: '💡' }
+// A cave's quick report (Report a change): what changed.
+const CAVE_REPORTS = { closed: 'Closed', private: 'Now private', fees: 'Fees changed', road: 'Road changed' }
 
 /**
  * Every admin's email address (accounts whose roles include admin).
@@ -37,13 +39,22 @@ export function feedbackAuthorName(author) {
   return author?.displayName?.trim().slice(0, 100) || null
 }
 
+// A cave's quick report's lines in the admins' email: what changed, and
+// whether the cave shows a warning until the report is resolved.
+function caveReportFacts(report) {
+  if (!report.caveId || !CAVE_REPORTS[report.caveReport]) return []
+  const warning = CAVE_WARNING_REPORTS.includes(report.caveReport)
+  return [{ label: 'Cave report', value: `${CAVE_REPORTS[report.caveReport]}${warning ? ' - a warning shows on the cave until the report is closed' : ''}` }]
+}
+
 /**
- * A tester's report (the beta's Send feedback form, _feedback): it gets its
+ * A member's report (the Send feedback form, _feedback): it gets its
  * author's name (authorName - the members reading it can't look accounts
  * up), and the admins get it by email - its kind, the page it's about, who
  * sent it, the browser (its _feedbackPrivate doc) and the message - and read
- * and close it on the dashboard's Feedback page. A failure is logged: the
- * report itself is saved.
+ * and close it on the dashboard's Feedback page; a cave's quick report says
+ * what changed, and whether the cave shows a warning until it's resolved
+ * (onCaveReportChanged). A failure is logged: the report itself is saved.
  */
 export const onFeedbackCreated = onDocumentCreated({ document: `${FEEDBACK_COLL_NAME}/{id}`, region: REGION, secrets: [RESEND_API_KEY] }, async (event) => {
   const report = event.data?.data()
@@ -75,9 +86,9 @@ export const onFeedbackCreated = onDocumentCreated({ document: `${FEEDBACK_COLL_
     const from = author ? `${author.displayName || '-'} <${author.email || '-'}>` : report.userId
     const { html, text } = renderEmail({
       preheader: String(report.message).slice(0, 120),
-      hero: { overline: 'Beta feedback', title: `${ICONS[report.kind] || ''} ${kind}`.trim() },
+      hero: { overline: 'Feedback', title: `${ICONS[report.kind] || ''} ${kind}`.trim() },
       blocks: [
-        { type: 'facts', items: [{ label: 'From', value: from }, { label: 'Page', value: page || '-', href: page || undefined }, ...(browser ? [{ label: 'Browser', value: browser }] : [])] },
+        { type: 'facts', items: [{ label: 'From', value: from }, { label: 'Page', value: page || '-', href: page || undefined }, ...caveReportFacts(report), ...(browser ? [{ label: 'Browser', value: browser }] : [])] },
         { type: 'quote', text: report.message },
         { type: 'button', label: 'Open the report', href: `${SITE_URL}/feedback/${event.params.id}` },
       ],
@@ -86,7 +97,7 @@ export const onFeedbackCreated = onDocumentCreated({ document: `${FEEDBACK_COLL_
     await sendEmail({
       to,
       bcc,
-      subject: `[OpenCaves beta] ${kind}: ${String(report.message).split('\n')[0].slice(0, 70)}`,
+      subject: `[OpenCaves] ${kind}: ${String(report.message).split('\n')[0].slice(0, 70)}`,
       html,
       text,
       ...(replyTo && { replyTo }),

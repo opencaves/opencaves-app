@@ -5,6 +5,7 @@ import { styled } from '@mui/material'
 import HelpOutlineRounded from '@mui/icons-material/HelpOutlineRounded'
 import Markdown from '../Markdown/Markdown.jsx'
 import TextSource from '@/components/TextSource.jsx'
+import SectionReview from '@/components/CaveReview/SectionReview.jsx'
 import KeyIcon from '@/images/accesses/key.svg?react'
 import NoIcon from '@/images/accesses/no.svg?react'
 import YesIcon from '@/images/accesses/yes.svg?react'
@@ -22,7 +23,18 @@ import FeesYesIcon from '@/images/fees/fees-yes.svg?react'
 import FeesNoIcon from '@/images/fees/fees-no.svg?react'
 import './Access.scss'
 
-export default function Access({ cave }) {
+/**
+ * A cave's access (its page, the map's pane): its access, accessibility,
+ * whether it's a cenote entrance and its fees, each an icon over its label,
+ * their details below - then, unless its page or pane shows them after its
+ * card ({@link AccessReview}), how old the access is, and the fees when they
+ * show ("Still right?", SectionReview).
+ *
+ * @param {object} props
+ * @param {Cave} props.cave
+ * @param {boolean} [props.review=true] - Its Still accurate groups at its end.
+ */
+export default function Access({ cave, review = true }) {
   const { t } = useTranslation(['resultPane', 'accesses', 'accessibilities'])
   const { accesses, accessibilities } = useCaveData()
 
@@ -153,6 +165,29 @@ export default function Access({ cave }) {
           <TextSource record={cave} field="accessibilityDetails" />
         </div>
       )}
+
+      {review && (
+        <div className="details-container oc-access oc-access--review">
+          <AccessReview cave={cave} />
+        </div>
+      )}
+    </>
+  )
+}
+
+/**
+ * The access's Still accurate groups (SectionReview): the access, and the
+ * fees when they show - for a page or pane drawing them after the access's
+ * card, on its ground.
+ *
+ * @param {object} props
+ * @param {Cave} props.cave
+ */
+export function AccessReview({ cave }) {
+  return (
+    <>
+      <SectionReview cave={cave} section="access" />
+      {cave.fees && <SectionReview cave={cave} section="fees" />}
     </>
   )
 }

@@ -1,5 +1,5 @@
 import { extendTheme } from '@mui/material/styles'
-import { merge } from 'lodash'
+import merge from 'lodash/merge'
 
 // old
 // 1b4859
@@ -243,6 +243,14 @@ const lightThemeOptions = {
     },
   },
   components: {
+    // Every modal (dialogs, menus, popovers, drawers): the focus given back
+    // once the page is no longer hidden, by utils/restoreFocus.js - MUI's own
+    // gave it back while the page was still aria-hidden (Chrome blocks it).
+    MuiModal: {
+      defaultProps: {
+        disableRestoreFocus: true,
+      },
+    },
     // Dark: a focused field's label in M3's dark primary (the palette's
     // primary, made for the light theme, read at 2.4:1 there). Here: these
     // components are the theme's (the default scheme's), extendTheme's own

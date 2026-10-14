@@ -1,12 +1,15 @@
 import { useCallback } from 'react'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, ButtonBase, Typography } from '@mui/material'
 import MapRounded from '@mui/icons-material/MapRounded'
+import EditRounded from '@mui/icons-material/EditRounded'
+import DeleteForeverRounded from '@mui/icons-material/DeleteForeverRounded'
 import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded'
 import mapsModel from '@/models/MapModel.js'
-import { compareMapsByDate, getSistemaMapRefs } from '@/utils/sistemaMaps.js'
+import { getSistemaMapRefs, orderSistemaMaps } from '@/utils/sistemaMaps.js'
+import { useMapReorder } from '@/hooks/useMapReorder.js'
 import IndexSection from './IndexSection.jsx'
 import MediaStrip from '@/components/ResultPane/MediaStrip.jsx'
 import { PAGE_STRIP } from '@/config/resultPane.js'
@@ -16,6 +19,10 @@ import AddMapButton from '@/components/MapsPicker/AddMapButton.jsx'
 import PendingUploadsStrip from '@/components/Offline/PendingUploadsStrip.jsx'
 import { useRequireLogin } from '@/hooks/useRequireLogin.jsx'
 import EmptySectionText from './EmptySectionText.jsx'
+import CardOptionsMenu from '@/components/ResultPane/CardOptionsMenu.jsx'
+import { useCanTrashMaps, useTrashMapConfirm } from '@/components/MapPane/TrashMap.jsx'
+import { downloadName, useMediaActionsFor, withOthers } from '@/components/MediaPane/menuItems/mediaActions.jsx'
+import { SITE_URL } from '@/config/app.js'
 
 
 /**
@@ -23,9 +30,11 @@ import EmptySectionText from './EmptySectionText.jsx'
  * details pane's Maps tab), each with its date and who drew it. A map opens
  * in the page's gallery (<pagePath>/maps/:id, MapGallery). On a 3D strip
  * ({@link MediaStrip}, as the map's cave pane), each map a tile: its
- * thumbnail, its name, year and authors over it ({@link MapThumbnail}); then
- * Show all under it ({@link StripShowAll}) opening every one in a grid. Under
- * them, the
+ * thumbnail, its name and year over it ({@link MapThumbnail}); then
+ * Show all under it ({@link StripShowAll}) opening every one in a grid.
+ * Each map's menu ({@link CardOptionsMenu}): Share, Download and Report this
+ * map for everyone ({@link useMediaActionsFor}); Edit for editors, Delete for
+ * admins. Under them, the
  * maps added offline still waiting to upload, and Add map (editors; the
  * others are asked to log in) - shown with no map yet too, except to
  * visitors where there's no system to add one to.
@@ -48,11 +57,40 @@ export default function MapsSection({ sistemaId, sistemas, connections, pagePath
   const loading = pageMaps ? false : ownLoading
   const isEditor = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('editor')
   const requireLogin = useRequireLogin('maps')
+  const { t: tEdit } = useTranslation('resultPane', { keyPrefix: 'edit' })
+  const navigate = useNavigate()
+  const canTrash = useCanTrashMaps()
+  const { requestTrash, dialog: trashDialog } = useTrashMapConfirm()
+  const mediaActionsFor = useMediaActionsFor()
   const pendingMapsOf = useCallback((item) => item.kind === 'map' && item.sistemaId === sistemaId, [sistemaId])
   const byId = new Map(allMaps.map((map) => [map.id, map]))
-  // Newest first, the undated last (as every list of maps).
-  const maps = sistemaId ? getSistemaMapRefs(sistemaId, sistemas, connections).map(({ id }) => byId.get(id)).filter(Boolean).sort(compareMapsByDate) : []
+  // Each system's together (its own first), in its order: the editors',
+  // the maps they haven't placed (new ones) first, newest first, the undated
+  // last (as every list of maps).
+  const sorted = sistemaId
+    ? orderSistemaMaps(
+        getSistemaMapRefs(sistemaId, sistemas, connections)
+          .map(({ id, sistemaId: ownerId }) => byId.get(id) && { ...byId.get(id), sistemaId: ownerId })
+          .filter(Boolean),
+        sistemas,
+      )
+    : []
+  // Editors reorder them in Show all, each among its own system's.
+  const [order, reorder, groupOf] = useMapReorder(sorted, sistemas)
+  const sortedById = new Map(sorted.map((map) => [map.id, map]))
+  const maps = order.map((id) => sortedById.get(id)).filter(Boolean)
   if (loading || (maps.length === 0 && !sistemaId && !isEditor)) return null
+  // A map's menu (editors): edit it; delete it, to the trash (admins).
+  const mapActions = (map) => [
+    { label: tEdit('editMap'), icon: <EditRounded fontSize="small" />, onClick: () => navigate(`${pagePath}/maps/${map.id}/edit`, { state: { fromPage: true, editFromViewer: true } }) },
+    canTrash && { label: tEdit('trashMap'), icon: <DeleteForeverRounded fontSize="small" />, onClick: () => requestTrash(map), danger: true },
+  ].filter(Boolean)
+  // Its menu: everyone's actions (its address in the page's gallery, its
+  // file), then the editors'.
+  const mapMenu = (map) => withOthers(
+    mediaActionsFor({ kind: 'map', itemId: map.id, shareUrl: `${SITE_URL}${pagePath}/maps/${map.id}`, download: { url: map.url, fileName: downloadName('opencaves-map', map.id, map.contentType) }, reportPage: `${pagePath}/maps/${map.id}` }),
+    isEditor ? mapActions(map) : [],
+  )
   // A map opens in the page's gallery; named by its name and year.
   const mapLink = (map) => ({ component: RouterLink, to: `${pagePath}/maps/${map.id}`, state: { fromPage: true }, 'aria-label': [map.name, mapYear(map)].filter(Boolean).join(', ') })
 
@@ -66,18 +104,24 @@ export default function MapsSection({ sistemaId, sistemas, connections, pagePath
           <MediaStrip start="start" fill className="oc-maps-section--strip" itemHeight={PAGE_STRIP.height} height={PAGE_STRIP.itemHeight} gap={PAGE_STRIP.gap} rebuildKey={maps.map((map) => map.id).join(' ')}>
             {maps.map((map) => (
               // A tile (the strip draws it from copies of itself, its caption
-              // curved with it), one a column.
-              <ButtonBase key={map.id} {...mapLink(map)} className="oc-maps-section--item oc-media-strip--tile oc-media-strip--item" sx={{ display: 'block', flexShrink: 0, width: PAGE_STRIP.itemWidth, height: PAGE_STRIP.itemHeight, textAlign: 'left', color: 'inherit', textDecoration: 'none', borderRadius: 2, '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: 2 } }}>
-                <MapThumbnail map={map} />
-              </ButtonBase>
-            ))}
-          </MediaStrip>
-          <StripShowAll title={title}>
-            {maps.map((map) => (
-              <li key={map.id}>
-                <ButtonBase {...mapLink(map)} className="oc-maps-section--item oc-carousel--media" sx={{ display: 'block', width: '100%', aspectRatio: '4 / 3', textAlign: 'left', color: 'inherit', textDecoration: 'none' }}>
+              // curved with it, its menu left live), one a column.
+              <Box key={map.id} className="oc-maps-section--item oc-media-strip--tile oc-media-strip--item" sx={{ position: 'relative', flexShrink: 0, width: PAGE_STRIP.itemWidth, height: PAGE_STRIP.itemHeight, borderRadius: 2 }}>
+                <ButtonBase {...mapLink(map)} className="oc-maps-section--link" sx={{ display: 'block', width: '100%', height: '100%', textAlign: 'left', color: 'inherit', textDecoration: 'none', borderRadius: 2, '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: 2 } }}>
                   <MapThumbnail map={map} />
                 </ButtonBase>
+                <CardOptionsMenu ariaLabel={tEdit('mapOptions')} actions={mapMenu(map)} />
+              </Box>
+            ))}
+          </MediaStrip>
+          <StripShowAll title={title} sortable={isEditor ? { enabled: true, ids: maps.map((map) => map.id), onReorder: reorder, groupOf } : undefined}>
+            {maps.map((map) => (
+              <li key={map.id}>
+                <Box sx={{ position: 'relative' }}>
+                  <ButtonBase {...mapLink(map)} className="oc-maps-section--item oc-carousel--media" sx={{ display: 'block', width: '100%', aspectRatio: '4 / 3', textAlign: 'left', color: 'inherit', textDecoration: 'none' }}>
+                    <MapThumbnail map={map} />
+                  </ButtonBase>
+                  <CardOptionsMenu reveal ariaLabel={tEdit('mapOptions')} actions={mapMenu(map)} />
+                </Box>
               </li>
             ))}
           </StripShowAll>
@@ -85,6 +129,7 @@ export default function MapsSection({ sistemaId, sistemas, connections, pagePath
       )}
       <PendingUploadsStrip filter={pendingMapsOf} sx={{ mt: maps.length > 0 ? 2 : 0 }} />
       <AddMapButton sistemaId={sistemaId} canAdd={isEditor} onAddUnauthorized={requireLogin} spaced={maps.length > 0} />
+      {trashDialog}
     </IndexSection>
   )
 }
@@ -93,7 +138,7 @@ export default function MapsSection({ sistemaId, sistemas, connections, pagePath
 const mapYear = (map) => map.date?.match(/\d{4}/)?.[0]
 
 /**
- * A map's thumbnail filling its item, its name, year and authors over its
+ * A map's thumbnail filling its item, its name and year over its
  * bottom: each line on a dark band fitted to its text (inline, cloned on
  * every line), readable over any drawing. Opaque: at line height 1 a wrapped
  * name's bands overlap, which a see-through band would show as a darker
@@ -103,14 +148,14 @@ const mapYear = (map) => map.date?.match(/\d{4}/)?.[0]
  * @param {CaveMap} props.map
  */
 function MapThumbnail({ map }) {
-  const { t: tMaps } = useTranslation('mapsPicker')
+  const { t } = useTranslation('indexPages')
   const year = mapYear(map)
   const thumbnail = map.thumbnailUrl || map.previewUrl || (map.contentType?.startsWith('image/') ? map.url : null)
   return (
     <Box className="oc-maps-section--thumbnail" sx={{ position: 'relative', width: '100%', height: '100%', borderRadius: 2, overflow: 'hidden', bgcolor: 'action.hover', display: 'grid', placeItems: 'center' }}>
       {thumbnail ? (
         // Picture: a thumbnail not on the device offline says so.
-        <Picture src={thumbnail} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+        <Picture src={thumbnail} alt={map.name ? t('mapAlt', { name: map.name }) : ''} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
       ) : map.contentType === 'application/pdf' ? (
         <PictureAsPdfRounded color="primary" fontSize="large" />
       ) : (
@@ -125,11 +170,6 @@ function MapThumbnail({ map }) {
         {year && (
           <Typography component="span" sx={{ fontSize: '0.75rem', letterSpacing: '0.03em', color: 'rgba(255, 255, 255, 0.8) !important' }}>
             {year}
-          </Typography>
-        )}
-        {map.authors?.length > 0 && (
-          <Typography component="span" className="oc-maps-section--cartography" sx={{ fontSize: '0.75rem', letterSpacing: '0.03em', color: 'rgba(255, 255, 255, 0.8) !important', overflowWrap: 'anywhere' }}>
-            {tMaps('cartography', { names: map.authors.join(', ') })}
           </Typography>
         )}
       </Box>

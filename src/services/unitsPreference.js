@@ -1,5 +1,4 @@
-import { deleteField, doc, getDoc, setDoc } from 'firebase/firestore'
-import { db } from '@/config/firebase.js'
+import { loadFirebase } from '@/utils/loadFirebase.js'
 import { UNIT_SYSTEMS } from '@/utils/units.js'
 import { USERS_COLLECTION } from '@/config/collections.js'
 
@@ -12,11 +11,12 @@ import { USERS_COLLECTION } from '@/config/collections.js'
  * @returns {Promise<'metric'|'imperial'|null>}
  */
 export async function loadAccountUnits(uid) {
+  const { db, doc, getDoc } = await loadFirebase()
   const snapshot = await getDoc(doc(db, USERS_COLLECTION, uid))
   const units = snapshot.exists() ? snapshot.get('units') : null
   return UNIT_SYSTEMS.includes(units) ? units : null
 }
 
 export function saveAccountUnits(uid, units) {
-  return setDoc(doc(db, USERS_COLLECTION, uid), { units: UNIT_SYSTEMS.includes(units) ? units : deleteField() }, { merge: true })
+  return loadFirebase().then(({ db, deleteField, doc, setDoc }) => setDoc(doc(db, USERS_COLLECTION, uid), { units: UNIT_SYSTEMS.includes(units) ? units : deleteField() }, { merge: true }))
 }

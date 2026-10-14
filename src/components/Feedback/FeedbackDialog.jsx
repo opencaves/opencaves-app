@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { collection, doc, serverTimestamp, writeBatch } from 'firebase/firestore'
 import { Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, IconButton, InputAdornment, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import BugReportRounded from '@mui/icons-material/BugReportRounded'
 import ReportGmailerrorredRounded from '@mui/icons-material/ReportGmailerrorredRounded'
@@ -13,13 +12,14 @@ import TipsAndUpdatesRounded from '@mui/icons-material/TipsAndUpdatesRounded'
 import LinkRounded from '@mui/icons-material/LinkRounded'
 import SendRounded from '@mui/icons-material/SendRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
-import { auth, db } from '@/config/firebase.js'
+import { loadFirebase } from '@/utils/loadFirebase.js'
 import { FEEDBACK_COLLECTION, FEEDBACK_PRIVATE_COLLECTION } from '@/config/collections.js'
 import { FEEDBACK_KINDS, OPEN_FEEDBACK_EVENT } from '@/utils/feedback.js'
 import { toServiceLanguage } from '@/utils/lang.js'
 import { useRequireLogin } from '@/hooks/useRequireLogin.jsx'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
+import { track } from '@/utils/track.js'
 
 const MAX_MESSAGE = 4000
 // A message says something: a few words at least (one letter could be sent).
@@ -76,7 +76,7 @@ function KindCard({ kind, selected, onSelect }) {
 }
 
 /**
- * The Send feedback form (openFeedback): a beta tester tells the OpenCaves
+ * The Send feedback form (openFeedback): a signed-in user tells the OpenCaves
  * team about a bug, something misleading or an idea - its kind, a message
  * (a hint and a placeholder per kind: a bug's steps to reproduce it), the
  * page it's about (the page it was opened from, editable), and the browser
@@ -111,7 +111,8 @@ export default function FeedbackDialog() {
       }
       setKind(event.detail?.kind || null)
       setMessage('')
-      setPage(`${window.location.pathname}${window.location.search}`)
+      // What it's about: the page given (a photo's), else the one shown.
+      setPage(event.detail?.page || `${window.location.pathname}${window.location.search}`)
       setOpen(true)
     }
     window.addEventListener(OPEN_FEEDBACK_EVENT, onOpen)
@@ -124,6 +125,7 @@ export default function FeedbackDialog() {
   async function send() {
     setSending(true)
     try {
+      const { auth, db, collection, doc, serverTimestamp, writeBatch } = await loadFirebase()
       const report = { kind, message: message.trim(), page: page.trim().slice(0, 500), language: toServiceLanguage(i18n.language), userId: auth.currentUser.uid, createdAt: serverTimestamp(), status: 'new' }
       // The report, read by every member, and its browser, admins only (one
       // batch: firestore.rules accepts the private doc only with its report).
@@ -133,7 +135,10 @@ export default function FeedbackDialog() {
       batch.set(doc(db, FEEDBACK_PRIVATE_COLLECTION, reportRef.id), { browser: navigator.userAgent.slice(0, 500) })
       const status = await settleWrite(batch.commit(), { name: t('itemName') })
       setOpen(false)
-      if (status === 'saved') openSnackbar(t('sent'), { severity: 'success' })
+      if (status === 'saved') {
+        track('send_feedback', { kind })
+        openSnackbar(t('sent'), { severity: 'success' })
+      }
     } catch (error) {
       console.error(error)
       openSnackbar(t('error'))

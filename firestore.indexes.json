@@ -163,6 +163,12 @@
       "indexes": []
     },
     {
+      "collectionGroup": "_errorReports",
+      "fieldPath": "expireAt",
+      "ttl": true,
+      "indexes": []
+    },
+    {
       "collectionGroup": "_auditLog",
       "fieldPath": "before",
       "indexes": []

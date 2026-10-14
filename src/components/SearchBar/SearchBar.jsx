@@ -18,11 +18,15 @@ import { clearCurrentCave } from '@/redux/slices/mapSlice.jsx'
 import { toggleFilterMenu } from '@/redux/slices/appSlice.jsx'
 import { observeStore } from '@/utils/observeStore.js'
 import { SPACE_OR_PUNCTUATION, MAYAN_QUOTATION } from '@/utils/regexes.js'
+import { popularityBoost, popularityOf } from '@/utils/popularity.js'
+import { usePopularity } from '@/hooks/usePopularity.js'
 import { matchesId } from '@/utils/matchesId.js'
 import Snippet from './Snippet.jsx'
 import { SEARCH_BAR_HEIGHT, SEARCH_BAR_MARGIN, SEARCH_BAR_RADIUS, SEARCH_BAR_SHADOW } from '@/config/app.js'
 import { removeShell } from '@/utils/shell.js'
 import './SearchBar.scss'
+import { track } from '@/utils/track.js'
+import { escapeHtml } from '@/utils/escapeHtml.js'
 
 // flex, not inline: an inline wrapper sits the icon on the text baseline,
 // a few pixels above the button's center.
@@ -96,7 +100,6 @@ const indexOptions = {
 // The snippets are HTML (rendered with dangerouslySetInnerHTML, for the
 // <mark>s): every piece of the cave's own text is escaped, only the matches
 // wrapped - a cave's name or alias can't inject markup into the page.
-const escapeHtml = (text) => String(text).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])
 const escapeRegExp = (text) => String(text).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 // regexp: one capturing group around the search term, so split() keeps the matches.
@@ -197,6 +200,11 @@ export default function SearchBar() {
     return index
   }, [data])
 
+  // The caves' popularity, read once the field is used: among matches as
+  // good, the most visited and saved come first (a gentle lift of their
+  // score - a better match still wins).
+  const { popularity } = usePopularity('caves', searchBarHasFocus || Boolean(value))
+
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
@@ -279,17 +287,15 @@ export default function SearchBar() {
     }
   }, [searchBarOff, isEditMode, isSmall])
 
-  function onSearchbarInputChange(event) {
-    // console.log('[onSearchbarInputChange¸%o', event)
-    const searchTerm = event.target.value
-    setValue(searchTerm)
-    // ID matches first: a pasted ID means that exact cave.
+  // The results for a search: ID matches first (a pasted ID means that
+  // exact cave), then the index's, the most popular lifted.
+  function search(searchTerm) {
     const idResults = searchIds(data, searchTerm)
     const idMatched = new Set(idResults.map((result) => result.id))
     const searchResults = [
       ...idResults,
       ...searchIndex
-        .search(searchTerm)
+        .search(searchTerm, { boostDocument: (id) => popularityBoost(popularityOf(popularity, id)) })
         .filter((result) => !idMatched.has(result.id))
         .map((result) => {
           result.hints = markHints(result, searchTerm)
@@ -300,6 +306,21 @@ export default function SearchBar() {
     setSearchResults(searchResults)
     setSearchedTerm(searchTerm)
   }
+
+  function onSearchbarInputChange(event) {
+    const searchTerm = event.target.value
+    setValue(searchTerm)
+    search(searchTerm)
+  }
+
+  // The popularity read after the search was typed: its results again, in
+  // their order now.
+  const searchRef = useRef(search)
+  searchRef.current = search
+  useEffect(() => {
+    if (popularity && searchedTerm) searchRef.current(searchedTerm)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [popularity])
 
   function onSearchbarFocus(event) {
     const hasFocus = event.type === 'focus'
@@ -357,6 +378,8 @@ export default function SearchBar() {
   }
 
   function onResultsItemClick(id) {
+    track('search', { search_term: value.trim() })
+    track('select_search_result', { content_type: 'caves', item_id: id })
     // Let the route update currentCave so Map can detect and fly to a new selection.
     const selectedCave = selectCaveById(id)
     // Close the phone's keyboard: the field kept focus through the tap.

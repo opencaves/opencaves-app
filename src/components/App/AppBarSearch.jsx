@@ -2,29 +2,29 @@ import { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Autocomplete, Box, ClickAwayListener, IconButton, InputAdornment, InputBase, Tooltip, useTheme } from '@mui/material'
-import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import SearchRounded from '@mui/icons-material/SearchRounded'
-import { useSmall } from '@/hooks/useSmall.jsx'
+import CloseRounded from '@mui/icons-material/CloseRounded'
 import { useSiteSearch } from '@/hooks/useSiteSearch.js'
 import { renderSearchGroup, renderSearchOption } from '@/components/IndexPage/searchSuggestions.jsx'
+import { track } from '@/utils/track.js'
 
 /**
  * The app bar's search, on every page but the map (which has its own): the
  * caves and the cave systems ({@link useSiteSearch}). Picking one opens its page
  * (/caves/:id, /sistemas/:id);
- * Enter on free text opens the caves' list filtered by it. A pill-shaped
- * field in the bar on wide screens; below, a search button that opens the
- * field over the whole bar, with a back arrow to close it - revealed in a
- * circle growing from the button, and closed back into it (M3's container
- * transform, as a circular reveal).
+ * Enter on free text opens the caves' list filtered by it. A search button
+ * that opens the field over the bar's links (wide screens: from the links'
+ * start to the button, the logo and the account left in sight) or over the
+ * whole bar (narrower, where the links are in the drawer) - revealed in a circle growing from the button, and closed
+ * back into it (M3's container transform, as a circular reveal). Empty, it
+ * also closes on Escape or a click elsewhere; with text, Escape or its ×
+ * button clears it.
  */
 export default function AppBarSearch() {
   const { t } = useTranslation('appBarSearch')
   const theme = useTheme()
   const navigate = useNavigate()
   const location = useLocation()
-  // The field fits in the bar beside its links from this width on.
-  const compact = useSmall(theme.breakpoints.down('lg'))
   const [input, setInput] = useState('')
   const [open, setOpen] = useState(false)
   // The overlay stays mounted while it closes; revealed drives its circle,
@@ -32,6 +32,9 @@ export default function AppBarSearch() {
   const [mounted, setMounted] = useState(false)
   const [revealed, setRevealed] = useState(false)
   const [origin, setOrigin] = useState(null)
+  // Where it opens, in the window: its left and right edges' distances from
+  // the window's sides (the whole bar: 0, 0).
+  const [span, setSpan] = useState({ left: 0, right: 0 })
   const buttonRef = useRef(null)
   const closeTimer = useRef(null)
   const inputRef = useRef(null)
@@ -40,10 +43,22 @@ export default function AppBarSearch() {
 
   const motion = theme.sys.motion
 
+  // Over the bar's links when they're in it, up to the button; else the
+  // whole bar.
+  function measureSpan() {
+    const rect = buttonRef.current?.getBoundingClientRect()
+    const nav = document.querySelector('.oc-app-bar--nav')?.getBoundingClientRect()
+    const next = rect && nav ? { left: nav.left, right: document.documentElement.clientWidth - rect.right } : { left: 0, right: 0 }
+    setSpan(next)
+    return next
+  }
+
   function openOverlay() {
     clearTimeout(closeTimer.current)
     const rect = buttonRef.current?.getBoundingClientRect()
-    if (rect) setOrigin({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 })
+    const { left } = measureSpan()
+    // In the overlay's own box (its clip-path's).
+    if (rect) setOrigin({ x: rect.left + rect.width / 2 - left, y: rect.top + rect.height / 2 })
     setMounted(true)
     setOpen(true)
     // Mounted closed first, then grown: the transition needs both states.
@@ -76,10 +91,18 @@ export default function AppBarSearch() {
     if (open) inputRef.current?.focus()
   }, [open])
 
+  // The window resized while it's open: over the links where they now are.
+  useEffect(() => {
+    if (!open) return undefined
+    window.addEventListener('resize', measureSpan)
+    return () => window.removeEventListener('resize', measureSpan)
+  }, [open])
+
   if (location.pathname === '/map' || location.pathname.startsWith('/map/')) return null
 
   function searchAll() {
     const text = input.trim()
+    track('search', { search_term: text })
     navigate(text ? `/caves?q=${encodeURIComponent(text)}` : '/caves')
   }
 
@@ -105,7 +128,11 @@ export default function AppBarSearch() {
         inputValue={input}
         onInputChange={(_, value) => setInput(value)}
         onChange={(_, value) => {
-          if (value && typeof value === 'object') navigate(value.to)
+          if (value && typeof value === 'object') {
+            track('search', { search_term: input.trim() })
+            track('select_search_result', { content_type: value.kind, item_id: value.recordId })
+            navigate(value.to)
+          }
           else if (typeof value === 'string') searchAll()
         }}
         renderGroup={renderSearchGroup((group) => t(`groups.${group}`))}
@@ -127,8 +154,28 @@ export default function AppBarSearch() {
                 <SearchRounded />
               </InputAdornment>
             }
+            // With text: a button emptying it (the field keeps the focus).
+            endAdornment={input && (
+              <InputAdornment position="end" sx={{ color: 'inherit', mr: -0.5 }}>
+                <IconButton
+                  className="oc-app-bar-search--clear"
+                  size="small"
+                  color="inherit"
+                  aria-label={t('clear')}
+                  onClick={() => {
+                    setInput('')
+                    inputRef.current?.focus()
+                  }}
+                >
+                  <CloseRounded fontSize="small" />
+                </IconButton>
+              </InputAdornment>
+            )}
             onKeyDown={(event) => {
-              if (event.key === 'Escape' && compact) closeOverlay()
+              if (event.key !== 'Escape') return
+              // Its text cleared first, then closed.
+              if (input) setInput('')
+              else closeOverlay()
             }}
             sx={{
               width: '100%',
@@ -148,11 +195,6 @@ export default function AppBarSearch() {
     </Box>
   )
 
-  if (!compact) {
-    // Narrower below 1536px, where the bar's links take more room.
-    return <Box sx={{ display: 'flex', flex: { lg: '0 1 240px', xl: '0 1 360px' }, minWidth: 160, mx: 1 }}>{field}</Box>
-  }
-
   return (
     <>
       <Tooltip title={t('open')}>
@@ -161,10 +203,11 @@ export default function AppBarSearch() {
         </IconButton>
       </Tooltip>
       {mounted && (
-        // Over the whole bar (fixed, like it: 64px at the top), in its
-        // colors: a back arrow, then the field. A click or tap anywhere else
-        // closes it (its suggestions, in a portal, count as inside).
-        <ClickAwayListener onClickAway={() => open && closeOverlay()}>
+        // Over the bar's links or the whole bar (fixed, like it: 64px at the
+        // top), in its colors: the field. Empty, a click
+        // or tap anywhere else closes it (its suggestions, in a portal, count
+        // as inside).
+        <ClickAwayListener onClickAway={() => open && !input && closeOverlay()}>
           <Box
             className="oc-app-bar-search--overlay"
             sx={(theme) => {
@@ -172,8 +215,8 @@ export default function AppBarSearch() {
               return {
                 position: 'fixed',
                 top: 0,
-                left: 0,
-                right: 0,
+                left: span.left,
+                right: span.right,
                 height: 64,
                 zIndex: theme.zIndex.appBar + 1,
                 display: 'flex',
@@ -192,11 +235,6 @@ export default function AppBarSearch() {
               }
             }}
           >
-            <Tooltip title={t('close')}>
-              <IconButton color="inherit" aria-label={t('close')} onClick={() => closeOverlay()} sx={{ p: 1.5 }}>
-                <ArrowBackRounded />
-              </IconButton>
-            </Tooltip>
             <Box sx={{ flex: 1, minWidth: 0, display: 'flex', pr: { xs: 1, sm: 0 } }}>{field}</Box>
           </Box>
         </ClickAwayListener>

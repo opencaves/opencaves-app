@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { signOut } from 'firebase/auth'
 import { Avatar, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
 import AccountCircleRounded from '@mui/icons-material/AccountCircleRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
@@ -11,7 +10,8 @@ import FeedbackRounded from '@mui/icons-material/FeedbackRounded'
 import LogoutRounded from '@mui/icons-material/LogoutRounded'
 import SettingsRounded from '@mui/icons-material/SettingsRounded'
 import TipsAndUpdatesRounded from '@mui/icons-material/TipsAndUpdatesRounded'
-import { auth } from '@/config/firebase.js'
+import TourRounded from '@mui/icons-material/TourRounded'
+import { loadFirebase } from '@/utils/loadFirebase.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import OfflinePreviewsToggle from './menu/OfflinePreviewsToggle.jsx'
@@ -19,6 +19,7 @@ import { LanguageListItem } from '@/components/LanguagePicker.jsx'
 import { APP_NAME } from '@/config/app.js'
 import { openAboutDialog } from '@/utils/aboutDialog.js'
 import { openFeedback } from '@/utils/feedback.js'
+import { openToursDialog } from '@/tours/tourList.js'
 import { offlineSupported } from '@/services/offline/offlineMedia.js'
 import { loadPendingUploads } from '@/services/offline/pendingUploads.js'
 import { TOUCH_TARGET_SX } from '@/components/touchTarget.js'
@@ -29,8 +30,8 @@ import { useNewFeedbackCount } from '@/routes/feedback/useNewFeedbackCount.js'
  * header (avatar, greeting and "Manage your account" when signed in; a
  * welcome with Log in / Sign up when not), the other actions grouped on white
  * rounded sections over the card's tinted surface - among them, once signed
- * in, Ideas and fixes (/feedback: the testers' reports and what the team does
- * about them) and, for admins, the count of new reports beside Dashboard -
+ * in, Ideas and fixes (/feedback: the members' reports and what the team does
+ * about them), Take the tour (the guided tours' dialog) and, for admins, the count of new reports beside Dashboard -
  * and the legal links at the bottom. Rendered in AppMenu's
  * Popover.
  */
@@ -38,6 +39,7 @@ export default function AppMenuPanel({ onClose, titleId }) {
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
   const { t: tLegal } = useTranslation('legal', { keyPrefix: 'links' })
   const { t: tDashboard } = useTranslation('dashboard')
+  const { t: tTours } = useTranslation('tours')
   const dispatch = useDispatch()
   const location = useLocation()
   const [openSnackbar] = useSnackbar()
@@ -66,6 +68,7 @@ export default function AppMenuPanel({ onClose, titleId }) {
   const { t: tPending } = useTranslation('offline', { keyPrefix: 'pending' })
 
   async function logOut({ confirmed = false } = {}) {
+    const { auth, signOut } = await loadFirebase()
     if (!confirmed) {
       const uid = auth.currentUser?.uid
       const waiting = uid ? (await loadPendingUploads()).filter((item) => item.uid === uid).length : 0
@@ -165,7 +168,7 @@ export default function AppMenuPanel({ onClose, titleId }) {
 
       <List component="div" disablePadding sx={sectionSx}>
         <LanguageListItem sx={rowSx} />
-        {/* The beta: tell the team about a bug, something misleading, an idea. */}
+        {/* Tell the team about a bug, something misleading, an idea. */}
         <ListItemButton
           className="oc-app-menu--feedback"
           onClick={() => {
@@ -188,6 +191,20 @@ export default function AppMenuPanel({ onClose, titleId }) {
             <ListItemText primary={t('feedbackList')} />
           </ListItemButton>
         )}
+        {/* The guided tours (a dialog listing them). */}
+        <ListItemButton
+          className="oc-app-menu--tours"
+          onClick={() => {
+            onClose()
+            openToursDialog()
+          }}
+          sx={rowSx}
+        >
+          <ListItemIcon>
+            <TourRounded />
+          </ListItemIcon>
+          <ListItemText primary={tTours('menuEntry')} />
+        </ListItemButton>
         <ListItemButton
           component={Link}
           to="/about"

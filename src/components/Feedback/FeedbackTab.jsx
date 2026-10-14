@@ -13,7 +13,7 @@ const HIDDEN = [/^\/(login|signup|loading)(\/|$)/, /^\/feedback$/, /^\/(map|cave
 const COMPACT = '@media (max-width: 599.95px), (max-height: 599.95px)'
 
 /**
- * The Send feedback tab (beta): on the right edge of every page, halfway
+ * The Send feedback tab: on the right edge of every page, halfway
  * down - written sideways, the icon alone on a phone. Opens FeedbackDialog.
  * On a phone's map it fades out with the map's buttons as the result pane's
  * sheet rises (ResultPaneSm's --oc-map-controls-* variables).

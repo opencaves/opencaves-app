@@ -1,13 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Box } from '@mui/material'
 import { useSmall } from '@/hooks/useSmall.jsx'
-
-function findScrollParent(element) {
-  for (let parent = element.parentElement; parent; parent = parent.parentElement) {
-    if (/(auto|scroll|overlay)/.test(window.getComputedStyle(parent).overflowY)) return parent
-  }
-  return window
-}
+import { findScrollParent } from '@/utils/scrollParent.js'
 
 /**
  * An edit page's back button + title row. Above phone width it sticks below
@@ -35,8 +29,8 @@ export default function EditPageHeader({ children }) {
     function updateStickyState() {
       cancelAnimationFrame(animationFrame)
       animationFrame = requestAnimationFrame(() => {
-        const scrollOffset = scrollParent === window ? window.scrollY : scrollParent.scrollTop
-        const parentTop = scrollParent === window ? 0 : scrollParent.getBoundingClientRect().top
+        const scrollOffset = scrollParent instanceof Element ? scrollParent.scrollTop : window.scrollY
+        const parentTop = scrollParent instanceof Element ? scrollParent.getBoundingClientRect().top : 0
         const stickyTop = parentTop + parseFloat(window.getComputedStyle(header).top || '0')
         setIsStuck(scrollOffset > 0 && Math.abs(header.getBoundingClientRect().top - stickyTop) < 2)
       })

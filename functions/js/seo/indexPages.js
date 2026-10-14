@@ -4,6 +4,7 @@ import { REGION, GITHUB_URL, SITE_URL, TITLE_NAME } from '../constants.js'
 import { cavePageMeta } from './cavePage.js'
 import { loadPageIndex, loadSsr, renderWithApp } from './ssr.js'
 import { decodeSegment, plainParagraphs, renderPage, sendHtml, shellFor, truncate } from './shared.js'
+import { answerWarmPing, isWarmPing } from './keepWarm.js'
 
 // The public pages rendered on the server for search engines and a fast
 // first paint: / (the landing page), /caves (every cave by area, each area's
@@ -77,6 +78,11 @@ function sistemaCaves(sistema, data) {
   return data.caves.filter((cave) => memberIds.has(cave.sistemaId))
 }
 
+// A name that already says it's a system ("Sistema Ox Bel Ha"): its title is
+// the name alone, not "Sistema Ox Bel Ha system" (as src/utils/sistemaTitle.js).
+const SAYS_SYSTEM = /(^|[^\p{L}])(sistema|system|réseau|reseau)([^\p{L}]|$)/iu
+const sistemaTitle = (name) => (SAYS_SYSTEM.test(name) ? name : `${name} system`)
+
 function sistemaPage(sistema, data) {
   const summary = plainParagraphs(sistema.description).join(' ')
   const description = truncate(summary
@@ -85,7 +91,7 @@ function sistemaPage(sistema, data) {
   const path = `/sistemas/${sistema.slug}`
   const aka = Array.isArray(sistema.aka) ? sistema.aka.filter(Boolean) : []
   return {
-    title: `${sistema.name} system / ${TITLE_NAME}`,
+    title: `${sistemaTitle(sistema.name)} / ${TITLE_NAME}`,
     description,
     path,
     trail: [{ name: 'Home', path: '/' }, { name: 'Cave systems', path: '/sistemas' }, { name: sistema.name, path }],
@@ -110,9 +116,11 @@ const ALTERNATE_NAMES = ['Open Caves', 'OpenCaves.org']
 // (src/locales/en.json, "home") - keep the two in step.
 function homePage() {
   return {
-    // The brand first, in its two-word spelling (people search "open caves").
-    title: 'Open Caves: open data for cave diving',
-    description: 'OpenCaves (Open Caves): caves and cave systems for cave divers around the world - locations, access, survey maps, connections and exploration history, open and built by divers. Starting with the cenotes of the Yucatán.',
+    // As every page's ("<page> / Open Caves"): with the brand first and a
+    // colon, Google rewrote it ("open data for cave diving: Open Caves").
+    title: `Open data for cave diving / ${TITLE_NAME}`,
+    // Short enough to show whole in results (~155 characters).
+    description: 'Find caves and cenotes to dive: locations, access, survey maps and how cave systems connect. Open data built by cave divers, starting with the Yucatán.',
     path: '/',
     // The site's name - and its other spellings, so a search for "open caves"
     // finds it - address and publisher, for search results (schema.org).
@@ -181,6 +189,13 @@ async function notFoundShell(req) {
  * (ssr.js) - more than the default 256.
  */
 export const indexPages = onRequest({ region: REGION, memory: '512MiB' }, async (req, res) => {
+  // keepPagesWarm's ping: the server build loaded (once per instance, no
+  // read), nothing rendered.
+  if (isWarmPing(req)) {
+    await loadSsr().catch((error) => logger.warn('[indexPages] server build not loaded', { error: error.message }))
+    answerWarmPing(res)
+    return
+  }
   try {
     const data = await loadPageIndex()
     const page = pageFor(req.path, data)

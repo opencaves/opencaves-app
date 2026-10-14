@@ -137,8 +137,8 @@ export default function FeedbackReport() {
   const authorName = authorOf(report)
   // Admins only (accountList is empty for anyone else).
   const authorEmail = accountList.find((account) => account.uid === report.userId)?.email
-  // An older report's browser, on the report itself until
-  // scripts/move-feedback-private.js moves it.
+  // An older report's browser, on the report itself where a one-time
+  // script (2026-10-10) didn't move it.
   const browserShown = browser || report.browser
   const me = auth.currentUser?.displayName || auth.currentUser?.email || ''
   const count = messageCountOf(report)

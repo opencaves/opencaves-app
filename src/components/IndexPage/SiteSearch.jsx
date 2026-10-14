@@ -5,6 +5,7 @@ import { Autocomplete, Box, InputAdornment, TextField } from '@mui/material'
 import SearchRounded from '@mui/icons-material/SearchRounded'
 import { useSiteSearch } from '@/hooks/useSiteSearch.js'
 import { renderSearchGroup, renderSearchOption } from './searchSuggestions.jsx'
+import { track } from '@/utils/track.js'
 
 /**
  * A search across the caves, cave systems and areas, with suggestions as one
@@ -21,6 +22,7 @@ export default function SiteSearch({ sx, inputSx }) {
 
   function searchAll() {
     const text = input.trim()
+    track('search', { search_term: text })
     navigate(text ? `/caves?q=${encodeURIComponent(text)}` : '/caves')
   }
 
@@ -36,7 +38,11 @@ export default function SiteSearch({ sx, inputSx }) {
         inputValue={input}
         onInputChange={(_, value) => setInput(value)}
         onChange={(_, value) => {
-          if (value && typeof value === 'object') navigate(value.to)
+          if (value && typeof value === 'object') {
+            track('search', { search_term: input.trim() })
+            track('select_search_result', { content_type: value.kind, item_id: value.recordId })
+            navigate(value.to)
+          }
           else if (typeof value === 'string') searchAll()
         }}
         renderGroup={renderSearchGroup((group) => t(`search.groups.${group}`))}

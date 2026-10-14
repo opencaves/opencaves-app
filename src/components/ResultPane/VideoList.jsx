@@ -13,6 +13,7 @@ import { centerItem } from '@/utils/mediaStrip.js'
 import MediaStrip from './MediaStrip.jsx'
 import StripShowAll from './StripShowAll.jsx'
 import CardOptionsMenu from './CardOptionsMenu.jsx'
+import { useMediaActionsFor, withOthers } from '@/components/MediaPane/menuItems/mediaActions.jsx'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import CaveModel from '@/models/CaveModel.js'
@@ -20,6 +21,8 @@ import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { videoSiteName, youtubeThumbnail } from '@/utils/videos.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
+import { useReorder } from '@/hooks/useReorder.js'
+import { track } from '@/utils/track.js'
 
 // The video sites the player can show: YouTube, Vimeo and Facebook. A link
 // from anywhere else is refused by the Add video form.
@@ -170,10 +173,16 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
     return undefined
   }
   const [videoToDelete, setVideoToDelete] = useState(null)
-  const videoUrls = (Array.isArray(videos) ? videos : typeof videos === 'string' ? videos.split('|') : []).map((video) => video.trim()).filter(Boolean)
+  const savedUrls = (Array.isArray(videos) ? videos : typeof videos === 'string' ? videos.split('|') : []).map((video) => video.trim()).filter(Boolean)
+  // Editors reorder them in Show all: the array's order is theirs (saved at
+  // once, or, in an edit form, handed to it).
+  const [videoUrls, reorderVideos] = useReorder(savedUrls, async (next) => (onChange ? onChange(next) : CaveModel.save(caveId, { videos: next })), { name: caveName })
   const canEdit = roles.includes('editor') || roles.includes('admin')
+  // Each video once: the order is kept by URL.
+  const sortableVideos = canEdit && new Set(videoUrls).size === videoUrls.length
   // Deleting a video: admins only.
   const canDelete = roles.includes('admin')
+  const mediaActionsFor = useMediaActionsFor()
   const videoWidth = VIDEO_WIDTH
   const videoHeight = (videoWidth * 9) / 16
   // Narrower where the place it's in says so (--oc-video-max-width, e.g. a
@@ -236,6 +245,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
       nextVideos[editingIndex] = newVideoUrl.trim()
     }
     const adding = editingIndex === null
+    if (adding) track('add_media', { content_type: 'video', count: 1, cave_id: caveId })
     // Closed at once: the list shows the change straight away (Firestore's
     // local write), the server's confirmation takes seconds. A new video goes
     // at the strip's end, out of sight: scrolled to. Said once confirmed
@@ -311,6 +321,24 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
     )
   }
 
+  // A video's own actions (editors): edit its address; delete it (admins).
+  const videoActions = (video, index) => [
+    {
+      label: t('edit.editVideo'),
+      icon: <EditRounded fontSize="small" />,
+      onClick: () => {
+        setEditingIndex(index)
+        setNewVideoUrl(video)
+        setAddDialogOpen(true)
+      },
+    },
+    canDelete && { label: t('edit.deleteVideo'), icon: <DeleteOutlineRounded fontSize="small" />, onClick: () => requestDelete(index), danger: true },
+  ].filter(Boolean)
+
+  // Its menu, for everyone: Report this video - no Share nor Download, a
+  // video is someone else's site's - then its own actions.
+  const videoMenu = (video, index) => withOthers(mediaActionsFor({ kind: 'video', itemId: video, reportPage: video }), canEdit ? videoActions(video, index) : [])
+
   if (videoUrls.length === 0 && !canEdit && !showAdd) {
     return null
   }
@@ -328,34 +356,19 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
                   return (
                     <Box key={`${video}-${index}`} className="oc-video-list--item oc-media-strip--tile oc-media-strip--item" sx={{ position: 'relative', width: shownWidth, height: shownHeight, flex: '0 0 auto', bgcolor: 'common.black', overflow: 'hidden', borderRadius: '.5rem' }}>
                       {videoStill(video, index)}
-                      {canEdit && (
-                        <CardOptionsMenu
-                          ariaLabel={t('edit.videoOptions')}
-                          actions={[
-                            {
-                              label: t('edit.editVideo'),
-                              icon: <EditRounded fontSize="small" />,
-                              onClick: () => {
-                                setEditingIndex(index)
-                                setNewVideoUrl(video)
-                                setAddDialogOpen(true)
-                              },
-                            },
-                            canDelete && { label: t('edit.deleteVideo'), icon: <DeleteOutlineRounded fontSize="small" />, onClick: () => requestDelete(index), danger: true },
-                          ].filter(Boolean)}
-                        />
-                      )}
+                      <CardOptionsMenu ariaLabel={t('edit.videoOptions')} actions={videoMenu(video, index)} />
                     </Box>
                   )
                 })}
         </MediaStrip>
       )}
       {showAll && videoUrls.length > 0 && (
-        <StripShowAll title={t('videosHeader')} gridMinWidth="260px">
+        <StripShowAll title={t('videosHeader')} gridMinWidth="260px" sortable={sortableVideos ? { enabled: true, ids: videoUrls, onReorder: reorderVideos } : undefined}>
           {videoUrls.map((video, index) => (
-            <li key={`${video}-${index}`}>
+            <li key={sortableVideos ? video : `${video}-${index}`}>
               <Box className="oc-video-list--item oc-carousel--media" sx={{ position: 'relative', aspectRatio: '16 / 9', overflow: 'hidden', bgcolor: 'common.black' }}>
                 {videoStill(video, index)}
+                <CardOptionsMenu reveal ariaLabel={t('edit.videoOptions')} actions={videoMenu(video, index)} />
               </Box>
             </li>
           ))}

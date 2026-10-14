@@ -1,12 +1,19 @@
 #!/usr/bin/env node
-// Mirrors the local emulators (the original data) to production: production
+// SINCE THE 1.0 RELEASE, PRODUCTION IS THE SOURCE OF THE DATA: this mirror
+// would overwrite what people changed there. Bring production's data to the
+// emulators with scripts/sync-from-production.js instead. --write refuses to
+// run without --i-know-production-is-the-source (a dry run still works).
+//
+// Mirrors the local emulators (the original data until 1.0) to production: production
 // ends up with exactly the local documents and files - everything but its
 // users (accounts, _users/* - settings, saved caves), its frozen accounts
 // (_frozenUsers), its audit log (_auditLog: only the additions it lacks -
 // records, photos, videos - are copied, for the What's new page), its ratings
 // (the caves' ratings subcollections, _caveRatings), its testers' reports
-// (_feedback, and their private docs _feedbackPrivate) and its What's new
-// (_whatsNew, built from its audit log), which stay untouched.
+// (_feedback, and their private docs _feedbackPrivate), its What's new
+// (_whatsNew, built from its audit log), its caves' and systems' popularity
+// (_popularity, built from its Google Analytics and its accounts) and its
+// error reports (_errorReports), which stay untouched.
 //
 // - Firestore: every other collection. New documents are created, differing
 //   ones overwritten whole, the ones only in production deleted. Map
@@ -41,8 +48,10 @@ const PROJECT_ID = 'opencaves'
 const BUCKET = 'opencaves.appspot.com'
 // Production's own: its users, which accounts are frozen, its audit log, its
 // ratings' summaries (the ratings themselves, under the caves, aren't copied),
-// its testers' reports and its What's new.
-const KEEP = ['_users', '_frozenUsers', '_auditLog', '_caveRatings', '_feedback', '_feedbackPrivate', '_whatsNew']
+// its testers' reports and the caves' open reports (their warnings), its
+// What's new, its caves' and systems' popularity
+// (built from its Google Analytics and its accounts) and its error reports.
+const KEEP = ['_users', '_frozenUsers', '_auditLog', '_caveRatings', '_caveReports', '_feedback', '_feedbackPrivate', '_whatsNew', '_popularity', '_errorReports']
 const STORAGE_PREFIXES = ['caves/', 'maps/']
 const FIRESTORE_EMULATOR = process.env.FIRESTORE_EMULATOR_HOST || '127.0.0.1:8080'
 const STORAGE_EMULATOR = process.env.FIREBASE_STORAGE_EMULATOR_HOST || '127.0.0.1:9199'
@@ -60,13 +69,15 @@ try {
 const PAIRED_EMAILS = new Map((process.env.SYNC_ACCOUNTS || '').split(',').map((pair) => pair.split('=').map((email) => email.trim().toLowerCase())).filter(([from, to]) => from && to))
 
 const cli = yargs(hideBin(process.argv))
-  .usage('$0 --dry-run | --write [--no-files]\n\nMirrors the local emulators to production: every collection and the caves/ and maps/ files; production\'s users are kept.')
+  .usage('$0 --dry-run | --write --i-know-production-is-the-source [--no-files]\n\nMirrors the local emulators to production: every collection and the caves/ and maps/ files; production\'s users are kept.\nProduction is the source of the data since 1.0: use scripts/sync-from-production.js to bring its data to the emulators.')
   .option('dry-run', { type: 'boolean', default: false, describe: 'List the changes, change nothing' })
   .option('write', { type: 'boolean', default: false, describe: 'Back production\'s documents up, then mirror' })
   .option('files', { type: 'boolean', default: true, describe: 'Mirror the Storage files too (--no-files: documents only)' })
   .option('report', { type: 'string', describe: 'Also write the full list of changes (JSON) to this file' })
+  .option('i-know-production-is-the-source', { type: 'boolean', default: false, describe: 'Needed with --write: production is the source of the data since 1.0, and this overwrites it' })
   .check((args) => {
     if (args.dryRun === args.write) throw new Error('Use exactly one of --dry-run or --write.')
+    if (args.write && !args.iKnowProductionIsTheSource) throw new Error('Production is the source of the data since the 1.0 release: --write would overwrite what people changed there. Use scripts/sync-from-production.js to bring its data here; add --i-know-production-is-the-source only if you really mean to overwrite production.')
     return true
   })
   .help()

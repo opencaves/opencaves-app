@@ -75,15 +75,57 @@
  * @property {string} [note]
  * @property {string} [reporter]
  * @property {string} [explorationDate] - A partial date ("1990", "1986-07", "2004-06-14") or years ("2004-2006").
- * @property {string[]} [videos] - Video URLs (older records: one "|"-separated string).
+ * @property {string[]} [videos] - Video URLs (older records: one "|"-separated string), in the order shown.
+ * @property {string[]} [photoOrder] - Its photos' order after the cover (`cavesAssets` ids), as editors arranged them;
+ *   the photos it doesn't name come first, newest first (CaveAsset.js's photoOrder).
  * @property {boolean} [cenoteEntrance] - A cenote used to enter a cave system.
  * @property {boolean} [facilities]
  * @property {boolean} [fees]
  * @property {Record<string, TextSource>} [textSources] - By Markdown field (utils/textSources.js).
+ * @property {Partial<Record<'access'|'directions'|'fees'|'description', string>>} [reviewed] - The month ('YYYY-MM') each
+ *   section was last confirmed still accurate ("Still right?", config/caveReview.js' REVIEW_SECTIONS).
+ * @property {string} [lastReviewed] - Derived: the latest of its shown sections' {@link Cave.reviewed} months, in a
+ *   server-rendered list's data (ssr/pageState.js), which leaves reviewed out.
  * @property {SistemaAncestor[]} [sistemas] - Derived: its system and that system's ancestors, its own first
  *   (postProcessCaveData.js, at read time).
  * @property {boolean} [located] - Derived: whether it has coordinates, in a server-rendered page's data
  *   (ssr/pageState.js), which leaves the coordinates out.
+ */
+
+/**
+ * What the caves' search criteria test of a cave (utils/caveFilters.js's
+ * caveFacts): from its record, or sent as such by a server-rendered list
+ * (ssr/pageState.js), which leaves the fields out.
+ *
+ * @typedef {object} CaveFacts
+ * @property {string} id
+ * @property {string|null} name
+ * @property {boolean} located - It has coordinates.
+ * @property {boolean} positionConfirmed - Its coordinates are confirmed (location.validity "valid").
+ * @property {boolean} cenoteEntrance
+ * @property {string|null} area - Its area's name.
+ * @property {string|null} access
+ * @property {string|null} accessibility
+ * @property {boolean} hasDescription
+ * @property {boolean} hasDirections - It has a getting there ({@link Cave.direction}).
+ * @property {boolean} feesKnown - Its fees are known (yes or no).
+ * @property {boolean} facilitiesKnown
+ * @property {boolean} hasVideo - It has a video ({@link Cave.videos}).
+ * @property {boolean} hasSystem - It's attached to a cave system ({@link Cave.sistemaId}).
+ * @property {string|null} lastReviewed - The latest month ('YYYY-MM') a section it shows was confirmed in
+ *   (utils/caveReview.js' lastReviewedMonth), or null.
+ */
+
+/**
+ * The caves' search filters (utils/caveFilters.js), each kind's values as
+ * the address holds them.
+ *
+ * @typedef {object} CaveFilters
+ * @property {string[]} type - 'entrance', 'other'.
+ * @property {string[]} area - Area slugs ('unknown': no area).
+ * @property {string[]} access - Access ids ('unknown': none).
+ * @property {string[]} accessibility - Accessibility ids ('unknown': none).
+ * @property {string[]} missing - What the caves lack (caveFilters.js's MISSING_CRITERIA).
  */
 
 /**
@@ -113,11 +155,12 @@
  * @property {GeoPoint} [location]
  * @property {number} [exploredLength] - Its total explored length, in metres.
  * @property {string} [exploredLengthDate] - When that length was surveyed or reported: a partial date ("2024-12", "2016").
- * @property {number} [length] - The older name of exploredLength (records not migrated yet: scripts/rename-sistema-length.js).
  * @property {number} [maxDepth] - In metres.
  * @property {boolean} [public] - False: no page of its own.
  * @property {Exploration[]} [explorations]
  * @property {string[]} [maps] - Its `maps` records' ids.
+ * @property {string[]} [mapOrder] - Its maps' order as editors arranged them (`maps` ids); the maps it doesn't name
+ *   come first, by date (utils/sistemaMaps.js's orderMaps).
  * @property {Record<string, TextSource>} [textSources]
  */
 
@@ -230,6 +273,24 @@
  */
 
 /**
+ * An error the "Something went wrong" page showed (`_errorReports`, written by
+ * the browser: src/utils/errorReports.js; read by admins).
+ *
+ * @typedef {object} ErrorReport
+ * @property {string} message - The error's message, or a loader's "status text".
+ * @property {string} [stack] - Its stack ('' for a loader's response).
+ * @property {number|null} [status] - A loader's HTTP status.
+ * @property {string} digest - Groups the reports of one error (its message and first stack frame, hashed).
+ * @property {string} path - The page's path and query.
+ * @property {string} [version] - The app's version.
+ * @property {string} [userAgent]
+ * @property {string} [language] - The browser's.
+ * @property {string|null} [uid] - The signed-in account, if any.
+ * @property {import('firebase/firestore').Timestamp} createdAt
+ * @property {import('firebase/firestore').Timestamp} expireAt - Deleted then (TTL policy).
+ */
+
+/**
  * A feedback report (`_feedback`), sent from the Send feedback form - read by
  * every registered account (Ideas and fixes): nothing private on it (see
  * {@link FeedbackPrivate}).
@@ -239,7 +300,7 @@
  * @property {'bug'|'misleading'|'idea'} kind
  * @property {string} message
  * @property {string} page - The page it's about.
- * @property {string} [browser] - Older reports only, until scripts/move-feedback-private.js moves it to {@link FeedbackPrivate}.
+ * @property {string} [browser] - Older reports only, where a one-time script (2026-10-10) didn't move it to {@link FeedbackPrivate}.
  * @property {string} [language] - The app language it was sent in.
  * @property {string} userId - Its author.
  * @property {string} [authorName] - Server: its author's display name, shown to the members (none without one).
@@ -253,6 +314,18 @@
  * @property {Timestamp} [reporterEmailedAt] - Server: when a team reply was last emailed to the author.
  * @property {number} [messageCount] - Server: its thread's messages.
  * @property {Timestamp} [lastMessageAt] - Server.
+ * @property {string} [caveId] - A cave's quick report (Report a change): the cave.
+ * @property {'closed'|'private'|'fees'|'road'} [caveReport] - A cave's quick report: what changed
+ *   (config/caveReview.js' CAVE_REPORT_KINDS); closed and private show a warning on the cave ({@link CaveReports}).
+ */
+
+/**
+ * A cave's open "closed" and "now private" reports (`_caveReports/{caveId}`),
+ * public, written by the server only (onCaveReportChanged): one warning
+ * each on the cave, until an admin resolves the report.
+ *
+ * @typedef {object} CaveReports
+ * @property {{kind: 'closed'|'private', at: Timestamp|null, feedbackId: string}[]} reports - Oldest first.
  */
 
 /**
@@ -321,6 +394,20 @@
  */
 
 /**
+ * How popular the records of a kind are (`_popularity/caves`,
+ * `_popularity/sistemas`, built nightly by the server's refreshPopularity;
+ * its twin is in functions/js/types.js): public, by record id - for the
+ * search fields' suggestions, the most visited first (to come:
+ * hooks/usePopularity.js).
+ *
+ * @typedef {object} Popularity
+ * @property {Record<string, number>} views - Its pages' views in Google Analytics, the last 90 days (a
+ *   cave: /caves/<id> and /map/<id>; a system: /sistemas/<id>).
+ * @property {Record<string, number>} [saves] - Caves: how many accounts saved it.
+ * @property {Timestamp} [updatedAt]
+ */
+
+/**
  * The Redux store's state (redux/store.jsx), for useSelector's callbacks:
  * `useSelector((/** @type {RootState} *\/ state) => state.session.user)`.
  *
@@ -332,4 +419,26 @@
  * theme), for the components that take one and pass it on.
  *
  * @typedef {import('@mui/material').SxProps<import('@mui/material').Theme>} Sx
+ */
+
+/**
+ * An item's state in a list editors reorder (components/Reorder): what its
+ * renderItem puts on the item's root (`itemProps`: its ref, its move while
+ * sorting, the drag's and the keyboard's listeners).
+ *
+ * @typedef {object} SortableState
+ * @property {{ref: (node: HTMLElement | null) => void, style: React.CSSProperties} & Record<string, any>} itemProps - Spread
+ *   on the item's root.
+ * @property {boolean} isDragging - The item being dragged.
+ * @property {object} transitionProps - A TransitionGroup's props for the item (`in`, `onExited`...), if in one.
+ */
+
+/**
+ * Draws one item of a list editors reorder (components/Reorder).
+ *
+ * @callback SortableRenderItem
+ * @param {string} id
+ * @param {number} index
+ * @param {SortableState | null} sortable - Null while the list isn't sortable (not an editor, or loading).
+ * @returns {React.ReactNode}
  */

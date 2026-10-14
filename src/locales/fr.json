@@ -420,7 +420,8 @@
       "showUnconfirmedCoordinates": "Afficher les coordonnées non confirmées"
     },
     "areas": {
-      "heading": "Régions"
+      "heading": "Régions",
+      "unknown": "Région inconnue"
     },
     "access": {
       "heading": "Accès",
@@ -460,7 +461,8 @@
           "label": "Inconnu",
           "description": "L'accès est inconnu."
         }
-      ]
+      ],
+      "chip": "Accès : {{label}}"
     },
     "accessibility": {
       "heading": "Accessibilité",
@@ -500,14 +502,34 @@
           "label": "Accès variable",
           "description": "L'accès à cette zone varie en fonction de l'heure ou du point d'entrée."
         }
-      ]
+      ],
+      "chip": "Accessibilité : {{label}}"
     },
     "cenoteType": {
       "heading": "Type de grotte",
       "showCenoteEntrances": "Afficher les cénotes d'entrée",
-      "showOtherCenotes": "Afficher les autres grottes"
+      "showOtherCenotes": "Afficher les autres grottes",
+      "entrance": "Cénotes d'entrée",
+      "other": "Autres grottes"
     },
-    "closeBtn": "Fermer les filtres"
+    "closeBtn": "Fermer les filtres",
+    "needsHelp": {
+      "heading": "À compléter",
+      "items": {
+        "coordinates": "Sans coordonnées",
+        "position": "Position non confirmée",
+        "name": "Sans nom",
+        "photo": "Sans photo",
+        "video": "Sans vidéo",
+        "description": "Sans description",
+        "directions": "Sans itinéraire",
+        "fees": "Frais inconnus",
+        "facilities": "Commodités inconnues",
+        "system": "Sans réseau",
+        "review": "Sans confirmation récente"
+      },
+      "hint": "N'affiche que les grottes où manquent tous les éléments activés."
+    }
   },
   "resultPane": {
     "title": "{{name}}",
@@ -630,6 +652,9 @@
       "feesHint": "Indique si la visite de cette grotte nécessite de payer un droit d’entrée",
       "facilities": "Commodités",
       "facilitiesHint": "Indique si des commodités comme des toilettes ou des vestiaires sont disponibles sur place",
+      "choiceUnknown": "Inconnu",
+      "choiceYes": "Oui",
+      "choiceNo": "Non",
       "accessDetails": "Détails d'accès",
       "accessibilityDetails": "Détails d'accessibilité",
       "description": "Description",
@@ -648,6 +673,7 @@
       "accessGroup": "Accès",
       "accessibilityGroup": "Accessibilité",
       "newCave": "Nouvelle grotte",
+      "editCave": "Modifier la grotte",
       "caveTitle": "{{name}}",
       "backToCaves": "Retour aux grottes",
       "backToCave": "Retour à la page de la cénote",
@@ -733,7 +759,7 @@
     "images": "photos",
     "menu": {
       "ariaLabel": "Plus",
-      "useAsCoverImage": "Utiliser comme photo de couverture",
+      "useAsCoverImage": "Définir comme photo de couverture",
       "useAsCoverSuccess": "Photo de couverture modifiée.",
       "useAsCoverFail": "La modification de la photo de couverture a échoué.",
       "useViewAsThumbnail": "Utiliser cette vue comme vignette",
@@ -746,7 +772,17 @@
       "deleteConfirmTitle": "Supprimer cette photo ?",
       "deleteConfirm": "La photo va à la corbeille : un administrateur peut la restaurer depuis Audits > Corbeille.",
       "deleteCancel": "Annuler",
-      "isCoverImage": "C’est la photo de couverture"
+      "isCoverImage": "C’est la photo de couverture",
+      "share": "Partager",
+      "download": "Télécharger",
+      "report": {
+        "photo": "Signaler cette photo",
+        "map": "Signaler cette carte",
+        "video": "Signaler cette vidéo"
+      },
+      "linkCopied": "Lien copié.",
+      "shareFail": "Impossible de partager le lien.",
+      "downloadFail": "Impossible de télécharger le fichier."
     },
     "mediaThumbnailItem": {
       "openBtn": {
@@ -857,6 +893,7 @@
     "explorationDescription": "Description",
     "explorationNotes": "Notes",
     "newSistema": "Nouveau réseau",
+    "editSistema": "Modifier le réseau",
     "sistemaTitle": "Réseau {{name}}",
     "backToSistemas": "Retour aux réseaux",
     "backToSistema": "Retour à la page du système",
@@ -1074,7 +1111,7 @@
         "openScan": "Ouvrir la carte d’origine"
       },
       "panelTitle": "Couches de la carte",
-      "show": "Afficher les galeries"
+      "show": "Afficher les galeries inondées"
     },
     "controls": {
       "locationNotAvailable": "Position non disponible",
@@ -1179,10 +1216,11 @@
     "manageMapLayers": "Couches de la carte",
     "manageFeedback": "Commentaires",
     "followFeedback": "Idées et corrections",
-    "followFeedbackText": "Ce que les testeurs ont signalé, et ce qui s’en vient",
+    "followFeedbackText": "Ce que les membres ont signalé, et ce qui s’en vient",
     "newFeedback_one": "{{count}} nouveau",
     "newFeedback_other": "{{count}} nouveaux",
     "manageAudits": "Audits",
+    "manageErrorReports": "Rapports d'erreurs",
     "backToCaveIndex": "Retour aux grottes",
     "backToSistemaIndex": "Retour aux réseaux",
     "mapsToProcess_one": "{{count}} à traiter",
@@ -1265,10 +1303,10 @@
     }
   },
   "legal": {
-    "updated": "Dernière mise à jour : 2 octobre 2026",
+    "updated": "Dernière mise à jour : 14 octobre 2026",
     "privacy": {
       "title": "Politique de confidentialité",
-      "body": "OpenCaves est une carte gratuite et collaborative des cénotes et des grottes de la péninsule du Yucatán. Cette politique explique quels renseignements personnels OpenCaves recueille, pourquoi, avec qui ils sont partagés, ainsi que vos choix et vos droits.\n\n## Qui est responsable\n\nOpenCaves est exploitée par Christian Rémillard, au Québec (Canada), qui est aussi la personne responsable de la protection des renseignements personnels au sens de la loi québécoise. Pour toute question ou demande concernant vos renseignements personnels, écrivez à [privacy@opencaves.org](mailto:privacy@opencaves.org).\n\n## Ce que nous recueillons\n\n**Quand vous naviguez simplement.** Aucun compte n’est nécessaire pour utiliser la carte. Pour faire fonctionner certaines fonctions, l’application vous connecte avec une *session anonyme* : un identifiant aléatoire, sans nom ni courriel.\n\n**Quand vous créez un compte.** Nous conservons votre adresse courriel et le nom que vous choisissez. Si vous vous connectez avec Google ou Microsoft, nous recevons aussi le nom et la photo de ce profil. Les mots de passe sont gérés par notre fournisseur d’authentification (Firebase Authentication) ; nous ne les voyons jamais.\n\n**Ce que vous sauvegardez ou notez.** Les cénotes que vous sauvegardez sont conservées dans votre compte et ne sont visibles que par vous. Quand vous notez une cénote, votre note est conservée avec l’identifiant de votre compte (pas votre nom ni votre courriel) et sert à calculer la moyenne publique de la cénote.\n\n**Ce que vous ajoutez.** Les photos, cartes, vidéos et renseignements sur les grottes que vous ajoutez sont publics : tout le monde qui utilise OpenCaves peut les voir. Les fichiers téléversés sont liés à l’identifiant de votre compte et conservent leur nom de fichier d’origine. La photo originale est conservée telle quelle, avec les données qu’elle contient, comme l’endroit où elle a été prise (EXIF), et une photo peut montrer des visages : ne partagez que ce que vous acceptez de rendre public.\n\n**Votre position.** Quand vous utilisez « Me localiser » ou « Ma position », la position de votre appareil sert uniquement sur votre appareil, pour centrer la carte ou remplir une coordonnée. Nous ne la conservons pas et ne l’envoyons pas à nos serveurs. Elle ne fait partie des données d’une grotte que si vous l’enregistrez vous-même dans un champ de coordonnées.\n\n**Renseignements techniques.** Comme pour tout site Web, les services qui diffusent OpenCaves (voir plus bas) reçoivent des renseignements techniques comme votre adresse IP, votre type de navigateur et la zone de la carte que vous consultez. Nous n’utilisons pas de publicité, ni de témoins (cookies) de mesure d’audience ou de pistage.\n\n## Comment nous les utilisons\n\nNous utilisons vos renseignements uniquement pour faire fonctionner OpenCaves : vous connecter, conserver vos cénotes sauvegardées et vos notes, afficher les contributions et en indiquer l’auteur, protéger le service contre les abus et répondre à vos demandes. Nous ne vendons pas vos renseignements personnels et ne les utilisons ni pour la publicité ni pour le profilage.\n\n## Avec qui nous les partageons\n\nOpenCaves s’appuie sur les fournisseurs suivants, qui traitent des renseignements pour notre compte ou quand vous utilisez leurs fonctions :\n\n- **Google Firebase et Google Cloud** (hébergement, comptes, base de données, stockage de fichiers, fonctions serveur).\n- **Google et Microsoft**, seulement si vous choisissez de vous connecter avec eux : ils confirment votre identité à OpenCaves.\n- **Mapbox** (images de la carte). Mapbox reçoit votre adresse IP et la zone de la carte que vous consultez.\n- **Google Maps Platform** (conversion des coordonnées d’une grotte en adresse).\n- **YouTube et Vimeo**, seulement quand une vidéo est intégrée à une cénote et que vous la faites jouer. Les vidéos YouTube utilisent son mode de confidentialité renforcée.\n\nCertains de ces fournisseurs conservent ou traitent des renseignements à l’extérieur du Québec et du Canada, notamment aux États-Unis, où ils sont soumis aux lois locales. Nous faisons appel à des fournisseurs qui offrent des protections compatibles avec les lois québécoises et canadiennes sur la protection des renseignements personnels.\n\n## Données conservées sur votre appareil\n\nPour fonctionner rapidement et hors ligne, OpenCaves conserve des données dans votre navigateur : vos préférences, une copie des données des grottes, ainsi que les images et les cartes téléchargées pour l’utilisation hors ligne. Ces données restent sur votre appareil. Vous pouvez effacer les images et cartes téléchargées depuis votre page de compte (« Utilisation hors ligne »), ou tout effacer dans les réglages de votre navigateur.\n\n## Durée de conservation\n\nNous conservons les renseignements de votre compte tant que vous avez un compte. Quand votre compte est supprimé, vos cénotes sauvegardées et vos notes sont supprimées avec lui. Les contributions que vous avez rendues publiques (photos, cartes, renseignements sur les grottes) demeurent dans les données ouvertes des grottes, sauf si vous nous demandez de les retirer. Les journaux techniques conservés par nos fournisseurs sont supprimés selon leurs propres calendriers.\n\n## Vos droits\n\nVous pouvez demander d’accéder aux renseignements personnels que nous détenons à votre sujet, de les faire corriger ou de les faire supprimer. Vous pouvez aussi retirer votre consentement, nous demander de cesser de les utiliser ou en recevoir une copie dans un format courant. Vous pouvez modifier votre nom sur votre page de compte. Pour toute autre demande, écrivez à [privacy@opencaves.org](mailto:privacy@opencaves.org). Nous répondrons dans un délai de 30 jours. Si notre réponse ne vous satisfait pas, vous pouvez porter plainte auprès de la *Commission d’accès à l’information du Québec*.\n\n## Enfants\n\nOpenCaves ne s’adresse pas aux enfants. Les comptes sont réservés aux personnes de 14 ans et plus. Les enfants plus jeunes ont besoin du consentement d’un parent ou d’un tuteur pour créer un compte.\n\n## Sécurité\n\nNous utilisons les mesures de sécurité intégrées à nos fournisseurs (connexions chiffrées, règles d’accès qui ne permettent à chaque personne de modifier que ses propres données, accès administrateur restreint). Aucun service en ligne n’est parfaitement sécuritaire : nous vous aviserons, ainsi que la Commission lorsque la loi l’exige, de tout incident qui risque de vous causer un préjudice sérieux.\n\n## Modifications\n\nSi nous modifions cette politique, nous mettrons à jour la date ci-dessus. Pour les changements importants, nous en aviserons les titulaires de compte à l’avance.\n\n## Nous joindre\n\n[privacy@opencaves.org](mailto:privacy@opencaves.org)"
+      "body": "OpenCaves est une carte gratuite et collaborative des cénotes et des grottes de la péninsule du Yucatán. Cette politique explique quels renseignements personnels OpenCaves recueille, pourquoi, avec qui ils sont partagés, ainsi que vos choix et vos droits.\n\n## Qui est responsable\n\nOpenCaves est exploitée par Christian Rémillard, au Québec (Canada), qui est aussi la personne responsable de la protection des renseignements personnels au sens de la loi québécoise. Pour toute question ou demande concernant vos renseignements personnels, écrivez à [privacy@opencaves.org](mailto:privacy@opencaves.org).\n\n## Ce que nous recueillons\n\n**Quand vous naviguez simplement.** Aucun compte n’est nécessaire pour utiliser la carte. Pour faire fonctionner certaines fonctions, l’application vous connecte avec une *session anonyme* : un identifiant aléatoire, sans nom ni courriel.\n\n**Quand vous créez un compte.** Nous conservons votre adresse courriel et le nom que vous choisissez. Si vous vous connectez avec Google ou Microsoft, nous recevons aussi le nom et la photo de ce profil. Les mots de passe sont gérés par notre fournisseur d’authentification (Firebase Authentication) ; nous ne les voyons jamais.\n\n**Ce que vous sauvegardez ou notez.** Les cénotes que vous sauvegardez sont conservées dans votre compte et ne sont visibles que par vous. Quand vous notez une cénote, votre note est conservée avec l’identifiant de votre compte (pas votre nom ni votre courriel) et sert à calculer la moyenne publique de la cénote.\n\n**Ce que vous ajoutez.** Les photos, cartes, vidéos et renseignements sur les grottes que vous ajoutez sont publics : tout le monde qui utilise OpenCaves peut les voir. Les fichiers téléversés sont liés à l’identifiant de votre compte et conservent leur nom de fichier d’origine. La photo originale est conservée telle quelle, avec les données qu’elle contient, comme l’endroit où elle a été prise (EXIF), et une photo peut montrer des visages : ne partagez que ce que vous acceptez de rendre public.\n\n**Votre position.** Quand vous utilisez « Me localiser » ou « Ma position », la position de votre appareil sert uniquement sur votre appareil, pour centrer la carte ou remplir une coordonnée. Nous ne la conservons pas et ne l’envoyons pas à nos serveurs. Elle ne fait partie des données d’une grotte que si vous l’enregistrez vous-même dans un champ de coordonnées.\n\n**Renseignements techniques.** Comme pour tout site Web, les services qui diffusent OpenCaves (voir plus bas) reçoivent des renseignements techniques comme votre adresse IP, votre type de navigateur et la zone de la carte que vous consultez. Nous n’utilisons pas de publicité.\n\n**Statistiques d’utilisation.** Nous utilisons Google Analytics pour voir comment OpenCaves est utilisé : les pages que vous consultez et ce que vous y faites (par exemple les mots que vous cherchez, les grottes que vous sauvegardez, partagez ou notez, et les filtres que vous utilisez), votre type de navigateur et d’appareil, et votre position approximative (pays ou ville). Google Analytics ne reçoit ni votre nom ni votre adresse courriel. Il conserve un témoin (cookie) dans votre navigateur pour reconnaître vos prochaines visites. Vous pouvez désactiver ces statistiques (voir « Données conservées sur votre appareil »).\n\n## Comment nous les utilisons\n\nNous utilisons vos renseignements uniquement pour faire fonctionner OpenCaves : vous connecter, conserver vos cénotes sauvegardées et vos notes, afficher les contributions et en indiquer l’auteur, protéger le service contre les abus et répondre à vos demandes. Les statistiques d’utilisation nous aident à améliorer OpenCaves et à proposer d’abord les grottes les plus consultées dans les suggestions de recherche. Nous ne vendons pas vos renseignements personnels et ne les utilisons ni pour la publicité ni pour le profilage.\n\n## Avec qui nous les partageons\n\nOpenCaves s’appuie sur les fournisseurs suivants, qui traitent des renseignements pour notre compte ou quand vous utilisez leurs fonctions :\n\n- **Google Firebase et Google Cloud** (hébergement, comptes, base de données, stockage de fichiers, fonctions serveur).\n- **Google et Microsoft**, seulement si vous choisissez de vous connecter avec eux : ils confirment votre identité à OpenCaves.\n- **Google Analytics** (statistiques d’utilisation, voir plus haut).\n- **Mapbox** (images de la carte). Mapbox reçoit votre adresse IP et la zone de la carte que vous consultez.\n- **Google Maps Platform** (conversion des coordonnées d’une grotte en adresse).\n- **YouTube et Vimeo**, seulement quand une vidéo est intégrée à une cénote et que vous la faites jouer. Les vidéos YouTube utilisent son mode de confidentialité renforcée.\n\nCertains de ces fournisseurs conservent ou traitent des renseignements à l’extérieur du Québec et du Canada, notamment aux États-Unis, où ils sont soumis aux lois locales. Nous faisons appel à des fournisseurs qui offrent des protections compatibles avec les lois québécoises et canadiennes sur la protection des renseignements personnels.\n\n## Données conservées sur votre appareil\n\nPour fonctionner rapidement et hors ligne, OpenCaves conserve des données dans votre navigateur : vos préférences, une copie des données des grottes, ainsi que les images et les cartes téléchargées pour l’utilisation hors ligne. Ces données restent sur votre appareil. Vous pouvez effacer les images et cartes téléchargées depuis votre page de compte (« Utilisation hors ligne »), ou tout effacer dans les réglages de votre navigateur.\n\nLe témoin de Google Analytics y est aussi conservé. Pour désactiver les statistiques d’utilisation dans un navigateur, ouvrez une fois https://opencaves.org/?no-analytics (https://opencaves.org/?analytics les réactive), ou bloquez Google Analytics dans les réglages de votre navigateur ou avec une extension.\n\n## Durée de conservation\n\nNous conservons les renseignements de votre compte tant que vous avez un compte. Quand votre compte est supprimé, vos cénotes sauvegardées et vos notes sont supprimées avec lui. Les contributions que vous avez rendues publiques (photos, cartes, renseignements sur les grottes) demeurent dans les données ouvertes des grottes, sauf si vous nous demandez de les retirer. Google Analytics conserve les statistiques d’utilisation pendant 14 mois. Les journaux techniques conservés par nos fournisseurs sont supprimés selon leurs propres calendriers.\n\n## Vos droits\n\nVous pouvez demander d’accéder aux renseignements personnels que nous détenons à votre sujet, de les faire corriger ou de les faire supprimer. Vous pouvez aussi retirer votre consentement, nous demander de cesser de les utiliser ou en recevoir une copie dans un format courant. Vous pouvez modifier votre nom sur votre page de compte. Pour toute autre demande, écrivez à [privacy@opencaves.org](mailto:privacy@opencaves.org). Nous répondrons dans un délai de 30 jours. Si notre réponse ne vous satisfait pas, vous pouvez porter plainte auprès de la *Commission d’accès à l’information du Québec*.\n\n## Enfants\n\nOpenCaves ne s’adresse pas aux enfants. Les comptes sont réservés aux personnes de 14 ans et plus. Les enfants plus jeunes ont besoin du consentement d’un parent ou d’un tuteur pour créer un compte.\n\n## Sécurité\n\nNous utilisons les mesures de sécurité intégrées à nos fournisseurs (connexions chiffrées, règles d’accès qui ne permettent à chaque personne de modifier que ses propres données, accès administrateur restreint). Aucun service en ligne n’est parfaitement sécuritaire : nous vous aviserons, ainsi que la Commission lorsque la loi l’exige, de tout incident qui risque de vous causer un préjudice sérieux.\n\n## Modifications\n\nSi nous modifions cette politique, nous mettrons à jour la date ci-dessus. Pour les changements importants, nous en aviserons les titulaires de compte à l’avance.\n\n## Nous joindre\n\n[privacy@opencaves.org](mailto:privacy@opencaves.org)"
     },
     "terms": {
       "title": "Conditions d’utilisation",
@@ -1281,12 +1319,12 @@
     }
   },
   "seo": {
-    "defaultDescription": "OpenCaves est la référence pour trouver des cénotes au Yucatán, au Mexique : de nouvelles grottes à plonger, des coordonnées GPS vérifiées, des descriptions utiles, des photos et des cartes.",
     "mapHeading": "OpenCaves : carte des cénotes du Yucatán",
     "caveDescriptionPrefix": "{{name}} (Yucatán, Mexique) :",
     "caveDescriptionFallback": "{{name}}, une grotte du Yucatán, au Mexique : emplacement, accès, photos et cartes sur OpenCaves.",
     "notFoundTitle": "Page introuvable",
-    "mapTitle": "Carte des cénotes du Yucatán"
+    "mapTitle": "Carte des cénotes du Yucatán",
+    "mapDescription": "Carte des grottes et cénotes du Yucatán pour les plongeurs : trouvez une grotte, comment s'y rendre et y entrer, ses photos, ses topographies et ses galeries."
   },
   "mapLayersAdmin": {
     "title": "Couches de la carte",
@@ -1330,6 +1368,35 @@
       "unskip": "Remettre à traiter",
       "unskipOf": "Remettre {{name}} à traiter"
     }
+  },
+  "errorReports": {
+    "title": "Rapports d'erreurs",
+    "intro": "Les erreurs qu'a affichées la page « Un problème est survenu », groupées par erreur, les plus récentes d'abord. Chaque rapport est conservé 90 jours.",
+    "loading": "Chargement des rapports",
+    "failed": "Les rapports n'ont pas pu être chargés.",
+    "empty": "Aucune erreur signalée.",
+    "limited": "seulement les {{count}} derniers rapports",
+    "errors_one": "{{count}} erreur",
+    "errors_other": "{{count}} erreurs",
+    "reports_one": "{{count}} rapport",
+    "reports_other": "{{count}} rapports",
+    "pages_one": "{{count}} page",
+    "pages_other": "{{count}} pages",
+    "accounts_one": "{{count}} compte",
+    "accounts_other": "{{count}} comptes",
+    "signedOut": "non connecté",
+    "lastSeen": "Dernière :",
+    "firstSeen": "Première :",
+    "noMessage": "(aucun message)",
+    "status": "Statut HTTP {{status}}",
+    "occurrences": "Chaque occurrence",
+    "delete": "Supprimer les rapports de cette erreur",
+    "deleteTitle": "Supprimer les rapports de cette erreur ?",
+    "deleteText_one": "Son rapport sera supprimé définitivement.",
+    "deleteText_other": "Ses {{count}} rapports seront supprimés définitivement.",
+    "deleteFailed": "Les rapports n'ont pas pu être supprimés.",
+    "cancel": "Annuler",
+    "deleteConfirm": "Supprimer"
   },
   "audits": {
     "title": "Audits",
@@ -1502,6 +1569,14 @@
     "sistemaCount_one": "{{count}} réseau",
     "sistemaCount_other": "{{count}} réseaux",
     "caves": {
+      "filters": {
+        "add": "Ajouter un filtre",
+        "remove": "Retirer le filtre {{label}}",
+        "clearAll": "Effacer les filtres",
+        "count_one": "{{count}} grotte correspond",
+        "count_other": "{{count}} grottes correspondent",
+        "photosFailed": "Les photos des grottes n'ont pas pu être lues : le filtre Sans photo est indisponible."
+      },
       "title": "Les grottes du Yucatán par région",
       "description": "Toutes les cénotes du Yucatán, au Mexique, répertoriées sur OpenCaves par région, chacune avec son emplacement, son accès, des photos et des plans.",
       "add": "Ajouter une grotte",
@@ -1551,9 +1626,14 @@
       "sistema": "Réseau",
       "location": "Emplacement",
       "photos": "Photos",
-      "openPhoto": "Ouvrir la photo {{n}}"
+      "openPhoto": "Ouvrir la photo {{n}}",
+      "coverAlt": "Photo de {{name}}",
+      "photoAlt": "Photo {{n}} de {{name}}",
+      "noPhoto": "Aucune photo de cette grotte pour l'instant",
+      "dropPhotos": "ou déposez-les ici"
     },
     "notOnMap": "Pas sur la carte : aucune coordonnée pour l’instant",
+    "mapAlt": "Carte : {{name}}",
     "maps": "Topographies",
     "searchNoResult": "Aucune grotte ni aucun réseau ne correspond à « {{query}} » - chercher dans toutes les grottes",
     "empty": {
@@ -1565,7 +1645,7 @@
   "appBarSearch": {
     "placeholder": "Chercher des grottes et des réseaux",
     "open": "Chercher",
-    "close": "Fermer la recherche",
+    "clear": "Effacer la recherche",
     "none": "Aucune grotte ni aucun réseau ne correspond.",
     "hint": "Tapez un nom",
     "groups": {
@@ -1661,89 +1741,11 @@
       "contentType": "type de fichier",
       "videos": "vidéos",
       "maps": "topographies",
-      "activities": "activités"
-    }
-  },
-  "betaTesting": {
-    "badge": "Bêta",
-    "title": "Que puis-je faire ?",
-    "lead": "OpenCaves est en bêta, et vous êtes parmi ses premiers plongeurs. Utilisez-le comme vous le feriez avant et après une plongée, et dites-nous ce qui ne marche pas, ce qui vous embrouille et ce qui manque.",
-    "sendFeedback": "Envoyer un commentaire",
-    "signup": "S'inscrire pour participer",
-    "report": {
-      "title": "Dites-nous",
-      "sub": "Chaque rapport parvient par courriel à l'équipe d'OpenCaves. Il faut un compte pour en envoyer un.",
-      "bug": {
-        "title": "Quelque chose ne marche pas",
-        "text": "Une page qui ne s'ouvre pas, un bouton qui ne fait rien, une modification qui n'a pas été enregistrée, une photo ou une carte qui ne s'ouvre pas.",
-        "action": "Signaler un bogue"
-      },
-      "misleading": {
-        "title": "Quelque chose est trompeur",
-        "text": "Un libellé que vous ne comprenez pas, une fonction qui ne fait pas ce qu'elle dit, ou une donnée qui semble fausse : une position, un accès, une profondeur.",
-        "action": "Le signaler"
-      },
-      "idea": {
-        "title": "Quelque chose manque",
-        "text": "Une fonction qui vous aiderait à préparer ou à partager une plongée, ou quelque chose que vous pensiez trouver et qui n'y est pas.",
-        "action": "Le suggérer"
-      }
-    },
-    "try": {
-      "title": "Essayez tout",
-      "sub": "Rien de ce que vous faites en bêta ne peut rien casser pour de bon : explorez.",
-      "explore": {
-        "title": "Explorer",
-        "text": "La carte, les listes de grottes et de réseaux, la recherche, la page d'une grotte et ses sections.",
-        "action": "Ouvrir la carte"
-      },
-      "edit": {
-        "title": "Modifier des grottes",
-        "text": "Ajoutez une grotte, ses coordonnées, son accès, ses textes ; corrigez ce qui semble faux.",
-        "action": "Aller aux grottes"
-      },
-      "media": {
-        "title": "Ajouter photos, vidéos, cartes",
-        "text": "Depuis la page d'une grotte : téléversez des photos, liez une vidéo, ajoutez une carte topographique."
-      },
-      "systems": {
-        "title": "Modifier des réseaux",
-        "text": "Leur longueur et leur profondeur, l'historique de leur exploration, leurs connexions.",
-        "action": "Parcourir les réseaux"
-      },
-      "offline": {
-        "title": "Hors ligne",
-        "text": "Installez l'application, enregistrez des grottes, puis utilisez-la sans réseau, comme dans la jungle."
-      },
-      "everywhere": {
-        "title": "Téléphone et ordinateur",
-        "text": "Essayez-la sur votre téléphone et sur un ordinateur, en mode clair et sombre."
-      },
-      "languages": {
-        "title": "Toutes les langues",
-        "text": "Anglais, français et espagnol : signalez une traduction qui sonne faux."
-      }
-    },
-    "tips": {
-      "title": "Pour un bon rapport",
-      "one": "Un rapport par problème ou par idée.",
-      "steps": "Dites ce que vous avez fait, ce que vous attendiez, et ce qui s'est passé à la place.",
-      "page": "La page où vous étiez est remplie pour vous ; changez-la si le problème est ailleurs.",
-      "device": "Votre navigateur est ajouté pour vous : précisez l’appareil si cela compte (par exemple, un téléphone Android)."
-    },
-    "goodToKnow": {
-      "reset": {
-        "title": "Les données de la bêta peuvent être réinitialisées",
-        "text": "Ce que vous modifiez maintenant n'est pas encore permanent : les données peuvent être remplacées à tout moment avant la 1.0."
-      },
-      "public": {
-        "title": "Tout ce que vous ajoutez est public",
-        "text": "Ne partagez pas le numéro de téléphone de quelqu'un, ni rien que vous ne voudriez pas rendre public."
-      },
-      "safety": {
-        "title": "OpenCaves ne sert pas à planifier une plongée",
-        "text": "La plongée souterraine peut tuer. Formez-vous, plongez selon vos limites, et vérifiez toujours les conditions sur place."
-      }
+      "activities": "activités",
+      "photoOrder": "ordre des photos",
+      "mapOrder": "ordre des topographies",
+      "videoOrder": "ordre des vidéos",
+      "reviewed": "confirmation d'exactitude"
     }
   },
   "feedback": {
@@ -1874,17 +1876,119 @@
     },
     "members": {
       "title": "Idées et corrections",
-      "intro": "Ce que les testeurs ont signalé, et ce que l’équipe d’OpenCaves en fait : suivez ce qui s’en vient.",
+      "intro": "Ce que les membres ont signalé, et ce que l’équipe d’OpenCaves en fait : suivez ce qui s’en vient.",
       "you": "Vous",
       "someone": "Un membre"
     },
     "messageTooShort": "Au moins {{count}} caractères"
   },
+  "whatCanIDo": {
+    "title": "Que puis-je faire ?",
+    "lead": "OpenCaves est fait par les plongeurs qui l'utilisent. Explorez les grottes du Yucatán et aidez à les garder justes : chaque plongée que vous partagez rend la carte meilleure pour le prochain plongeur.",
+    "signup": "S'inscrire pour contribuer",
+    "openMap": "Ouvrir la carte",
+    "explore": {
+      "title": "Explorer",
+      "sub": "Aucun compte nécessaire.",
+      "find": {
+        "title": "Trouver des grottes",
+        "text": "Explorez la carte, parcourez toutes les grottes et tous les réseaux par région, ou cherchez par nom dans la barre du haut.",
+        "action": "Ouvrir la carte"
+      },
+      "read": {
+        "title": "Lire avant de partir",
+        "text": "Comment s'y rendre, l'accès (une clé, une permission, un guide, des frais), les photos, vidéos et cartes topographiques.",
+        "action": "Parcourir les grottes"
+      },
+      "directions": {
+        "title": "S'y rendre",
+        "text": "Copiez les coordonnées d'une grotte pour votre GPS, ou obtenez un itinéraire, depuis sa carte Emplacement."
+      },
+      "whatsNew": {
+        "title": "Voir les nouveautés",
+        "text": "Les grottes, réseaux, cartes, photos et vidéos que d'autres viennent d'ajouter.",
+        "action": "Nouveautés"
+      }
+    },
+    "contribute": {
+      "title": "Contribuer",
+      "sub": "Avec un compte gratuit : inscrivez-vous avec votre courriel, Google ou Microsoft.",
+      "checkWhatsThere": {
+        "title": "Vérifier les informations",
+        "text": "Les choses changent avec le temps. Vous y avez plongé récemment ? Confirmez ce qui est toujours exact, ou signalez ce qui a changé : l'accès, les frais, la route, une grotte fermée.",
+        "action": "Trouver des grottes à vérifier"
+      },
+      "checkFacts": {
+        "title": "Confirmer les positions",
+        "text": "Les positions de certaines grottes ne sont pas encore confirmées. Vous y êtes allé ? Confirmez-les ou corrigez-les avec votre GPS sur place.",
+        "action": "Les trouver"
+      },
+      "passages": {
+        "title": "Vérifier les galeries tracées",
+        "text": "Les galeries inondées de la carte sont tracées d'après des topographies. Vous connaissez une grotte ? Dites-nous où une ligne saute ou où il manque une galerie.",
+        "action": "Envoyer un signalement"
+      },
+      "coordinates": {
+        "title": "Mettre des entrées de grottes sur la carte",
+        "text": "Des entrées de grottes qu’utilisent les plongeurs n’ont pas encore de coordonnées - une icône de carte barrée les signale dans les listes. Vous y êtes allé ? Ajoutez-les.",
+        "action": "Les trouver"
+      },
+      "media": {
+        "title": "Ajouter des photos",
+        "text": "Ajoutez vos photos depuis la page d'une grotte.",
+        "action": "Les trouver"
+      },
+      "videos": {
+        "title": "Ajouter des vidéos",
+        "text": "Ajoutez des liens vers les vidéos d'une grotte sur YouTube, Vimeo ou Facebook, depuis sa page.",
+        "action": "Les trouver"
+      },
+      "texts": {
+        "title": "Écrire les descriptions",
+        "text": "Décrivez une grotte avec vos propres mots, et indiquez d'où viennent les mots.",
+        "action": "Les trouver"
+      },
+      "directions": {
+        "title": "Dire comment s'y rendre",
+        "text": "La route, l'embranchement, la marche jusqu'à l'eau : décrivez le chemin vers une grotte avec vos propres mots.",
+        "action": "Les trouver"
+      },
+      "attach": {
+        "title": "Rattacher les grottes à leur réseau",
+        "text": "Certaines grottes ne sont pas encore liées à leur réseau. Vous savez auquel elles appartiennent ? Indiquez-le dans le formulaire de la grotte.",
+        "action": "Les trouver"
+      }
+    },
+    "goodToKnow": {
+      "title": "Bon à savoir",
+      "public": {
+        "title": "Tout ce que vous ajoutez est public",
+        "text": "Photos, cartes, vidéos et informations sur les grottes sont visibles par tous. Ne partagez pas le numéro de téléphone de quelqu'un, ni rien que vous ne voudriez pas rendre public."
+      },
+      "mistakes": {
+        "title": "Les erreurs se corrigent",
+        "text": "Chaque modification est enregistrée, et un administrateur peut l’annuler."
+      },
+      "admins": {
+        "title": "Certaines choses sont réservées aux administrateurs",
+        "text": "Supprimer des grottes, des réseaux, des photos ou des cartes, et modifier les listes d'accès, d'accessibilités, de langues et de couleurs."
+      },
+      "feedback": {
+        "title": "Signalez ce qui ne va pas",
+        "text": "Quelque chose de cassé, de trompeur ou de manquant : chaque message parvient à l’équipe d’OpenCaves, qui répond par courriel.",
+        "action": "Envoyer un commentaire"
+      },
+      "safety": {
+        "title": "OpenCaves ne sert pas à planifier une plongée",
+        "text": "La plongée souterraine peut tuer. Formez-vous, plongez selon vos limites, et vérifiez toujours les conditions sur place."
+      }
+    }
+  },
   "home": {
     "title": "Des données ouvertes pour la plongée souterraine",
-    "headTitle": "Open Caves : des données ouvertes pour la plongée souterraine",
+    "headTitle": "Des données ouvertes pour la plongée souterraine",
     "logoAlt": "Open Caves",
-    "description": "OpenCaves (Open Caves) : les grottes et réseaux pour les plongeurs souterrains du monde entier - emplacements, accès, topographies, connexions et historique d’exploration, ouverts et construits par des plongeurs. En commençant par les cénotes du Yucatán.",
+    "description": "Trouvez grottes et cénotes à plonger : emplacements, accès, topographies et liens entre réseaux. Des données ouvertes faites par des plongeurs, dès le Yucatán.",
     "hero": {
       "title": "Des données ouvertes pour la plongée souterraine",
       "lead": "OpenCaves rassemble ce que les plongeurs souterrains veulent savoir sur les grottes et les réseaux du monde entier : où elles sont, comment y entrer, comment elles se relient, ce que montrent les topographies. Ouvert, et construit par des plongeurs. Tout commence avec les cénotes du Yucatán.",
@@ -1943,12 +2047,14 @@
       "more": "D’autres régions viendront à mesure que les plongeurs les ajouteront."
     },
     "contribute": {
+      "whatCanIDo": "Que puis-je faire ?",
       "title": "Construit par des plongeurs",
       "text": "OpenCaves, ce sont des données ouvertes : tout le monde peut les consulter, et les plongeurs les tiennent à jour. Inscrivez-vous pour ajouter des grottes, des photos, des vidéos et des notes, et suivre les nouvelles grottes et les nouveaux réseaux. L’application elle-même est libre.",
       "signup": "S’inscrire pour contribuer",
       "github": "OpenCaves sur GitHub"
     },
     "footer": {
+      "whatCanIDo": "Que puis-je faire ?",
       "about": "À propos"
     },
     "warningsLabel": "Avant de plonger",
@@ -1961,17 +2067,6 @@
       "none": "Aucune grotte, aucun réseau ni aucune région ne correspond.",
       "hint": "Tapez un nom"
     }
-  },
-  "welcome": {
-    "title": "Bienvenue sur {{name}} !",
-    "intro": "Sortez votre masque : {{name}} est une carte des grottes noyées du Yucatán et d'ailleurs - leurs cénotes, réseaux, plans topographiques et photos, faite par et pour les plongeurs souterrains.",
-    "invite": "Vous avez plongé un endroit qui nous manque ? Repéré une profondeur dépassée, une mauvaise entrée ou un plan qu'on n'a pas ? Créez un compte gratuit et aidez-nous à garder les données complètes et à jour - les notes de chaque plongeur comptent.",
-    "beta": "<strong>Nous sommes en bêta.</strong> Vos modifications ne sont pas encore permanentes : toutes les données peuvent être remplacées à tout moment. C'est donc le moment idéal pour essayer les outils d'édition - allez-y, fouillez, vous ne pouvez rien casser pour de bon ! Créez un compte et nous vous préviendrons à la fin de la bêta.",
-    "later": "Explorer d'abord",
-    "signup": "Créer un compte",
-    "inviteMember": "Merci de faire partie de l'équipe ! Vous avez plongé un endroit qui nous manque ? Repéré une profondeur dépassée, une mauvaise entrée ou un plan qu'on n'a pas ? Aidez-nous à garder les données complètes et à jour - les notes de chaque plongeur comptent.",
-    "betaMember": "<strong>Nous sommes en bêta.</strong> Vos modifications ne sont pas encore permanentes : toutes les données peuvent être remplacées à tout moment. C'est donc le moment idéal pour essayer les outils d'édition - allez-y, fouillez, vous ne pouvez rien casser pour de bon ! Nous vous préviendrons à la fin de la bêta.",
-    "start": "On plonge !"
   },
   "authPrompt": {
     "close": "Fermer",
@@ -1997,6 +2092,14 @@
     "default": {
       "title": "Un compte est nécessaire",
       "text": "Créez un compte gratuit, ou connectez-vous, pour faire ceci."
+    },
+    "confirm": {
+      "title": "Confirmer les informations",
+      "text": "Créez un compte gratuit pour confirmer que les informations d'une grotte sont toujours exactes."
+    },
+    "report": {
+      "title": "Signaler un changement",
+      "text": "Créez un compte gratuit pour signaler un changement sur une grotte, afin que l'équipe d'OpenCaves le vérifie."
     }
   },
   "languagePicker": {
@@ -2022,5 +2125,314 @@
   "yesNoSwitch": {
     "no": "Non",
     "yes": "Oui"
+  },
+  "tours": {
+    "menuEntry": "Faire les visites",
+    "dialog": {
+      "title": "Visites guidées",
+      "text": "Choisissez une visite : quelques étapes qui vous montrent ce qu'il y a à l'écran."
+    },
+    "list": {
+      "discover": {
+        "title": "Découvrir OpenCaves",
+        "description": "La carte, la fiche d'une grotte et les pages principales."
+      },
+      "install": {
+        "title": "Installer l'application",
+        "description": "Ajoutez OpenCaves à votre écran d'accueil ou à votre ordinateur."
+      },
+      "offline": {
+        "title": "L'utiliser hors ligne",
+        "description": "Gardez grottes, photos et topographies pour le site de plongée."
+      },
+      "whatsNew": {
+        "title": "Nouveautés",
+        "description": "Les derniers changements, et comment les filtrer."
+      }
+    },
+    "buttons": {
+      "next": "Suivant",
+      "back": "Précédent",
+      "done": "Terminer",
+      "close": "Fermer la visite"
+    },
+    "progress": "{{current}} sur {{total}}",
+    "steps": {
+      "discover": {
+        "search": {
+          "title": "Trouver une grotte",
+          "text": "Tapez le nom d'une grotte, ou l'un de ses autres noms, pour la trouver et l'ouvrir sur la carte."
+        },
+        "pins": {
+          "title": "Les grottes sur la carte",
+          "text": "Chaque repère est une grotte, à la couleur de son réseau. Sélectionnez-en un pour ouvrir sa fiche."
+        },
+        "filterButton": {
+          "title": "Le bouton des filtres",
+          "text": "Le bouton des filtres de la barre de recherche ouvre les filtres, pour choisir les grottes que la carte affiche."
+        },
+        "filters": {
+          "title": "Filtres",
+          "text": "Choisissez les grottes que la carte affiche : par zone, type de grotte, accès et accessibilité. Les grottes dont l'emplacement n'est pas encore confirmé sont masquées : activez Afficher les coordonnées non confirmées pour les voir aussi."
+        },
+        "caveLayer": {
+          "title": "Couches de la carte",
+          "text": "Affichez les galeries tracées d'après les topographies : de tous les réseaux ou seulement celui de la grotte ouverte, à la couleur de chaque réseau ou d'une seule.",
+          "showMe": "Montrez-moi"
+        },
+        "quickActions": {
+          "title": "Itinéraire, Sauvegarder, Partager",
+          "text": "Obtenez l'itinéraire vers la grotte ou son stationnement, sauvegardez-la dans votre compte (elle est alors gardée sur cet appareil pour l'utiliser hors ligne), ou partagez son lien."
+        },
+        "media": {
+          "title": "Photos, vidéos et topographies",
+          "text": "Parcourez les photos et vidéos de la grotte et les topographies de son réseau, et ouvrez-en une en plein écran. Une fois connecté, vous pouvez ajouter les vôtres."
+        },
+        "account": {
+          "member": {
+            "title": "Votre compte",
+            "text": "Le menu de votre compte : votre profil et vos grottes sauvegardées, vos réglages, les téléchargements hors ligne, et ces visites."
+          },
+          "visitor": {
+            "title": "Participez",
+            "text": "Connectez-vous ou créez un compte gratuit pour sauvegarder des grottes, les noter, et ajouter photos, topographies et corrections."
+          }
+        },
+        "whatsNew": {
+          "title": "Restez informé",
+          "text": "Les Nouveautés listent chaque grotte, réseau, topographie, photo et vidéo ajoutés, modifiés ou retirés, les plus récents d'abord.\n\nRevenez y voir les dernières : c'est dans le menu, Nouveautés.",
+          "tip": "Ouvrez le menu, en haut à gauche, puis Nouveautés."
+        },
+        "install": {
+          "chromium": {
+            "title": "Installer l'application",
+            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, cliquez sur l'icône d'installation dans la barre d'adresse, puis sur Installer.",
+            "tip": "Là-haut : au bout de la barre d'adresse, une icône d'écran avec une flèche vers le bas.",
+            "imageAlt": "La barre d'adresse de Chrome : son icône d'installation, entourée"
+          },
+          "edge": {
+            "title": "Installer l'application",
+            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, cliquez sur l'icône Application disponible dans la barre d'adresse, puis sur Installer.",
+            "tip": "Là-haut : au bout de la barre d'adresse, une icône de carrés avec un plus.",
+            "imageAlt": "La barre d'adresse d'Edge : son icône Application disponible, entourée"
+          },
+          "android": {
+            "title": "Installer l'application",
+            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, ouvrez le menu de Chrome, cherchez Installer l'application ou Ajouter à l'écran d'accueil, puis confirmez.",
+            "tip": "Là-haut : le menu de Chrome, ce sont les trois points [[dots]] en haut à droite.",
+            "imageAlt": "Le menu de Chrome : Ajouter à l'écran d'accueil, encerclé"
+          },
+          "firefoxAndroid": {
+            "title": "Installer l'application",
+            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, ouvrez le menu de Firefox, cherchez Ajouter l'application à l'écran d'accueil ou Installer, puis confirmez.",
+            "tip": "Le menu de Firefox, ce sont les trois points [[dots]] : en haut à droite, ou en bas si votre barre d'adresse y est."
+          },
+          "ios": {
+            "title": "Installer l'application",
+            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, touchez Partager dans Safari (si vous ne le voyez pas, ouvrez d'abord le menu [[safariMenu]]), puis Sur l'écran d'accueil, puis Ajouter.",
+            "tip": "Là-bas : Partager, c'est le carré avec une flèche, dans la barre de Safari (en haut sur iPad)."
+          },
+          "safari": {
+            "title": "Installer l'application",
+            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, cherchez Ajouter au Dock dans le menu Fichier (ou sous Partager), puis confirmez.",
+            "tip": "Là-haut : le menu Fichier, dans la barre des menus en haut de l'écran."
+          },
+          "firefox": {
+            "title": "Installer l'application",
+            "text": "Firefox sur ordinateur ne peut pas installer d'applications web, sauf ses versions récentes sous Windows (une icône dans la barre d'adresse). Pour installer OpenCaves, qui se tient ensuite à jour toute seule, ouvrez-la dans Chrome ou Edge."
+          },
+          "other": {
+            "title": "Installer l'application",
+            "text": "Ce navigateur ne peut pas installer d'applications web. Pour installer OpenCaves, qui se tient ensuite à jour toute seule, ouvrez-la dans Chrome ou Edge (sur ordinateur ou Android), ou dans Safari (sur iPhone, iPad ou Mac)."
+          }
+        },
+        "offline": {
+          "title": "Disponible hors ligne",
+          "text": "Dans le menu, activez Rendre disponible hors ligne pour télécharger la photo d'aperçu de chaque grotte, chaque topographie et les galeries, en Wi-Fi : plus besoin de réseau sur le site de plongée."
+        },
+        "feedback": {
+          "title": "Commentaires",
+          "text": "Un bogue, une information trompeuse, une idée ? Dites-le-nous depuis n'importe quelle page avec cet onglet."
+        },
+        "end": {
+          "title": "À vous de jouer",
+          "text": "Refaites une visite quand vous voulez depuis le menu : Faire les visites. Bonnes plongées !"
+        }
+      },
+      "install": {
+        "installed": {
+          "title": "Déjà installée",
+          "text": "Vous utilisez l'application OpenCaves installée : elle s'ouvre depuis sa propre icône et fonctionne hors ligne avec ce que vous avez gardé."
+        },
+        "why": {
+          "title": "Installer OpenCaves",
+          "text": "Installée, OpenCaves a sa propre icône sur votre écran d'accueil ou votre ordinateur, s'ouvre dans sa propre fenêtre et reste prête sur le site de plongée, même sans connexion."
+        },
+        "how": {
+          "chromium": {
+            "title": "Comment l'installer",
+            "text": "Cliquez sur l'icône d'installation au bout de la barre d'adresse (un écran avec une flèche vers le bas), puis sur Installer. Pas d'icône ? Cherchez Installer dans le menu de Chrome (les trois points [[dots]])."
+          },
+          "android": {
+            "title": "Comment l'installer",
+            "text": "Dans Chrome, ouvrez le menu (les trois points [[dots]]), cherchez Installer l'application ou Ajouter à l'écran d'accueil, puis confirmez."
+          },
+          "ios": {
+            "title": "Comment l'installer",
+            "text": "Dans Safari, touchez Partager (le carré avec une flèche ; si vous ne le voyez pas, ouvrez d'abord le menu [[safariMenu]]), puis Sur l'écran d'accueil, puis Ajouter."
+          },
+          "safari": {
+            "title": "Comment l'installer",
+            "text": "Dans Safari, cherchez Ajouter au Dock dans le menu Fichier (ou sous Partager), puis confirmez."
+          },
+          "other": {
+            "title": "Comment l'installer",
+            "text": "Ce navigateur ne peut pas installer d'applications web. Pour installer OpenCaves, ouvrez-la dans Chrome ou Edge (sur ordinateur ou Android), ou dans Safari (sur iPhone, iPad ou Mac)."
+          },
+          "firefoxAndroid": {
+            "title": "Comment l'installer",
+            "text": "Dans Firefox, ouvrez le menu (les trois points [[dots]]), cherchez Ajouter l'application à l'écran d'accueil ou Installer, puis confirmez."
+          },
+          "firefox": {
+            "title": "Comment l'installer",
+            "text": "Firefox sur ordinateur ne peut pas installer d'applications web, sauf ses versions récentes sous Windows (une icône dans la barre d'adresse). Pour installer OpenCaves, ouvrez-le dans Chrome ou Edge."
+          },
+          "edge": {
+            "title": "Comment l'installer",
+            "text": "Cliquez sur l'icône Application disponible au bout de la barre d'adresse (des carrés avec un plus), puis sur Installer. Pas d'icône ? Cherchez Installer dans le menu d'Edge (les trois points [[dots]]), sous Applications."
+          }
+        },
+        "updates": {
+          "title": "Mises à jour",
+          "text": "L'application se tient à jour : elle vérifie de temps en temps s'il y a une nouvelle version et, quand il y en a une, un message propose d'actualiser."
+        }
+      },
+      "offline": {
+        "intro": {
+          "title": "L'utiliser hors ligne",
+          "text": "Pas de réseau sur le site de plongée ? OpenCaves continue de fonctionner : les fiches des grottes restent sur votre appareil, avec les photos et topographies déjà consultées. Voici comment en garder plus."
+        },
+        "previews": {
+          "title": "Rendre disponible hors ligne",
+          "text": "Dans le menu : activez cette option pour télécharger la photo d'aperçu de chaque grotte, toutes les topographies et les galeries, en Wi-Fi."
+        },
+        "save": {
+          "member": {
+            "title": "Sauvegarder une grotte",
+            "text": "Sauvegarder une grotte la garde tout entière sur cet appareil : ses photos, les topographies de son réseau et les galeries autour, téléchargées en Wi-Fi."
+          },
+          "visitor": {
+            "title": "Sauvegarder une grotte",
+            "text": "Avec un compte gratuit, sauvegarder une grotte la garde tout entière sur cet appareil : ses photos, les topographies de son réseau et les galeries autour."
+          }
+        },
+        "savedCaves": {
+          "title": "Vos grottes sauvegardées",
+          "text": "La page de votre compte liste les grottes que vous avez sauvegardées, et si chacune est prête hors ligne."
+        },
+        "storage": {
+          "title": "Stockage hors ligne",
+          "text": "Ce qu'OpenCaves garde sur cet appareil. Effacez les photos et topographies téléchargées quand il vous faut de la place : vos grottes sauvegardées le restent."
+        },
+        "whileOffline": {
+          "title": "Hors ligne",
+          "text": "La carte, les fiches des grottes et ce que vous avez gardé fonctionnent comme d'habitude, et un message vous dit quand vous êtes hors ligne. Les changements, photos et topographies que vous ajoutez attendent sur l'appareil et se synchronisent au retour de la connexion."
+        }
+      },
+      "whatsNew": {
+        "page": {
+          "title": "Nouveautés",
+          "text": "Les grottes, réseaux, connexions, topographies, photos et vidéos récemment ajoutés, modifiés ou retirés, les plus récents d'abord."
+        },
+        "kinds": {
+          "title": "Ce qui a changé",
+          "text": "N'affichez que certains contenus : choisissez-en un ou plusieurs, et Tout les réaffiche tous. Chacun compte ses changements."
+        },
+        "changes": {
+          "title": "Comment ça a changé",
+          "text": "Ajouts, modifications ou retraits. Vos filtres restent dans l'adresse de la page : vous pouvez garder cette vue en favori ou la partager."
+        },
+        "entry": {
+          "title": "Une entrée",
+          "text": "Ce qui a changé, et qui l'a fait. Ouvrez-la pour aller à la grotte, au réseau ou à la topographie."
+        }
+      }
+    },
+    "prompt": {
+      "title": "Bienvenue sur {{name}}",
+      "text": "Nouveau ici ? Faites une courte visite guidée pour découvrir ce que vous pouvez faire sur OpenCaves.",
+      "hint": "Vous pouvez lancer une visite à tout moment depuis le menu : Faire les visites.",
+      "notNow": "Pas maintenant",
+      "start": "Faire la visite"
+    }
+  },
+  "reorder": {
+    "cover": "Couverture",
+    "instructions": "Pour changer l’ordre, faites glisser cet élément à sa nouvelle place, ou appuyez sur Ctrl+Maj (Cmd+Maj sur Mac) et une flèche.",
+    "pickedUp": "Élément {{position}} sur {{count}} saisi.",
+    "movedTo": "Déplacé à la position {{position}} sur {{count}}.",
+    "notOver": "L’élément n’est pas au-dessus d’une place possible.",
+    "dropped": "Déposé à la position {{position}} sur {{count}}.",
+    "cancelled": "Déplacement annulé. L’élément est revenu à la position {{position}} sur {{count}}.",
+    "saved": "Ordre enregistré",
+    "savedCover": "Ordre enregistré. Cette photo est maintenant la photo de couverture.",
+    "saveError": "Impossible d’enregistrer le nouvel ordre. Veuillez réessayer."
+  },
+  "caveReview": {
+    "sections": {
+      "access": "Accès",
+      "directions": "S'y rendre",
+      "fees": "Frais et commodités",
+      "description": "Description"
+    },
+    "confirmed": "{{section}} · confirmation : {{date}}",
+    "stale": "{{section}} · dernière confirmation en {{year}}",
+    "never": "{{section}} · aucune confirmation pour l'instant",
+    "stillAccurate": "Toujours exact",
+    "stillAccurateQuestion": "Toujours exact ?",
+    "stillAccurateLabel": "{{section}} : c'est toujours exact",
+    "saved": "Merci ! Confirmation enregistrée : {{section}}, {{name}}.",
+    "saveError": "La confirmation n'a pas pu être enregistrée. Réessayez.",
+    "report": {
+      "button": "Signaler un changement",
+      "menuLabel": "Qu'est-ce qui a changé ?",
+      "kinds": {
+        "closed": "Fermée",
+        "private": "Devenue privée",
+        "fees": "Frais changés",
+        "road": "Route changée",
+        "other": "Autre chose…"
+      },
+      "kindText": {
+        "closed": "On ne peut plus la visiter",
+        "private": "Seuls ses propriétaires ou leurs invités peuvent y aller",
+        "fees": "Le prix ou ce qu'il comprend a changé",
+        "road": "La route ou l'accès a changé",
+        "other": "Autre chose qui n’est plus exact ici"
+      },
+      "dialogTitle": "Signalement : {{kind}}",
+      "warningNote": "Un avertissement s'affiche sur cette grotte dès l'envoi, jusqu'à ce que l'équipe d'OpenCaves le vérifie.",
+      "teamNote": "L'équipe d'OpenCaves reçoit votre signalement, le vérifie et met la grotte à jour.",
+      "noteLabel": "Note (facultative)",
+      "notePlaceholder": "Ce que vous avez vu, et quand",
+      "cancel": "Annuler",
+      "send": "Envoyer",
+      "close": "Fermer",
+      "sent": "Merci ! Votre signalement a été envoyé à l'équipe d'OpenCaves.",
+      "error": "Votre signalement n'a pas pu être envoyé. Réessayez.",
+      "itemName": "Votre signalement",
+      "message": {
+        "closed": "{{name}} est fermée.",
+        "private": "{{name}} est devenue privée.",
+        "fees": "{{name}} : les frais ont changé.",
+        "road": "{{name}} : la route a changé."
+      }
+    },
+    "warning": {
+      "closed": "Signalée fermée le {{date}}, en cours de vérification",
+      "private": "Signalée devenue privée le {{date}}, en cours de vérification"
+    },
+    "undone": "Confirmation annulée : {{section}}, {{name}}.",
+    "undoError": "La confirmation n'a pas pu être annulée. Réessayez."
   }
 }

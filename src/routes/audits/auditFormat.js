@@ -4,19 +4,6 @@ import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.
 // Formatting the audit log's entries and the trash's items for the Audits
 // page, in the reader's language.
 
-/**
- * A Firestore Timestamp (or anything with toDate()) as a Date.
- *
- * @param {Timestamp|Date} value
- * @returns {Date|null}
- */
-export function toDate(value) {
-  if (!value) return null
-  if (value instanceof Date) return value
-  if (typeof value.toDate === 'function') return value.toDate()
-  return null
-}
-
 export function formatFullDate(date, language) {
   return date ? new Intl.DateTimeFormat(language, { dateStyle: 'medium', timeStyle: 'short' }).format(date) : ''
 }

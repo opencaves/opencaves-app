@@ -42,40 +42,49 @@ the trash is emptied):
 Files in Storage can be deleted with
 `gcloud storage rm gs://opencaves.appspot.com/<path>`.
 
-## Sync the database from the Google Sheet (deprecated)
+## Bring production's data to the emulators
 
-**Don't run it:** the Google Sheet is no longer used, the app is the data's
-only source, and a sync would overwrite what was edited in the app. The
-script is kept for now, to be removed.
+Since the 1.0 release, production is the source of the data: people edit it
+there. To work locally on current data:
 
 ```
-node scripts/migrate-sheet-to-firestore.js -l   # local emulators
-node scripts/migrate-sheet-to-firestore.js -p   # production
+node scripts/sync-from-production.js --dry-run   # what would change
+node scripts/sync-from-production.js --write     # back up the local data, then mirror
 ```
 
-It fetches the Google Sheet and makes the cave-data collections (`caves`,
-`sistemas`, `connections`, `accesses`, `accessibilities`, `sources`, `areas`,
-`colors`, `languages`) match it **exactly**: rows are written, and documents
-that are no longer in the sheet are deleted. This means it also overwrites
-edits made in the app's admin pages. It doesn't touch photos (`cavesAssets`),
-maps, or users' data.
+The script makes the emulators identical to production - every collection
+and the `caves/` (photos) and `maps/` (scans) files - except what's private
+or personal, which isn't copied and stays as it is locally: the accounts
+(Auth, `_users/*`: settings and saved caves), frozen accounts, the testers'
+reports (`_feedback`, `_feedbackPrivate`), error reports, the photos'
+uploaders (`_cavesAssetsPrivate`) and the caves' ratings (with their
+summaries, `_caveRatings`). The audit log gets production's entries and keeps
+its own (the history of the local data work). Production is only read.
 
-A fresh clone, or a wiped `.emulator-data/` folder, starts with an empty local
-database: run it once against the emulators.
+`--write` first copies the whole `.emulator-data` folder (the autosave's, at
+most a minute behind the emulators, accounts included) to
+`_data/backups/local-<date>/`, and pauses the emulators' background functions
+while it writes, so the copy isn't logged as edits and deleting a photo's
+record doesn't delete its files. Copied files carry `ocSync=true`. Accounts
+named in a record become the local account with the same email, or the one
+paired in `SYNC_ACCOUNTS` (below). Run it with the emulators up
+(`npm run dev`), after `gcloud auth application-default login`.
 
-## Mirror the local data to production
+## Mirror the local data to production (before 1.0)
 
 ```
 node scripts/sync-to-production.js --dry-run   # what would change
-node scripts/sync-to-production.js --write     # back up production's documents, then mirror
+node scripts/sync-to-production.js --write --i-know-production-is-the-source
 ```
 
-The local emulators hold the original data; production (users' tests) is
-refreshed from them. The script makes production identical to local -
+**Not after the 1.0 release:** production is then the source, and this
+overwrites what people changed there - `--write` refuses to run without
+`--i-know-production-is-the-source`. Until 1.0, the local emulators held the
+original data; production (users' tests) was refreshed from them. The script makes production identical to local -
 every collection and the `caves/` (photos) and `maps/` (scans) files - except
 its users' data (accounts, `_users/*`: settings and saved caves; the caves'
-ratings and `_caveRatings`), frozen accounts, audit log and What's new
-(`_whatsNew`, built from that log), which stay untouched - except that the local audit log's additions that production
+ratings and `_caveRatings`), frozen accounts, audit log, What's new
+(`_whatsNew`, built from that log) and popularity (`_popularity`, built from its Google Analytics and its accounts), which stay untouched - except that the local audit log's additions that production
 lacks (its "create" entries for caves, systems, connections, maps and photos,
 and the caves' changes that added videos) are copied to it, so the What's new page (`/whats-new`, built from the audit log) lists them
 there too. Local edits and deletions aren't copied: production's What's new
@@ -110,132 +119,6 @@ which each reader sees in their units. A conversion written next to a length
 (`40 ft (12 m)`) is dropped, and a range gets a tag at each end. Without
 `--write` it only lists the changes: read them before saving. Re-runnable.
 A sync from the Google Sheet brings the untagged text back: run it again after.
-
-## Rename the systems' explored length
-
-```
-node scripts/rename-sistema-length.js -l           # local emulators: dry run, lists the systems
-node scripts/rename-sistema-length.js -l --write   # saves them
-node scripts/rename-sistema-length.js -p           # production (dry run; add --write to save)
-```
-
-A cave system's total explored length (metres) was stored as `length`; it is
-now `exploredLength`. The script copies each system's `length` to
-`exploredLength` (one already there wins) and removes `length`. The app reads
-`exploredLength`, falling back to `length`, and its edit form saves
-`exploredLength`: run it before or after deploying. Re-runnable. In
-production the audit log doesn't record these Admin SDK writes; the local
-emulators do (author "emulator"), so What's new lists them there until those
-entries are deleted.
-
-## Update systems' lengths from QRSS
-
-```
-node scripts/import-qrss-lengths.js -l           # local emulators: dry run, lists the changes
-node scripts/import-qrss-lengths.js -l --write   # saves them
-node scripts/import-qrss-lengths.js -p           # production (dry run; add --write to save)
-```
-
-Sets the explored length of 42 systems to the Quintana Roo Speleological
-Survey's newer figures (its report of 1 February 2025, which QRSS lets us
-use), listed in `scripts/qrss-lengths-2025-02.json`: the systems QRSS gives as
-longer than OpenCaves had, matched by name on 2026-10-11. A system whose
-length changed since that comparison is skipped and listed. Re-runnable.
-
-## Add the systems from QRSS
-
-```
-node scripts/import-qrss-systems.js -l           # local emulators: dry run, lists the systems
-node scripts/import-qrss-systems.js -l --write   # adds them
-node scripts/import-qrss-systems.js -p           # production (dry run; add --write to add)
-```
-
-Adds the 82 cave systems of QRSS's report of 1 February 2025 that OpenCaves
-didn't have (`scripts/qrss-new-systems-2025-02.json`, mostly explored since
-2016): name, explored length, maximum depth, an exploration entry with the
-reported date and team, the cenote count in a note when QRSS gives one, QRSS
-as the source, a colour. No area, coordinates or caves: QRSS doesn't publish
-them. Fixed ids, so local and production get the same records; a system whose
-id or name exists already is skipped. Re-runnable.
-
-## Apply the corrections from the QRSS comparison
-
-```
-node scripts/apply-qrss-fixes.js -l           # local emulators: dry run, lists the changes
-node scripts/apply-qrss-fixes.js -l --write   # saves them
-node scripts/apply-qrss-fixes.js -p           # production (dry run; add --write to save)
-```
-
-The corrections decided on 2026-10-11 (`scripts/qrss-fixes-2025-02.json`):
-QRSS's spelling for systems found under another name (the old name kept as
-another name), names cut at 25 characters completed, the two "Cenote C" named
-C2 and C5, QRSS's newer length or depth for those systems, a system for each of
-six caves that were in no system (the cave attached to it), and maximum depths
-filled where OpenCaves had none or raised where QRSS's is deeper (matches in
-doubt left out). A change applies only if the record still has the values it
-was decided on. Run it after `import-qrss-systems.js`. Re-runnable.
-
-It also merges three duplicate systems (Venado into Cenote Venado, Yaxchen Sur
-into Yax Chen Sur, the guidebook's X’pu Ha into X-pu Ha): the kept system takes
-the other's explorations and other names, the larger length and deeper depth,
-its caves and maps; the connections naming the removed one are deleted, and the
-removed record is kept in the data file (`fromRecord`, `connectionRecords`) to
-restore it if needed. And it adds a cave, without coordinates, to each new
-system named after its cenote.
-
-## Date the systems' explored lengths
-
-```
-node scripts/date-sistema-lengths.js -l           # local emulators: dry run, lists the dates
-node scripts/date-sistema-lengths.js -l --write   # saves them
-node scripts/date-sistema-lengths.js -p           # production (dry run; add --write to save)
-```
-
-A system's explored length has a date (`exploredLengthDate`, a partial date:
-"2024-12", "2016"), shown with it on the system's page; the edit form sets it
-to the current month when the length changes. This script dates the lengths
-the systems already had (`scripts/sistema-length-dates.json`, 2026-10-11): QRSS's
-report date when the length is QRSS's figure, else the date of an exploration
-whose text states it; the guidebook's lengths stay undated (its editions don't
-date its figures). A system
-gets its date only if it has none and its length is still the one dated. Run it
-after the QRSS scripts above. Re-runnable.
-
-## Add the connections QRSS reports
-
-```
-node scripts/import-qrss-connections.js -l           # local emulators: dry run, lists the connections
-node scripts/import-qrss-connections.js -l --write   # saves them
-node scripts/import-qrss-connections.js -p           # production (dry run; add --write to save)
-```
-
-The connections between systems that QRSS's news page
-(https://qrss.caves.org/new.htm) reports and OpenCaves didn't have, checked on
-2026-10-11 (`scripts/qrss-connections-2025-02.json`): the smaller system joined
-to the one it became part of, dated with the month of QRSS's report, QRSS as the
-source. Fixed ids; a connection whose smaller system is connected already, or
-whose systems are gone, is skipped and listed. Re-runnable.
-
-## Move the feedback reports' private fields
-
-```
-node scripts/move-feedback-private.js -l           # local emulators: dry run, lists the changes
-node scripts/move-feedback-private.js -l --write   # saves them
-node scripts/move-feedback-private.js -p           # production (dry run; add --write to save)
-```
-
-Every registered account reads the beta feedback reports (`/feedback`, Ideas
-and fixes), so a report holds nothing private: its `browser` and its reply
-token (`replyToken`) live in `_feedbackPrivate/{id}`, which only admins read,
-and its author is shown by `authorName` (their display name, written by
-`onFeedbackCreated`). This one-time script moves `browser` and `replyToken`
-off the reports sent before, to `_feedbackPrivate`, and fills in their
-`authorName` from Auth (nothing for an account without a display name).
-Re-runnable: moved reports are left alone. Run it in production once the
-Firestore rules, the functions and the app are deployed (`-p`, then `-p
---write`, after `gcloud auth application-default login`): until then those
-reports' browsers stay readable by members, and their reply tokens keep
-working from the report.
 
 ## Give someone a role
 
@@ -442,15 +325,118 @@ Resend's received email), with a webhook signed with the test secret of
 `functions/js/.secret.local` (`RESEND_WEBHOOK_SECRET=whsec_...`; never
 committed).
 
+## Cave reports and confirmations
+
+Much cave data is old, so each section of a cave - its access, getting there,
+its fees and facilities (shown when it charges fees), its description - has a
+**Still accurate** button, on the cave's page and in the map's pane, with how
+old the section is under it: "Confirmed Oct 2026", "Last confirmed in 2024" (a
+confirmation counts for 2 years), or "Not confirmed yet". An editor (every
+verified account) pressing it stamps the section with this month (the cave's
+`reviewed` field). It's a cave edit like any other: it shows in the audit log
+(Audits) and in What's new, and can be undone. Visitors are asked to sign in.
+A change is corrected in the cave's edit form, or reported with **Report a
+change** (below).
+
+The caves list's **Not confirmed recently** filter (`/caves?missing=review`,
+also What can I do?'s "Check what's there") keeps the caves none of whose
+shown sections was confirmed within 2 years.
+
+**Report a change** sits next to each section's Still accurate (on the cave's
+page and pane, for any signed-in account) and offers that section's own
+changes, with an optional note: Closed and Now private under Access, Fees
+changed under the fees, Road changed under Getting there
+(`SECTION_REPORT_KINDS`, `src/config/caveReview.js`). Each one is a
+`/feedback` report (kind Misleading, its page the section on the cave's page,
+its message saying what changed), emailed to the admins like any report, with
+a "Cave report" line. Every section's menu ends with Something else, and the
+description's button opens it at once: the Send feedback form, about that
+section.
+
+- **Closed** and **Now private** also put a warning on the cave at once,
+  public ("Reported closed on Oct 12, being checked"): the
+  `onCaveReportChanged` function keeps the cave's open ones in
+  `_caveReports/{caveId}`.
+- **Fees changed** and **Road changed** only reach the admins: no warning.
+
+To resolve a report: check it, edit the cave if it's right (its access,
+fees, directions...), then set the report's stage on the Feedback page to
+Done - or Rejected (or Duplicate) to dismiss it, or delete it. The warning
+goes as soon as the report leaves the open stages (New, Confirmed, In
+progress); Confirmed keeps it showing, and reopening the report brings it
+back. `scripts/sync-to-production.js` leaves production's `_caveReports`
+alone.
+
+## Error reports
+
+When a page fails to load ("Something went wrong" - not a missing page, not
+offline), the browser sends a digest of the error to `_errorReports`: its
+message, stack, a loader's HTTP status, the page's path, the app's version, the
+browser (user agent), its language, and the account if signed in
+(`src/utils/errorReports.js`). Each error once per browser session (`digest`:
+its message and first stack frame, hashed - the same bug's reports share it),
+at most 10 per session. Anyone can create one, but `firestore.rules` checks
+every field; only admins read and delete them, on the Error reports page
+(`/error-reports`, from the dashboard): the latest 500, live, grouped by
+error, with each report's date and time, page, version, browser and account;
+an error's reports are deleted together.
+
+They're deleted 90 days after they're written, by a TTL policy on `expireAt`
+deployed with the indexes (`firebase deploy --only firestore:indexes`).
+`scripts/sync-to-production.js` leaves production's alone.
+
+A development build (`npm run dev`) sends them too, to the emulators'
+database (`/dev/error/page` fails on purpose, to try it); set
+`VITE_ERROR_REPORTS=false` in `.env.local` to send none.
+
 ## Analytics: whose visits count
 
 Google Tag Manager (and with it Google Analytics) loads only for the real site's visitors (`src/utils/analytics.js`):
 
 - only on `opencaves.org` and `www.opencaves.org` - not the dev server (`localhost`, `127.0.0.1`), the preview channels (`*.web.app`) or Firebase's default domain;
 - never in an automated browser (`navigator.webdriver`: Playwright, the deploy's `check-hydration.js`);
-- never on a device that opted out: open any page with `?no-analytics` (e.g. `https://opencaves.org/?no-analytics`) once on each of your own devices and browsers to keep your visits out; `?analytics` counts them again. The choice is kept in that browser's storage (`oc-no-analytics`), so clearing site data or a private window forgets it.
+- never on a device that opted out: open any page with `?no-analytics` (e.g. `https://opencaves.org/?no-analytics`) once on each of your own devices and browsers to keep your visits out; `?analytics` counts them again. The privacy policy gives visitors these same two addresses. The choice is kept in that browser's storage (`oc-no-analytics`), so clearing site data or a private window forgets it.
 
 Visits recorded before this (from 2026-10-11) include the dev server and some automated test runs: filter reports by **Hostname** = `opencaves.org` to leave them out.
+
+## Popularity: the most visited caves and systems
+
+How popular the caves and the cave systems are, for the search fields' suggestions to list the most visited first (the app bar's, the landing page's and the map's search - to come; `src/hooks/usePopularity.js` reads it, and nothing calls it yet: the `/caves` and `/sistemas` lists stay alphabetical, by area). It's kept in `_popularity/caves`, rebuilt every night at 04:00 (Cancún time) by the `refreshPopularity` function (`functions/js/popularity/`):
+
+- **views**: each cave's page views in Google Analytics over the last 90 days (`/caves/<id>` and `/map/<id>`, their sub-pages included; the real site's visits only, `opencaves.org` and `www.opencaves.org`), read with the GA4 Data API's `runReport`;
+- **saves**: how many accounts saved it (`_users/{uid}/savedCaves`).
+
+The same report fills `_popularity/sistemas` (each system's `/sistemas/<id>` views). Each document is written only when it changed; when Google Analytics can't be read, the function logs the error and keeps both as they are.
+
+It needs the GA4 property's id, which isn't set yet:
+
+1. In Google Analytics, **Admin > Property details**: copy the **Property ID** (a number, e.g. `123456789`; not the `G-...` measurement id).
+2. Put it in `functions/js/.env` (create the file if it isn't there; it isn't in git, so keep it on the computer you deploy from): `GA_PROPERTY_ID=123456789`.
+3. In **Admin > Property access management**, add the functions' service account, `800148490732-compute@developer.gserviceaccount.com`, with the **Viewer** role. (The Google Analytics Data API is already enabled on the project.)
+4. Deploy the function: `firebase deploy --only functions:js:refreshPopularity`. To build the documents at once rather than at night, run its job from Google Cloud's **Cloud Scheduler** page (**Force run**).
+
+While `GA_PROPERTY_ID` is empty, the function logs a warning and writes the caves' saves only, keeping the views already there (none at first). The emulators have no `_popularity` documents (no Google Analytics there, and scheduled functions don't run).
+
+## Keep the page functions warm
+
+The functions that draw the public pages, `indexPages` (`/`, `/caves`, `/sistemas` and their records' pages) and `cavePage` (`/map/<id>`), took 2 to 6.6 seconds to answer when an instance had to start first (a cold start). The `keepPagesWarm` function (`functions/js/seo/keepWarm.js`) pings each of them every 5 minutes so an instance stays started. It asks the site for `/?warm=<time>` and `/map/warm?warm=<time>`, so the pings go through the Hosting rewrites like a visit.
+
+- Each function answers the ping with a 204 before it reads or renders anything; `indexPages` also loads its server build once per instance.
+- Each ping has a new `?warm=` value, so the CDN's cached pages never answer instead. It doesn't matter that `firebase.json` gives these addresses an hour's `s-maxage`.
+
+Cost:
+
+- **Cloud Scheduler:** 3 jobs are free per billing account. This is the third, after `refreshWhatsNew` and `refreshPopularity`; a fourth scheduled function would be billed (about $0.10 a month per job).
+- **Functions:** about 576 very short invocations a day (2 every 5 minutes).
+- **Idle instances:** while kept warm, each instance is billed for its idle time like any started instance. That costs much less than a minimum instance (`minInstances`), which this replaces.
+
+Deploy it with the functions:
+
+```
+firebase deploy --only functions:js:keepPagesWarm,functions:js:indexPages,functions:js:cavePage
+```
+
+To check it, look in the function's logs: `[keepPagesWarm] pinged` lines at debug level, and a warning on any answer other than 204. A visit to an idle page should then answer in well under a second. To stop it, delete the function (`firebase functions:delete keepPagesWarm --region northamerica-northeast1`), which removes its Scheduler job.
 
 ## Apply the Storage CORS config
 

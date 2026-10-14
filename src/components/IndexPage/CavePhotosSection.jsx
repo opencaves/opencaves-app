@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -10,7 +10,9 @@ import AddMediasButton from '@/components/MediaPane/AddMediasButton.jsx'
 import PendingUploadsStrip from '@/components/Offline/PendingUploadsStrip.jsx'
 import { useRequireLogin } from '@/hooks/useRequireLogin.jsx'
 import { useCaveAssetsList } from '@/models/CaveAsset.js'
+import { usePhotoReorder } from '@/hooks/usePhotoReorder.js'
 import Picture from '@/components/Picture.jsx'
+import PhotoItemMenu from '@/components/MediaPane/PhotoItemMenu.jsx'
 import MediaStrip from '@/components/ResultPane/MediaStrip.jsx'
 import StripShowAll from '@/components/ResultPane/StripShowAll.jsx'
 import { PAGE_STRIP } from '@/config/resultPane.js'
@@ -29,36 +31,65 @@ const MAX_PHOTOS = 12
  * too. Under them,
  * the photos added offline still waiting to upload, and Add pictures
  * (editors; the others are asked to log in) - shown with no photo yet too.
+ * With photos, the gallery's code is loaded once the page is idle.
+ *
+ * @param {object} props
+ * @param {string} props.caveId
+ * @param {string} [props.name] - The cave's name, in its photos' alt text.
+ * @param {string} props.title - The section's heading.
  */
-export default function CavePhotosSection({ caveId, title }) {
+export default function CavePhotosSection({ caveId, name, title }) {
   const { t } = useTranslation('indexPages')
   const { t: tEdit } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const isEditor = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('editor')
   const requireLogin = useRequireLogin('photos')
   const pendingPhotosOf = useCallback((item) => item.kind === 'photo' && item.caveId === caveId, [caveId])
   const [list, loading] = useCaveAssetsList(caveId)
+  // Editors reorder them in Show all; the first is the cover.
+  const [order, reorder] = usePhotoReorder(caveId, list)
+  // The gallery's code loaded once the page is idle: a photo opens at once,
+  // its transition (utils/pageTransitions.js) not waiting on the network.
+  const hasPhotos = !!list?.size
+  useEffect(() => {
+    if (!hasPhotos) return undefined
+    const load = () => import('@/routes/gallery/PhotoGallery.jsx')
+    if (!('requestIdleCallback' in window)) {
+      const timer = setTimeout(load, 2000)
+      return () => clearTimeout(timer)
+    }
+    const id = requestIdleCallback(load, { timeout: 5000 })
+    return () => cancelIdleCallback(id)
+  }, [hasPhotos])
   if (loading || !list) return null
-  const photos = list.docs.map((doc) => doc.data())
+  const byId = new Map(list.docs.map((doc) => [doc.id, doc.data()]))
+  const photos = order.map((id) => byId.get(id)).filter(Boolean)
   const photoPath = (id) => `/caves/${caveId}/photos/${id}`
   const shown = photos.slice(0, MAX_PHOTOS)
   const { height, gap, itemWidth: width, itemHeight } = PAGE_STRIP
-  // One photo a column (a picture: the strip slices its <img>).
+  // One photo a column: a tile (the strip slices its <img>, its menu drawn
+  // on copies of it, curved with it).
   const items = shown.map((photo, index) => (
-    <Box key={photo.id} className="oc-cave-page--photo oc-media-strip--picture oc-media-strip--item" sx={{ width, height: itemHeight, flexShrink: 0, borderRadius: '.5rem', overflow: 'hidden' }}>
+    <Box key={photo.id} className="oc-cave-page--photo oc-media-strip--tile oc-media-strip--item" sx={{ position: 'relative', width, height: itemHeight, flexShrink: 0, borderRadius: '.5rem', overflow: 'hidden' }}>
       <ButtonBase component={RouterLink} to={photoPath(photo.id)} state={{ fromPage: true }} aria-label={t('cave.openPhoto', { n: index + 1 })} sx={{ display: 'block', width: '100%', height: '100%' }}>
         {/* Its tint on the picture, not the box: on the cylinder the box is
             over the photo's slices (its picture hidden), a tint there would
             cover them. */}
-        <Picture sources={photo.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', backgroundColor: 'var(--mui-palette-action-hover)' }} />
+        {/* Loaded after the page (afterLoad): not competing with the cover. */}
+        <Picture sources={photo.getSources('resultThumbnail')} afterLoad alt={name ? t('cave.photoAlt', { n: index + 1, name }) : ''} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', backgroundColor: 'var(--mui-palette-action-hover)' }} />
       </ButtonBase>
+      {/* Its menu (share, download, report; cover and delete for those allowed). */}
+      <PhotoItemMenu mediaAsset={photo} variant="card" />
     </Box>
   ))
-  // Every photo, for the Show all pane's grid.
+  // Every photo, for the Show all pane's grid, its menu over it.
   const allItems = photos.map((photo, index) => (
     <li key={photo.id}>
-      <ButtonBase component={RouterLink} to={photoPath(photo.id)} state={{ fromPage: true }} aria-label={t('cave.openPhoto', { n: index + 1 })} className="oc-carousel--media" sx={{ display: 'block', width: '100%', aspectRatio: '4 / 3', overflow: 'hidden', bgcolor: 'action.hover' }}>
-        <Picture sources={photo.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-      </ButtonBase>
+      <Box sx={{ position: 'relative' }}>
+        <ButtonBase component={RouterLink} to={photoPath(photo.id)} state={{ fromPage: true }} aria-label={t('cave.openPhoto', { n: index + 1 })} className="oc-carousel--media" sx={{ display: 'block', width: '100%', aspectRatio: '4 / 3', overflow: 'hidden', bgcolor: 'action.hover' }}>
+          <Picture sources={photo.getSources('resultThumbnail')} alt={name ? t('cave.photoAlt', { n: index + 1, name }) : ''} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+        </ButtonBase>
+        <PhotoItemMenu mediaAsset={photo} />
+      </Box>
     </li>
   ))
 
@@ -82,7 +113,7 @@ export default function CavePhotosSection({ caveId, title }) {
           <MediaStrip start="start" fill className="oc-cave-page--photo-strip" itemHeight={height} height={itemHeight} gap={gap} rebuildKey={shown.map((photo) => photo.id).join(' ')}>
             {items}
           </MediaStrip>
-          <StripShowAll title={title} gridMinWidth="240px">
+          <StripShowAll title={title} gridMinWidth="240px" sortable={isEditor ? { enabled: true, ids: photos.map((photo) => photo.id), onReorder: reorder, coverFirst: true } : undefined}>
             {allItems}
           </StripShowAll>
         </Box>

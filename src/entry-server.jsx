@@ -12,6 +12,9 @@ import { routes } from './routeTree.jsx'
 import { createServerStore } from './redux/store.server.jsx'
 import { setServerContext } from './ssr/ssrContext.js'
 import { buildPageState, fullPageData, pageOf } from './ssr/pageState.js'
+import { monthOf } from './utils/caveReview.js'
+import { converter as caveAssetConverter } from './models/CaveAsset.js'
+import { isTrashed } from './utils/trash.js'
 
 // The server's rendering of the public pages - /, /caves, /caves/<id>,
 // /sistemas, /sistemas/<id> - with the app's own components (built by `vite
@@ -25,6 +28,36 @@ import { buildPageState, fullPageData, pageOf } from './ssr/pageState.js'
 
 // The page's address as one of the server-rendered pages, or null.
 export { pageOf }
+
+// An attribute's value, escaped.
+const attribute = (value) => String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+
+/**
+ * A cave's page: its cover photo's <link rel="preload">, as its <picture>
+ * asks for it (CavePage's CaveCover: the same sources, CORS, high priority) -
+ * the page's largest paint, fetched before the page's stylesheets and code
+ * are in. '' for another page, or a cave without a cover.
+ *
+ * @param {{kind: string, id?: string}} page - {@link pageOf}'s.
+ * @param {object} queries - buildPageState's query results.
+ * @param {string} hostname - The request's (the emulators' file addresses on localhost).
+ * @returns {string}
+ */
+export function coverPreload(page, queries, hostname) {
+  if (page.kind !== 'cave') return ''
+  const cover = (queries[`cover:${page.id}`] || []).find(({ data }) => !isTrashed(data))
+  if (!cover) return ''
+  // The photo's addresses depend on the host (ssrContext.js's pageHostname).
+  setServerContext({ hostname })
+  try {
+    const asset = caveAssetConverter.fromFirestore({ id: cover.id, data: () => cover.data })
+    return asset.getSources('coverImage').slice(0, 1)
+      .map(({ srcSet, type, sizes }) => `<link rel="preload" as="image" imagesrcset="${attribute(srcSet)}"${sizes ? ` imagesizes="${attribute(sizes)}"` : ''} type="${attribute(type)}" fetchpriority="high" crossorigin="anonymous">`)
+      .join('')
+  } finally {
+    setServerContext(null)
+  }
+}
 
 // Each page's route module (routeTree.jsx's lazy imports), by its kind
 // (pageOf): the server preloads its code (functions/js/seo/ssr.js, from the
@@ -44,16 +77,19 @@ export const ROUTE_MODULES = {
  * @param {CaveData} options.raw - With maps and assets: the data (pageState.js).
  * @param {{id: string, data: CaveMap}[]} options.maps - The maps collection ([{ id, data }]).
  * @param {{id: string, data: object}[]} options.assets - The page's cave's photos ([{ id, data }]).
+ * @param {{id: string, data: object}[]} [options.covers] - The cover photos ([{ id, data }]): /caves' No photo filter.
+ * @param {{id: string, data: object}[]} [options.caveReports] - A cave's page: its _caveReports document
+ *   ([{ id, data }], none without one) - the warnings it shows.
  * @param {string} options.title - The page's <title> (the server's, functions/js/seo), the app's own title
  *   (App's Helmet) until the page sets it.
  * @returns {Promise<object>} { html, styles, status, ssr } or { notFound: true }.
  */
-export async function render({ url, raw, maps, assets, title }) {
+export async function render({ url, raw, maps, assets, covers, caveReports, title }) {
   const started = performance.now()
   const { pathname, hostname } = new URL(url)
   const page = pageOf(pathname)
   if (!page) return { notFound: true }
-  const { data, queries, found } = buildPageState(page, { raw, maps, assets })
+  const { data, queries, found } = buildPageState(page, { raw, maps, assets, covers, caveReports })
   if (!found) return { notFound: true }
   // The store: the app's title (the cave data is useCaveData's).
   const state = title ? { app: { ...createServerStore().getState().app, title } } : {}
@@ -64,6 +100,9 @@ export async function render({ url, raw, maps, assets, title }) {
   const context = await handler.query(new Request(url))
   if (context instanceof Response) return { notFound: true }
   const router = createStaticRouter(handler.dataRoutes, context)
+  // The month the caves' confirmations' age is counted in (useReviewMonth):
+  // the browser hydrates with the same.
+  const month = monthOf()
 
   // The page drawn with pageData (state.data's shape, useCaveData), and the
   // Emotion styles it used.
@@ -76,7 +115,7 @@ export async function render({ url, raw, maps, assets, title }) {
     // extracting (compat), instead of writing them in the HTML.
     const emotionServer = createEmotionServer(cache)
     // One page at a time: rendering is synchronous, the context set around it.
-    setServerContext({ hostname, queries, data: { path: pathname, data: pageData } })
+    setServerContext({ hostname, queries, month, data: { path: pathname, data: pageData } })
     try {
       return {
         emotionServer,
@@ -122,6 +161,8 @@ export async function render({ url, raw, maps, assets, title }) {
   return {
     html,
     styles,
+    // Resource hints for the page's <head> (functions/js/seo/shared.js).
+    preloads: coverPreload(page, queries, hostname),
     status: context.statusCode,
     // How long each part took (ms), for the function's logs.
     timings: { data: Math.round(dataReady - started), render: Math.round(rendered - renderStarted), check: Math.round(checked - rendered), styles: Math.round(performance.now() - checked) },
@@ -131,6 +172,7 @@ export async function render({ url, raw, maps, assets, title }) {
       state,
       data: pageData,
       queries,
+      month,
       router: { loaderData: context.loaderData, actionData: context.actionData, errors: context.errors },
     },
   }

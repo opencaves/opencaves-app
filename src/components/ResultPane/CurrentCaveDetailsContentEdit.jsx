@@ -33,6 +33,7 @@ import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { CAVE_TEXT_FIELDS, textSourcesOf, textSourcesUpdate, withTextChange } from '@/utils/textSources.js'
 import TextSourceField from '@/components/TextSourceField.jsx'
 import { FIT_SELECT_MENU_PROPS, fitSelectSx } from '@/utils/fitSelect.js'
+import TriStateField from './TriStateField.jsx'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -115,8 +116,9 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
     direction: cave.direction || '',
     textSources: textSourcesOf(cave, CAVE_TEXT_FIELDS),
     cenoteEntrance: !!cave.cenoteEntrance,
-    fees: !!cave.fees,
-    facilities: !!cave.facilities,
+    // Unknown (null) unless stored (TriStateField).
+    fees: typeof cave.fees === 'boolean' ? cave.fees : null,
+    facilities: typeof cave.facilities === 'boolean' ? cave.facilities : null,
     longitude: normalizeCoordinateValue(cave.location?.longitude ?? ''),
     latitude: normalizeCoordinateValue(cave.location?.latitude ?? ''),
     parkingLongitude: normalizeCoordinateValue(cave.parking?.longitude ?? ''),
@@ -192,8 +194,8 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
         description: orDelete(form.description),
         direction: orDelete(form.direction),
         cenoteEntrance: form.cenoteEntrance,
-        fees: form.fees,
-        facilities: form.facilities,
+        fees: orDelete(form.fees),
+        facilities: orDelete(form.facilities),
       }
 
       if (form.longitude === '' && form.latitude === '' && cave.location) {
@@ -482,8 +484,8 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         <BooleanToggleField name="cenoteEntrance" value={form.cenoteEntrance} onChange={(cenoteEntrance) => setForm((f) => ({ ...f, cenoteEntrance }))} />
-        <BooleanToggleField name="fees" value={form.fees} onChange={(fees) => setForm((f) => ({ ...f, fees }))} />
-        <BooleanToggleField name="facilities" value={form.facilities} onChange={(facilities) => setForm((f) => ({ ...f, facilities }))} />
+        <TriStateField name="fees" value={form.fees} onChange={(fees) => setForm((f) => ({ ...f, fees }))} />
+        <TriStateField name="facilities" value={form.facilities} onChange={(facilities) => setForm((f) => ({ ...f, facilities }))} />
       </Box>
 
       {isSmall ? !placingOnMap && createPortal(saveBar, document.body) : saveBar}

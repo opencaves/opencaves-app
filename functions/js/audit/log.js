@@ -68,3 +68,12 @@ export async function writeAuditLog(entry) {
     logger.error('[auditLog] could not write the entry', { entry: { ...entry, before: undefined, after: undefined }, error: error.message })
   }
 }
+
+/**
+ * What an audit entry did: an undo's own entry says it in `undoAction`, so
+ * undoing an undo works like undoing any change.
+ *
+ * @param {{ action: string, undoAction?: string }} entry - An _auditLog entry.
+ * @returns {string}
+ */
+export const actionOf = (entry) => (entry.action === 'undo' ? entry.undoAction : entry.action)

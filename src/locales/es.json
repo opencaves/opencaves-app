@@ -421,7 +421,8 @@
       "showUnconfirmedCoordinates": "Mostrar coordenadas sin confirmar"
     },
     "areas": {
-      "heading": "Zonas"
+      "heading": "Zonas",
+      "unknown": "Zona desconocida"
     },
     "access": {
       "heading": "Acceso",
@@ -461,7 +462,8 @@
           "label": "Desconocido",
           "description": "Se desconoce el acceso."
         }
-      ]
+      ],
+      "chip": "Acceso: {{label}}"
     },
     "accessibility": {
       "heading": "Accesibilidad",
@@ -501,14 +503,34 @@
           "label": "Acceso variable",
           "description": "El acceso a esta zona varía según la hora o el punto de entrada."
         }
-      ]
+      ],
+      "chip": "Accesibilidad: {{label}}"
     },
     "cenoteType": {
       "heading": "Tipo de cueva",
       "showCenoteEntrances": "Mostrar cenotes de entrada",
-      "showOtherCenotes": "Mostrar otras cuevas"
+      "showOtherCenotes": "Mostrar otras cuevas",
+      "entrance": "Cenotes de entrada",
+      "other": "Otras cuevas"
     },
-    "closeBtn": "Cerrar los filtros"
+    "closeBtn": "Cerrar los filtros",
+    "needsHelp": {
+      "heading": "Por completar",
+      "items": {
+        "coordinates": "Sin coordenadas",
+        "position": "Posición no confirmada",
+        "name": "Sin nombre",
+        "photo": "Sin foto",
+        "video": "Sin video",
+        "description": "Sin descripción",
+        "directions": "Sin indicaciones",
+        "fees": "Costos desconocidos",
+        "facilities": "Instalaciones desconocidas",
+        "system": "Sin sistema",
+        "review": "Sin confirmar recientemente"
+      },
+      "hint": "Muestra solo las cuevas a las que les faltan todos los elementos activados."
+    }
   },
   "resultPane": {
     "title": "{{name}}",
@@ -633,6 +655,9 @@
       "feesHint": "Indica si visitar esta cueva requiere pagar una tarifa de entrada",
       "facilities": "Instalaciones",
       "facilitiesHint": "Indica si hay instalaciones como baños o vestidores disponibles en el lugar",
+      "choiceUnknown": "Desconocido",
+      "choiceYes": "Sí",
+      "choiceNo": "No",
       "accessDetails": "Detalles de acceso",
       "accessibilityDetails": "Detalles de accesibilidad",
       "description": "Descripción",
@@ -649,6 +674,7 @@
       "accessGroup": "Acceso",
       "accessibilityGroup": "Accesibilidad",
       "newCave": "Nueva cueva",
+      "editCave": "Editar cueva",
       "caveTitle": "{{name}}",
       "backToCaves": "Volver a las cuevas",
       "backToCave": "Volver a la página del cenote",
@@ -747,7 +773,17 @@
       "deleteConfirmTitle": "¿Eliminar esta foto?",
       "deleteConfirm": "La foto va a la papelera: un administrador puede restaurarla desde Auditorías > Papelera.",
       "deleteCancel": "Cancelar",
-      "isCoverImage": "Es la foto de portada"
+      "isCoverImage": "Es la foto de portada",
+      "share": "Compartir",
+      "download": "Descargar",
+      "report": {
+        "photo": "Reportar esta foto",
+        "map": "Reportar esta topografía",
+        "video": "Reportar este video"
+      },
+      "linkCopied": "Enlace copiado.",
+      "shareFail": "No se pudo compartir el enlace.",
+      "downloadFail": "No se pudo descargar el archivo."
     },
     "mediaThumbnailItem": {
       "openBtn": {
@@ -858,6 +894,7 @@
     "explorationDescription": "Descripción",
     "explorationNotes": "Notas",
     "newSistema": "Nuevo sistema",
+    "editSistema": "Editar sistema",
     "sistemaTitle": "Sistema {{name}}",
     "backToSistemas": "Volver a los sistemas",
     "backToSistema": "Volver a la página del sistema",
@@ -1075,7 +1112,7 @@
         "openScan": "Abrir el mapa original"
       },
       "panelTitle": "Capas del mapa",
-      "show": "Mostrar las galerías"
+      "show": "Mostrar las galerías inundadas"
     },
     "controls": {
       "locationNotAvailable": "Ubicación no disponible",
@@ -1180,10 +1217,11 @@
     "manageMapLayers": "Capas del mapa",
     "manageFeedback": "Comentarios",
     "followFeedback": "Ideas y correcciones",
-    "followFeedbackText": "Lo que han señalado los participantes de la beta y lo que viene",
+    "followFeedbackText": "Lo que han señalado los miembros y lo que viene",
     "newFeedback_one": "{{count}} nuevo",
     "newFeedback_other": "{{count}} nuevos",
     "manageAudits": "Auditorías",
+    "manageErrorReports": "Informes de errores",
     "backToCaveIndex": "Volver a las cuevas",
     "backToSistemaIndex": "Volver a los sistemas de cuevas",
     "mapsToProcess_one": "{{count}} por procesar",
@@ -1266,10 +1304,10 @@
     }
   },
   "legal": {
-    "updated": "Última actualización: 2 de octubre de 2026",
+    "updated": "Última actualización: 14 de octubre de 2026",
     "privacy": {
       "title": "Política de privacidad",
-      "body": "OpenCaves es un mapa gratuito y colaborativo de los cenotes y cuevas de la península de Yucatán. Esta política explica qué información personal recopila OpenCaves, para qué, con quién se comparte, y qué opciones y derechos tienes.\n\n## Quién es responsable\n\nOpenCaves es operado por Christian Rémillard, en Quebec (Canadá), quien también es la persona responsable de la protección de la información personal según la ley de Quebec. Para cualquier pregunta o solicitud sobre tu información personal, escribe a [privacy@opencaves.org](mailto:privacy@opencaves.org).\n\n## Qué recopilamos\n\n**Cuando solo navegas.** No necesitas una cuenta para usar el mapa. Para que algunas funciones trabajen, la aplicación te conecta con una *sesión anónima*: un identificador aleatorio, sin nombre ni correo.\n\n**Cuando creas una cuenta.** Guardamos tu correo electrónico y el nombre que elijas. Si inicias sesión con Google o Microsoft, también recibimos el nombre y la foto de ese perfil. Las contraseñas las gestiona nuestro proveedor de autenticación (Firebase Authentication); nunca las vemos.\n\n**Lo que guardas o calificas.** Los cenotes que guardas se conservan en tu cuenta y solo tú puedes verlos. Cuando calificas un cenote, tu calificación se guarda con el identificador de tu cuenta (no con tu nombre ni tu correo) y se usa para calcular el promedio público del cenote.\n\n**Lo que aportas.** Las fotos, mapas, videos e información sobre cuevas que agregas son públicos: todas las personas que usan OpenCaves pueden verlos. Los archivos que subes quedan vinculados al identificador de tu cuenta y conservan su nombre original. La foto original se conserva tal como la subiste, con los datos que contiene, como el lugar donde se tomó (EXIF), y una foto puede mostrar rostros: comparte solo lo que aceptes hacer público.\n\n**Tu ubicación.** Cuando usas «Mi ubicación», la posición de tu dispositivo se usa solo en tu dispositivo, para centrar el mapa o llenar una coordenada. No la guardamos ni la enviamos a nuestros servidores. Solo forma parte de los datos de una cueva si tú la guardas en un campo de coordenadas.\n\n**Información técnica.** Como cualquier sitio web, los servicios que entregan OpenCaves (ver abajo) reciben información técnica como tu dirección IP, tu tipo de navegador y la zona del mapa que consultas. No usamos publicidad ni cookies de analítica o de seguimiento.\n\n## Cómo la usamos\n\nUsamos tu información solo para operar OpenCaves: iniciar tu sesión, conservar tus cenotes guardados y tus calificaciones, mostrar las aportaciones y su autoría, proteger el servicio contra abusos y responder a tus solicitudes. No vendemos tu información personal ni la usamos para publicidad o elaboración de perfiles.\n\n## Con quién la compartimos\n\nOpenCaves se apoya en estos proveedores, que procesan información por cuenta nuestra o cuando usas sus funciones:\n\n- **Google Firebase y Google Cloud** (alojamiento, cuentas, base de datos, almacenamiento de archivos, funciones de servidor).\n- **Google y Microsoft**, solo si eliges iniciar sesión con ellos: confirman tu identidad a OpenCaves.\n- **Mapbox** (imágenes del mapa). Mapbox recibe tu dirección IP y la zona del mapa que consultas.\n- **Google Maps Platform** (convertir las coordenadas de una cueva en una dirección).\n- **YouTube y Vimeo**, solo cuando un video está insertado en un cenote y lo reproduces. Los videos de YouTube usan su modo de privacidad mejorada.\n\nAlgunos de estos proveedores guardan o procesan información fuera de Quebec y de Canadá, en particular en Estados Unidos, donde está sujeta a las leyes locales. Recurrimos a proveedores que ofrecen protecciones compatibles con las leyes de privacidad de Quebec y de Canadá.\n\n## Datos guardados en tu dispositivo\n\nPara funcionar rápido y sin conexión, OpenCaves guarda datos en tu navegador: tus preferencias, una copia de los datos de las cuevas, y las imágenes y mapas que descarga para usarlos sin conexión. Estos datos se quedan en tu dispositivo. Puedes borrar las imágenes y mapas descargados desde tu página de cuenta («Uso sin conexión»), o borrarlo todo desde la configuración de tu navegador.\n\n## Cuánto tiempo la conservamos\n\nConservamos la información de tu cuenta mientras tengas una cuenta. Cuando se elimina tu cuenta, tus cenotes guardados y tus calificaciones se eliminan con ella. Las aportaciones que hiciste públicas (fotos, mapas, información sobre cuevas) siguen formando parte de los datos abiertos de las cuevas, salvo que nos pidas retirarlas. Los registros técnicos que guardan nuestros proveedores se eliminan según sus propios plazos.\n\n## Tus derechos\n\nPuedes pedir acceso a la información personal que tenemos sobre ti, corregirla o eliminarla. También puedes retirar tu consentimiento, pedirnos que dejemos de usarla o recibir una copia en un formato común. Puedes cambiar tu nombre en tu página de cuenta. Para cualquier otra solicitud, escribe a [privacy@opencaves.org](mailto:privacy@opencaves.org). Responderemos en un plazo de 30 días. Si no estás conforme con nuestra respuesta, puedes presentar una queja ante la *Commission d’accès à l’information du Québec*.\n\n## Menores\n\nOpenCaves no está dirigido a menores. Las cuentas son para personas de 14 años o más. Los menores de esa edad necesitan el consentimiento de uno de sus padres o de su tutor para crear una cuenta.\n\n## Seguridad\n\nUsamos las medidas de seguridad integradas en nuestros proveedores (conexiones cifradas, reglas de acceso que solo permiten a cada persona modificar sus propios datos, acceso de administración restringido). Ningún servicio en línea es perfectamente seguro: te avisaremos, y avisaremos a la Commission cuando la ley lo exija, de cualquier incidente que pueda causarte un daño grave.\n\n## Cambios\n\nSi cambiamos esta política, actualizaremos la fecha de arriba. Si se trata de cambios importantes, avisaremos con anticipación a quienes tengan una cuenta.\n\n## Contacto\n\n[privacy@opencaves.org](mailto:privacy@opencaves.org)"
+      "body": "OpenCaves es un mapa gratuito y colaborativo de los cenotes y cuevas de la península de Yucatán. Esta política explica qué información personal recopila OpenCaves, para qué, con quién se comparte, y qué opciones y derechos tienes.\n\n## Quién es responsable\n\nOpenCaves es operado por Christian Rémillard, en Quebec (Canadá), quien también es la persona responsable de la protección de la información personal según la ley de Quebec. Para cualquier pregunta o solicitud sobre tu información personal, escribe a [privacy@opencaves.org](mailto:privacy@opencaves.org).\n\n## Qué recopilamos\n\n**Cuando solo navegas.** No necesitas una cuenta para usar el mapa. Para que algunas funciones trabajen, la aplicación te conecta con una *sesión anónima*: un identificador aleatorio, sin nombre ni correo.\n\n**Cuando creas una cuenta.** Guardamos tu correo electrónico y el nombre que elijas. Si inicias sesión con Google o Microsoft, también recibimos el nombre y la foto de ese perfil. Las contraseñas las gestiona nuestro proveedor de autenticación (Firebase Authentication); nunca las vemos.\n\n**Lo que guardas o calificas.** Los cenotes que guardas se conservan en tu cuenta y solo tú puedes verlos. Cuando calificas un cenote, tu calificación se guarda con el identificador de tu cuenta (no con tu nombre ni tu correo) y se usa para calcular el promedio público del cenote.\n\n**Lo que aportas.** Las fotos, mapas, videos e información sobre cuevas que agregas son públicos: todas las personas que usan OpenCaves pueden verlos. Los archivos que subes quedan vinculados al identificador de tu cuenta y conservan su nombre original. La foto original se conserva tal como la subiste, con los datos que contiene, como el lugar donde se tomó (EXIF), y una foto puede mostrar rostros: comparte solo lo que aceptes hacer público.\n\n**Tu ubicación.** Cuando usas «Mi ubicación», la posición de tu dispositivo se usa solo en tu dispositivo, para centrar el mapa o llenar una coordenada. No la guardamos ni la enviamos a nuestros servidores. Solo forma parte de los datos de una cueva si tú la guardas en un campo de coordenadas.\n\n**Información técnica.** Como cualquier sitio web, los servicios que entregan OpenCaves (ver abajo) reciben información técnica como tu dirección IP, tu tipo de navegador y la zona del mapa que consultas. No usamos publicidad.\n\n**Estadísticas de uso.** Usamos Google Analytics para ver cómo se usa OpenCaves: las páginas que visitas y lo que haces en ellas (por ejemplo las palabras que buscas, las cuevas que guardas, compartes o calificas, y los filtros que usas), tu tipo de navegador y de dispositivo, y tu ubicación aproximada (país o ciudad). No recibe tu nombre ni tu correo electrónico. Google Analytics guarda una cookie en tu navegador para reconocer tus próximas visitas. Puedes desactivar estas estadísticas (ver «Datos guardados en tu dispositivo»).\n\n## Cómo la usamos\n\nUsamos tu información solo para operar OpenCaves: iniciar tu sesión, conservar tus cenotes guardados y tus calificaciones, mostrar las aportaciones y su autoría, proteger el servicio contra abusos y responder a tus solicitudes. Las estadísticas de uso nos ayudan a mejorar OpenCaves y a mostrar primero las cuevas más visitadas en las sugerencias de búsqueda. No vendemos tu información personal ni la usamos para publicidad o elaboración de perfiles.\n\n## Con quién la compartimos\n\nOpenCaves se apoya en estos proveedores, que procesan información por cuenta nuestra o cuando usas sus funciones:\n\n- **Google Firebase y Google Cloud** (alojamiento, cuentas, base de datos, almacenamiento de archivos, funciones de servidor).\n- **Google y Microsoft**, solo si eliges iniciar sesión con ellos: confirman tu identidad a OpenCaves.\n- **Google Analytics** (estadísticas de uso, ver arriba).\n- **Mapbox** (imágenes del mapa). Mapbox recibe tu dirección IP y la zona del mapa que consultas.\n- **Google Maps Platform** (convertir las coordenadas de una cueva en una dirección).\n- **YouTube y Vimeo**, solo cuando un video está insertado en un cenote y lo reproduces. Los videos de YouTube usan su modo de privacidad mejorada.\n\nAlgunos de estos proveedores guardan o procesan información fuera de Quebec y de Canadá, en particular en Estados Unidos, donde está sujeta a las leyes locales. Recurrimos a proveedores que ofrecen protecciones compatibles con las leyes de privacidad de Quebec y de Canadá.\n\n## Datos guardados en tu dispositivo\n\nPara funcionar rápido y sin conexión, OpenCaves guarda datos en tu navegador: tus preferencias, una copia de los datos de las cuevas, y las imágenes y mapas que descarga para usarlos sin conexión. Estos datos se quedan en tu dispositivo. Puedes borrar las imágenes y mapas descargados desde tu página de cuenta («Uso sin conexión»), o borrarlo todo desde la configuración de tu navegador.\n\nAhí también se guarda la cookie de Google Analytics. Para desactivar las estadísticas de uso en un navegador, abre una vez https://opencaves.org/?no-analytics (https://opencaves.org/?analytics las vuelve a activar), o bloquea Google Analytics en la configuración de tu navegador o con una extensión.\n\n## Cuánto tiempo la conservamos\n\nConservamos la información de tu cuenta mientras tengas una cuenta. Cuando se elimina tu cuenta, tus cenotes guardados y tus calificaciones se eliminan con ella. Las aportaciones que hiciste públicas (fotos, mapas, información sobre cuevas) siguen formando parte de los datos abiertos de las cuevas, salvo que nos pidas retirarlas. Google Analytics conserva las estadísticas de uso durante 14 meses. Los registros técnicos que guardan nuestros proveedores se eliminan según sus propios plazos.\n\n## Tus derechos\n\nPuedes pedir acceso a la información personal que tenemos sobre ti, corregirla o eliminarla. También puedes retirar tu consentimiento, pedirnos que dejemos de usarla o recibir una copia en un formato común. Puedes cambiar tu nombre en tu página de cuenta. Para cualquier otra solicitud, escribe a [privacy@opencaves.org](mailto:privacy@opencaves.org). Responderemos en un plazo de 30 días. Si no estás conforme con nuestra respuesta, puedes presentar una queja ante la *Commission d’accès à l’information du Québec*.\n\n## Menores\n\nOpenCaves no está dirigido a menores. Las cuentas son para personas de 14 años o más. Los menores de esa edad necesitan el consentimiento de uno de sus padres o de su tutor para crear una cuenta.\n\n## Seguridad\n\nUsamos las medidas de seguridad integradas en nuestros proveedores (conexiones cifradas, reglas de acceso que solo permiten a cada persona modificar sus propios datos, acceso de administración restringido). Ningún servicio en línea es perfectamente seguro: te avisaremos, y avisaremos a la Commission cuando la ley lo exija, de cualquier incidente que pueda causarte un daño grave.\n\n## Cambios\n\nSi cambiamos esta política, actualizaremos la fecha de arriba. Si se trata de cambios importantes, avisaremos con anticipación a quienes tengan una cuenta.\n\n## Contacto\n\n[privacy@opencaves.org](mailto:privacy@opencaves.org)"
     },
     "terms": {
       "title": "Términos del servicio",
@@ -1282,12 +1320,12 @@
     }
   },
   "seo": {
-    "defaultDescription": "OpenCaves es la referencia para encontrar cenotes en Yucatán, México: nuevas cuevas para bucear, coordenadas GPS verificadas, descripciones útiles, fotos y mapas.",
     "mapHeading": "OpenCaves: mapa de los cenotes de Yucatán",
     "caveDescriptionPrefix": "{{name}} (Yucatán, México):",
     "caveDescriptionFallback": "{{name}}, una cueva de Yucatán, México: ubicación, acceso, fotos y mapas en OpenCaves.",
     "notFoundTitle": "Página no encontrada",
-    "mapTitle": "Mapa de cenotes de Yucatán"
+    "mapTitle": "Mapa de cenotes de Yucatán",
+    "mapDescription": "Mapa de cuevas y cenotes de Yucatán para buzos de cuevas: encuentra una cueva, cómo llegar y entrar, sus fotos, sus topografías y las galerías bajo la selva."
   },
   "mapLayersAdmin": {
     "title": "Capas del mapa",
@@ -1331,6 +1369,35 @@
       "unskip": "Volver a procesar",
       "unskipOf": "Volver a procesar {{name}}"
     }
+  },
+  "errorReports": {
+    "title": "Informes de errores",
+    "intro": "Los errores que mostró la página «Algo salió mal», agrupados por error, los más recientes primero. Cada informe se conserva 90 días.",
+    "loading": "Cargando los informes",
+    "failed": "No se pudieron cargar los informes.",
+    "empty": "Ningún error informado.",
+    "limited": "solo los últimos {{count}} informes",
+    "errors_one": "{{count}} error",
+    "errors_other": "{{count}} errores",
+    "reports_one": "{{count}} informe",
+    "reports_other": "{{count}} informes",
+    "pages_one": "{{count}} página",
+    "pages_other": "{{count}} páginas",
+    "accounts_one": "{{count}} cuenta",
+    "accounts_other": "{{count}} cuentas",
+    "signedOut": "sin sesión",
+    "lastSeen": "Último:",
+    "firstSeen": "Primero:",
+    "noMessage": "(sin mensaje)",
+    "status": "Estado HTTP {{status}}",
+    "occurrences": "Cada vez",
+    "delete": "Eliminar los informes de este error",
+    "deleteTitle": "¿Eliminar los informes de este error?",
+    "deleteText_one": "Su informe se eliminará definitivamente.",
+    "deleteText_other": "Sus {{count}} informes se eliminarán definitivamente.",
+    "deleteFailed": "No se pudieron eliminar los informes.",
+    "cancel": "Cancelar",
+    "deleteConfirm": "Eliminar"
   },
   "audits": {
     "title": "Auditorías",
@@ -1503,6 +1570,14 @@
     "sistemaCount_one": "{{count}} sistema de cuevas",
     "sistemaCount_other": "{{count}} sistemas de cuevas",
     "caves": {
+      "filters": {
+        "add": "Agregar filtro",
+        "remove": "Quitar el filtro {{label}}",
+        "clearAll": "Borrar filtros",
+        "count_one": "{{count}} cueva coincide",
+        "count_other": "{{count}} cuevas coinciden",
+        "photosFailed": "No se pudieron leer las fotos de las cuevas: el filtro Sin foto no está disponible."
+      },
       "title": "Cuevas de Yucatán por zona",
       "description": "Todos los cenotes de Yucatán, México, listados en OpenCaves por zona, cada uno con su ubicación, acceso, fotos y mapas.",
       "add": "Añadir una cueva",
@@ -1552,9 +1627,14 @@
       "sistema": "Sistema de cuevas",
       "location": "Ubicación",
       "photos": "Fotos",
-      "openPhoto": "Abrir la foto {{n}}"
+      "openPhoto": "Abrir la foto {{n}}",
+      "coverAlt": "Foto de {{name}}",
+      "photoAlt": "Foto {{n}} de {{name}}",
+      "noPhoto": "Aún no hay fotos de esta cueva",
+      "dropPhotos": "o suéltalas aquí"
     },
     "notOnMap": "No está en el mapa: aún sin coordenadas",
+    "mapAlt": "Mapa: {{name}}",
     "maps": "Topografías",
     "searchNoResult": "Ninguna cueva ni sistema coincide con «{{query}}» - buscar en todas las cuevas",
     "empty": {
@@ -1566,7 +1646,7 @@
   "appBarSearch": {
     "placeholder": "Buscar cuevas y sistemas",
     "open": "Buscar",
-    "close": "Cerrar la búsqueda",
+    "clear": "Borrar la búsqueda",
     "none": "Ninguna cueva ni sistema coincide.",
     "hint": "Escribe un nombre",
     "groups": {
@@ -1662,89 +1742,11 @@
       "contentType": "tipo de archivo",
       "videos": "videos",
       "maps": "topografías",
-      "activities": "actividades"
-    }
-  },
-  "betaTesting": {
-    "badge": "Beta",
-    "title": "¿Qué puedo hacer?",
-    "lead": "OpenCaves está en beta, y tú eres uno de sus primeros buzos. Úsalo como lo harías antes y después de una inmersión, y cuéntanos qué falla, qué te confunde y qué falta.",
-    "sendFeedback": "Enviar comentarios",
-    "signup": "Regístrate para participar",
-    "report": {
-      "title": "Cuéntanos",
-      "sub": "Cada reporte llega por correo al equipo de OpenCaves. Necesitas una cuenta para enviarlo.",
-      "bug": {
-        "title": "Algo falla",
-        "text": "Una página que no carga, un botón que no hace nada, un cambio que no se guardó, una foto o un mapa que no se abre.",
-        "action": "Reportar un error"
-      },
-      "misleading": {
-        "title": "Algo es engañoso",
-        "text": "Una etiqueta que no entiendes, una función que no hace lo que dice, o un dato que parece erróneo: una posición, un acceso, una profundidad.",
-        "action": "Señalarlo"
-      },
-      "idea": {
-        "title": "Algo falta",
-        "text": "Una función que te ayudaría a preparar o compartir una inmersión, o algo que esperabas encontrar y no está.",
-        "action": "Sugerirlo"
-      }
-    },
-    "try": {
-      "title": "Pruébalo todo",
-      "sub": "Nada de lo que hagas en la beta puede romper algo para siempre: explora.",
-      "explore": {
-        "title": "Explorar",
-        "text": "El mapa, las listas de cuevas y sistemas, la búsqueda, la página de una cueva y sus secciones.",
-        "action": "Abrir el mapa"
-      },
-      "edit": {
-        "title": "Editar cuevas",
-        "text": "Añade una cueva, sus coordenadas, su acceso, sus textos; corrige lo que parezca erróneo.",
-        "action": "Ir a las cuevas"
-      },
-      "media": {
-        "title": "Añadir fotos, videos, mapas",
-        "text": "Desde la página de una cueva: sube fotos, enlaza un video, añade un mapa topográfico."
-      },
-      "systems": {
-        "title": "Editar sistemas",
-        "text": "Su longitud y profundidad, la historia de su exploración, cómo se conectan.",
-        "action": "Ver los sistemas"
-      },
-      "offline": {
-        "title": "Sin conexión",
-        "text": "Instala la aplicación, guarda algunas cuevas y úsala sin señal, como en la selva."
-      },
-      "everywhere": {
-        "title": "Teléfono y computadora",
-        "text": "Pruébala en tu teléfono y en una computadora, en modo claro y oscuro."
-      },
-      "languages": {
-        "title": "Todos los idiomas",
-        "text": "Inglés, francés y español: avísanos de una traducción que suene mal."
-      }
-    },
-    "tips": {
-      "title": "Cómo reportar bien",
-      "one": "Un reporte por problema o idea.",
-      "steps": "Di qué hiciste, qué esperabas y qué pasó en cambio.",
-      "page": "La página en la que estabas se completa sola; cámbiala si el problema está en otra.",
-      "device": "Tu navegador se añade solo: indica el dispositivo si importa (por ejemplo, un teléfono Android)."
-    },
-    "goodToKnow": {
-      "reset": {
-        "title": "Los datos de la beta pueden reiniciarse",
-        "text": "Lo que cambies ahora aún no es permanente: los datos pueden reemplazarse en cualquier momento antes de la 1.0."
-      },
-      "public": {
-        "title": "Todo lo que añades es público",
-        "text": "No compartas el teléfono de nadie, ni nada que no quieras hacer público."
-      },
-      "safety": {
-        "title": "OpenCaves no sirve para planificar una inmersión",
-        "text": "El buceo en cuevas puede matar. Fórmate, bucea dentro de tus límites y verifica siempre las condiciones en el lugar."
-      }
+      "activities": "actividades",
+      "photoOrder": "orden de las fotos",
+      "mapOrder": "orden de las topografías",
+      "videoOrder": "orden de los videos",
+      "reviewed": "confirmación de exactitud"
     }
   },
   "feedback": {
@@ -1875,17 +1877,119 @@
     },
     "members": {
       "title": "Ideas y correcciones",
-      "intro": "Lo que han señalado los participantes de la beta y lo que hace el equipo de OpenCaves al respecto: sigue lo que viene.",
+      "intro": "Lo que han señalado los miembros y lo que hace el equipo de OpenCaves al respecto: sigue lo que viene.",
       "you": "Tú",
       "someone": "Un miembro"
     },
     "messageTooShort": "Al menos {{count}} caracteres"
   },
+  "whatCanIDo": {
+    "title": "¿Qué puedo hacer?",
+    "lead": "OpenCaves lo hacen los buzos que lo usan. Explora las cuevas de Yucatán y ayuda a mantenerlas al día: cada inmersión que compartes mejora el mapa para el próximo buzo.",
+    "signup": "Regístrate para contribuir",
+    "openMap": "Abrir el mapa",
+    "explore": {
+      "title": "Explorar",
+      "sub": "No necesitas cuenta.",
+      "find": {
+        "title": "Encontrar cuevas",
+        "text": "Explora el mapa, recorre todas las cuevas y sistemas por zona, o busca por nombre en la barra de arriba.",
+        "action": "Abrir el mapa"
+      },
+      "read": {
+        "title": "Leer antes de ir",
+        "text": "Cómo llegar, el acceso (una llave, un permiso, un guía, una cuota), fotos, vídeos y mapas topográficos.",
+        "action": "Ver las cuevas"
+      },
+      "directions": {
+        "title": "Llegar",
+        "text": "Copia las coordenadas de una cueva para tu GPS, u obtén indicaciones, desde su tarjeta Ubicación."
+      },
+      "whatsNew": {
+        "title": "Ver las novedades",
+        "text": "Las cuevas, sistemas, mapas, fotos y vídeos que otros acaban de añadir.",
+        "action": "Novedades"
+      }
+    },
+    "contribute": {
+      "title": "Contribuir",
+      "sub": "Con una cuenta gratuita: regístrate con tu correo, Google o Microsoft.",
+      "checkWhatsThere": {
+        "title": "Revisar la información",
+        "text": "Las cosas cambian con el tiempo. ¿Buceaste ahí hace poco? Confirma lo que sigue correcto, o reporta lo que cambió: el acceso, los costos, el camino, una cueva que cerró.",
+        "action": "Buscar cuevas para revisar"
+      },
+      "checkFacts": {
+        "title": "Confirmar las posiciones",
+        "text": "Las posiciones de algunas cuevas aún no están confirmadas. ¿Estuviste ahí? Confírmalas o corrígelas con tu GPS en el lugar.",
+        "action": "Encontrarlas"
+      },
+      "passages": {
+        "title": "Revisar las galerías trazadas",
+        "text": "Las galerías inundadas del mapa se trazan a partir de topografías. ¿Conoces una cueva? Dinos dónde salta una línea o falta una galería.",
+        "action": "Enviar un reporte"
+      },
+      "coordinates": {
+        "title": "Poner entradas de cuevas en el mapa",
+        "text": "Algunas entradas de cuevas que usan los buzos aún no tienen coordenadas: un icono de mapa tachado las señala en las listas. ¿Estuviste allí? Añádelas.",
+        "action": "Encontrarlas"
+      },
+      "media": {
+        "title": "Agregar fotos",
+        "text": "Agrega tus fotos desde la página de una cueva.",
+        "action": "Encontrarlas"
+      },
+      "videos": {
+        "title": "Agregar videos",
+        "text": "Agrega enlaces a los videos de una cueva en YouTube, Vimeo o Facebook, desde su página.",
+        "action": "Encontrarlas"
+      },
+      "texts": {
+        "title": "Escribir las descripciones",
+        "text": "Describe una cueva con tus propias palabras, e indica de dónde vienen.",
+        "action": "Encontrarlas"
+      },
+      "directions": {
+        "title": "Decir cómo llegar",
+        "text": "El camino, el desvío, la caminata hasta el agua: describe cómo llegar a una cueva con tus propias palabras.",
+        "action": "Encontrarlas"
+      },
+      "attach": {
+        "title": "Vincular las cuevas a su sistema",
+        "text": "Algunas cuevas aún no están vinculadas a su sistema. ¿Sabes a cuál pertenecen? Indícalo en el formulario de la cueva.",
+        "action": "Encontrarlas"
+      }
+    },
+    "goodToKnow": {
+      "title": "Bueno saber",
+      "public": {
+        "title": "Todo lo que añades es público",
+        "text": "Fotos, mapas, vídeos e información de las cuevas se muestran a todos. No compartas el teléfono de nadie, ni nada que no quieras hacer público."
+      },
+      "mistakes": {
+        "title": "Los errores se corrigen",
+        "text": "Cada cambio queda registrado, y un administrador puede deshacerlo."
+      },
+      "admins": {
+        "title": "Algunas cosas son para administradores",
+        "text": "Borrar cuevas, sistemas, fotos o mapas, y editar las listas de accesos, accesibilidades, idiomas y colores."
+      },
+      "feedback": {
+        "title": "Cuéntanos qué falla",
+        "text": "Algo roto, engañoso o que falta: cada mensaje llega al equipo de OpenCaves, que responde por correo.",
+        "action": "Enviar comentarios"
+      },
+      "safety": {
+        "title": "OpenCaves no sirve para planificar una inmersión",
+        "text": "El buceo en cuevas puede matar. Fórmate, bucea dentro de tus límites y verifica siempre las condiciones en el lugar."
+      }
+    }
+  },
   "home": {
     "title": "Datos abiertos para el buceo en cuevas",
-    "headTitle": "Open Caves: datos abiertos para el buceo en cuevas",
+    "headTitle": "Datos abiertos para el buceo en cuevas",
     "logoAlt": "Open Caves",
-    "description": "OpenCaves (Open Caves): cuevas y sistemas de cuevas para buzos de cuevas de todo el mundo - ubicaciones, acceso, topografías, conexiones e historia de exploración, abiertos y hechos por buzos. Empezando por los cenotes de Yucatán.",
+    "description": "Encuentra cuevas y cenotes para bucear: ubicación, acceso, topografías y conexiones entre sistemas. Datos abiertos hechos por buzos, empezando por Yucatán.",
     "hero": {
       "title": "Datos abiertos para el buceo en cuevas",
       "lead": "OpenCaves reúne lo que los buzos de cuevas quieren saber sobre las cuevas y los sistemas de cuevas del mundo: dónde están, cómo entrar, cómo se conectan, qué muestran las topografías. Abierto, y hecho por buzos. Empieza con los cenotes de Yucatán.",
@@ -1944,12 +2048,14 @@
       "more": "Llegarán más regiones a medida que los buzos las añadan."
     },
     "contribute": {
+      "whatCanIDo": "¿Qué puedo hacer?",
       "title": "Hecho por buzos",
       "text": "OpenCaves son datos abiertos: cualquiera puede consultarlos, y los buzos los mantienen al día. Regístrate para añadir cuevas, fotos, videos y valoraciones, y seguir las nuevas cuevas y sistemas. La aplicación misma es de código abierto.",
       "signup": "Regístrate para contribuir",
       "github": "OpenCaves en GitHub"
     },
     "footer": {
+      "whatCanIDo": "¿Qué puedo hacer?",
       "about": "Acerca de"
     },
     "warningsLabel": "Antes de bucear",
@@ -1962,17 +2068,6 @@
       "none": "Ninguna cueva, sistema o zona coincide.",
       "hint": "Escribe un nombre"
     }
-  },
-  "welcome": {
-    "title": "¡Bienvenido a {{name}}!",
-    "intro": "Prepara tu visor: {{name}} es un mapa de las cuevas inundadas de Yucatán y más allá - sus cenotes, sistemas, mapas topográficos y fotos, hecho por y para buzos de cuevas.",
-    "invite": "¿Buceaste en un lugar que nos falta? ¿Viste una profundidad desactualizada, una entrada equivocada o un mapa que no tenemos? Crea una cuenta gratuita y ayúdanos a mantener los datos completos y al día - las notas de cada buzo cuentan.",
-    "beta": "<strong>Estamos en beta.</strong> Tus cambios todavía no son permanentes: todos los datos pueden reemplazarse en cualquier momento. Así que es el momento perfecto para probar las herramientas de edición - adelante, explora, ¡no puedes romper nada para siempre! Crea una cuenta y te avisaremos cuando termine la beta.",
-    "later": "Explorar primero",
-    "signup": "Crear una cuenta",
-    "inviteMember": "¡Gracias por ser parte del equipo! ¿Buceaste en un lugar que nos falta? ¿Viste una profundidad desactualizada, una entrada equivocada o un mapa que no tenemos? Ayúdanos a mantener los datos completos y al día - las notas de cada buzo cuentan.",
-    "betaMember": "<strong>Estamos en beta.</strong> Tus cambios todavía no son permanentes: todos los datos pueden reemplazarse en cualquier momento. Así que es el momento perfecto para probar las herramientas de edición - adelante, explora, ¡no puedes romper nada para siempre! Te avisaremos cuando termine la beta.",
-    "start": "¡A bucear!"
   },
   "authPrompt": {
     "close": "Cerrar",
@@ -1998,6 +2093,14 @@
     "default": {
       "title": "Se necesita una cuenta",
       "text": "Crea una cuenta gratuita, o inicia sesión, para hacer esto."
+    },
+    "confirm": {
+      "title": "Confirmar la información",
+      "text": "Crea una cuenta gratis para confirmar que la información de una cueva sigue siendo correcta."
+    },
+    "report": {
+      "title": "Reportar un cambio",
+      "text": "Crea una cuenta gratis para reportar un cambio en una cueva, para que el equipo de OpenCaves lo revise."
     }
   },
   "languagePicker": {
@@ -2023,5 +2126,314 @@
   "yesNoSwitch": {
     "no": "No",
     "yes": "Sí"
+  },
+  "tours": {
+    "menuEntry": "Hacer los recorridos",
+    "dialog": {
+      "title": "Recorridos guiados",
+      "text": "Elige un recorrido: unos pasos que te señalan lo que hay en la pantalla."
+    },
+    "list": {
+      "discover": {
+        "title": "Descubre OpenCaves",
+        "description": "El mapa, la ficha de una cueva y las páginas principales."
+      },
+      "install": {
+        "title": "Instalar la aplicación",
+        "description": "Agrega OpenCaves a tu pantalla de inicio o a tu computadora."
+      },
+      "offline": {
+        "title": "Usarla sin conexión",
+        "description": "Guarda cuevas, fotos y topografías para el sitio de buceo."
+      },
+      "whatsNew": {
+        "title": "Novedades",
+        "description": "Los últimos cambios, y cómo filtrarlos."
+      }
+    },
+    "buttons": {
+      "next": "Siguiente",
+      "back": "Atrás",
+      "done": "Listo",
+      "close": "Cerrar el recorrido"
+    },
+    "progress": "{{current}} de {{total}}",
+    "steps": {
+      "discover": {
+        "search": {
+          "title": "Encuentra una cueva",
+          "text": "Escribe el nombre de una cueva, o uno de sus otros nombres, para encontrarla y abrirla en el mapa."
+        },
+        "pins": {
+          "title": "Las cuevas en el mapa",
+          "text": "Cada marcador es una cueva, del color de su sistema. Selecciona uno para abrir su ficha."
+        },
+        "filterButton": {
+          "title": "El botón de filtros",
+          "text": "El botón de filtros de la barra de búsqueda abre los filtros, para elegir qué cuevas muestra el mapa."
+        },
+        "filters": {
+          "title": "Filtros",
+          "text": "Elige qué cuevas muestra el mapa: por zona, tipo de cueva, acceso y accesibilidad. Las cuevas cuya ubicación aún no está confirmada están ocultas: activa Mostrar coordenadas sin confirmar para verlas también."
+        },
+        "caveLayer": {
+          "title": "Capas del mapa",
+          "text": "Muestra las galerías trazadas a partir de las topografías: de todos los sistemas o solo el de la cueva abierta, del color de cada sistema o de uno solo.",
+          "showMe": "Muéstrame"
+        },
+        "quickActions": {
+          "title": "Cómo llegar, Guardar, Compartir",
+          "text": "Obtén indicaciones hasta la cueva o su estacionamiento, guárdala en tu cuenta (queda entonces en este dispositivo para usarla sin conexión) o comparte su enlace."
+        },
+        "media": {
+          "title": "Fotos, videos y topografías",
+          "text": "Mira las fotos y videos de la cueva y las topografías de su sistema, y abre una en pantalla completa. Con tu cuenta, puedes agregar las tuyas."
+        },
+        "account": {
+          "member": {
+            "title": "Tu cuenta",
+            "text": "El menú de tu cuenta: tu perfil y tus cuevas guardadas, tus ajustes, las descargas sin conexión y estos recorridos."
+          },
+          "visitor": {
+            "title": "Participa",
+            "text": "Inicia sesión o crea una cuenta gratuita para guardar cuevas, calificarlas y agregar fotos, topografías y correcciones."
+          }
+        },
+        "whatsNew": {
+          "title": "Mantente al día",
+          "text": "Novedades lista cada cueva, sistema, topografía, foto y video añadidos, modificados o retirados, los más nuevos primero.\n\nVuelve para ver lo último: está en el menú, Novedades.",
+          "tip": "Abre el menú, arriba a la izquierda, y luego Novedades."
+        },
+        "install": {
+          "chromium": {
+            "title": "Instalar la aplicación",
+            "text": "Instala OpenCaves: su propio icono, a mano en el sitio de buceo incluso sin conexión, y siempre al día (se actualiza sola).\n\nPara instalarla, haz clic en el icono de instalación de la barra de direcciones y luego en Instalar.",
+            "tip": "Ahí arriba: al final de la barra de direcciones, un icono de pantalla con una flecha hacia abajo.",
+            "imageAlt": "La barra de direcciones de Chrome: su icono de instalación, en un círculo"
+          },
+          "edge": {
+            "title": "Instalar la aplicación",
+            "text": "Instala OpenCaves: su propio icono, a mano en el sitio de buceo incluso sin conexión, y siempre al día (se actualiza sola).\n\nPara instalarla, haz clic en el icono Aplicación disponible de la barra de direcciones y luego en Instalar.",
+            "tip": "Ahí arriba: al final de la barra de direcciones, un icono de cuadrados con un más.",
+            "imageAlt": "La barra de direcciones de Edge: su icono Aplicación disponible, en un círculo"
+          },
+          "android": {
+            "title": "Instalar la aplicación",
+            "text": "Instala OpenCaves: su propio icono, a mano en el sitio de buceo incluso sin conexión, y siempre al día (se actualiza sola).\n\nPara instalarla, abre el menú de Chrome, busca Instalar aplicación o Añadir a pantalla de inicio y confirma.",
+            "tip": "Ahí arriba: el menú de Chrome son los tres puntos [[dots]], arriba a la derecha.",
+            "imageAlt": "El menú de Chrome: Añadir a pantalla de inicio, en un círculo"
+          },
+          "firefoxAndroid": {
+            "title": "Instalar la aplicación",
+            "text": "Instala OpenCaves: su propio icono, a mano en el sitio de buceo incluso sin conexión, y siempre al día (se actualiza sola).\n\nPara instalarla, abre el menú de Firefox, busca Añadir aplicación a la pantalla de inicio o Instalar, y confirma.",
+            "tip": "El menú de Firefox son los tres puntos [[dots]]: arriba a la derecha, o abajo si tu barra de direcciones está ahí."
+          },
+          "ios": {
+            "title": "Instalar la aplicación",
+            "text": "Instala OpenCaves: su propio icono, a mano en el sitio de buceo incluso sin conexión, y siempre al día (se actualiza sola).\n\nPara instalarla, toca Compartir en Safari (si no lo ves, abre primero el menú [[safariMenu]]), luego Añadir a pantalla de inicio y luego Añadir.",
+            "tip": "Ahí abajo: Compartir es el cuadrado con una flecha, en la barra de Safari (arriba en un iPad)."
+          },
+          "safari": {
+            "title": "Instalar la aplicación",
+            "text": "Instala OpenCaves: su propio icono, a mano en el sitio de buceo incluso sin conexión, y siempre al día (se actualiza sola).\n\nPara instalarla, busca Añadir al Dock en el menú Archivo (o en Compartir) y confirma.",
+            "tip": "Ahí arriba: el menú Archivo, en la barra de menús en la parte superior de la pantalla."
+          },
+          "firefox": {
+            "title": "Instalar la aplicación",
+            "text": "Firefox en un ordenador no puede instalar aplicaciones web, salvo sus versiones recientes en Windows (un icono en la barra de direcciones). Para instalar OpenCaves, que luego se mantiene al día sola, ábrela en Chrome o Edge."
+          },
+          "other": {
+            "title": "Instalar la aplicación",
+            "text": "Este navegador no puede instalar aplicaciones web. Para instalar OpenCaves, que luego se mantiene al día sola, ábrela en Chrome o Edge (en un ordenador o Android) o en Safari (en iPhone, iPad o Mac)."
+          }
+        },
+        "offline": {
+          "title": "Disponible sin conexión",
+          "text": "En el menú, activa Hacer disponible sin conexión para descargar la foto de vista previa de cada cueva, cada mapa topográfico y las galerías, por wifi: sin necesidad de señal en el sitio de buceo."
+        },
+        "feedback": {
+          "title": "Comentarios",
+          "text": "¿Un error, algo engañoso o una idea? Cuéntanoslo desde cualquier página con esta pestaña."
+        },
+        "end": {
+          "title": "¡Listo!",
+          "text": "Haz otro recorrido cuando quieras desde el menú: Hacer los recorridos. ¡Buenas inmersiones!"
+        }
+      },
+      "install": {
+        "installed": {
+          "title": "Ya instalada",
+          "text": "Estás usando la aplicación OpenCaves instalada: se abre desde su propio ícono y funciona sin conexión con lo que guardaste."
+        },
+        "why": {
+          "title": "Instala OpenCaves",
+          "text": "Instalada, OpenCaves tiene su propio ícono en tu pantalla de inicio o tu computadora, se abre en su propia ventana y está lista en el sitio de buceo, incluso sin conexión."
+        },
+        "how": {
+          "chromium": {
+            "title": "Cómo instalarla",
+            "text": "Haz clic en el icono de instalación al final de la barra de direcciones (una pantalla con una flecha hacia abajo) y luego en Instalar. ¿No ves el icono? Busca Instalar en el menú de Chrome (los tres puntos [[dots]])."
+          },
+          "android": {
+            "title": "Cómo instalarla",
+            "text": "En Chrome, abre el menú (los tres puntos [[dots]]), busca Instalar aplicación o Agregar a la pantalla principal, y confirma."
+          },
+          "ios": {
+            "title": "Cómo instalarla",
+            "text": "En Safari, toca Compartir (el cuadrado con una flecha; si no lo ves, abre primero el menú [[safariMenu]]), luego Agregar a inicio y luego Agregar."
+          },
+          "safari": {
+            "title": "Cómo instalarla",
+            "text": "En Safari, busca Agregar al Dock en el menú Archivo (o en Compartir) y confirma."
+          },
+          "other": {
+            "title": "Cómo instalarla",
+            "text": "Este navegador no puede instalar aplicaciones web. Para instalar OpenCaves, ábrela en Chrome o Edge (en computadora o Android), o en Safari (en iPhone, iPad o Mac)."
+          },
+          "firefoxAndroid": {
+            "title": "Cómo instalarla",
+            "text": "En Firefox, abre el menú (los tres puntos [[dots]]), busca Añadir aplicación a la pantalla de inicio o Instalar, y confirma."
+          },
+          "firefox": {
+            "title": "Cómo instalarla",
+            "text": "Firefox en un ordenador no puede instalar aplicaciones web, salvo sus versiones recientes en Windows (un icono en la barra de direcciones). Para instalar OpenCaves, ábrela en Chrome o Edge."
+          },
+          "edge": {
+            "title": "Cómo instalarla",
+            "text": "Haz clic en el icono Aplicación disponible al final de la barra de direcciones (cuadrados con un más) y luego en Instalar. ¿No ves el icono? Busca Instalar en el menú de Edge (los tres puntos [[dots]]), en Aplicaciones."
+          }
+        },
+        "updates": {
+          "title": "Actualizaciones",
+          "text": "La aplicación se mantiene al día: busca una nueva versión de vez en cuando y, cuando hay una lista, un mensaje te ofrece actualizar."
+        }
+      },
+      "offline": {
+        "intro": {
+          "title": "Usarla sin conexión",
+          "text": "¿Sin señal en el sitio de buceo? OpenCaves sigue funcionando: las fichas de las cuevas se quedan en tu dispositivo, con las fotos y topografías que ya viste. Así puedes guardar más."
+        },
+        "previews": {
+          "title": "Hacer disponible sin conexión",
+          "text": "En el menú: actívalo para descargar la foto de vista previa de cada cueva, todas las topografías y las galerías, con Wi-Fi."
+        },
+        "save": {
+          "member": {
+            "title": "Guarda una cueva",
+            "text": "Guardar una cueva la deja completa en este dispositivo: sus fotos, las topografías de su sistema y las galerías de alrededor, descargadas con Wi-Fi."
+          },
+          "visitor": {
+            "title": "Guarda una cueva",
+            "text": "Con una cuenta gratuita, guardar una cueva la deja completa en este dispositivo: sus fotos, las topografías de su sistema y las galerías de alrededor."
+          }
+        },
+        "savedCaves": {
+          "title": "Tus cuevas guardadas",
+          "text": "La página de tu cuenta lista las cuevas que guardaste, y si cada una está lista sin conexión."
+        },
+        "storage": {
+          "title": "Almacenamiento sin conexión",
+          "text": "Lo que OpenCaves guarda en este dispositivo. Borra las fotos y topografías descargadas cuando necesites espacio: tus cuevas guardadas siguen guardadas."
+        },
+        "whileOffline": {
+          "title": "Sin conexión",
+          "text": "El mapa, las fichas de las cuevas y lo que guardaste funcionan como siempre, y un mensaje te avisa cuando estás sin conexión. Los cambios, fotos y topografías que agregues esperan en el dispositivo y se sincronizan al volver la conexión."
+        }
+      },
+      "whatsNew": {
+        "page": {
+          "title": "Novedades",
+          "text": "Las cuevas, sistemas, conexiones, topografías, fotos y videos añadidos, modificados o retirados recientemente, los más nuevos primero."
+        },
+        "kinds": {
+          "title": "Qué cambió",
+          "text": "Muestra solo algunos contenidos: elige uno o varios, y Todo los vuelve a mostrar todos. Cada uno cuenta sus cambios."
+        },
+        "changes": {
+          "title": "Cómo cambió",
+          "text": "Añadidos, modificados o retirados. Tus filtros quedan en la dirección de la página: puedes guardar esta vista en favoritos o compartirla."
+        },
+        "entry": {
+          "title": "Una entrada",
+          "text": "Qué cambió, y quién lo hizo. Ábrela para ir a la cueva, al sistema o a la topografía."
+        }
+      }
+    },
+    "prompt": {
+      "title": "Bienvenido a {{name}}",
+      "text": "¿Eres nuevo? Haz un breve recorrido guiado para ver lo que puedes hacer en OpenCaves.",
+      "hint": "Puedes empezar un recorrido cuando quieras desde el menú: Hacer los recorridos.",
+      "notNow": "Ahora no",
+      "start": "Hacer el recorrido"
+    }
+  },
+  "reorder": {
+    "cover": "Portada",
+    "instructions": "Para cambiar el orden, arrastra este elemento a su nuevo lugar o pulsa Ctrl+Mayús (Cmd+Mayús en Mac) y una flecha.",
+    "pickedUp": "Elemento {{position}} de {{count}} tomado.",
+    "movedTo": "Movido a la posición {{position}} de {{count}}.",
+    "notOver": "El elemento no está sobre un lugar posible.",
+    "dropped": "Soltado en la posición {{position}} de {{count}}.",
+    "cancelled": "Reordenación cancelada. El elemento volvió a la posición {{position}} de {{count}}.",
+    "saved": "Orden guardado",
+    "savedCover": "Orden guardado. Esta foto es ahora la imagen de portada.",
+    "saveError": "No se pudo guardar el nuevo orden. Inténtalo de nuevo."
+  },
+  "caveReview": {
+    "sections": {
+      "access": "Acceso",
+      "directions": "Cómo llegar",
+      "fees": "Costos e instalaciones",
+      "description": "Descripción"
+    },
+    "confirmed": "{{section}} · confirmación: {{date}}",
+    "stale": "{{section}} · última confirmación en {{year}}",
+    "never": "{{section}} · sin confirmar aún",
+    "stillAccurate": "Sigue correcto",
+    "stillAccurateQuestion": "¿Sigue correcto?",
+    "stillAccurateLabel": "{{section}}: sigue siendo correcto",
+    "saved": "¡Gracias! Confirmación guardada: {{section}}, {{name}}.",
+    "saveError": "No se pudo guardar la confirmación. Inténtalo de nuevo.",
+    "report": {
+      "button": "Reportar un cambio",
+      "menuLabel": "¿Qué cambió?",
+      "kinds": {
+        "closed": "Cerrada",
+        "private": "Ahora privada",
+        "fees": "Costos cambiados",
+        "road": "Camino cambiado",
+        "other": "Otra cosa…"
+      },
+      "kindText": {
+        "closed": "Ya no se puede visitar",
+        "private": "Solo sus dueños o sus invitados pueden ir",
+        "fees": "El precio o lo que incluye cambió",
+        "road": "El camino o la entrada cambió",
+        "other": "Otra cosa que ya no es correcta aquí"
+      },
+      "dialogTitle": "Reporte: {{kind}}",
+      "warningNote": "Un aviso aparece en esta cueva en cuanto lo envías, hasta que el equipo de OpenCaves lo revise.",
+      "teamNote": "El equipo de OpenCaves recibe tu reporte, lo revisa y actualiza la cueva.",
+      "noteLabel": "Nota (opcional)",
+      "notePlaceholder": "Lo que viste, y cuándo",
+      "cancel": "Cancelar",
+      "send": "Enviar",
+      "close": "Cerrar",
+      "sent": "¡Gracias! Tu reporte se envió al equipo de OpenCaves.",
+      "error": "No se pudo enviar tu reporte. Inténtalo de nuevo.",
+      "itemName": "Tu reporte",
+      "message": {
+        "closed": "{{name}} está cerrada.",
+        "private": "{{name}} ahora es privada.",
+        "fees": "{{name}}: los costos cambiaron.",
+        "road": "{{name}}: el camino cambió."
+      }
+    },
+    "warning": {
+      "closed": "Reportada cerrada el {{date}}, en revisión",
+      "private": "Reportada como privada el {{date}}, en revisión"
+    },
+    "undone": "Confirmación anulada: {{section}}, {{name}}.",
+    "undoError": "No se pudo anular la confirmación. Inténtalo de nuevo."
   }
 }

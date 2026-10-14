@@ -5,6 +5,7 @@
 // tags (src/utils/headTags.js), so the two must stay in step.
 import { brotliCompressSync, constants as zlib, gzipSync } from 'node:zlib'
 import { APP_TITLE, SITE_URL } from '../constants.js'
+import { escapeHtml } from '../html.js'
 
 // The hosts whose app shell may serve as the page: the site and this
 // project's Hosting domains (preview channels: opencaves--<channel>-<hash>).
@@ -83,7 +84,7 @@ export function sendHtml(req, res, html, status = 200) {
   return res.send(compress(html, encoding))
 }
 
-export const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])
+export { escapeHtml }
 
 /**
  * The app's Markdown as plain text (as src/utils/seo.js's markdownToPlainText),
@@ -206,13 +207,14 @@ const scriptJson = (value) => JSON.stringify(value).replace(/[<\u2028\u2029]/g, 
  *
  * @param {string} shell
  * @param {object} page
- * @param {{html: string, styles: string, ssr: object}} rendered
+ * @param {{html: string, styles: string, ssr: object, preloads?: string}} rendered - preloads: its
+ *   own resource hints (a cave's cover photo: src/entry-server.jsx's coverPreload), first.
  * @param {string} links
  * @returns {string}
  */
-export function renderSsrPage(shell, page, { html, styles, ssr }, links) {
+export function renderSsrPage(shell, page, { html, styles, ssr, preloads = '' }, links) {
   const { head } = pageHead(page, { withStructuredData: true })
-  return withHead(shell, `${head}\n  ${links}\n  ${styles}`)
+  return withHead(shell, `${head}\n  ${preloads}\n  ${links}\n  ${styles}`)
     .replace(/<html([^>]*)>/i, (_, attributes) => `<html${attributes} data-oc-ssr>`)
     .replace('<div id="root"></div>', () => `<div id="root">${html}</div>\n  <script>window.__OC_SSR__ = ${scriptJson(ssr)}</script>`)
 }

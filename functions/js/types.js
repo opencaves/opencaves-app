@@ -23,6 +23,10 @@
  * @property {string} [direction] - Markdown: getting there.
  * @property {{latitude: number, longitude: number}} [location]
  * @property {string} [sistemaId]
+ * @property {string[]} [photoOrder] - Its photos' order after the cover (cavesAssets ids; assets/photoOrder.js).
+ * @property {string[]} [videos] - Video URLs, in the order shown.
+ * @property {Record<string, string>} [reviewed] - The month ('YYYY-MM') each section (access, directions, fees,
+ *   description) was last confirmed still accurate, by editors from the app.
  */
 
 /**
@@ -41,7 +45,7 @@
  * @property {'bug'|'misleading'|'idea'} kind
  * @property {string} message
  * @property {string} page - The page it's about.
- * @property {string} [browser] - Older reports only, until scripts/move-feedback-private.js moves it to {@link FeedbackPrivate}.
+ * @property {string} [browser] - Older reports only, where a one-time script (2026-10-10) didn't move it to {@link FeedbackPrivate}.
  * @property {string} [language] - The app language it was sent in.
  * @property {string} userId - Its author.
  * @property {string} [authorName] - Its author's display name (onFeedbackCreated), shown to the members; none without one.
@@ -51,11 +55,22 @@
  * @property {string} [statusUpdatedBy] - An admin's uid, or the author's when their answer by email reopened it.
  * @property {string} [statusReplyId] - The team reply that set its stage.
  * @property {string} [note] - The admins' former note (shown as the thread's first reply).
- * @property {string} [replyToken] - Older reports only (now in {@link FeedbackPrivate}), until scripts/move-feedback-private.js moves it.
+ * @property {string} [replyToken] - Older reports only (now in {@link FeedbackPrivate}), where a one-time script (2026-10-10) didn't move it.
  * @property {boolean} [authorMuted] - The author turned the feedback emails off.
  * @property {Timestamp} [reporterEmailedAt]
  * @property {number} [messageCount]
  * @property {Timestamp} [lastMessageAt]
+ * @property {string} [caveId] - A cave's quick report: the cave.
+ * @property {'closed'|'private'|'fees'|'road'} [caveReport] - A cave's quick report: what changed; closed and
+ *   private show a warning on the cave ({@link CaveReports}).
+ */
+
+/**
+ * A cave's open "closed" and "now private" reports (`_caveReports/{caveId}`),
+ * public, kept by onCaveReportChanged.
+ *
+ * @typedef {object} CaveReports
+ * @property {{kind: string, at: Timestamp|null, feedbackId: string}[]} reports - Oldest first.
  */
 
 /**
@@ -119,4 +134,15 @@
  * @property {Array<object|string>} [media] - Photos ({ id, thumbnailRevision, viewThumbnailRevision }) or video URLs: the first few.
  * @property {string|null} at - ISO date of the change (a group's latest).
  * @property {string|null} authorName - Its author's display name.
+ */
+
+/**
+ * How popular the records of a kind are (`_popularity/caves`,
+ * `_popularity/sistemas`; refreshPopularity): public, by record id.
+ *
+ * @typedef {object} Popularity
+ * @property {Record<string, number>} views - Its pages' views in Google Analytics, the last 90 days (a
+ *   cave: /caves/<id> and /map/<id>; a system: /sistemas/<id>).
+ * @property {Record<string, number>} [saves] - Caves: how many accounts saved it.
+ * @property {Timestamp} updatedAt
  */

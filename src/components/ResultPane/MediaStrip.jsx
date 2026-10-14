@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { Box } from '@mui/material'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
-import { centerFocused, leaveOnArrow, scrollStrip, snapOnSettle } from '@/utils/mediaStrip.js'
+import { centerFocused, leaveOnArrow, reducedMotion, scrollStrip, snapOnSettle } from '@/utils/mediaStrip.js'
 import { SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
+import { useHydrated } from '@/hooks/useHydrated.js'
 
 // The strip wrapped around a vertical cylinder, its axis at the middle of
 // the strip's visible area: the items bend away on its surface, out of sight
@@ -22,8 +23,13 @@ const CYLINDER = {
   flat: 0.4,
   radius: 100,
 }
-// The flat strip for reduced motion.
-const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+// A tile's controls (a menu's button, `.oc-media-strip--live`): drawn in its
+// copies, curved with it, the real ones (hidden) taking the pointer - their
+// state shown on the copies: the tile hovered (`data-oc-hover` on each
+// copy), a menu open (`aria-expanded`).
+const LIVE = '.oc-media-strip--live'
+// The flat strip for reduced motion. Browser only: effects and handlers
+// call it; rendering goes through useHydrated (the server has no window).
 // A wheel notch's scroll (px; Chrome's is 100, times the display's scaling):
 // what moves the cylinder a column.
 const WHEEL_NOTCH = 100
@@ -32,6 +38,26 @@ const WHEEL_NOTCH = 100
 // showing - the band through a thin line every slice. Two cover it (the next
 // slice draws over the same picture).
 const SLICE_OVERLAP = 2
+// How long thumbnails must stop loading before the strip is built again
+// with them, in ms (lazy ones arrive one by one: one build, not one each).
+const LOADS_SETTLE_MS = 150
+// A strip starting at its start: its first item this far in from the
+// viewing area's edge (px).
+const START_MARGIN = 8
+// The space around the cylinder's band, above and below it (px): the
+// strip's ground (surface container high) between the band's curved edges
+// and what's around the strip, kept along the curve (bandShape).
+const BAND_MARGIN = 8
+// The longest a build waits for its slices' images to be decoded before it
+// shows them anyway (ms); and the longest the strip stays hidden at first,
+// built or not (CSS, so without JavaScript too).
+const DECODE_WAIT_MS = 1500
+// Decoded (or failed, or too slow): its slices paint at once once shown.
+const decoded = (url) => {
+  const image = new Image()
+  image.src = url
+  return image.decode().catch(() => {})
+}
 
 // The strip's columns' scroll positions, in order: where each snap guide (the
 // cylinder's, at a column's flat place) is in the middle of the view. The
@@ -59,7 +85,9 @@ function snapPoints(view) {
  * On the cylinder, an item is drawn as slices: an `.oc-media-strip--picture`
  * from its `<img>` (as object-fit: cover), an `.oc-media-strip--tile` from
  * copies of itself (its overlays curved with it; `.oc-media-strip--see-through`
- * when its background is, so its slices don't overlap). Every item carries
+ * when its background is, so its slices don't overlap; its controls marked
+ * `.oc-media-strip--live`, a menu's button, show their hover and open state
+ * on the copies: `[data-oc-hover]` on the copy, `[aria-expanded]`). Every item carries
  * `.oc-media-strip--item` (snapping, keyboard).
  *
  * @param {object} props - Also its root's (a Box's).
@@ -94,14 +122,21 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
   const stageRef = useRef(null)
   const trackRef = useRef(null)
   const cylinderOn = () => cylinder && !reducedMotion()
+  // While rendering: the server's (and hydration's) cylinder, motion allowed,
+  // then the browser's setting.
+  const hydrated = useHydrated()
+  const renderCylinder = cylinder && !(hydrated && reducedMotion())
   const rowHeight = typeof height === 'number' ? `${height}px` : height
   // Above and below the strip: room for the zoomed cylinder - the items'
   // own height's (a CSS length when they're sized by CSS: smaller on a
   // phone), not the largest's.
   // A filling strip (a page's): the gap between its items above and below
   // too, so the zoomed front isn't flush with its band.
-  const zoomShare = cylinderOn() ? (zoom - 1) / 2 : 0
-  const margin = fill ? gap : 0
+  const zoomShare = renderCylinder ? (zoom - 1) / 2 : 0
+  // Its band's margin above and below (BAND_MARGIN), with a filling strip's
+  // gap.
+  const bandMargin = renderCylinder ? BAND_MARGIN : 0
+  const margin = (fill ? gap : 0) + bandMargin
   const zoomRoom = `calc(${rowHeight} * ${zoomShare} + ${margin}px)`
   const zoomRoomMax = Math.ceil(itemHeight * zoomShare) + margin
 
@@ -197,28 +232,97 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       return { x, y }
     }
 
-    let slices = []
-    let images = []
-    let tiles = []
+    // What the shown build made: its slices, the items it hides (the tiles
+    // and pictures it slices), the tiles with controls and their copies.
+    const state = { slices: [], images: [], tiles: [], copiesOf: new Map() }
+    // A tile's hover, on its copies.
+    const hoverOf = (on) => (event) => {
+      const tile = event.target.closest?.('.oc-media-strip--tile')
+      if (!tile || !state.copiesOf.has(tile) || tile.contains(event.relatedTarget)) return
+      for (const copy of state.copiesOf.get(tile)) copy.toggleAttribute('data-oc-hover', on)
+    }
+    const hoverOn = hoverOf(true)
+    const hoverOff = hoverOf(false)
+    row.addEventListener('pointerover', hoverOn)
+    row.addEventListener('pointerout', hoverOff)
+    // A control's menu open, on its copies.
+    const liveState = new MutationObserver((records) => {
+      for (const { target } of records) {
+        const element = /** @type {HTMLElement} */ (target)
+        const tile = element.matches(LIVE) && element.closest('.oc-media-strip--tile')
+        if (!tile || !state.copiesOf.has(tile)) continue
+        const index = [...tile.querySelectorAll(LIVE)].indexOf(element)
+        const expanded = element.getAttribute('aria-expanded')
+        for (const copy of state.copiesOf.get(tile)) {
+          const twin = copy.querySelectorAll(LIVE)[index]
+          if (expanded == null) twin?.removeAttribute('aria-expanded')
+          else twin?.setAttribute('aria-expanded', expanded)
+        }
+      }
+    })
+    liveState.observe(row, { subtree: true, attributes: true, attributeFilter: ['aria-expanded'] })
+    // Each column's flat place in the row and its width, measured by build
+    // (offsets ignore transforms, and scrolling doesn't move them): layout
+    // reads these, not the columns, every frame.
+    let columnPlaces = []
+    // An element's place in the row and its size, read at once (build reads
+    // everything before writing anything: a read after a write makes the
+    // browser lay the page out again, once per item).
+    function measure(element) {
+      return { ...rowOffset(element), w: element.offsetWidth, h: element.offsetHeight }
+    }
+    // The latest build: an older one still decoding gives way to it.
+    let builds = 0
+    // The strip's first build shown: it was hidden until then (the root's
+    // data-oc-building), never seen flat, then half built.
+    const root = stage.parentElement
+    // The slices made again: off the page, their images decoded, then put in
+    // place of the old ones at once, placed in the same step - the strip never
+    // blank, nor its items flat, between two builds.
     function build() {
-      layer.replaceChildren()
-      stageTrack.replaceChildren()
-      slices = []
+      const build = ++builds
+      let slices = []
+      const tiles = /** @type {HTMLElement[]} */ ([...row.querySelectorAll('.oc-media-strip--tile')])
+      const copiesOf = new Map(tiles.filter((tile) => tile.querySelector(LIVE)).map((tile) => [tile, []]))
+      const loaded = (img) => Boolean(img.currentSrc && img.naturalWidth)
+
+      // --- Read: every place, size and style first.
+      columnPlaces = columnsOf().map((column) => measure(column))
+      const radiusOf = (box) => getComputedStyle(box).borderTopLeftRadius || '.5rem'
+      const tilePlans = tiles.map((tile) => {
+        const place = measure(tile)
+        const tileImages = [...tile.querySelectorAll('img')]
+        const picture = tileImages.find((img) => loaded(img) && img.offsetWidth >= place.w - 2 && img.offsetHeight >= place.h - 2)
+        return {
+          tile,
+          place,
+          tileImages,
+          picture,
+          radius: picture ? radiusOf(tile) : null,
+          seeThrough: tile.classList.contains('oc-media-strip--see-through'),
+          translucentCount: tile.querySelectorAll('.oc-media-strip--translucent').length,
+        }
+      })
+      const images = /** @type {HTMLImageElement[]} */ ([...row.querySelectorAll('.oc-media-strip--picture img')])
+      const picturePlans = images.filter(loaded).map((img) => {
+        const box = /** @type {HTMLElement} */ (img.closest('.oc-media-strip--picture'))
+        return { img, place: measure(box), radius: radiusOf(box) }
+      })
+
+      // --- Write: the new elements gathered off the page, added at once.
+      const guides = document.createDocumentFragment()
+      const track = document.createDocumentFragment()
       // CSS scroll snapping on each column's middle. Its snap points are the
       // targets' transformed boxes: the turned columns would shift them, so
       // they're invisible guides at each column's flat place instead.
-      for (const column of columnsOf()) {
+      for (const { x, w } of columnPlaces) {
         const guide = document.createElement('div')
-        Object.assign(guide.style, { position: 'absolute', left: `${rowOffset(column).x}px`, top: '0', width: `${column.offsetWidth}px`, height: '1px', scrollSnapAlign: 'center' })
-        layer.append(guide)
+        Object.assign(guide.style, { position: 'absolute', left: `${x}px`, top: '0', width: `${w}px`, height: '1px', scrollSnapAlign: 'center' })
+        guides.append(guide)
       }
-      // A picture as slices of its image (as object-fit: cover), filling
-      // `box` - its corners rounded as the box's.
-      function slicePicture(img, box) {
-        const { x, y } = rowOffset(box)
-        const w = box.offsetWidth
-        const h = box.offsetHeight
-        const radius = getComputedStyle(box).borderTopLeftRadius || '.5rem'
+      // A picture as slices of its image (as object-fit: cover), filling its
+      // box (`place`, measured) - its corners rounded as the box's.
+      function slicePicture(img, { x, y, w, h }, radius) {
         const scale = Math.max(w / img.naturalWidth, h / img.naturalHeight)
         const bw = img.naturalWidth * scale
         const bh = img.naturalHeight * scale
@@ -241,11 +345,10 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
             backfaceVisibility: 'hidden',
             borderRadius: count === 1 ? radius : i === 0 ? `${radius} 0 0 ${radius}` : i === count - 1 ? `0 ${radius} ${radius} 0` : '0',
           })
-          stageTrack.append(slice)
+          track.append(slice)
           slices.push({ slice, x: x + sx + sw / 2 })
         }
       }
-      const loaded = (img) => Boolean(img.currentSrc && img.naturalWidth)
 
       // A tile (a video, a map, "more photos", "add photos"): each slice a
       // copy of it, clipped to its strip - out of reach, the real one under it.
@@ -254,17 +357,9 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       // little differently each, thin lines between them; in the copies, over
       // it, that image hidden and the boxes holding it see-through, its
       // overlays (a play button, a caption) left.
-      tiles = /** @type {HTMLElement[]} */ ([...row.querySelectorAll('.oc-media-strip--tile')])
-      for (const tile of tiles) {
-        tile.style.opacity = ''
-        const { x, y } = rowOffset(tile)
-        const w = tile.offsetWidth
-        const h = tile.offsetHeight
-        const tileImages = [...tile.querySelectorAll('img')]
-        const picture = tileImages.find((img) => loaded(img) && img.offsetWidth >= w - 2 && img.offsetHeight >= h - 2)
-        if (picture) slicePicture(picture, tile)
-        const seeThrough = tile.classList.contains('oc-media-strip--see-through')
-        const translucentCount = tile.querySelectorAll('.oc-media-strip--translucent').length
+      for (const { tile, place, tileImages, picture, radius, seeThrough, translucentCount } of tilePlans) {
+        const { x, y, w, h } = place
+        if (picture) slicePicture(picture, place, radius)
         // Its copies, cut in slices: each clipped to its strip, its width
         // `widthOf(sx, sw)`, the copy readied by `prepare`.
         const sliceCopies = (widthOf, prepare) => {
@@ -277,9 +372,10 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
             // Not what the cylinder set on the real one, when it's a column
             // itself (turned, or hidden past a side).
             Object.assign(copy.style, { position: 'absolute', left: `${-sx}px`, top: '0', width: `${w}px`, height: `${h}px`, margin: '0', opacity: '', transform: 'none', visibility: 'visible', pointerEvents: 'none' })
+            copiesOf.get(tile)?.push(copy)
             prepare(copy)
             slice.append(copy)
-            stageTrack.append(slice)
+            track.append(slice)
             slices.push({ slice, x: x + sx + sw / 2 })
           }
         }
@@ -297,14 +393,44 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
             image.style.visibility = 'hidden'
             for (let e = image.parentElement; e; e = e === copy ? null : e.parentElement) e.style.background = 'transparent'
           }
-          // See-through overlays (a play button's circle) apart, slices
-          // meeting edge to edge - overlapping, they'd be drawn twice there,
-          // a darker line every slice; only their backgrounds, under the rest.
+          // See-through overlays (a play button's circle, a ⋮ button's dark
+          // background) apart, only their backgrounds, under the rest: each
+          // in one piece, as wide as it, turned as the cylinder is at its
+          // middle - over its few dozen pixels the curve is flat enough. In
+          // slices meeting edge to edge, the curve opened hairline gaps
+          // between them (white lines over a light map); overlapping, a
+          // darker line every slice.
           if (translucentCount) {
-            sliceCopies(exact, (copy) => {
+            const tileBox = tile.getBoundingClientRect()
+            const scaleX = tileBox.width ? tile.offsetWidth / tileBox.width : 1
+            ;[.../** @type {NodeListOf<HTMLElement>} */ (tile.querySelectorAll('.oc-media-strip--translucent'))].forEach((element, index) => {
+              // Its span across the tile, in whole pixels: its offsets in the
+              // tile (a transform doesn't change them), else its box (the
+              // tile's own, scaled back to the tile's width).
+              let left = 0
+              let parent = element
+              while (parent && parent !== tile) {
+                left += parent.offsetLeft
+                parent = /** @type {HTMLElement} */ (parent.offsetParent)
+              }
+              const box = element.getBoundingClientRect()
+              const from = parent === tile ? left : (box.left - tileBox.left) * scaleX
+              const to = parent === tile ? left + element.offsetWidth : (box.right - tileBox.left) * scaleX
+              const start = Math.max(0, Math.floor(from))
+              const end = Math.min(w, Math.ceil(to))
+              if (end <= start) return
+              const piece = document.createElement('div')
+              Object.assign(piece.style, { position: 'absolute', left: `${x + start}px`, top: `${y}px`, width: `${end - start}px`, height: `${h}px`, overflow: 'hidden', backfaceVisibility: 'hidden' })
+              const copy = /** @type {HTMLElement} */ (tile.cloneNode(true))
+              copy.inert = true
+              Object.assign(copy.style, { position: 'absolute', left: `${-start}px`, top: '0', width: `${w}px`, height: `${h}px`, margin: '0', opacity: '', transform: 'none', visibility: 'hidden', pointerEvents: 'none' })
               overPicture(copy)
-              copy.style.visibility = 'hidden'
-              for (const element of translucentOf(copy)) Object.assign(element.style, { visibility: 'visible', color: 'transparent' })
+              // This overlay's background only (the others have their own piece).
+              Object.assign(translucentOf(copy)[index].style, { visibility: 'visible', color: 'transparent' })
+              copiesOf.get(tile)?.push(copy)
+              piece.append(copy)
+              track.append(piece)
+              slices.push({ slice: piece, x: x + (start + end) / 2 })
             })
           }
           // The rest of its overlays (a play button's triangle, a caption),
@@ -318,14 +444,29 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
           // would show a darker seam.
           sliceCopies(seeThrough ? exact : overlapping, () => {})
         }
-        tile.style.opacity = '0'
       }
-      images = /** @type {HTMLImageElement[]} */ ([...row.querySelectorAll('.oc-media-strip--picture img')])
-      for (const img of images) {
-        if (!loaded(img)) continue
-        slicePicture(img, /** @type {HTMLElement} */ (img.closest('.oc-media-strip--picture')))
-        img.style.opacity = '0'
-      }
+      for (const { img, place, radius } of picturePlans) slicePicture(img, place, radius)
+      // The images the slices show (loaded on the page: in the cache).
+      const urls = new Set([...row.querySelectorAll('img')].filter(loaded).map((img) => img.currentSrc))
+      const ready = Promise.race([Promise.all([...urls].map(decoded)), new Promise((resolve) => setTimeout(resolve, DECODE_WAIT_MS))])
+      ready.then(() => {
+        if (build !== builds) return
+        // The old build's items shown again (gone, or no longer sliced), the
+        // new one's hidden: the slices draw them.
+        for (const tile of state.tiles) tile.style.opacity = ''
+        for (const img of state.images) img.style.opacity = ''
+        for (const { tile } of tilePlans) tile.style.opacity = '0'
+        for (const { img } of picturePlans) img.style.opacity = '0'
+        layer.replaceChildren(guides)
+        stageTrack.replaceChildren(track)
+        Object.assign(state, { slices, tiles, images, copiesOf })
+        // Placed now, before they're painted.
+        cancelAnimationFrame(frame)
+        layout()
+        // Shown once it draws something (a build before the items have
+        // rendered makes no slices).
+        if (slices.length) delete root.dataset.ocBuilding
+      })
     }
 
     // Where a point of the flat strip lands on the cylinder: its arc from the
@@ -364,14 +505,82 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
 
     // How far from the middle (px, on the screen) a point of the strip shows,
     // `distance` from the middle on the flat strip: bent on the sides, then
-    // enlarged by the perspective as `place` sets it.
+    // enlarged by the perspective as `place` sets it - by `scale` (its
+    // heights too: the front zoom times larger).
     function onScreen(distance, radius) {
       const flat = radius * flatShare
       const bend = bendFor(radius)
       const theta = Math.max(0, distance - flat) / bend
       const lateral = Math.min(distance, flat) + bend * Math.sin(theta)
       const depth = forward + bend * (Math.cos(theta) - 1)
-      return { theta, offset: (lateral * perspective) / (perspective - depth) }
+      const scale = perspective / (perspective - depth)
+      return { theta, offset: lateral * scale, scale }
+    }
+
+    // The band's outline (the root's ::before, --oc-strip-band-shape), and
+    // its frame's (::after, --oc-strip-frame-shape: its margin around it): its
+    // top and bottom edges following the cylinder's - the items' top and
+    // bottom as the perspective draws them, smaller toward the sides - at
+    // the same distance from them as in front. Its place is the viewing
+    // area's: worked out on each build (a resize), not on scrolling.
+    function bandShape() {
+      const band = getComputedStyle(root, '::before')
+      const bandHeight = parseFloat(band.height)
+      if (!bandHeight) return
+      const bandTop = parseFloat(band.top) || 0
+      const rootRect = root.getBoundingClientRect()
+      const viewRect = view.getBoundingClientRect()
+      const rowRect = row.getBoundingClientRect()
+      const width = rootRect.width
+      const cx = viewRect.left + view.clientLeft + view.clientWidth / 2 - rootRect.left
+      const cy = rowRect.top + rowRect.height / 2 - rootRect.top - bandTop
+      const half = row.offsetHeight / 2
+      const radius = view.clientWidth / 2
+      const front = onScreen(0, radius).scale
+      const above = cy - half * front
+      const below = bandHeight - (cy + half * front)
+      // The edges, from the middle out, while the cylinder still widens.
+      const reach = Math.max(cx, width - cx)
+      const steps = []
+      const furthest = radius * flatShare + (bendFor(radius) * Math.PI) / 2
+      for (let i = 0; i <= 64; i++) {
+        const point = onScreen((furthest * i) / 64, radius)
+        if (steps.length && point.offset <= steps.at(-1).offset) break
+        steps.push(point)
+        if (point.offset >= reach) break
+      }
+      const top = ({ scale }) => above + half * (front - scale)
+      const bottom = ({ scale }) => bandHeight - below - half * (front - scale)
+      const at = (x, y) => `${Math.min(width, Math.max(0, x)).toFixed(1)}px ${y.toFixed(1)}px`
+      const last = steps.at(-1)
+      const points = [
+        at(0, top(last)),
+        ...[...steps].reverse().map((step) => at(cx - step.offset, top(step))),
+        ...steps.map((step) => at(cx + step.offset, top(step))),
+        at(width, top(last)),
+        at(width, bottom(last)),
+        ...[...steps].reverse().map((step) => at(cx + step.offset, bottom(step))),
+        ...steps.map((step) => at(cx - step.offset, bottom(step))),
+        at(0, bottom(last)),
+      ]
+      root.style.setProperty('--oc-strip-band-shape', `polygon(${points.join(', ')})`)
+      // The frame (::after, from the strip's top): the band's outline
+      // widened by its margin (bandTop) above and below.
+      const frameHeight = bandHeight + 2 * bandTop
+      const frameTop = (step) => bandTop + top(step) - bandTop
+      const frameBottom = (step) => bandTop + bottom(step) + bandTop
+      const atFrame = (x, y) => `${Math.min(width, Math.max(0, x)).toFixed(1)}px ${Math.min(frameHeight, Math.max(0, y)).toFixed(1)}px`
+      const framePoints = [
+        atFrame(0, frameTop(last)),
+        ...[...steps].reverse().map((step) => atFrame(cx - step.offset, frameTop(step))),
+        ...steps.map((step) => atFrame(cx + step.offset, frameTop(step))),
+        atFrame(width, frameTop(last)),
+        atFrame(width, frameBottom(last)),
+        ...[...steps].reverse().map((step) => atFrame(cx + step.offset, frameBottom(step))),
+        ...steps.map((step) => atFrame(cx - step.offset, frameBottom(step))),
+        atFrame(0, frameBottom(last)),
+      ]
+      root.style.setProperty('--oc-strip-frame-shape', `polygon(${framePoints.join(', ')})`)
     }
     // The distance from the middle on the flat strip that shows `target` px
     // from it on the screen - or, past what the sides reach (turned at most
@@ -410,8 +619,10 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
         // positions).
         if (holdStart) {
           const half = view.clientWidth / 2
-          // 8px in from the edge: the projection's rounding never clips its corner.
-          const startLeft = padding + roomBefore - half + Math.max(startEdgeDistance(half - padding - 8, half), columns[0].offsetWidth / 2)
+          // 8px in from the viewing area's edge (its band's), whatever the
+          // padding: a margin the projection's rounding never clips a corner
+          // across.
+          const startLeft = padding + roomBefore - half + Math.max(startEdgeDistance(half - START_MARGIN, half), columns[0].offsetWidth / 2)
           view.scrollLeft = rtl ? -startLeft : startLeft
         }
         // The row's flat plane is in front of the turned items: it lets the
@@ -425,6 +636,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
         const areaRect = view.getBoundingClientRect()
         Object.assign(stage.style, { left: `${areaRect.left - rootRect.left}px`, top: `${areaRect.top - rootRect.top}px`, width: `${view.clientWidth}px`, height: `${view.clientHeight}px` })
         Object.assign(stageTrack.style, { width: `${row.offsetWidth}px`, height: `${row.offsetHeight}px` })
+        bandShape()
         stale = false
       }
       const viewRect = view.getBoundingClientRect()
@@ -455,33 +667,52 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       stageTrack.style.transform = `translate(${rowRect.left - stageRect.left}px, ${rowRect.top - stageRect.top}px)`
       stageTrack.style.perspective = `${perspective}px`
       stageTrack.style.perspectiveOrigin = `${center}px 50%`
-      for (const { slice, x } of slices) {
+      for (const { slice, x } of state.slices) {
         const { theta, transform } = place(x, center, radius)
         // Past the cylinder's sides: out of sight.
         const hidden = Math.abs(theta) > Math.PI / 2
         slice.style.visibility = hidden ? 'hidden' : ''
         if (!hidden) slice.style.transform = transform
       }
-      // The real items, turned as their column's middle.
-      for (const column of columns) {
-        const { x } = rowOffset(column)
-        const { theta, transform } = place(x + column.offsetWidth / 2, center, radius)
+      // The real items, turned as their column's middle (its place measured
+      // by build: reading it here, after the writes above, would lay the
+      // page out again for every column, every frame).
+      if (columnPlaces.length !== columns.length) return rebuild()
+      columns.forEach((column, index) => {
+        const { x, w } = columnPlaces[index]
+        const { theta, transform } = place(x + w / 2, center, radius)
         column.style.visibility = Math.abs(theta) > Math.PI / 2 ? 'hidden' : ''
         column.style.transform = transform
-      }
+      })
     }
+    // Built and bent only near the screen (within a screen's height of it):
+    // a strip further down the page stays flat until the reader comes near -
+    // its build (thousands of slices for a strip of maps) would only slow the
+    // page's loading. Set by `nearness`.
+    let near = false
     function schedule() {
-      frame ??= requestAnimationFrame(layout)
+      if (near) frame ??= requestAnimationFrame(layout)
     }
     function rebuild() {
       stale = true
       schedule()
     }
     // A thumbnail loaded (they're lazy): its slices can be made - not the
-    // slices' own copies loading theirs, or it would never end.
+    // slices' own copies loading theirs, or it would never end. Once they
+    // stop arriving (LOADS_SETTLE_MS), not once each.
+    let loadTimer
     function onLoad(event) {
-      if (!layer.contains(event.target)) rebuild()
+      if (layer.contains(event.target)) return
+      clearTimeout(loadTimer)
+      loadTimer = setTimeout(rebuild, LOADS_SETTLE_MS)
     }
+    const nearness = new IntersectionObserver(
+      ([entry]) => {
+        near = entry.isIntersecting
+        if (near) schedule()
+      },
+      { rootMargin: '100% 0px' },
+    )
 
     // Snapping (mandatory) would take a start-aligned strip back to the
     // middle of a column: it waits for the reader's first move, the start
@@ -592,7 +823,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       view.style.scrollSnapType = ''
       window.addEventListener('pointerup', trackLetGo, true)
     }
-    layout()
+    nearness.observe(view)
     track?.addEventListener('pointerdown', trackPressed)
     if (holdStart) {
       atOnce.forEach((type) => frameElement.addEventListener(type, release, { capture: true, passive: true }))
@@ -605,6 +836,8 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
     observer.observe(row)
     return () => {
       cancelAnimationFrame(frame)
+      clearTimeout(loadTimer)
+      nearness.disconnect()
       stopGlideWait()
       stopWaiting()
       clearTimeout(settleTimer)
@@ -617,21 +850,38 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       observer.disconnect()
       layer.replaceChildren()
       stageTrack.replaceChildren()
-      for (const img of images) img.style.opacity = ''
-      for (const tile of tiles) tile.style.opacity = ''
+      builds++
+      for (const img of state.images) img.style.opacity = ''
+      for (const tile of state.tiles) tile.style.opacity = ''
+      row.removeEventListener('pointerover', hoverOn)
+      row.removeEventListener('pointerout', hoverOff)
+      liveState.disconnect()
       for (const column of columnsOf()) {
         column.style.transform = ''
         column.style.visibility = ''
         column.style.pointerEvents = ''
       }
       Object.assign(row.style, { marginInlineStart: '', marginInlineEnd: '', pointerEvents: '' })
+      root.style.removeProperty('--oc-strip-band-shape')
+      root.style.removeProperty('--oc-strip-frame-shape')
     }
   }, [rebuildKey, start, cylinder, sideRadius, flatShare, zoom, perspective, sliceWidth, fill])
 
   return (
     <Box
       className={`oc-media-strip ${className || ''}`.trim()}
+      // Hidden until its cylinder is first built (its effect): never seen
+      // flat, then half built.
+      data-oc-building={renderCylinder ? '' : undefined}
       sx={[(theme) => ({
+        // Its own stacking context: the frame (::after, z-index -1) under
+        // the band (::before) and the items.
+        isolation: 'isolate',
+        // Its content (not its band) hidden while it's first built, then
+        // faded in; shown after DECODE_WAIT_MS whatever happens.
+        '& > *': { transition: theme.transitions.create('opacity', { duration: theme.sys.motion.duration.standard, easing: theme.sys.motion.easing.standard }) },
+        '&[data-oc-building] > *': { opacity: 0, animation: `oc-media-strip-shown 0s ${DECODE_WAIT_MS}ms forwards` },
+        '@keyframes oc-media-strip-shown': { to: { opacity: 1 } },
         // A band of its own tone behind the cylinder, as tall as the items in
         // front (zoomed on the cylinder) - lighter than the pane in dark mode,
         // a faint tint in light mode.
@@ -640,13 +890,35 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
           position: 'absolute',
           left: 0,
           right: 0,
-          top: 0,
+          // In from the strip's top and bottom by its margin (the page's
+          // colour there).
+          top: bandMargin,
           // Filling (a page's strip): the whole strip, its scrollbar's room
           // too - no other colour around or between its items.
-          ...(fill ? { bottom: 0 } : { height: `calc(${rowHeight} + 2 * ${zoomRoom})` }),
+          ...(fill ? { bottom: bandMargin } : { height: `calc(${rowHeight} + 2 * ${zoomRoom} - ${2 * bandMargin}px)` }),
           bgcolor: theme.vars.sys.color.surfaceContainer,
           ...theme.applyStyles('dark', { bgcolor: theme.vars.sys.color.surfaceContainerHighest }),
+          // Its top and bottom curved with the cylinder (the effect's
+          // bandShape); straight while flat.
+          clipPath: 'var(--oc-strip-band-shape, none)',
         },
+        // Around the band, its margin (BAND_MARGIN) in the pane's own ground
+        // tone (M3's surface container high), curved as the band, the same
+        // below as above: as tall as the band and its margins (not over the
+        // scrollbar's room under a pane's strip). Only on the cylinder.
+        ...(renderCylinder && {
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            zIndex: -1,
+            left: 0,
+            right: 0,
+            top: 0,
+            height: `calc(${rowHeight} + 2 * ${zoomRoom})`,
+            bgcolor: theme.vars.sys.color.surfaceContainerHigh,
+            clipPath: 'var(--oc-strip-frame-shape, none)',
+          },
+        }),
       }), { position: 'relative', // What follows overlaps the scrollbar's room - not on a filling strip, whose band covers it.
         marginBottom: fill ? 0 : 'calc(var(--oc-pane-padding-block) * -1)', height: fill ? `calc(${rowHeight} + 2 * ${zoomRoom})` : `calc(var(--oc-pane-padding-block) + ${rowHeight} + 2 * ${zoomRoom})` }, ...(Array.isArray(sx) ? sx : [sx])]}
       {...props}

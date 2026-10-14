@@ -421,7 +421,8 @@
       "showUnconfirmedCoordinates": "Show unconfirmed coordinates"
     },
     "areas": {
-      "heading": "Areas"
+      "heading": "Areas",
+      "unknown": "Unknown area"
     },
     "access": {
       "heading": "Access",
@@ -461,7 +462,8 @@
           "label": "Unknown",
           "description": "The access is unknown."
         }
-      ]
+      ],
+      "chip": "Access: {{label}}"
     },
     "accessibility": {
       "heading": "Accessibility",
@@ -501,14 +503,34 @@
           "label": "Variable access",
           "description": "Access to this area varies depending on time or entry point."
         }
-      ]
+      ],
+      "chip": "Accessibility: {{label}}"
     },
     "cenoteType": {
       "heading": "Cave type",
       "showCenoteEntrances": "Show cenote entrances",
-      "showOtherCenotes": "Show other caves"
+      "showOtherCenotes": "Show other caves",
+      "entrance": "Cenote entrances",
+      "other": "Other caves"
     },
-    "closeBtn": "Close the filters"
+    "closeBtn": "Close the filters",
+    "needsHelp": {
+      "heading": "Needs help",
+      "items": {
+        "coordinates": "No coordinates",
+        "position": "Position not confirmed",
+        "name": "No name",
+        "photo": "No photo",
+        "video": "No video",
+        "description": "No description",
+        "directions": "No directions",
+        "fees": "Fees unknown",
+        "facilities": "Facilities unknown",
+        "system": "No system",
+        "review": "Not confirmed recently"
+      },
+      "hint": "Shows only the caves missing all the items switched on."
+    }
   },
   "resultPane": {
     "title": "{{name}}",
@@ -635,6 +657,9 @@
       "feesHint": "Whether visiting this cave requires paying an entrance fee",
       "facilities": "Facilities",
       "facilitiesHint": "Whether facilities such as restrooms or changing areas are available on site",
+      "choiceUnknown": "Unknown",
+      "choiceYes": "Yes",
+      "choiceNo": "No",
       "accessDetails": "Access details",
       "accessibilityDetails": "Accessibility details",
       "description": "Description",
@@ -649,6 +674,7 @@
       "save": "Save",
       "cancel": "Cancel",
       "newCave": "New cave",
+      "editCave": "Edit cave",
       "caveTitle": "{{name}}",
       "backToCaves": "Back to caves",
       "backToCave": "Back to the cave's page",
@@ -747,7 +773,17 @@
       "deleteConfirmTitle": "Delete this photo?",
       "deleteConfirm": "The photo goes to the trash: an admin can restore it from Audits > Trash.",
       "deleteCancel": "Cancel",
-      "isCoverImage": "This is the cover photo"
+      "isCoverImage": "This is the cover photo",
+      "share": "Share",
+      "download": "Download",
+      "report": {
+        "photo": "Report this photo",
+        "map": "Report this map",
+        "video": "Report this video"
+      },
+      "linkCopied": "Link copied.",
+      "shareFail": "Couldn't share the link.",
+      "downloadFail": "Couldn't download the file."
     },
     "mediaThumbnailItem": {
       "openBtn": {
@@ -858,7 +894,8 @@
     "explorationDescription": "Description",
     "explorationNotes": "Notes",
     "newSistema": "New sistema",
-    "sistemaTitle": "Sistema {{name}}",
+    "editSistema": "Edit cave system",
+    "sistemaTitle": "{{name}} system",
     "backToSistemas": "Back to cave systems",
     "backToSistema": "Back to the system's page",
     "name": "Name",
@@ -1075,7 +1112,7 @@
         "openScan": "Open the original map"
       },
       "panelTitle": "Map layers",
-      "show": "Show the passages"
+      "show": "Show underwater passages"
     },
     "controls": {
       "locationNotAvailable": "Location not available",
@@ -1180,10 +1217,11 @@
     "manageMapLayers": "Map layers",
     "manageFeedback": "Feedback",
     "followFeedback": "Ideas and fixes",
-    "followFeedbackText": "What testers have reported, and what's coming",
+    "followFeedbackText": "What members have reported, and what's coming",
     "newFeedback_one": "{{count}} new",
     "newFeedback_other": "{{count}} new",
     "manageAudits": "Audits",
+    "manageErrorReports": "Error reports",
     "backToCaveIndex": "Back to the caves",
     "backToSistemaIndex": "Back to the cave systems",
     "mapsToProcess_one": "{{count}} to process",
@@ -1266,10 +1304,10 @@
     }
   },
   "legal": {
-    "updated": "Last updated: October 2, 2026",
+    "updated": "Last updated: October 14, 2026",
     "privacy": {
       "title": "Privacy policy",
-      "body": "OpenCaves is a free, community-built map of the cenotes and caves of the Yucatán Peninsula. This policy explains what personal information OpenCaves collects, why, who it is shared with, and the choices and rights you have.\n\n## Who is responsible\n\nOpenCaves is operated by Christian Rémillard, in Québec, Canada, who is also the person in charge of the protection of personal information under Québec law. For any question or request about your personal information, write to [privacy@opencaves.org](mailto:privacy@opencaves.org).\n\n## What we collect\n\n**When you just browse.** You don't need an account to use the map. To make some features work, the app signs you in with an *anonymous session*: a random identifier with no name or email attached.\n\n**When you create an account.** We store your email address and the name you choose. If you sign in with Google or Microsoft, we also receive the name and photo of that profile. Passwords are handled by our authentication provider (Firebase Authentication); we never see them.\n\n**What you save or rate.** Cenotes you save are stored in your account and are private to you. When you rate a cenote, your rating is stored with your account identifier (not your name or email) and is used to compute the cenote's public average.\n\n**What you contribute.** Photos, maps, videos and cave information you add are public: they are shown to everyone using OpenCaves. Uploaded files are linked to your account identifier and keep their original file name. The original photo is kept as uploaded, including any embedded data such as the location where it was taken (EXIF), and photos can show faces: please only share what you're comfortable making public.\n\n**Your location.** When you use \"Find my location\" or \"My location\", your device's position is used on your device only, to center the map or fill in a coordinate. We don't store it or send it to our servers. It only becomes part of a cave's data if you save it in a coordinate field yourself.\n\n**Technical information.** Like any website, the services that deliver OpenCaves (see below) receive technical information such as your IP address, browser type and the map area you view. We don't use advertising, and we don't use analytics or tracking cookies.\n\n## How we use it\n\nWe use your information only to run OpenCaves: to sign you in, keep your saved cenotes and ratings, show and attribute contributions, protect the service against abuse, and answer your requests. We don't sell your personal information, and we don't use it for advertising or profiling.\n\n## Who we share it with\n\nOpenCaves relies on these service providers, who process information on our behalf or when you use their features:\n\n- **Google Firebase and Google Cloud** (hosting, accounts, database, file storage, server functions).\n- **Google and Microsoft**, only if you choose to sign in with them: they confirm who you are to OpenCaves.\n- **Mapbox** (map images). Mapbox receives your IP address and the map area you view.\n- **Google Maps Platform** (turning a cave's coordinates into a street address).\n- **YouTube and Vimeo**, only when a video is embedded on a cenote and you play it. YouTube videos use its privacy-enhanced mode.\n\nSome of these providers store or process information outside Québec and Canada, notably in the United States, where it is subject to local law. We use providers that offer protections consistent with Québec and Canadian privacy law.\n\n## Information stored on your device\n\nTo work quickly and offline, OpenCaves stores data in your browser: your preferences, a copy of the cave data, and pictures and maps it downloads for offline use. This data stays on your device. You can clear the downloaded pictures and maps from your account page (\"Offline use\"), or all of it through your browser's settings.\n\n## How long we keep it\n\nWe keep your account information for as long as you have an account. When your account is deleted, your saved cenotes and ratings are deleted with it. Contributions you made public (photos, maps, cave information) stay part of the open cave data unless you ask us to remove them. Technical logs kept by our providers are deleted on their own schedules.\n\n## Your rights\n\nYou can ask to access the personal information we hold about you, correct it, or delete it. You can also withdraw your consent, ask us to stop using it, or receive a copy in a common format. You can change your name on your account page. For anything else, write to [privacy@opencaves.org](mailto:privacy@opencaves.org). We'll answer within 30 days. If you're not satisfied with our answer, you can complain to the *Commission d'accès à l'information du Québec*.\n\n## Children\n\nOpenCaves is not intended for children. Accounts are for people 14 and older. Younger children need a parent's or guardian's consent to create an account.\n\n## Security\n\nWe use the security measures built into our providers (encrypted connections, access rules that let each person write only their own data, restricted administrator access). No online service is perfectly secure, so we'll tell you, and the Commission when required, of any incident that could seriously harm you.\n\n## Changes\n\nIf we change this policy, we'll update the date above. For important changes, we'll let account holders know in advance.\n\n## Contact\n\n[privacy@opencaves.org](mailto:privacy@opencaves.org)"
+      "body": "OpenCaves is a free, community-built map of the cenotes and caves of the Yucatán Peninsula. This policy explains what personal information OpenCaves collects, why, who it is shared with, and the choices and rights you have.\n\n## Who is responsible\n\nOpenCaves is operated by Christian Rémillard, in Québec, Canada, who is also the person in charge of the protection of personal information under Québec law. For any question or request about your personal information, write to [privacy@opencaves.org](mailto:privacy@opencaves.org).\n\n## What we collect\n\n**When you just browse.** You don't need an account to use the map. To make some features work, the app signs you in with an *anonymous session*: a random identifier with no name or email attached.\n\n**When you create an account.** We store your email address and the name you choose. If you sign in with Google or Microsoft, we also receive the name and photo of that profile. Passwords are handled by our authentication provider (Firebase Authentication); we never see them.\n\n**What you save or rate.** Cenotes you save are stored in your account and are private to you. When you rate a cenote, your rating is stored with your account identifier (not your name or email) and is used to compute the cenote's public average.\n\n**What you contribute.** Photos, maps, videos and cave information you add are public: they are shown to everyone using OpenCaves. Uploaded files are linked to your account identifier and keep their original file name. The original photo is kept as uploaded, including any embedded data such as the location where it was taken (EXIF), and photos can show faces: please only share what you're comfortable making public.\n\n**Your location.** When you use \"Find my location\" or \"My location\", your device's position is used on your device only, to center the map or fill in a coordinate. We don't store it or send it to our servers. It only becomes part of a cave's data if you save it in a coordinate field yourself.\n\n**Technical information.** Like any website, the services that deliver OpenCaves (see below) receive technical information such as your IP address, browser type and the map area you view. We don't use advertising.\n\n**Usage statistics.** We use Google Analytics to see how OpenCaves is used: the pages you visit and what you do there (for example the words you search for, the caves you save, share or rate, and the filters you use), your browser and device type, and your approximate location (country or city). It doesn't receive your name or email address. Google Analytics stores a cookie in your browser to recognize your next visits. You can turn these statistics off (see \"Information stored on your device\").\n\n## How we use it\n\nWe use your information only to run OpenCaves: to sign you in, keep your saved cenotes and ratings, show and attribute contributions, protect the service against abuse, and answer your requests. Usage statistics help us improve OpenCaves and show the most visited caves first in search suggestions. We don't sell your personal information, and we don't use it for advertising or profiling.\n\n## Who we share it with\n\nOpenCaves relies on these service providers, who process information on our behalf or when you use their features:\n\n- **Google Firebase and Google Cloud** (hosting, accounts, database, file storage, server functions).\n- **Google and Microsoft**, only if you choose to sign in with them: they confirm who you are to OpenCaves.\n- **Google Analytics** (usage statistics, see above).\n- **Mapbox** (map images). Mapbox receives your IP address and the map area you view.\n- **Google Maps Platform** (turning a cave's coordinates into a street address).\n- **YouTube and Vimeo**, only when a video is embedded on a cenote and you play it. YouTube videos use its privacy-enhanced mode.\n\nSome of these providers store or process information outside Québec and Canada, notably in the United States, where it is subject to local law. We use providers that offer protections consistent with Québec and Canadian privacy law.\n\n## Information stored on your device\n\nTo work quickly and offline, OpenCaves stores data in your browser: your preferences, a copy of the cave data, and pictures and maps it downloads for offline use. This data stays on your device. You can clear the downloaded pictures and maps from your account page (\"Offline use\"), or all of it through your browser's settings.\n\nGoogle Analytics' cookie is also stored there. To turn usage statistics off in a browser, open https://opencaves.org/?no-analytics once (https://opencaves.org/?analytics turns them back on), or block Google Analytics with your browser's settings or an add-on.\n\n## How long we keep it\n\nWe keep your account information for as long as you have an account. When your account is deleted, your saved cenotes and ratings are deleted with it. Contributions you made public (photos, maps, cave information) stay part of the open cave data unless you ask us to remove them. Google Analytics keeps usage statistics for 14 months. Technical logs kept by our providers are deleted on their own schedules.\n\n## Your rights\n\nYou can ask to access the personal information we hold about you, correct it, or delete it. You can also withdraw your consent, ask us to stop using it, or receive a copy in a common format. You can change your name on your account page. For anything else, write to [privacy@opencaves.org](mailto:privacy@opencaves.org). We'll answer within 30 days. If you're not satisfied with our answer, you can complain to the *Commission d'accès à l'information du Québec*.\n\n## Children\n\nOpenCaves is not intended for children. Accounts are for people 14 and older. Younger children need a parent's or guardian's consent to create an account.\n\n## Security\n\nWe use the security measures built into our providers (encrypted connections, access rules that let each person write only their own data, restricted administrator access). No online service is perfectly secure, so we'll tell you, and the Commission when required, of any incident that could seriously harm you.\n\n## Changes\n\nIf we change this policy, we'll update the date above. For important changes, we'll let account holders know in advance.\n\n## Contact\n\n[privacy@opencaves.org](mailto:privacy@opencaves.org)"
     },
     "terms": {
       "title": "Terms of service",
@@ -1282,12 +1320,12 @@
     }
   },
   "seo": {
-    "defaultDescription": "OpenCaves is the reference for finding cenotes in the Yucatán, Mexico: new caves to dive, verified GPS coordinates, useful descriptions, pictures and maps.",
     "mapHeading": "OpenCaves: map of the cenotes of the Yucatán",
     "caveDescriptionPrefix": "{{name}} (Yucatán, Mexico):",
     "caveDescriptionFallback": "{{name}}, a cave in the Yucatán, Mexico: location, access, pictures and maps on OpenCaves.",
     "notFoundTitle": "Page not found",
-    "mapTitle": "Cenote map of the Yucatán"
+    "mapTitle": "Cenote map of the Yucatán",
+    "mapDescription": "Map of the Yucatán's caves and cenotes for cave divers: find a cave, how to get there and get in, its photos and survey maps, and the passages under the jungle."
   },
   "mapLayersAdmin": {
     "title": "Map layers",
@@ -1331,6 +1369,35 @@
       "unskip": "Back to process",
       "unskipOf": "Put {{name}} back to process"
     }
+  },
+  "errorReports": {
+    "title": "Error reports",
+    "intro": "The errors the \"Something went wrong\" page showed, grouped by error, the latest first. Each report is kept 90 days.",
+    "loading": "Loading the reports",
+    "failed": "The reports couldn't be loaded.",
+    "empty": "No error reported.",
+    "limited": "only the latest {{count}} reports",
+    "errors_one": "{{count}} error",
+    "errors_other": "{{count}} errors",
+    "reports_one": "{{count}} report",
+    "reports_other": "{{count}} reports",
+    "pages_one": "{{count}} page",
+    "pages_other": "{{count}} pages",
+    "accounts_one": "{{count}} account",
+    "accounts_other": "{{count}} accounts",
+    "signedOut": "signed out",
+    "lastSeen": "Last:",
+    "firstSeen": "First:",
+    "noMessage": "(no message)",
+    "status": "HTTP status {{status}}",
+    "occurrences": "Each time",
+    "delete": "Delete this error's reports",
+    "deleteTitle": "Delete this error's reports?",
+    "deleteText_one": "Its report will be deleted for good.",
+    "deleteText_other": "Its {{count}} reports will be deleted for good.",
+    "deleteFailed": "The reports couldn't be deleted.",
+    "cancel": "Cancel",
+    "deleteConfirm": "Delete"
   },
   "audits": {
     "title": "Audits",
@@ -1503,6 +1570,14 @@
     "sistemaCount_one": "{{count}} cave system",
     "sistemaCount_other": "{{count}} cave systems",
     "caves": {
+      "filters": {
+        "add": "Add filter",
+        "remove": "Remove the filter {{label}}",
+        "clearAll": "Clear filters",
+        "count_one": "{{count}} cave matches",
+        "count_other": "{{count}} caves match",
+        "photosFailed": "The caves' photos couldn't be read: the No photo filter is unavailable."
+      },
       "title": "Caves of the Yucatán by area",
       "description": "Every cenote of the Yucatán, Mexico, listed on OpenCaves by area, each with its location, access, pictures and maps.",
       "add": "Add a cave",
@@ -1552,9 +1627,14 @@
       "sistema": "Cave system",
       "location": "Location",
       "photos": "Photos",
-      "openPhoto": "Open photo {{n}}"
+      "openPhoto": "Open photo {{n}}",
+      "coverAlt": "Photo of {{name}}",
+      "photoAlt": "Photo {{n}} of {{name}}",
+      "noPhoto": "No photo of this cave yet",
+      "dropPhotos": "or drop them here"
     },
     "notOnMap": "Not on the map: no coordinates yet",
+    "mapAlt": "Map: {{name}}",
     "maps": "Survey maps",
     "searchNoResult": "No cave or system matches “{{query}}” - search all caves",
     "empty": {
@@ -1566,7 +1646,7 @@
   "appBarSearch": {
     "placeholder": "Search caves and systems",
     "open": "Search",
-    "close": "Close the search",
+    "clear": "Clear the search",
     "none": "No cave or system matches.",
     "hint": "Type a name",
     "groups": {
@@ -1662,89 +1742,11 @@
       "contentType": "file type",
       "videos": "videos",
       "maps": "survey maps",
-      "activities": "activities"
-    }
-  },
-  "betaTesting": {
-    "badge": "Beta",
-    "title": "What can I do?",
-    "lead": "OpenCaves is in beta, and you're one of its first divers. Use it the way you'd use it before and after a dive, and tell us what breaks, what confuses you, and what's missing.",
-    "sendFeedback": "Send feedback",
-    "signup": "Sign up to take part",
-    "report": {
-      "title": "Tell us",
-      "sub": "Every report reaches the OpenCaves team by email. You need an account to send one.",
-      "bug": {
-        "title": "Something broke",
-        "text": "A page that won't load, a button that does nothing, a change that wasn't saved, a photo or a map that won't open.",
-        "action": "Report a bug"
-      },
-      "misleading": {
-        "title": "Something is misleading",
-        "text": "A label you don't understand, a feature that doesn't do what it says, or data that looks wrong: a position, an access, a depth.",
-        "action": "Flag it"
-      },
-      "idea": {
-        "title": "Something is missing",
-        "text": "A feature that would help you plan a dive or share one, or something you expected to find and didn't.",
-        "action": "Suggest it"
-      }
-    },
-    "try": {
-      "title": "Try everything",
-      "sub": "Nothing you do in the beta can break anything for good, so poke around.",
-      "explore": {
-        "title": "Explore",
-        "text": "The map, the cave and system lists, the search, a cave page and its sections.",
-        "action": "Open the map"
-      },
-      "edit": {
-        "title": "Edit caves",
-        "text": "Add a cave, its coordinates, its access, its texts; correct what looks wrong.",
-        "action": "Go to the caves"
-      },
-      "media": {
-        "title": "Add photos, videos, maps",
-        "text": "From a cave's page: upload photos, link a video, add a survey map."
-      },
-      "systems": {
-        "title": "Edit cave systems",
-        "text": "Their length and depth, their exploration history, how they connect.",
-        "action": "Browse the systems"
-      },
-      "offline": {
-        "title": "Go offline",
-        "text": "Install the app, save some caves, then use it with no signal, as in the jungle."
-      },
-      "everywhere": {
-        "title": "Phone and computer",
-        "text": "Try it on your phone and on a computer, in light and dark mode."
-      },
-      "languages": {
-        "title": "Every language",
-        "text": "English, French and Spanish: tell us about a translation that sounds wrong."
-      }
-    },
-    "tips": {
-      "title": "How to report well",
-      "one": "One report per problem or idea.",
-      "steps": "Say what you did, what you expected, and what happened instead.",
-      "page": "The page you were on is filled in for you; change it if the problem is elsewhere.",
-      "device": "Your browser is added for you: say which device it is if it matters (for example, an Android phone)."
-    },
-    "goodToKnow": {
-      "reset": {
-        "title": "Beta data can be reset",
-        "text": "What you change now isn't permanent yet: the data can be replaced at any time before 1.0."
-      },
-      "public": {
-        "title": "Everything you add is public",
-        "text": "Don't share anyone's phone number, or anything you wouldn't want made public."
-      },
-      "safety": {
-        "title": "OpenCaves is not for dive planning",
-        "text": "Cave diving can kill. Get trained, dive within your limits, and always check conditions on site."
-      }
+      "activities": "activities",
+      "photoOrder": "photo order",
+      "mapOrder": "map order",
+      "videoOrder": "video order",
+      "reviewed": "confirmed still accurate"
     }
   },
   "feedback": {
@@ -1875,17 +1877,119 @@
     },
     "members": {
       "title": "Ideas and fixes",
-      "intro": "What testers have reported, and what the OpenCaves team is doing about it: follow what's coming.",
+      "intro": "What members have reported, and what the OpenCaves team is doing about it: follow what's coming.",
       "you": "You",
       "someone": "A member"
     },
     "messageTooShort": "At least {{count}} characters"
   },
+  "whatCanIDo": {
+    "title": "What can I do?",
+    "lead": "OpenCaves is made by the divers who use it. Explore the caves of the Yucatán, and help keep them right: every dive you share makes the map better for the next diver.",
+    "signup": "Sign up to contribute",
+    "openMap": "Open the map",
+    "explore": {
+      "title": "Explore",
+      "sub": "No account needed.",
+      "find": {
+        "title": "Find caves",
+        "text": "Explore the map, browse every cave and cave system by area, or search by name from the bar at the top.",
+        "action": "Open the map"
+      },
+      "read": {
+        "title": "Read before you go",
+        "text": "How to get there, the access (a key, a permission, a guide, a fee), photos, videos and survey maps.",
+        "action": "Browse the caves"
+      },
+      "directions": {
+        "title": "Get there",
+        "text": "Copy a cave's coordinates for your GPS, or get driving directions, from its Location card."
+      },
+      "whatsNew": {
+        "title": "See what's new",
+        "text": "The caves, systems, maps, photos and videos people have just added.",
+        "action": "What's new"
+      }
+    },
+    "contribute": {
+      "title": "Contribute",
+      "sub": "With a free account: sign up with your email, Google or Microsoft.",
+      "checkWhatsThere": {
+        "title": "Check what's there",
+        "text": "Things change over time. Dived there lately? Confirm what's still accurate, or report what changed: the access, the fees, the road, a cave that closed.",
+        "action": "Find caves to check"
+      },
+      "checkFacts": {
+        "title": "Confirm the positions",
+        "text": "Some caves' positions aren't confirmed yet. Been there? Confirm or correct them with your GPS on site.",
+        "action": "Find them"
+      },
+      "passages": {
+        "title": "Check the traced passages",
+        "text": "The underwater passages on the map are traced from survey maps. Know a cave? Tell us where a line jumps or a tunnel is missing.",
+        "action": "Send a report"
+      },
+      "coordinates": {
+        "title": "Put cave entrances on the map",
+        "text": "Some cave entrances divers use have no coordinates yet - a crossed-out map icon in the lists marks them. Been there? Add them.",
+        "action": "Find them"
+      },
+      "media": {
+        "title": "Add photos",
+        "text": "Add your photos from a cave's page.",
+        "action": "Find them"
+      },
+      "videos": {
+        "title": "Link videos",
+        "text": "Add links to a cave's videos on YouTube, Vimeo or Facebook, from its page.",
+        "action": "Find them"
+      },
+      "texts": {
+        "title": "Write descriptions",
+        "text": "Describe a cave in your own words, and say where the words come from.",
+        "action": "Find them"
+      },
+      "directions": {
+        "title": "Say how to get there",
+        "text": "The road, the turn-off, the walk to the water: describe the way to a cave in your own words.",
+        "action": "Find them"
+      },
+      "attach": {
+        "title": "Attach caves to their system",
+        "text": "Some caves aren't linked to their cave system yet. Know which one they belong to? Set it in the cave's edit form.",
+        "action": "Find them"
+      }
+    },
+    "goodToKnow": {
+      "title": "Good to know",
+      "public": {
+        "title": "Everything you add is public",
+        "text": "Photos, maps, videos and cave information are shown to everyone. Don't share anyone's phone number, or anything you wouldn't want public."
+      },
+      "mistakes": {
+        "title": "Mistakes are fine",
+        "text": "Every change is recorded, and an administrator can undo it."
+      },
+      "admins": {
+        "title": "Some things are for administrators",
+        "text": "Deleting caves, systems, photos or maps, and editing the lists of accesses, accessibilities, languages and colours."
+      },
+      "feedback": {
+        "title": "Tell us what's wrong",
+        "text": "Something broken, misleading or missing: every report reaches the OpenCaves team, who answer by email.",
+        "action": "Send feedback"
+      },
+      "safety": {
+        "title": "OpenCaves is not for dive planning",
+        "text": "Cave diving can kill. Get trained, dive within your limits, and always check conditions on site."
+      }
+    }
+  },
   "home": {
     "title": "Open data for cave diving",
-    "headTitle": "Open Caves: open data for cave diving",
+    "headTitle": "Open data for cave diving",
     "logoAlt": "Open Caves",
-    "description": "OpenCaves (Open Caves): caves and cave systems for cave divers around the world - locations, access, survey maps, connections and exploration history, open and built by divers. Starting with the cenotes of the Yucatán.",
+    "description": "Find caves and cenotes to dive: locations, access, survey maps and how cave systems connect. Open data built by cave divers, starting with the Yucatán.",
     "hero": {
       "title": "Open data for cave diving",
       "lead": "OpenCaves gathers what cave divers want to know about caves and cave systems around the world: where they are, how to get in, how they connect, what the surveys show. Open, and built by divers. It starts with the cenotes of the Yucatán.",
@@ -1944,12 +2048,14 @@
       "more": "More regions will come as divers add them."
     },
     "contribute": {
+      "whatCanIDo": "What can I do?",
       "title": "Built by divers",
       "text": "OpenCaves is open data: anyone can read it, and divers keep it up to date. Sign up to add caves, photos, videos and ratings, and get updates on new caves and systems. The app itself is open source.",
       "signup": "Sign up to contribute",
       "github": "OpenCaves on GitHub"
     },
     "footer": {
+      "whatCanIDo": "What can I do?",
       "about": "About"
     },
     "warningsLabel": "Before you dive",
@@ -1962,17 +2068,6 @@
       "none": "No cave, system or area matches.",
       "hint": "Type a name"
     }
-  },
-  "welcome": {
-    "title": "Welcome to {{name}}!",
-    "intro": "Grab your mask: {{name}} is a map of the underwater caves of the Yucatán and beyond - their cenotes, cave systems, survey maps and photos, made by and for cave divers.",
-    "invite": "Dived somewhere we're missing? Spotted an old depth, a wrong entrance or a map we don't have? Create a free account and help us keep the cave data complete and up to date - every diver's notes count.",
-    "beta": "<strong>We're in beta.</strong> Changes you make aren't permanent yet: all the data can be replaced at any moment. So this is the perfect time to explore the edit tools - go ahead, poke around, you can't break anything for good! Create an account and we'll let you know when the beta is over.",
-    "later": "Explore first",
-    "signup": "Create an account",
-    "inviteMember": "Thanks for being part of the crew! Dived somewhere we're missing? Spotted an old depth, a wrong entrance or a map we don't have? Help us keep the cave data complete and up to date - every diver's notes count.",
-    "betaMember": "<strong>We're in beta.</strong> Changes you make aren't permanent yet: all the data can be replaced at any moment. So this is the perfect time to explore the edit tools - go ahead, poke around, you can't break anything for good! We'll let you know when the beta is over.",
-    "start": "Let's dive in"
   },
   "authPrompt": {
     "close": "Close",
@@ -1998,6 +2093,14 @@
     "default": {
       "title": "An account is needed",
       "text": "Create a free account, or log in, to do this."
+    },
+    "confirm": {
+      "title": "Confirm what's there",
+      "text": "Create a free account to confirm a cave's information is still accurate."
+    },
+    "report": {
+      "title": "Report a change",
+      "text": "Create a free account to report a change on a cave, so the OpenCaves team can check it."
     }
   },
   "languagePicker": {
@@ -2023,5 +2126,314 @@
   "yesNoSwitch": {
     "no": "No",
     "yes": "Yes"
+  },
+  "tours": {
+    "menuEntry": "Take the tours",
+    "dialog": {
+      "title": "Take a tour",
+      "text": "Pick a tour: a few steps that point out what's on the screen."
+    },
+    "list": {
+      "discover": {
+        "title": "Discover OpenCaves",
+        "description": "The map, a cave's details and the app's main pages."
+      },
+      "install": {
+        "title": "Install the app",
+        "description": "Add OpenCaves to your home screen or your computer."
+      },
+      "offline": {
+        "title": "Use it offline",
+        "description": "Keep caves, photos and survey maps for the dive site."
+      },
+      "whatsNew": {
+        "title": "What's new",
+        "description": "The latest changes, and how to filter them."
+      }
+    },
+    "buttons": {
+      "next": "Next",
+      "back": "Back",
+      "done": "Done",
+      "close": "Close the tour"
+    },
+    "progress": "{{current}} of {{total}}",
+    "steps": {
+      "discover": {
+        "search": {
+          "title": "Find a cave",
+          "text": "Type a cave's name, or one of its other names, to find it and open it on the map."
+        },
+        "pins": {
+          "title": "The caves on the map",
+          "text": "Each pin is a cave, in the colour of its cave system. Select one to open its details."
+        },
+        "filterButton": {
+          "title": "The filter button",
+          "text": "The filter button on the search bar opens the filters, to choose which caves the map shows."
+        },
+        "filters": {
+          "title": "Filters",
+          "text": "Choose which caves the map shows: by area, cave type, access and accessibility. Caves whose location isn't confirmed yet are hidden: turn on Show unconfirmed coordinates to see them too."
+        },
+        "caveLayer": {
+          "title": "Map layers",
+          "text": "Show the cave passages traced from survey maps: for every system or only the open cave's, in each system's colour or in one.",
+          "showMe": "Show me"
+        },
+        "quickActions": {
+          "title": "Directions, Save, Share",
+          "text": "Get directions to the cave or its parking, save it to your account (it's then kept on this device for offline use), or share its link."
+        },
+        "media": {
+          "title": "Photos, videos and survey maps",
+          "text": "Browse the cave's photos, videos and its system's survey maps, and open one full screen. Signed in, you can add your own."
+        },
+        "account": {
+          "member": {
+            "title": "Your account",
+            "text": "Your account menu: your profile and saved caves, your settings, offline downloads, and these tours."
+          },
+          "visitor": {
+            "title": "Join in",
+            "text": "Log in or create a free account to save caves, rate them, and add photos, survey maps and corrections."
+          }
+        },
+        "whatsNew": {
+          "title": "Stay informed",
+          "text": "What's new lists every cave, cave system, survey map, photo and video added, changed or removed, newest first.\n\nCome back to see the latest: it's in the menu, What's new.",
+          "tip": "Open the menu, top left, then What's new."
+        },
+        "install": {
+          "chromium": {
+            "title": "Install the app",
+            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, click the install icon in the address bar, then Install.",
+            "tip": "Up there: at the right end of the address bar, an icon of a screen with a down arrow.",
+            "imageAlt": "Chrome's address bar: its install icon, circled"
+          },
+          "edge": {
+            "title": "Install the app",
+            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, click the App available icon in the address bar, then Install.",
+            "tip": "Up there: at the right end of the address bar, an icon of squares with a plus.",
+            "imageAlt": "Edge's address bar: its App available icon, circled"
+          },
+          "android": {
+            "title": "Install the app",
+            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, open Chrome's menu, look for Install app or Add to Home screen, then confirm.",
+            "tip": "Up there: Chrome's menu is the three dots [[dots]], at the top right.",
+            "imageAlt": "Chrome's menu: Add to Home screen, circled"
+          },
+          "firefoxAndroid": {
+            "title": "Install the app",
+            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, open Firefox's menu, look for Add app to Home screen or Install, then confirm.",
+            "tip": "Firefox's menu is the three dots [[dots]]: at the top right, or at the bottom if your address bar is there."
+          },
+          "ios": {
+            "title": "Install the app",
+            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, tap Share in Safari (if you don't see it, open the menu [[safariMenu]] first), then Add to Home Screen, then Add.",
+            "tip": "Down there: Share is the square with an arrow, in Safari's bar (at the top on an iPad)."
+          },
+          "safari": {
+            "title": "Install the app",
+            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, look for Add to Dock in the File menu (or under Share), then confirm.",
+            "tip": "Up there: the File menu, in the menu bar at the top of the screen."
+          },
+          "firefox": {
+            "title": "Install the app",
+            "text": "Firefox on a computer can't install web apps, apart from recent versions on Windows (an icon in the address bar). To install OpenCaves, which then stays up to date by itself, open it in Chrome or Edge."
+          },
+          "other": {
+            "title": "Install the app",
+            "text": "This browser can't install web apps. To install OpenCaves, which then stays up to date by itself, open it in Chrome or Edge (on a computer or Android), or in Safari (on an iPhone, iPad or Mac)."
+          }
+        },
+        "offline": {
+          "title": "Available offline",
+          "text": "In the menu, turn on Make available offline to download every cave's preview photo, every survey map and the cave passages, on Wi-Fi: no signal needed at the dive site."
+        },
+        "feedback": {
+          "title": "Feedback",
+          "text": "Found a bug, something misleading, or have an idea? Tell us from any page with this tab."
+        },
+        "end": {
+          "title": "You're all set",
+          "text": "Take another tour any time from the menu: Take the tours. Happy diving!"
+        }
+      },
+      "install": {
+        "installed": {
+          "title": "Already installed",
+          "text": "You're using the installed OpenCaves app: it opens from its own icon and keeps working offline with what you've kept."
+        },
+        "why": {
+          "title": "Install OpenCaves",
+          "text": "Installed, OpenCaves gets its own icon on your home screen or computer, opens in its own window, and is ready at the dive site, even without a connection."
+        },
+        "how": {
+          "chromium": {
+            "title": "How to install",
+            "text": "Click the install icon at the right end of the address bar (a screen with a down arrow), then Install. No icon? Look for Install in Chrome's menu (the three dots [[dots]])."
+          },
+          "android": {
+            "title": "How to install",
+            "text": "In Chrome, open the menu (the three dots [[dots]]), look for Install app or Add to Home screen, then confirm."
+          },
+          "ios": {
+            "title": "How to install",
+            "text": "In Safari, tap Share (the square with an arrow; if you don't see it, open the menu [[safariMenu]] first), then Add to Home Screen, then Add."
+          },
+          "safari": {
+            "title": "How to install",
+            "text": "In Safari, look for Add to Dock in the File menu (or under Share), then confirm."
+          },
+          "other": {
+            "title": "How to install",
+            "text": "This browser can't install web apps. To install OpenCaves, open it in Chrome or Edge (on a computer or Android), or in Safari (on an iPhone, iPad or Mac)."
+          },
+          "firefoxAndroid": {
+            "title": "How to install",
+            "text": "In Firefox, open the menu (the three dots [[dots]]), look for Add app to Home screen or Install, then confirm."
+          },
+          "firefox": {
+            "title": "How to install",
+            "text": "Firefox on a computer can't install web apps, apart from recent versions on Windows (an icon in the address bar). To install OpenCaves, open it in Chrome or Edge."
+          },
+          "edge": {
+            "title": "How to install",
+            "text": "Click the App available icon at the right end of the address bar (squares with a plus), then Install. No icon? Look for Install in Edge's menu (the three dots [[dots]]), under Apps."
+          }
+        },
+        "updates": {
+          "title": "Updates",
+          "text": "The app keeps itself up to date: it checks for a new version now and then, and when one is ready, a message offers to refresh."
+        }
+      },
+      "offline": {
+        "intro": {
+          "title": "Use it offline",
+          "text": "No signal at the dive site? OpenCaves keeps working: the caves' details stay on your device, with the photos and maps you've already viewed. Here's how to keep more."
+        },
+        "previews": {
+          "title": "Make available offline",
+          "text": "In the menu: turn this on to download every cave's preview photo, every survey map and the cave passages, on Wi-Fi."
+        },
+        "save": {
+          "member": {
+            "title": "Save a cave",
+            "text": "Saving a cave keeps all of it on this device: its photos, its system's survey maps and the passages around it, downloaded on Wi-Fi."
+          },
+          "visitor": {
+            "title": "Save a cave",
+            "text": "With a free account, saving a cave keeps all of it on this device: its photos, its system's survey maps and the passages around it."
+          }
+        },
+        "savedCaves": {
+          "title": "Your saved caves",
+          "text": "Your account page lists the caves you saved, and whether each one is ready offline."
+        },
+        "storage": {
+          "title": "Offline storage",
+          "text": "How much OpenCaves keeps on this device. Clear the downloaded photos and maps when you need the room: your saved caves stay saved."
+        },
+        "whileOffline": {
+          "title": "While offline",
+          "text": "The map, the caves' details and what you kept work as usual, and a message tells you when you're offline. Changes, photos and maps you add wait on the device and sync once you're back online."
+        }
+      },
+      "whatsNew": {
+        "page": {
+          "title": "What's new",
+          "text": "The caves, cave systems, connections, survey maps, photos and videos lately added, modified or removed, newest first."
+        },
+        "kinds": {
+          "title": "What changed",
+          "text": "Show only some kinds of content: pick one or several, and All shows them all again. Each counts its changes."
+        },
+        "changes": {
+          "title": "How it changed",
+          "text": "Added, modified or removed. Your filters stay in the page's address, so you can bookmark or share this view."
+        },
+        "entry": {
+          "title": "An entry",
+          "text": "What changed, and who did it. Open it to go to the cave, the cave system or the map."
+        }
+      }
+    },
+    "prompt": {
+      "title": "Welcome to {{name}}",
+      "text": "New here? Take a short guided tour to see what you can do on OpenCaves.",
+      "hint": "You can start a tour any time from the menu: Take the tours.",
+      "notNow": "Not now",
+      "start": "Take the tour"
+    }
+  },
+  "reorder": {
+    "cover": "Cover",
+    "instructions": "To reorder, drag this item to its new place, or press Ctrl+Shift (Cmd+Shift on a Mac) and an arrow key.",
+    "pickedUp": "Picked up item {{position}} of {{count}}.",
+    "movedTo": "Moved to position {{position}} of {{count}}.",
+    "notOver": "Not over a place the item can go.",
+    "dropped": "Dropped at position {{position}} of {{count}}.",
+    "cancelled": "Reordering cancelled. The item is back at position {{position}} of {{count}}.",
+    "saved": "Order saved",
+    "savedCover": "Order saved. This photo is now the cover image.",
+    "saveError": "Couldn't save the new order. Please try again."
+  },
+  "caveReview": {
+    "sections": {
+      "access": "Access",
+      "directions": "Getting there",
+      "fees": "Fees and facilities",
+      "description": "Description"
+    },
+    "confirmed": "{{section}}: confirmed {{date}}",
+    "stale": "{{section}}: last confirmed in {{year}}",
+    "never": "{{section}}: not confirmed yet",
+    "stillAccurate": "Still accurate",
+    "stillAccurateQuestion": "Still accurate?",
+    "stillAccurateLabel": "{{section}} is still accurate",
+    "saved": "Thank you! {{section}} confirmed for {{name}}.",
+    "saveError": "The confirmation couldn't be saved. Try again.",
+    "report": {
+      "button": "Report a change",
+      "menuLabel": "What changed?",
+      "kinds": {
+        "closed": "Closed",
+        "private": "Now private",
+        "fees": "Fees changed",
+        "road": "Road changed",
+        "other": "Something else…"
+      },
+      "kindText": {
+        "closed": "It can't be visited any more",
+        "private": "Only its owners or their guests may go",
+        "fees": "The price or what it includes changed",
+        "road": "The road or the way in changed",
+        "other": "Anything else no longer right here"
+      },
+      "dialogTitle": "Report: {{kind}}",
+      "warningNote": "A warning shows on this cave as soon as you send it, until the OpenCaves team checks it.",
+      "teamNote": "The OpenCaves team gets your report, checks it and updates the cave.",
+      "noteLabel": "Note (optional)",
+      "notePlaceholder": "What you saw, and when",
+      "cancel": "Cancel",
+      "send": "Send",
+      "close": "Close",
+      "sent": "Thank you! Your report was sent to the OpenCaves team.",
+      "error": "Your report couldn't be sent. Try again.",
+      "itemName": "Your report",
+      "message": {
+        "closed": "{{name}} is closed.",
+        "private": "{{name}} is now private.",
+        "fees": "{{name}}: the fees changed.",
+        "road": "{{name}}: the road changed."
+      }
+    },
+    "warning": {
+      "closed": "Reported closed on {{date}}, being checked",
+      "private": "Reported now private on {{date}}, being checked"
+    },
+    "undone": "Confirmation undone: {{section}}, {{name}}.",
+    "undoError": "The confirmation couldn't be undone. Try again."
   }
 }

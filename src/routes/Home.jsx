@@ -15,7 +15,8 @@ import { useCaveData } from '@/hooks/useCaveData.js'
 import { homeFigures } from '@/utils/indexData.js'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 import SiteSearch from '@/components/IndexPage/SiteSearch.jsx'
-import CaveAsset from '@/models/CaveAsset.js'
+import CaveAsset, { converter as caveAssetConverter } from '@/models/CaveAsset.js'
+import { ssrQuerySnapshot } from '@/ssr/ssrContext.js'
 import { prefetchMap } from '@/routes/mapRoute.js'
 import { resetView } from '@/redux/slices/mapSlice.jsx'
 import { LanguageButton } from '@/components/LanguagePicker.jsx'
@@ -28,6 +29,7 @@ import heroBackgroundSmall from '@/images/404/bg-small.webp'
 import { openAboutDialog } from '@/utils/aboutDialog.js'
 import './Home.scss'
 import { CHANGELOG_URL, GITHUB_URL } from '@/config/app.js'
+import { sistemaTitle } from '@/utils/sistemaTitle.js'
 
 // How many cave photos the Discover strip shows, picked at random each visit.
 const DISCOVER_COUNT = 6
@@ -65,12 +67,18 @@ function IconBadge({ children, size = 48 }) {
 }
 
 // The caves' cover photos, in a random order each visit: the first for the
-// header's background, the next few for the Discover strip.
+// header's background, the next few for the Discover strip. On the page the
+// server rendered, the covers it sent (ssr/pageState.js): no Firestore,
+// which the page doesn't load until the person does something
+// (utils/loadFirebase.js).
 function useCoverPhotos() {
   const [photos, setPhotos] = useState([])
+  // Read while the page hydrates (offered then only).
+  const [serverCovers] = useState(() => ssrQuerySnapshot('covers', caveAssetConverter)?.docs.map((d) => d.data()))
   useEffect(() => {
     let cancelled = false
-    CaveAsset.getAllCoverImages()
+    const covers = serverCovers ? Promise.resolve(serverCovers) : CaveAsset.getAllCoverImages()
+    covers
       .then((covers) => {
         if (cancelled) return
         setPhotos([...covers].sort(() => Math.random() - 0.5).slice(0, DISCOVER_COUNT + 1))
@@ -105,7 +113,7 @@ export default function Home() {
   const { regions } = figures
 
   // The brand first, in its two-word spelling (people search "open caves").
-  useIndexPageHead({ title: t('headTitle'), description: t('description'), fullTitle: true })
+  useIndexPageHead({ title: t('headTitle'), description: t('description') })
 
   // The map's code, fetched once the page has painted: most visitors go on
   // to the map, which then opens without waiting for it.
@@ -280,7 +288,7 @@ export default function Home() {
                         </Typography>
                         {sistema && (
                           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                            {tIndex('sistema.title', { name: sistema })}
+                            {sistemaTitle(sistema, (name) => tIndex('sistema.title', { name }))}
                           </Typography>
                         )}
                       </CardContent>
@@ -349,7 +357,11 @@ export default function Home() {
           <Button variant="contained" color="secondary" component={RouterLink} to="/signup" size="large" sx={{ borderRadius: 6 }}>
             {t('contribute.signup')}
           </Button>
-          <Button variant="outlined" href={GITHUB_URL} target="_blank" rel="noopener noreferrer" startIcon={<GitHub />} size="large" sx={{ borderRadius: 6, color: '#fff', borderColor: 'rgba(255,255,255,0.6)', '&:hover': { borderColor: '#fff', bgcolor: 'rgba(255,255,255,0.08)' } }}>
+          {/* What contributing means, in detail. */}
+          <Button variant="text" component={RouterLink} to="/what-can-i-do" size="large" sx={{ borderRadius: 6, color: '#fff', '&:hover': { bgcolor: 'rgba(255,255,255,0.08)' } }}>
+            {t('contribute.whatCanIDo')}
+          </Button>
+          <Button variant="text" href={GITHUB_URL} target="_blank" rel="noopener noreferrer" startIcon={<GitHub />} size="large" sx={{ borderRadius: 6, color: '#fff', '&:hover': { bgcolor: 'rgba(255,255,255,0.08)' } }}>
             {t('contribute.github')}
           </Button>
         </Stack>
@@ -362,6 +374,7 @@ export default function Home() {
           <Link component={RouterLink} to="/about" onClick={openAboutDialog}>
             {t('footer.about')}
           </Link>
+          <Link component={RouterLink} to="/what-can-i-do">{t('footer.whatCanIDo')}</Link>
           <Link component={RouterLink} to="/privacy">{tLegal('privacy.title')}</Link>
           <Link component={RouterLink} to="/terms">{tLegal('terms.title')}</Link>
           <Link href={CHANGELOG_URL} target="_blank" rel="noopener noreferrer">{tAbout('whatsNew')}</Link>

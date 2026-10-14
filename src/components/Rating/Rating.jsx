@@ -5,6 +5,7 @@ import StarBorderRounded from '@mui/icons-material/StarBorderRounded'
 import { setUserRating, useCaveRatings } from '@/models/Rating.js'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import './Rating.scss'
+import { track } from '@/utils/track.js'
 
 /**
  * A cave's star rating: the average of everyone's ratings, live. Editors and
@@ -25,6 +26,7 @@ export default function OCRating({ caveId, sx }) {
   const formatAverage = (value) => new Intl.NumberFormat(i18n.resolvedLanguage, { maximumFractionDigits: 1 }).format(value)
 
   function onChange(_, value) {
+    track('rate', { cave_id: caveId, rating: value })
     setUserRating(caveId, uid, value).catch((error) => {
       console.error(error)
       openSnackbar(t('saveError'))

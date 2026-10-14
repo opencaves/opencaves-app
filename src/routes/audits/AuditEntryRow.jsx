@@ -8,7 +8,8 @@ import { isUndoable } from '@/models/AuditLogModel.js'
 import AuditEntryDetails from './AuditEntryDetails.jsx'
 import PersonLabel from './PersonLabel.jsx'
 import IconButtonGroup from '@/components/IconButtonGroup.jsx'
-import { formatFullDate, formatRelative, toDate } from './auditFormat.js'
+import { formatFullDate, formatRelative } from './auditFormat.js'
+import { toDate } from '@/components/RelativeTime/RelativeTime.jsx'
 
 // The action's chip colour (M3 roles): additions, deletions, undos.
 const ACTION_COLORS = { create: 'success', delete: 'error', purge: 'error', deleteUser: 'error', undo: 'info' }

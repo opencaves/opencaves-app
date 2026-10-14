@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Children, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Button } from '@mui/material'
 import { ShowAllPane } from '@/components/Carousel/Carousel.jsx'
@@ -8,15 +8,20 @@ import { ShowAllPane } from '@/components/Carousel/Carousel.jsx'
  * button right under it, still a 48dp target), opening {@link ShowAllPane}:
  * every item in a grid (full screen on phones, swapped in). Its children are
  * the pane's items - `<li>`s, each one's visual marked `.oc-carousel--media`.
+ * Nothing for a single item: the strip shows it already.
  *
  * @param {object} props
  * @param {string} props.title - The strip's name: the pane's title, and the link's label for screen readers.
  * @param {string} [props.gridMinWidth] - The pane's narrowest column.
  * @param {React.ReactNode} props.children
+ * @param {import('@/components/Carousel/Carousel.jsx').ShowAllSortable} [props.sortable] - Editors reorder the
+ *   items ({@link ShowAllPane}'s).
  */
-export default function StripShowAll({ title, gridMinWidth, children }) {
+export default function StripShowAll({ title, gridMinWidth, children, sortable }) {
   const { t } = useTranslation('app', { keyPrefix: 'carousel' })
   const [open, setOpen] = useState(false)
+  // One item: nothing more to show.
+  if (Children.toArray(children).length < 2) return null
   return (
     <>
       {/* Clear of the strip's band. */}
@@ -25,7 +30,7 @@ export default function StripShowAll({ title, gridMinWidth, children }) {
           {t('showAllLink')}
         </Button>
       </Box>
-      <ShowAllPane open={open} onClose={() => setOpen(false)} title={title} gridMinWidth={gridMinWidth}>
+      <ShowAllPane open={open} onClose={() => setOpen(false)} title={title} gridMinWidth={gridMinWidth} sortable={sortable}>
         {children}
       </ShowAllPane>
     </>

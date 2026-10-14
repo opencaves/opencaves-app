@@ -1,5 +1,4 @@
-import { doc, getDoc, setDoc } from 'firebase/firestore'
-import { db } from '@/config/firebase.js'
+import { loadFirebase } from '@/utils/loadFirebase.js'
 import { USERS_COLLECTION } from '@/config/collections.js'
 
 /**
@@ -12,6 +11,7 @@ import { USERS_COLLECTION } from '@/config/collections.js'
  * @returns {Promise<boolean|null>} Null when never set.
  */
 export async function loadAccountMapLegendOpen(uid) {
+  const { db, doc, getDoc } = await loadFirebase()
   const snapshot = await getDoc(doc(db, USERS_COLLECTION, uid))
   const open = snapshot.exists() ? snapshot.get('mapLegendOpen') : null
   return typeof open === 'boolean' ? open : null
@@ -25,5 +25,5 @@ export async function loadAccountMapLegendOpen(uid) {
  * @returns {Promise<void>}
  */
 export function saveAccountMapLegendOpen(uid, open) {
-  return setDoc(doc(db, USERS_COLLECTION, uid), { mapLegendOpen: Boolean(open) }, { merge: true })
+  return loadFirebase().then(({ db, doc, setDoc }) => setDoc(doc(db, USERS_COLLECTION, uid), { mapLegendOpen: Boolean(open) }, { merge: true }))
 }

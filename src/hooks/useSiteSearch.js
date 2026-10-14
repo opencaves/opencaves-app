@@ -2,11 +2,13 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { foldSearch, searchMatcher } from '@/utils/searchText.js'
+import { popularityOf } from '@/utils/popularity.js'
+import { usePopularity } from '@/hooks/usePopularity.js'
 
 // How many suggestions show at once.
 const MAX_SUGGESTIONS = 8
 // The kinds' order in the suggestions.
-const KIND_ORDER = ['areas', 'sistemas', 'caves']
+const KIND_ORDER = ['caves', 'sistemas', 'areas']
 
 // Names compared as every search of the site does (utils/searchText.js).
 const fold = foldSearch
@@ -15,8 +17,9 @@ const fold = foldSearch
  * The site's search (SiteSearch on the landing page, AppBarSearch in the app
  * bar): the suggestions for what's typed - every word found, names starting
  * with it first, grouped by kind - among the caves and cave systems, plus
- * the areas when asked. Each has a label, maybe a secondary text, and where
- * it leads.
+ * the areas when asked; among equal matches, the most popular first
+ * (usePopularity: page views and saves, read once something is typed),
+ * then by name. Each has a label, maybe a secondary text, and where it leads.
  *
  * @param {string} input
  * @param {object} [options]
@@ -26,6 +29,10 @@ const fold = foldSearch
 export function useSiteSearch(input, { areas = false } = {}) {
   const { t } = useTranslation('indexPages')
   const { data, partial } = useIndexData()
+  // Read once something is typed, not by every page showing a search field.
+  const typed = Boolean(input)
+  const { popularity: cavesPopularity } = usePopularity('caves', typed)
+  const { popularity: sistemasPopularity } = usePopularity('sistemas', typed)
 
   // Every searchable thing once: its label, the texts it's found by, where it leads.
   const entries = useMemo(
@@ -35,9 +42,9 @@ export function useSiteSearch(input, { areas = false } = {}) {
         // Its system beside it, unless named like the cave (a leading "Cenote" aside), as on /caves.
         const bare = (name) => fold(name).replace(/^cenote\s+/, '').trim()
         const secondary = sistema && bare(sistema) !== bare(cave.name) ? sistema : null
-        return { kind: 'caves', id: `c-${cave.id}`, label: cave.name || t('unnamedCave'), secondary, to: `/caves/${cave.id}`, haystack: fold([cave.name, ...(cave.aka || []), sistema].join(' ')) }
+        return { kind: 'caves', id: `c-${cave.id}`, recordId: cave.id, label: cave.name || t('unnamedCave'), secondary, to: `/caves/${cave.id}`, haystack: fold([cave.name, ...(cave.aka || []), sistema].join(' ')) }
       }),
-      ...data.sistemas.map((sistema) => ({ kind: 'sistemas', id: `s-${sistema.id}`, label: sistema.name, to: `/sistemas/${sistema.slug}`, haystack: fold([sistema.name, ...(Array.isArray(sistema.aka) ? sistema.aka : [])].join(' ')) })),
+      ...data.sistemas.map((sistema) => ({ kind: 'sistemas', id: `s-${sistema.id}`, recordId: sistema.id, label: sistema.name, to: `/sistemas/${sistema.slug}`, haystack: fold([sistema.name, ...(Array.isArray(sistema.aka) ? sistema.aka : [])].join(' ')) })),
       ...(areas ? data.areas.filter((area) => area.caves.length > 0).map((area) => ({ kind: 'areas', id: `a-${area.slug}`, label: area.name, to: `/caves#${area.slug}`, haystack: fold(area.name) })) : []),
     ],
     [data, areas, t],
@@ -49,9 +56,13 @@ export function useSiteSearch(input, { areas = false } = {}) {
     // (nor "no result") until the store has it all - they then show.
     if (!query || partial) return []
     const matches = searchMatcher(input)
+    // An entry's popularity, by its kind's (areas: none).
+    const popularity = (entry) => popularityOf(entry.kind === 'caves' ? cavesPopularity : entry.kind === 'sistemas' ? sistemasPopularity : null, entry.recordId)
     const found = entries
       .filter((entry) => matches(entry.haystack))
-      .sort((a, b) => Number(fold(b.label).startsWith(query)) - Number(fold(a.label).startsWith(query)) || KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind))
+      // Names starting with it first, by kind (caves first), the most
+      // popular first, then by name.
+      .sort((a, b) => Number(fold(b.label).startsWith(query)) - Number(fold(a.label).startsWith(query)) || KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind) || popularity(b) - popularity(a) || a.label.localeCompare(b.label))
       .slice(0, MAX_SUGGESTIONS)
       // Grouped by kind for the list (groupBy needs them together).
       .sort((a, b) => KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind))
@@ -59,5 +70,5 @@ export function useSiteSearch(input, { areas = false } = {}) {
     // showed nothing at all - freeSolo hides the no-options text).
     if (found.length === 0) return [{ kind: 'none', id: 'none', label: t('searchNoResult', { query: input.trim() }), to: `/caves?q=${encodeURIComponent(input.trim())}` }]
     return found
-  }, [entries, input, partial, t])
+  }, [entries, input, partial, t, cavesPopularity, sistemasPopularity])
 }

@@ -13,12 +13,19 @@ interface Window {
     router?: object
     data?: object
     queries?: Record<string, { id: string; data: object }[]>
+    /** The month ('YYYY-MM') the page counted the caves' confirmations' age in (useReviewMonth). */
+    month?: string
   }
   /**
    * The app's stylesheets added after the first paint (index.html's loader,
    * vite.config.js): settles once they're in (index.jsx renders then).
    */
   __ocAppStylesheets?: Promise<unknown>
+  /**
+   * Google Tag Manager's queue (loaded by src/index.jsx): the app's analytics
+   * events go in it, in gtag's own form (utils/track.js).
+   */
+  dataLayer?: unknown[]
 
   // service-worker.js runs in a ServiceWorkerGlobalScope, its `self`, but is
   // checked with the DOM's types (a Window): the members it uses.

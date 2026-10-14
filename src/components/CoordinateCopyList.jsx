@@ -7,6 +7,7 @@ import DirectionsRounded from '@mui/icons-material/DirectionsRounded'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { openDirections } from '@/utils/directions.js'
 import { getOS } from '@/utils/getOS.js'
+import { track } from '@/utils/track.js'
 
 /**
  * "Copied to clipboard", after a row's copy - except on Android (13+), which
@@ -26,9 +27,21 @@ export function useCopiedConfirmation() {
  * icon at its end saying so on hover - tooltip: false leaves the tooltip out,
  * on phones), and a Directions button at its right. Also the map pane's rows
  * (in its own list): they carry its class names too (oc-icon-copy...), which
- * its styles use.
+ * its styles use. A copy and a Directions are analytics events
+ * (copy_coordinates, directions), with `analytics` - what the point is.
+ *
+ * @param {object} props
+ * @param {import('react').ReactNode} props.icon
+ * @param {string} props.text - The coordinates as shown.
+ * @param {string} props.copyText - As copied.
+ * @param {string} props.copyLabel - The copy's tooltip.
+ * @param {{ latitude: number, longitude: number }} props.point - Where Directions leads.
+ * @param {string} props.directionsLabel
+ * @param {() => void} props.onCopied - Called once copied (the confirmation).
+ * @param {boolean} [props.tooltip=true] - The copy's tooltip (none on phones).
+ * @param {Record<string, string>} [props.analytics] - The events' parameters: its record (cave_id, sistema_id) and which point (location, parking, entrance, key).
  */
-export function CoordinateRow({ icon, text, copyText, copyLabel, point, directionsLabel, onCopied, tooltip = true }) {
+export function CoordinateRow({ icon, text, copyText, copyLabel, point, directionsLabel, onCopied, tooltip = true, analytics }) {
   const [tooltipOpen, setTooltipOpen] = useState(false)
   const copyIconRef = useRef(null)
   const directionsRef = useRef(null)
@@ -55,6 +68,7 @@ export function CoordinateRow({ icon, text, copyText, copyLabel, point, directio
       text={copyText}
       onCopy={() => {
         setTooltipOpen(false)
+        track('copy_coordinates', analytics)
         onCopied()
       }}
     >
@@ -70,6 +84,7 @@ export function CoordinateRow({ icon, text, copyText, copyLabel, point, directio
               aria-label={directionsLabel}
               onClick={(event) => {
                 event.stopPropagation()
+                track('directions', analytics)
                 openDirections(point)
               }}
             >

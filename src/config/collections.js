@@ -5,16 +5,28 @@ export const USERS_COLLECTION = '_users'
 export const SETTINGS_COLLECTION = '_settings'
 export const CAVE_RATINGS_COLLECTION = '_caveRatings'
 
+// The errors the "Something went wrong" page showed (src/utils/errorReports.js):
+// created by anyone, read by admins, deleted after 90 days (expireAt's TTL).
+export const ERROR_REPORTS_COLLECTION = '_errorReports'
+
 // What's new, built by the server (refreshWhatsNew) into one public document
 // the page reads: { items, builtAt }.
 export const WHATS_NEW_COLLECTION = '_whatsNew'
 export const WHATS_NEW_DOC_ID = 'latest'
 
+// How popular the caves and the cave systems are, built nightly by the
+// server (refreshPopularity) into one public document per kind, by id:
+// _popularity/caves { views, saves, updatedAt } - their pages' views
+// (Google Analytics) and how many accounts saved them - and
+// _popularity/sistemas { views, updatedAt }. For the search fields'
+// suggestions, the most visited first (to come: hooks/usePopularity.js).
+export const POPULARITY_COLLECTION = '_popularity'
+
 // Who changed or deleted what (written by the server's audit trigger, read
 // by admins on the Audits page).
 export const AUDIT_LOG_COLLECTION = '_auditLog'
 
-// The beta testers' reports (the Send feedback form): written by their
+// The members' reports (the Send feedback form): written by their
 // author, read by every registered account (Ideas and fixes), closed by
 // admins (the Feedback page), emailed to them.
 export const FEEDBACK_COLLECTION = '_feedback'
@@ -24,3 +36,9 @@ export const FEEDBACK_PRIVATE_COLLECTION = '_feedbackPrivate'
 // A report's thread (_feedback/{id}/messages): the team's replies, emailed to
 // its author (onFeedbackReplied).
 export const FEEDBACK_MESSAGES_COLLECTION = 'messages'
+
+// Each cave's open "closed" and "now private" reports, public: the warnings
+// shown on the cave (src/components/CaveReview/CaveReportWarnings.jsx),
+// written by the server only (onCaveReportChanged) - { reports: [{ kind,
+// at, feedbackId }] }, the document gone once none is open.
+export const CAVE_REPORTS_COLLECTION = '_caveReports'

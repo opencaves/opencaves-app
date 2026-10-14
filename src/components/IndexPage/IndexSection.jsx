@@ -33,11 +33,12 @@ const SECTION_ANCHOR_SX = {
  * @param {import('react').ReactNode} [props.children]
  * @param {string} [props.className]
  * @param {boolean} [props.card=false]
+ * @param {import('react').ReactNode} [props.after] - With card: shown after the card, on the page's ground (not on the card).
  * @param {object} [props.cardSx]
  * @param {boolean} [props.lazy=false]
  * @param {boolean} [props.stickyTitle=false]
  */
-export default function IndexSection({ id, title, count, children, className, card = false, cardSx, lazy = false, stickyTitle = false }) {
+export default function IndexSection({ id, title, count, children, className, card = false, cardSx, after, lazy = false, stickyTitle = false }) {
   const { t } = useTranslation('indexPages')
   // The anchor link keeps the page's query string (a filtered list,
   // /caves?q=...): a hash-only link drops it.
@@ -87,9 +88,12 @@ export default function IndexSection({ id, title, count, children, className, ca
         )}
       </Typography>
       {card ? (
-        <Box className="oc-index-section--card" sx={(theme) => ({ ...DASHBOARD_SURFACE_SX, border: `1px solid rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.23)`, p: { xs: 2, sm: 3 }, ...cardSx })}>
-          {children}
-        </Box>
+        <>
+          <Box className="oc-index-section--card" sx={(theme) => ({ ...DASHBOARD_SURFACE_SX, border: `1px solid rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.23)`, p: { xs: 2, sm: 3 }, ...cardSx })}>
+            {children}
+          </Box>
+          {after}
+        </>
       ) : (
         children
       )}

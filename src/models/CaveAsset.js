@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
-import { collection, deleteField, doc, getDoc, getDocs, onSnapshot, orderBy, query, serverTimestamp, updateDoc, where } from 'firebase/firestore'
 import getId from 'unique-push-id'
 import { useSsrCollection } from '@/hooks/useSsrCollection.js'
+import { useCaveData } from '@/hooks/useCaveData.js'
 import { pageHostname } from '@/ssr/ssrContext.js'
 import { breakpoints } from '@/theme/Theme.jsx'
-import { auth, callable, db, getStorageService } from '@/config/firebase.js'
+import { loadFirebase } from '@/utils/loadFirebase.js'
 import { isTrashed, withoutTrashed } from '@/utils/trash.js'
 import { FIREBASE_CONFIG } from '@/config/firebase.config.js'
 import { IMAGE_SIZES, PANE_WIDTH, THUMBNAIL_FOLDER, THUMBNAIL_FORMATS, VIEW_THUMBNAIL_SIZES } from '@/config/app.js'
@@ -20,16 +20,53 @@ function photoTime(doc) {
   return date?.toMillis?.() ?? (date?.seconds != null ? date.seconds * 1000 : 0)
 }
 
-// A cave's photo list in the order every view shows it (the Photos tab, the
-// viewer, the cave page, the gallery): its cover first, then the newest
-// first; the same date in upload order (the ids, push ids, sort by time),
-// so photos never swap places.
-function photoOrder(list) {
+/**
+ * A cave's photo list in the order every view shows it (the Photos tab, the
+ * viewer, the cave page, the galleries): its cover first; then the photos
+ * the cave's `photoOrder` doesn't name (new ones, or a cave never
+ * reordered), newest first - the same date in upload order (the ids, push
+ * ids, sort by time), so photos never swap places; then those it names, in
+ * its order (ids of photos gone ignored).
+ *
+ * @param {{docs: import('firebase/firestore').QueryDocumentSnapshot[], empty?: boolean, size?: number}} list - A snapshot of the
+ *   cave's photos (or the same shape).
+ * @param {string[]} [order] - The cave's `photoOrder`.
+ * @returns {any} The same shape, its docs in order.
+ */
+export function photoOrder(list, order) {
   if (!list) return list
-  const docs = [...list.docs].sort((a, b) => (b.get('isCover') ? 1 : 0) - (a.get('isCover') ? 1 : 0) || photoTime(b) - photoTime(a) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
+  const rank = new Map((Array.isArray(order) ? order : []).map((id, index) => [id, index]))
+  const docs = [...list.docs].sort((a, b) => (b.get('isCover') ? 1 : 0) - (a.get('isCover') ? 1 : 0)
+    || (rank.has(a.id) ? 1 : 0) - (rank.has(b.id) ? 1 : 0)
+    || (rank.has(a.id) ? rank.get(a.id) - rank.get(b.id) : 0)
+    || photoTime(b) - photoTime(a) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
   return { ...list, docs, forEach: (callback, thisArg) => docs.forEach(callback, thisArg) }
 }
-const COLL = collection(db, CAVES_ASSETS_COLL_NAME)
+
+/**
+ * Saves a cave's photos in a new order (editors): the cave's `photoOrder`
+ * (every photo after the first), and, when the first changed, the cover -
+ * the first photo is always the cover. One batch, applied on the device at
+ * once (offline too: synced later, useSettleWrite).
+ *
+ * @param {string} caveId
+ * @param {string[]} ids - Every photo shown (outside the trash), in the new order.
+ * @param {string} [coverId] - The cover now, if any.
+ * @returns {Promise<void>} Resolved once the server has it.
+ */
+export async function savePhotoOrder(caveId, ids, coverId) {
+  const { db, doc, writeBatch } = await loadFirebase()
+  const batch = writeBatch(db)
+  batch.update(doc(db, 'caves', caveId), { photoOrder: ids.slice(1) })
+  if (ids[0] && ids[0] !== coverId) {
+    if (coverId) batch.update(doc(db, CAVES_ASSETS_COLL_NAME, coverId), { isCover: false })
+    batch.update(doc(db, CAVES_ASSETS_COLL_NAME, ids[0]), { isCover: true })
+  }
+  return batch.commit()
+}
+
+// The photos' collection, from the Firebase module (loadFirebase).
+const collIn = ({ db, collection }) => collection(db, CAVES_ASSETS_COLL_NAME)
 
 export default class CaveAsset {
 
@@ -39,6 +76,7 @@ export default class CaveAsset {
     return new Promise(async (resolve, reject) => {
       try {
 
+        const { db, doc, getDoc } = await loadFirebase()
         const assetRef = doc(db, CAVES_ASSETS_COLL_NAME, assetId).withConverter(converter)
         const assetSnap = await getDoc(assetRef)
 
@@ -56,6 +94,7 @@ export default class CaveAsset {
   // To the trash (admins): kept, with who moved it there and when, so it can
   // be restored from Audits > Trash; every reader skips it (utils/trash.js).
   static async deleteById(assetId) {
+    const { auth, db, doc, getDoc, serverTimestamp, updateDoc } = await loadFirebase()
     const docRef = doc(db, CAVES_ASSETS_COLL_NAME, assetId)
     const docSnap = await getDoc(docRef)
 
@@ -68,28 +107,37 @@ export default class CaveAsset {
 
   // Back from the trash.
   static async restoreById(assetId) {
+    const { db, deleteField, doc, updateDoc } = await loadFirebase()
     await updateDoc(doc(db, CAVES_ASSETS_COLL_NAME, assetId), { deletedAt: deleteField(), deletedBy: deleteField() })
   }
 
   // The photos in the trash, most recently deleted first (Audits > Trash).
   static async getTrashed() {
-    const { docs } = await getDocs(query(COLL, where('deletedAt', '!=', null), orderBy('deletedAt', 'desc')).withConverter(converter))
+    const firebase = await loadFirebase()
+    const { getDocs, orderBy, query, where } = firebase
+    const { docs } = await getDocs(query(collIn(firebase), where('deletedAt', '!=', null), orderBy('deletedAt', 'desc')).withConverter(converter))
     return docs.map((d) => d.data())
   }
 
   // One-shot reads (no listener) used by the offline downloads.
   static async getImages(caveId) {
-    const { docs } = await getDocs(query(COLL, where('caveId', '==', caveId), where('type', '==', 'image')).withConverter(converter))
+    const firebase = await loadFirebase()
+    const { getDocs, query, where } = firebase
+    const { docs } = await getDocs(query(collIn(firebase), where('caveId', '==', caveId), where('type', '==', 'image')).withConverter(converter))
     return docs.filter((d) => !isTrashed(d)).map((d) => d.data())
   }
 
   static async getAllCoverImages() {
-    const { docs } = await getDocs(query(COLL, where('type', '==', 'image'), where('isCover', '==', true)).withConverter(converter))
+    const firebase = await loadFirebase()
+    const { getDocs, query, where } = firebase
+    const { docs } = await getDocs(query(collIn(firebase), where('type', '==', 'image'), where('isCover', '==', true)).withConverter(converter))
     return docs.filter((d) => !isTrashed(d)).map((d) => d.data())
   }
 
   static async getAssetList(caveId, useSnapshot = true) {
-    const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image')).withConverter(converter)
+    const firebase = await loadFirebase()
+    const { getDocs, onSnapshot, query, where } = firebase
+    const q = query(collIn(firebase), where('caveId', '==', caveId), where('type', '==', 'image')).withConverter(converter)
 
     const { docs, empty, size } = photoOrder(withoutTrashed(await getDocs(q)))
     const assetList = { docs, empty, size }
@@ -200,7 +248,9 @@ export default class CaveAsset {
   }
 
   async setAsCoverImage() {
-    const q = query(COLL, where('caveId', '==', this.caveId), where('type', '==', 'image'), where('isCover', '==', true))
+    const firebase = await loadFirebase()
+    const { db, doc, getDocs, query, updateDoc, where } = firebase
+    const q = query(collIn(firebase), where('caveId', '==', this.caveId), where('type', '==', 'image'), where('isCover', '==', true))
     const querySnapshot = await getDocs(q)
 
     if (!querySnapshot.empty) {
@@ -222,6 +272,7 @@ export default class CaveAsset {
   // viewer: { image (base64), view } (capturePanoramaView).
   async setViewThumbnail({ image, view }) {
     assertOnline()
+    const { callable } = await loadFirebase()
     await callable('setViewThumbnail')({ assetId: this.id, image, view })
   }
 
@@ -246,7 +297,7 @@ export default class CaveAsset {
         customMetadata.userId = self.userId
       }
 
-      const { storage, ref, uploadBytesResumable } = await getStorageService()
+      const { storage, ref, uploadBytesResumable } = await (await loadFirebase()).getStorageService()
       const fileRef = ref(storage, self.fullPath)
       const uploadTask = uploadBytesResumable(fileRef, file, { customMetadata })
       uploadTask.on(
@@ -276,18 +327,30 @@ export default class CaveAsset {
   }
 }
 
+/**
+ * A cave's photos, live (the server's on a page it rendered), without those
+ * in the trash, in the order every view shows them ({@link photoOrder}, by
+ * the cave's `photoOrder`).
+ *
+ * @param {string} caveId
+ * @returns {[any, boolean, Error | undefined]} The list (docs, empty, size), whether it's loading, the error.
+ */
 export function useCaveAssetsList(caveId) {
-  const q = useMemo(
-    () => query(COLL, where('caveId', '==', caveId), where('type', '==', 'image')).withConverter(converter),
+  const makeQuery = useMemo(
+    () => (firebase) => firebase.query(collIn(firebase), firebase.where('caveId', '==', caveId), firebase.where('type', '==', 'image')).withConverter(converter),
     [caveId],
   )
 
-  const [snapshot, loading, error] = useSsrCollection(`photos:${caveId}`, q, {
+  const [snapshot, loading, error] = useSsrCollection(`photos:${caveId}`, makeQuery, {
+    converter,
     snapshotListenOptions: { includeMetadataChanges: true }
   })
+  // The cave's own order (photoOrder): the page's data on a page the
+  // server rendered, as the photos.
+  const order = useCaveData().caves.find((cave) => cave.id === caveId)?.photoOrder
   // Without the photos in the trash (same shape: docs, empty, size), in
   // their order (photoOrder).
-  const visible = useMemo(() => photoOrder(withoutTrashed(snapshot)), [snapshot])
+  const visible = useMemo(() => photoOrder(withoutTrashed(snapshot), order), [snapshot, order])
 
   return [visible, loading, error]
 }
@@ -301,9 +364,12 @@ export function useCaveAssetsList(caveId) {
  *   included), whether it's loading, the error.
  */
 export function useCoverImage(caveId) {
-  const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image'), where('isCover', '==', true)).withConverter(converter)
+  const makeQuery = useMemo(
+    () => (firebase) => firebase.query(collIn(firebase), firebase.where('caveId', '==', caveId), firebase.where('type', '==', 'image'), firebase.where('isCover', '==', true)).withConverter(converter),
+    [caveId],
+  )
   // On a page the server rendered: the server's (ssrContext.js).
-  const [snapshot, loading, error] = useSsrCollection(`cover:${caveId}`, q)
+  const [snapshot, loading, error] = useSsrCollection(`cover:${caveId}`, makeQuery, { converter })
   // Read from the snapshot, not copied to state by an effect: that took one
   // more render, in which the cave seemed to have no cover. A cover in the
   // trash isn't one.
@@ -312,7 +378,11 @@ export function useCoverImage(caveId) {
   return [coverImage, loading, error]
 }
 
-const converter = {
+/**
+ * The photos' Firestore converter: a record as a {@link CaveAsset} (also for
+ * the server's results on a page it rendered, ssrContext.js).
+ */
+export const converter = {
   toFirestore: (caveAsset) => {
     return caveAsset.toObject()
   },
@@ -333,6 +403,24 @@ const converter = {
     }
     return caveAsset
   }
+}
+
+// The cover photos, from the Firebase module (useCoverCaveIds).
+const coversQuery = (firebase) => firebase.query(collIn(firebase), firebase.where('type', '==', 'image'), firebase.where('isCover', '==', true))
+
+/**
+ * The caves that have photos - those with a cover outside the trash (every
+ * cave with photos has one) - live, from one query (the server's on /caves,
+ * which it rendered: ssr/pageState.js). The caves' No photo filter
+ * (utils/caveFilters.js).
+ *
+ * @returns {{caveIds: Set<string>|null, loading: boolean, error: Error|undefined}} caveIds: null until read.
+ */
+export function useCoverCaveIds() {
+  // No converter: only the caveId is read (and the server sends no more).
+  const [snapshot, loading, error] = useSsrCollection('covers', coversQuery)
+  const caveIds = useMemo(() => (snapshot ? new Set(snapshot.docs.filter((d) => !isTrashed(d)).map((d) => d.get('caveId'))) : null), [snapshot])
+  return { caveIds, loading, error }
 }
 
 export const getById = CaveAsset.getById

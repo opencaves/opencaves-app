@@ -3,11 +3,11 @@ import { logger } from 'firebase-functions/v2'
 import { REGION, SITE_URL } from '../constants.js'
 import { accountOfUnsubscribeToken } from '../email/unsubscribe.js'
 import { UNSUBSCRIBE_PAGE_CONTENT } from './unsubscribeContent.js'
+import { escapeHtml } from '../html.js'
 
 const LANGUAGES = Object.keys(UNSUBSCRIBE_PAGE_CONTENT)
 const SETTINGS_URL = `${SITE_URL}/account`
 
-const escape = (value) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])
 
 // A small page of its own (no app bundle): the OpenCaves name, a heading, a
 // text and a link to the settings, light or dark like the device. Colours:
@@ -17,7 +17,7 @@ const escape = (value) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&':
 function page({ language, title, heading, paragraphs, button, action = null }) {
   return `<!doctype html>
 <html lang="${language}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><meta name="color-scheme" content="light dark">
-<title>${escape(title)} · OpenCaves</title>
+<title>${escapeHtml(title)} · OpenCaves</title>
 <style>
 :root{--oc-bg:#eceae8;--oc-card:#fff;--oc-text:#1c1b1f;--oc-muted:#5b5960;--oc-primary:#145e79;--oc-on-primary:#fff}
 @media (prefers-color-scheme:dark){:root{--oc-bg:#141218;--oc-card:#211f26;--oc-text:#e6e1e5;--oc-muted:#cac4d0;--oc-primary:#8bcfe8;--oc-on-primary:#00344a}}
@@ -33,12 +33,12 @@ p{margin:0 0 14px;color:var(--oc-muted)}
 </style></head>
 <body><main class="oc-unsubscribe">
 <a class="oc-unsubscribe--brand" href="${SITE_URL}">OpenCaves</a>
-<h1>${escape(heading)}</h1>
-${paragraphs.map((text) => `<p>${escape(text)}</p>`).join('\n')}
+<h1>${escapeHtml(heading)}</h1>
+${paragraphs.map((text) => `<p>${escapeHtml(text)}</p>`).join('\n')}
 ${action
-    ? `<form class="oc-unsubscribe--form" method="post" action="${escape(action.url)}"><input type="hidden" name="confirm" value="1"><button class="oc-unsubscribe--button" type="submit">${escape(action.label)}</button></form>
-<a class="oc-unsubscribe--link" href="${SETTINGS_URL}">${escape(button)}</a>`
-    : `<a class="oc-unsubscribe--button" href="${SETTINGS_URL}">${escape(button)}</a>`}
+    ? `<form class="oc-unsubscribe--form" method="post" action="${escapeHtml(action.url)}"><input type="hidden" name="confirm" value="1"><button class="oc-unsubscribe--button" type="submit">${escapeHtml(action.label)}</button></form>
+<a class="oc-unsubscribe--link" href="${SETTINGS_URL}">${escapeHtml(button)}</a>`
+    : `<a class="oc-unsubscribe--button" href="${SETTINGS_URL}">${escapeHtml(button)}</a>`}
 </main></body></html>`
 }
 

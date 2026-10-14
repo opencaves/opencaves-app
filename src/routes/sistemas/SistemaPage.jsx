@@ -29,9 +29,9 @@ import NoMatch from '@/routes/NoMatch.jsx'
 import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
 import { teamNames } from '@/utils/explorationTeam.js'
 import { formatPartialDate } from '@/utils/partialDate.js'
+import { byName } from '@/utils/indexData.js'
+import { sistemaTitle } from '@/utils/sistemaTitle.js'
 
-
-const byName = (a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
 
 // A system's name: a link to its page, or plain text when it has none (not
 // public).
@@ -100,7 +100,7 @@ export default function SistemaPage() {
   const sistema = data.sistemasById.get(sistemaId)
   const details = useMemo(() => (sistema ? sistemaDetails(sistema, data) : null), [sistema, data])
 
-  const title = sistema ? t('sistema.title', { name: sistema.name }) : null
+  const title = sistema ? sistemaTitle(sistema.name, (name) => t('sistema.title', { name })) : null
   const summary = sistema ? markdownToPlainText(sistema.description) : ''
   const description = sistema ? truncate(summary ? `${t('sistema.descriptionPrefix', { name: sistema.name })} ${summary}` : t('sistema.description', { name: sistema.name })) : null
   useIndexPageHead({ title, description })
@@ -124,9 +124,8 @@ export default function SistemaPage() {
         </Link>
       ),
     },
-    // exploredLength, or the older records' length (renamed).
     // With its date, when known: "379,569 m (December 2024)".
-    (sistema.exploredLength ?? sistema.length) > 0 && { key: 'length', label: t('sistema.length'), value: formatMeasure(sistema.exploredLength ?? sistema.length, units, i18n.language) + (sistema.exploredLengthDate ? ` (${formatPartialDate(sistema.exploredLengthDate, i18n.language)})` : '') },
+    sistema.exploredLength > 0 && { key: 'length', label: t('sistema.length'), value: formatMeasure(sistema.exploredLength, units, i18n.language) + (sistema.exploredLengthDate ? ` (${formatPartialDate(sistema.exploredLengthDate, i18n.language)})` : '') },
     sistema.maxDepth > 0 && { key: 'maxDepth', label: t('sistema.maxDepth'), value: formatMeasure(sistema.maxDepth, units, i18n.language) },
   ].filter(Boolean)
   // Its location, as the map pane lists a cave's: copied on a click, with
@@ -170,7 +169,7 @@ export default function SistemaPage() {
 
       {location && (
         <IndexSection id="location" title={t('sistema.location')} className="oc-sistema-page--location" card>
-          <CoordinateCopyList rows={[{ key: 'location', icon: <MyLocationRounded />, text: coordinates, copyText: coordinates, copyLabel: tPane('copyCoordinates'), point: location, directionsLabel: tPane('directionsToSistema') }]} sx={{ mx: -1 }} />
+          <CoordinateCopyList rows={[{ key: 'location', analytics: { sistema_id: sistema.id, point: 'location' }, icon: <MyLocationRounded />, text: coordinates, copyText: coordinates, copyLabel: tPane('copyCoordinates'), point: location, directionsLabel: tPane('directionsToSistema') }]} sx={{ mx: -1 }} />
         </IndexSection>
       )}
 

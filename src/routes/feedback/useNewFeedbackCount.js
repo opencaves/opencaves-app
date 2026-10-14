@@ -1,6 +1,5 @@
 import { useEffect, useSyncExternalStore } from 'react'
-import { collection, onSnapshot, query, where } from 'firebase/firestore'
-import { db } from '@/config/firebase.js'
+import { whenFirebaseNeeded } from '@/utils/loadFirebase.js'
 import { FEEDBACK_COLLECTION } from '@/config/collections.js'
 
 // One listener for every user of the count (the account button, its menu,
@@ -20,11 +19,21 @@ function setCount(next) {
 function retain() {
   users += 1
   if (users > 1) return
-  unsubscribe = onSnapshot(
-    query(collection(db, FEEDBACK_COLLECTION), where('status', '==', 'new')),
-    (snapshot) => setCount(snapshot.size),
-    () => setCount(0),
-  )
+  // Firebase loaded first: the listener opened then, unless released by then.
+  let stopped = false
+  let stop = null
+  unsubscribe = () => {
+    stopped = true
+    stop?.()
+  }
+  whenFirebaseNeeded().then(({ db, collection, onSnapshot, query, where }) => {
+    if (stopped) return
+    stop = onSnapshot(
+      query(collection(db, FEEDBACK_COLLECTION), where('status', '==', 'new')),
+      (snapshot) => setCount(snapshot.size),
+      () => setCount(0),
+    )
+  }, () => setCount(0))
 }
 
 function release() {
@@ -41,7 +50,7 @@ const subscribe = (listener) => {
 }
 
 /**
- * How many testers' reports are still new (stage new) - the account button's
+ * How many members' reports are still new (stage new) - the account button's
  * badge, its menu's Dashboard entry and the dashboard's Feedback entry show
  * it. Admins only (firestore.rules): 0 for anyone else. Every user shares one
  * Firestore listener.

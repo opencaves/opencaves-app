@@ -129,7 +129,7 @@ function ReportRow({ report, authorName, search }) {
 }
 
 /**
- * /feedback: the beta testers' reports (the Send feedback form, _feedback),
+ * /feedback: the members' reports (the Send feedback form, _feedback),
  * as GitHub lists issues: Open and Closed tabs (open: new, confirmed or in
  * progress; closed: done, rejected or a duplicate), a search (message,
  * author's name - and email, for admins - page), kind and stage filters and

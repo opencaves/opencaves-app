@@ -9,7 +9,7 @@ import { Grid } from '@mui/material'
 import MediaStrip from './MediaStrip.jsx'
 import Picture from '@/components/Picture.jsx'
 import DialogCloseButton from '@/components/DialogCloseButton.jsx'
-import { deleteById, useCaveAssetsList } from '@/models/CaveAsset.js'
+import { deleteById, useCaveAssetsList, useCoverCaveIds } from '@/models/CaveAsset.js'
 import { useImage } from '@/hooks/useImage.jsx'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
 
@@ -19,7 +19,9 @@ const primaryToneSx = (theme) => ({ color: theme.vars.palette.primary.dark, ...t
 /**
  * A cave's photo strip: its photos and videos in columns (a wide one, then
  * two stacked), a "more photos" tile at its end, on a
- * {@link MediaStrip} (its cylinder, its scrolling).
+ * {@link MediaStrip} (its cylinder, its scrolling). While they load, the
+ * strip's room is kept with grey tiles (unless the cave is known to have no
+ * photo): what's under it doesn't jump down when they come.
  *
  * @param {object} props - Also its root's (a Box's).
  * @param {string} props.caveId
@@ -33,6 +35,8 @@ export default function MediaList({ caveId, editable = false, photoPath, sx, cla
   // Deleting a photo: admins only (as in firestore.rules).
   const canDelete = useSelector((/** @type {RootState} */ state) => state.session.roles.includes('admin'))
   const [mediaList, loading, error] = useCaveAssetsList(caveId)
+  // The caves with a cover, i.e. with photos (the map's filters load them).
+  const { caveIds: coverCaveIds } = useCoverCaveIds()
   const [assetsList, setAssetsList] = useState(null)
   const [pictureToDelete, setPictureToDelete] = useState(null)
   const [deleting, setDeleting] = useState(false)
@@ -134,11 +138,18 @@ export default function MediaList({ caveId, editable = false, photoPath, sx, cla
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mediaList, editable, canDelete, caveId, photoPath])
 
+  const hasPhotos = Boolean(mediaList && !mediaList.empty)
+  // Still loading (or its columns not built yet): grey tiles in the strip's
+  // place - the Add photos button under it stayed at the screen's bottom,
+  // then was pushed off it when the photos came (a large layout shift). Not
+  // for a cave known to have no photo (no cover): its space would close.
+  const placeholder = (loading && !(coverCaveIds && !coverCaveIds.has(caveId))) || (hasPhotos && !assetsList)
+
   return (
     <>
-      {mediaList && !mediaList.empty && (
-        <MediaStrip start="start" className={`oc-media-list ${className || ''}`.trim()} itemHeight={assetsListHeight} rebuildKey={assetsList} sx={sx} {...props}>
-          {assetsList}
+      {(hasPhotos || placeholder) && (
+        <MediaStrip start="start" className={`oc-media-list ${className || ''}`.trim()} itemHeight={assetsListHeight} rebuildKey={placeholder ? 'placeholder' : assetsList} sx={sx} {...props}>
+          {placeholder ? <PlaceholderColumns /> : assetsList}
         </MediaStrip>
       )}
       <Dialog className="oc-media-list--delete-dialog" open={Boolean(pictureToDelete)} onClose={closeDeleteDialog}>
@@ -157,6 +168,27 @@ export default function MediaList({ caveId, editable = false, photoPath, sx, cla
           </Button>
         </DialogActions>
       </Dialog>
+    </>
+  )
+}
+
+// The strip's first columns as grey tiles (a wide one, two stacked), sized
+// as Media's.
+function PlaceholderColumns() {
+  const { height, widthRatio, spacing } = ASSETS_LIST_CONFIG
+  const tile = (width, tileHeight) => <Skeleton variant="rounded" width={width} height={tileHeight} sx={{ borderRadius: '.5rem' }} />
+  const half = height / 2 - spacing / 2
+  return (
+    <>
+      <MediaListCol>{tile(height * widthRatio, height)}</MediaListCol>
+      <MediaListCol width="half" isLast>
+        <MediaListCell height={height / 2} width={height / 2}>
+          {tile((height * widthRatio) / 2 - spacing / 2, half)}
+        </MediaListCell>
+        <MediaListCell position="bottom" height={height / 2} width={height / 2}>
+          {tile((height * widthRatio) / 2 - spacing / 2, half)}
+        </MediaListCell>
+      </MediaListCol>
     </>
   )
 }

@@ -29,6 +29,7 @@ import { DEFAULT_CONTINUE_URL, FIRST_NAME_MIN_LENGTH, AUTH_SECTION_GAP, PASSWORD
 import { NavigateNextRounded } from '../icons.jsx'
 import './SignupWithEmail.scss'
 import OfflineAuthNote from './OfflineAuthNote.jsx'
+import { track } from '@/utils/track.js'
 
 const emailValidatedParam = 'email-valid'
 
@@ -409,6 +410,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
         await updateProfile(user, {
           displayName: `${firstName}${lastName ? ` ${lastName}` : ``}`,
         })
+        track('sign_up', { method: 'email_link' })
 
         nextStep()
       } else {

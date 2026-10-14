@@ -6,15 +6,12 @@ import { db } from '../init.js'
 import { BUCKET_NAME, ENFORCE_APP_CHECK, REGION, USERS_COLL_NAME } from '../constants.js'
 import { requireAdmin } from '../users/requireAdmin.js'
 import { mapOriginalPaths } from '../maps/files.js'
-import { AUDIT_LOG_COLL_NAME, AUDITED_COLLECTIONS, TRASH_COLLECTIONS, auditEntry } from './log.js'
+import { AUDIT_LOG_COLL_NAME, AUDITED_COLLECTIONS, TRASH_COLLECTIONS, actionOf, auditEntry } from './log.js'
 import { changedFields, isEqualValue, pickFields, toPlain } from './values.js'
 
 const MAX_IDS = 500
 const log = db.collection(AUDIT_LOG_COLL_NAME)
 
-// What the entry did: an undo's own entry says it in undoAction, so undoing
-// an undo works like undoing any change.
-const actionOf = (entry) => (entry.action === 'undo' ? entry.undoAction : entry.action)
 
 // Why an entry can't be undone, if it can't.
 function skipReason(entry) {

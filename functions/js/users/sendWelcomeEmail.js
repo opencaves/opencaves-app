@@ -10,20 +10,19 @@ import { renderEmail } from '../email/layout.js'
 // no welcome long after the fact.
 const WELCOME_SINCE = Date.parse('2026-10-08T00:00:00Z')
 
-// The welcome email: mostly the beta's What can I do? page (/what-can-i-do,
-// src/locales' betaTesting) - what to report, what to try, how to report
-// well, what's good to know - in the account's language. Its blocks: see
+// The welcome email: what to report, what to try, how to report well, what's
+// good to know - in the account's language, leading to the What can I do?
+// page (/what-can-i-do). Its blocks: see
 // email/layout.js.
 const PAGE = `${SITE_URL}/what-can-i-do`
 const ICONS = { bug: '🐞', misleading: '🤔', idea: '💡', explore: '🗺️', edit: '✏️', media: '📷', offline: '📶', everywhere: '📱', reset: '🔄', public: '🌎' }
 
 const CONTENT = {
   en: {
-    subject: 'Welcome to OpenCaves (beta)',
+    subject: 'Welcome to OpenCaves',
     preheader: "You're one of the first divers on OpenCaves. Here's how to help us make it great.",
-    overline: 'Beta',
     title: 'Welcome to OpenCaves',
-    lead: "The app is in beta, and you're one of its first divers. Use it the way you would before and after a dive, and tell us what breaks, what confuses you and what's missing.",
+    lead: "You're one of OpenCaves' first divers. Use it the way you would before and after a dive, and tell us what breaks, what confuses you and what's missing.",
     greeting: (name) => `Hi${name ? ` ${name}` : ''},`,
     cta: 'Open What can I do?',
     language: ['OpenCaves speaks English, French and Spanish.', 'Choose your language'],
@@ -36,7 +35,7 @@ const CONTENT = {
     },
     try: {
       title: 'Try everything',
-      lead: "Nothing you do in the beta can break anything for good, so poke around.",
+      lead: 'Every change is recorded and a mistake can be undone, so poke around.',
       explore: ['Explore', "The map, the cave and system lists, the search, a cave's page.", 'Open the map'],
       edit: ['Edit caves', 'Add one, its coordinates, its access, its texts; correct what looks wrong.', 'See the caves'],
       media: ['Add photos, videos and maps', "From a cave's page: your own photos, a video, a survey map."],
@@ -46,7 +45,7 @@ const CONTENT = {
     tips: { title: 'How to report well', items: ['One report per problem or idea.', 'Say what you did, what you expected, and what happened instead.', 'The page you were on is filled in for you.', 'Your browser is added for you: say which device it is if it matters.'] },
     good: {
       title: 'Good to know',
-      reset: ['Beta data can be reset', "What you change now isn't permanent yet."],
+      reset: ['Every change is recorded', 'Who changed what is kept, and the OpenCaves team can undo a mistake.'],
       public: ['Everything you add is public', "Don't share anyone's phone number."],
     },
     safety: ['OpenCaves is not for dive planning', 'Cave diving can kill: get trained, dive within your limits, and always check conditions on site.'],
@@ -54,11 +53,10 @@ const CONTENT = {
     footer: 'You get this email because you just created an OpenCaves account.',
   },
   fr: {
-    subject: 'Bienvenue sur OpenCaves (bêta)',
+    subject: 'Bienvenue sur OpenCaves',
     preheader: 'Vous êtes parmi les premiers plongeurs sur OpenCaves. Voici comment nous aider à la rendre excellente.',
-    overline: 'Bêta',
     title: 'Bienvenue sur OpenCaves',
-    lead: "L'application est en bêta, et vous êtes parmi ses premiers plongeurs. Utilisez-la comme vous le feriez avant et après une plongée, et dites-nous ce qui ne marche pas, ce qui vous embrouille et ce qui manque.",
+    lead: "Vous êtes parmi les premiers plongeurs d'OpenCaves. Utilisez-la comme vous le feriez avant et après une plongée, et dites-nous ce qui ne marche pas, ce qui vous embrouille et ce qui manque.",
     greeting: (name) => `Bonjour${name ? ` ${name}` : ''},`,
     cta: 'Ouvrir Que puis-je faire ?',
     language: ['OpenCaves parle français, anglais et espagnol.', 'Choisir votre langue'],
@@ -71,7 +69,7 @@ const CONTENT = {
     },
     try: {
       title: 'Essayez tout',
-      lead: 'Rien de ce que vous faites en bêta ne peut rien casser pour de bon : explorez.',
+      lead: 'Chaque modification est enregistrée et une erreur peut être annulée : explorez.',
       explore: ['Explorez', 'La carte, les listes de grottes et de réseaux, la recherche, la page d’une grotte.', 'Ouvrir la carte'],
       edit: ['Modifiez des grottes', 'Ajoutez-en une, ses coordonnées, son accès, ses textes ; corrigez ce qui semble faux.', 'Voir les grottes'],
       media: ['Ajoutez photos, vidéos et cartes', 'Depuis la page d’une grotte : vos photos, une vidéo, une carte topographique.'],
@@ -81,7 +79,7 @@ const CONTENT = {
     tips: { title: 'Pour un bon rapport', items: ['Un rapport par problème ou par idée.', 'Dites ce que vous avez fait, ce que vous attendiez, et ce qui s’est passé à la place.', 'La page où vous étiez est remplie pour vous.', 'Votre navigateur est ajouté pour vous : précisez l’appareil si cela compte.'] },
     good: {
       title: 'Bon à savoir',
-      reset: ['Les données de la bêta peuvent être réinitialisées', 'Ce que vous modifiez n’est pas encore permanent.'],
+      reset: ['Chaque modification est enregistrée', 'Qui a modifié quoi est conservé, et l’équipe d’OpenCaves peut annuler une erreur.'],
       public: ['Tout ce que vous ajoutez est public', 'Ne partagez le numéro de téléphone de personne.'],
     },
     safety: ['OpenCaves ne sert pas à planifier une plongée', 'La plongée souterraine peut tuer : formez-vous, plongez selon vos limites, et vérifiez toujours les conditions sur place.'],
@@ -89,11 +87,10 @@ const CONTENT = {
     footer: 'Vous recevez ce courriel parce que vous venez de créer un compte OpenCaves.',
   },
   es: {
-    subject: 'Bienvenido a OpenCaves (beta)',
+    subject: 'Bienvenido a OpenCaves',
     preheader: 'Eres uno de los primeros buzos en OpenCaves. Así puedes ayudarnos a mejorarla.',
-    overline: 'Beta',
     title: 'Bienvenido a OpenCaves',
-    lead: 'La aplicación está en beta, y tú eres uno de sus primeros buzos. Úsala como lo harías antes y después de una inmersión, y cuéntanos qué falla, qué te confunde y qué falta.',
+    lead: 'Eres uno de los primeros buzos de OpenCaves. Úsala como lo harías antes y después de una inmersión, y cuéntanos qué falla, qué te confunde y qué falta.',
     greeting: (name) => `Hola${name ? ` ${name}` : ''}:`,
     cta: 'Abrir ¿Qué puedo hacer?',
     language: ['OpenCaves habla español, inglés y francés.', 'Elige tu idioma'],
@@ -106,7 +103,7 @@ const CONTENT = {
     },
     try: {
       title: 'Pruébalo todo',
-      lead: 'Nada de lo que hagas en la beta puede romper algo para siempre: explora.',
+      lead: 'Cada cambio queda registrado y un error se puede deshacer: explora.',
       explore: ['Explora', 'El mapa, las listas de cuevas y sistemas, la búsqueda, la página de una cueva.', 'Abrir el mapa'],
       edit: ['Edita cuevas', 'Añade una, sus coordenadas, su acceso, sus textos; corrige lo que parezca erróneo.', 'Ver las cuevas'],
       media: ['Añade fotos, vídeos y mapas', 'Desde la página de una cueva: tus fotos, un vídeo, un mapa topográfico.'],
@@ -116,7 +113,7 @@ const CONTENT = {
     tips: { title: 'Cómo reportar bien', items: ['Un reporte por problema o idea.', 'Di qué hiciste, qué esperabas y qué pasó en cambio.', 'La página en la que estabas se completa sola.', 'Tu navegador se añade solo: indica el dispositivo si importa.'] },
     good: {
       title: 'Bueno saber',
-      reset: ['Los datos de la beta pueden reiniciarse', 'Lo que cambies aún no es permanente.'],
+      reset: ['Cada cambio queda registrado', 'Quién cambió qué se conserva, y el equipo de OpenCaves puede deshacer un error.'],
       public: ['Todo lo que añades es público', 'No compartas el teléfono de nadie.'],
     },
     safety: ['OpenCaves no sirve para planificar una inmersión', 'El buceo en cuevas puede matar: fórmate, bucea dentro de tus límites y verifica siempre las condiciones en el lugar.'],

@@ -21,6 +21,7 @@ import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.js
 import { openDirections } from '@/utils/directions.js'
 import './QuickActions.scss'
 import DialogCloseButton from '@/components/DialogCloseButton.jsx'
+import { track } from '@/utils/track.js'
 
 /**
  * A large quick action button (an icon over its label).
@@ -132,6 +133,7 @@ export default function QuickActions({ cave }) {
   const isSmall = useSmall()
 
   async function handleShareOpen() {
+    track('share', { content_type: 'cave', item_id: cave.id })
     const shareURL = new URL(window.location.href)
     shareURL.hash = ''
     await Share.share({
@@ -162,6 +164,7 @@ export default function QuickActions({ cave }) {
       requestPersistentStorage()
       markJustSaved(cave.id)
     }
+    track(saved ? 'unsave_cave' : 'save_cave', { cave_id: cave.id })
     const write = saved ? unsaveCave(cave.id) : saveCave(cave.id)
     // Its offline download (OfflineMediaSync) is held back without a
     // connection or on cellular - say so rather than implying it's ready.
@@ -176,6 +179,7 @@ export default function QuickActions({ cave }) {
   // Driving ends where the car is left: through the site's entrance (when
   // the cave has one) to its parking, or to the cave itself without one.
   function openCaveDirections() {
+    track('directions', { cave_id: cave.id, point: cave.parking ? 'parking' : 'location' })
     openDirections(cave.entrance, cave.parking ?? cave.location)
   }
 
