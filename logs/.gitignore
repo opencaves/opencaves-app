@@ -1,0 +1,4 @@
+# The Firebase emulators' logs (npm run dev starts them from here): kept out
+# of git, the folder kept.
+*
+!.gitignore

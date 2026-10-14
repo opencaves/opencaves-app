@@ -49,8 +49,10 @@ async function emulatorsUp() {
 function exportParts(parts) {
   rmSync(TEMP_DIR, { recursive: true, force: true })
   return new Promise((resolve) => {
-    // A command line through the shell: firebase is a .cmd on Windows.
-    const child = spawn(`firebase emulators:export "${TEMP_DIR}" --force --only ${parts.join(',')}`, { cwd: ROOT, shell: true, stdio: ['ignore', 'pipe', 'pipe'] })
+    // A command line through the shell: firebase is a .cmd on Windows. Run
+    // from logs/, like the emulators (npm run dev), so a firebase-debug.log
+    // it leaves lands there.
+    const child = spawn(`firebase emulators:export "${TEMP_DIR}" --force --only ${parts.join(',')} --config ../firebase.json`, { cwd: path.join(ROOT, 'logs'), shell: true, stdio: ['ignore', 'pipe', 'pipe'] })
     let output = ''
     child.stdout.on('data', (chunk) => { output += chunk })
     child.stderr.on('data', (chunk) => { output += chunk })
