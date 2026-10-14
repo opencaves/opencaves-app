@@ -1926,8 +1926,8 @@
         "action": "Envoyer un signalement"
       },
       "coordinates": {
-        "title": "Mettre des grottes sur la carte",
-        "text": "Une icône de carte barrée dans les listes signale une grotte encore sans coordonnées. Vous y êtes allé ? Ajoutez-les.",
+        "title": "Mettre des entrées sur la carte",
+        "text": "Des entrées qu’utilisent les plongeurs n’ont pas encore de coordonnées - une icône de carte barrée les signale dans les listes. Vous y êtes allé ? Ajoutez-les.",
         "action": "Les trouver"
       },
       "media": {

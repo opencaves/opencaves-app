@@ -40,7 +40,9 @@ const CONTRIBUTE = [
   // Filling or confirming: each leads to the caves concerned (caveFilters.js).
   { key: 'checkFacts', icon: <MyLocationRounded />, to: '/caves?missing=position' },
   { key: 'passages', icon: <RouteRounded />, onClick: () => openFeedback() },
-  { key: 'coordinates', icon: <EditLocationAltRounded />, to: '/caves?missing=coordinates' },
+  // The entrances only: the caves known by name alone (along a system's
+  // passages, from a book or a survey map) can't be found by a contributor.
+  { key: 'coordinates', icon: <EditLocationAltRounded />, to: '/caves?type=entrance&missing=coordinates' },
   { key: 'media', icon: <AddAPhotoRounded />, to: '/caves?missing=photo' },
   { key: 'videos', icon: <VideoLibraryRounded />, to: '/caves?missing=video' },
   { key: 'texts', icon: <EditNoteRounded />, to: '/caves?missing=description' },

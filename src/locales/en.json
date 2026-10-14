@@ -1927,8 +1927,8 @@
         "action": "Send a report"
       },
       "coordinates": {
-        "title": "Put caves on the map",
-        "text": "A crossed-out map icon in the cave lists marks a cave with no coordinates yet. Been there? Add them.",
+        "title": "Put entrances on the map",
+        "text": "Some entrances divers use have no coordinates yet - a crossed-out map icon in the lists marks them. Been there? Add them.",
         "action": "Find them"
       },
       "media": {
