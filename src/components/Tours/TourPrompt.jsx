@@ -8,6 +8,7 @@ import LogoIcon from '@/components/App/LogoIcon.jsx'
 import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 import { MAIN_TOUR_ID } from '@/tours/tourList.js'
 import { useStartTour } from './ToursDialog.jsx'
+import { track } from '@/utils/track.js'
 
 // The browser's note that this device was asked. Its own key, not the
 // welcome dialog's (oc-welcome-seen) it replaced: the beta testers, who saw
@@ -81,8 +82,10 @@ export default function TourPrompt() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authResolved])
 
-  function close(withTour) {
+  // How it was answered: the tour taken, Not now, or closed.
+  function close(withTour, answer) {
     takeTour.current = withTour
+    track('tour_prompt', { answer })
     setOpen(false)
   }
 
@@ -100,7 +103,7 @@ export default function TourPrompt() {
     <Dialog
       className="oc-tour-prompt"
       open={open}
-      onClose={() => close(false)}
+      onClose={() => close(false, 'close')}
       fullWidth
       aria-labelledby="oc-tour-prompt-title"
       aria-describedby="oc-tour-prompt-text"
@@ -110,7 +113,7 @@ export default function TourPrompt() {
       }}
     >
       {/* The app's rule: an X on every dialog. */}
-      <DialogCloseButton onClick={() => close(false)} />
+      <DialogCloseButton onClick={() => close(false, 'close')} />
       <Box sx={{ display: 'flex', justifyContent: 'center', pt: 4 }}>
         <LogoIcon sx={{ width: 56, height: 56 }} />
       </Box>
@@ -127,10 +130,10 @@ export default function TourPrompt() {
       </DialogContent>
       {/* Side by side; stacked on a narrow phone, the main action on top. */}
       <DialogActions sx={{ px: 3, pt: 3, pb: 3, gap: 1, flexDirection: { xs: 'column-reverse', sm: 'row' }, alignItems: 'stretch', '& > :not(style) ~ :not(style)': { ml: 0 }, '& .MuiButton-root': { whiteSpace: 'nowrap', minHeight: 40, px: 3, fontSize: '0.875rem', borderRadius: '20px', textTransform: 'none' } }}>
-        <Button onClick={() => close(false)} sx={{ color: 'var(--mui-sys-color-primary)' }}>
+        <Button onClick={() => close(false, 'not_now')} sx={{ color: 'var(--mui-sys-color-primary)' }}>
           {t('notNow')}
         </Button>
-        <Button variant="contained" disableElevation onClick={() => close(true)}>
+        <Button variant="contained" disableElevation onClick={() => close(true, 'take')}>
           {t('start')}
         </Button>
       </DialogActions>

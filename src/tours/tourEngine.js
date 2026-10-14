@@ -12,6 +12,7 @@ import { setCaveLayerVisible } from '@/redux/slices/caveLayerSlice.jsx'
 import { requestFlyToCoordinate } from '@/redux/slices/mapSlice.jsx'
 import i18n from '@/i18n.js'
 import { toServiceLanguage } from '@/utils/lang.js'
+import { track } from '@/utils/track.js'
 
 // How long a step waits for its element by default, in ms.
 const DEFAULT_TIMEOUT = 4000
@@ -237,6 +238,9 @@ export function runTour(tour, { navigate, t, store }) {
   const context = tourContext(store)
   const steps = tour.steps.filter((step) => !step.when || step.when(context))
   if (!steps.length) return
+  track('tutorial_begin', { tour: tour.id, steps: steps.length })
+  // Gone past its last step (tutorial_complete), not closed on the way.
+  let completed = false
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   // Each step's element, once found.
   const elements = []
@@ -422,9 +426,14 @@ export function runTour(tour, { navigate, t, store }) {
         if (tourDriver.isActive()) tourDriver.moveTo(i)
         else tourDriver.drive(i)
         restorePrevious()
+        track('tutorial_step', { tour: tour.id, step: step.id, step_number: i + 1 })
         return
       }
-      if (direction > 0) tourDriver.destroy()
+      if (direction > 0) {
+        completed = true
+        track('tutorial_complete', { tour: tour.id })
+        tourDriver.destroy()
+      }
     } catch (error) {
       console.error(error)
       tourDriver.destroy()
@@ -436,6 +445,8 @@ export function runTour(tour, { navigate, t, store }) {
   function stop() {
     if (stopped) return
     stopped = true
+    // Closed before its end: where.
+    if (!completed) track('tutorial_close', { tour: tour.id, step: steps[active]?.id, step_number: active + 1 })
     if (current === controller) current = null
     if (tourDriver.isActive()) tourDriver.destroy()
     restorePointed()
