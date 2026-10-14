@@ -88,7 +88,7 @@ export default function MapsSection({ sistemaId, sistemas, connections, pagePath
   // Its menu: everyone's actions (its address in the page's gallery, its
   // file), then the editors'.
   const mapMenu = (map) => withOthers(
-    mediaActionsFor({ kind: 'map', shareUrl: `${SITE_URL}${pagePath}/maps/${map.id}`, download: { url: map.url, fileName: downloadName('opencaves-map', map.id, map.contentType) }, reportPage: `${pagePath}/maps/${map.id}` }),
+    mediaActionsFor({ kind: 'map', itemId: map.id, shareUrl: `${SITE_URL}${pagePath}/maps/${map.id}`, download: { url: map.url, fileName: downloadName('opencaves-map', map.id, map.contentType) }, reportPage: `${pagePath}/maps/${map.id}` }),
     isEditor ? mapActions(map) : [],
   )
   // A map opens in the page's gallery; named by its name and year.

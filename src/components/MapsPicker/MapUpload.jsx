@@ -11,6 +11,7 @@ import mapsModel from '@/models/MapModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { assertOnline } from '@/utils/assertOnline.js'
 import { addPendingUpload } from '@/services/offline/pendingUploads.js'
+import { track } from '@/utils/track.js'
 
 /**
  * A map file sent to Storage and its record made.
@@ -67,6 +68,7 @@ export function useMapUpload() {
       setError('invalidMapFile')
       return null
     }
+    track('add_media', { content_type: 'map', count: 1, sistema_id: attachToSistemaId || undefined })
 
     if (!navigator.onLine) {
       const id = pushId()

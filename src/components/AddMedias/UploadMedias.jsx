@@ -16,6 +16,7 @@ import pushId from 'unique-push-id'
 import { addPendingUpload } from '@/services/offline/pendingUploads.js'
 import { ACCEPTED_MIME_TYPES } from '@/config/mediaPane.js'
 import { loadFirebase } from '@/utils/loadFirebase.js'
+import { track } from '@/utils/track.js'
 
 const codeFontFamily = 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace'
 
@@ -39,6 +40,7 @@ export default function UploadMedias({ medias, caveId }) {
   }
 
   async function uploadMedias(files) {
+    track('add_media', { content_type: 'photo', count: files.length, cave_id: caveId ?? cave?.id })
     // Offline: kept on the device, to upload on Wi-Fi (PendingUploadsSync) -
     // a file of the wrong type still gets its error (uploadCaveImages) first.
     if (!navigator.onLine && files.every((file) => ACCEPTED_MIME_TYPES.includes(file.type))) {

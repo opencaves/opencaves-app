@@ -4,6 +4,7 @@ import DownloadRounded from '@mui/icons-material/DownloadRounded'
 import FlagRounded from '@mui/icons-material/FlagRounded'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { openFeedback } from '@/utils/feedback.js'
+import { track } from '@/utils/track.js'
 
 /**
  * A media action, as a menu draws it (CardOptionsMenu's actions, or a
@@ -25,23 +26,26 @@ import { openFeedback } from '@/utils/feedback.js'
  * a visitor is asked to sign in first). A builder, called for each item (a
  * list's, in a loop where a hook can't be).
  *
- * @returns {(media: { kind: 'photo'|'map'|'video', shareUrl?: string, download?: { url: string, fileName: string }, reportPage: string, onDone?: () => void }) => MediaAction[]} The
- *   actions for one item: `shareUrl` its link (none: no Share), `download` its file (none: no
- *   Download), `reportPage` what a report is about (its address, or its link), `onDone` called as an
- *   action is chosen (closes the menu).
+ * @returns {(media: { kind: 'photo'|'map'|'video', itemId?: string, shareUrl?: string, download?: { url: string, fileName: string }, reportPage: string, onDone?: () => void }) => MediaAction[]} The
+ *   actions for one item: `itemId` its id (the analytics events': share, download, report_media),
+ *   `shareUrl` its link (none: no Share), `download` its file (none: no Download), `reportPage` what a
+ *   report is about (its address, or its link), `onDone` called as an action is chosen (closes the menu).
  */
 export function useMediaActionsFor() {
   const { t } = useTranslation('mediaPane')
   const [openSnackbar] = useSnackbar()
 
-  return ({ kind, shareUrl, download, reportPage, onDone }) => {
+  return ({ kind, itemId, shareUrl, download, reportPage, onDone }) => {
+    const item = { content_type: kind, item_id: itemId }
     async function share() {
       onDone?.()
       try {
         if (navigator.share) {
+          track('share', { ...item, method: 'share_sheet' })
           await navigator.share({ title: t('share.title', { title: document.title }), url: shareUrl })
           return
         }
+        track('share', { ...item, method: 'copy_link' })
         await navigator.clipboard.writeText(shareUrl)
         openSnackbar(t('menu.linkCopied'), { severity: 'success' })
       } catch (error) {
@@ -54,6 +58,7 @@ export function useMediaActionsFor() {
     // file on another origin (the bucket; storage.cors.json allows the fetch).
     async function save() {
       onDone?.()
+      track('download', item)
       try {
         const response = await fetch(download.url)
         if (!response.ok) throw new Error(`HTTP ${response.status}`)
@@ -71,6 +76,7 @@ export function useMediaActionsFor() {
 
     function report() {
       onDone?.()
+      track('report_media', item)
       openFeedback('misleading', { page: reportPage })
     }
 

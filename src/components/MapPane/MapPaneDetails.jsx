@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Lightbox, { addToolbarButton } from 'yet-another-react-lightbox'
@@ -26,6 +26,7 @@ import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import MapPaneMenu from './MapPaneMenu.jsx'
 import 'yet-another-react-lightbox/styles.css'
 import '@/components/MediaPane/lightbox.scss'
+import { track } from '@/utils/track.js'
 
 const Main = styled('main')(({ theme }) => ({
   flexGrow: 1,
@@ -95,6 +96,11 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
   const labels = useLightboxLabels()
   const { t: tMaps } = useTranslation('mapsPicker')
   const currentIndex = maps.findIndex((map) => map.id === mapId)
+  // Opened on a map (not each one swiped to).
+  useEffect(() => {
+    track('select_content', { content_type: 'map', item_id: mapId })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   const currentMap = maps.find((map) => map.id === mapId)
   const navigate = useNavigate()
   const location = useLocation()
@@ -208,7 +214,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
         }}
         noScroll={{ disabled: true }}
         controller={{ ref: controllerRef }}
-        on={{ view: onView, enterFullscreen: () => setIsFullscreen(true), exitFullscreen: () => setIsFullscreen(false) }}
+        on={{ view: onView, download: ({ index }) => track('download', { content_type: 'map', item_id: slides[index]?.mapId }), share: ({ index }) => track('share', { content_type: 'map', item_id: slides[index]?.mapId, method: 'share_sheet' }), enterFullscreen: () => setIsFullscreen(true), exitFullscreen: () => setIsFullscreen(false) }}
       />
     </Main>
   )

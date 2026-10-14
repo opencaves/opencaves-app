@@ -22,6 +22,7 @@ import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { videoSiteName, youtubeThumbnail } from '@/utils/videos.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { useReorder } from '@/hooks/useReorder.js'
+import { track } from '@/utils/track.js'
 
 // The video sites the player can show: YouTube, Vimeo and Facebook. A link
 // from anywhere else is refused by the Add video form.
@@ -244,6 +245,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
       nextVideos[editingIndex] = newVideoUrl.trim()
     }
     const adding = editingIndex === null
+    if (adding) track('add_media', { content_type: 'video', count: 1, cave_id: caveId })
     // Closed at once: the list shows the change straight away (Firestore's
     // local write), the server's confirmation takes seconds. A new video goes
     // at the strip's end, out of sight: scrolled to. Said once confirmed
@@ -335,7 +337,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
 
   // Its menu, for everyone: Report this video - no Share nor Download, a
   // video is someone else's site's - then its own actions.
-  const videoMenu = (video, index) => withOthers(mediaActionsFor({ kind: 'video', reportPage: video }), canEdit ? videoActions(video, index) : [])
+  const videoMenu = (video, index) => withOthers(mediaActionsFor({ kind: 'video', itemId: video, reportPage: video }), canEdit ? videoActions(video, index) : [])
 
   if (videoUrls.length === 0 && !canEdit && !showAdd) {
     return null
