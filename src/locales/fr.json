@@ -2018,6 +2018,12 @@
       "title": "Pas pour planifier une plongée",
       "text": "Les informations d’OpenCaves sont partagées par sa communauté. Elles peuvent être incomplètes, inexactes ou périmées, et ne conviennent pas à la planification ni à la conduite d’une plongée. Vous les utilisez à vos propres risques : vérifiez toujours auprès des guides locaux, des centres de plongée et des propriétaires avant de partir. Voir les"
     },
+    "popular": {
+      "title": "Grottes et réseaux populaires",
+      "subtitle": "Les grottes les plus consultées, et les plus longs réseaux.",
+      "caves": "Grottes populaires",
+      "sistemas": "Les plus longs réseaux"
+    },
     "discover": {
       "title": "À découvrir",
       "subtitle": "Quelques-unes des grottes d’OpenCaves.",

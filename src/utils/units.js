@@ -52,3 +52,21 @@ export function formatMeasure(metres, units, locale) {
   const value = fromMetres(Number(metres), units)
   return `${value.toLocaleString(locale, { maximumFractionDigits: 0 })} ${lengthUnit(units)}`
 }
+
+// Metres in a statute mile.
+const METRES_PER_MILE = 1609.344
+
+/**
+ * A long stored distance (metres) as the person reads it: kilometres or
+ * miles, one decimal ("379.6 km", "235.9 mi") - a system's length, where
+ * {@link formatMeasure}'s whole metres or feet run to six or seven digits.
+ *
+ * @param {number} metres
+ * @param {'metric'|'imperial'} units
+ * @param {string} locale
+ * @returns {string}
+ */
+export function formatDistance(metres, units, locale) {
+  const value = Number(metres) / (units === 'imperial' ? METRES_PER_MILE : 1000)
+  return `${value.toLocaleString(locale, { minimumFractionDigits: 1, maximumFractionDigits: 1 })} ${units === 'imperial' ? 'mi' : 'km'}`
+}

@@ -12,7 +12,7 @@ import PublicRounded from '@mui/icons-material/PublicRounded'
 import GitHub from '@mui/icons-material/GitHub'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { useCaveData } from '@/hooks/useCaveData.js'
-import { homeFigures } from '@/utils/indexData.js'
+import { homeFeatured, homeFigures } from '@/utils/indexData.js'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 import SiteSearch from '@/components/IndexPage/SiteSearch.jsx'
 import CaveAsset, { converter as caveAssetConverter } from '@/models/CaveAsset.js'
@@ -30,9 +30,9 @@ import { openAboutDialog } from '@/utils/aboutDialog.js'
 import './Home.scss'
 import { CHANGELOG_URL, GITHUB_URL } from '@/config/app.js'
 import { sistemaTitle } from '@/utils/sistemaTitle.js'
-
-// How many cave photos the Discover strip shows, picked at random each visit.
-const DISCOVER_COUNT = 6
+import { usePopularity } from '@/hooks/usePopularity.js'
+import { useUnits } from '@/hooks/useUnits.jsx'
+import { formatDistance } from '@/utils/units.js'
 
 const caveIcon = (
   <SvgIcon inheritViewBox>
@@ -66,29 +66,48 @@ function IconBadge({ children, size = 48 }) {
   )
 }
 
-// The caves' cover photos, in a random order each visit: the first for the
-// header's background, the next few for the Discover strip. On the page the
-// server rendered, the covers it sent (ssr/pageState.js): no Firestore,
-// which the page doesn't load until the person does something
-// (utils/loadFirebase.js).
-function useCoverPhotos() {
-  const [photos, setPhotos] = useState([])
+// The caves' cover photos (Discover's cards), and one of them at random for
+// the header's background, picked once the page is in the browser. On the
+// page the server rendered, the covers it sent (ssr/pageState.js), there from
+// the first render: no Firestore, which the page doesn't load until the
+// person does something (utils/loadFirebase.js).
+function useCovers() {
   // Read while the page hydrates (offered then only).
   const [serverCovers] = useState(() => ssrQuerySnapshot('covers', caveAssetConverter)?.docs.map((d) => d.data()))
+  const [covers, setCovers] = useState(serverCovers || null)
+  const [heroPhoto, setHeroPhoto] = useState(null)
   useEffect(() => {
     let cancelled = false
-    const covers = serverCovers ? Promise.resolve(serverCovers) : CaveAsset.getAllCoverImages()
-    covers
-      .then((covers) => {
+    const load = serverCovers ? Promise.resolve(serverCovers) : CaveAsset.getAllCoverImages()
+    load
+      .then((all) => {
         if (cancelled) return
-        setPhotos([...covers].sort(() => Math.random() - 0.5).slice(0, DISCOVER_COUNT + 1))
+        setCovers(all)
+        setHeroPhoto(all[Math.floor(Math.random() * all.length)] || null)
       })
       .catch((error) => console.error(error))
     return () => {
       cancelled = true
     }
   }, [])
-  return photos
+  return { covers, heroPhoto }
+}
+
+// The landing page's featured caves and systems (homeFeatured): the server's,
+// on the page it rendered; else picked here from the cave data, the covers
+// and the caves' visit counts (the server's while its check render runs,
+// else read - offline, from the browser's Firestore cache, or none: Discover
+// by name, no popular list). Null until there's enough to pick from.
+function useFeatured(data, partial, covers) {
+  const { featured: serverFeatured } = useCaveData()
+  const [serverViews] = useState(() => ssrQuerySnapshot('popularity')?.docs.find((doc) => doc.id === 'caves')?.data().views)
+  const { popularity } = usePopularity('caves', !serverFeatured && !serverViews)
+  const views = serverViews ?? popularity?.views
+  return useMemo(() => {
+    if (serverFeatured) return serverFeatured
+    if (partial || !covers || views === undefined) return null
+    return homeFeatured(data, covers, views && Object.keys(views).length ? views : null)
+  }, [serverFeatured, partial, covers, views, data])
 }
 
 /**
@@ -109,7 +128,11 @@ export default function Home() {
   // every cave: src/ssr/pageState.js), until the store has the data.
   const { figures: serverFigures } = useCaveData()
   const figures = useMemo(() => serverFigures || homeFigures(data), [serverFigures, data])
-  const [heroPhoto, ...photos] = useCoverPhotos()
+  const { covers, heroPhoto } = useCovers()
+  const featured = useFeatured(data, partial, covers)
+  const coversById = useMemo(() => new Map((covers || []).map((cover) => [cover.id, cover])), [covers])
+  const discover = (featured?.discover || []).filter(({ assetId }) => coversById.has(assetId))
+  const units = useUnits()
   const { regions } = figures
 
   // The brand first, in its two-word spelling (people search "open caves").
@@ -118,11 +141,6 @@ export default function Home() {
   // The map's code, fetched once the page has painted: most visitors go on
   // to the map, which then opens without waiting for it.
   useEffect(() => prefetchMap(), [])
-
-  const caveName = (caveId) => {
-    const cave = data.caves.find(({ id }) => id === caveId)
-    return { name: cave?.name || tIndex('unnamedCave'), sistema: data.sistemasById.get(cave?.sistemaId)?.name }
-  }
 
   const features = [
     { key: 'caves', icon: caveIcon, to: '/caves' },
@@ -268,18 +286,18 @@ export default function Home() {
         </Alert>
       </Box>
 
-      {/* Some of the caves, with their photos - named once the store has
-          every cave (not only the server's figures). */}
-      {photos.length > 0 && !partial && (
+      {/* The most visited caves with a photo (homeFeatured) - drawn by the
+          server too: search engines follow their links. */}
+      {discover.length > 0 && (
         <Box component="section" className="oc-home--discover">
           <SectionTitle title={t('discover.title')} subtitle={t('discover.subtitle')} />
           <Grid container spacing={2}>
-            {photos.map((photo) => {
-              const { name, sistema } = caveName(photo.caveId)
+            {discover.map(({ caveId, assetId, name, sistema }) => {
+              const photo = coversById.get(assetId)
               return (
-                <Grid key={photo.id} size={{ xs: 12, sm: 6, md: 4 }}>
+                <Grid key={assetId} size={{ xs: 12, sm: 6, md: 4 }}>
                   <Card sx={{ borderRadius: 3, height: '100%', transition: 'transform 200ms ease, box-shadow 200ms ease', '&:hover': { transform: 'translateY(-4px)', boxShadow: 6 } }}>
-                    <CardActionArea component={RouterLink} to={`/caves/${photo.caveId}`} sx={{ height: '100%' }}>
+                    <CardActionArea component={RouterLink} to={`/caves/${caveId}`} sx={{ height: '100%' }}>
                       {/* Empty alt: its name is the heading beside it (read twice before). */}
                       <CardMedia component="img" image={photo.getThumbnailUrl('coverImage')} alt="" loading="lazy" crossOrigin="anonymous" sx={{ aspectRatio: '16 / 9', objectFit: 'cover' }} />
                       <CardContent>
@@ -301,6 +319,58 @@ export default function Home() {
           <Button component={RouterLink} to="/caves" sx={{ mt: 2 }}>
             {t('discover.all')}
           </Button>
+        </Box>
+      )}
+
+      {/* The next most visited caves and the longest systems, as links with a
+          fact each (homeFeatured): the paths search engines take from here. */}
+      {featured && (featured.popular.length > 0 || featured.longest.length > 0) && (
+        <Box component="section" className="oc-home--popular">
+          <SectionTitle title={t('popular.title')} subtitle={t('popular.subtitle')} />
+          <Grid container spacing={4}>
+            {featured.popular.length > 0 && (
+              <Grid size={{ xs: 12, md: 8 }}>
+                <Typography component="h3" variant="h6" sx={{ mb: 1 }}>
+                  {t('popular.caves')}
+                </Typography>
+                <Box component="ol" className="oc-home--popular-caves" sx={{ m: 0, pl: 3, columns: { sm: 2 }, columnGap: 4, '& li': { breakInside: 'avoid', mb: 0.75 } }}>
+                  {featured.popular.map(({ id, name, sistema }) => (
+                    <li key={id}>
+                      <Link component={RouterLink} to={`/caves/${id}`} underline="hover" sx={{ fontWeight: 500 }}>
+                        {name}
+                      </Link>
+                      {sistema && sistema !== name && (
+                        <Typography component="span" sx={{ color: 'text.secondary' }}>
+                          {' · '}
+                          {sistemaTitle(sistema, (systemName) => tIndex('sistema.title', { name: systemName }))}
+                        </Typography>
+                      )}
+                    </li>
+                  ))}
+                </Box>
+              </Grid>
+            )}
+            {featured.longest.length > 0 && (
+              <Grid size={{ xs: 12, md: 4 }}>
+                <Typography component="h3" variant="h6" sx={{ mb: 1 }}>
+                  {t('popular.sistemas')}
+                </Typography>
+                <Box component="ol" className="oc-home--popular-sistemas" sx={{ m: 0, pl: 3, '& li': { mb: 0.75 } }}>
+                  {featured.longest.map(({ id, name, length }) => (
+                    <li key={id}>
+                      <Link component={RouterLink} to={`/sistemas/${id}`} underline="hover" sx={{ fontWeight: 500 }}>
+                        {name}
+                      </Link>
+                      <Typography component="span" sx={{ color: 'text.secondary', fontVariantNumeric: 'tabular-nums' }}>
+                        {' · '}
+                        {formatDistance(length, units, i18n.language)}
+                      </Typography>
+                    </li>
+                  ))}
+                </Box>
+              </Grid>
+            )}
+          </Grid>
         </Box>
       )}
 

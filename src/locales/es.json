@@ -2019,6 +2019,12 @@
       "title": "No apto para planificar una inmersión",
       "text": "La información de OpenCaves la comparte su comunidad. Puede estar incompleta, ser inexacta o estar desactualizada, y no es apta para planificar ni realizar una inmersión. La usas bajo tu propio riesgo: consulta siempre a los guías locales, los centros de buceo y los propietarios antes de ir. Consulta los"
     },
+    "popular": {
+      "title": "Cuevas y sistemas populares",
+      "subtitle": "Las cuevas más visitadas y los sistemas más largos.",
+      "caves": "Cuevas populares",
+      "sistemas": "Sistemas más largos"
+    },
     "discover": {
       "title": "Descubre",
       "subtitle": "Algunas de las cuevas de OpenCaves.",
