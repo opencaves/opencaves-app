@@ -1927,8 +1927,8 @@
         "action": "Enviar un reporte"
       },
       "coordinates": {
-        "title": "Poner entradas en el mapa",
-        "text": "Algunas entradas que usan los buzos aún no tienen coordenadas: un icono de mapa tachado las señala en las listas. ¿Estuviste allí? Añádelas.",
+        "title": "Poner entradas de cuevas en el mapa",
+        "text": "Algunas entradas de cuevas que usan los buzos aún no tienen coordenadas: un icono de mapa tachado las señala en las listas. ¿Estuviste allí? Añádelas.",
         "action": "Encontrarlas"
       },
       "media": {
