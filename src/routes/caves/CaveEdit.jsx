@@ -35,6 +35,7 @@ import SourceSelect from '@/components/SourceSelect.jsx'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { FIT_SELECT_MENU_PROPS, fitSelectSx } from '@/utils/fitSelect.js'
+import TriStateField from '@/components/ResultPane/TriStateField.jsx'
 
 const sectionHeadingProps = formSectionHeadingProps('oc-cave-edit--section-title')
 // For a heading placed directly in the form's column, whose 16dp gap already
@@ -87,8 +88,9 @@ const emptyForm = {
   direction: '',
   textSources: {},
   cenoteEntrance: false,
-  fees: false,
-  facilities: false,
+  // Unknown until someone says (TriStateField): saved as no field at all.
+  fees: null,
+  facilities: null,
   explorationDate: '',
   reporter: '',
   note: '',
@@ -188,8 +190,8 @@ export default function CaveEdit() {
         direction: cave?.direction || '',
         textSources: textSourcesOf(cave, CAVE_TEXT_FIELDS),
         cenoteEntrance: !!cave?.cenoteEntrance,
-        fees: !!cave?.fees,
-        facilities: !!cave?.facilities,
+        fees: typeof cave?.fees === 'boolean' ? cave.fees : null,
+        facilities: typeof cave?.facilities === 'boolean' ? cave.facilities : null,
         explorationDate: cave?.explorationDate || '',
         reporter: cave?.reporter || '',
         note: cave?.note || '',
@@ -256,8 +258,8 @@ export default function CaveEdit() {
         description: orDelete(form.description),
         direction: orDelete(form.direction),
         cenoteEntrance: form.cenoteEntrance,
-        fees: form.fees,
-        facilities: form.facilities,
+        fees: orDelete(form.fees),
+        facilities: orDelete(form.facilities),
         explorationDate: orDelete(form.explorationDate),
         reporter: orDelete(form.reporter),
         note: orDelete(form.note),
@@ -568,8 +570,8 @@ export default function CaveEdit() {
 
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           <BooleanToggleField name="cenoteEntrance" value={form.cenoteEntrance} onChange={(cenoteEntrance) => setForm((f) => ({ ...f, cenoteEntrance }))} />
-          <BooleanToggleField name="fees" value={form.fees} onChange={(fees) => setForm((f) => ({ ...f, fees }))} />
-          <BooleanToggleField name="facilities" value={form.facilities} onChange={(facilities) => setForm((f) => ({ ...f, facilities }))} />
+          <TriStateField name="fees" value={form.fees} onChange={(fees) => setForm((f) => ({ ...f, fees }))} />
+          <TriStateField name="facilities" value={form.facilities} onChange={(facilities) => setForm((f) => ({ ...f, facilities }))} />
         </Box>
 
         </FormSection>
