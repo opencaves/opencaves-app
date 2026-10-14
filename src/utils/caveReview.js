@@ -3,7 +3,13 @@ import { REVIEW_SECTIONS, REVIEW_VALID_MONTHS } from '@/config/caveReview.js'
 // A confirmation's month, as Cave.reviewed holds it.
 const MONTH_PATTERN = /^(\d{4})-(\d{2})$/
 
-const hasText = (value) => typeof value === 'string' && value.trim() !== ''
+/**
+ * Whether `value` is a string with something other than spaces in it.
+ *
+ * @param {unknown} value
+ * @returns {boolean}
+ */
+export const hasText = (value) => typeof value === 'string' && value.trim() !== ''
 
 /**
  * A date's month, 'YYYY-MM' (the device's time zone): what "Still accurate"

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Box } from '@mui/material'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
-import { centerFocused, leaveOnArrow, scrollStrip, snapOnSettle } from '@/utils/mediaStrip.js'
+import { centerFocused, leaveOnArrow, reducedMotion, scrollStrip, snapOnSettle } from '@/utils/mediaStrip.js'
 import { SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 import { useHydrated } from '@/hooks/useHydrated.js'
 
@@ -30,7 +30,6 @@ const CYLINDER = {
 const LIVE = '.oc-media-strip--live'
 // The flat strip for reduced motion. Browser only: effects and handlers
 // call it; rendering goes through useHydrated (the server has no window).
-const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 // A wheel notch's scroll (px; Chrome's is 100, times the display's scaling):
 // what moves the cylinder a column.
 const WHEEL_NOTCH = 100

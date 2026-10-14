@@ -13,6 +13,8 @@ import { requestFlyToCoordinate } from '@/redux/slices/mapSlice.jsx'
 import i18n from '@/i18n.js'
 import { toServiceLanguage } from '@/utils/lang.js'
 import { track } from '@/utils/track.js'
+import { nextFrame, sleep } from '@/utils/sleep.js'
+import { escapeHtml } from '@/utils/escapeHtml.js'
 
 // How long a step waits for its element by default, in ms.
 const DEFAULT_TIMEOUT = 4000
@@ -24,14 +26,9 @@ const CLOSE_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false
 // The tour running, stopped when another starts.
 let current = null
 
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
-const nextFrame = () => new Promise((resolve) => requestAnimationFrame(() => resolve()))
-
 // The lit area around a step's element: its room around it, its corners.
 const STAGE_PADDING = 6
 const STAGE_RADIUS = 12
-
-const escapeHtml = (text) => String(text).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char])
 
 // A step's pointer: a hand, its index finger raised (PanToolAltRounded) -
 // "look here", not an arrow, which reads as navigation. Pointing up as drawn,

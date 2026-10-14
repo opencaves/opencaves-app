@@ -5,7 +5,12 @@
 // content element. Not CSS scroll snapping: mandatory snapping made every
 // wheel scroll jump from item to item.
 
-const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+/**
+ * Whether the person asked for less motion (prefers-reduced-motion).
+ *
+ * @returns {boolean}
+ */
+export const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 // A wheel's lines or pages as pixels.
 const WHEEL_LINE = 16
