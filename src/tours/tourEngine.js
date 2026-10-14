@@ -9,7 +9,7 @@ import 'driver.js/dist/driver.css'
 import './tours.scss'
 import { installPlatform } from './tourSteps.js'
 import { setCaveLayerVisible } from '@/redux/slices/caveLayerSlice.jsx'
-import { requestFlyToCoordinate } from '@/redux/slices/mapSlice.jsx'
+import { requestFlyToCoordinate, resetView } from '@/redux/slices/mapSlice.jsx'
 import i18n from '@/i18n.js'
 import { toServiceLanguage } from '@/utils/lang.js'
 import { track } from '@/utils/track.js'
@@ -249,6 +249,9 @@ export function runTour(tour, { navigate, t, store }) {
   let caveLayerBefore = null
   // The steps whose Show me was used (their button gone).
   const shownPlaces = new Set()
+  // The map pages the tour went to: it moves the map (a cave it opens, Show
+  // me), so its end flies it back to its default view.
+  const mapRoutes = new Set()
   // The element pointed at last, and how to put its attributes back.
   let pointed = null
   let restorePointed = () => {}
@@ -383,6 +386,7 @@ export function runTour(tour, { navigate, t, store }) {
     if (step.open !== openMenu) await closeMenu()
     // A step not raising the sheet: back where it was.
     if (!step.sheet && sheetBefore !== null) await setSheet(null)
+    if (step.route?.startsWith('/map')) mapRoutes.add(step.route)
     if (step.route && window.location.pathname !== step.route) await navigate(step.route)
     if (step.caveLayer && !store.getState().caveLayer.visible) {
       caveLayerBefore ??= false
@@ -452,6 +456,16 @@ export function runTour(tour, { navigate, t, store }) {
     if (sheetBefore !== null) setSheet(null)
     // The markers standing for the browser's own controls (tourSteps.js).
     document.querySelectorAll('.oc-tour-anchor').forEach((anchor) => anchor.remove())
+    // The map as the tour found it: the cave it opened closed, and the map
+    // back to its default view (as the menu's Map item) - flown there if it
+    // shows, else where it opens next.
+    if (mapRoutes.size) {
+      const { pathname } = window.location
+      // Once the cave's page has left: flown before, the map page that
+      // replaces it takes the view back from the address (#zoom/lat/lng).
+      const leaving = pathname !== '/map' && mapRoutes.has(pathname) ? Promise.resolve(navigate('/map')).then(nextFrame) : Promise.resolve()
+      leaving.then(() => store.dispatch(resetView()))
+    }
   }
 
   const controller = { stop }
