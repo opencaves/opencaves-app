@@ -1869,7 +1869,19 @@
         "language": "Idioma",
         "browser": "Navegador",
         "lastEmailed": "Último correo al autor",
-        "authorMuted": "El autor desactivó los correos sobre sus comentarios"
+        "authorMuted": "El autor desactivó los correos sobre sus comentarios",
+        "proposed": {
+          "title": "Cambio propuesto",
+          "access": "Acceso",
+          "accessibility": "Accesibilidad",
+          "now": "Ahora: {{value}}",
+          "apply": "Aceptar el cambio",
+          "applied": "Cueva actualizada",
+          "done": "Guardado en {{name}}, y el reporte cerrado.",
+          "error": "No se pudo guardar el cambio.",
+          "fees": "Costos",
+          "unknown": "Desconocido"
+        }
       },
       "timeline": {
         "opened": "abrió",
@@ -2441,12 +2453,29 @@
         "closed": "{{name}} está cerrada.",
         "private": "{{name}} ahora es privada.",
         "fees": "{{name}}: los costos cambiaron.",
-        "road": "{{name}}: el camino cambió."
-      }
+        "road": "{{name}}: el camino cambió.",
+        "access": "{{name}}: el acceso ahora es «{{value}}».",
+        "accessibility": "{{name}}: la accesibilidad ahora es «{{value}}».",
+        "fees_yes": "{{name}} ahora cobra la entrada.",
+        "fees_no": "{{name}} ahora es gratis."
+      },
+      "groups": {
+        "access": "El acceso ahora es",
+        "accessibility": "La accesibilidad ahora es"
+      },
+      "fees": {
+        "yes": "Se cobra la entrada",
+        "no": "Es gratis",
+        "yesNow": "Ahora se cobra la entrada",
+        "noNow": "Ahora es gratis"
+      },
+      "sortArticles": "el la los las lo un una unos unas"
     },
     "warning": {
       "closed": "Reportada cerrada el {{date}}, en revisión",
-      "private": "Reportada como privada el {{date}}, en revisión"
+      "private": "Reportada como privada el {{date}}, en revisión",
+      "access_no": "Reportada cerrada al público el {{date}}, en verificación",
+      "access_permission": "Reportada con permiso necesario el {{date}}, en verificación"
     },
     "undone": "Confirmación anulada: {{section}}, {{name}}.",
     "undoError": "No se pudo anular la confirmación. Inténtalo de nuevo."

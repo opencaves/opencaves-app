@@ -7,7 +7,7 @@ import WarningAmberRounded from '@mui/icons-material/WarningAmberRounded'
 import ArrowDropDownRounded from '@mui/icons-material/ArrowDropDownRounded'
 import CaveModel from '@/models/CaveModel.js'
 import { monthOf, reviewState } from '@/utils/caveReview.js'
-import { SECTION_ANCHORS, SECTION_REPORT_KINDS } from '@/config/caveReview.js'
+import { SECTION_ANCHORS, SECTION_REPORT_KINDS, accessProposals } from '@/config/caveReview.js'
 import { useReviewMonth } from '@/hooks/useReviewMonth.js'
 import { useRequireLogin } from '@/hooks/useRequireLogin.jsx'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
@@ -15,6 +15,7 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import CaveReportMenu from './CaveReportMenu.jsx'
 import { loadFirebase } from '@/utils/loadFirebase.js'
 import { track } from '@/utils/track.js'
+import { useCaveData } from '@/hooks/useCaveData.js'
 
 // A 'YYYY-MM' month as a date in it (UTC: the same day wherever it's shown).
 const monthDate = (month) => new Date(Date.UTC(Number(month.slice(0, 4)), Number(month.slice(5, 7)) - 1, 15))
@@ -33,9 +34,9 @@ const monthDate = (month) => new Date(Date.UTC(Number(month.slice(0, 4)), Number
  *   month, another click takes it back (each section to its month before,
  *   known from this visit, or none) - an older confirmation is re-confirmed,
  *   never erased. Anyone else is asked to sign in;
- * - its arrow, What changed?: the card's quick reports (Closed, Now private,
- *   Fees changed, Road changed) and Something else (CaveReportMenu) - for
- *   everyone.
+ * - its arrow, What changed?: the card's quick reports - the Access card's
+ *   other access, accessibility and fees values (accessProposals); Road
+ *   changed - and Something else (CaveReportMenu), for everyone.
  * The same on the server as in the browser (the page is hydrated): roles
  * only matter on a click.
  *
@@ -58,6 +59,8 @@ export default function SectionReview({ cave, sections, sx }) {
   // Each section's month before a confirmation made in this visit: taking
   // it back puts them back (none known: not confirmed).
   const previous = useRef(undefined)
+  // The access and accessibility tables (the page's data: the server sends them).
+  const { accesses, accessibilities } = useCaveData()
 
   const months = sections.map((section) => cave.reviewed?.[section])
   const states = months.map((month) => reviewState(month, now))
@@ -131,7 +134,9 @@ export default function SectionReview({ cave, sections, sx }) {
 
   // The card's quick reports, in its sections' order; Something else is
   // about its first section's place on the page.
-  const kinds = sections.flatMap((section) => SECTION_REPORT_KINDS[section] || [])
+  // The Access card: its other access, accessibility and fees values.
+  const proposals = sections.includes('access') ? accessProposals(cave, accesses, accessibilities) : []
+  const kinds = [...proposals, ...sections.flatMap((section) => SECTION_REPORT_KINDS[section] || [])]
   const page = `/caves/${cave.id}#${SECTION_ANCHORS[sections[0]] || sections[0]}`
 
   // The button's color: the primary's dark shade in light mode (AAA, 7:1 on

@@ -984,7 +984,7 @@
       "description": "A key must be obtained to get access to the site."
     },
     "no": {
-      "label": "Access forbiden",
+      "label": "Access forbidden",
       "description": "Cave diving is forbidden in this place."
     },
     "permission": {
@@ -1869,7 +1869,19 @@
         "language": "Language",
         "browser": "Browser",
         "lastEmailed": "Author last emailed",
-        "authorMuted": "The author muted feedback emails"
+        "authorMuted": "The author muted feedback emails",
+        "proposed": {
+          "title": "Proposed change",
+          "access": "Access",
+          "accessibility": "Accessibility",
+          "now": "Now: {{value}}",
+          "apply": "Accept the change",
+          "applied": "Cave updated",
+          "done": "Saved on {{name}}, and the report closed.",
+          "error": "The change couldn’t be saved.",
+          "fees": "Fees",
+          "unknown": "Unknown"
+        }
       },
       "timeline": {
         "opened": "opened",
@@ -2441,12 +2453,29 @@
         "closed": "{{name}} is closed.",
         "private": "{{name}} is now private.",
         "fees": "{{name}}: the fees changed.",
-        "road": "{{name}}: the road changed."
-      }
+        "road": "{{name}}: the road changed.",
+        "access": "{{name}}: the access is now “{{value}}”.",
+        "accessibility": "{{name}}: the accessibility is now “{{value}}”.",
+        "fees_yes": "{{name}} now charges fees.",
+        "fees_no": "{{name}} is now free."
+      },
+      "groups": {
+        "access": "Access is now",
+        "accessibility": "Accessibility is now"
+      },
+      "fees": {
+        "yes": "There are fees",
+        "no": "It's free",
+        "yesNow": "There are fees now",
+        "noNow": "It's free now"
+      },
+      "sortArticles": "a an the"
     },
     "warning": {
       "closed": "Reported closed on {{date}}, being checked",
-      "private": "Reported now private on {{date}}, being checked"
+      "private": "Reported now private on {{date}}, being checked",
+      "access_no": "Reported closed to the public on {{date}}, being checked",
+      "access_permission": "Reported as needing permission on {{date}}, being checked"
     },
     "undone": "Confirmation undone: {{section}}, {{name}}.",
     "undoError": "The confirmation couldn't be undone. Try again."

@@ -10,6 +10,13 @@ const KINDS = { bug: 'Bug', misleading: 'Misleading', idea: 'Idea / comment' }
 const ICONS = { bug: '🐞', misleading: '🤔', idea: '💡' }
 // A cave's quick report (Report a change): what changed.
 const CAVE_REPORTS = { closed: 'Closed', private: 'Now private', fees: 'Fees changed', road: 'Road changed' }
+// A proposed value's (access:permission, fees:no): the field and its key.
+const FIELDS = { access: 'Access', accessibility: 'Accessibility' }
+const FEES = { yes: 'Fees: now charged', no: 'Fees: now free' }
+const reportLabel = (kind) => {
+  const [field, value] = String(kind || '').split(':')
+  return CAVE_REPORTS[kind] || (field === 'fees' ? FEES[value] : FIELDS[field] && value ? `${FIELDS[field]} is now: ${value}` : null) || null
+}
 
 /**
  * Every admin's email address (accounts whose roles include admin).
@@ -42,9 +49,9 @@ export function feedbackAuthorName(author) {
 // A cave's quick report's lines in the admins' email: what changed, and
 // whether the cave shows a warning until the report is resolved.
 function caveReportFacts(report) {
-  if (!report.caveId || !CAVE_REPORTS[report.caveReport]) return []
+  if (!report.caveId || !reportLabel(report.caveReport)) return []
   const warning = CAVE_WARNING_REPORTS.includes(report.caveReport)
-  return [{ label: 'Cave report', value: `${CAVE_REPORTS[report.caveReport]}${warning ? ' - a warning shows on the cave until the report is closed' : ''}` }]
+  return [{ label: 'Cave report', value: `${reportLabel(report.caveReport)}${warning ? ' - a warning shows on the cave until the report is closed' : ''}` }]
 }
 
 /**

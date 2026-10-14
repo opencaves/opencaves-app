@@ -315,7 +315,7 @@
  * @property {number} [messageCount] - Server: its thread's messages.
  * @property {Timestamp} [lastMessageAt] - Server.
  * @property {string} [caveId] - A cave's quick report (Report a change): the cave.
- * @property {'closed'|'private'|'fees'|'road'} [caveReport] - A cave's quick report: what changed
+ * @property {string} [caveReport] - A cave's quick report: what changed ('fees', 'road'; a proposed value, 'access:<key>', 'accessibility:<key>', 'fees:yes' or 'fees:no'; older: 'closed', 'private')
  *   (config/caveReview.js' CAVE_REPORT_KINDS); closed and private show a warning on the cave ({@link CaveReports}).
  */
 

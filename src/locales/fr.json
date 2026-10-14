@@ -1868,7 +1868,19 @@
         "language": "Langue",
         "browser": "Navigateur",
         "lastEmailed": "Dernier courriel à l’auteur",
-        "authorMuted": "L’auteur a désactivé les courriels sur ses commentaires"
+        "authorMuted": "L’auteur a désactivé les courriels sur ses commentaires",
+        "proposed": {
+          "title": "Changement proposé",
+          "access": "Accès",
+          "accessibility": "Accessibilité",
+          "now": "Actuellement : {{value}}",
+          "apply": "Accepter le changement",
+          "applied": "Grotte mise à jour",
+          "done": "Enregistré pour {{name}}, et le signalement fermé.",
+          "error": "Le changement n’a pas pu être enregistré.",
+          "fees": "Frais",
+          "unknown": "Inconnu"
+        }
       },
       "timeline": {
         "opened": "a ouvert",
@@ -2440,12 +2452,29 @@
         "closed": "{{name}} est fermée.",
         "private": "{{name}} est devenue privée.",
         "fees": "{{name}} : les frais ont changé.",
-        "road": "{{name}} : la route a changé."
-      }
+        "road": "{{name}} : la route a changé.",
+        "access": "{{name}} : l’accès est maintenant « {{value}} ».",
+        "accessibility": "{{name}} : l’accessibilité est maintenant « {{value}} ».",
+        "fees_yes": "{{name}} : l'accès est maintenant payant.",
+        "fees_no": "{{name}} : l'accès est maintenant gratuit."
+      },
+      "groups": {
+        "access": "L’accès est maintenant",
+        "accessibility": "L’accessibilité est maintenant"
+      },
+      "fees": {
+        "yes": "C'est payant",
+        "no": "C'est gratuit",
+        "yesNow": "C'est payant maintenant",
+        "noNow": "C'est gratuit maintenant"
+      },
+      "sortArticles": "le la les l' l’ un une des"
     },
     "warning": {
       "closed": "Signalée fermée le {{date}}, en cours de vérification",
-      "private": "Signalée devenue privée le {{date}}, en cours de vérification"
+      "private": "Signalée devenue privée le {{date}}, en cours de vérification",
+      "access_no": "Signalée fermée au public le {{date}}, en cours de vérification",
+      "access_permission": "Signalée sur permission seulement le {{date}}, en cours de vérification"
     },
     "undone": "Confirmation annulée : {{section}}, {{name}}.",
     "undoError": "La confirmation n'a pas pu être annulée. Réessayez."

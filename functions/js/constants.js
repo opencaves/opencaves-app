@@ -48,7 +48,7 @@ export const CAVE_REPORTS_COLL_NAME = '_caveReports'
 // The quick reports that show a warning (src/config/caveReview.js'
 // CAVE_WARNING_REPORTS): "Fees changed" and "Road changed" only reach the
 // admins.
-export const CAVE_WARNING_REPORTS = ['closed', 'private']
+export const CAVE_WARNING_REPORTS = ['closed', 'private', 'access:no', 'access:permission']
 // A report's stages while it's open (src/utils/feedback.js'
 // OPEN_FEEDBACK_STATUSES): done, rejected or duplicate resolve it.
 export const OPEN_FEEDBACK_STATUSES = ['new', 'confirmed', 'inProgress']

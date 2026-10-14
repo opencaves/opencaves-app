@@ -61,7 +61,7 @@
  * @property {number} [messageCount]
  * @property {Timestamp} [lastMessageAt]
  * @property {string} [caveId] - A cave's quick report: the cave.
- * @property {'closed'|'private'|'fees'|'road'} [caveReport] - A cave's quick report: what changed; closed and
+ * @property {string} [caveReport] - A cave's quick report: what changed ('fees', 'road'; a proposed value, 'access:<key>', 'accessibility:<key>', 'fees:yes' or 'fees:no'; older: 'closed', 'private'); closed and
  *   private show a warning on the cave ({@link CaveReports}).
  */
 

@@ -2,26 +2,12 @@ import { useTranslation } from 'react-i18next'
 import { useCaveData } from '@/hooks/useCaveData.js'
 import { Box, Tooltip } from '@mui/material'
 import { styled } from '@mui/material'
-import HelpOutlineRounded from '@mui/icons-material/HelpOutlineRounded'
 import Markdown from '../Markdown/Markdown.jsx'
 import TextSource from '@/components/TextSource.jsx'
 import SectionReview from '@/components/CaveReview/SectionReview.jsx'
-import KeyIcon from '@/images/accesses/key.svg?react'
-import NoIcon from '@/images/accesses/no.svg?react'
-import YesIcon from '@/images/accesses/yes.svg?react'
-import PermissionIcon from '@/images/accesses/permission.svg?react'
-import CustomersIcon from '@/images/accesses/customers.svg?react'
-import UnknownIcon from '@/images/accesses/unknown.svg?react'
-import SidemountIcon from '@/images/accessibilities/sidemount.svg?react'
-import SeaIcon from '@/images/accessibilities/sea.svg?react'
-import NotSafeIcon from '@/images/accessibilities/not-safe.svg?react'
-import InaccessibleIcon from '@/images/accessibilities/inaccessible.svg?react'
-import JungleIcon from '@/images/accessibilities/jungle.svg?react'
-import VariableIcon from '@/images/accessibilities/variable.svg?react'
 import ScubaDivingIcon from '@mui/icons-material/ScubaDivingRounded'
-import FeesYesIcon from '@/images/fees/fees-yes.svg?react'
-import FeesNoIcon from '@/images/fees/fees-no.svg?react'
 import './Access.scss'
+import AccessIcon from '@/components/accessIcons.jsx'
 
 /**
  * A cave's access (its page, the map's pane): its access, accessibility,
@@ -45,64 +31,16 @@ export default function Access({ cave, review = true }) {
 
   function getAccessIcon() {
     const access = accesses.find((a) => a.id === cave.access) || { name: 'unknown' }
-    let icon
-    switch (access.name) {
-      case 'key':
-        icon = KeyIcon
-        break
-      case 'yes':
-        icon = YesIcon
-        break
-      case 'no':
-        icon = NoIcon
-        break
-      case 'permission':
-        icon = PermissionIcon
-        break
-      case 'customers':
-        icon = CustomersIcon
-        break
-      default:
-        icon = UnknownIcon
-    }
-
-    const Icon = icon
-    return iconBox(<Icon aria-label={t(`${access.name}.label`, { ns: 'accesses' })} className="oc-icon" />)
+    return iconBox(<AccessIcon table="accesses" value={access.id} aria-label={t(`${access.name}.label`, { ns: 'accesses' })} className="oc-icon" />)
   }
 
   function getAccessibilityIcon() {
     const accessibility = accessibilities.find((a) => a.id === cave.accessibility) || { name: '_' }
-    let icon
-    switch (accessibility.id) {
-      case 'jungle':
-        icon = JungleIcon
-        break
-      case 'not-safe':
-        icon = NotSafeIcon
-        break
-      case 'sidemount-only':
-        icon = SidemountIcon
-        break
-      case 'variable':
-        icon = VariableIcon
-        break
-      case 'inaccessible':
-        icon = InaccessibleIcon
-        break
-      case 'sea':
-        icon = SeaIcon
-        break
-      default:
-        icon = HelpOutlineRounded
-    }
-
-    const Icon = icon
-    return iconBox(<Icon aria-label={t(`${accessibility.name}.label`, { ns: 'accessibilities' })} className="oc-icon" />)
+    return iconBox(<AccessIcon table="accessibilities" value={accessibility.id} aria-label={t(`${accessibility.name}.label`, { ns: 'accessibilities' })} className="oc-icon" />)
   }
 
   function getFeesIcon() {
-    const Icon = cave.fees ? FeesYesIcon : FeesNoIcon
-    return iconBox(<Icon aria-label={t(`${cave.fees ? 'yes' : 'no'}.label`, { ns: 'fees' })} className="oc-icon" />)
+    return iconBox(<AccessIcon table="fees" value={cave.fees ? 'yes' : 'no'} aria-label={t(`${cave.fees ? 'yes' : 'no'}.label`, { ns: 'fees' })} className="oc-icon" />)
   }
 
   function getFeesLabel() {

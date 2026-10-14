@@ -1,6 +1,11 @@
 // The app's (UI's) own languages: what the interface is shown in - one per
 // src/locales/*.json file. Not to be confused with content languages, which
 // the cave data is written in (see contentLanguages.js).
+// A new one also needs: its src/locales file - with its own leading articles
+// in caveReview.report.sortArticles (the What changed? menu sorts names
+// without them; a language that lacks it borrows its fallback's) - and,
+// when outside services don't speak it, FALLBACK_LANGUAGES and
+// SERVICE_LANGUAGE below; its content language in APP_TO_CONTENT_LANGUAGE.
 export const APP_LANGUAGES = [
   // nativeName: each language's name in itself, recognizable whatever the
   // current UI language (the account page's language setting).

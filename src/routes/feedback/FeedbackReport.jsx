@@ -1,18 +1,23 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { doc, onSnapshot } from 'firebase/firestore'
+import { doc, onSnapshot, serverTimestamp, updateDoc } from 'firebase/firestore'
+import { useSelector } from 'react-redux'
 import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, Skeleton, Tooltip, Typography } from '@mui/material'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
 import NotificationsOffOutlined from '@mui/icons-material/NotificationsOffOutlined'
 import RadioButtonCheckedRounded from '@mui/icons-material/RadioButtonCheckedRounded'
+import SaveRounded from '@mui/icons-material/SaveRounded'
 import CheckCircleOutlineRounded from '@mui/icons-material/CheckCircleOutlineRounded'
 import { auth, db } from '@/config/firebase.js'
 import { FEEDBACK_COLLECTION, FEEDBACK_PRIVATE_COLLECTION } from '@/config/collections.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
+import AccessIcon from '@/components/accessIcons.jsx'
+import CaveModel from '@/models/CaveModel.js'
+import { reportedValue } from '@/config/caveReview.js'
 import { KindChip, RelativeTime, StageChip, StatusMenu, deleteFeedbackReport, isOpen, messageCountOf, statusOf, titleOf, useFeedbackReader } from './feedbackUi.jsx'
 import { FeedbackTimeline, ReplyForm, useFeedbackMessages } from './FeedbackThread.jsx'
 
@@ -25,9 +30,12 @@ import { FeedbackTimeline, ReplyForm, useFeedbackMessages } from './FeedbackThre
  */
 function Field({ label, children }) {
   return (
-    <Box className="oc-feedback-report--field" sx={{ py: 1.5, '&:first-of-type': { pt: 0 } }}>
+    // One rhythm down the column (8px steps): 16px on each side of the lines
+    // between fields, none above the first or under the last; 8px from a
+    // title (one 16px line) to its content.
+    <Box className="oc-feedback-report--field" sx={{ py: 2, '&:first-of-type': { pt: 0 }, '&:last-child': { pb: 0 } }}>
       {label && (
-        <Typography variant="caption" component="h2" sx={{ display: 'block', fontWeight: 700, color: 'text.secondary', mb: 0.5 }}>
+        <Typography variant="caption" component="h2" sx={{ display: 'block', fontWeight: 700, color: 'text.secondary', lineHeight: '16px', mb: 1 }}>
           {label}
         </Typography>
       )}
@@ -63,6 +71,66 @@ function StateBadge({ report }) {
  * every other registered account only reads it (Ideas and fixes), the
  * author by name only (useFeedbackReader).
  */
+
+/**
+ * A report that proposes a cave's access, accessibility or fees (What
+ * changed?: access:permission, fees:no...), for an admin: the proposed value (its icon, its
+ * table's name), the cave's current one, and a button that sets it on the
+ * cave - a cave edit like the app's (audit-logged: What's new) - and closes
+ * the report (done). Already the cave's value: said so, no button.
+ *
+ * @param {object} props
+ * @param {FeedbackReport} props.report
+ */
+function ProposedChange({ report }) {
+  const { t } = useTranslation('feedback', { keyPrefix: 'admin.report.proposed' })
+  const { t: tTables } = useTranslation(['accesses', 'accessibilities', 'fees'])
+  const caves = useSelector((/** @type {RootState} */ state) => state.data.caves)
+  const [openSnackbar] = useSnackbar()
+  const [saving, setSaving] = useState(false)
+  const proposed = reportedValue(report.caveReport)
+  if (!proposed || !report.caveId) return null
+  const cave = caves.find(({ id }) => id === report.caveId)
+  const current = cave?.[proposed.field]
+  const applied = current === proposed.stored
+  // A value's name in its table (the fees: true or false as yes or no).
+  const label = (value) => {
+    const key = typeof value === 'boolean' ? (value ? 'yes' : 'no') : value
+    return key ? tTables(`${key}.label`, { ns: proposed.table, defaultValue: key }) : t('unknown')
+  }
+
+  async function apply() {
+    setSaving(true)
+    try {
+      await CaveModel.save(report.caveId, { [proposed.field]: proposed.stored })
+      await updateDoc(doc(db, FEEDBACK_COLLECTION, report.id), { status: 'done', statusUpdatedAt: serverTimestamp(), statusUpdatedBy: auth.currentUser.uid })
+      openSnackbar(t('done', { name: cave?.name?.value?.trim() || report.caveId }), { severity: 'success' })
+    } catch (error) {
+      console.error(error)
+      openSnackbar(t('error'))
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <Field label={t('title')}>
+      <Box className="oc-feedback-report--proposed" sx={{ display: 'flex', gap: 1, alignItems: 'flex-start', mb: 1.5 }}>
+        <Box aria-hidden="true" sx={{ color: 'primary.main', display: 'flex', '& svg': { width: 20, height: 20 } }}>
+          <AccessIcon table={proposed.table} value={proposed.value} fontSize="medium" />
+        </Box>
+        <div>
+          <Box sx={{ fontWeight: 600 }}>{t(proposed.field)} · {label(proposed.value)}</Box>
+          <Box sx={{ color: 'text.secondary' }}>{t('now', { value: label(current) })}</Box>
+        </div>
+      </Box>
+      <Button className="oc-feedback-report--apply" size="small" sx={{ whiteSpace: 'nowrap' }} variant={applied ? 'text' : 'contained'} disableElevation disabled={applied || saving} startIcon={applied ? <CheckCircleOutlineRounded /> : <SaveRounded />} onClick={apply}>
+        {applied ? t('applied') : t('apply')}
+      </Button>
+    </Field>
+  )
+}
+
 export default function FeedbackReport() {
   const { t, i18n } = useTranslation('feedback')
   const { feedbackId } = useParams()
@@ -185,6 +253,7 @@ export default function FeedbackReport() {
               </Typography>
             )}
           </Field>
+          {isAdmin && <ProposedChange report={report} />}
           <Field label={t('admin.report.kind')}>
             <KindChip kind={report.kind} />
           </Field>
