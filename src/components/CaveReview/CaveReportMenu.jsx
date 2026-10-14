@@ -95,7 +95,10 @@ export default function CaveReportMenu({ cave, anchorEl, onClose, kinds = CAVE_R
   return (
     <>
       <Menu className="oc-cave-report-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onClose} slotProps={{ list: { 'aria-label': t('menuLabel') } }}>
-        <Typography variant="overline" component="li" role="presentation" sx={{ display: 'block', px: 2, pt: 0.5, color: 'text.secondary', lineHeight: 2 }}>
+        {/* Its question as its title (not a small caption): bold, in the
+            text's colour, a warning sign before it, a line under it. */}
+        <Typography component="li" role="presentation" className="oc-cave-report-menu--title" sx={{ display: 'flex', alignItems: 'center', gap: 1, px: 2, pt: 1, pb: 1.25, mb: 0.5, fontSize: '0.9375rem', fontWeight: 600, color: 'text.primary', borderBottom: 1, borderColor: 'divider' }}>
+          <WarningAmberRounded aria-hidden="true" fontSize="small" color="warning" />
           {t('menuLabel')}
         </Typography>
         {kinds.map((item) => (

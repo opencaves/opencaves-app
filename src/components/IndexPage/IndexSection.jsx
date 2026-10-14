@@ -17,6 +17,13 @@ import { TOUCH_TARGET_SX } from '@/components/touchTarget.js'
 // with it scrolls there (Layout), and a # beside the title links to it.
 // A section with an anchor: clear of the fixed app bar (and a sticky title)
 // when scrolled to; its # shown while the title is hovered or focused.
+/**
+ * A card's footer (IndexSection's `footer`, the cave page's description):
+ * a band along the card's bottom edge, a line above it - the card's Still
+ * accurate (SectionReview).
+ */
+export const CARD_FOOTER_SX = { borderTop: 1, borderColor: 'divider', mt: { xs: 2, sm: 2.5 }, mx: { xs: -2, sm: -3 }, mb: { xs: -2, sm: -3 }, px: { xs: 2, sm: 3 }, py: 1.25 }
+
 const SECTION_ANCHOR_SX = {
   scrollMarginTop: 'calc(64px + var(--oc-index-search-height, 0px) + var(--oc-page-title-height, 0px) + 8px)',
   '& .oc-index-section--anchor': { ...TOUCH_TARGET_SX, opacity: 0, color: 'text.secondary', fontWeight: 400, transition: 'opacity 150ms' },
@@ -34,11 +41,12 @@ const SECTION_ANCHOR_SX = {
  * @param {string} [props.className]
  * @param {boolean} [props.card=false]
  * @param {import('react').ReactNode} [props.after] - With card: shown after the card, on the page's ground (not on the card).
+ * @param {import('react').ReactNode} [props.footer] - With card: a band along the card's bottom edge ({@link CARD_FOOTER_SX}).
  * @param {object} [props.cardSx]
  * @param {boolean} [props.lazy=false]
  * @param {boolean} [props.stickyTitle=false]
  */
-export default function IndexSection({ id, title, count, children, className, card = false, cardSx, after, lazy = false, stickyTitle = false }) {
+export default function IndexSection({ id, title, count, children, className, card = false, cardSx, after, footer, lazy = false, stickyTitle = false }) {
   const { t } = useTranslation('indexPages')
   // The anchor link keeps the page's query string (a filtered list,
   // /caves?q=...): a hash-only link drops it.
@@ -91,6 +99,7 @@ export default function IndexSection({ id, title, count, children, className, ca
         <>
           <Box className="oc-index-section--card" sx={(theme) => ({ ...DASHBOARD_SURFACE_SX, border: `1px solid rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.23)`, p: { xs: 2, sm: 3 }, ...cardSx })}>
             {children}
+            {footer && <Box className="oc-index-section--footer" sx={CARD_FOOTER_SX}>{footer}</Box>}
           </Box>
           {after}
         </>

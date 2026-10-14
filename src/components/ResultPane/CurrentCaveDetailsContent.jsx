@@ -222,8 +222,8 @@ export default function CurrentCaveDetailsContent({ cave }) {
         </Box>
       )}
       {cave.description && (
-        <Box className="oc-details-review" sx={{ px: 2, pb: 0.5 }}>
-          <SectionReview cave={cave} section="description" />
+        <Box className="oc-details-review" sx={{ borderTop: 1, borderColor: 'divider', mx: 2, mt: 1, mb: 1, pt: 1.25 }}>
+          <SectionReview cave={cave} sections={['description']} />
         </Box>
       )}
 
@@ -239,8 +239,8 @@ export default function CurrentCaveDetailsContent({ cave }) {
         </Box>
       )}
       {cave.direction && (
-        <Box className="oc-details-review" sx={{ px: 2, pb: 0.5 }}>
-          <SectionReview cave={cave} section="directions" />
+        <Box className="oc-details-review" sx={{ borderTop: 1, borderColor: 'divider', mx: 2, mt: 1, mb: 1, pt: 1.25 }}>
+          <SectionReview cave={cave} sections={['directions']} />
         </Box>
       )}
 
