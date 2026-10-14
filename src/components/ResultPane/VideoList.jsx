@@ -333,9 +333,9 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
     canDelete && { label: t('edit.deleteVideo'), icon: <DeleteOutlineRounded fontSize="small" />, onClick: () => requestDelete(index), danger: true },
   ].filter(Boolean)
 
-  // Its menu, for everyone: Share (its own link) and Report this video -
-  // no Download, a video is someone else's site's - then its own actions.
-  const videoMenu = (video, index) => withOthers(mediaActionsFor({ kind: 'video', shareUrl: video, reportPage: video }), canEdit ? videoActions(video, index) : [])
+  // Its menu, for everyone: Report this video - no Share nor Download, a
+  // video is someone else's site's - then its own actions.
+  const videoMenu = (video, index) => withOthers(mediaActionsFor({ kind: 'video', reportPage: video }), canEdit ? videoActions(video, index) : [])
 
   if (videoUrls.length === 0 && !canEdit && !showAdd) {
     return null
