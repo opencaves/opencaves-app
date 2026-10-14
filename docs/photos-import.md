@@ -134,7 +134,36 @@ node scripts/photos-import/upload-photos.js --undo --apply     # remove everythi
 - `--undo` deletes the imported documents, files and thumbnails. Photos
   uploaded from the app have no `importKey` and are never touched.
 
-## Known limitations
+## Photos not filed by cave: matching by GPS
+
+For a collection grouped by trip, not by cave (e.g. a Google Photos export),
+`match_by_gps.py` matches each photo to the cave nearest where it was taken,
+then you choose, photo by photo, which to add:
+
+```
+python scripts/photos-import/match_by_gps.py <photos folder> <output folder>       # production (read-only)
+python scripts/photos-import/match_by_gps.py <photos folder> <output folder> -l    # the local emulators
+```
+
+- **Getting the photos:** Google Takeout (takeout.google.com, Google Photos,
+  the albums of your trips) is the best export: each photo comes with a
+  `.json` file holding its location, including one set or corrected in Google
+  Photos, which the file itself doesn't carry. Unzip it outside the project.
+  HEIC photos (iPhone) show in the viewer once `pip install pillow-heif` is done.
+- **The match:** the nearest cave point (location, entrance, parking, keys)
+  within `--radius` metres (100 by default). Two caves at similar distances:
+  *ambiguous*; nothing within the radius: *far* (the nearest still named).
+- **Already in OpenCaves:** a stored photo at the same place (its EXIF GPS,
+  within about 1 m) with the same size in pixels; same place, another size:
+  *maybe*. Locally, a stored photo's original file name counts too.
+- **The review:** open `review.html` in the output folder. It shows the photos
+  one at a time, cave by cave (a list at the side, with each cave's
+  progress), each with the five nearest caves to choose from. **A** adds,
+  **S** skips, the arrows move; photos already in OpenCaves are skipped by
+  default. Choices are kept in the browser, so a review can stop and resume.
+  **Export selected.csv** writes the photos to add, with their cave.
+- `gps-matched.csv` holds every photo's match; `previews/` the viewer's images.
+
 
 - **Pixel panoramas (`PXL_….PANO.jpg`)** carry 360° crop data but no
   `UsePanoramaViewer` tag, which is the only thing the upload function checks.
