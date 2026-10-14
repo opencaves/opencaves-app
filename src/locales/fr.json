@@ -1624,10 +1624,13 @@
       "location": "Emplacement",
       "photos": "Photos",
       "openPhoto": "Ouvrir la photo {{n}}",
+      "coverAlt": "Photo de {{name}}",
+      "photoAlt": "Photo {{n}} de {{name}}",
       "noPhoto": "Aucune photo de cette grotte pour l'instant",
       "dropPhotos": "ou déposez-les ici"
     },
     "notOnMap": "Pas sur la carte : aucune coordonnée pour l’instant",
+    "mapAlt": "Carte : {{name}}",
     "maps": "Topographies",
     "searchNoResult": "Aucune grotte ni aucun réseau ne correspond à « {{query}} » - chercher dans toutes les grottes",
     "empty": {

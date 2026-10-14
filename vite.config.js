@@ -36,25 +36,50 @@ function appShellName() {
     writeBundle() {
       const page = path.join(outDir, 'index.html')
       if (existsSync(page)) renameSync(page, path.join(outDir, 'app.html'))
-      writeMapPage(outDir)
+      writeStaticPages(outDir)
     },
   }
 }
 
-// /map's page (firebase.json serves it there): the app's shell with the map's
-// own title and description in its <head> - the map isn't rendered on the
-// server, and search engines that don't run the app read only this. Its texts
-// are the English locale's (seo.mapTitle, seo.mapDescription), which the app
-// sets again in the visitor's language (RouteSeo). A file, not a function: no
-// cold start for the map.
-function writeMapPage(outDir) {
+// The pages that aren't rendered on the server but are worth indexing (/map,
+// /about, /privacy, /terms; firebase.json serves each its file): the app's
+// shell with the page's own title (and description: only the map has one),
+// and its h1 and text in #root - which the app replaces when it starts, as
+// on the server-rendered pages (functions/js/seo/shared.js) - for search
+// engines that don't run the app (Bing reported them without an h1). Their
+// texts are the English locale's, which the app sets again in the visitor's
+// language. Files, not functions: no cold start.
+function writeStaticPages(outDir) {
   const shell = path.join(outDir, 'app.html')
   if (!existsSync(shell)) return
-  const { seo } = JSON.parse(readFileSync(new URL('./src/locales/en.json', import.meta.url), 'utf8'))
+  const { seo, about, legal } = JSON.parse(readFileSync(new URL('./src/locales/en.json', import.meta.url), 'utf8'))
   const escape = (text) => text.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')
-  const html = readFileSync(shell, 'utf8').replace(/<title>[^<]*<\/title>/, () => `<title>${escape(`${seo.mapTitle} / ${TITLE_NAME}`)}</title>
-  <meta name="description" content="${escape(seo.mapDescription)}" />`)
-  writeFileSync(path.join(outDir, 'map.html'), html)
+  const html = readFileSync(shell, 'utf8')
+  const pages = [
+    { file: 'map.html', title: seo.mapTitle, description: seo.mapDescription, heading: seo.mapHeading },
+    { file: 'about.html', title: about.title, heading: about.title },
+    { file: 'privacy.html', title: legal.privacy.title, heading: legal.privacy.title, body: legal.privacy.body },
+    { file: 'terms.html', title: legal.terms.title, heading: legal.terms.title, body: legal.terms.body },
+  ]
+  for (const { file, title, description, heading, body } of pages) {
+    const page = html
+      .replace(/<title>[^<]*<\/title>/, () => `<title>${escape(`${title} / ${TITLE_NAME}`)}</title>${description ? `\n  <meta name="description" content="${escape(description)}" />` : ''}`)
+      .replace('<div id="root"></div>', () => `<div id="root"><h1>${escape(heading)}</h1>${body ? markdownToHtml(body, escape) : ''}</div>`)
+    writeFileSync(path.join(outDir, file), page)
+  }
+}
+
+// The legal texts' Markdown as plain HTML, for the pages above: headings,
+// paragraphs and lists; links as their text, emphasis dropped.
+function markdownToHtml(markdown, escape) {
+  const inline = (text) => escape(text.replace(/\[([^\]]*)]\([^)]*\)/g, '$1').replace(/[*_]+/g, ''))
+  return markdown.split(/\n{2,}/).map((block) => {
+    const heading = /^(#{2,6})\s+(.*)$/.exec(block.trim())
+    if (heading) return `<h${heading[1].length}>${inline(heading[2])}</h${heading[1].length}>`
+    const lines = block.trim().split('\n')
+    if (lines.every((line) => /^\s*[-*]\s+/.test(line))) return `<ul>${lines.map((line) => `<li>${inline(line.replace(/^\s*[-*]\s+/, ''))}</li>`).join('')}</ul>`
+    return `<p>${inline(lines.join(' '))}</p>`
+  }).join('')
 }
 
 // The files of src/config/firebase.js's chunk and the chunks it imports, as

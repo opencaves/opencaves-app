@@ -148,13 +148,14 @@ const mapYear = (map) => map.date?.match(/\d{4}/)?.[0]
  * @param {CaveMap} props.map
  */
 function MapThumbnail({ map }) {
+  const { t } = useTranslation('indexPages')
   const year = mapYear(map)
   const thumbnail = map.thumbnailUrl || map.previewUrl || (map.contentType?.startsWith('image/') ? map.url : null)
   return (
     <Box className="oc-maps-section--thumbnail" sx={{ position: 'relative', width: '100%', height: '100%', borderRadius: 2, overflow: 'hidden', bgcolor: 'action.hover', display: 'grid', placeItems: 'center' }}>
       {thumbnail ? (
         // Picture: a thumbnail not on the device offline says so.
-        <Picture src={thumbnail} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+        <Picture src={thumbnail} alt={map.name ? t('mapAlt', { name: map.name }) : ''} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
       ) : map.contentType === 'application/pdf' ? (
         <PictureAsPdfRounded color="primary" fontSize="large" />
       ) : (
