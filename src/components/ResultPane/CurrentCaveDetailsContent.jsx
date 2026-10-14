@@ -219,7 +219,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
       )}
       {cave.description && (
         <Box className="oc-details-review" sx={{ px: 2, pb: 0.5 }}>
-          <SectionReview cave={cave} section="description" sx={{ mt: 0 }} />
+          <SectionReview cave={cave} section="description" />
         </Box>
       )}
 
@@ -236,7 +236,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
       )}
       {cave.direction && (
         <Box className="oc-details-review" sx={{ px: 2, pb: 0.5 }}>
-          <SectionReview cave={cave} section="directions" sx={{ mt: 0 }} />
+          <SectionReview cave={cave} section="directions" />
         </Box>
       )}
 
