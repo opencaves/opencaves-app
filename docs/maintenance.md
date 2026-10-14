@@ -342,25 +342,30 @@ The caves list's **Not confirmed recently** filter (`/caves?missing=review`,
 also What can I do?'s "Check what's there") keeps the caves none of whose
 shown sections was confirmed within 2 years.
 
-**Report a change** sits next to each section's Still accurate (on the cave's
-page and pane, for any signed-in account) and offers that section's own
-changes, with an optional note: Closed and Now private under Access, Fees
-changed under the fees, Road changed under Getting there
-(`SECTION_REPORT_KINDS`, `src/config/caveReview.js`). Each one is a
-`/feedback` report (kind Misleading, its page the section on the cave's page,
-its message saying what changed), emailed to the admins like any report, with
-a "Cave report" line. Every section's menu ends with Something else, and the
-description's button opens it at once: the Send feedback form, about that
-section.
+**What changed?** is the arrow of each card's Still accurate button (on the
+cave's page and pane, for any signed-in account), with that card's own
+changes and an optional note. The Access card lists the cave's other values,
+each with its icon: "Access is now" (the `accesses` table's keys), then
+"Accessibility is now" (the `accessibilities` table's), each sorted by name
+in the reader's language, then the fees ("It's free now" or "There are fees
+now"; both, without "now", when they're unknown). Getting there has Road
+changed. Each one is a `/feedback` report (kind Misleading, `caveReport`
+`access:<key>`, `accessibility:<key>`, `fees:yes`/`fees:no` or `road`; its
+page the section on the cave's page, its message saying what changed),
+emailed to the admins like any report, with a "Cave report" line. Every menu
+ends with Something else: the Send feedback form, about that section.
 
-- **Closed** and **Now private** also put a warning on the cave at once,
-  public ("Reported closed on Oct 12, being checked"): the
-  `onCaveReportChanged` function keeps the cave's open ones in
-  `_caveReports/{caveId}`.
-- **Fees changed** and **Road changed** only reach the admins: no warning.
+- **Access forbidden** and **Permission needed** also put a warning on the
+  cave at once, public: the `onCaveReportChanged` function keeps the cave's
+  open ones in `_caveReports/{caveId}` (older Closed and Now private reports
+  still show theirs).
+- The other values and Road changed only reach the admins: no warning.
 
-To resolve a report: check it, edit the cave if it's right (its access,
-fees, directions...), then set the report's stage on the Feedback page to
+To resolve a report: a proposed value (access, accessibility, fees) shows on
+its report's page as **Proposed change**, with the cave's current value; an
+admin's **Accept the change** sets it on the cave (a cave edit, in the audit
+log and What's new) and marks the report Done. Otherwise check it, edit the
+cave if it's right, then set the report's stage on the Feedback page to
 Done - or Rejected (or Duplicate) to dismiss it, or delete it. The warning
 goes as soon as the report leaves the open stages (New, Confirmed, In
 progress); Confirmed keeps it showing, and reopening the report brings it

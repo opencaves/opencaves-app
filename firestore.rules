@@ -42,7 +42,9 @@ service cloud.firestore {
         && request.resource.data.kind in ['bug', 'misleading', 'idea']
         && (('caveId' in request.resource.data) == ('caveReport' in request.resource.data))
         && (!('caveId' in request.resource.data) || (request.resource.data.caveId is string && request.resource.data.caveId.matches('[-_A-Za-z0-9]{1,64}')
-          && request.resource.data.caveReport in ['closed', 'private', 'fees', 'road']))
+          && request.resource.data.caveReport is string
+          && (request.resource.data.caveReport in ['road']
+            || request.resource.data.caveReport.matches('(access|accessibility):[-a-z]{1,30}|fees:(yes|no)'))))
         && request.resource.data.message is string && request.resource.data.message.size() > 0 && request.resource.data.message.size() <= 4000
         && request.resource.data.page is string && request.resource.data.page.size() <= 500
         && (!('language' in request.resource.data) || (request.resource.data.language is string && request.resource.data.language.size() <= 10))

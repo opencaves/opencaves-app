@@ -656,5 +656,10 @@
     "deleteTitle": "¿Ka luk'esik le máaka'?",
     "deleteConfirm": "Yaan u luk'sa'al {{email}} utia'al mantats'. Ma' tu páajtal u suutsa'al.",
     "cancel": "Xu'ul"
+  },
+  "caveReview": {
+    "report": {
+      "sortArticles": "le"
+    }
   }
 }

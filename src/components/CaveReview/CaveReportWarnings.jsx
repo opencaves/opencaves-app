@@ -35,8 +35,9 @@ export default function CaveReportWarnings({ caveId, sx }) {
   return (
     <Stack className="oc-cave-report-warnings" spacing={1} sx={sx}>
       {reports.map((report) => (
-        <Alert key={report.feedbackId} className={`oc-cave-report-warnings--${report.kind}`} severity="warning" sx={{ borderRadius: 3 }}>
-          {t(`warning.${report.kind}`, { date: format(report.at) })}
+        <Alert key={report.feedbackId} className={`oc-cave-report-warnings--${String(report.kind).replace(':', '-')}`} severity="warning" sx={{ borderRadius: 3 }}>
+          {/* A proposed value's (access:no): its own text, warning.access_no. */}
+          {t(`warning.${String(report.kind).replace(':', '_')}`, { date: format(report.at) })}
         </Alert>
       ))}
     </Stack>
