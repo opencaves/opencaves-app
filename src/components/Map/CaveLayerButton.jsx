@@ -8,6 +8,7 @@ import { setCaveLayerColorBySistema, setCaveLayerEditMode, setCaveLayerScope, se
 import { useCaveLayerMaps } from '@/hooks/useCaveLayerMaps.jsx'
 import { setMapHidden } from '@/services/caveLayerSettings.js'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
+import { track } from '@/utils/track.js'
 
 /**
  * The map's layer button, under the account button: white, or in the primary
@@ -84,12 +85,18 @@ export default function CaveLayerButton({ sx }) {
               </Typography>
               {/* A switch names its setting, its state is the switch (the label
                   flipped between Turn on and Turn off). */}
-              <FormControlLabel className="oc-cave-layer-menu--switch" control={<Switch checked={visible} onChange={(event) => dispatch(setCaveLayerVisible(event.target.checked))} />} label={t('show')} sx={{ mb: 1 }} />
+              <FormControlLabel className="oc-cave-layer-menu--switch" control={<Switch checked={visible} onChange={(event) => {
+                track('layer_toggle', { setting: 'visible', value: String(event.target.checked) })
+                dispatch(setCaveLayerVisible(event.target.checked))
+              }} />} label={t('show')} sx={{ mb: 1 }} />
               {/* The layer's options, only while it's shown. */}
               <Collapse in={visible} className="oc-cave-layer-menu--options">
                 <Divider sx={{ mb: 1.5 }} />
                 <FormLabel id={`${titleId}-scope`}>{t('scope')}</FormLabel>
-                <RadioGroup aria-labelledby={`${titleId}-scope`} value={scope} onChange={(event) => dispatch(setCaveLayerScope(event.target.value))}>
+                <RadioGroup aria-labelledby={`${titleId}-scope`} value={scope} onChange={(event) => {
+                  track('layer_toggle', { setting: 'scope', value: event.target.value })
+                  dispatch(setCaveLayerScope(event.target.value))
+                }}>
                   <FormControlLabel value="all" control={<Radio size="small" />} label={t('all')} />
                   <FormControlLabel value="selected" control={<Radio size="small" />}
                     label={
@@ -106,7 +113,10 @@ export default function CaveLayerButton({ sx }) {
                 </RadioGroup>
                 <Divider sx={{ my: 1.5 }} />
                 <FormLabel id={`${titleId}-colors`}>{t('colors')}</FormLabel>
-                <RadioGroup aria-labelledby={`${titleId}-colors`} value={colorBySistema ? 'system' : 'single'} onChange={(event) => dispatch(setCaveLayerColorBySistema(event.target.value === 'system'))}>
+                <RadioGroup aria-labelledby={`${titleId}-colors`} value={colorBySistema ? 'system' : 'single'} onChange={(event) => {
+                  track('layer_toggle', { setting: 'colors', value: event.target.value })
+                  dispatch(setCaveLayerColorBySistema(event.target.value === 'system'))
+                }}>
                   <FormControlLabel value="system" control={<Radio size="small" />} label={t('bySystem')} />
                   <FormControlLabel value="single" control={<Radio size="small" />} label={t('single')} />
                 </RadioGroup>

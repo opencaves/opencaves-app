@@ -6,6 +6,7 @@ import SearchRounded from '@mui/icons-material/SearchRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import { useSiteSearch } from '@/hooks/useSiteSearch.js'
 import { renderSearchGroup, renderSearchOption } from '@/components/IndexPage/searchSuggestions.jsx'
+import { track } from '@/utils/track.js'
 
 /**
  * The app bar's search, on every page but the map (which has its own): the
@@ -101,6 +102,7 @@ export default function AppBarSearch() {
 
   function searchAll() {
     const text = input.trim()
+    track('search', { search_term: text })
     navigate(text ? `/caves?q=${encodeURIComponent(text)}` : '/caves')
   }
 
@@ -126,7 +128,11 @@ export default function AppBarSearch() {
         inputValue={input}
         onInputChange={(_, value) => setInput(value)}
         onChange={(_, value) => {
-          if (value && typeof value === 'object') navigate(value.to)
+          if (value && typeof value === 'object') {
+            track('search', { search_term: input.trim() })
+            track('select_search_result', { content_type: value.kind, item_id: value.recordId })
+            navigate(value.to)
+          }
           else if (typeof value === 'string') searchAll()
         }}
         renderGroup={renderSearchGroup((group) => t(`groups.${group}`))}

@@ -7,6 +7,7 @@ import TranslateRounded from '@mui/icons-material/TranslateRounded'
 import { APP_LANGUAGES } from '@/config/appLanguages.js'
 import { chooseLanguage, readDeviceLanguage } from '@/services/languagePreference.js'
 import { useHydrated } from '@/hooks/useHydrated.js'
+import { track } from '@/utils/track.js'
 
 export const AUTOMATIC = 'auto'
 
@@ -29,6 +30,7 @@ export function useLanguageChoice() {
   }, [i18n])
 
   function choose(next) {
+    track('language_change', { language: next === AUTOMATIC ? 'auto' : next })
     setChoice(next)
     chooseLanguage(next === AUTOMATIC ? null : next, user)
   }

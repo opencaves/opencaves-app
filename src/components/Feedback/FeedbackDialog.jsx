@@ -19,6 +19,7 @@ import { toServiceLanguage } from '@/utils/lang.js'
 import { useRequireLogin } from '@/hooks/useRequireLogin.jsx'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
+import { track } from '@/utils/track.js'
 
 const MAX_MESSAGE = 4000
 // A message says something: a few words at least (one letter could be sent).
@@ -134,7 +135,10 @@ export default function FeedbackDialog() {
       batch.set(doc(db, FEEDBACK_PRIVATE_COLLECTION, reportRef.id), { browser: navigator.userAgent.slice(0, 500) })
       const status = await settleWrite(batch.commit(), { name: t('itemName') })
       setOpen(false)
-      if (status === 'saved') openSnackbar(t('sent'), { severity: 'success' })
+      if (status === 'saved') {
+        track('send_feedback', { kind })
+        openSnackbar(t('sent'), { severity: 'success' })
+      }
     } catch (error) {
       console.error(error)
       openSnackbar(t('error'))

@@ -7,6 +7,7 @@ import { useSmall } from '@/hooks/useSmall.jsx'
 import { auth, signInWithProviderPopup, signInWithProviderRedirect } from '@/config/firebase.js'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { useTranslation } from 'react-i18next'
+import { track } from '@/utils/track.js'
 
 /**
  * Logs in with an identity provider (Google, Microsoft), in a popup - a redirect
@@ -53,6 +54,7 @@ export default function LogInWithProvider({ Provider, message, color, onSuccess,
     } else {
       signInWithProviderPopup(new Provider())
         .then(() => {
+          track('login', { method: new Provider().providerId })
           onLogInWithProviderSuccess()
         })
         .catch((error) => {

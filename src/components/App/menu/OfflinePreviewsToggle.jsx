@@ -6,6 +6,7 @@ import CloudDownloadRounded from '@mui/icons-material/CloudDownloadRounded'
 import { setOfflinePreviewsEnabled, useOfflinePreviewsEnabled } from '@/hooks/useOfflinePreviewsSetting.jsx'
 import { useOfflineStatus } from '@/hooks/useOfflineStatus.jsx'
 import { offlineSupported, previewsStatusKey } from '@/services/offline/offlineMedia.js'
+import { track } from '@/utils/track.js'
 
 // How long the row stays in the success colour once the download finishes,
 // and says the files were removed once they are.
@@ -76,7 +77,10 @@ export default function OfflinePreviewsToggle({ sx }) {
   const ready = enabled && status?.state === 'ready'
 
   return (
-    <ListItemButton className="oc-offline-previews-toggle" role="switch" aria-checked={enabled} onClick={() => setOfflinePreviewsEnabled(!enabled)} sx={sx}>
+    <ListItemButton className="oc-offline-previews-toggle" role="switch" aria-checked={enabled} onClick={() => {
+      track('offline_toggle', { enabled: !enabled })
+      setOfflinePreviewsEnabled(!enabled)
+    }} sx={sx}>
       {/* Downloaded: a cloud with a check (green just after it finishes). */}
       <ListItemIcon sx={{ transition: 'color 1s', ...(ready && justDone && { color: 'success.main' }) }}>{ready ? <CloudDoneRounded /> : <CloudDownloadRounded />}</ListItemIcon>
       <ListItemText primary={t('previewsLabel')} secondary={secondary} slotProps={{ secondary: { component: 'div', sx: { transition: 'color 1s', ...(ready && justDone && { color: 'success.main' }) } } }} />

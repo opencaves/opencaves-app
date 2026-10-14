@@ -25,6 +25,7 @@ import Snippet from './Snippet.jsx'
 import { SEARCH_BAR_HEIGHT, SEARCH_BAR_MARGIN, SEARCH_BAR_RADIUS, SEARCH_BAR_SHADOW } from '@/config/app.js'
 import { removeShell } from '@/utils/shell.js'
 import './SearchBar.scss'
+import { track } from '@/utils/track.js'
 
 // flex, not inline: an inline wrapper sits the icon on the text baseline,
 // a few pixels above the button's center.
@@ -377,6 +378,8 @@ export default function SearchBar() {
   }
 
   function onResultsItemClick(id) {
+    track('search', { search_term: value.trim() })
+    track('select_search_result', { content_type: 'caves', item_id: id })
     // Let the route update currentCave so Map can detect and fly to a new selection.
     const selectedCave = selectCaveById(id)
     // Close the phone's keyboard: the field kept focus through the tap.
