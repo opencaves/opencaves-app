@@ -169,7 +169,7 @@ export default function SistemaPage() {
 
       {location && (
         <IndexSection id="location" title={t('sistema.location')} className="oc-sistema-page--location" card>
-          <CoordinateCopyList rows={[{ key: 'location', icon: <MyLocationRounded />, text: coordinates, copyText: coordinates, copyLabel: tPane('copyCoordinates'), point: location, directionsLabel: tPane('directionsToSistema') }]} sx={{ mx: -1 }} />
+          <CoordinateCopyList rows={[{ key: 'location', analytics: { sistema_id: sistema.id, point: 'location' }, icon: <MyLocationRounded />, text: coordinates, copyText: coordinates, copyLabel: tPane('copyCoordinates'), point: location, directionsLabel: tPane('directionsToSistema') }]} sx={{ mx: -1 }} />
         </IndexSection>
       )}
 

@@ -27,13 +27,17 @@ import Access, { AccessReview } from './Access.jsx'
 import SistemaHistory from './SistemaHistory.jsx'
 import CaveMediaTabs from './CaveMediaTabs.jsx'
 import './CurrentCaveDetailsContent.scss'
+import { track } from '@/utils/track.js'
 
 // Driving directions to a row's point, at the row's right (in the copy
 // icon's colour).
-function DirectionsAction({ point, label }) {
+function DirectionsAction({ point, label, analytics }) {
   return (
     <Tooltip title={label}>
-      <IconButton className="oc-results-copy-list--directions" aria-label={label} onClick={() => openDirections(point)}>
+      <IconButton className="oc-results-copy-list--directions" aria-label={label} onClick={() => {
+        track('directions', analytics)
+        openDirections(point)
+      }}>
         <DirectionsRounded />
       </IconButton>
     </Tooltip>
@@ -109,6 +113,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
   function handleAddressCopy() {
     setAddressTooltipOpen(false)
+    track('copy_coordinates', { cave_id: cave.id, point: 'address' })
     confirmCopied()
   }
 
@@ -135,7 +140,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
             <>
               {address && (
                 <CopyToClipboard text={addressText} placement="bottom-end" onCopy={handleAddressCopy}>
-                  <ListItem disablePadding secondaryAction={<DirectionsAction point={cave.location} label={t('directionsToCave')} />}>
+                  <ListItem disablePadding secondaryAction={<DirectionsAction point={cave.location} label={t('directionsToCave')} analytics={{ cave_id: cave.id, point: 'location' }} />}>
                     <ConditionalWrapper
                       condition={!isSmall}
                       wrapper={(children) => (
@@ -158,7 +163,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
                 </CopyToClipboard>
               )}
 
-              {coordinatesText && <CoordinateRow icon={<MyLocationRounded color="primary" />} text={coordinatesText} copyText={coordinatesTextCopy} copyLabel={t('copyCoordinates')} point={cave.location} directionsLabel={t('directionsToCave')} onCopied={confirmCopied} tooltip={!isSmall} />}
+              {coordinatesText && <CoordinateRow analytics={{ cave_id: cave.id, point: 'location' }} icon={<MyLocationRounded color="primary" />} text={coordinatesText} copyText={coordinatesTextCopy} copyLabel={t('copyCoordinates')} point={cave.location} directionsLabel={t('directionsToCave')} onCopied={confirmCopied} tooltip={!isSmall} />}
             </>
           )}
 
@@ -173,12 +178,12 @@ export default function CurrentCaveDetailsContent({ cave }) {
             </ListItem>
           )}
 
-          {parkingText && <CoordinateRow icon={<LocalParkingRounded color="primary" />} text={parkingText} copyText={parkingText} copyLabel={t('copyParkingCoordinates')} point={cave.parking} directionsLabel={t('directionsToParking')} onCopied={confirmCopied} tooltip={!isSmall} />}
+          {parkingText && <CoordinateRow analytics={{ cave_id: cave.id, point: 'parking' }} icon={<LocalParkingRounded color="primary" />} text={parkingText} copyText={parkingText} copyLabel={t('copyParkingCoordinates')} point={cave.parking} directionsLabel={t('directionsToParking')} onCopied={confirmCopied} tooltip={!isSmall} />}
 
-          {entranceText && <CoordinateRow icon={<EntranceRounded color="primary" />} text={entranceText} copyText={entranceText} copyLabel={t('copyEntranceCoordinates')} point={cave.entrance} directionsLabel={t('directionsToEntrance')} onCopied={confirmCopied} tooltip={!isSmall} />}
+          {entranceText && <CoordinateRow analytics={{ cave_id: cave.id, point: 'entrance' }} icon={<EntranceRounded color="primary" />} text={entranceText} copyText={entranceText} copyLabel={t('copyEntranceCoordinates')} point={cave.entrance} directionsLabel={t('directionsToEntrance')} onCopied={confirmCopied} tooltip={!isSmall} />}
 
           {keysTexts &&
-            keysTexts.map((keyText, index) => <CoordinateRow key={keyText} icon={<KeyRounded color="primary" />} text={keyText} copyText={keyText} copyLabel={t('copyCoordinates')} point={cave.keys[index]} directionsLabel={t('directionsToKey')} onCopied={confirmCopied} tooltip={!isSmall} />)}
+            keysTexts.map((keyText, index) => <CoordinateRow key={keyText} analytics={{ cave_id: cave.id, point: 'key' }} icon={<KeyRounded color="primary" />} text={keyText} copyText={keyText} copyLabel={t('copyCoordinates')} point={cave.keys[index]} directionsLabel={t('directionsToKey')} onCopied={confirmCopied} tooltip={!isSmall} />)}
           {/* The cave's area, linked to its section of the cave list (/caves#<slug>). */}
           {cave.area && slugify(cave.area) && (
             <ListItem disablePadding className="oc-results-copy-list--area">

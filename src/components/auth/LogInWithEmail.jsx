@@ -11,6 +11,7 @@ import TextInput from './TextInput.jsx'
 import { auth } from '@/config/firebase.js'
 import { PASSWORD_MIN_LENGTH } from '@/config/auth.js'
 import PasswordResetDialog from './PasswordResetDialog.jsx'
+import { track } from '@/utils/track.js'
 
 export default function LogInWithEmail() {
   const navigate = useNavigate()
@@ -74,6 +75,7 @@ export default function LogInWithEmail() {
   async function login() {
     try {
       await signInWithEmailAndPassword(auth, email, password)
+      track('login', { method: 'password' })
       navigateToContinueUrl()
     } catch (error) {
       console.error('Error login in: %o', error)

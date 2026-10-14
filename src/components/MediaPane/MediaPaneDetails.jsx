@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, resolvePath, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Lightbox, { addToolbarButton } from 'yet-another-react-lightbox'
@@ -25,6 +25,7 @@ import MediaPaneMenu from './MediaPaneMenu.jsx'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import 'yet-another-react-lightbox/styles.css'
 import './lightbox.scss'
+import { track } from '@/utils/track.js'
 
 const Main = styled('main')(
   ({ theme }) => {
@@ -67,6 +68,11 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete, alwa
   const { t } = useTranslation('mediaPane')
   const labels = useLightboxLabels()
   const currentIndex = medias.docs.findIndex(media => media.id === mediaId)
+  // Opened on a photo (not each one swiped to).
+  useEffect(() => {
+    track('select_content', { content_type: 'photo', item_id: mediaId })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   const currentMedia = medias.docs.find(media => media.id === mediaId)?.data()
   const navigate = useNavigate()
   const location = useLocation()
@@ -228,6 +234,8 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete, alwa
           disabled: true
         }}
         on={{
+          download: ({ index }) => track('download', { content_type: 'photo', item_id: slides[index]?.mediaId }),
+          share: ({ index }) => track('share', { content_type: 'photo', item_id: slides[index]?.mediaId, method: 'share_sheet' }),
           view: onView, enterFullscreen: () => setIsFullscreen(true), exitFullscreen: () => setIsFullscreen(false)
         }}
       />

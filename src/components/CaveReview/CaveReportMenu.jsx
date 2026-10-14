@@ -18,6 +18,7 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 import FlagRounded from '@mui/icons-material/FlagRounded'
 import { openFeedback } from '@/utils/feedback.js'
+import { track } from '@/utils/track.js'
 
 const ICONS = { closed: <BlockRounded />, private: <LockRounded />, fees: <PaymentsRounded />, road: <AltRouteRounded /> }
 
@@ -76,7 +77,10 @@ export default function CaveReportMenu({ cave, anchorEl, onClose, kinds = CAVE_R
       batch.set(doc(db, FEEDBACK_PRIVATE_COLLECTION, reportRef.id), { browser: navigator.userAgent.slice(0, 500) })
       const status = await settleWrite(batch.commit(), { name: t('itemName') })
       setKind(null)
-      if (status === 'saved') openSnackbar(t('sent'), { severity: 'success' })
+      if (status === 'saved') {
+        track('report_change', { cave_id: cave.id, kind, page: page || undefined })
+        openSnackbar(t('sent'), { severity: 'success' })
+      }
     } catch (error) {
       console.error(error)
       openSnackbar(t('error'))
@@ -103,6 +107,7 @@ export default function CaveReportMenu({ cave, anchorEl, onClose, kinds = CAVE_R
         {/* Anything else wrong there: the feedback form, about the section. */}
         <MenuItem className="oc-cave-report-menu--other" onClick={() => {
           onClose()
+          track('report_change', { cave_id: cave.id, kind: 'other', page: page || undefined })
           openFeedback('misleading', { page: page || `/caves/${cave.id}` })
         }} sx={kinds.length ? { borderTop: 1, borderColor: 'divider', mt: 0.5, pt: 1 } : undefined}>
           <ListItemIcon><FlagRounded /></ListItemIcon>

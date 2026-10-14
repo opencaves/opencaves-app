@@ -132,6 +132,7 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
   const mapMenu = (map) => withOthers(
     mediaActionsFor({
       kind: 'map',
+      itemId: map.value,
       shareUrl: `${SITE_URL}/caves/${caveId}/maps/${map.value}`,
       download: map.file && map.file.contentType !== 'application/pdf' ? { url: map.file.url, fileName: downloadName('opencaves-map', map.value, map.file.contentType) } : undefined,
       reportPage: `/caves/${caveId}/maps/${map.value}`,

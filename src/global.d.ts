@@ -21,6 +21,11 @@ interface Window {
    * vite.config.js): settles once they're in (index.jsx renders then).
    */
   __ocAppStylesheets?: Promise<unknown>
+  /**
+   * Google Tag Manager's queue (loaded by src/index.jsx): the app's analytics
+   * events go in it, in gtag's own form (utils/track.js).
+   */
+  dataLayer?: unknown[]
 
   // service-worker.js runs in a ServiceWorkerGlobalScope, its `self`, but is
   // checked with the DOM's types (a Window): the members it uses.

@@ -12,6 +12,7 @@ import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import CaveReportButton from './CaveReportButton.jsx'
 import { loadFirebase } from '@/utils/loadFirebase.js'
+import { track } from '@/utils/track.js'
 
 // A 'YYYY-MM' month as a date in it (UTC: the same day wherever it's shown).
 const monthDate = (month) => new Date(Date.UTC(Number(month.slice(0, 4)), Number(month.slice(5, 7)) - 1, 15))
@@ -74,6 +75,7 @@ export default function SectionReview({ cave, section, sx }) {
       const status = await settleWrite(CaveModel.save(cave.id, { reviewed: { [section]: monthOf() } }), { name })
       if (status === 'saved') {
         previous.current = before
+        track('review_confirm', { cave_id: cave.id, section })
         openSnackbar(t('saved', { section: sectionName, name }), { severity: 'success' })
       }
     } catch (error) {
@@ -104,6 +106,7 @@ export default function SectionReview({ cave, section, sx }) {
       const status = await settleWrite(CaveModel.save(cave.id, { reviewed: { [section]: previous.current || deleteField() } }), { name })
       if (status === 'saved') {
         previous.current = undefined
+        track('review_take_back', { cave_id: cave.id, section })
         openSnackbar(t('undone', { section: sectionName, name }))
       }
     } catch (error) {

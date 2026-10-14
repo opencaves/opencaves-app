@@ -27,7 +27,7 @@ export default function MapPaneMenu({ map, onEdit, onTrash, ...props }) {
   const open = Boolean(anchorEl)
   const { pathname } = useLocation()
   // Report this map only: Share and Download are the toolbar's own buttons.
-  const mediaActions = useMediaActionsFor()({ kind: 'map', reportPage: pathname, onDone: () => setAnchorEl(null) })
+  const mediaActions = useMediaActionsFor()({ kind: 'map', itemId: map?.id, reportPage: pathname, onDone: () => setAnchorEl(null) })
 
   function handleClose() {
     setAnchorEl(null)

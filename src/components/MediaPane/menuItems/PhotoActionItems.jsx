@@ -36,6 +36,7 @@ export function usePhotoActionItems(mediaAsset, { onDone = noop, inViewer = fals
   const path = `/caves/${mediaAsset.caveId}/photos/${mediaAsset.id}`
   const actions = useMediaActionsFor()({
     kind: 'photo',
+    itemId: mediaAsset.id,
     shareUrl: inViewer ? undefined : `${SITE_URL}${path}`,
     download: inViewer ? undefined : { url: mediaAsset.url, fileName: downloadName('opencaves', mediaAsset.id, mediaAsset.mediaType) },
     reportPage: path,

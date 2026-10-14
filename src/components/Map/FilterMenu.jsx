@@ -15,6 +15,7 @@ import { MISSING_CRITERIA, caveFacts, caveMisses } from '@/utils/caveFilters.js'
 const MAP_OWN_CRITERIA = ['coordinates', 'position']
 import { useCoverCaveIds } from '@/models/CaveAsset.js'
 import './FilterMenu.scss'
+import { track } from '@/utils/track.js'
 
 /**
  * The filter menu's head: its title, and its close button.
@@ -184,22 +185,27 @@ export default function MapFilterMenu() {
   const { t } = useTranslation('filter')
 
   const handleShowValidCoordinates = () => {
+    track('filter_change', { filter: 'valid_coordinates', value: String(!showValidCoordinates) })
     dispatch(setShowValidCoordinates(!showValidCoordinates))
   }
 
   const handleShowInvalidCoordinates = () => {
+    track('filter_change', { filter: 'invalid_coordinates', value: String(!showInvalidCoordinates) })
     dispatch(setShowInvalidCoordinates(!showInvalidCoordinates))
   }
 
   const handleShowUnconfirmedCoordinates = () => {
+    track('filter_change', { filter: 'unconfirmed_coordinates', value: String(!showUnconfirmedCoordinates) })
     dispatch(setShowUnconfirmedCoordinates(!showUnconfirmedCoordinates))
   }
 
   const handleShowCenoteEntrances = () => {
+    track('filter_change', { filter: 'cenote_entrances', value: String(!showCenoteEntrances) })
     dispatch(setShowCenoteEntrances(!showCenoteEntrances))
   }
 
   const handleShowOtherCenotes = () => {
+    track('filter_change', { filter: 'other_cenotes', value: String(!showOtherCenotes) })
     dispatch(setShowOtherCenotes(!showOtherCenotes))
   }
 
@@ -216,6 +222,7 @@ export default function MapFilterMenu() {
   }
 
   function handleShowAccesses(checked, accessKey) {
+    track('filter_change', { filter: 'access', value: `${accessKey}:${checked}` })
     const newAccesses = showAccesses.map((access) => {
       if (access.key === accessKey) {
         return { ...access, checked }
@@ -227,6 +234,7 @@ export default function MapFilterMenu() {
 
   function handleMissing(value) {
     const on = !missing.includes(value)
+    track('filter_change', { filter: 'missing', value: `${value}:${on}` })
     // In the criteria's order, as the caves' list's address.
     dispatch(setMissing(MISSING_CRITERIA.map((criterion) => criterion.value).filter((item) => (item === value ? on : missing.includes(item)))))
   }
@@ -234,10 +242,12 @@ export default function MapFilterMenu() {
   // An area's switch: stored only once turned off or back on (an area the
   // list doesn't name is shown).
   function handleShowAreas(checked, areaKey) {
+    track('filter_change', { filter: 'area', value: `${areaKey}:${checked}` })
     dispatch(setShowAreas([...showAreas.filter(({ key }) => key !== areaKey), { key: areaKey, checked }]))
   }
 
   function handleShowAccessibilities(checked, accessKey) {
+    track('filter_change', { filter: 'accessibility', value: `${accessKey}:${checked}` })
     const newAccessibilities = showAccessibilities.map((access) => {
       if (access.key === accessKey) {
         return { ...access, checked }

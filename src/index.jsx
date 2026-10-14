@@ -16,6 +16,7 @@ import { watchFirestoreFailures } from '@/utils/firestoreRecovery.js'
 import { watchFocusRestore } from '@/utils/restoreFocus.js'
 import { deferFirebase, loadFirebase } from '@/utils/loadFirebase.js'
 import { analyticsAllowed, applyAnalyticsOptOut } from '@/utils/analytics.js'
+import { track } from '@/utils/track.js'
 
 // Ionic is for phones only (see utils/ionic.js), and only the map uses it:
 // fetched right away when the map is the page opened; other pages get it
@@ -30,6 +31,7 @@ watchFirestoreFailures()
 
 // A dialog or menu closed: the focus back where it was (utils/restoreFocus.js).
 watchFocusRestore()
+window.addEventListener('appinstalled', () => track('app_install'))
 
 // A page the server rendered (entry-server.jsx: the public pages, in
 // English) is hydrated - the app takes over the server's HTML - when the
