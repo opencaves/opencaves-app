@@ -168,7 +168,9 @@ python scripts/photos-import/match_by_gps.py <photos folder> <output folder> -l 
   the format `upload-photos.js` reads (each image's path, its hash as the
   import key, its cave). Then
   `node scripts/photos-import/upload-photos.js --csv <output>/upload.csv -l`
-  (a dry run; `--apply` to upload, `-p` for production). Check each photo
+  (a dry run; `--apply` to upload, `-p` for production; `--as <email>` credits
+  the photos to that account as if uploaded from the app: uploader, audit-log
+  entry, What's new, undo - without it an import has no author). Check each photo
   isn't already in production first: the review only compared positions and
   sizes, not the pictures themselves.
 
