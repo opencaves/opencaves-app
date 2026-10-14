@@ -23,6 +23,7 @@ OpenCaves 1.0: out of beta. A page that shows how you can help, a guided tour of
 ### Changes
 
 * **Out of beta:** the beta notices and wording are gone.
+* **Privacy policy:** it now explains the usage statistics OpenCaves collects with Google Analytics, how long they are kept, and how to turn them off.
 * **Page titles:** every page is titled "<page> / Open Caves", and only pages with their own description have one.
 
 ### Fixes
