@@ -28,6 +28,7 @@ OpenCaves 1.0: out of beta. A page that shows how you can help, a guided tour of
 
 ### Fixes
 
+* **New caves:** fees and facilities start as unknown - they were saved as "no fees, no facilities" - and editors choose Unknown, Yes or No; editing a cave on the map no longer turned an unknown into "no".
 * **Map filters:** the area and accessibility switches work again, and the area list follows the data.
 * **Accessibility:** focus comes back where it was after a dialog or menu closes; older dates are read out with their time; photos, maps and cover photos have text alternatives.
 * **Search engines:** pages that aren't drawn on the server still have their heading, and private pages say not to index them.
