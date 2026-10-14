@@ -159,8 +159,8 @@ python scripts/photos-import/match_by_gps.py <photos folder> <output folder> -l 
 - **The review:** open `review.html` in the output folder. It shows the photos
   one at a time, cave by cave (a list at the side, with each cave's
   progress), each with the five nearest caves to choose from. **A** adds,
-  **S** skips, the arrows move; photos already in OpenCaves are skipped by
-  default. Choices are kept in the browser, so a review can stop and resume.
+  **S** skips, the arrows move; photos already in OpenCaves aren't shown
+  (a *maybe* is). Choices are kept in the browser, so a review can stop and resume.
   **Export selected.csv** writes the photos to add, with their cave.
 - `gps-matched.csv` holds every photo's match; `previews/` the viewer's images.
 

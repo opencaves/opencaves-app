@@ -73,6 +73,10 @@
 <script>
 const DATA = /*DATA*/null
 const STORE = `oc-photo-review:${DATA.dataset}`
+// Photos already in OpenCaves (same place, same size) aren't shown; a "maybe"
+// (same place, another size) is.
+const HIDDEN = DATA.photos.filter((p) => p.inOpenCaves === 'yes').length
+DATA.photos = DATA.photos.filter((p) => p.inOpenCaves !== 'yes')
 
 // Choices: file -> { action: 'add' | 'skip', caveId }. Kept in this browser.
 let choices = {}
@@ -124,7 +128,7 @@ function renderGroups() {
     list.append(item)
   }
   const all = order.map(decided)
-  document.getElementById('totals').textContent = `${order.length} photos · ${all.filter((d) => d?.action === 'add').length} to add · ${all.filter((d) => !d).length} left to review`
+  document.getElementById('totals').textContent = `${order.length} photos · ${all.filter((d) => d?.action === 'add').length} to add · ${all.filter((d) => !d).length} left to review${HIDDEN ? ` · ${HIDDEN} already in OpenCaves, not shown` : ''}`
   list.querySelector('.active')?.scrollIntoView({ block: 'nearest' })
 }
 
