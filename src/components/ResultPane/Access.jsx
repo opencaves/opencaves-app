@@ -186,7 +186,7 @@ export default function Access({ cave, review = true }) {
 export function AccessReview({ cave }) {
   return (
     <>
-      <SectionReview cave={cave} section="access" sx={{ mt: 0 }} />
+      <SectionReview cave={cave} section="access" />
       {cave.fees && <SectionReview cave={cave} section="fees" />}
     </>
   )

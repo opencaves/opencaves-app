@@ -384,7 +384,7 @@ export default function CavePage() {
 
       {/* How to get there - the map's pane had it, this page didn't. */}
       {cave.direction && (
-        <IndexSection id="getting-there" title={tPane('directionsHeader')} className="oc-cave-page--directions" card after={<Box className="oc-cave-page--review" sx={{ px: { xs: 2, sm: 3 }, pt: 1 }}><SectionReview cave={cave} section="directions" sx={{ mt: 0 }} /></Box>}>
+        <IndexSection id="getting-there" title={tPane('directionsHeader')} className="oc-cave-page--directions" card after={<Box className="oc-cave-page--review" sx={{ px: { xs: 2, sm: 3 }, pt: 1 }}><SectionReview cave={cave} section="directions" /></Box>}>
           <Markdown>{cave.direction}</Markdown>
           <TextSource record={cave} field="direction" />
         </IndexSection>
@@ -398,7 +398,7 @@ export default function CavePage() {
           </Box>
           {/* Its Still accurate group after the card, on the page's ground. */}
           <Box className="oc-cave-page--review" sx={{ px: { xs: 2, sm: 3 }, pt: 1 }}>
-            <SectionReview cave={cave} section="description" sx={{ mt: 0 }} />
+            <SectionReview cave={cave} section="description" />
           </Box>
         </Box>
       )}
