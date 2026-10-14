@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "concurrently --kill-others --prefix none \"firebase --debug emulators:start --import=./.emulator-data\" \"vite\" \"node scripts/emulator-autosave.js\"",
+    "dev": "concurrently --kill-others --prefix none \"cd logs && firebase --debug emulators:start --config ../firebase.json --import=../.emulator-data\" \"vite\" \"node scripts/emulator-autosave.js\"",
     "serve": "serve -p 4000 -s build",
     "build": "node scripts/map-layer/build-tiles.js --check && vite build && vite build --ssr src/entry-server.jsx",
     "build:tiles": "node scripts/map-layer/build-tiles.js --build",
