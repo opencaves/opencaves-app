@@ -1,5 +1,5 @@
 import { postProcessCaveData } from '@/services/data-service/postProcessCaveData.js'
-import { buildIndexData, homeFigures } from '@/utils/indexData.js'
+import { buildIndexData, homeFeatured, homeFigures } from '@/utils/indexData.js'
 import { getSistemaMapRefs } from '@/utils/sistemaMaps.js'
 import { isTrashed } from '@/utils/trash.js'
 import { compactCaveFacts } from '@/utils/caveFilters.js'
@@ -119,10 +119,12 @@ export function fullPageData(raw) {
  *   (an older server): the browser reads them.
  * @param {{id: string, data: object}[]} [sources.caveReports] - A cave's page: its _caveReports document
  *   ([{ id, data }], none without one): the warnings it shows (useCaveReports).
+ * @param {{views?: Record<string, number>}} [sources.popularity] - The landing page: _popularity/caves (its
+ *   featured caves, homeFeatured). Not given (an older server): picked by name.
  * @returns {{data: object, queries: object, found: boolean}} { data (the page's
  *   cave data: useCaveData), queries, found }.
  */
-export function buildPageState(page, { raw, maps = [], assets = [], covers, caveReports }) {
+export function buildPageState(page, { raw, maps = [], assets = [], covers, caveReports, popularity }) {
   const { data: all, index, areas } = processedData(raw)
   const cave = page.kind === 'cave' ? all.caves.find(({ id }) => id === page.id) : null
   // The page's system (or its cave's), and the systems it joined, and those
@@ -135,6 +137,10 @@ export function buildPageState(page, { raw, maps = [], assets = [], covers, cave
   const data = { ...fullPageData(raw), ...EMPTY, partial: true, areas }
   if (page.kind === 'home') {
     data.figures = homeFigures(index)
+    // Its featured caves and systems (Discover, Popular caves and systems):
+    // in the page, so search engines follow their links.
+    const views = popularity?.views || null
+    data.featured = homeFeatured(index, (covers || []).filter(({ data: asset }) => !isTrashed(asset)).map(({ id, data: asset }) => ({ id, caveId: asset.caveId })), views)
   } else if (page.kind === 'caves') {
     data.caves = all.caves.map(listCave)
     const used = new Set(all.caves.map(({ sistemaId }) => sistemaId))
@@ -166,6 +172,11 @@ export function buildPageState(page, { raw, maps = [], assets = [], covers, cave
   // which the page doesn't load until the person does something.
   if (page.kind === 'home' && covers) {
     queries.covers = covers.filter(({ data: asset }) => !isTrashed(asset)).map(({ id, data: asset }) => ({ id, data: pick(asset, ['id', 'caveId', 'type', 'isCover', 'thumbnailRevision', 'viewThumbnailRevision']) }))
+  }
+  // The visit counts the featured caves were picked by (Home's, when it
+  // picks them itself: the server's check render with every record).
+  if (page.kind === 'home' && popularity) {
+    queries.popularity = [{ id: 'caves', data: { views: popularity.views || {} } }]
   }
   if (cave) {
     const images = assets.filter(({ data: asset }) => asset.caveId === cave.id && asset.type === 'image')

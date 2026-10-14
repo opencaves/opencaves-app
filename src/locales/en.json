@@ -2019,6 +2019,12 @@
       "title": "Not for dive planning",
       "text": "The information on OpenCaves is shared by its community. It can be incomplete, inaccurate or out of date, and it is not suitable for planning or conducting a dive. You use it at your own risk: always check with local guides, dive centres and landowners before you go. See the"
     },
+    "popular": {
+      "title": "Popular caves and systems",
+      "subtitle": "The most visited caves, and the longest cave systems.",
+      "caves": "Popular caves",
+      "sistemas": "Longest cave systems"
+    },
     "discover": {
       "title": "Discover",
       "subtitle": "A few of the caves on OpenCaves.",

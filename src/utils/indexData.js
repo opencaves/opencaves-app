@@ -126,3 +126,42 @@ export function homeFigures(data) {
     regions: data.areas.filter((area) => area.caves.length > 0).map(({ name, slug, caves }) => ({ name, slug, count: caves.length })),
   }
 }
+
+// The landing page's featured lists: Discover's cards, the popular caves
+// after them, the longest systems.
+const HOME_DISCOVER = 6
+const HOME_POPULAR = 10
+const HOME_LONGEST = 6
+
+/**
+ * The landing page's featured caves and systems (Home), the same on the
+ * server (src/ssr/pageState.js, which sends them) and in the browser: links
+ * search engines follow from the page they know best.
+ * - discover: the most visited caves with a cover photo ({@link HOME_DISCOVER});
+ * - popular: the next most visited caves, none of Discover's ({@link HOME_POPULAR});
+ * - longest: the longest public systems ({@link HOME_LONGEST}) that stand on their own - one
+ *   that joined another (Dos Ojos, now part of Sac Actun) is counted in that one.
+ * Without visit counts (never read, offline): Discover's caves by name, no popular list.
+ *
+ * @param {{caves: object[], sistemas: object[], sistemasById: Map<string, object>, connections: object[]}} data - {@link buildIndexData}'s.
+ * @param {{id: string, caveId: string}[]} covers - The cover photos outside the trash.
+ * @param {Record<string, number>|null} views - Each cave's page views (_popularity/caves), null when unknown.
+ * @returns {{discover: {caveId: string, assetId: string, name: string, sistema: string|null}[], popular: {id: string, name: string, sistema: string|null}[], longest: {id: string, name: string, length: number}[]}}
+ */
+export function homeFeatured(data, covers, views) {
+  const count = (id) => Number(views?.[id]) || 0
+  const rank = (a, b) => count(b.id) - count(a.id) || byName(a, b)
+  const coverOf = new Map(covers.map((cover) => [cover.caveId, cover.id]))
+  const sistemaName = (cave) => data.sistemasById.get(cave.sistemaId)?.name || null
+  const named = data.caves.filter((cave) => cave.name)
+  const discover = named.filter((cave) => coverOf.has(cave.id)).sort(rank).slice(0, HOME_DISCOVER)
+  const shown = new Set(discover.map(({ id }) => id))
+  const popular = views ? named.filter((cave) => !shown.has(cave.id) && count(cave.id) > 0).sort(rank).slice(0, HOME_POPULAR) : []
+  const joined = new Set(data.connections.map(({ sistemaId }) => sistemaId))
+  const longest = data.sistemas.filter((sistema) => Number(sistema.exploredLength) > 0 && !joined.has(sistema.id)).sort((a, b) => b.exploredLength - a.exploredLength || byName(a, b)).slice(0, HOME_LONGEST)
+  return {
+    discover: discover.map((cave) => ({ caveId: cave.id, assetId: coverOf.get(cave.id), name: cave.name, sistema: sistemaName(cave) })),
+    popular: popular.map((cave) => ({ id: cave.id, name: cave.name, sistema: sistemaName(cave) })),
+    longest: longest.map((sistema) => ({ id: sistema.id, name: sistema.name, length: Number(sistema.exploredLength) })),
+  }
+}
