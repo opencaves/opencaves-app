@@ -163,6 +163,14 @@ python scripts/photos-import/match_by_gps.py <photos folder> <output folder> -l 
   (a *maybe* is). Choices are kept in the browser, so a review can stop and resume.
   **Export selected.csv** writes the photos to add, with their cave.
 - `gps-matched.csv` holds every photo's match; `previews/` the viewer's images.
+- **To upload the chosen ones:** save the export as `<output>/selected.csv`,
+  then `match_by_gps.py <photos> <output> --selected` writes `upload.csv` in
+  the format `upload-photos.js` reads (each image's path, its hash as the
+  import key, its cave). Then
+  `node scripts/photos-import/upload-photos.js --csv <output>/upload.csv -l`
+  (a dry run; `--apply` to upload, `-p` for production). Check each photo
+  isn't already in production first: the review only compared positions and
+  sizes, not the pictures themselves.
 
 
 - **Pixel panoramas (`PXL_….PANO.jpg`)** carry 360° crop data but no
