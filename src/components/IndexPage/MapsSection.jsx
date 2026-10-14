@@ -21,6 +21,8 @@ import { useRequireLogin } from '@/hooks/useRequireLogin.jsx'
 import EmptySectionText from './EmptySectionText.jsx'
 import CardOptionsMenu from '@/components/ResultPane/CardOptionsMenu.jsx'
 import { useCanTrashMaps, useTrashMapConfirm } from '@/components/MapPane/TrashMap.jsx'
+import { downloadName, useMediaActionsFor, withOthers } from '@/components/MediaPane/menuItems/mediaActions.jsx'
+import { SITE_URL } from '@/config/app.js'
 
 
 /**
@@ -30,8 +32,9 @@ import { useCanTrashMaps, useTrashMapConfirm } from '@/components/MapPane/TrashM
  * ({@link MediaStrip}, as the map's cave pane), each map a tile: its
  * thumbnail, its name and year over it ({@link MapThumbnail}); then
  * Show all under it ({@link StripShowAll}) opening every one in a grid.
- * Editors get each map's menu (edit; delete for admins, {@link CardOptionsMenu}). Under
- * them, the
+ * Each map's menu ({@link CardOptionsMenu}): Share, Download and Report this
+ * map for everyone ({@link useMediaActionsFor}); Edit for editors, Delete for
+ * admins. Under them, the
  * maps added offline still waiting to upload, and Add map (editors; the
  * others are asked to log in) - shown with no map yet too, except to
  * visitors where there's no system to add one to.
@@ -58,6 +61,7 @@ export default function MapsSection({ sistemaId, sistemas, connections, pagePath
   const navigate = useNavigate()
   const canTrash = useCanTrashMaps()
   const { requestTrash, dialog: trashDialog } = useTrashMapConfirm()
+  const mediaActionsFor = useMediaActionsFor()
   const pendingMapsOf = useCallback((item) => item.kind === 'map' && item.sistemaId === sistemaId, [sistemaId])
   const byId = new Map(allMaps.map((map) => [map.id, map]))
   // Each system's together (its own first), in its order: the editors',
@@ -81,6 +85,12 @@ export default function MapsSection({ sistemaId, sistemas, connections, pagePath
     { label: tEdit('editMap'), icon: <EditRounded fontSize="small" />, onClick: () => navigate(`${pagePath}/maps/${map.id}/edit`, { state: { fromPage: true, editFromViewer: true } }) },
     canTrash && { label: tEdit('trashMap'), icon: <DeleteForeverRounded fontSize="small" />, onClick: () => requestTrash(map), danger: true },
   ].filter(Boolean)
+  // Its menu: everyone's actions (its address in the page's gallery, its
+  // file), then the editors'.
+  const mapMenu = (map) => withOthers(
+    mediaActionsFor({ kind: 'map', shareUrl: `${SITE_URL}${pagePath}/maps/${map.id}`, download: { url: map.url, fileName: downloadName('opencaves-map', map.id, map.contentType) }, reportPage: `${pagePath}/maps/${map.id}` }),
+    isEditor ? mapActions(map) : [],
+  )
   // A map opens in the page's gallery; named by its name and year.
   const mapLink = (map) => ({ component: RouterLink, to: `${pagePath}/maps/${map.id}`, state: { fromPage: true }, 'aria-label': [map.name, mapYear(map)].filter(Boolean).join(', ') })
 
@@ -99,7 +109,7 @@ export default function MapsSection({ sistemaId, sistemas, connections, pagePath
                 <ButtonBase {...mapLink(map)} className="oc-maps-section--link" sx={{ display: 'block', width: '100%', height: '100%', textAlign: 'left', color: 'inherit', textDecoration: 'none', borderRadius: 2, '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: 2 } }}>
                   <MapThumbnail map={map} />
                 </ButtonBase>
-                {isEditor && <CardOptionsMenu ariaLabel={tEdit('mapOptions')} actions={mapActions(map)} />}
+                <CardOptionsMenu ariaLabel={tEdit('mapOptions')} actions={mapMenu(map)} />
               </Box>
             ))}
           </MediaStrip>
@@ -110,7 +120,7 @@ export default function MapsSection({ sistemaId, sistemas, connections, pagePath
                   <ButtonBase {...mapLink(map)} className="oc-maps-section--item oc-carousel--media" sx={{ display: 'block', width: '100%', aspectRatio: '4 / 3', textAlign: 'left', color: 'inherit', textDecoration: 'none' }}>
                     <MapThumbnail map={map} />
                   </ButtonBase>
-                  {isEditor && <CardOptionsMenu reveal ariaLabel={tEdit('mapOptions')} actions={mapActions(map)} />}
+                  <CardOptionsMenu reveal ariaLabel={tEdit('mapOptions')} actions={mapMenu(map)} />
                 </Box>
               </li>
             ))}

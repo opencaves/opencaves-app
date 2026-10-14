@@ -770,7 +770,17 @@
       "deleteConfirmTitle": "¿Eliminar esta foto?",
       "deleteConfirm": "La foto va a la papelera: un administrador puede restaurarla desde Auditorías > Papelera.",
       "deleteCancel": "Cancelar",
-      "isCoverImage": "Es la foto de portada"
+      "isCoverImage": "Es la foto de portada",
+      "share": "Compartir",
+      "download": "Descargar",
+      "report": {
+        "photo": "Reportar esta foto",
+        "map": "Reportar esta topografía",
+        "video": "Reportar este video"
+      },
+      "linkCopied": "Enlace copiado.",
+      "shareFail": "No se pudo compartir el enlace.",
+      "downloadFail": "No se pudo descargar el archivo."
     },
     "mediaThumbnailItem": {
       "openBtn": {

@@ -5,6 +5,7 @@ import Lightbox, { addToolbarButton } from 'yet-another-react-lightbox'
 import Inline from 'yet-another-react-lightbox/plugins/inline'
 import Fullscreen from 'yet-another-react-lightbox/plugins/fullscreen'
 import Download from 'yet-another-react-lightbox/plugins/download'
+import Share from 'yet-another-react-lightbox/plugins/share'
 import Zoom from 'yet-another-react-lightbox/plugins/zoom'
 import Counter from 'yet-another-react-lightbox/plugins/counter'
 import Captions from 'yet-another-react-lightbox/plugins/captions'
@@ -17,6 +18,7 @@ import { useGalleryArrowKeys } from '@/hooks/useGalleryArrowKeys.js'
 import { useLightboxLabels } from '@/hooks/useLightboxLabels.js'
 import ArrowForwardIosRounded from '@mui/icons-material/ArrowForwardIosRounded'
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded'
+import ShareRoundedIcon from '@mui/icons-material/ShareRounded'
 import FullscreenRoundedIcon from '@mui/icons-material/FullscreenRounded'
 import FullscreenExitRoundedIcon from '@mui/icons-material/FullscreenExitRounded'
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded'
@@ -107,10 +109,15 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
     )
   }
 
+  // Each map's own address, for its Share button (as the photo viewer's):
+  // this gallery's, the map's id last.
+  const galleryBase = location.pathname.replace(/\/maps\/[^/]+(\/.*)?$/, '/maps/')
+  const shareTitle = t('share.title', { title: document.title })
   const slides = maps.map((map) => ({
     mapId: map.id,
     src: map.previewUrl || map.url,
     download: { url: map.url, filename: map.name },
+    share: { url: `${window.location.origin}${galleryBase}${map.id}`, title: shareTitle },
     // Its caption, at the bottom (a title would go in the toolbar, under its
     // buttons): its name, then its year (dates are "2000", "2012-10"...) and
     // who drew it.
@@ -165,13 +172,15 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
             // sends the others to the right.
             'zoom',
             <span key="oc-map-pane-details-spacer" style={{ marginRight: 'auto' }} />,
+            // As the photo viewer's: Share and Download as buttons, the rest
+            // in the menu (MapPaneMenu), there for everyone (Report this map).
+            'share',
             'download',
             'fullscreen',
-            // Its menu's place, when it has one (a name with no plugin shows as text).
-            ...(canEdit || onTrash ? ['menu'] : []),
+            'menu',
           ],
         }}
-        plugins={[canEdit || onTrash ? Menu : undefined, Inline, isFullscreenEnabled() ? Fullscreen : undefined, Download, Zoom, captioned && maps.length > 1 && Counter, captioned && Captions].filter(Boolean)}
+        plugins={[Menu, Inline, isFullscreenEnabled() ? Fullscreen : undefined, Download, Share, Zoom, captioned && maps.length > 1 && Counter, captioned && Captions].filter(Boolean)}
         counter={{ container: { style: { top: 0, left: '50%', transform: 'translateX(-50%)', lineHeight: '64px', padding: 0, margin: 0 } } }}
         captions={{ showToggle: false, descriptionTextAlign: 'start', descriptionMaxLines: 3 }}
         carousel={{ padding: 0, spacing: 0, imageFit: 'contain', finite: true, imageProps: { crossOrigin: 'anonymous' } }}
@@ -193,6 +202,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
           iconEnterFullscreen: () => <FullscreenRoundedIcon sx={{ fontSize: '1.5rem' }} />,
           iconExitFullscreen: () => <FullscreenExitRoundedIcon sx={{ fontSize: '1.5rem' }} />,
           iconDownload: () => <DownloadRoundedIcon sx={{ fontSize: '1.5rem' }} />,
+          iconShare: () => <ShareRoundedIcon sx={{ fontSize: '1.5rem' }} />,
           iconPrev: () => <ArrowBackIosNewRoundedIcon />,
           iconNext: () => <ArrowForwardIosRounded />,
         }}

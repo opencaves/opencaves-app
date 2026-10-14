@@ -4,8 +4,15 @@
 export const OPEN_FEEDBACK_EVENT = 'oc-open-feedback'
 export const FEEDBACK_KINDS = ['bug', 'misleading', 'idea']
 
-export function openFeedback(kind) {
-  window.dispatchEvent(new CustomEvent(OPEN_FEEDBACK_EVENT, { detail: { kind: FEEDBACK_KINDS.includes(kind) ? kind : null } }))
+/**
+ * Opens the Send feedback form (FeedbackDialog), over any page.
+ *
+ * @param {string} [kind] - 'bug', 'misleading' or 'idea' (none: the reader picks).
+ * @param {object} [options]
+ * @param {string} [options.page] - What the report is about, as a path (a photo's); the current page otherwise.
+ */
+export function openFeedback(kind, { page } = {}) {
+  window.dispatchEvent(new CustomEvent(OPEN_FEEDBACK_EVENT, { detail: { kind: FEEDBACK_KINDS.includes(kind) ? kind : null, page: page || null } }))
 }
 
 // A report's stages (the admins' Feedback page): open while new, confirmed

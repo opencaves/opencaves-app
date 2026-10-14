@@ -110,7 +110,8 @@ export default function FeedbackDialog() {
       }
       setKind(event.detail?.kind || null)
       setMessage('')
-      setPage(`${window.location.pathname}${window.location.search}`)
+      // What it's about: the page given (a photo's), else the one shown.
+      setPage(event.detail?.page || `${window.location.pathname}${window.location.search}`)
       setOpen(true)
     }
     window.addEventListener(OPEN_FEEDBACK_EVENT, onOpen)

@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Box, IconButton, Menu } from '@mui/material'
+import { Box, Divider, IconButton, Menu } from '@mui/material'
 import MoreVert from '@mui/icons-material/MoreVertRounded'
-import UseAsCoverImage from '@/components/MediaPane/menuItems/UseAsCoverImage.jsx'
+import UseAsCoverImage, { useUseAsCoverImage } from '@/components/MediaPane/menuItems/UseAsCoverImage.jsx'
+import { usePhotoActionItems } from '@/components/MediaPane/menuItems/PhotoActionItems.jsx'
 import DeleteMedia, { useDeleteMedia, useDeleteMediaConfirm } from '@/components/MediaPane/menuItems/DeleteMedia.jsx'
 
 // Kept from the sortable item around it: a press here (or in the menu and
@@ -11,9 +12,11 @@ import DeleteMedia, { useDeleteMedia, useDeleteMediaConfirm } from '@/components
 const keepFromItem = (event) => event.stopPropagation()
 
 /**
- * A photo's ⋮ menu in a gallery's grid (Show all), admins only: Use as
- * cover photo and Delete (to the trash, confirmed first) - the media
- * viewer's own items ({@link UseAsCoverImage}, {@link DeleteMedia}). Laid
+ * A photo's ⋮ menu on a cave's page (its strip, Show all's grid), with the
+ * gallery viewer's items (MediaPaneMenu): for everyone, Share, Download and
+ * Report this photo ({@link usePhotoActionItems}); then Use as cover photo
+ * for signed-in accounts (editors) and Delete for admins (to the trash,
+ * confirmed first: {@link UseAsCoverImage}, {@link DeleteMedia}). Laid
  * over the photo's top corner, opposite the Cover badge (its parent is
  * positioned). In a grid, shown when its parent is hovered (always on a
  * touch screen); on a strip, a card's (CardOptionsMenu's look: always
@@ -25,13 +28,14 @@ const keepFromItem = (event) => event.stopPropagation()
  */
 export default function PhotoItemMenu({ mediaAsset, variant = 'grid' }) {
   const { t } = useTranslation('mediaPane')
+  const isEditor = useUseAsCoverImage()
   const isAdmin = useDeleteMedia()
   const [anchorEl, setAnchorEl] = useState(null)
   const { requestDelete, dialog } = useDeleteMediaConfirm()
-  if (!isAdmin) return null
   const open = Boolean(anchorEl)
   const menuId = `oc-photo-item-menu-${mediaAsset.id}`
   const close = () => setAnchorEl(null)
+  const actionItems = usePhotoActionItems(mediaAsset, { onDone: close })
 
   return (
     <Box
@@ -88,6 +92,9 @@ export default function PhotoItemMenu({ mediaAsset, variant = 'grid' }) {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
+        {actionItems}
+        {/* Signed-in accounts' and admins' items, apart. */}
+        {(isEditor || isAdmin) && <Divider />}
         <UseAsCoverImage mediaAsset={mediaAsset} onClick={close} />
         <DeleteMedia onClick={() => {
           close()
