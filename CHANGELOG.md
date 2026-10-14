@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.1.0](https://github.com/opencaves/opencaves-app/compare/v1.0.0...v1.1.0) (release candidate)
+
+The caves near each cave, the most popular caves and systems on the home page, and a simpler way to tell the team what changed at a cave - which the team can now apply in one click.
+
+
+### Features
+
+* **Nearby caves:** a cave's page lists the caves closest to it, with their distance (in kilometres or miles, following your units) and their cave system.
+* **Popular caves and systems:** the home page shows the most visited ones, and its Discover cards appear at once with the page.
+* **What changed?:** the arrow beside Still accurate lists the cave's other access, accessibility and fees values, each with its icon and its meaning, sorted by name in your language - pick the one that's now true. A cave reported as Access forbidden or Permission needed shows a warning at once.
+* **For the team:** a report that proposes a new value shows it next to the cave's current one, and Accept the change updates the cave and closes the report.
+
+### Changes
+
+* **Still accurate:** one button at the foot of each card confirms the whole card, and its arrow opens What changed? - instead of separate Still accurate and Report a change buttons under each part.
+* **What's new:** added caves and systems are labelled New cave and New system.
+* **Search engines:** the sitemap lists the caves and systems that have something to show (a photo, a description, directions, maps...), so search engines read those first; the others stay reachable from the lists.
+
+### Fixes
+
+* **Guided tours:** a tour that moved the map ends with the map back on its default view.
+* **Usage statistics:** the details recorded with tours, ratings and media actions are named the same way as in the statistics' reports.
+
 ## [1.0.0](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-16...v1.0.0) (2026-10-14)
 
 OpenCaves 1.0: out of beta. A page that shows how you can help, a guided tour of the app, a "Still accurate?" check under each part of a cave's page, filters that find the caves needing help, menus on every photo, video and map, and pages that open much faster.
