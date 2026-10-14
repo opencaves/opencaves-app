@@ -67,7 +67,8 @@ export default function PhotoItemMenu({ mediaAsset, variant = 'grid' }) {
         onClick={(event) => setAnchorEl(event.currentTarget)}
         size={variant === 'card' ? 'small' : 'medium'}
         // A 3D strip's tile's control (MediaStrip): its state on the copies.
-        className={variant === 'card' ? 'oc-media-strip--live' : undefined}
+        // Its dark background drawn in one piece on the strip (see-through).
+        className={variant === 'card' ? 'oc-media-strip--live oc-media-strip--translucent' : undefined}
         sx={variant === 'card' ? {
           cursor: 'pointer',
           color: 'common.white',
@@ -96,6 +97,8 @@ export default function PhotoItemMenu({ mediaAsset, variant = 'grid' }) {
         {/* Signed-in accounts' and admins' items, apart. */}
         {(isEditor || isAdmin) && <Divider />}
         <UseAsCoverImage mediaAsset={mediaAsset} onClick={close} />
+        {/* Delete (admins), apart. */}
+        {isAdmin && <Divider />}
         <DeleteMedia onClick={() => {
           close()
           requestDelete(mediaAsset)

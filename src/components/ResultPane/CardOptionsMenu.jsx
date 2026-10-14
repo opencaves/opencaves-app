@@ -36,7 +36,9 @@ export default function CardOptionsMenu({ ariaLabel, actions, sx, reveal = false
       <IconButton
         size="small"
         // A 3D strip's tile's control (MediaStrip): its state on the copies.
-        className="oc-card-options-menu oc-media-strip--live"
+        // On a 3D strip: a live control (MediaStrip mirrors its state on its
+        // copies), its dark background drawn in one piece (see-through).
+        className="oc-card-options-menu oc-media-strip--live oc-media-strip--translucent"
         aria-label={ariaLabel}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
@@ -68,7 +70,7 @@ export default function CardOptionsMenu({ ariaLabel, actions, sx, reveal = false
       </IconButton>
       {/* Its events bubble through React's tree to the card too. */}
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose} onMouseDown={keepFromCard} onTouchStart={keepFromCard}>
-        {actions.map((action) => (
+        {actions.map((action, index) => (
           <MenuItem
             key={action.label}
             component={action.to ? Link : 'li'}
@@ -81,7 +83,9 @@ export default function CardOptionsMenu({ ariaLabel, actions, sx, reveal = false
               focused?.blur()
               action.onClick?.()
             }}
-            divider={action.divider}
+            // A line under it before its group ends - and before a danger
+            // item (delete, trash: admins').
+            divider={Boolean(action.divider || (!action.danger && actions[index + 1]?.danger))}
             sx={action.danger ? { color: 'error.main' } : undefined}
           >
             <ListItemIcon sx={action.danger ? { color: 'error.main' } : undefined}>{action.icon}</ListItemIcon>
