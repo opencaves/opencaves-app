@@ -394,14 +394,44 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
             image.style.visibility = 'hidden'
             for (let e = image.parentElement; e; e = e === copy ? null : e.parentElement) e.style.background = 'transparent'
           }
-          // See-through overlays (a play button's circle) apart, slices
-          // meeting edge to edge - overlapping, they'd be drawn twice there,
-          // a darker line every slice; only their backgrounds, under the rest.
+          // See-through overlays (a play button's circle, a ⋮ button's dark
+          // background) apart, only their backgrounds, under the rest: each
+          // in one piece, as wide as it, turned as the cylinder is at its
+          // middle - over its few dozen pixels the curve is flat enough. In
+          // slices meeting edge to edge, the curve opened hairline gaps
+          // between them (white lines over a light map); overlapping, a
+          // darker line every slice.
           if (translucentCount) {
-            sliceCopies(exact, (copy) => {
+            const tileBox = tile.getBoundingClientRect()
+            const scaleX = tileBox.width ? tile.offsetWidth / tileBox.width : 1
+            ;[.../** @type {NodeListOf<HTMLElement>} */ (tile.querySelectorAll('.oc-media-strip--translucent'))].forEach((element, index) => {
+              // Its span across the tile, in whole pixels: its offsets in the
+              // tile (a transform doesn't change them), else its box (the
+              // tile's own, scaled back to the tile's width).
+              let left = 0
+              let parent = element
+              while (parent && parent !== tile) {
+                left += parent.offsetLeft
+                parent = /** @type {HTMLElement} */ (parent.offsetParent)
+              }
+              const box = element.getBoundingClientRect()
+              const from = parent === tile ? left : (box.left - tileBox.left) * scaleX
+              const to = parent === tile ? left + element.offsetWidth : (box.right - tileBox.left) * scaleX
+              const start = Math.max(0, Math.floor(from))
+              const end = Math.min(w, Math.ceil(to))
+              if (end <= start) return
+              const piece = document.createElement('div')
+              Object.assign(piece.style, { position: 'absolute', left: `${x + start}px`, top: `${y}px`, width: `${end - start}px`, height: `${h}px`, overflow: 'hidden', backfaceVisibility: 'hidden' })
+              const copy = /** @type {HTMLElement} */ (tile.cloneNode(true))
+              copy.inert = true
+              Object.assign(copy.style, { position: 'absolute', left: `${-start}px`, top: '0', width: `${w}px`, height: `${h}px`, margin: '0', opacity: '', transform: 'none', visibility: 'hidden', pointerEvents: 'none' })
               overPicture(copy)
-              copy.style.visibility = 'hidden'
-              for (const element of translucentOf(copy)) Object.assign(element.style, { visibility: 'visible', color: 'transparent' })
+              // This overlay's background only (the others have their own piece).
+              Object.assign(translucentOf(copy)[index].style, { visibility: 'visible', color: 'transparent' })
+              copiesOf.get(tile)?.push(copy)
+              piece.append(copy)
+              track.append(piece)
+              slices.push({ slice: piece, x: x + (start + end) / 2 })
             })
           }
           // The rest of its overlays (a play button's triangle, a caption),

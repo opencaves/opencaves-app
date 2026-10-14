@@ -76,6 +76,8 @@ export default function MapPaneMenu({ map, onEdit, onTrash, ...props }) {
             <ListItemText>{t('editMap')}</ListItemText>
           </MenuItem>
         )}
+        {/* Move to trash (admins), apart from Edit. */}
+        {onEdit && onTrash && <Divider />}
         {onTrash && (
           <MenuItem
             className="oc-map-pane-menu--trash"

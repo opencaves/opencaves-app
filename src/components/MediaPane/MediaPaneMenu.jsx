@@ -109,6 +109,8 @@ export default function MediaPaneMenu({ mediaAsset, onBeforeDelete, ...props }) 
         {(setDeleteMediaMenuItem || setUseAsCoverImageMenuItem) && <Divider />}
         <UseAsCoverImage mediaAsset={mediaAsset} />
         <UseViewAsThumbnail mediaAsset={mediaAsset} />
+        {/* Delete (admins), apart. */}
+        {setDeleteMediaMenuItem && <Divider />}
         <DeleteMedia onClick={() => requestDelete(mediaAsset)} />
       </Menu>
       {deleteDialog}
