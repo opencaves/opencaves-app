@@ -16,6 +16,13 @@
 //
 // A dry run by default: --apply to write. --undo removes everything an
 // import added (documents, files, thumbnails).
+//
+// --as <email> credits the photos to that account, as if uploaded from the
+// app: its id goes on each file (userId), so onAssetUploaded records the
+// uploader (_cavesAssetsPrivate) and writes the photo's audit-log entry (the
+// Audits page, What's new, undo). Without it, an import is nobody's and isn't
+// in the audit log. Photos already imported keep their author (none):
+// --redo --only re-imports them.
 
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
@@ -25,6 +32,7 @@ import { hideBin } from 'yargs/helpers'
 import { initializeApp, applicationDefault } from 'firebase-admin/app'
 import { getFirestore } from 'firebase-admin/firestore'
 import { getStorage } from 'firebase-admin/storage'
+import { getAuth } from 'firebase-admin/auth'
 
 const PROJECT_ID = 'opencaves'
 const BUCKET = 'opencaves.appspot.com'
@@ -47,10 +55,12 @@ const cli = yargs(hideBin(process.argv))
   .option('redo', { type: 'boolean', default: false, describe: 'Remove the selected photos\' earlier import, then import them again (e.g. after a function fix); needs --only' })
   .check((args) => !args.redo || args.only || 'Use --redo with --only, to choose the photos to import again')
   .option('local', { alias: 'l', type: 'boolean', describe: 'The local emulators - the default, named to run with no other option' })
+  .option('as', { type: 'string', describe: "Credit the photos to this account (its email), as if uploaded from the app: uploader and audit-log entry (What's new, undo)" })
   .check((args) => !(args.local && args.production) || 'Use --local or --production, not both')
   .example('$0 -l', 'Dry run against the local emulators')
   .example('$0 --apply --limit 5', 'Upload the first 5 photos locally')
   .example('$0 -p --apply', 'Upload everything to production')
+  .example('$0 -p --apply --as me@example.org', 'Upload to production, credited to that account')
   .example('$0 -p --apply --redo --only 20230313_091418', 'Import one photo again in production')
   .help()
   .alias('help', 'h')
@@ -66,11 +76,24 @@ const argv = cli.parseSync()
 if (!argv.production) {
   process.env.FIRESTORE_EMULATOR_HOST ??= '127.0.0.1:8080'
   process.env.FIREBASE_STORAGE_EMULATOR_HOST ??= '127.0.0.1:9199'
+  process.env.FIREBASE_AUTH_EMULATOR_HOST ??= '127.0.0.1:9099'
 }
 initializeApp({ projectId: PROJECT_ID, storageBucket: BUCKET, ...(argv.production && { credential: applicationDefault() }) })
 const db = getFirestore()
 const bucket = getStorage().bucket()
 const mode = `${argv.production ? 'PRODUCTION' : 'local emulators'}${argv.apply ? '' : ' - dry run, nothing written (--apply to write)'}`
+
+// --as: the account the photos are credited to (its id on each file).
+let uploaderId = null
+if (argv.as) {
+  try {
+    uploaderId = (await getAuth().getUserByEmail(argv.as)).uid
+  } catch {
+    console.error(`No account with the email ${argv.as} in the ${argv.production ? 'production' : 'local'} project.`)
+    process.exit(1)
+  }
+  console.log(`credited to ${argv.as} (${uploaderId})`)
+}
 
 // Minimal CSV reader (quoted fields, "" escapes, CRLF, BOM) - the files
 // come from Python's csv module.
@@ -178,7 +201,7 @@ async function importPhoto(row, csvDir, label) {
     console.log(`${label}: upload as ${assetId}${yes(row.isCover) ? ', as cover' : ''}`)
     if (!argv.apply) return { id: null, status: 'uploaded' }
     await bucket.file(`caves/${caveId}/images/${assetId}`).save(readFileSync(file), {
-      metadata: { contentType, metadata: { originalName: path.basename(row.source), importKey } },
+      metadata: { contentType, metadata: { originalName: path.basename(row.source), importKey, ...(uploaderId && { userId: uploaderId }) } },
     })
   }
   if (!argv.apply) return { id: assetId, status: 'uploaded' }
