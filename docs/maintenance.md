@@ -42,15 +42,45 @@ the trash is emptied):
 Files in Storage can be deleted with
 `gcloud storage rm gs://opencaves.appspot.com/<path>`.
 
-## Mirror the local data to production
+## Bring production's data to the emulators
+
+Since the 1.0 release, production is the source of the data: people edit it
+there. To work locally on current data:
+
+```
+node scripts/sync-from-production.js --dry-run   # what would change
+node scripts/sync-from-production.js --write     # back up the local data, then mirror
+```
+
+The script makes the emulators identical to production - every collection
+and the `caves/` (photos) and `maps/` (scans) files - except what's private
+or personal, which isn't copied and stays as it is locally: the accounts
+(Auth, `_users/*`: settings and saved caves), frozen accounts, the testers'
+reports (`_feedback`, `_feedbackPrivate`), error reports, the photos'
+uploaders (`_cavesAssetsPrivate`) and the caves' ratings (with their
+summaries, `_caveRatings`). The audit log gets production's entries and keeps
+its own (the history of the local data work). Production is only read.
+
+`--write` first copies the whole `.emulator-data` folder (the autosave's, at
+most a minute behind the emulators, accounts included) to
+`_data/backups/local-<date>/`, and pauses the emulators' background functions
+while it writes, so the copy isn't logged as edits and deleting a photo's
+record doesn't delete its files. Copied files carry `ocSync=true`. Accounts
+named in a record become the local account with the same email, or the one
+paired in `SYNC_ACCOUNTS` (below). Run it with the emulators up
+(`npm run dev`), after `gcloud auth application-default login`.
+
+## Mirror the local data to production (before 1.0)
 
 ```
 node scripts/sync-to-production.js --dry-run   # what would change
-node scripts/sync-to-production.js --write     # back up production's documents, then mirror
+node scripts/sync-to-production.js --write --i-know-production-is-the-source
 ```
 
-The local emulators hold the original data; production (users' tests) is
-refreshed from them. The script makes production identical to local -
+**Not after the 1.0 release:** production is then the source, and this
+overwrites what people changed there - `--write` refuses to run without
+`--i-know-production-is-the-source`. Until 1.0, the local emulators held the
+original data; production (users' tests) was refreshed from them. The script makes production identical to local -
 every collection and the `caves/` (photos) and `maps/` (scans) files - except
 its users' data (accounts, `_users/*`: settings and saved caves; the caves'
 ratings and `_caveRatings`), frozen accounts, audit log, What's new
