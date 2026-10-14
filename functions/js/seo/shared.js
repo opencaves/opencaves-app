@@ -5,6 +5,7 @@
 // tags (src/utils/headTags.js), so the two must stay in step.
 import { brotliCompressSync, constants as zlib, gzipSync } from 'node:zlib'
 import { APP_TITLE, SITE_URL } from '../constants.js'
+import { escapeHtml } from '../html.js'
 
 // The hosts whose app shell may serve as the page: the site and this
 // project's Hosting domains (preview channels: opencaves--<channel>-<hash>).
@@ -83,7 +84,7 @@ export function sendHtml(req, res, html, status = 200) {
   return res.send(compress(html, encoding))
 }
 
-export { escapeHtml } from '../html.js'
+export { escapeHtml }
 
 /**
  * The app's Markdown as plain text (as src/utils/seo.js's markdownToPlainText),
