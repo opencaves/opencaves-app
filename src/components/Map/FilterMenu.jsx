@@ -185,27 +185,27 @@ export default function MapFilterMenu() {
   const { t } = useTranslation('filter')
 
   const handleShowValidCoordinates = () => {
-    track('filter_change', { filter: 'valid_coordinates', value: String(!showValidCoordinates) })
+    track('filter_change', { filter: 'valid_coordinates', choice: String(!showValidCoordinates) })
     dispatch(setShowValidCoordinates(!showValidCoordinates))
   }
 
   const handleShowInvalidCoordinates = () => {
-    track('filter_change', { filter: 'invalid_coordinates', value: String(!showInvalidCoordinates) })
+    track('filter_change', { filter: 'invalid_coordinates', choice: String(!showInvalidCoordinates) })
     dispatch(setShowInvalidCoordinates(!showInvalidCoordinates))
   }
 
   const handleShowUnconfirmedCoordinates = () => {
-    track('filter_change', { filter: 'unconfirmed_coordinates', value: String(!showUnconfirmedCoordinates) })
+    track('filter_change', { filter: 'unconfirmed_coordinates', choice: String(!showUnconfirmedCoordinates) })
     dispatch(setShowUnconfirmedCoordinates(!showUnconfirmedCoordinates))
   }
 
   const handleShowCenoteEntrances = () => {
-    track('filter_change', { filter: 'cenote_entrances', value: String(!showCenoteEntrances) })
+    track('filter_change', { filter: 'cenote_entrances', choice: String(!showCenoteEntrances) })
     dispatch(setShowCenoteEntrances(!showCenoteEntrances))
   }
 
   const handleShowOtherCenotes = () => {
-    track('filter_change', { filter: 'other_cenotes', value: String(!showOtherCenotes) })
+    track('filter_change', { filter: 'other_cenotes', choice: String(!showOtherCenotes) })
     dispatch(setShowOtherCenotes(!showOtherCenotes))
   }
 
@@ -222,7 +222,7 @@ export default function MapFilterMenu() {
   }
 
   function handleShowAccesses(checked, accessKey) {
-    track('filter_change', { filter: 'access', value: `${accessKey}:${checked}` })
+    track('filter_change', { filter: 'access', choice: `${accessKey}:${checked}` })
     const newAccesses = showAccesses.map((access) => {
       if (access.key === accessKey) {
         return { ...access, checked }
@@ -234,7 +234,7 @@ export default function MapFilterMenu() {
 
   function handleMissing(value) {
     const on = !missing.includes(value)
-    track('filter_change', { filter: 'missing', value: `${value}:${on}` })
+    track('filter_change', { filter: 'missing', choice: `${value}:${on}` })
     // In the criteria's order, as the caves' list's address.
     dispatch(setMissing(MISSING_CRITERIA.map((criterion) => criterion.value).filter((item) => (item === value ? on : missing.includes(item)))))
   }
@@ -242,12 +242,12 @@ export default function MapFilterMenu() {
   // An area's switch: stored only once turned off or back on (an area the
   // list doesn't name is shown).
   function handleShowAreas(checked, areaKey) {
-    track('filter_change', { filter: 'area', value: `${areaKey}:${checked}` })
+    track('filter_change', { filter: 'area', choice: `${areaKey}:${checked}` })
     dispatch(setShowAreas([...showAreas.filter(({ key }) => key !== areaKey), { key: areaKey, checked }]))
   }
 
   function handleShowAccessibilities(checked, accessKey) {
-    track('filter_change', { filter: 'accessibility', value: `${accessKey}:${checked}` })
+    track('filter_change', { filter: 'accessibility', choice: `${accessKey}:${checked}` })
     const newAccessibilities = showAccessibilities.map((access) => {
       if (access.key === accessKey) {
         return { ...access, checked }

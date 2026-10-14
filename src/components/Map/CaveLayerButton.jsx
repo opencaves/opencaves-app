@@ -86,7 +86,7 @@ export default function CaveLayerButton({ sx }) {
               {/* A switch names its setting, its state is the switch (the label
                   flipped between Turn on and Turn off). */}
               <FormControlLabel className="oc-cave-layer-menu--switch" control={<Switch checked={visible} onChange={(event) => {
-                track('layer_toggle', { setting: 'visible', value: String(event.target.checked) })
+                track('layer_toggle', { setting: 'visible', choice: String(event.target.checked) })
                 dispatch(setCaveLayerVisible(event.target.checked))
               }} />} label={t('show')} sx={{ mb: 1 }} />
               {/* The layer's options, only while it's shown. */}
@@ -94,7 +94,7 @@ export default function CaveLayerButton({ sx }) {
                 <Divider sx={{ mb: 1.5 }} />
                 <FormLabel id={`${titleId}-scope`}>{t('scope')}</FormLabel>
                 <RadioGroup aria-labelledby={`${titleId}-scope`} value={scope} onChange={(event) => {
-                  track('layer_toggle', { setting: 'scope', value: event.target.value })
+                  track('layer_toggle', { setting: 'scope', choice: event.target.value })
                   dispatch(setCaveLayerScope(event.target.value))
                 }}>
                   <FormControlLabel value="all" control={<Radio size="small" />} label={t('all')} />
@@ -114,7 +114,7 @@ export default function CaveLayerButton({ sx }) {
                 <Divider sx={{ my: 1.5 }} />
                 <FormLabel id={`${titleId}-colors`}>{t('colors')}</FormLabel>
                 <RadioGroup aria-labelledby={`${titleId}-colors`} value={colorBySistema ? 'system' : 'single'} onChange={(event) => {
-                  track('layer_toggle', { setting: 'colors', value: event.target.value })
+                  track('layer_toggle', { setting: 'colors', choice: event.target.value })
                   dispatch(setCaveLayerColorBySistema(event.target.value === 'system'))
                 }}>
                   <FormControlLabel value="system" control={<Radio size="small" />} label={t('bySystem')} />

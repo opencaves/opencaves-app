@@ -2,7 +2,9 @@ import { analyticsAllowed } from './analytics.js'
 
 // What an event's parameters may hold: short values only (GA4 cuts a
 // parameter's value at 100 characters), never personal data - no account id,
-// email or free text but a search's words.
+// email or free text but a search's words. Not GA4's reserved names: `value`
+// and `currency` are amounts (revenue; the Web Vitals tag sends `value` too) -
+// a choice goes in `choice`.
 const MAX_VALUE_LENGTH = 100
 
 /**
