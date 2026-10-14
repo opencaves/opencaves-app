@@ -14,6 +14,12 @@ export const REVIEW_VALID_MONTHS = 24
 // a /feedback report (kind 'misleading', with caveId and caveReport).
 export const CAVE_REPORT_KINDS = ['closed', 'private', 'fees', 'road']
 
+// Each section's own quick reports, offered under it (Report a change, next
+// to its Still accurate) - the description has none: its Report a change
+// opens the feedback form. And the section's anchor on the cave's page.
+export const SECTION_REPORT_KINDS = { access: ['closed', 'private'], fees: ['fees'], directions: ['road'], description: [] }
+export const SECTION_ANCHORS = { access: 'access', fees: 'access', directions: 'getting-there', description: 'description' }
+
 // The reports that show a public warning on the cave at once, until an
 // admin resolves them (_caveReports, kept by the server's
 // onCaveReportChanged; functions/js/constants.js' CAVE_WARNING_REPORTS):

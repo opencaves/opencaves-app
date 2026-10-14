@@ -2395,13 +2395,15 @@
         "closed": "Closed",
         "private": "Now private",
         "fees": "Fees changed",
-        "road": "Road changed"
+        "road": "Road changed",
+        "other": "Something else…"
       },
       "kindText": {
         "closed": "It can't be visited any more",
         "private": "Only its owners or their guests may go",
         "fees": "The price or what it includes changed",
-        "road": "The road or the way in changed"
+        "road": "The road or the way in changed",
+        "other": "Anything else no longer right here"
       },
       "dialogTitle": "Report: {{kind}}",
       "warningNote": "A warning shows on this cave as soon as you send it, until the OpenCaves team checks it.",
@@ -2424,6 +2426,8 @@
     "warning": {
       "closed": "Reported closed on {{date}}, being checked",
       "private": "Reported now private on {{date}}, being checked"
-    }
+    },
+    "undone": "Confirmation undone: {{section}}, {{name}}.",
+    "undoError": "The confirmation couldn't be undone. Try again."
   }
 }
