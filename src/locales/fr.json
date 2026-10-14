@@ -1697,7 +1697,9 @@
     "changes": {
       "added": "Ajout",
       "modified": "Modification",
-      "removed": "Retrait"
+      "removed": "Retrait",
+      "newCave": "Nouvelle grotte",
+      "newSistema": "Nouveau réseau"
     },
     "modifiedBy": "modifié par {{name}}",
     "removedBy": "retiré par {{name}}",
