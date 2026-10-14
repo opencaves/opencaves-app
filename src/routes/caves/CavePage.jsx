@@ -51,15 +51,17 @@ import { nameTranslationLines } from '@/utils/nameTranslations.js'
 // The cover photo, under the heading (cover: CavePage's useCoverImage).
 // Its box keeps the photo's 16:9 shape while it downloads. The page's
 // largest paint: fetched first (fetchPriority), never lazily - and preloaded
-// by the page the server rendered (entry-server.jsx's coverPreload).
-function CaveCover({ cover }) {
+// by the page the server rendered (entry-server.jsx's coverPreload). Its alt
+// names the cave (search engines report images without one).
+function CaveCover({ cover, name }) {
+  const { t } = useTranslation('indexPages')
   const sources = useMemo(() => (cover ? cover.data().getSources('coverImage') : null), [cover])
   if (!sources) return null
   return (
     // Its column's full width (an aspect-ratio box isn't stretched in a grid),
     // its height capped: a wide screen's photo is cropped, not narrowed.
     <Box className="oc-cave-page--cover" sx={{ width: '100%', borderRadius: 3, overflow: 'hidden', aspectRatio: '16 / 9', maxHeight: 480, bgcolor: 'action.hover' }}>
-      <Picture sources={sources} alt="" fetchPriority="high" loading="eager" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+      <Picture sources={sources} alt={name ? t('cave.coverAlt', { name }) : ''} fetchPriority="high" loading="eager" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
     </Box>
   )
 }
@@ -321,7 +323,7 @@ export default function CavePage() {
         // phones, the photo first); without a photo, the map in its place.
         <Box className="oc-cave-page--top" sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '4fr 1fr' }, gap: { xs: 2, sm: 4 }, mb: { xs: 3, sm: 5 } }}>
           {/* No photo yet: the same layout, Add photos in the cover's place. */}
-          {cover ? <CaveCover cover={cover} /> : !coverLoading && <CaveCoverEmpty caveId={cave.id} isEditor={isEditor} />}
+          {cover ? <CaveCover cover={cover} name={name} /> : !coverLoading && <CaveCoverEmpty caveId={cave.id} isEditor={isEditor} />}
           <CaveMapTile cave={cave} location={location} color={sistema?.color} alone={!cover && coverLoading} />
         </Box>
       ) : (
@@ -339,7 +341,7 @@ export default function CavePage() {
           </Box>
           {(cover || !coverLoading) && (
             <Box sx={{ mb: 3 }}>
-              {cover ? <CaveCover cover={cover} /> : <CaveCoverEmpty caveId={cave.id} isEditor={isEditor} />}
+              {cover ? <CaveCover cover={cover} name={name} /> : <CaveCoverEmpty caveId={cave.id} isEditor={isEditor} />}
             </Box>
           )}
         </>
@@ -407,7 +409,7 @@ export default function CavePage() {
           above the photos, even when their list (never loaded online) can't
           show. */}
       <OfflineSaveHint caveId={cave.id} />
-      <CavePhotosSection caveId={cave.id} title={t('cave.photos')} />
+      <CavePhotosSection caveId={cave.id} name={name} title={t('cave.photos')} />
       <CaveVideosSection cave={cave} />
 
       <MapsSection sistemaId={cave.sistemaId} sistemas={data.sistemas} connections={data.connections} pagePath={`/caves/${cave.id}`} title={t('maps')} card pageMaps={allMaps} />

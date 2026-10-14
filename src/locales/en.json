@@ -1625,10 +1625,13 @@
       "location": "Location",
       "photos": "Photos",
       "openPhoto": "Open photo {{n}}",
+      "coverAlt": "Photo of {{name}}",
+      "photoAlt": "Photo {{n}} of {{name}}",
       "noPhoto": "No photo of this cave yet",
       "dropPhotos": "or drop them here"
     },
     "notOnMap": "Not on the map: no coordinates yet",
+    "mapAlt": "Map: {{name}}",
     "maps": "Survey maps",
     "searchNoResult": "No cave or system matches “{{query}}” - search all caves",
     "empty": {

@@ -33,6 +33,10 @@
           "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
         },
         {
+          "source": "/@(signup|login|whats-new|what-can-i-do|account)",
+          "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+        },
+        {
           "source": "/map/*",
           "headers": [{ "key": "Cache-Control", "value": "public, max-age=300, s-maxage=3600" }]
         },
@@ -88,6 +92,18 @@
         {
           "source": "/map",
           "destination": "/map.html"
+        },
+        {
+          "source": "/about",
+          "destination": "/about.html"
+        },
+        {
+          "source": "/privacy",
+          "destination": "/privacy.html"
+        },
+        {
+          "source": "/terms",
+          "destination": "/terms.html"
         },
         {
           "source": "/map/*",

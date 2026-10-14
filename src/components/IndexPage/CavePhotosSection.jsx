@@ -32,8 +32,13 @@ const MAX_PHOTOS = 12
  * the photos added offline still waiting to upload, and Add pictures
  * (editors; the others are asked to log in) - shown with no photo yet too.
  * With photos, the gallery's code is loaded once the page is idle.
+ *
+ * @param {object} props
+ * @param {string} props.caveId
+ * @param {string} [props.name] - The cave's name, in its photos' alt text.
+ * @param {string} props.title - The section's heading.
  */
-export default function CavePhotosSection({ caveId, title }) {
+export default function CavePhotosSection({ caveId, name, title }) {
   const { t } = useTranslation('indexPages')
   const { t: tEdit } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const isEditor = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('editor')
@@ -70,7 +75,7 @@ export default function CavePhotosSection({ caveId, title }) {
             over the photo's slices (its picture hidden), a tint there would
             cover them. */}
         {/* Loaded after the page (afterLoad): not competing with the cover. */}
-        <Picture sources={photo.getSources('resultThumbnail')} afterLoad alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', backgroundColor: 'var(--mui-palette-action-hover)' }} />
+        <Picture sources={photo.getSources('resultThumbnail')} afterLoad alt={name ? t('cave.photoAlt', { n: index + 1, name }) : ''} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', backgroundColor: 'var(--mui-palette-action-hover)' }} />
       </ButtonBase>
       {/* Its menu (share, download, report; cover and delete for those allowed). */}
       <PhotoItemMenu mediaAsset={photo} variant="card" />
@@ -81,7 +86,7 @@ export default function CavePhotosSection({ caveId, title }) {
     <li key={photo.id}>
       <Box sx={{ position: 'relative' }}>
         <ButtonBase component={RouterLink} to={photoPath(photo.id)} state={{ fromPage: true }} aria-label={t('cave.openPhoto', { n: index + 1 })} className="oc-carousel--media" sx={{ display: 'block', width: '100%', aspectRatio: '4 / 3', overflow: 'hidden', bgcolor: 'action.hover' }}>
-          <Picture sources={photo.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+          <Picture sources={photo.getSources('resultThumbnail')} alt={name ? t('cave.photoAlt', { n: index + 1, name }) : ''} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
         </ButtonBase>
         <PhotoItemMenu mediaAsset={photo} />
       </Box>

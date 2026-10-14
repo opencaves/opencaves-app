@@ -1625,10 +1625,13 @@
       "location": "Ubicación",
       "photos": "Fotos",
       "openPhoto": "Abrir la foto {{n}}",
+      "coverAlt": "Foto de {{name}}",
+      "photoAlt": "Foto {{n}} de {{name}}",
       "noPhoto": "Aún no hay fotos de esta cueva",
       "dropPhotos": "o suéltalas aquí"
     },
     "notOnMap": "No está en el mapa: aún sin coordenadas",
+    "mapAlt": "Mapa: {{name}}",
     "maps": "Topografías",
     "searchNoResult": "Ninguna cueva ni sistema coincide con «{{query}}» - buscar en todas las cuevas",
     "empty": {
