@@ -1626,6 +1626,7 @@
       "sistema": "Réseau",
       "location": "Emplacement",
       "photos": "Photos",
+      "nearby": "Grottes à proximité",
       "openPhoto": "Ouvrir la photo {{n}}",
       "coverAlt": "Photo de {{name}}",
       "photoAlt": "Photo {{n}} de {{name}}",
