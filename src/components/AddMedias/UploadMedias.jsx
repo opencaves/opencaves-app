@@ -40,7 +40,7 @@ export default function UploadMedias({ medias, caveId }) {
   }
 
   async function uploadMedias(files) {
-    track('add_media', { content_type: 'photo', count: files.length, cave_id: caveId ?? cave?.id })
+    track('add_media', { content_type: 'photo', media_count: files.length, cave_id: caveId ?? cave?.id })
     // Offline: kept on the device, to upload on Wi-Fi (PendingUploadsSync) -
     // a file of the wrong type still gets its error (uploadCaveImages) first.
     if (!navigator.onLine && files.every((file) => ACCEPTED_MIME_TYPES.includes(file.type))) {

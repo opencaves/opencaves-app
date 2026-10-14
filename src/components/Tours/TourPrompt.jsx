@@ -85,7 +85,7 @@ export default function TourPrompt() {
   // How it was answered: the tour taken, Not now, or closed.
   function close(withTour, answer) {
     takeTour.current = withTour
-    track('tour_prompt', { answer })
+    track('tour_prompt', { tour_answer: answer })
     setOpen(false)
   }
 

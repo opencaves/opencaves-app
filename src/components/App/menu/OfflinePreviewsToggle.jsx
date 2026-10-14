@@ -78,7 +78,7 @@ export default function OfflinePreviewsToggle({ sx }) {
 
   return (
     <ListItemButton className="oc-offline-previews-toggle" role="switch" aria-checked={enabled} onClick={() => {
-      track('offline_toggle', { enabled: !enabled })
+      track('offline_toggle', { offline_preview_enabled: !enabled })
       setOfflinePreviewsEnabled(!enabled)
     }} sx={sx}>
       {/* Downloaded: a cloud with a check (green just after it finishes). */}
