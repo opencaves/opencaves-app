@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Photo review</title>
+<!-- The viewer of match_by_gps.py: the photos one at a time, cave by cave,
+     each to add (to a cave) or skip. Choices are kept in this browser
+     (localStorage) while reviewing; Export writes selected.csv - the photos
+     to add, with their cave - for the upload. Filled by the script: the
+     /*DATA*/ marker below becomes the photos. -->
+<style>
+  :root { --bg: #f6f5f2; --panel: #ffffff; --fg: #1f2328; --muted: #5f6670; --line: #dcd9d2; --accent: #145e79; --add: #2e7d32; --skip: #8a5a00; --warn: #b35400; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #121314; --panel: #1c1e20; --fg: #e8e6e3; --muted: #a2a8b0; --line: #34383c; --accent: #6fb6d3; --add: #7cc47f; --skip: #e0b35a; --warn: #f0a35a; } }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body { font: 14px/1.45 system-ui, sans-serif; background: var(--bg); color: var(--fg); display: grid; grid-template-columns: 300px 1fr; }
+  aside { border-right: 1px solid var(--line); overflow: auto; background: var(--panel); }
+  aside header { padding: 12px 14px; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--panel); }
+  aside h1 { font-size: 15px; margin: 0 0 6px; }
+  .totals { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+  button { font: inherit; cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--fg); border-radius: 6px; padding: 6px 12px; }
+  button:hover { border-color: var(--accent); }
+  .groups { list-style: none; margin: 0; padding: 4px 0; }
+  .groups li { padding: 6px 14px; cursor: pointer; display: flex; justify-content: space-between; gap: 8px; }
+  .groups li:hover { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+  .groups li.active { background: color-mix(in srgb, var(--accent) 16%, transparent); font-weight: 600; }
+  .groups li .n { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .groups li.done .n { color: var(--add); }
+  .groups .section { cursor: default; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding-top: 14px; }
+  .groups .section:hover { background: none; }
+  main { display: grid; grid-template-rows: auto 1fr auto; min-width: 0; height: 100vh; }
+  .top { padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; border-bottom: 1px solid var(--line); }
+  .top h2 { margin: 0; font-size: 18px; }
+  .meta { color: var(--muted); font-size: 13px; }
+  .stage { min-height: 0; display: grid; place-items: center; padding: 10px; }
+  .stage img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 4px; }
+  .stage .none { color: var(--muted); }
+  .bar { border-top: 1px solid var(--line); padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; background: var(--panel); }
+  .bar select { font: inherit; padding: 6px; border-radius: 6px; border: 1px solid var(--line); background: var(--panel); color: var(--fg); max-width: 340px; }
+  .bar .add { border-color: var(--add); color: var(--add); font-weight: 600; }
+  .bar .skip { border-color: var(--skip); color: var(--skip); }
+  .bar .chosen { outline: 2px solid currentColor; }
+  .badge { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid currentColor; }
+  .badge.in { color: var(--add); } .badge.warn { color: var(--warn); }
+  .spacer { flex: 1; }
+  kbd { font: 11px ui-monospace, monospace; border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; color: var(--muted); }
+  @media (max-width: 760px) { body { grid-template-columns: 1fr; } aside { display: none; } }
+</style>
+</head>
+<body>
+<aside>
+  <header>
+    <h1>Photo review</h1>
+    <div class="totals" id="totals"></div>
+    <div style="margin-top:8px"><button id="export">Export selected.csv</button></div>
+  </header>
+  <ul class="groups" id="groups"></ul>
+</aside>
+<main>
+  <div class="top"><h2 id="title"></h2><span class="meta" id="meta"></span><span id="badges"></span></div>
+  <div class="stage" id="stage"></div>
+  <div class="bar">
+    <button id="prev" title="Previous photo">&larr; <kbd>←</kbd></button>
+    <span class="meta" id="position"></span>
+    <button id="next" title="Next photo"><kbd>→</kbd> &rarr;</button>
+    <span class="spacer"></span>
+    <label class="meta">Cave <select id="cave"></select></label>
+    <button class="add" id="add">Add <kbd>A</kbd></button>
+    <button class="skip" id="skip">Skip <kbd>S</kbd></button>
+  </div>
+</main>
+<script>
+const DATA = /*DATA*/null
+const STORE = `oc-photo-review:${DATA.dataset}`
+
+// Choices: file -> { action: 'add' | 'skip', caveId }. Kept in this browser.
+let choices = {}
+try { choices = JSON.parse(localStorage.getItem(STORE) || '{}') } catch { choices = {} }
+const save = () => { try { localStorage.setItem(STORE, JSON.stringify(choices)) } catch { /* private window: kept until the page closes */ } }
+
+// Groups: each matched cave (A-Z), then ambiguous, far, no position.
+const SECTIONS = { match: 'Matched caves', ambiguous: 'Ambiguous: two caves close', far: `Farther than ${DATA.radius} m`, 'no position': 'No position' }
+const groups = []
+for (const status of Object.keys(SECTIONS)) {
+  const byCave = new Map()
+  for (const photo of DATA.photos.filter((p) => p.status === status)) {
+    const key = status === 'match' ? photo.cave : status === 'ambiguous' ? `Near ${photo.cave}` : SECTIONS[status]
+    if (!byCave.has(key)) byCave.set(key, [])
+    byCave.get(key).push(photo)
+  }
+  const names = [...byCave.keys()].sort((a, b) => a.localeCompare(b))
+  for (const name of names) groups.push({ status, name, photos: byCave.get(name).sort((a, b) => String(a.taken).localeCompare(String(b.taken))) })
+}
+const order = groups.flatMap((g) => g.photos)
+let index = Math.max(0, order.findIndex((p) => !choices[p.file] && p.inOpenCaves !== 'yes'))
+
+const decided = (photo) => choices[photo.file] || (photo.inOpenCaves === 'yes' ? { action: 'skip', caveId: photo.caveId, auto: true } : null)
+
+function renderGroups() {
+  const list = document.getElementById('groups')
+  list.textContent = ''
+  let section = null
+  const current = order[index]
+  for (const group of groups) {
+    if (group.status !== section) {
+      section = group.status
+      const head = document.createElement('li')
+      head.className = 'section'
+      head.textContent = SECTIONS[section]
+      list.append(head)
+    }
+    const item = document.createElement('li')
+    const added = group.photos.filter((p) => decided(p)?.action === 'add').length
+    const left = group.photos.filter((p) => !decided(p)).length
+    item.className = (group.photos.includes(current) ? 'active ' : '') + (left === 0 ? 'done' : '')
+    const name = document.createElement('span')
+    name.textContent = group.name
+    const n = document.createElement('span')
+    n.className = 'n'
+    n.textContent = `${group.photos.length} · ${added} added${left ? ` · ${left} left` : ''}`
+    item.append(name, n)
+    item.onclick = () => { index = order.indexOf(group.photos.find((p) => !decided(p)) || group.photos[0]); render() }
+    list.append(item)
+  }
+  const all = order.map(decided)
+  document.getElementById('totals').textContent = `${order.length} photos · ${all.filter((d) => d?.action === 'add').length} to add · ${all.filter((d) => !d).length} left to review`
+  list.querySelector('.active')?.scrollIntoView({ block: 'nearest' })
+}
+
+function render() {
+  const photo = order[index]
+  if (!photo) return
+  const choice = decided(photo)
+  document.getElementById('title').textContent = photo.status === 'match' ? photo.cave : groups.find((g) => g.photos.includes(photo)).name
+  document.getElementById('meta').textContent = [photo.taken, photo.album, photo.file].filter(Boolean).join(' · ')
+  const badges = document.getElementById('badges')
+  badges.textContent = ''
+  const badge = (text, kind) => { const b = document.createElement('span'); b.className = `badge ${kind}`; b.textContent = text; badges.append(b, ' ') }
+  if (photo.inOpenCaves === 'yes') badge(`Already in OpenCaves${photo.storedCave ? ` (${photo.storedCave})` : ''}`, 'in')
+  if (photo.inOpenCaves === 'maybe') badge('Maybe in OpenCaves: a photo at the same place', 'warn')
+  if (photo.distanceM !== '') badge(`${photo.distanceM} m from ${photo.cave}`, photo.status === 'match' ? 'in' : 'warn')
+  const stage = document.getElementById('stage')
+  stage.textContent = ''
+  if (photo.preview) {
+    const img = document.createElement('img')
+    img.src = photo.preview
+    img.alt = photo.file
+    stage.append(img)
+  } else {
+    const none = document.createElement('div')
+    none.className = 'none'
+    none.textContent = 'No preview (an unreadable or HEIC file: pip install pillow-heif, then run the script again).'
+    stage.append(none)
+  }
+  const select = document.getElementById('cave')
+  select.textContent = ''
+  for (const cave of photo.nearby || []) {
+    const option = document.createElement('option')
+    option.value = cave.id
+    option.textContent = `${cave.name} (${cave.m} m)`
+    select.append(option)
+  }
+  select.disabled = !photo.nearby?.length
+  select.value = choice?.caveId || photo.caveId || ''
+  document.getElementById('position').textContent = `${index + 1} / ${order.length}`
+  document.getElementById('add').classList.toggle('chosen', choice?.action === 'add')
+  document.getElementById('skip').classList.toggle('chosen', choice?.action === 'skip')
+  document.getElementById('add').disabled = !photo.nearby?.length
+  renderGroups()
+}
+
+function decide(action) {
+  const photo = order[index]
+  if (action === 'add' && !photo.nearby?.length) return
+  choices[photo.file] = { action, caveId: document.getElementById('cave').value }
+  save()
+  if (index < order.length - 1) index++
+  render()
+}
+
+function exportCsv() {
+  const quote = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`
+  const lines = [['file', 'caveId', 'cave', 'latitude', 'longitude', 'taken', 'album'].join(',')]
+  for (const photo of order) {
+    const choice = choices[photo.file]
+    if (choice?.action !== 'add') continue
+    const cave = (photo.nearby || []).find((c) => c.id === choice.caveId)
+    lines.push([photo.file, choice.caveId, cave?.name, photo.latitude, photo.longitude, photo.taken, photo.album].map(quote).join(','))
+  }
+  const link = document.createElement('a')
+  link.href = URL.createObjectURL(new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv' }))
+  link.download = 'selected.csv'
+  link.click()
+}
+
+document.getElementById('prev').onclick = () => { if (index > 0) { index--; render() } }
+document.getElementById('next').onclick = () => { if (index < order.length - 1) { index++; render() } }
+document.getElementById('add').onclick = () => decide('add')
+document.getElementById('skip').onclick = () => decide('skip')
+document.getElementById('cave').onchange = () => { const c = choices[order[index].file]; if (c) { c.caveId = document.getElementById('cave').value; save() } }
+document.getElementById('export').onclick = exportCsv
+document.addEventListener('keydown', (event) => {
+  if (event.target.tagName === 'SELECT') return
+  if (event.key === 'ArrowLeft') document.getElementById('prev').click()
+  else if (event.key === 'ArrowRight') document.getElementById('next').click()
+  else if (event.key.toLowerCase() === 'a') decide('add')
+  else if (event.key.toLowerCase() === 's') decide('skip')
+})
+render()
+</script>
+</body>
+</html>
