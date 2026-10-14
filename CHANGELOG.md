@@ -18,15 +18,12 @@ OpenCaves 1.0: out of beta. A page that shows how you can help, a guided tour of
 * **Cave pages:** the cover photo with a small map beside it, and an Add photos button in its place when a cave has none yet.
 * **Galleries:** a photo grows out of its tile when opened; pages slide between lists and their items; the viewers' "3 / 12" counter sits at the bottom; no Show all for a single item.
 * **Map:** the passages switch is named Show underwater passages, and the page's splash shows while the map loads.
+* **Faster pages:** the database code loads only when a page needs it, the app's code after the page has painted, and a cave's cover photo first; the map now shows its first content in about a second instead of several.
 
 ### Changes
 
 * **Out of beta:** the beta notices and wording are gone.
 * **Page titles:** every page is titled "<page> / Open Caves", and only pages with their own description have one.
-
-### Speed
-
-* **Faster pages:** the database code loads only when a page needs it, the app's code after the page has painted, and a cave's cover photo first; the map now shows its first content in about a second instead of several.
 
 ### Fixes
 
