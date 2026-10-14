@@ -3,6 +3,7 @@ import { buildIndexData, homeFeatured, homeFigures } from '@/utils/indexData.js'
 import { getSistemaMapRefs } from '@/utils/sistemaMaps.js'
 import { isTrashed } from '@/utils/trash.js'
 import { compactCaveFacts } from '@/utils/caveFilters.js'
+import { nearbyCaves } from '@/utils/nearbyCaves.js'
 
 // Server only (entry-server.jsx): the cave data and the query results
 // (ssrContext.js) a public page is rendered with - which the page carries to
@@ -151,6 +152,9 @@ export function buildPageState(page, { raw, maps = [], assets = [], covers, cave
     Object.assign(data, pick(all, ['accesses', 'accessibilities', 'colors', 'sources', 'languages']))
     data.sistemas = all.sistemas.filter(({ id }) => ancestors.has(id) || descendants.has(id)).map((sistema) => (ancestors.has(sistema.id) ? sistema : pick(sistema, ['id', 'name', 'public', 'color'])))
     data.connections = all.connections.filter(({ sistemaId, parentSistemaId }) => (ancestors.has(sistemaId) && ancestors.has(parentSistemaId)) || descendants.has(sistemaId))
+    // A cave's page: its nearest caves (Nearby caves), picked here from every
+    // cave's position, which the page isn't sent.
+    if (cave) data.nearby = nearbyCaves(cave, all.caves, (id) => index.sistemasById.get(id)?.name)
     data.caves = page.kind === 'cave' ? [cave] : all.caves.filter(({ sistemaId }) => descendants.has(sistemaId)).map((item) => ({ ...pick(listCave(item), ['id', 'name', 'sistemaId', 'located']), ...pick(item, ['cenoteEntrance']) }))
   }
 

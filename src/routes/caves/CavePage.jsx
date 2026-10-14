@@ -47,6 +47,10 @@ import { teamNames } from '@/utils/explorationTeam.js'
 import PlaceRounded from '@mui/icons-material/PlaceRounded'
 import Address from '@/components/ResultPane/Address.jsx'
 import { nameTranslationLines } from '@/utils/nameTranslations.js'
+import { nearbyCaves } from '@/utils/nearbyCaves.js'
+import { useUnits } from '@/hooks/useUnits.jsx'
+import { formatDistance } from '@/utils/units.js'
+import { sistemaTitle } from '@/utils/sistemaTitle.js'
 
 // The cover photo, under the heading (cover: CavePage's useCoverImage).
 // Its box keeps the photo's 16:9 shape while it downloads. The page's
@@ -246,7 +250,8 @@ export default function CavePage() {
   const { t } = useTranslation('indexPages')
   const { t: tPane, i18n } = useTranslation('resultPane')
   const { data, loading } = useIndexData()
-  const { languages, caves } = useCaveData()
+  const { languages, caves, nearby: serverNearby } = useCaveData()
+  const units = useUnits()
   // Asked for alongside the data, and waited for: drawn once the page knows
   // whether there is one, the cover no longer pushes the page down when it
   // arrives (a 216-444px jump).
@@ -254,6 +259,9 @@ export default function CavePage() {
   // Its system's maps (MapsSection), waited for too.
   const [allMaps, mapsLoading] = mapsModel.useAll()
   const cave = useMemo(() => caves.find((c) => c.id === caveId), [caves, caveId])
+  // Its nearest caves: the server's, on the page it rendered (it sends the one
+  // cave, not every position); else from every cave here.
+  const nearby = useMemo(() => serverNearby ?? (cave ? nearbyCaves(cave, caves, (id) => data.sistemasById.get(id)?.name) : []), [serverNearby, cave, caves, data.sistemasById])
   // Editors: photos dragged anywhere over the page go to this cave, as on the map.
   const isEditor = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('editor')
   const [dropzoneOpen, closeDropzone] = useWindowFileDrop(isEditor && Boolean(cave))
@@ -418,6 +426,25 @@ export default function CavePage() {
         <IndexSection id="history" title={tPane('explorationHistory')} className="oc-cave-page--history" card>
           <Box sx={{ '& .oc-exploration-history': { mt: 0, ml: 0 } }}>
             <ExplorationHistory sistemas={historySistemas} showHeading={false} />
+          </Box>
+        </IndexSection>
+      )}
+      {/* The caves nearest it, as links (search engines go from cave to cave). */}
+      {nearby.length > 0 && (
+        <IndexSection id="nearby" title={t('cave.nearby')} className="oc-cave-page--nearby" card>
+          <Box component="ul" sx={{ m: 0, p: 0, listStyle: 'none', columns: { sm: 2 }, columnGap: 4, '& li': { breakInside: 'avoid', py: 0.5 } }}>
+            {nearby.map(({ id, name: nearbyName, distance, sistema }) => (
+              <li key={id}>
+                <Link component={RouterLink} to={`/caves/${id}`} underline="hover" sx={{ fontWeight: 500 }}>
+                  {nearbyName}
+                </Link>
+                <Typography component="span" sx={{ color: 'text.secondary', fontVariantNumeric: 'tabular-nums' }}>
+                  {' · '}
+                  {formatDistance(distance, units, i18n.language)}
+                  {sistema && sistema !== nearbyName && ` · ${sistemaTitle(sistema, (systemName) => t('sistema.title', { name: systemName }))}`}
+                </Typography>
+              </li>
+            ))}
           </Box>
         </IndexSection>
       )}

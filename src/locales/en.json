@@ -1627,6 +1627,7 @@
       "sistema": "Cave system",
       "location": "Location",
       "photos": "Photos",
+      "nearby": "Nearby caves",
       "openPhoto": "Open photo {{n}}",
       "coverAlt": "Photo of {{name}}",
       "photoAlt": "Photo {{n}} of {{name}}",
