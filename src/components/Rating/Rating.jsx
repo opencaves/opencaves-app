@@ -26,7 +26,7 @@ export default function OCRating({ caveId, sx }) {
   const formatAverage = (value) => new Intl.NumberFormat(i18n.resolvedLanguage, { maximumFractionDigits: 1 }).format(value)
 
   function onChange(_, value) {
-    track('rate', { cave_id: caveId, rating: value })
+    track('rate', { cave_id: caveId, star_rating: value })
     setUserRating(caveId, uid, value).catch((error) => {
       console.error(error)
       openSnackbar(t('saveError'))

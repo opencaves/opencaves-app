@@ -427,7 +427,7 @@ export function runTour(tour, { navigate, t, store }) {
         if (tourDriver.isActive()) tourDriver.moveTo(i)
         else tourDriver.drive(i)
         restorePrevious()
-        track('tutorial_step', { tour: tour.id, step: step.id, step_number: i + 1 })
+        track('tutorial_step', { tour: tour.id, tour_step: step.id, step_number: i + 1 })
         return
       }
       if (direction > 0) {
@@ -447,7 +447,7 @@ export function runTour(tour, { navigate, t, store }) {
     if (stopped) return
     stopped = true
     // Closed before its end: where.
-    if (!completed) track('tutorial_close', { tour: tour.id, step: steps[active]?.id, step_number: active + 1 })
+    if (!completed) track('tutorial_close', { tour: tour.id, tour_step: steps[active]?.id, step_number: active + 1 })
     if (current === controller) current = null
     if (tourDriver.isActive()) tourDriver.destroy()
     restorePointed()

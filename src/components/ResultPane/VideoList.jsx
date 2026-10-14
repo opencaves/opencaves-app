@@ -245,7 +245,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
       nextVideos[editingIndex] = newVideoUrl.trim()
     }
     const adding = editingIndex === null
-    if (adding) track('add_media', { content_type: 'video', count: 1, cave_id: caveId })
+    if (adding) track('add_media', { content_type: 'video', media_count: 1, cave_id: caveId })
     // Closed at once: the list shows the change straight away (Firestore's
     // local write), the server's confirmation takes seconds. A new video goes
     // at the strip's end, out of sight: scrolled to. Said once confirmed

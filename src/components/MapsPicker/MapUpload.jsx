@@ -68,7 +68,7 @@ export function useMapUpload() {
       setError('invalidMapFile')
       return null
     }
-    track('add_media', { content_type: 'map', count: 1, sistema_id: attachToSistemaId || undefined })
+    track('add_media', { content_type: 'map', media_count: 1, sistema_id: attachToSistemaId || undefined })
 
     if (!navigator.onLine) {
       const id = pushId()
