@@ -5,6 +5,7 @@ import CaveReportMenu from './CaveReportMenu.jsx'
 import ArrowDropDownRounded from '@mui/icons-material/ArrowDropDownRounded'
 import { SECTION_ANCHORS, SECTION_REPORT_KINDS } from '@/config/caveReview.js'
 import { openFeedback } from '@/utils/feedback.js'
+import { track } from '@/utils/track.js'
 
 /**
  * Report a change, next to a section's Still accurate (SectionReview): a
@@ -23,7 +24,15 @@ export default function CaveReportButton({ cave, section, sx }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const kinds = SECTION_REPORT_KINDS[section] || []
   const page = `/caves/${cave.id}#${SECTION_ANCHORS[section] || section}`
-  const onClick = (event) => (kinds.length ? setAnchorEl(event.currentTarget) : openFeedback('misleading', { page }))
+  const onClick = (event) => {
+    if (kinds.length) {
+      setAnchorEl(event.currentTarget)
+      return
+    }
+    // Straight to the feedback form (the description).
+    track('report_change', { cave_id: cave.id, kind: 'other', page })
+    openFeedback('misleading', { page })
+  }
   return (
     <>
       <Button className="oc-cave-report-button" size="small" endIcon={kinds.length ? <ArrowDropDownRounded /> : undefined} aria-haspopup={kinds.length ? 'menu' : 'dialog'} onClick={onClick} sx={[{ textTransform: 'none', borderRadius: 999, height: 32, px: 1.25 }, ...(Array.isArray(sx) ? sx : [sx])]}>

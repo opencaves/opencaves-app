@@ -296,7 +296,7 @@ export default function CavePage() {
     isPoint(cave.parking) && { key: 'parking', icon: <LocalParkingRounded />, text: coordinates(cave.parking), copyText: coordinates(cave.parking), copyLabel: tPane('copyParkingCoordinates'), point: cave.parking, directionsLabel: tPane('directionsToParking') },
     isPoint(cave.entrance) && { key: 'entrance', icon: <EntranceRounded />, text: coordinates(cave.entrance), copyText: coordinates(cave.entrance), copyLabel: tPane('copyEntranceCoordinates'), point: cave.entrance, directionsLabel: tPane('directionsToEntrance') },
     ...(Array.isArray(cave.keys) ? cave.keys.filter(isPoint) : []).map((key, index) => ({ key: `key-${index}`, icon: <KeyRounded />, text: coordinates(key), copyText: coordinates(key), copyLabel: tPane('copyCoordinates'), point: key, directionsLabel: tPane('directionsToKey') })),
-  ].filter(Boolean)
+  ].filter(Boolean).map((row) => ({ ...row, analytics: { cave_id: cave.id, point: row.key.replace(/-\d+$/, '') } }))
   const hasHistory = historySistemas.some((s) => (s.explorations || []).some((e) => e.date || teamNames(e.team).length || e.description))
 
   return (
