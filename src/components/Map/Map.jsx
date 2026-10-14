@@ -886,6 +886,9 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   function fitHome(animate) {
     const map = mapRef.current
     if (!map || !caveBounds) return false
+    // A cave's flight still waiting for its frame (moveCameraTo: a cave
+    // closing - a tour's end - queues one) would cut this one short.
+    cancelAnimationFrame(cameraFrameRef.current)
     map.fitBounds(caveBounds, { padding: { top: isSmall ? 88 : 96, bottom: 40, left: 40, right: isSmall ? 40 : 96 }, maxZoom: 13, ...(animate ? { essential: false } : { duration: 0 }) })
     return true
   }
