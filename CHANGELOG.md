@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.1.0](https://github.com/opencaves/opencaves-app/compare/v1.0.0...v1.1.0) (release candidate)
+## [1.1.0](https://github.com/opencaves/opencaves-app/compare/v1.0.0...v1.1.0) (2026-10-14)
 
 The caves near each cave, the most popular caves and systems on the home page, and a simpler way to tell the team what changed at a cave - which the team can now apply in one click.
 
