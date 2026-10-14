@@ -1,5 +1,5 @@
 import { slugify } from './slug.js'
-import { isRecentReview, lastReviewedMonth, monthOf } from './caveReview.js'
+import { hasText, isRecentReview, lastReviewedMonth, monthOf } from './caveReview.js'
 
 // The caves' search criteria, shared by the caves' list (/caves) and the
 // map's filter menu: each criterion once, its test on a cave's facts
@@ -71,7 +71,6 @@ export const FILTER_KINDS = [
 // The older ?filter= values (the What can I do? page's first links).
 const LEGACY_FILTERS = { 'no-coordinates': 'coordinates', unnamed: 'name' }
 
-const hasText = (value) => typeof value === 'string' && value.trim() !== ''
 const hasPoint = (point) => point?.latitude != null && point?.longitude != null
 // Videos: a list of addresses, or (older records) one "|"-separated string.
 const hasVideos = (videos) => (Array.isArray(videos) ? videos : typeof videos === 'string' ? videos.split('|') : []).some(hasText)

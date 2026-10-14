@@ -5,7 +5,8 @@ import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded'
 import UnfoldMoreRounded from '@mui/icons-material/UnfoldMoreRounded'
 import { lineCounts, lineDiff, toHunks } from '@/utils/lineDiff.js'
 import PersonLabel from './PersonLabel.jsx'
-import { entryFields, formatFullDate, formatValue, isCompactValue, toDiffText, toDate } from './auditFormat.js'
+import { entryFields, formatFullDate, formatValue, isCompactValue, toDiffText } from './auditFormat.js'
+import { toDate } from '@/components/RelativeTime/RelativeTime.jsx'
 
 // Unchanged lines kept around each change; longer runs fold into an
 // "Expand N unchanged lines" row (like GitHub's hunks).

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { loadFirebase } from '@/utils/loadFirebase.js'
 import CaveAsset from '@/models/CaveAsset.js'
 import useLoggedIn from '@/hooks/useLoggedin.jsx'
-import sleep from '@/utils/sleep.js'
+import { sleep } from '@/utils/sleep.js'
 import { ACCEPTED_MIME_TYPES } from '@/config/mediaPane.js'
 
 function findWrongMediaTypeFiles(files) {

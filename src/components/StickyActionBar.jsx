@@ -1,12 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Box } from '@mui/material'
-
-function findScrollParent(element) {
-  for (let parent = element.parentElement; parent; parent = parent.parentElement) {
-    if (/(auto|scroll|overlay)/.test(window.getComputedStyle(parent).overflowY)) return parent
-  }
-  return window
-}
+import { findScrollParent } from '@/utils/scrollParent.js'
 
 export default function StickyActionBar({ children, gap = 1 }) {
   const actionBarRef = useRef(null)
@@ -22,8 +16,8 @@ export default function StickyActionBar({ children, gap = 1 }) {
     function updateStickyState() {
       cancelAnimationFrame(animationFrame)
       animationFrame = requestAnimationFrame(() => {
-        const scrollOffset = scrollParent === window ? window.scrollY : scrollParent.scrollTop
-        const viewportBottom = scrollParent === window ? window.innerHeight : scrollParent.getBoundingClientRect().bottom
+        const scrollOffset = scrollParent instanceof Element ? scrollParent.scrollTop : window.scrollY
+        const viewportBottom = scrollParent instanceof Element ? scrollParent.getBoundingClientRect().bottom : window.innerHeight
         const actionBarBottom = actionBar.getBoundingClientRect().bottom
         setIsStuck(scrollOffset > 0 && Math.abs(actionBarBottom - viewportBottom) < 2)
       })

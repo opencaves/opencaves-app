@@ -26,6 +26,7 @@ import { SEARCH_BAR_HEIGHT, SEARCH_BAR_MARGIN, SEARCH_BAR_RADIUS, SEARCH_BAR_SHA
 import { removeShell } from '@/utils/shell.js'
 import './SearchBar.scss'
 import { track } from '@/utils/track.js'
+import { escapeHtml } from '@/utils/escapeHtml.js'
 
 // flex, not inline: an inline wrapper sits the icon on the text baseline,
 // a few pixels above the button's center.
@@ -99,7 +100,6 @@ const indexOptions = {
 // The snippets are HTML (rendered with dangerouslySetInnerHTML, for the
 // <mark>s): every piece of the cave's own text is escaped, only the matches
 // wrapped - a cave's name or alias can't inject markup into the page.
-const escapeHtml = (text) => String(text).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])
 const escapeRegExp = (text) => String(text).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 // regexp: one capturing group around the search term, so split() keeps the matches.

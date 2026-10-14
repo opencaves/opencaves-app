@@ -83,7 +83,7 @@ export function sendHtml(req, res, html, status = 200) {
   return res.send(compress(html, encoding))
 }
 
-export const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])
+export { escapeHtml } from '../html.js'
 
 /**
  * The app's Markdown as plain text (as src/utils/seo.js's markdownToPlainText),
