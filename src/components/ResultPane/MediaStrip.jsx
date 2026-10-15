@@ -85,7 +85,8 @@ function snapPoints(view) {
  * On the cylinder, an item is drawn as slices: an `.oc-media-strip--picture`
  * from its `<img>` (as object-fit: cover), an `.oc-media-strip--tile` from
  * copies of itself (its overlays curved with it; `.oc-media-strip--see-through`
- * when its background is, so its slices don't overlap; its controls marked
+ * when its background is, so its slices don't overlap; `.oc-media-strip--paper`
+ * when its picture may be semi-transparent, a map's, drawn on white; its controls marked
  * `.oc-media-strip--live`, a menu's button, show their hover and open state
  * on the copies: `[data-oc-hover]` on the copy, `[aria-expanded]`). Every item carries
  * `.oc-media-strip--item` (snapping, keyboard).
@@ -300,6 +301,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
           picture,
           radius: picture ? radiusOf(tile) : null,
           seeThrough: tile.classList.contains('oc-media-strip--see-through'),
+          paper: tile.classList.contains('oc-media-strip--paper'),
           translucentCount: tile.querySelectorAll('.oc-media-strip--translucent').length,
         }
       })
@@ -322,7 +324,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       }
       // A picture as slices of its image (as object-fit: cover), filling its
       // box (`place`, measured) - its corners rounded as the box's.
-      function slicePicture(img, { x, y, w, h }, radius) {
+      function slicePicture(img, { x, y, w, h }, radius, paper = false) {
         const scale = Math.max(w / img.naturalWidth, h / img.naturalHeight)
         const bw = img.naturalWidth * scale
         const bh = img.naturalHeight * scale
@@ -332,11 +334,12 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
           const sw = Math.min(sliceWidth, w - sx)
           const slice = document.createElement('div')
           // Over the next one by SLICE_OVERLAP: no seams between slices (not
-          // the last, its corner rounded). On white, as paper: a
+          // the last, its corner rounded). A paper tile's on white: a
           // semi-transparent image (a map's thumbnail) drawn twice where
-          // slices overlap showed a band at every slice.
+          // slices overlap showed a band at every slice. Only there: under an
+          // opaque photo, the white showed at each slice's edge as a line.
           Object.assign(slice.style, {
-            backgroundColor: '#ffffff',
+            ...(paper && { backgroundColor: '#ffffff' }),
             position: 'absolute',
             left: `${x + sx}px`,
             top: `${y}px`,
@@ -360,9 +363,9 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       // little differently each, thin lines between them; in the copies, over
       // it, that image hidden and the boxes holding it see-through, its
       // overlays (a play button, a caption) left.
-      for (const { tile, place, tileImages, picture, radius, seeThrough, translucentCount } of tilePlans) {
+      for (const { tile, place, tileImages, picture, radius, seeThrough, paper, translucentCount } of tilePlans) {
         const { x, y, w, h } = place
-        if (picture) slicePicture(picture, place, radius)
+        if (picture) slicePicture(picture, place, radius, paper)
         // Its copies, cut in slices: each clipped to its strip, its width
         // `widthOf(sx, sw)`, the copy readied by `prepare`.
         const sliceCopies = (widthOf, prepare) => {

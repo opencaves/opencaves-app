@@ -169,7 +169,7 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
       {selectedMaps.length > 0 && (
         <MediaStrip className="oc-cave-map-list--strip" itemHeight={mapHeight} gap={ASSETS_LIST_CONFIG.spacing} rebuildKey={selectedMaps.map((map) => map.value).join(' ')}>
               {selectedMaps.map((map, index) => (
-                <Box key={`${map.value}-${index}`} className="oc-cave-map-list--item oc-media-strip--tile oc-media-strip--item"
+                <Box key={`${map.value}-${index}`} className="oc-cave-map-list--item oc-media-strip--tile oc-media-strip--paper oc-media-strip--item"
                   sx={(theme) => ({
                     position: 'relative', width: mapWidth, height: mapHeight, flex: '0 0 auto', borderRadius: '.5rem', overflow: 'hidden',
                     // A thin outline over the picture's edge (not around it: the size stays).
