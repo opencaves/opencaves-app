@@ -43,8 +43,6 @@ import CaveVideosSection from '@/components/IndexPage/CaveVideosSection.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import NoMatch from '@/routes/NoMatch.jsx'
 import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
-import Dropzone from '@/components/AddMedias/Dropzone.jsx'
-import { useWindowFileDrop } from '@/hooks/useWindowFileDrop.jsx'
 import { teamNames } from '@/utils/explorationTeam.js'
 import PlaceRounded from '@mui/icons-material/PlaceRounded'
 import Address from '@/components/ResultPane/Address.jsx'
@@ -266,9 +264,10 @@ export default function CavePage() {
   // Its nearest caves: the server's, on the page it rendered (it sends the one
   // cave, not every position); else from every cave here.
   const nearby = useMemo(() => serverNearby ?? (cave ? nearbyCaves(cave, caves, (id) => data.sistemasById.get(id)?.name) : []), [serverNearby, cave, caves, data.sistemasById])
-  // Editors: photos dragged anywhere over the page go to this cave, as on the map.
+  // No drop zone over the whole page (unlike the map's pane): a PDF dropped
+  // on Further reading's form went to the photos. Photos are added with Add
+  // photos.
   const isEditor = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('editor')
-  const [dropzoneOpen, closeDropzone] = useWindowFileDrop(isEditor && Boolean(cave))
 
   const name = cave?.name?.value?.trim() || ''
   // No name: "(Unnamed cave)" - in parentheses, a placeholder, not a name.
@@ -453,7 +452,6 @@ export default function CavePage() {
           </Box>
         </IndexSection>
       )}
-      {isEditor && <Dropzone open={dropzoneOpen} onDrop={closeDropzone} caveId={cave.id} />}
 
       {/* Its galleries, over the page: its photos, its system's maps. */}
       <Outlet context={{ sistemaId: cave.sistemaId, sistemas: data.sistemas, connections: data.connections }} />
