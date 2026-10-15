@@ -81,7 +81,8 @@ export async function readPdfDetails(file) {
   pdfjs.GlobalWorkerOptions.workerSrc = workerSrc
   // No XFA forms, no fonts installed: its text alone is read (pdf.js runs no
   // script of the file).
-  const pdf = await pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()), enableXfa: false, disableFontFace: true, stopAtErrors: false }).promise
+  const task = pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()), enableXfa: false, disableFontFace: true, stopAtErrors: false })
+  const pdf = await task.promise
   try {
     const { info } = /** @type {{info: Record<string, any>}} */ (await pdf.getMetadata().catch(() => ({ info: {} })))
     const pages = []
@@ -99,7 +100,8 @@ export async function readPdfDetails(file) {
       language: info?.Language || '',
     }
   } finally {
-    pdf.destroy()
+    // The loading task frees the document and its worker (pdf.js 6: not the document's own).
+    task.destroy()
   }
 }
 
