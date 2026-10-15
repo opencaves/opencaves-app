@@ -8,26 +8,21 @@ import { isUndoable } from '@/models/AuditLogModel.js'
 import AuditEntryDetails from './AuditEntryDetails.jsx'
 import PersonLabel from './PersonLabel.jsx'
 import IconButtonGroup from '@/components/IconButtonGroup.jsx'
-import { formatFullDate, formatRelative } from './auditFormat.js'
-import { toDate } from '@/components/RelativeTime/RelativeTime.jsx'
+import RelativeTime from '@/components/RelativeTime/RelativeTime.jsx'
 
 // The action's chip colour (M3 roles): additions, deletions, undos.
 const ACTION_COLORS = { create: 'success', delete: 'error', purge: 'error', deleteUser: 'error', undo: 'info' }
 
 /**
- * When it happened: relative ("5 minutes ago"), the full date on hover.
+ * When it happened: relative ("5 minutes ago"), kept up to date, its exact
+ * date and time on hover or focus - the app's <oc-relative-time>
+ * ({@link RelativeTime}), as on the Feedback pages.
+ *
+ * @param {object} props
+ * @param {Date|import('firebase/firestore').Timestamp|{seconds: number, nanoseconds?: number}} props.value
  */
 export function When({ value }) {
-  const { i18n } = useTranslation()
-  const date = toDate(value)
-  if (!date) return null
-  return (
-    <Tooltip title={formatFullDate(date, i18n.language)}>
-      <Box component="time" className="oc-audit-when" dateTime={date.toISOString()}>
-        {formatRelative(date, i18n.language)}
-      </Box>
-    </Tooltip>
-  )
+  return <RelativeTime value={value} className="oc-audit-when" />
 }
 
 // One change: who, when, what (action, collection, record - a link while it
