@@ -68,7 +68,40 @@ while it writes, so the copy isn't logged as edits and deleting a photo's
 record doesn't delete its files. Copied files carry `ocSync=true`. Accounts
 named in a record become the local account with the same email, or the one
 paired in `SYNC_ACCOUNTS` (below). Run it with the emulators up
-(`npm run dev`), after `gcloud auth application-default login`.
+(`npm run dev`), after `gcloud auth application-default login`. It records
+when it read production in `_data/sync-from-production.json`, for the push
+below.
+
+## Push local edits to production
+
+To prepare changes locally and send them to production as if made there:
+sync from production (above), edit in the app on the emulators
+(`localhost:5173`), then push:
+
+```
+node scripts/push-to-production.js --dry-run --as me@example.com   # what would be pushed
+node scripts/push-to-production.js --write --as me@example.com     # push it
+```
+
+What's pushed comes from the local audit log: every record named by an entry
+written since the last sync (`--since <date>` for another start; production's
+own entries, copied by the sync, are left out). Each record goes as it is
+locally now - written whole, or deleted if its last entry deletes it (a
+record gone for another reason, such as a sync, is left alone) - in one batch
+with its audit entries, under the same ids: What's new shows them (within 10
+minutes) and they can be undone on the Audits page. A photo's or a map's
+files go too (uploaded when missing or different, deleted with a record
+that's gone).
+
+- **Conflicts:** a record that production's audit log shows changed since the
+  sync isn't pushed (listed as SKIP); the rest is. Sync again and redo that
+  edit.
+- **Who:** the emulators log app edits as `"emulator"`: `--as <email>` credits
+  them to that production account. Other accounts become production's with
+  the same email (or `SYNC_ACCOUNTS`).
+- **Safety:** `--write` first saves production's versions of the records to
+  `_data/backups/production-push-<date>/`. The audit trigger doesn't log the
+  push itself (Admin SDK writes): the copied entries are the log.
 
 ## Mirror the local data to production (before 1.0)
 
