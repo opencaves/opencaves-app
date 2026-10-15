@@ -13,7 +13,7 @@ import { READING_PANE_CLOSE_EVENT } from './readingPane.js'
 // The space between the cave's pane and this one, and below it.
 const PANE_GAP = 8
 // Its width, the cave pane's times this: room for long titles and summaries.
-const WIDTH_RATIO = 1.5
+const WIDTH_RATIO = 1.25
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 // A computer's pane emerging from the cave pane's edge (M3's side sheet: in
 // with emphasized decelerate, out - shorter - with emphasized accelerate):
@@ -54,7 +54,7 @@ function useResultPanePlace() {
  * Further reading's own pane on the map (/map/<caveId>/reading), opened from
  * the cave's pane's Further reading row: the cave's documents and its
  * systems', with Add for editors (FurtherReadingSection's `panel`). On a
- * computer, a pane beside the cave's, half as wide again ({@link WIDTH_RATIO}),
+ * computer, a pane beside the cave's, a quarter wider ({@link WIDTH_RATIO}),
  * as tall as the window allows; on a
  * phone, full screen, swapped in as Show all's panes are ({@link usePaneSwap}).
  * Its back arrow, Escape and the row's toggle ({@link READING_PANE_CLOSE_EVENT})
