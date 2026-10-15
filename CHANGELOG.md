@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.2.0](https://github.com/opencaves/opencaves-app/compare/v1.1.0...v1.2.0) (2026-10-15)
+
+Further reading: papers, articles, reports and books about a cave or a cave system, right on its page - starting with some thirty scientific papers about the caves of the Yucatán. Plus news emails you can turn off, and a smoother map on phones.
+
+
+### Features
+
+* **Further reading:** cave and cave-system pages, and the map's pane, have a Further reading section. Members add a document by uploading a PDF or pasting a link. Its title, authors, year and DOI are filled in from the file, the page or the paper's DOI, and checked before saving. A PDF opens in your browser, and is checked and cleaned by the server before anyone sees it (protected PDFs are refused). A cave also shows its cave system's documents.
+* **Summaries:** each document can have a summary of what it says, shown three lines at a time with a More button.
+* **Scientific papers:** some thirty papers about Hoyo Negro, Chan Hol, Naharon, Zapote, Carwash, The Pit, Tortugas and the Ox Bel Ha, Camilo and Nohoch Nah Chich systems - prehistoric humans, Ice Age animals, cave life and cave mapping - each with a summary written for divers.
+* **News emails:** OpenCaves can send its news by email to members. Your account page has a switch for them, and every news email has its own unsubscribe link.
+
+### Changes
+
+* **Map on phones:** the results pane is a new, lighter bottom sheet, and the map loads less code.
+* **Sagitario:** the cave system's survey map, from MacDonald et al. (2020), is on its page.
+* **Privacy policy:** it explains which emails OpenCaves sends, and names the service that sends them.
+* **For the team:** the Audits page shows its times like the rest of the app, and its trash cards no longer show account ids.
+
+### Fixes
+
+* **Photo strips:** images with transparent parts no longer show bands in the 3D strip.
+
 ## [1.1.0](https://github.com/opencaves/opencaves-app/compare/v1.0.0...v1.1.0) (2026-10-14)
 
 The caves near each cave, the most popular caves and systems on the home page, and a simpler way to tell the team what changed at a cave - which the team can now apply in one click.
