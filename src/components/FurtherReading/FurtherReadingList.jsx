@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Chip, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Link, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from '@mui/material'
@@ -147,9 +147,51 @@ function useTrashDocumentConfirm() {
   return { requestTrash: setPending, dialog }
 }
 
+// A summary's lines shown before More.
+const SUMMARY_LINES = 3
+
+/**
+ * A document's summary: its first lines ({@link SUMMARY_LINES}), and a More
+ * button that shows the rest - when there's more.
+ *
+ * @param {object} props
+ * @param {string} props.text
+ */
+function DocumentSummary({ text }) {
+  const { t } = useTranslation('furtherReading')
+  const [open, setOpen] = useState(false)
+  const [clipped, setClipped] = useState(false)
+  // Clipped or not: measured once laid out, and again as its width changes
+  // (a ref callback's cleanup, React 19).
+  const measure = useCallback((/** @type {HTMLElement|null} */ element) => {
+    if (!element) return
+    const check = () => setClipped(element.scrollHeight > element.clientHeight + 1)
+    check()
+    const observer = new ResizeObserver(check)
+    observer.observe(element)
+    return () => observer.disconnect()
+  }, [])
+  return (
+    <Box className="oc-further-reading--summary" sx={{ mt: 0.5 }}>
+      <Typography
+        ref={open ? undefined : measure}
+        variant="body2"
+        sx={{ whiteSpace: 'pre-line', ...(!open && { display: '-webkit-box', WebkitLineClamp: SUMMARY_LINES, WebkitBoxOrient: 'vertical', overflow: 'hidden' }) }}
+      >
+        {text}
+      </Typography>
+      {(clipped || open) && (
+        <Button size="small" onClick={() => setOpen(!open)} aria-expanded={open} sx={{ ml: -1, mt: 0.25 }}>
+          {t(open ? 'summaryLess' : 'summaryMore')}
+        </Button>
+      )}
+    </Box>
+  )
+}
+
 /**
  * Further reading's items: each its icon (a PDF, a link), its title opening
- * it in a new tab, its line ({@link citationLine}) and description; a PDF its
+ * it in a new tab, its line ({@link citationLine}) and summary ({@link DocumentSummary}); a PDF its
  * uploader sees before it's shown says it's being checked, or why it was
  * refused. Each its ⋮ menu: Share, Download (a PDF) and Report for everyone
  * ({@link useMediaActionsFor}); Edit for editors, Remove (to the trash) for
@@ -268,11 +310,8 @@ export default function FurtherReadingList({ items, onReorder, groupOf, onEdit, 
               {line}
             </Typography>
           )}
-          {document.description && (
-            <Typography variant="body2" className="oc-further-reading--description" sx={{ mt: 0.5, whiteSpace: 'pre-line' }}>
-              {document.description}
-            </Typography>
-          )}
+          {/* `description`: its older name, on documents saved before. */}
+          {(document.summary || document.description) && <DocumentSummary text={document.summary || document.description} />}
           {document.kind === 'file' && document.status === 'checking' && (
             <Chip className="oc-further-reading--status" size="small" icon={<CircularProgress size={12} />} label={t('checking')} sx={{ mt: 1 }} />
           )}

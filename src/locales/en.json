@@ -2531,7 +2531,7 @@
       "noLanguage": "Not given",
       "doi": "DOI",
       "doiHint": "Its identifier, if it has one",
-      "description": "Description"
+      "summary": "Summary"
     },
     "rights": "I have the right to share this file",
     "rightsHint": "It will be public. If the paper is already online, add its link instead.",
@@ -2568,6 +2568,8 @@
       "tooLarge": "Refused: the file is too large"
     },
     "options": "Options for \"{{title}}\"",
+    "summaryMore": "More",
+    "summaryLess": "Less",
     "etAl": "et al."
   }
 }

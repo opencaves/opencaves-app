@@ -13,7 +13,7 @@ import { useSmall } from '@/hooks/useSmall.jsx'
 import { useCaveData } from '@/hooks/useCaveData.js'
 import documentsModel from '@/models/DocumentModel.js'
 import { DOCUMENTS_COLLECTION } from '@/config/collections.js'
-import { DOCUMENT_CONTENT_TYPE, DOCUMENT_DESCRIPTION_MAX, DOCUMENT_MAX_BYTES, DOCUMENT_PUBLISHED_IN_MAX, DOCUMENT_TITLE_MAX, DOCUMENT_URL_MAX } from '@/config/documents.js'
+import { DOCUMENT_CONTENT_TYPE, DOCUMENT_MAX_BYTES, DOCUMENT_PUBLISHED_IN_MAX, DOCUMENT_SUMMARY_MAX, DOCUMENT_TITLE_MAX, DOCUMENT_URL_MAX } from '@/config/documents.js'
 import { contentLanguageOf, linkDetails, readPdfDetails, withCrossref } from '@/utils/documentMetadata.js'
 import { findDoi, inlineDisposition } from '@/utils/documents.js'
 import { loadFirebase } from '@/utils/loadFirebase.js'
@@ -21,10 +21,11 @@ import { assertOnline } from '@/utils/assertOnline.js'
 import { toContentLanguage } from '@/utils/lang.js'
 import { track } from '@/utils/track.js'
 
-const EMPTY = { title: '', authors: [], year: '', publishedIn: '', language: '', description: '', doi: '' }
+const EMPTY = { title: '', authors: [], year: '', publishedIn: '', language: '', summary: '', doi: '' }
 
 // The form's values from a document (editing it).
-const detailsOf = (document) => ({ ...EMPTY, ...Object.fromEntries(Object.keys(EMPTY).map((key) => [key, document?.[key] ?? EMPTY[key]])) })
+// A document saved before has its summary as `description`.
+const detailsOf = (document) => ({ ...EMPTY, ...Object.fromEntries(Object.keys(EMPTY).map((key) => [key, document?.[key] ?? (key === 'summary' ? document?.description : undefined) ?? EMPTY[key]])) })
 
 const isWebUrl = (value) => {
   try {
@@ -55,7 +56,9 @@ function savedFields(details, kind, remove) {
     // Where a PDF appeared; a link's site is its address.
     publishedIn: kind === 'file' ? details.publishedIn.trim() || undefined : undefined,
     language: details.language || undefined,
-    description: details.description.trim() || undefined,
+    summary: details.summary.trim() || undefined,
+    // The summary's older name, gone once edited.
+    description: undefined,
     doi: findDoi(details.doi) || undefined,
   }
   return Object.fromEntries(Object.entries(fields).map(([key, value]) => [key, value === undefined && remove && !(key === 'publishedIn' && kind !== 'file') ? remove() : value]).filter(([, value]) => value !== undefined))
@@ -453,14 +456,14 @@ export default function DocumentDialog({ open, onClose, holder, document = null,
           <TextField label={t('fields.doi')} size="small" fullWidth value={details.doi} onChange={(event) => setField('doi', event.target.value.trim())} placeholder="10.1234/…" helperText={t('fields.doiHint')} slotProps={{ htmlInput: { maxLength: 300 } }} />
         </Box>
         <TextField
-          label={t('fields.description')}
+          label={t('fields.summary')}
           fullWidth
           multiline
-          minRows={2}
-          value={details.description}
-          onChange={(event) => setField('description', event.target.value)}
-          helperText={`${details.description.length} / ${DOCUMENT_DESCRIPTION_MAX}`}
-          slotProps={{ htmlInput: { maxLength: DOCUMENT_DESCRIPTION_MAX }, formHelperText: { sx: { textAlign: 'right' } } }}
+          minRows={4}
+          value={details.summary}
+          onChange={(event) => setField('summary', event.target.value)}
+          helperText={`${details.summary.length} / ${DOCUMENT_SUMMARY_MAX}`}
+          slotProps={{ htmlInput: { maxLength: DOCUMENT_SUMMARY_MAX }, formHelperText: { sx: { textAlign: 'right' } } }}
           sx={{ '& textarea': { resize: 'vertical' } }}
         />
 
