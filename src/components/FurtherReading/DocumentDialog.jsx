@@ -95,6 +95,12 @@ export default function DocumentDialog({ open, onClose, holder, document = null,
   const [details, setDetails] = useState(EMPTY)
   const [url, setUrl] = useState('')
   const [file, setFile] = useState(/** @type {File|null} */ (null))
+  // The picked PDF's first page (an object URL), shown beside its name.
+  const [cover, setCover] = useState('')
+  // Each preview freed once replaced, or the form gone.
+  useEffect(() => () => {
+    if (cover) URL.revokeObjectURL(cover)
+  }, [cover])
   const [rights, setRights] = useState(false)
   const [reading, setReading] = useState(false)
   const [found, setFound] = useState(false)
@@ -125,6 +131,7 @@ export default function DocumentDialog({ open, onClose, holder, document = null,
     setUrl(edited?.kind === 'link' ? edited.url || '' : '')
     setTab('file')
     setFile(null)
+    setCover('')
     setRights(false)
     setReading(false)
     setFound(false)
@@ -171,9 +178,12 @@ export default function DocumentDialog({ open, onClose, holder, document = null,
     if (picked.type !== DOCUMENT_CONTENT_TYPE && !/\.pdf$/i.test(picked.name)) return setError(t('errors.notPdf'))
     if (picked.size > DOCUMENT_MAX_BYTES) return setError(t('errors.tooLarge', { size: megabytes(DOCUMENT_MAX_BYTES, i18n.language) }))
     setFile(picked)
+    setCover('')
     setReading(true)
     try {
-      fill(await withCrossref(await readPdfDetails(picked)))
+      const read = await readPdfDetails(picked)
+      setCover(read.cover || '')
+      fill(await withCrossref(read))
     } catch (cause) {
       // Not read here: the server says whether it's a PDF it takes.
       console.warn('[furtherReading] could not read the PDF', cause)
@@ -314,7 +324,11 @@ export default function DocumentDialog({ open, onClose, holder, document = null,
           <>
             {file ? (
               <Box className="oc-document-dialog--file" sx={(theme) => ({ display: 'flex', alignItems: 'center', gap: 1.5, p: 1.5, borderRadius: 2, bgcolor: theme.vars.sys.color.surfaceContainerHigh })}>
-                <PictureAsPdfRounded color="primary" />
+                {cover ? (
+                  <Box component="img" className="oc-document-dialog--cover" src={cover} alt="" sx={(theme) => ({ width: 48, aspectRatio: '1 / 1.414', objectFit: 'cover', objectPosition: 'top', flexShrink: 0, borderRadius: 0.5, bgcolor: '#ffffff', outline: `1px solid ${theme.vars.sys.color.outlineVariant}` })} />
+                ) : (
+                  <PictureAsPdfRounded color="primary" />
+                )}
                 <Box sx={{ minWidth: 0, flex: 1 }}>
                   <Typography noWrap sx={{ fontWeight: 500 }}>
                     {file.name}

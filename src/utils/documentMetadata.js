@@ -20,6 +20,7 @@ import { loadFirebase } from '@/utils/loadFirebase.js'
  * @property {string} [language] - As the source gives it ("en", "eng", "en-US").
  * @property {string} [url] - A link: where it ended up (after redirects).
  * @property {string} [contentType] - A link: what it serves (a PDF's link: application/pdf).
+ * @property {string} [cover] - A PDF: its first page's picture, an object URL (the form's preview; revoke it).
  */
 
 // ISO 639-1 codes as the sources give them -> the content languages' ISO
@@ -76,12 +77,36 @@ async function lastPagesDoi(pdf) {
   return ''
 }
 
+// A PDF's cover as the form shows it before saving (the server draws the one
+// saved): its first page, COVER_PREVIEW_WIDTH pixels wide, as an object URL -
+// '' when it can't be drawn.
+const COVER_PREVIEW_WIDTH = 240
+async function firstPageImage(pdf) {
+  try {
+    const page = await pdf.getPage(1)
+    const viewport = page.getViewport({ scale: COVER_PREVIEW_WIDTH / page.getViewport({ scale: 1 }).width })
+    const canvas = document.createElement('canvas')
+    canvas.width = Math.round(viewport.width)
+    canvas.height = Math.round(viewport.height)
+    const context = canvas.getContext('2d')
+    context.fillStyle = '#ffffff'
+    context.fillRect(0, 0, canvas.width, canvas.height)
+    await page.render({ canvas, canvasContext: context, viewport }).promise
+    const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'))
+    return blob ? URL.createObjectURL(blob) : ''
+  } catch (error) {
+    console.warn('[furtherReading] no cover preview', error)
+    return ''
+  }
+}
+
 /**
  * A PDF's details, read in the browser (pdf.js, loaded now): its
  * information's title and author, else its first page's largest text for the
  * title, and a DOI in its first pages, else in its last ones (where many
  * journals print it). Not its year: the file's dates are
  * when it was made or saved, not published (Crossref's comes with a DOI).
+ * And its first page's picture (`cover`, {@link firstPageImage}), the form's preview.
  *
  * @param {File} file
  * @returns {Promise<FoundDetails>}
@@ -110,6 +135,7 @@ export async function readPdfDetails(file) {
       authors: splitAuthors(info?.Author),
       doi: findDoi(text) || (await lastPagesDoi(pdf)) || '',
       language: info?.Language || '',
+      cover: await firstPageImage(pdf),
     }
   } finally {
     // The loading task frees the document and its worker (pdf.js 6: not the document's own).

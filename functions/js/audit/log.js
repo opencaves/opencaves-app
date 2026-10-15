@@ -15,7 +15,7 @@ export const TRASH_COLLECTIONS = ['cavesAssets', 'maps', 'documents']
 // The fields only the server writes (photo stamps, a map's derived files, a
 // PDF's check - documents/onUploaded.js): not the app users' changes
 // (onDataWritten in the emulator, getWhatsNew).
-export const SERVER_FIELDS = new Set(['_created', '_modified', '_updated', 'previewUrl', 'previewUrls', 'thumbnailUrl', 'svgIds', 'status', 'rejectReason', 'size'])
+export const SERVER_FIELDS = new Set(['_created', '_modified', '_updated', 'previewUrl', 'previewUrls', 'thumbnailUrl', 'svgIds', 'status', 'rejectReason', 'size', 'coverUrl'])
 
 // Entries are deleted this long after they're written, by the TTL policy on
 // expireAt (firestore.indexes.json).

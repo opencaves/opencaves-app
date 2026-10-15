@@ -303,6 +303,7 @@
  * @property {number} [size] - A file, server: its size in bytes once cleaned.
  * @property {'checking'|'ready'|'rejected'} [status] - A file: being checked by the server, shown, or refused.
  * @property {string} [rejectReason] - A refused file, server: why ('notPdf', 'unreadable', 'encrypted', 'tooLarge', 'noPages').
+ * @property {string} [coverUrl] - A ready file, server: its first page's picture (documents/{id}_cover.webp).
  * @property {boolean} [rightsConfirmed] - A file: its uploader confirmed they may share it.
  */
 

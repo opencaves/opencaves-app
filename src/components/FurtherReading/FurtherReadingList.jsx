@@ -149,6 +149,8 @@ function useTrashDocumentConfirm() {
 
 // A summary's lines shown before More.
 const SUMMARY_LINES = 3
+// A PDF's cover (an A4 page's proportions), in place of its icon.
+const COVER_WIDTH = 56
 
 /**
  * A document's summary: its first lines ({@link SUMMARY_LINES}), and a More
@@ -190,7 +192,8 @@ function DocumentSummary({ text }) {
 }
 
 /**
- * Further reading's items: each its icon (a PDF, a link), its title opening
+ * Further reading's items: each its icon (a PDF, a link) - a PDF's cover once
+ * the server has drawn it - its title opening
  * it in a new tab, its line ({@link citationLine}) and summary ({@link DocumentSummary}); a PDF its
  * uploader sees before it's shown says it's being checked, or why it was
  * refused. Each its ⋮ menu: Share, Download (a PDF) and Report for everyone
@@ -280,13 +283,26 @@ export default function FurtherReadingList({ items, onReorder, groupOf, onEdit, 
           '& + &': { borderTop: `1px solid ${theme.vars.sys.color.outlineVariant}` },
         })}
       >
-        {/* M3 list item's leading icon, on its tonal container. */}
-        <Box
-          aria-hidden="true"
-          sx={(theme) => ({ width: 40, height: 40, flexShrink: 0, borderRadius: '50%', display: 'grid', placeItems: 'center', bgcolor: theme.vars.sys.color.secondaryContainer, color: theme.vars.sys.color.onSecondaryContainer })}
-        >
-          {document.kind === 'file' ? <PictureAsPdfRounded fontSize="small" /> : <LinkRounded fontSize="small" />}
-        </Box>
+        {document.coverUrl ? (
+          // A PDF's cover: its first page (drawn by the server), as a page.
+          <Box
+            component="img"
+            className="oc-further-reading--cover"
+            src={document.coverUrl}
+            alt=""
+            loading="lazy"
+            crossOrigin="anonymous"
+            sx={(theme) => ({ width: COVER_WIDTH, aspectRatio: '1 / 1.414', objectFit: 'cover', objectPosition: 'top', flexShrink: 0, borderRadius: 1, bgcolor: '#ffffff', outline: `1px solid ${theme.vars.sys.color.outlineVariant}` })}
+          />
+        ) : (
+          // M3 list item's leading icon, on its tonal container - in a
+          // cover's width, the titles lined up.
+          <Box aria-hidden="true" sx={{ width: COVER_WIDTH, flexShrink: 0, display: 'flex', justifyContent: 'center' }}>
+            <Box sx={(theme) => ({ width: 40, height: 40, borderRadius: '50%', display: 'grid', placeItems: 'center', bgcolor: theme.vars.sys.color.secondaryContainer, color: theme.vars.sys.color.onSecondaryContainer })}>
+              {document.kind === 'file' ? <PictureAsPdfRounded fontSize="small" /> : <LinkRounded fontSize="small" />}
+            </Box>
+          </Box>
+        )}
         <Box sx={{ flex: 1, minWidth: 0 }}>
           {href ? (
             <Link
@@ -296,17 +312,17 @@ export default function FurtherReadingList({ items, onReorder, groupOf, onEdit, 
               rel="noopener noreferrer"
               underline="hover"
               onClick={() => track('select_content', { content_type: 'document', item_id: document.id })}
-              sx={{ fontWeight: 500, overflowWrap: 'anywhere' }}
+              sx={{ fontWeight: 500, overflowWrap: 'break-word' }}
             >
               {document.title}
             </Link>
           ) : (
-            <Typography className="oc-further-reading--title" sx={{ fontWeight: 500, overflowWrap: 'anywhere' }}>
+            <Typography className="oc-further-reading--title" sx={{ fontWeight: 500, overflowWrap: 'break-word' }}>
               {document.title}
             </Typography>
           )}
           {line && (
-            <Typography variant="body2" className="oc-further-reading--line" sx={{ color: 'text.secondary', overflowWrap: 'anywhere' }}>
+            <Typography variant="body2" className="oc-further-reading--line" sx={{ color: 'text.secondary', overflowWrap: 'break-word' }}>
               {line}
             </Typography>
           )}

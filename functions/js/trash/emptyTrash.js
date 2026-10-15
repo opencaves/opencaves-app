@@ -6,7 +6,7 @@ import { db } from '../init.js'
 import { BUCKET_NAME, CAVES_COLL_NAME, DOCUMENTS_COLL_NAME, ENFORCE_APP_CHECK, REGION } from '../constants.js'
 import { requireAdmin } from '../users/requireAdmin.js'
 import { mapFilePaths } from '../maps/files.js'
-import { documentFilePath } from '../documents/files.js'
+import { documentCoverPath, documentFilePath } from '../documents/files.js'
 import { AUDIT_LOG_COLL_NAME, TRASH_COLLECTIONS, auditEntry } from '../audit/log.js'
 
 const MAX_ITEMS = 500
@@ -46,7 +46,8 @@ async function purge({ collection, id }, adminUid) {
     await Promise.all(mapFilePaths(id, data).map((path) => bucket.file(path).delete({ ignoreNotFound: true })))
   }
   if (collection === DOCUMENTS_COLL_NAME && data.kind === 'file') {
-    await bucket.file(documentFilePath(id)).delete({ ignoreNotFound: true })
+    // The PDF and its cover.
+    await Promise.all([documentFilePath(id), documentCoverPath(id)].map((path) => bucket.file(path).delete({ ignoreNotFound: true })))
   }
 }
 
