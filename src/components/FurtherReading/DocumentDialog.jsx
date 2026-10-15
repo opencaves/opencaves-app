@@ -15,7 +15,7 @@ import documentsModel from '@/models/DocumentModel.js'
 import { DOCUMENTS_COLLECTION } from '@/config/collections.js'
 import { DOCUMENT_CONTENT_TYPE, DOCUMENT_DESCRIPTION_MAX, DOCUMENT_MAX_BYTES, DOCUMENT_PUBLISHED_IN_MAX, DOCUMENT_TITLE_MAX, DOCUMENT_URL_MAX } from '@/config/documents.js'
 import { contentLanguageOf, linkDetails, readPdfDetails, withCrossref } from '@/utils/documentMetadata.js'
-import { findDoi } from '@/utils/documents.js'
+import { findDoi, inlineDisposition } from '@/utils/documents.js'
 import { loadFirebase } from '@/utils/loadFirebase.js'
 import { assertOnline } from '@/utils/assertOnline.js'
 import { toContentLanguage } from '@/utils/lang.js'
@@ -257,7 +257,8 @@ export default function DocumentDialog({ open, onClose, holder, document = null,
     const { storage, ref, uploadBytesResumable, getDownloadURL } = await firebase.getStorageService()
     const storageRef = ref(storage, fullPath)
     try {
-      const task = uploadBytesResumable(storageRef, file, { contentType: DOCUMENT_CONTENT_TYPE })
+      // Inline: its link opens it in the browser's PDF viewer, not as a download.
+      const task = uploadBytesResumable(storageRef, file, { contentType: DOCUMENT_CONTENT_TYPE, contentDisposition: inlineDisposition(details.title) })
       await new Promise((resolve, reject) => {
         task.on('state_changed', (snapshot) => setProgress(Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)), reject, () => resolve(undefined))
       })

@@ -1,5 +1,5 @@
 import { CROSSREF_WORKS_URL, DOCUMENT_AUTHORS_MAX, DOCUMENT_PAGES_READ, DOCUMENT_PUBLISHED_IN_MAX, DOCUMENT_TITLE_MAX } from '@/config/documents.js'
-import { findDoi, findYear } from '@/utils/documents.js'
+import { findDoi } from '@/utils/documents.js'
 import { loadFirebase } from '@/utils/loadFirebase.js'
 
 // What the Further reading form can fill in by itself (the person reviews it
@@ -67,8 +67,9 @@ function titleGuess(items) {
 
 /**
  * A PDF's details, read in the browser (pdf.js, loaded now): its
- * information's title, author and date, else its first page's largest text
- * for the title, and a DOI in its first pages.
+ * information's title and author, else its first page's largest text for the
+ * title, and a DOI in its first pages. Not its year: the file's dates are
+ * when it was made or saved, not published (Crossref's comes with a DOI).
  *
  * @param {File} file
  * @returns {Promise<FoundDetails>}
@@ -94,8 +95,6 @@ export async function readPdfDetails(file) {
       // A title that's a file name ("Microsoft Word - draft3.docx") isn't one.
       title: title && !/\.(docx?|pdf|tex|indd)$/i.test(title) && !/^microsoft word/i.test(title) ? title : titleGuess(pages[0] || []),
       authors: splitAuthors(info?.Author),
-      // A PDF date ("D:20180501…"): its year, the file's - a guess to check.
-      year: findYear(/^D:(\d{4})/.exec(info?.CreationDate || '')?.[1]),
       doi: findDoi(text) || '',
       language: info?.Language || '',
     }

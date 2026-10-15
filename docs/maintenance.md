@@ -456,9 +456,9 @@ Every editor adds them from the section's **Add reading** (a dialog: Upload a
 PDF, 20 MB at most, confirming they may share it, or Paste a link). The form
 fills itself where it can, for the person to check before saving:
 
-- a PDF is read in the browser with pdf.js (loaded only then): its title,
-  authors and date, else its first page's largest text, and a DOI in its first
-  pages;
+- a PDF is read in the browser with pdf.js (loaded only then): its title and
+  authors, else its first page's largest text, and a DOI in its first pages
+  (not its year: a file's dates are when it was made, not published);
 - a link is read by the `linkMetadata` callable (registered accounts): the
   page's `citation_*` tags, else its Open Graph tags and title. It fetches
   only public http(s) addresses (an address resolving to a private, loopback

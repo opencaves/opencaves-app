@@ -100,16 +100,6 @@ export function findDoi(text) {
 }
 
 /**
- * A year ("1500"-"2099") in a text or a PDF date ("D:20190501..."), or ''.
- *
- * @param {string} [text]
- * @returns {string}
- */
-export function findYear(text) {
-  return /(?:^|\D)((?:1[5-9]|20)\d{2})(?!\d)/.exec(String(text || '').replace(/^D:/, ''))?.[1] || ''
-}
-
-/**
  * A document's address to open: a PDF's file, a link's page - and a DOI's
  * page when a link has none.
  *
@@ -118,4 +108,20 @@ export function findYear(text) {
  */
 export function documentHref(document) {
   return document.url || (document.doi ? `https://doi.org/${document.doi}` : null)
+}
+
+/**
+ * A PDF's Content-Disposition, set as it's uploaded: inline, so its link
+ * opens it in the browser's PDF viewer rather than downloading it (Storage
+ * serves `attachment` to a file without one), named after its title - an
+ * ASCII name, and the title itself (RFC 5987). The server keeps the same
+ * (functions/js/documents/files.js).
+ *
+ * @param {string} [title]
+ * @returns {string}
+ */
+export function inlineDisposition(title) {
+  const name = String(title || '').trim().slice(0, 100) || 'document'
+  const ascii = name.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^\w .-]+/g, '').replace(/\s+/g, ' ').trim() || 'document'
+  return `inline; filename="${ascii}.pdf"; filename*=UTF-8''${encodeURIComponent(`${name}.pdf`)}`
 }
