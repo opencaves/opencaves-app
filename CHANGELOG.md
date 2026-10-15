@@ -1,14 +1,5 @@
 # Changelog
 
-## [1.2.1](https://github.com/opencaves/opencaves-app/compare/v1.2.0...v1.2.1) (2026-10-15)
-
-A fix for the photo strips.
-
-
-### Fixes
-
-* **Photo strips:** no more thin vertical lines over photos in the 3D strip (introduced in 1.2.0).
-
 ## [1.2.0](https://github.com/opencaves/opencaves-app/compare/v1.1.0...v1.2.0) (2026-10-15)
 
 Further reading: papers, articles, reports and books about a cave or a cave system, right on its page - starting with some thirty scientific papers about the caves of the Yucatán. Plus news emails you can turn off, and a smoother map on phones.
