@@ -10,7 +10,8 @@ export const DOCUMENT_CONTENT_TYPE = 'application/pdf'
 // The fields' longest values (firestore.rules' isValidDocument).
 export const DOCUMENT_TITLE_MAX = 500
 export const DOCUMENT_PUBLISHED_IN_MAX = 300
-export const DOCUMENT_DESCRIPTION_MAX = 1000
+// A summary: one paragraph or two (a paper's, written in our own words).
+export const DOCUMENT_SUMMARY_MAX = 3000
 export const DOCUMENT_URL_MAX = 2000
 export const DOCUMENT_AUTHORS_MAX = 50
 
@@ -23,3 +24,7 @@ export const CROSSREF_WORKS_URL = 'https://api.crossref.org/works/'
 
 // How many of a PDF's first pages are read for its title and DOI.
 export const DOCUMENT_PAGES_READ = 2
+
+// And its last pages, searched for a DOI only: many journals print it at the
+// end (the citation block, e.g. Science Advances).
+export const DOCUMENT_LAST_PAGES_READ = 2

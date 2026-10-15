@@ -1,4 +1,4 @@
-import { CROSSREF_WORKS_URL, DOCUMENT_AUTHORS_MAX, DOCUMENT_PAGES_READ, DOCUMENT_PUBLISHED_IN_MAX, DOCUMENT_TITLE_MAX } from '@/config/documents.js'
+import { CROSSREF_WORKS_URL, DOCUMENT_AUTHORS_MAX, DOCUMENT_LAST_PAGES_READ, DOCUMENT_PAGES_READ, DOCUMENT_PUBLISHED_IN_MAX, DOCUMENT_TITLE_MAX } from '@/config/documents.js'
 import { findDoi } from '@/utils/documents.js'
 import { loadFirebase } from '@/utils/loadFirebase.js'
 
@@ -65,10 +65,22 @@ function titleGuess(items) {
   return ''
 }
 
+// A DOI in a PDF's last pages (DOCUMENT_LAST_PAGES_READ), past the first
+// ones already read - the end's citation block, the last first.
+async function lastPagesDoi(pdf) {
+  for (let number = pdf.numPages; number > Math.max(DOCUMENT_PAGES_READ, pdf.numPages - DOCUMENT_LAST_PAGES_READ); number--) {
+    const content = await (await pdf.getPage(number)).getTextContent()
+    const doi = findDoi(content.items.filter((item) => 'str' in item).map((item) => item.str).join(' '))
+    if (doi) return doi
+  }
+  return ''
+}
+
 /**
  * A PDF's details, read in the browser (pdf.js, loaded now): its
  * information's title and author, else its first page's largest text for the
- * title, and a DOI in its first pages. Not its year: the file's dates are
+ * title, and a DOI in its first pages, else in its last ones (where many
+ * journals print it). Not its year: the file's dates are
  * when it was made or saved, not published (Crossref's comes with a DOI).
  *
  * @param {File} file
@@ -96,7 +108,7 @@ export async function readPdfDetails(file) {
       // A title that's a file name ("Microsoft Word - draft3.docx") isn't one.
       title: title && !/\.(docx?|pdf|tex|indd)$/i.test(title) && !/^microsoft word/i.test(title) ? title : titleGuess(pages[0] || []),
       authors: splitAuthors(info?.Author),
-      doi: findDoi(text) || '',
+      doi: findDoi(text) || (await lastPagesDoi(pdf)) || '',
       language: info?.Language || '',
     }
   } finally {
