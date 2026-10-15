@@ -107,6 +107,79 @@
    ],
    "why": "the database's position is 3.6 km from this map's: doubtful",
    "id": "-KPZkVPKbTGWDHL_8Y-Y"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-NvgRy2mMAPkD_cFVxTg",
+   "name": "Sagitario",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sagitario and La Mina - CINDAQ, MacDonald et al. 2020"
+   ],
+   "id": "-NvgRy2mMAPkD_cFVxTg"
+  },
+  {
+   "name": "",
+   "latitude": 20.526793,
+   "longitude": -87.314206,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sagitario and La Mina - CINDAQ, MacDonald et al. 2020"
+   ],
+   "note": "unnamed entry near Sagitario, MacDonald et al. 2020 Fig. 1C: the north-west of the three 'Open Entry' arrows of Sagitario, to a dry cavern opening onto the flooded passage west",
+   "languageCode": "spa",
+   "sistemaId": "-NvgLCoNeUqSaC9dSu03",
+   "sistemaName": "Sagitario",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P3zSh1_70xlVUaQHGul"
+  },
+  {
+   "name": "",
+   "latitude": 20.526476,
+   "longitude": -87.314257,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sagitario and La Mina - CINDAQ, MacDonald et al. 2020"
+   ],
+   "note": "unnamed entry near Sagitario, MacDonald et al. 2020 Fig. 1C: the south-west of the three 'Open Entry' arrows of Sagitario, to a dry cavern opening onto the flooded cavern west",
+   "languageCode": "spa",
+   "sistemaId": "-NvgLCoNeUqSaC9dSu03",
+   "sistemaName": "Sagitario",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P3zSh1_k7QnnutQ5K94"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-Nvh-j3LlPFLdlgyCEbV",
+   "name": "Pu'bix",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sagitario and La Mina - CINDAQ, MacDonald et al. 2020"
+   ],
+   "id": "-Nvh-j3LlPFLdlgyCEbV"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-Nvh-j7RxUgSWqlYnKyG",
+   "name": "Kilix Pach-Och",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sagitario and La Mina - CINDAQ, MacDonald et al. 2020"
+   ],
+   "id": "-Nvh-j7RxUgSWqlYnKyG"
   }
  ]
 }

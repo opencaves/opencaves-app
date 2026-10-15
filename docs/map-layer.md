@@ -141,6 +141,10 @@ config's `entrances` to place the map, with `"written": false`.
   `scripts/map-layer/found-cenotes.json`, for a later direct import: new
   cenotes, positions for caves without one, names for unnamed caves.
   Nothing is written to the database, and nothing goes to the Google Sheet.
+  Cenotes of the same name found close together on several maps are one;
+  unnamed entrances are never merged (several unnamed openings of one cenote
+  are each kept). A config entrance's `"note"` (e.g. "unnamed entry near
+  Sagitario") is copied to its entry, for the import's review.
   `found_cenotes_map.py <out.html>` shows them on a map for review;
   `node scripts/map-layer/import-found-cenotes.js -l` (or `-p`) then imports
   them: new caves, positions (validity `unknown`), names and cenote-entrance
