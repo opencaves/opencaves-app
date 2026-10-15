@@ -32,47 +32,7 @@ img {
   margin: 0;
 }
 
-// Checkbox
-ion-checkbox {
-  --checkbox-background: transparent;
-  --checkbox-background-checked: transparent;
-  --border-width: 0;
-}
-
-ion-button {
-  text-transform: none;
-
-  .MuiSvgIcon-root {
-    margin-left: -0.3em;
-    margin-right: 0.3em;
-    font-size: 1.4em;
-  }
-}
-
-.toast {
-  --max-width: 290px;
-
-  @media (max-width: 767px) {
-    --max-width: 100%;
-    --start: 0;
-    --end: 0;
-    --border-radius: 0;
-  }
-}
-
 .oc-progress-bar {
   z-index: 100;
 }
 
-.oc-dialog {
-  // ionic
-  .alert-message {
-    color: #49454e;
-    padding-bottom: 0;
-  }
-
-  // ionic
-  .alert-button-group {
-    padding: 16px 23px 20px;
-  }
-}

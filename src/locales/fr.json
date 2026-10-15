@@ -1049,6 +1049,10 @@
     },
     "title": "Carte",
     "caveNameUnknown": "(Grotte sans nom)",
+    "sheetHandle": {
+      "expand": "Agrandir la fiche",
+      "collapse": "Réduire la fiche"
+    },
     "editFab": {
       "ariaLabel": "Modifier les données de la grotte",
       "editCave": "Modifier cette grotte",

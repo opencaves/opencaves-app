@@ -280,10 +280,10 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
     }
   }
 
-  // On phones the form lives in Ionic's sheet, which is always
-  // window.innerHeight tall and slid down (see AGENTS.md): a sticky bar would
-  // stick to the sheet's off-screen bottom, and position: fixed would be
-  // relative to its transformed wrapper. So there the bar is portaled to
+  // On phones the form lives in the bottom sheet, full height and slid down
+  // by a transform (ResultPaneSm): a sticky bar would stick to the sheet's
+  // off-screen bottom, and position: fixed would be relative to the
+  // transformed sheet. So there the bar is portaled to
   // <body> and pinned to the viewport - above the sheet (z-index 999), below
   // dialogs and menus - and the form gets room to scroll its last fields
   // clear of it. On wider screens it stays sticky within the pane.

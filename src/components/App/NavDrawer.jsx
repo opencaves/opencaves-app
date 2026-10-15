@@ -73,7 +73,7 @@ export function useNavItems() {
  * @param {object} props
  * @param {boolean} props.open
  * @param {() => void} props.onClose
- * @param {number} [props.zIndex] - Over the map page's Ionic sheet (its own, much higher, stacking).
+ * @param {number} [props.zIndex] - Its stacking, when it must sit over something higher than a drawer's (the map page's phone sheet).
  */
 export default function NavDrawer({ open, onClose, zIndex }) {
   const { t } = useTranslation('app', { keyPrefix: 'menu' })

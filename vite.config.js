@@ -273,9 +273,8 @@ export default defineConfig(({ isSsrBuild }) => ({
         // Rolldown's groups, not the deprecated manualChunks: a group also
         // captures its modules' dependencies, so the order matters - higher
         // priority claims first. React (a dependency of every UI library)
-        // goes first, Ionic last: otherwise Ionic's group captured React and
-        // other shared code, and every page - desktop included, which never
-        // uses Ionic (see src/utils/ionic.js) - depended on its chunk.
+        // goes first: otherwise a library's group captures React and other
+        // shared code, and every page depends on that library's chunk.
         codeSplitting: {
           groups: [
             { name: 'react', test: /node_modules[\\/](react|react-dom|scheduler)[\\/]/, priority: 60 },
@@ -292,8 +291,6 @@ export default defineConfig(({ isSsrBuild }) => ({
             // chunk, loaded then, and left out of the precache (globIgnores). Not
             // its dependencies (as mapbox): it captured a helper every page shares.
             { name: 'pdfjs', test: /node_modules[\\/]pdfjs-dist[\\/]/, priority: 40, includeDependenciesRecursively: false },
-            // Not its dependencies either (as mapbox): the shared helper would move here.
-            { name: 'ionic', test: /node_modules[\\/]@ionic[\\/]/, priority: 10, includeDependenciesRecursively: false },
           ],
         },
       },
@@ -368,8 +365,8 @@ export default defineConfig(({ isSsrBuild }) => ({
         // call, so it needs to be a classic script, not an ES module -
         // also makes the output land at service-worker.js instead of .mjs.
         rollupFormat: 'iife',
-        // Even after splitting, the mapbox/ionic vendor chunks are still a
-        // few MB each; raise Workbox's default 2 MiB precache limit rather
+        // Even after splitting, the mapbox vendor chunk is still a few
+        // MB; raise Workbox's default 2 MiB precache limit rather
         // than exclude them from offline support.
         maximumFileSizeToCacheInBytes: 12 * 1024 * 1024,
       },

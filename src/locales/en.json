@@ -1050,6 +1050,10 @@
     },
     "title": "Map",
     "caveNameUnknown": "(Unnamed cave)",
+    "sheetHandle": {
+      "expand": "Expand the details",
+      "collapse": "Collapse the details"
+    },
     "editFab": {
       "ariaLabel": "Edit cave data",
       "editCave": "Edit this cave",

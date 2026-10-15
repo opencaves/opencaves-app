@@ -22,7 +22,7 @@ import { useWindowFileDrop } from '@/hooks/useWindowFileDrop.jsx'
 // The edit form, editors only: loaded when opened (it brings the Firestore SDK).
 const CurrentCaveDetailsContentEdit = lazy(() => import('./CurrentCaveDetailsContentEdit.jsx'))
 
-// Phones only, and it brings Ionic along (see utils/ionic.js).
+// Phones only: the home-made bottom sheet.
 const ResultPaneSm = lazy(() => import('./ResultPaneSm.jsx'))
 
 // Once per page load: whether the phone sheet's restored breakpoint was

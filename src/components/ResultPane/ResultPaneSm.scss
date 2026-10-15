@@ -13,41 +13,12 @@
   --oc-result-pane-sm-upper-height: 48px;
   --oc-result-pane-border-radius: 1rem 1rem 0 0;
 
-  --height: calc(100% + calc(var(--oc-pane-padding-block) * 1.4)); // ion-modal
-  --border-radius: var(--oc-result-pane-border-radius); // ion-modal20.27736, -87.43314
-  --background: var(--oc-result-pane-surface-color); // ion-modal
-
-  top: var(--oc-result-pane-sm-upper-height);
-
-  // ion-modal
-  &::part(backdrop) {
-    display: none;
-  }
-  &::part(handle) {
-    width: 54px;
-    top: 15px;
-    transform: translateY(-50%);
-    // A 24px-tall touch target (WCAG 2.5.8) around the same 5px bar: the
-    // padding is transparent (background clipped to the content box), and
-    // the radius's inner curve keeps the bar's rounded ends.
-    height: 24px;
-    padding: 9.5px 0;
-    background-clip: content-box;
-    border-radius: 12px;
-  }
-
-  .oc-back-btn {
-    position: absolute;
-    top: 4px;
-    left: 8px;
-  }
-
   .oc-result-pane--card {
     // MUI's Card has its own default border-radius (theme.shape.borderRadius),
-    // independent of the ion-modal's own --border-radius. A non-zero outer
-    // modal radius is big enough to mask that mismatch, but once the modal
-    // goes fully square, this card's own residual rounding is exposed as a
-    // small gap in its top corners revealing whatever's behind the modal.
+    // independent of the sheet's own radius. A non-zero outer radius is big
+    // enough to mask that mismatch, but once the sheet goes fully square,
+    // this card's own residual rounding is exposed as a small gap in its top
+    // corners revealing whatever's behind the sheet.
     border-radius: 0;
     box-shadow: none;
     margin: 0;
@@ -100,8 +71,8 @@
   }
 
   &--minimize {
-    // At the sheet's minimum, room under the title line (the sheet's height
-    // can't be adjusted - Ionic sizes it - so the content is padded).
+    // At the sheet's minimum, room under the title line (the snap point is a
+    // fixed fraction of the sheet's height, so the content is padded).
     .oc-cave-details-header {
       padding-bottom: var(--oc-pane-padding-block);
     }
@@ -114,3 +85,12 @@
   }
 }
 
+
+// The home-made sheet (BottomSheet): under the search bar's band at full
+// height, in the pane's surface and radius (the radius squares off as the
+// sheet nears the top: ResultPaneSm).
+.oc-bottom-sheet.oc-result-pane-sm {
+  --oc-bottom-sheet-top: var(--oc-result-pane-sm-upper-height);
+  --oc-bottom-sheet-border-radius: var(--oc-result-pane-border-radius);
+  --oc-bottom-sheet-background: var(--oc-result-pane-surface-color);
+}
