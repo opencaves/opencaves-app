@@ -121,12 +121,7 @@
   },
   {
    "name": "",
-   "latitude": 20.526793,
-   "longitude": -87.314206,
-   "accuracy": 10,
-   "validity": "unknown",
    "cenoteEntrance": true,
-   "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
     "Sagitario and La Mina - CINDAQ, MacDonald et al. 2020"
@@ -137,16 +132,12 @@
    "sistemaName": "Sagitario",
    "area": "Puerto Aventuras",
    "action": "create",
+   "why": "position not given: the map is unverified (Placed on the UTM point printed on the map (16Q 467258E 2269789N) and the database's Sagitario, Pu'bix and Kilix Pach-Och, which agree within 1-3 m and with the scale bar (0.9%) and north arrow (-0.9 deg), but with no independent ground check: the imagery shows unbroken canopy (and cloud over Sagitario), no other placed map is within 5 km, and the database positions themselves may come from the same CINDAQ survey (user's decision, 2026-10-15). To verify: a field GPS of one or two of the entrances, or a pond visible on newer imagery.)",
    "id": "-P3zSh1_70xlVUaQHGul"
   },
   {
    "name": "",
-   "latitude": 20.526434,
-   "longitude": -87.314355,
-   "accuracy": 10,
-   "validity": "unknown",
    "cenoteEntrance": true,
-   "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
     "Sagitario and La Mina - CINDAQ, MacDonald et al. 2020"
@@ -157,6 +148,7 @@
    "sistemaName": "Sagitario",
    "area": "Puerto Aventuras",
    "action": "create",
+   "why": "position not given: the map is unverified (Placed on the UTM point printed on the map (16Q 467258E 2269789N) and the database's Sagitario, Pu'bix and Kilix Pach-Och, which agree within 1-3 m and with the scale bar (0.9%) and north arrow (-0.9 deg), but with no independent ground check: the imagery shows unbroken canopy (and cloud over Sagitario), no other placed map is within 5 km, and the database positions themselves may come from the same CINDAQ survey (user's decision, 2026-10-15). To verify: a field GPS of one or two of the entrances, or a pond visible on newer imagery.)",
    "id": "-P3zSh1_k7QnnutQ5K94"
   },
   {

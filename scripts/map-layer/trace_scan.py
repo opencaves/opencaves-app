@@ -243,13 +243,15 @@ def colour_fill_band(image_path, masked, trace):
     core = (strong | enclosed) & ~masked
     # Fills of other colours that are passage too ("fillColours": [{"hue":
     # [h0, h1], "minSaturation": s}], hue and saturation 0-255): e.g. a
-    # cenote's basin drawn in tan.
+    # cenote's basin drawn in tan. "maxSaturation" leaves out a stronger ink
+    # of the same hue (a pale pink fill, but not the red depth numbers).
     if trace.get('fillColours'):
         hsv = numpy.asarray(image.convert('HSV')).astype(numpy.int16)
         blue = cv2.dilate(core.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9))) > 0
         for colour in trace['fillColours']:
             h0, h1 = colour['hue']
-            fill = ((hsv[..., 0] >= h0) & (hsv[..., 0] <= h1) & (hsv[..., 1] >= colour.get('minSaturation', 40))).astype(numpy.float32)
+            fill = ((hsv[..., 0] >= h0) & (hsv[..., 0] <= h1) & (hsv[..., 1] >= colour.get('minSaturation', 40))
+                    & (hsv[..., 1] <= colour.get('maxSaturation', 255))).astype(numpy.float32)
             # By density, as the blue: a basin's fill is broken by stipple.
             fill = (cv2.GaussianBlur(fill, (0, 0), 3) >= colour.get('density', 0.35)) & ~masked
             # Only patches opening onto a blue passage, as a basin does.
@@ -281,10 +283,10 @@ def colour_fill_band(image_path, masked, trace):
                 core[window] |= local == i
     # "fillPolygons": [[[x, y], ...]] - passage drawn by hand, for open water
     # whose fill is only a pattern of dashes on white (a lake).
+    drawn = numpy.zeros(core.shape, numpy.uint8)
     for polygon in trace.get('fillPolygons', []):
-        area = numpy.zeros(core.shape, numpy.uint8)
-        cv2.fillPoly(area, [numpy.array(polygon, numpy.int32)], 1)
-        core |= area > 0
+        cv2.fillPoly(drawn, [numpy.array(polygon, numpy.int32)], 1)
+    core |= drawn > 0
     core &= ~masked
     joined, _ = ndimage.label(weak | core)
     touching = numpy.unique(joined[core])
@@ -314,7 +316,13 @@ def colour_fill_band(image_path, masked, trace):
         walls = cv2.morphologyEx(walls.astype(numpy.uint8) * 255, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (closing, closing)))
         walls = cv2.morphologyEx(walls, cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (opening, opening)))
         band = (band > 0) | (walls > 0)
-    return (band > 0).astype(numpy.uint8) * 255 & ~(masked.astype(numpy.uint8) * 255)
+    band = (band > 0) & ~masked
+    # "fillPolygonsOverMasks": true - the polygons drawn by hand are passage
+    # as drawn: over the masked labels and ink beside them, and not grown or
+    # shrunk with the fill (drawn along the map's walls).
+    if trace.get('fillPolygonsOverMasks'):
+        band |= drawn > 0
+    return band.astype(numpy.uint8) * 255
 
 
 def trace_skeleton(skeleton):
@@ -2083,11 +2091,76 @@ def main(config_path, output):
             print(f'{len(symbol_circles)} circles masked')
             # The leader lines found above (cross-sections', labels'), as spurs.
             boxes |= cv2.dilate(leaders.astype(numpy.uint8), numpy.ones((7, 7), numpy.uint8)) > 0
+        # "inkColours": [{"hue": [h0, h1] (h0 > h1 wraps round red),
+        # "minSaturation"/"maxSaturation": s, "minValue"/"maxValue": v,
+        # "minPx": n, "maxExtentPx": e, "inSymbolBoxes": true, "exceptNear":
+        # {...}, "growPx": g,
+        # "insideShare": f}] - ink of a colour that is never passage (red depth
+        # numbers and labels): with "greyFill" it is dark, so it read as fill
+        # and the walls wrapped round each number beside a passage. Masked,
+        # grown by "growPx" (2); those lying in a passage (the ring just
+        # outside them mostly passage) are passage again below.
+        ink_colour = numpy.zeros(boxes.shape, bool)
+        if trace.get('inkColours'):
+            hsv = numpy.asarray(Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('HSV')).astype(int)
+            for colour in trace['inkColours']:
+                h0, h1 = colour['hue']
+                hue = (hsv[..., 0] >= h0) & (hsv[..., 0] <= h1) if h0 <= h1 else (hsv[..., 0] >= h0) | (hsv[..., 0] <= h1)
+                found = (hue & (hsv[..., 1] >= colour.get('minSaturation', 60)) & (hsv[..., 1] <= colour.get('maxSaturation', 255))
+                         & (hsv[..., 2] >= colour.get('minValue', 0)) & (hsv[..., 2] <= colour.get('maxValue', 255)))
+                # "inSymbolBoxes": true - only inside the boxes of the symbols
+                # extract_symbols.py placed (the depths read by hand): the
+                # numbers' paler ink, without the like-coloured drawing elsewhere.
+                if colour.get('inSymbolBoxes'):
+                    inside = numpy.zeros(found.shape, bool)
+                    if symbols_px.exists():
+                        for x0, y0, x1, y1 in symbol_boxes(symbols_px, config):
+                            inside[max(0, y0):y1, max(0, x0):x1] = True
+                    found &= inside
+                # "exceptNear": {"hue": [h0, h1], "minSaturation": s, "px": d} -
+                # not within d px of another colour (the rim of a sample dot
+                # drawn in a brighter red, inside the passage).
+                if colour.get('exceptNear'):
+                    near = colour['exceptNear']
+                    other = ((hsv[..., 0] >= near['hue'][0]) & (hsv[..., 0] <= near['hue'][1])
+                             & (hsv[..., 1] >= near.get('minSaturation', 180))).astype(numpy.uint8)
+                    found &= ~(cv2.dilate(other, numpy.ones((2 * near.get('px', 3) + 1,) * 2, numpy.uint8)) > 0)
+                # "minPx": only pieces of that many pixels - text, not the
+                # specks of a stipple drawn in a similar colour; "maxExtentPx":
+                # only pieces no longer than that - text, not a wall line drawn
+                # in the same colour.
+                if colour.get('minPx') or colour.get('maxExtentPx'):
+                    pieces, count = ndimage.label(found, structure=numpy.ones((3, 3)))
+                    keep = numpy.ones(count + 1, bool)
+                    keep[0] = False
+                    if colour.get('minPx'):
+                        keep &= numpy.bincount(pieces.ravel(), minlength=count + 1) >= colour['minPx']
+                    if colour.get('maxExtentPx'):
+                        for i, sl in enumerate(ndimage.find_objects(pieces)):
+                            if max(sl[0].stop - sl[0].start, sl[1].stop - sl[1].start) > colour['maxExtentPx']:
+                                keep[i + 1] = False
+                    found &= keep[pieces]
+                grow = colour.get('growPx', 2)
+                ink_colour |= cv2.dilate(found.astype(numpy.uint8), numpy.ones((2 * grow + 1,) * 2, numpy.uint8)) > 0
+            boxes |= ink_colour
         for item in config.get('exclude', []):
             if item.get('inside'):
                 x0, y0, x1, y1 = item['box']
                 boxes[max(0, y0):y1, max(0, x0):x1] = False
         band = colour_fill_band(config_path.parent.joinpath(config['image']).resolve(), boxes, trace)
+        if ink_colour.any():
+            # Pieces of that ink inside a passage: passage again ("insideShare"
+            # of a ring 4 to 12 px round each, 0.6 by default - away from the
+            # piece, where "bandShrinkPx" has eaten the band back from it).
+            pieces, count = ndimage.label(ink_colour)
+            share = max(c.get('insideShare', 0.6) for c in trace['inkColours'])
+            for i, sl in enumerate(ndimage.find_objects(pieces)):
+                y0, x0 = max(0, sl[0].start - 14), max(0, sl[1].start - 14)
+                window = (slice(y0, sl[0].stop + 14), slice(x0, sl[1].stop + 14))
+                piece = (pieces[window] == i + 1).astype(numpy.uint8)
+                ring = (cv2.dilate(piece, numpy.ones((25, 25), numpy.uint8)) > 0) & ~(cv2.dilate(piece, numpy.ones((9, 9), numpy.uint8)) > 0)
+                if ring.any() and (band[window][ring] > 0).mean() >= share:
+                    band[window][piece > 0] = 255
         # The masked circles lying in a passage (the ring just outside them
         # mostly passage: "insideShare" of it) are passage again - only those
         # beside a wall stay out.
@@ -2110,6 +2183,30 @@ def main(config_path, output):
                 ring = band[max(0, y0 - 6):y1 + 6, max(0, x0 - 6):x1 + 6]
                 if ring.mean() > 0.4 * 255:
                     window[:] = 255
+        # "clearSymbols": {"padPx": p, "closePx": k} - last, after every
+        # grow, shrink and fill step: each symbol's box (extract_symbols.py's,
+        # grown by p) lying mostly in a passage is redrawn from the band
+        # around it - cleared, then closed by k - so a number written in a
+        # passage or on its wall neither leaves a hole nor bulges the wall.
+        if trace.get('clearSymbols') and symbols_px.exists():
+            rule = trace['clearSymbols']
+            pad = rule.get('padPx', 3)
+            k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (rule.get('closePx', 15) | 1,) * 2)
+            boxes_px = [(max(0, x0 - pad), max(0, y0 - pad), x1 + pad, y1 + pad) for x0, y0, x1, y1 in symbol_boxes(symbols_px, config)]
+            cleared = band.copy()
+            for x0, y0, x1, y1 in boxes_px:
+                cleared[y0:y1, x0:x1] = 0
+            closed = cv2.morphologyEx(cleared, cv2.MORPH_CLOSE, k)
+            # By the ring round each box (6 px): mostly passage, the band
+            # closed through it (the passage runs on, no hole where the
+            # number was); otherwise the box is left as the fill drew it -
+            # the number's ink masked, so no bump round it.
+            for x0, y0, x1, y1 in boxes_px:
+                ring = cleared[max(0, y0 - 6):y1 + 6, max(0, x0 - 6):x1 + 6].copy()
+                ring[min(6, y0):min(6, y0) + y1 - y0, min(6, x0):min(6, x0) + x1 - x0] = 128
+                share = (ring[ring != 128] > 0).mean() if (ring != 128).any() else 0
+                if share >= 0.5:
+                    band[y0:y1, x0:x1] = closed[y0:y1, x0:x1]
     else:
         candidate = ink & ~masked
         labels, count = ndimage.label(candidate, structure=numpy.ones((3, 3)))
