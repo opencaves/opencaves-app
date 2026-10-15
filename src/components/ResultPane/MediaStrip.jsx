@@ -332,8 +332,11 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
           const sw = Math.min(sliceWidth, w - sx)
           const slice = document.createElement('div')
           // Over the next one by SLICE_OVERLAP: no seams between slices (not
-          // the last, its corner rounded).
+          // the last, its corner rounded). On white, as paper: a
+          // semi-transparent image (a map's thumbnail) drawn twice where
+          // slices overlap showed a band at every slice.
           Object.assign(slice.style, {
+            backgroundColor: '#ffffff',
             position: 'absolute',
             left: `${x + sx}px`,
             top: `${y}px`,
