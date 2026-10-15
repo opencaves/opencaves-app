@@ -1,4 +1,4 @@
-import { isPhone, loadIonic } from '@/utils/loadIonic.js'
+import { loadIonic, needsIonic } from '@/utils/loadIonic.js'
 /**
  * The map page's code (Mapbox included, ~1.8 MB), loaded when /map is opened
  * rather than by every page - the landing page and the index pages don't
@@ -13,7 +13,8 @@ let prefetched = false
 /**
  * The map's code fetched in the background once the page has loaded and the
  * browser is idle (it competed with the landing page's photo), Ionic with it
- * on phones (the map's sheet; index.jsx only fetches it up front on the map).
+ * on phones while Ionic's sheet is chosen (needsIonic; index.jsx only fetches
+ * it up front on the map).
  */
 export function prefetchMap() {
   if (prefetched) return
@@ -21,7 +22,7 @@ export function prefetchMap() {
   const start = () => {
     loadMap().catch(() => (prefetched = false))
     loadResultPane().catch(() => {})
-    if (isPhone()) loadIonic().catch(() => {})
+    if (needsIonic()) loadIonic().catch(() => {})
   }
   // window as a Window: the type check reads it as never once requestIdleCallback isn't in it.
   const whenIdle = () => ('requestIdleCallback' in window ? window.requestIdleCallback(start, { timeout: 6000 }) : /** @type {Window} */ (window).setTimeout(start, 2000))

@@ -431,7 +431,7 @@ export default function SearchBar() {
 
   return (
     <div className="oc-search-bar" onBlur={onSearchbarBlur}>
-      {/* Over the phone's result sheet (an Ionic modal, stacked far above MUI's). */}
+      {/* Over the phone's result sheet (and Ionic's while ?sheet=ionic is kept: an Ionic modal). */}
       <NavDrawer open={navOpen} onClose={() => setNavOpen(false)} zIndex={30000} />
       <Box
         id="oc-search-bar"

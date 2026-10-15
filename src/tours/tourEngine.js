@@ -15,6 +15,7 @@ import { toServiceLanguage } from '@/utils/lang.js'
 import { track } from '@/utils/track.js'
 import { nextFrame, sleep } from '@/utils/sleep.js'
 import { escapeHtml } from '@/utils/escapeHtml.js'
+import { getPhoneSheet } from '@/components/ResultPane/phoneSheetControl.js'
 
 // How long a step waits for its element by default, in ms.
 const DEFAULT_TIMEOUT = 4000
@@ -369,15 +370,14 @@ export function runTour(tour, { navigate, t, store }) {
     }
   }
 
-  // The phone's result sheet (an Ionic sheet modal: its breakpoints) as a
+  // The phone's result sheet (its snap points, phoneSheetControl.js) as a
   // step wants it, and where it was before, to put it back.
   let sheetBefore = null
-  const sheetModal = () => /** @type {any} */ (document.querySelector('ion-modal.oc-result-pane-sm'))
   async function setSheet(breakpoint) {
-    const modal = sheetModal()
-    if (!modal?.setCurrentBreakpoint) return
-    if (breakpoint !== null) sheetBefore ??= await modal.getCurrentBreakpoint()
-    await modal.setCurrentBreakpoint(breakpoint ?? sheetBefore)
+    const sheet = getPhoneSheet()
+    if (!sheet) return
+    if (breakpoint !== null) sheetBefore ??= await sheet.getCurrentBreakpoint()
+    await sheet.setCurrentBreakpoint(breakpoint ?? sheetBefore)
     if (breakpoint === null) sheetBefore = null
   }
 
@@ -394,7 +394,7 @@ export function runTour(tour, { navigate, t, store }) {
     }
     if (step.sheet && context.phone) {
       // The sheet may still be opening (a cave just navigated to).
-      await waitUntil(() => Boolean(sheetModal()), DEFAULT_TIMEOUT)
+      await waitUntil(() => Boolean(getPhoneSheet()), DEFAULT_TIMEOUT)
       await setSheet(step.sheet)
     }
     if (step.open && !MENUS[step.open].isOpen()) {

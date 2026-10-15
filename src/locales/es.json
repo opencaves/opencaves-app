@@ -1050,6 +1050,10 @@
     },
     "title": "Mapa",
     "caveNameUnknown": "(Cueva sin nombre)",
+    "sheetHandle": {
+      "expand": "Ampliar la ficha",
+      "collapse": "Reducir la ficha"
+    },
     "editFab": {
       "ariaLabel": "Editar datos de la cueva",
       "editCave": "Editar esta cueva",

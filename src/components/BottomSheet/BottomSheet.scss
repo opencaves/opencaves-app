@@ -1,0 +1,61 @@
+// The home-made bottom sheet (BottomSheet.jsx). Sized by CSS - the dynamic
+// viewport height less its top offset - not window.innerHeight, which
+// mobile Chrome's toolbar changes live; moved by its transform only.
+.oc-bottom-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(100dvh - var(--oc-bottom-sheet-top, 0px));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--oc-bottom-sheet-background, var(--mui-palette-background-paper));
+  border-radius: var(--oc-bottom-sheet-border-radius, 1rem 1rem 0 0);
+  // M3's bottom sheet: elevation level 1.
+  box-shadow:
+    0 1px 3px 1px rgb(0 0 0 / 0.15),
+    0 1px 2px rgb(0 0 0 / 0.3);
+  will-change: transform;
+  // Below the top snap point vertical moves drag the sheet (the content
+  // doesn't scroll there); sideways ones still scroll strips and tabs.
+  touch-action: pan-x;
+  // A drag isn't a pull-to-refresh, nor a scroll of the page behind.
+  overscroll-behavior: contain;
+
+  &--top {
+    touch-action: auto;
+  }
+
+  &--content {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  // The drag handle, a button: a 54 x 5px bar in a 24px-tall touch target
+  // (WCAG 2.5.8) - the padding transparent, the background clipped to the
+  // bar, the radius's inner curve keeping its rounded ends.
+  &--handle {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    z-index: 1;
+    width: 54px;
+    height: 24px;
+    padding: 9.5px 0;
+    margin: 0;
+    border: 0;
+    border-radius: 12px;
+    transform: translate(-50%, -50%);
+    background-color: rgb(var(--mui-palette-common-onBackgroundChannel) / 0.24);
+    background-clip: content-box;
+    cursor: grab;
+
+    &:focus-visible {
+      outline: 2px solid var(--mui-palette-primary-main);
+      outline-offset: 2px;
+    }
+  }
+}

@@ -9,7 +9,7 @@ import i18n, { languageReady } from './i18n.js'
 import { loadMatchedLazyRoutes } from './router.jsx'
 import { setHydrating } from '@/ssr/ssrContext.js'
 import HydrationDone from '@/ssr/HydrationDone.jsx'
-import { isPhone, loadIonic } from '@/utils/loadIonic.js'
+import { loadIonic, needsIonic } from '@/utils/loadIonic.js'
 // Drags of the page's own pictures never start the "drop to add" process.
 import '@/utils/externalFileDrag.js'
 import { watchFirestoreFailures } from '@/utils/firestoreRecovery.js'
@@ -18,11 +18,12 @@ import { deferFirebase, loadFirebase } from '@/utils/loadFirebase.js'
 import { analyticsAllowed, applyAnalyticsOptOut } from '@/utils/analytics.js'
 import { track } from '@/utils/track.js'
 
-// Ionic is for phones only (see utils/ionic.js), and only the map uses it:
-// fetched right away when the map is the page opened; other pages get it
-// with the map's prefetch, once they've loaded (prefetchMap) - it was 219 KB
-// competing with every phone page's own code.
-if (isPhone() && /^\/map(\/|$)/.test(window.location.pathname)) {
+// Ionic is for phones only (see utils/ionic.js), only the map uses it, and
+// only while its sheet is chosen over the home-made one (needsIonic,
+// temporary): fetched right away when the map is the page opened; other
+// pages get it with the map's prefetch, once they've loaded (prefetchMap) -
+// it was 219 KB competing with every phone page's own code.
+if (needsIonic() && /^\/map(\/|$)/.test(window.location.pathname)) {
   loadIonic()
 }
 

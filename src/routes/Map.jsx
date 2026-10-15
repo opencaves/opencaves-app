@@ -14,7 +14,7 @@ import ResultPaneOutlet from '@/components/ResultPane/ResultPaneOutlet.jsx'
 import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
 import Dev from '@/components/utils/Dev.jsx'
 import SearchBarMockup from '@/components/SearchBar/SearchBarMockup.jsx'
-import { isPhone, loadIonic } from '@/utils/loadIonic.js'
+import { loadIonic, needsIonic } from '@/utils/loadIonic.js'
 import './Map.scss'
 
 // mapbox-gl/react-map-gl are ~500KB (compressed) on their own and were
@@ -25,8 +25,10 @@ import './Map.scss'
 // the (already-bundled, tiny) spinner below paint immediately instead.
 const Map = lazy(() => import('@/components/Map/Map.jsx'))
 
-// On phones the page sits in Ionic's IonApp (for the result pane's sheet);
-// elsewhere a plain div, so desktop never loads Ionic (see utils/ionic.js).
+// On phones with Ionic's sheet chosen (needsIonic, temporary) the page sits
+// in Ionic's IonApp (for the result pane's IonModal); elsewhere - the
+// home-made sheet, desktop - a plain div, and Ionic is never loaded (see
+// utils/ionic.js).
 const IonApp = lazy(() => loadIonic().then(({ IonApp }) => ({ default: IonApp })))
 
 export default function MapPage() {
@@ -36,7 +38,7 @@ export default function MapPage() {
   const { caveId } = useParams()
   // Decided once, at mount: switching wrappers later (a resized window)
   // would remount the whole map.
-  const [PageRoot] = useState(() => (isPhone() ? IonApp : 'div'))
+  const [PageRoot] = useState(() => (needsIonic() ? IonApp : 'div'))
 
   // Marks a cave's history entry as reached from the bare map (state
   // fromMap), so closing it goes back to that entry instead of adding /map
@@ -57,7 +59,7 @@ export default function MapPage() {
   }, [location, caveId, navigationType, navigate])
 
   return (
-    // While Ionic loads (phones): the loading screen, not a blank page.
+    // While Ionic loads (phones, Ionic's sheet): the loading screen, not a blank page.
     <Suspense
       fallback={
         <>

@@ -491,7 +491,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
 
   // Phone: the layout the offset was measured against is often still moving
   // - the sheet sliding in (or not rendered yet, on a direct load), the
-  // keyboard closing after picking a search result, Ionic's sheet dropping
+  // keyboard closing after picking a search result, the sheet dropping
   // back down with it. Center again each time it settles into a new layout,
   // for a short while; a new centering, the user panning the map or the
   // cave being closed (or another one opened) ends it. Re-centering only

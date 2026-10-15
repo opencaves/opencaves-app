@@ -73,7 +73,7 @@ export function useNavItems() {
  * @param {object} props
  * @param {boolean} props.open
  * @param {() => void} props.onClose
- * @param {number} [props.zIndex] - Over the map page's Ionic sheet (its own, much higher, stacking).
+ * @param {number} [props.zIndex] - Over the map page's phone sheet (Ionic's, while kept: its own, much higher, stacking).
  */
 export default function NavDrawer({ open, onClose, zIndex }) {
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
