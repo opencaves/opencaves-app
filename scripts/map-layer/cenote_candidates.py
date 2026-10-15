@@ -24,7 +24,9 @@ status, the database's match and the distance) at the given path.
 
 Cenotes come from the map's config "entrances" (curated: name, spot on the
 map, optional caveId, and "replacePosition": a reason, when the cave's
-database position is doubtful and the map's should replace it) or, for a scan without such a list, from its OCR'd
+database position is doubtful and the map's should replace it; "note": a
+remark copied to its found-cenotes.json entry, e.g. what an unnamed entrance
+is) or, for a scan without such a list, from its OCR'd
 labels ("CENOTE X", "X CENOTE"), placed at the label: much less accurate.
 
 Usage: python scripts/map-layer/cenote_candidates.py <review.xlsx> <config.json>... [--production]
@@ -208,7 +210,7 @@ def map_candidates(config_path, output_dir):
             found = [{**label, 'position': place(*label['px']), 'placement': 'label'} for label in scan_labels(config, json.loads(words_path.read_text(encoding='utf-8')))]
     return config, [{'name': f['name'], 'caveId': f.get('caveId'), 'longitude': f['position'][0], 'latitude': f['position'][1],
                      'accuracy': round(max(accuracy, LABEL_ON_RASTER) if f.get('atLabel') else accuracy),
-                     'placement': f['placement'], 'map': config.get('title', name), 'replacePosition': f.get('replacePosition'),
+                     'placement': f['placement'], 'map': config.get('title', name), 'replacePosition': f.get('replacePosition'), 'note': f.get('note'),
                      # An entrance only when the map writes it as one, or it's known to be one.
                      'entrance': bool(f.get('written') or f.get('knownEntrance'))} for f in found]
 
@@ -253,7 +255,9 @@ def main(review_path, config_paths, production):
         for c in found:
             spot = (c['latitude'], c['longitude'])
             # Already found on another map of this run: one cenote.
-            same = next((s for s in seen if key(s['name']) == key(c['name']) and distance((s['latitude'], s['longitude']), spot) < SAME_CANDIDATE_METRES), None)
+            # Unnamed entrances never: two unnamed openings close together
+            # (several entries of one cenote) are each a cenote of their own.
+            same = next((s for s in seen if key(c['name']) and key(s['name']) == key(c['name']) and distance((s['latitude'], s['longitude']), spot) < SAME_CANDIDATE_METRES), None)
             if same:
                 same['maps'].append(c['map'])
                 same['entrance'] = same.get('entrance') or c.get('entrance')
@@ -294,7 +298,9 @@ def main(review_path, config_paths, production):
                     # Written as an entrance on a dive survey (or known to be
                     # one): a cenote entrance. A cenote dot alone isn't.
                     'cenoteEntrance': bool(c.get('entrance')),
-                    'placement': c['placement'], 'sourceId': source_id, 'maps': c['maps']}
+                    'placement': c['placement'], 'sourceId': source_id, 'maps': c['maps'],
+                    # The config entrance's "note" (e.g. what an unnamed entrance is), for the import's reviewer.
+                    **({'note': c['note']} if c.get('note') else {})}
             if with_position and with_position[0][0] <= FAR_METRES:
                 d, match = with_position[0]
                 row.update({'Status': 'matched' if d <= max(100, 3 * c['accuracy']) else 'matched, far', 'Database id': match['id'],

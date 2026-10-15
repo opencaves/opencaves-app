@@ -1,0 +1,2324 @@
+{
+  "id": "-P3zSjHZ55UwoZSURVBh",
+  "mapId": "-P3zO_oQF6MMZikQghs3",
+  "mapImportKey": "018b3b2fc4d0253ffe559556e924529ec59f5337",
+  "image": "../../../_data/sagitario/sagitario-la-mina-macdonald-2020.webp",
+  "imageNote": "Fig. 1C cropped from the article (the full figure: _data/sagitario/fig1-full.jpg; the PDF: _data/sagitario/macdonald-2020.pdf)",
+  "title": "Sagitario and La Mina - CINDAQ, MacDonald et al. 2020",
+  "date": "2020",
+  "credits": "Sagitario and La Mina: survey by CINDAQ (Fred Devos, Sam Meacham, Dominique Rissolo). Fig. 1C of B. L. MacDonald et al., \"Paleoindian ochre mines in the submerged caves of the Yucatán Peninsula, Quintana Roo, Mexico\", Science Advances 6, eaba1219 (2020), doi:10.1126/sciadv.aba1219. Licence CC BY-NC 4.0.",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-NvgLCoNeUqSaC9dSu03",
+  "utmEpsg": 32616,
+  "placementWhy": "Similarity fit on three points: the UTM point printed on the map (WGS84 16Q 467258E 2269789N, the map's own georeference, which is also the database's Sagitario position to the metre) at the centre of Sagitario's three openings, and the database's Pu'bix and Kilix Pach-Och (validity unknown, no source) at their entry arrows. Fit: 0.596 m/px (the 250 m scale bar: 415.7 px, 0.601 m/px, 0.9% apart), rotated -0.9 deg (the north arrow is up; UTM grid convergence there is about -0.1 deg); residuals Sagitario 1.0 m, Pu'bix 3.3 m, Kilix Pach-Och 2.3 m. A fit on Pu'bix and Kilix alone puts the printed UTM point between Sagitario's openings (0.601 m/px, 0.0 deg). The Fig. 1D profile (Sagitario to Pu'bix, about 1,310 m along the line) agrees. No ground imagery check was possible: Esri and Mapbox imagery show unbroken canopy (and cloud over Sagitario), and no other placed map is within 5 km. The database's three positions agree with the map within metres, so they likely come from the same CINDAQ survey: placed on the surveyors' printed georeference (user's decision, 2026-10-15).",
+  "controlPoints": [
+    {
+      "caveId": "-NvgRy2mMAPkD_cFVxTg",
+      "name": "Sagitario: the printed UTM point 16Q 467258E 2269789N (= the database position), at the centre of its three entry arrows' tips",
+      "px": [
+        505,
+        328
+      ],
+      "latitude": 20.52661,
+      "longitude": -87.31406
+    },
+    {
+      "caveId": "-Nvh-j3LlPFLdlgyCEbV",
+      "name": "Pu'bix (database), at the tip of the 'Restricted entry' arrow",
+      "px": [
+        1645,
+        597
+      ],
+      "latitude": 20.52504,
+      "longitude": -87.30759
+    },
+    {
+      "caveId": "-Nvh-j7RxUgSWqlYnKyG",
+      "name": "Kilix Pach-Och (database), at the tip of the 'Open Entry' arrow",
+      "px": [
+        2169,
+        631
+      ],
+      "latitude": 20.52486,
+      "longitude": -87.30457
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-NvgRy2mMAPkD_cFVxTg",
+      "name": "Sagitario",
+      "written": true,
+      "px": [
+        562,
+        340
+      ],
+      "note": "'Sagitario - Open Entry': three arrows to three dry-cavern openings; this east one leads to the main line east to La Mina, which the Fig. 1D profile from the Sagitario entrance follows. The database position (the printed UTM point) is the centre of the three openings, about 35 m west."
+    },
+    {
+      "name": "",
+      "written": true,
+      "px": [
+        480,
+        293
+      ],
+      "note": "unnamed entry near Sagitario, MacDonald et al. 2020 Fig. 1C: the north-west of the three 'Open Entry' arrows of Sagitario, to a dry cavern opening onto the flooded passage west"
+    },
+    {
+      "name": "",
+      "written": true,
+      "px": [
+        472,
+        352
+      ],
+      "note": "unnamed entry near Sagitario, MacDonald et al. 2020 Fig. 1C: the south-west of the three 'Open Entry' arrows of Sagitario, to a dry cavern opening onto the flooded cavern west"
+    },
+    {
+      "caveId": "-Nvh-j3LlPFLdlgyCEbV",
+      "name": "Pu'bix",
+      "written": true,
+      "px": [
+        1645,
+        597
+      ],
+      "note": "'Restricted entry' (restricted access, not a restriction)"
+    },
+    {
+      "caveId": "-Nvh-j7RxUgSWqlYnKyG",
+      "name": "Kilix Pach-Och",
+      "written": true,
+      "px": [
+        2169,
+        631
+      ],
+      "note": "'Open Entry'"
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      918,
+      580
+    ],
+    "to": [
+      1334,
+      580
+    ],
+    "metres": 250
+  },
+  "exclude": [
+    {
+      "why": "panel letter C",
+      "box": [
+        0,
+        0,
+        60,
+        45
+      ]
+    },
+    {
+      "why": "figure frame (right and bottom edges)",
+      "box": [
+        2245,
+        0,
+        2258,
+        820
+      ]
+    },
+    {
+      "why": "figure frame (bottom)",
+      "box": [
+        0,
+        805,
+        2258,
+        820
+      ]
+    },
+    {
+      "why": "legend",
+      "box": [
+        38,
+        420,
+        375,
+        800
+      ]
+    },
+    {
+      "why": "printed UTM coordinates (UTM WG84 16Q 467258E 2269789N)",
+      "box": [
+        415,
+        495,
+        540,
+        600
+      ]
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        1005,
+        312,
+        1195,
+        528
+      ]
+    },
+    {
+      "why": "scale bar 250 m",
+      "box": [
+        912,
+        562,
+        1380,
+        640
+      ]
+    },
+    {
+      "why": "label Sagitario",
+      "box": [
+        412,
+        155,
+        635,
+        215
+      ]
+    },
+    {
+      "why": "label Open Entry (Sagitario)",
+      "box": [
+        540,
+        228,
+        692,
+        272
+      ]
+    },
+    {
+      "why": "label La Mina",
+      "box": [
+        1300,
+        50,
+        1505,
+        110
+      ]
+    },
+    {
+      "why": "label Restriction and its pointer (kept as a restriction symbol)",
+      "box": [
+        1078,
+        58,
+        1220,
+        134
+      ]
+    },
+    {
+      "why": "label Pu'bix",
+      "box": [
+        1470,
+        656,
+        1630,
+        715
+      ]
+    },
+    {
+      "why": "label Restricted entry",
+      "box": [
+        1652,
+        508,
+        1786,
+        578
+      ]
+    },
+    {
+      "why": "label Kilix Pach-Och",
+      "box": [
+        1803,
+        635,
+        2162,
+        692
+      ]
+    },
+    {
+      "why": "label Open Entry (Kilix Pach-Och)",
+      "box": [
+        2092,
+        692,
+        2238,
+        730
+      ]
+    },
+    {
+      "why": "Sagitario's north-west entry arrow (its tip kept at the dry cavern)",
+      "box": [
+        488,
+        254,
+        542,
+        298
+      ]
+    },
+    {
+      "why": "Sagitario's south-west entry arrow",
+      "box": [
+        478,
+        300,
+        525,
+        348
+      ]
+    },
+    {
+      "why": "Sagitario's east entry arrow",
+      "box": [
+        530,
+        258,
+        560,
+        333
+      ]
+    },
+    {
+      "why": "Kilix Pach-Och's entry arrow",
+      "box": [
+        2173,
+        630,
+        2238,
+        682
+      ]
+    }
+  ],
+  "trace": {
+    "method": "colour-fill",
+    "why": "Colour figure: submerged cave in blue, flooded cavern in pale blue, dry cavern in pink-beige, the areas of concentrated mining (La Mina) in neutral grey with a red outline; black stipple, boulders and dark wall lines; red overlined depths, blue R restrictions. greyFill + blueWeight: darkness plus the blueness, so the grey mining areas read as passage like the blue ones (paper about 2, blue about 110, grey about 57, pink about 0); inkTopHatPx: only thin strokes are ink, not the grey fill; fillColours for the pink dry caverns.",
+    "water": false,
+    "greyFill": true,
+    "blueWeight": 1,
+    "inkTopHatPx": 9,
+    "inkContrast": 40,
+    "fillOffInk": true,
+    "threshold": 25,
+    "regionThreshold": 20,
+    "weakThreshold": 18,
+    "fillColours": [
+      {
+        "why": "dry cavern (pink-beige) at the entrances (not 'alone': the red depth numbers would read as passage)",
+        "hue": [
+          8,
+          30
+        ],
+        "minSaturation": 22
+      }
+    ],
+    "minBandSqMetres": 20,
+    "minHoleSqMetres": 90,
+    "minHoleWhy": "the red sample-station dots (S1-S20, about 10 px, some in pairs) in the La Mina passages read as holes below 90 m2; the map's pillars are larger",
+    "fillPolygons": [
+      [
+        [
+          1680,
+          645
+        ],
+        [
+          1692,
+          644
+        ],
+        [
+          1696,
+          668
+        ],
+        [
+          1705,
+          688
+        ],
+        [
+          1704,
+          702
+        ],
+        [
+          1696,
+          702
+        ],
+        [
+          1686,
+          686
+        ],
+        [
+          1677,
+          670
+        ]
+      ],
+      [
+        [
+          1680,
+          760
+        ],
+        [
+          1690,
+          760
+        ],
+        [
+          1688,
+          795
+        ],
+        [
+          1681,
+          806
+        ],
+        [
+          1676,
+          795
+        ],
+        [
+          1678,
+          775
+        ]
+      ],
+      [
+        [
+          559,
+          272
+        ],
+        [
+          574,
+          280
+        ],
+        [
+          592,
+          288
+        ],
+        [
+          600,
+          290
+        ],
+        [
+          608,
+          296
+        ],
+        [
+          609,
+          310
+        ],
+        [
+          606,
+          316
+        ],
+        [
+          602,
+          330
+        ],
+        [
+          596,
+          342
+        ],
+        [
+          576,
+          342
+        ],
+        [
+          574,
+          334
+        ],
+        [
+          580,
+          316
+        ],
+        [
+          578,
+          300
+        ],
+        [
+          570,
+          288
+        ]
+      ]
+    ],
+    "fillPolygonsWhy": "Pu'bix's south passage: the narrow dry neck below the dry cavern (past the R) and the blue tail at the 11 m depth, too thin for the fill; the map's walls run on through both (no jump). Sagitario's east opening: the dry slope above its dry floor (stipple and slope hatching, joined to the floor on the map), which the fill misses"
+  },
+  "symbols": {
+    "units": "m",
+    "why": "Legend: overlined red numbers are depths in metres, blue R restrictions, a blue wavy line with an arrowhead the flow. The figure is small (0.6 m/px) and its red digits defeat OCR: every depth was located by its red ink and read by eye on zoomed crops (letters and numbers detection off: 'letters' empty, the OCR's 25 misread numbers dropped with 'fix'); the R's placed by eye. Flow: only the six wavy arrows whose head is legible (four in Sagitario's central room, heading south to south-south-east, two in La Mina's south-west passage); others in La Mina's grey are too small to read. Not kept: the sample stations S1-S20 (red dots) and the figure references (2D, 3A...) with their leaders - the article's, not the cave's; no bones or 'To ...' pointers on the map. Place names: La Mina (the mining section); Sagitario, Pu'bix and Kilix Pach-Och are the entrances.",
+    "letters": {},
+    "templates": {},
+    "fix": [
+      {
+        "px": [
+          1251,
+          148
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1131,
+          189
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1624,
+          320
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1414,
+          325
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          2062,
+          347
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1861,
+          379
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1913,
+          384
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          2024,
+          406
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1854,
+          427
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          489,
+          453
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1604,
+          452
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          38,
+          112
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          200,
+          201
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          331,
+          232
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          270,
+          243
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1758,
+          247
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1406,
+          280
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          416,
+          288
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          144,
+          300
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          252,
+          352
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1752,
+          358
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1643,
+          363
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          584,
+          482
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1910,
+          531
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          646,
+          535
+        ],
+        "value": null
+      }
+    ],
+    "extra": [
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          1576,
+          107
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "value": 15.0,
+        "px": [
+          38,
+          113
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "21",
+        "value": 21.0,
+        "px": [
+          335,
+          145
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "7",
+        "value": 7.0,
+        "px": [
+          903,
+          146
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "8",
+        "value": 8.0,
+        "px": [
+          1562,
+          156
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "20",
+        "value": 20.0,
+        "px": [
+          384,
+          176
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10.0,
+        "px": [
+          1183,
+          185
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "8",
+        "value": 8.0,
+        "px": [
+          980,
+          185
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10.0,
+        "px": [
+          1333,
+          189
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "8",
+        "value": 8.0,
+        "px": [
+          374,
+          196
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          1396,
+          200
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "value": 15.0,
+        "px": [
+          201,
+          202
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10.0,
+        "px": [
+          1231,
+          210
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          1277,
+          220
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "7",
+        "value": 7.0,
+        "px": [
+          1590,
+          217
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "4",
+        "value": 4.0,
+        "px": [
+          379,
+          218
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "19",
+        "value": 19.0,
+        "px": [
+          90,
+          223
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "8",
+        "value": 8.0,
+        "px": [
+          1355,
+          231
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "value": 15.0,
+        "px": [
+          331,
+          231
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "8",
+        "value": 8.0,
+        "px": [
+          1288,
+          235
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "11",
+        "value": 11.0,
+        "px": [
+          889,
+          236
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          958,
+          238
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "21",
+        "value": 21.0,
+        "px": [
+          149,
+          240
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "11",
+        "value": 11.0,
+        "px": [
+          270,
+          241
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10.0,
+        "px": [
+          1758,
+          248
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          1361,
+          256
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "6",
+        "value": 6.0,
+        "px": [
+          365,
+          259
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          1443,
+          272
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "6",
+        "value": 6.0,
+        "px": [
+          859,
+          273
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          1570,
+          279
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10.0,
+        "px": [
+          1407,
+          281
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9.5",
+        "value": 9.5,
+        "px": [
+          1478,
+          288
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10.0,
+        "px": [
+          417,
+          290
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "18",
+        "value": 18.0,
+        "px": [
+          145,
+          300
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "8",
+        "value": 8.0,
+        "px": [
+          1562,
+          307
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "12",
+        "value": 12.0,
+        "px": [
+          939,
+          308
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "16",
+        "value": 16.0,
+        "px": [
+          223,
+          310
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "11",
+        "value": 11.0,
+        "px": [
+          1850,
+          309
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10.0,
+        "px": [
+          1712,
+          314
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9.5",
+        "value": 9.5,
+        "px": [
+          1619,
+          320
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "8",
+        "value": 8.0,
+        "px": [
+          389,
+          326
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          1342,
+          326
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "11",
+        "value": 11.0,
+        "px": [
+          305,
+          327
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "8",
+        "value": 8.0,
+        "px": [
+          1481,
+          337
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10.0,
+        "px": [
+          1848,
+          341
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "3.5",
+        "value": 3.5,
+        "px": [
+          2057,
+          346
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10.0,
+        "px": [
+          1440,
+          345
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "8",
+        "value": 8.0,
+        "px": [
+          774,
+          347
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "14",
+        "value": 14.0,
+        "px": [
+          626,
+          349
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "6",
+        "value": 6.0,
+        "px": [
+          1525,
+          350
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "8.5",
+        "value": 8.5,
+        "px": [
+          2003,
+          353
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "19",
+        "value": 19.0,
+        "px": [
+          252,
+          353
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "5",
+        "value": 5.0,
+        "px": [
+          334,
+          355
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10.0,
+        "px": [
+          1753,
+          359
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10.0,
+        "px": [
+          1961,
+          360
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          1471,
+          366
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "3.5",
+        "value": 3.5,
+        "px": [
+          1638,
+          368
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "6",
+        "value": 6.0,
+        "px": [
+          200,
+          372
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          1813,
+          377
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9.5",
+        "value": 9.5,
+        "px": [
+          1686,
+          380
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          1589,
+          380
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9.5",
+        "value": 9.5,
+        "px": [
+          1856,
+          379
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "7.5",
+        "value": 7.5,
+        "px": [
+          1913,
+          381
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          1401,
+          394
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "8",
+        "value": 8.0,
+        "px": [
+          613,
+          393
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          1514,
+          396
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9.5",
+        "value": 9.5,
+        "px": [
+          1760,
+          398
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "8",
+        "value": 8.0,
+        "px": [
+          2075,
+          401
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "8",
+        "value": 8.0,
+        "px": [
+          1974,
+          406
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9.5",
+        "value": 9.5,
+        "px": [
+          1709,
+          404
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10.0,
+        "px": [
+          2024,
+          408
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "5",
+        "value": 5.0,
+        "px": [
+          1604,
+          410
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10.0,
+        "px": [
+          409,
+          409
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          1446,
+          414
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "4",
+        "value": 4.0,
+        "px": [
+          454,
+          413
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "8",
+        "value": 8.0,
+        "px": [
+          2115,
+          411
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "8",
+        "value": 8.0,
+        "px": [
+          1554,
+          417
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          1913,
+          431
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "8.5",
+        "value": 8.5,
+        "px": [
+          1802,
+          426
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9.5",
+        "value": 9.5,
+        "px": [
+          1849,
+          427
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          1861,
+          434
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          1683,
+          431
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10.0,
+        "px": [
+          1827,
+          435
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "8",
+        "value": 8.0,
+        "px": [
+          550,
+          439
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10.0,
+        "px": [
+          490,
+          452
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          619,
+          452
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          1724,
+          451
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "3.5",
+        "value": 3.5,
+        "px": [
+          2101,
+          465
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "7",
+        "value": 7.0,
+        "px": [
+          2069,
+          464
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "3",
+        "value": 3.0,
+        "px": [
+          2123,
+          463
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          1815,
+          462
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "5",
+        "value": 5.0,
+        "px": [
+          1838,
+          465
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          1996,
+          467
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          1942,
+          479
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "8.5",
+        "value": 8.5,
+        "px": [
+          1653,
+          482
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "2",
+        "value": 2.0,
+        "px": [
+          1788,
+          488
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "5",
+        "value": 5.0,
+        "px": [
+          2073,
+          494
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "6",
+        "value": 6.0,
+        "px": [
+          1591,
+          505
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "3",
+        "value": 3.0,
+        "px": [
+          1653,
+          503
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9.0,
+        "px": [
+          1882,
+          509
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10.0,
+        "px": [
+          1865,
+          519
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "11",
+        "value": 11.0,
+        "px": [
+          1909,
+          532
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "2",
+        "value": 2.0,
+        "px": [
+          1596,
+          537
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10.0,
+        "px": [
+          1791,
+          536
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "5",
+        "value": 5.0,
+        "px": [
+          2080,
+          534
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "12",
+        "value": 12.0,
+        "px": [
+          648,
+          538
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "8",
+        "value": 8.0,
+        "px": [
+          2016,
+          550
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "3",
+        "value": 3.0,
+        "px": [
+          2046,
+          560
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "4",
+        "value": 4.0,
+        "px": [
+          2143,
+          574
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10.0,
+        "px": [
+          710,
+          579
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "6",
+        "value": 6.0,
+        "px": [
+          735,
+          634
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "0.5",
+        "value": 0.5,
+        "px": [
+          1688,
+          720
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "6",
+        "value": 6.0,
+        "px": [
+          1720,
+          746
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "11",
+        "value": 11.0,
+        "px": [
+          1668,
+          793
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "value": 15,
+        "px": [
+          157,
+          420
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "11",
+        "value": 11,
+        "px": [
+          585,
+          484
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "7",
+        "value": 7,
+        "px": [
+          593,
+          519
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "8",
+        "value": 8,
+        "px": [
+          816,
+          101
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "2",
+        "value": 2,
+        "px": [
+          799,
+          297
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "7",
+        "value": 7,
+        "px": [
+          822,
+          207
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "1",
+        "value": 1,
+        "px": [
+          961,
+          297
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9,
+        "px": [
+          1040,
+          201
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "1",
+        "value": 1,
+        "px": [
+          1092,
+          205
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "0.5",
+        "value": 0.5,
+        "px": [
+          1131,
+          189
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "7",
+        "value": 7,
+        "px": [
+          1144,
+          132
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "7",
+        "value": 7,
+        "px": [
+          1300,
+          134
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9,
+        "px": [
+          1310,
+          272
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "5",
+        "value": 5,
+        "px": [
+          800,
+          634
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "3",
+        "value": 3,
+        "px": [
+          849,
+          659
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "7",
+        "value": 7,
+        "px": [
+          1529,
+          65
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "3.5",
+        "value": 3.5,
+        "px": [
+          1604,
+          452
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "9.5",
+        "value": 9.5,
+        "px": [
+          1768,
+          464
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "7",
+        "value": 7,
+        "px": [
+          1840,
+          505
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "3",
+        "value": 3,
+        "px": [
+          2032,
+          324
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          17,
+          95
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          312,
+          134
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          374,
+          147
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          337,
+          194
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          312,
+          210
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          218,
+          354
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          430,
+          394
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          415,
+          435
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          602,
+          345
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          756,
+          640
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          954,
+          110
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          845,
+          241
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          988,
+          266
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          1307,
+          189
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          826,
+          646
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          1737,
+          325
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          1510,
+          355
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          1665,
+          417
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          1724,
+          430
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          1766,
+          451
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          1602,
+          469
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          1825,
+          449
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          1775,
+          497
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          1870,
+          356
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          1930,
+          389
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          2015,
+          339
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          2042,
+          391
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          2011,
+          437
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          2097,
+          426
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          2100,
+          486
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          1984,
+          520
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          2061,
+          595
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          1699,
+          666
+        ],
+        "halfPx": 7
+      },
+      {
+        "type": "restriction",
+        "label": "Restriction",
+        "px": [
+          1129,
+          128
+        ],
+        "why": "the labelled 'Restriction' pointer (blue triangle) between the Sagitario and La Mina sections, on the profile's path (Fig. 1D)"
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          357,
+          357
+        ],
+        "bearing": 175
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          380,
+          353
+        ],
+        "bearing": 150
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          421,
+          362
+        ],
+        "bearing": 180
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          406,
+          384
+        ],
+        "bearing": 155
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          1377,
+          336
+        ],
+        "bearing": 145
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          1351,
+          287
+        ],
+        "bearing": 165
+      },
+      {
+        "type": "place-name",
+        "label": "La Mina",
+        "px": [
+          1400,
+          80
+        ],
+        "why": "the section of concentrated ochre mining (grey), per the article"
+      }
+    ]
+  }
+}
