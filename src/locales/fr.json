@@ -2569,6 +2569,9 @@
     "options": "Options de « {{title}} »",
     "summaryMore": "Plus",
     "summaryLess": "Moins",
+    "paneCount_one": "{{count}} document",
+    "paneCount_other": "{{count}} documents",
+    "paneEmpty": "Aucun pour l'instant : ajoutez le premier",
     "etAl": "et al."
   }
 }

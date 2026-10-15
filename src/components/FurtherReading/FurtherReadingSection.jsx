@@ -1,7 +1,10 @@
 import { Suspense, lazy, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box } from '@mui/material'
+import { Link } from 'react-router-dom'
+import { Box, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
+import ChevronRightRounded from '@mui/icons-material/ChevronRightRounded'
+import MenuBookRounded from '@mui/icons-material/MenuBookRounded'
 import AddButton from '@/components/AddButton.jsx'
 import IndexSection from '@/components/IndexPage/IndexSection.jsx'
 import EmptySectionText from '@/components/IndexPage/EmptySectionText.jsx'
@@ -19,7 +22,9 @@ const DocumentDialog = lazy(() => import('./DocumentDialog.jsx'))
  * (the others are asked to sign in first) opening {@link DocumentDialog}.
  * On a page (`page`): a section of its own (#further-reading), after the
  * maps - shown with nothing yet too, saying so. In the map's pane (`pane`):
- * shown when there's something, or to editors.
+ * one row, its count, opening Further reading's own pane (FurtherReadingPane,
+ * ./reading) - shown when there's something, or to editors. In that pane
+ * (`panel`): the list and Add, the pane giving the title.
  *
  * @param {object} props
  * @param {Cave|null} [props.cave] - A cave's page or pane: the cave (its documents are added to it).
@@ -28,7 +33,7 @@ const DocumentDialog = lazy(() => import('./DocumentDialog.jsx'))
  * @param {Connection[]} props.connections
  * @param {string} props.pagePath - The page's address (reports).
  * @param {CaveDocument[]} [props.pageDocuments] - Every document, from the page that waited for them.
- * @param {'page'|'pane'} [props.variant='page']
+ * @param {'page'|'pane'|'panel'} [props.variant='page']
  */
 export default function FurtherReadingSection({ cave = null, sistemaId, sistemas, connections, pagePath, pageDocuments, variant = 'page' }) {
   const { t } = useTranslation('furtherReading')
@@ -59,15 +64,27 @@ export default function FurtherReadingSection({ cave = null, sistemaId, sistemas
   )
 
   if (variant === 'pane') {
+    // One row: the list would outweigh the rest of the pane (a cave with
+    // fourteen papers). Relative: /map/<id>/reading.
     return (
       <Box component="section" className="oc-details-section oc-further-reading oc-further-reading--pane">
-        <div className="details-container">
-          <h2 className="h2">{t('title')}</h2>
-        </div>
-        <Box sx={{ px: 'var(--oc-pane-padding-inline, 16px)' }}>
-          {list}
-          {isEditor && add}
-        </Box>
+        <ListItemButton component={Link} to="reading" state={{ fromPane: true }} className="oc-further-reading--open" sx={{ px: 'var(--oc-pane-padding-inline, 16px)', py: 1.5 }}>
+          <ListItemIcon sx={{ minWidth: 40, color: 'primary.main' }}>
+            <MenuBookRounded />
+          </ListItemIcon>
+          <ListItemText primary={t('title')} secondary={items.length > 0 ? t('paneCount', { count: items.length }) : t('paneEmpty')} slotProps={{ primary: { sx: { fontWeight: 500 } } }} />
+          <ChevronRightRounded sx={{ color: 'text.secondary' }} />
+        </ListItemButton>
+      </Box>
+    )
+  }
+
+  if (variant === 'panel') {
+    return (
+      <Box className="oc-further-reading oc-further-reading--panel" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        {items.length === 0 && <EmptySectionText>{t('empty')}</EmptySectionText>}
+        {list}
+        {add}
         {dialogs}
       </Box>
     )

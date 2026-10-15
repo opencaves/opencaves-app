@@ -442,7 +442,10 @@ alone.
 ## Further reading
 
 Caves and cave systems have a **Further reading** section (on their pages,
-`#further-reading`, after the maps; in the map's pane when there's some):
+`#further-reading`, after the maps; in the map's pane, one row - shown when
+there's some, or to editors - opening its own pane, `/map/<caveId>/reading`:
+beside the cave's on a computer, full screen on a phone, swapped in as Show
+all's panes):
 papers, survey reports, articles, books and web pages about them. A cave's
 page lists its own, then its system's and those of the systems it joined.
 Each item is a `documents` record - an uploaded PDF (`kind: 'file'`, its file
@@ -477,7 +480,12 @@ pdf-lib, not encrypted, with pages. It takes out what a reader could run or
 open by itself - JavaScript, actions run as it opens or a page shows
 (`/OpenAction`, `/AA`), launch/submit/import actions, embedded files and
 forms - saves the cleaned file in place (same download link, marked
-`ocChecked`), then sets `status: 'ready'` and its `size`. A refused file is
+`ocChecked`), draws its **cover** (its first page, a 240 px WebP at
+`documents/<id>_cover.webp`, by pdf-into-svg and sharp; the list shows it in
+place of the PDF icon, and the form previews it with pdf.js), then sets
+`status: 'ready'`, its `size` and `coverUrl`. PDFs checked before covers
+existed get theirs with `node scripts/document-covers.js -l` (`-p` for
+production; `--dry-run` or `--write`). A refused file is
 deleted and its record says `rejected`, with `rejectReason` (`notPdf`,
 `unreadable`, `encrypted`, `noPages`, `tooLarge`). Until it's ready only its
 uploader (and admins) see it, saying "Checking…" or why it was refused; the

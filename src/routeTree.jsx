@@ -478,6 +478,11 @@ export const routes = [
                 ],
               },
               {
+                // Further reading's own pane, beside the cave's.
+                path: 'reading',
+                lazy: () => import('@/components/FurtherReading/FurtherReadingPane.jsx').then(({ default: Component }) => ({ Component })),
+              },
+              {
                 path: 'sistemas',
                 ...requireEditor(() => import('@/components/SistemaPane/SistemaPane.jsx')),
                 children: [

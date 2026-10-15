@@ -1,5 +1,5 @@
 import { Suspense, lazy, useContext, useEffect, useRef, useState } from 'react'
-import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Outlet, useLocation, useMatch, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector, useStore } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Collapse } from '@mui/material'
@@ -104,8 +104,10 @@ export default function ResultPane() {
   }, [currentCave, t, tApp, isEditingCave])
 
   // Files dragged anywhere over the window, while a cave's details pane is
-  // open: the full-screen drop zone (useWindowFileDrop).
-  const [dropzoneOpen, closeDropzone] = useWindowFileDrop(Boolean(currentCave) && !exiting)
+  // open: the full-screen drop zone (useWindowFileDrop) - not with Further
+  // reading's pane open, whose form takes a dropped PDF.
+  const readingOpen = Boolean(useMatch('/map/:caveId/reading'))
+  const [dropzoneOpen, closeDropzone] = useWindowFileDrop(Boolean(currentCave) && !exiting && !readingOpen)
 
   if (currentCave) {
     // Guard against rendering, even briefly, before the redirect effect
