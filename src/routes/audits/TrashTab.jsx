@@ -79,7 +79,7 @@ function TrashCard({ item, selected, onToggle, disabled, accountLabel }) {
         <Typography variant="caption" color="text.secondary" component="div">
           <When value={item.deletedAt} />
         </Typography>
-        <PersonLabel uid={item.deletedBy} accountLabel={accountLabel} sx={{ mt: 0.25, maxWidth: '100%' }} />
+        <PersonLabel uid={item.deletedBy} accountLabel={accountLabel} hideId sx={{ mt: 0.25, maxWidth: '100%' }} />
       </Box>
     </Box>
   )

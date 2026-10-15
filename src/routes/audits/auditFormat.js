@@ -9,37 +9,6 @@ export function formatFullDate(date, language) {
   return date ? new Intl.DateTimeFormat(language, { dateStyle: 'medium', timeStyle: 'short' }).format(date) : ''
 }
 
-/** @type {[Intl.RelativeTimeFormatUnit, number][]} */
-const RELATIVE_UNITS = [
-  ['year', 365 * 24 * 3600],
-  ['month', 30 * 24 * 3600],
-  ['week', 7 * 24 * 3600],
-  ['day', 24 * 3600],
-  ['hour', 3600],
-  ['minute', 60],
-  ['second', 1],
-]
-
-/**
- * "5 minutes ago", "yesterday"…
- *
- * @param {Date} date
- * @param {string} language
- * @param {number} [now=Date.now()]
- * @returns {string}
- */
-export function formatRelative(date, language, now = Date.now()) {
-  if (!date) return ''
-  const seconds = Math.round((date.getTime() - now) / 1000)
-  const format = new Intl.RelativeTimeFormat(language, { numeric: 'auto' })
-  for (const [unit, size] of RELATIVE_UNITS) {
-    if (Math.abs(seconds) >= size || unit === 'second') {
-      return format.format(Math.round(seconds / size), unit)
-    }
-  }
-  return ''
-}
-
 /**
  * A value of a record, for display: { absent: true } when the field wasn't
  * there, else its text and whether it's code-like (JSON) or plain text.
