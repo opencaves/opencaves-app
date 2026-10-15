@@ -24,8 +24,9 @@ const CONTENT = {
       { icon: '✅', title: 'Still accurate?', text: 'At the foot of each part of a cave’s page, confirm that what it says is still true.' },
       { icon: '🔔', title: 'What changed?', text: 'Next to that button, say that a cave’s access, fees or road changed. The team checks it and updates the cave.' },
     ],
+    open: 'Open OpenCaves',
     startHere: 'Not sure where to start? What can I do? lists the caves that need help most.',
-    button: 'What can I do?',
+    whatCanIDo: 'What can I do?',
     newTitle: 'What’s new since the beta began',
     news: [
       { icon: '🗺️', title: 'A page for every cave and cave system', text: 'With photos, videos and survey maps, and the caves nearby.' },
@@ -56,8 +57,9 @@ const CONTENT = {
       { icon: '✅', title: 'Toujours exact ?', text: 'Au pied de chaque partie de la page d’une grotte, confirmez que ce qu’elle dit est encore vrai.' },
       { icon: '🔔', title: 'Qu’est-ce qui a changé ?', text: 'À côté de ce bouton, signalez que l’accès, les frais ou la route d’une grotte ont changé. L’équipe vérifie et met la grotte à jour.' },
     ],
+    open: 'Ouvrir OpenCaves',
     startHere: 'Vous ne savez pas par où commencer ? Que puis-je faire ? liste les grottes qui ont le plus besoin d’aide.',
-    button: 'Que puis-je faire ?',
+    whatCanIDo: 'Que puis-je faire ?',
     newTitle: 'Les nouveautés depuis le début de la bêta',
     news: [
       { icon: '🗺️', title: 'Une page pour chaque grotte et chaque réseau', text: 'Avec ses photos, ses vidéos et ses cartes, et les grottes voisines.' },
@@ -88,8 +90,9 @@ const CONTENT = {
       { icon: '✅', title: '¿Sigue correcto?', text: 'Al pie de cada parte de la página de una cueva, confirma que lo que dice sigue siendo cierto.' },
       { icon: '🔔', title: '¿Qué cambió?', text: 'Junto a ese botón, avisa que el acceso, los costos o el camino de una cueva cambiaron. El equipo lo revisa y actualiza la cueva.' },
     ],
+    open: 'Abrir OpenCaves',
     startHere: '¿No sabes por dónde empezar? ¿Qué puedo hacer? muestra las cuevas que más necesitan ayuda.',
-    button: '¿Qué puedo hacer?',
+    whatCanIDo: '¿Qué puedo hacer?',
     newTitle: 'Lo nuevo desde que empezó la beta',
     news: [
       { icon: '🗺️', title: 'Una página para cada cueva y cada sistema', text: 'Con fotos, videos y mapas, y las cuevas cercanas.' },
@@ -130,9 +133,11 @@ export function renderRelease10({ language = 'en', name, unsubscribeUrl }) {
     blocks: [
       { type: 'p', text: c.greeting(name) },
       { type: 'p', text: c.intro },
+      // The email's one primary action: the site.
+      { type: 'button', label: c.open, href: SITE_URL, centered: true },
       { type: 'cards', title: c.contributeTitle, items: c.contribute },
       { type: 'p', text: c.startHere },
-      { type: 'button', label: c.button, href: WHAT_CAN_I_DO },
+      { type: 'button', label: c.whatCanIDo, href: WHAT_CAN_I_DO, outlined: true, centered: true },
       { type: 'notes', title: c.newTitle, items: c.news },
       { type: 'p', text: c.reply },
       { type: 'signoff', lines: c.signoff },

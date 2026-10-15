@@ -28,9 +28,15 @@ const plain = (value) => String(value ?? '').replace(/\*\*(.+?)\*\*/g, '$1')
 const H2 = `margin:0 0 6px;font-size:20px;line-height:28px;font-weight:600;color:${C.text};`
 const P = `margin:0 0 16px;font-size:16px;line-height:25px;color:${C.text};`
 
-function button({ label, href }) {
-  return `<table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin:8px 0 24px;"><tr><td style="border-radius:24px;background:${C.primary};">
-<a href="${escapeHtml(href)}" style="display:inline-block;padding:13px 28px;font-family:${FONT};font-size:16px;font-weight:600;line-height:20px;color:#ffffff;text-decoration:none;border-radius:24px;">${escapeHtml(label)}</a>
+// A filled button, or `outlined`: the primary colour's outline and text on
+// the white card (the same size: the outline takes 2px of the padding).
+// `centered`: in the middle of the card, else on its left.
+function button({ label, href, outlined = false, centered = false }) {
+  const cell = outlined ? `border:2px solid ${C.primary};` : `background:${C.primary};`
+  const color = outlined ? C.primary : '#ffffff'
+  const padding = outlined ? '11px 26px' : '13px 28px'
+  return `<table role="presentation"${centered ? ' align="center"' : ''} cellspacing="0" cellpadding="0" border="0" style="margin:${centered ? '8px auto 24px' : '8px 0 24px'};"><tr><td style="border-radius:24px;${cell}">
+<a href="${escapeHtml(href)}" style="display:inline-block;padding:${padding};font-family:${FONT};font-size:16px;font-weight:600;line-height:20px;color:${color};text-decoration:none;border-radius:24px;">${escapeHtml(label)}</a>
 </td></tr></table>`
 }
 
