@@ -2,7 +2,7 @@ import { Suspense, lazy, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Link, useMatch } from 'react-router-dom'
-import { Box, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
+import { Box, Divider, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import ChevronRightRounded from '@mui/icons-material/ChevronRightRounded'
 import MenuBookRounded from '@mui/icons-material/MenuBookRounded'
 import AddButton from '@/components/AddButton.jsx'
@@ -106,6 +106,8 @@ export default function FurtherReadingSection({ cave = null, sistemaId, sistemas
       <Box className="oc-further-reading oc-further-reading--panel" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         {items.length === 0 && <EmptySectionText>{t('empty')}</EmptySectionText>}
         {list}
+        {/* Add apart from the list, as its items are from each other. */}
+        {items.length > 0 && <Divider sx={(theme) => ({ borderColor: theme.vars.sys.color.outlineVariant })} />}
         {add}
         {dialogs}
       </Box>
