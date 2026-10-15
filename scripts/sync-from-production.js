@@ -28,7 +28,9 @@
 // --write first copies the whole emulator data folder (.emulator-data, the
 // autosave's) to _data/backups/local-<date>/, pauses the emulators'
 // background functions (so the copy isn't logged as edits, and deleting a
-// photo's record doesn't delete its files), copies, then turns them back on.
+// photo's record doesn't delete its files), copies, then turns them back on,
+// and records when it read production (_data/sync-from-production.json:
+// push-to-production.js pushes the local edits made since).
 // Run it with the emulators up (`npm run dev`), after
 // `gcloud auth application-default login`.
 import { cpSync, existsSync, mkdirSync, writeFileSync } from 'node:fs'
@@ -54,6 +56,7 @@ const EMULATOR_HUB = process.env.FIREBASE_EMULATOR_HUB || '127.0.0.1:4400'
 const ROOT = path.resolve(import.meta.dirname, '..')
 const EMULATOR_DATA = path.join(ROOT, '.emulator-data')
 const BACKUPS = path.join(ROOT, '_data/backups')
+const SYNC_MARKER = path.join(ROOT, '_data/sync-from-production.json')
 
 // SYNC_ACCOUNTS (.env): local accounts paired with production's by email,
 // "local@example.org=production@example.org,..." (as sync-to-production.js
@@ -169,6 +172,9 @@ async function inPool(items, size, task) {
   return results
 }
 
+// Production as read from now on: the edits pushed later are those after it.
+const startedAt = new Date()
+
 // --- Firestore
 const collections = (await production.listCollections()).map((c) => c.id).filter((id) => !SKIP.includes(id))
 const localOnlyCollections = (await local.listCollections()).map((c) => c.id).filter((id) => !SKIP.includes(id) && !collections.includes(id))
@@ -283,6 +289,9 @@ if (argv.write) {
     }
     for (const file of filePlan.deletes) await fetch(`${LOCAL_STORAGE}/${encodeURIComponent(file.name)}`, { method: 'DELETE' })
     console.log(`deleted: ${Object.values(plan).reduce((n, p) => n + p.deletes.length, 0)} documents, ${filePlan.deletes.length} files`)
+    // When the local data was last production's: push-to-production.js
+    // pushes the local edits made since.
+    writeFileSync(SYNC_MARKER, JSON.stringify({ at: startedAt.toISOString() }, null, 2))
   } finally {
     await backgroundTriggers(true)
   }
