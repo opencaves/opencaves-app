@@ -141,8 +141,8 @@
   },
   {
    "name": "",
-   "latitude": 20.526476,
-   "longitude": -87.314257,
+   "latitude": 20.526434,
+   "longitude": -87.314355,
    "accuracy": 10,
    "validity": "unknown",
    "cenoteEntrance": true,
@@ -151,7 +151,7 @@
    "maps": [
     "Sagitario and La Mina - CINDAQ, MacDonald et al. 2020"
    ],
-   "note": "unnamed entry near Sagitario, MacDonald et al. 2020 Fig. 1C: the south-west of the three 'Open Entry' arrows of Sagitario, to a dry cavern opening onto the flooded cavern west",
+   "note": "unnamed entry near Sagitario, MacDonald et al. 2020 Fig. 1C: the south-west of the three 'Open Entry' arrows of Sagitario, placed on the dry cavern the arrow points to (its tip is in white space at 472,352), opening onto the flooded cavern west",
    "languageCode": "spa",
    "sistemaId": "-NvgLCoNeUqSaC9dSu03",
    "sistemaName": "Sagitario",
