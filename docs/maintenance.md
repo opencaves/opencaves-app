@@ -447,10 +447,14 @@ papers, survey reports, articles, books and web pages about them. A cave's
 page lists its own, then its system's and those of the systems it joined.
 Each item is a `documents` record - an uploaded PDF (`kind: 'file'`, its file
 at `documents/<id>.pdf`) or a link (`kind: 'link'`) - with its title,
-authors, year, language, description and DOI; a PDF also says where it
+authors, year, language, summary and DOI; a PDF also says where it
 appeared (`publishedIn`: a journal, a book, a website), a link shows its
 site's domain instead. Caves and systems list theirs in `documents` (and
 their order in `documentOrder`); one record can be listed by several.
+The summary (`summary`, 3000 characters at most: a paper's in our own
+words, not its abstract) shows three lines, then More; documents saved
+before it have a `description` instead, shown the same and moved to
+`summary` the next time they're edited.
 
 Every editor adds them from the section's **Add reading** (a dialog: Upload a
 PDF, 20 MB at most, confirming they may share it, or Paste a link). The form
@@ -486,6 +490,18 @@ Trash), where **Delete permanently** (`emptyTrash`) removes the record, its
 file, and its id from every cave and system listing it. Their changes are in
 the audit log, can be undone, and show in What's new (a PDF once it's ready).
 The sync scripts carry the collection and the `documents/` files.
+
+**Adding many at once.** `node scripts/documents-import.js` adds a reviewed
+list (`--file`, `_data/papers/papers.json` by default: title, authors, year,
+language, a link's `url` or a PDF's `file` and `publishedIn`, DOI, summary,
+and the caves or systems in `holders`) the way the form does - records, PDFs
+uploaded for `onDocumentUploaded` to check, ids added to each cave's or
+system's `documents` with an `arrayUnion` (nothing else of the record is
+written) - credited to an account (`--as <email>`), with `--dry-run` or
+`--write`. In production (`-p`) it writes their audit log entries itself
+(the trigger doesn't log the Admin SDK there), so they show in What's new
+and can be undone. A rerun skips a document whose DOI or link is already
+there, and adds it to any record a stopped run left it off.
 
 ## Error reports
 
