@@ -783,7 +783,7 @@
         "photo": "Signaler cette photo",
         "map": "Signaler cette carte",
         "video": "Signaler cette vidéo",
-        "document": "Signaler cette lecture"
+        "document": "Signaler ce document"
       },
       "linkCopied": "Lien copié.",
       "shareFail": "Impossible de partager le lien.",
@@ -1453,7 +1453,7 @@
       "colors": "Couleurs",
       "languages": "Langues",
       "_users": "Comptes",
-      "documents": "Pour en savoir plus"
+      "documents": "Documents"
     },
     "state": {
       "undone": "Défaite",
@@ -1563,8 +1563,8 @@
       "deleteTitle_other": "Supprimer {{count}} éléments définitivement ?",
       "deleteConfirm_one": "Cet élément et ses fichiers seront supprimés pour de bon. Cette action est irréversible.",
       "deleteConfirm_other": "Ces {{count}} éléments et leurs fichiers seront supprimés pour de bon. Cette action est irréversible.",
-      "documents_one": "Lectures ({{count}})",
-      "documents_other": "Lectures ({{count}})"
+      "documents_one": "Documents ({{count}})",
+      "documents_other": "Documents ({{count}})"
     }
   },
   "indexPages": {
@@ -1680,7 +1680,7 @@
       "removed": "Retraits",
       "kindsLabel": "Contenu",
       "changesLabel": "Changement",
-      "documents": "Lectures"
+      "documents": "Documents"
     },
     "kinds": {
       "caves": "Grotte",
@@ -1689,7 +1689,7 @@
       "maps": "Topographie",
       "photos": "Photos",
       "videos": "Vidéos",
-      "documents": "Lecture"
+      "documents": "Document"
     },
     "inSistema": "dans {{name}}",
     "mapOf": "carte de {{name}}",
@@ -1761,7 +1761,7 @@
       "reviewed": "confirmation d'exactitude",
       "documentOrder": "ordre des lectures"
     },
-    "untitledDocument": "Lecture sans titre",
+    "untitledDocument": "Document sans titre",
     "documentAbout": "sur {{name}}"
   },
   "feedback": {
@@ -2136,7 +2136,7 @@
       "text": "Créez un compte gratuit pour signaler un changement sur une grotte, afin que l'équipe d'OpenCaves le vérifie."
     },
     "documents": {
-      "title": "Ajouter une lecture",
+      "title": "Ajouter un document",
       "text": "Créez un compte gratuit pour ajouter des articles, des rapports et des liens sur les grottes et les réseaux."
     }
   },
@@ -2498,10 +2498,10 @@
   },
   "furtherReading": {
     "title": "Pour en savoir plus",
-    "empty": "Aucune lecture pour l'instant.",
-    "addButton": "Ajouter une lecture",
-    "addTitle": "Ajouter une lecture",
-    "editTitle": "Modifier la lecture",
+    "empty": "Aucun document pour l'instant.",
+    "addButton": "Ajouter un document",
+    "addTitle": "Ajouter un document",
+    "editTitle": "Modifier le document",
     "tabs": {
       "file": "Téléverser un PDF",
       "link": "Coller un lien"
@@ -2542,16 +2542,16 @@
     "cancel": "Annuler",
     "save": "Enregistrer",
     "add": "Ajouter",
-    "saved": "Lecture enregistrée.",
+    "saved": "Document enregistré.",
     "added": "Ajoutée à Pour en savoir plus.",
     "uploaded": "PDF envoyé : il s'affichera une fois vérifié.",
     "edit": "Modifier",
     "trash": "Supprimer",
     "remove": "Retirer",
-    "trashTitle": "Supprimer cette lecture ?",
+    "trashTitle": "Supprimer ce document ?",
     "trashConfirm": "« {{title}} » va à la corbeille et disparaît de chaque grotte et réseau qui l'affiche. Un admin peut la restaurer depuis Audits > Corbeille.",
-    "trashed": "Lecture mise à la corbeille.",
-    "trashFailed": "Impossible de supprimer la lecture.",
+    "trashed": "Document mis à la corbeille.",
+    "trashFailed": "Impossible de supprimer le document.",
     "removed": "Fichier retiré.",
     "removeFailed": "Impossible de retirer le fichier.",
     "checking": "Vérification…",

@@ -784,7 +784,7 @@
         "photo": "Reportar esta foto",
         "map": "Reportar esta topografía",
         "video": "Reportar este video",
-        "document": "Reportar esta lectura"
+        "document": "Reportar este documento"
       },
       "linkCopied": "Enlace copiado.",
       "shareFail": "No se pudo compartir el enlace.",
@@ -1454,7 +1454,7 @@
       "colors": "Colores",
       "languages": "Idiomas",
       "_users": "Cuentas",
-      "documents": "Lecturas recomendadas"
+      "documents": "Documentos"
     },
     "state": {
       "undone": "Deshecho",
@@ -1564,8 +1564,8 @@
       "deleteTitle_other": "¿Eliminar {{count}} elementos definitivamente?",
       "deleteConfirm_one": "Este elemento y sus archivos se eliminarán para siempre. Esta acción no se puede deshacer.",
       "deleteConfirm_other": "Estos {{count}} elementos y sus archivos se eliminarán para siempre. Esta acción no se puede deshacer.",
-      "documents_one": "Lecturas ({{count}})",
-      "documents_other": "Lecturas ({{count}})"
+      "documents_one": "Documentos ({{count}})",
+      "documents_other": "Documentos ({{count}})"
     }
   },
   "indexPages": {
@@ -1681,7 +1681,7 @@
       "removed": "Retirados",
       "kindsLabel": "Contenido",
       "changesLabel": "Cambio",
-      "documents": "Lecturas"
+      "documents": "Documentos"
     },
     "kinds": {
       "caves": "Cueva",
@@ -1690,7 +1690,7 @@
       "maps": "Topografía",
       "photos": "Fotos",
       "videos": "Videos",
-      "documents": "Lectura"
+      "documents": "Documento"
     },
     "inSistema": "en {{name}}",
     "mapOf": "mapa de {{name}}",
@@ -1760,9 +1760,9 @@
       "mapOrder": "orden de las topografías",
       "videoOrder": "orden de los videos",
       "reviewed": "confirmación de exactitud",
-      "documentOrder": "orden de las lecturas"
+      "documentOrder": "orden de los documentos"
     },
-    "untitledDocument": "Lectura sin título",
+    "untitledDocument": "Documento sin título",
     "documentAbout": "sobre {{name}}"
   },
   "feedback": {
@@ -2137,7 +2137,7 @@
       "text": "Crea una cuenta gratis para reportar un cambio en una cueva, para que el equipo de OpenCaves lo revise."
     },
     "documents": {
-      "title": "Añadir una lectura",
+      "title": "Añadir un documento",
       "text": "Crea una cuenta gratuita para añadir artículos, informes y enlaces sobre cuevas y sistemas."
     }
   },
@@ -2499,10 +2499,10 @@
   },
   "furtherReading": {
     "title": "Lecturas recomendadas",
-    "empty": "Todavía no hay lecturas.",
-    "addButton": "Añadir una lectura",
-    "addTitle": "Añadir una lectura",
-    "editTitle": "Editar la lectura",
+    "empty": "Todavía no hay documentos.",
+    "addButton": "Añadir un documento",
+    "addTitle": "Añadir un documento",
+    "editTitle": "Editar el documento",
     "tabs": {
       "file": "Subir un PDF",
       "link": "Pegar un enlace"
@@ -2543,16 +2543,16 @@
     "cancel": "Cancelar",
     "save": "Guardar",
     "add": "Añadir",
-    "saved": "Lectura guardada.",
-    "added": "Añadida a Lecturas recomendadas.",
+    "saved": "Documento guardado.",
+    "added": "Añadido a Lecturas recomendadas.",
     "uploaded": "PDF subido: se mostrará una vez revisado.",
     "edit": "Editar",
     "trash": "Eliminar",
     "remove": "Quitar",
-    "trashTitle": "¿Eliminar esta lectura?",
+    "trashTitle": "¿Eliminar este documento?",
     "trashConfirm": "«{{title}}» va a la papelera y desaparece de cada cueva y sistema que la muestra. Un admin puede restaurarla desde Auditorías > Papelera.",
-    "trashed": "Lectura movida a la papelera.",
-    "trashFailed": "No se pudo eliminar la lectura.",
+    "trashed": "Documento movido a la papelera.",
+    "trashFailed": "No se pudo eliminar el documento.",
     "removed": "Archivo quitado.",
     "removeFailed": "No se pudo quitar el archivo.",
     "checking": "Revisando…",

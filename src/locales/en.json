@@ -784,7 +784,7 @@
         "photo": "Report this photo",
         "map": "Report this map",
         "video": "Report this video",
-        "document": "Report this reading"
+        "document": "Report this document"
       },
       "linkCopied": "Link copied.",
       "shareFail": "Couldn't share the link.",
@@ -1454,7 +1454,7 @@
       "colors": "Colors",
       "languages": "Languages",
       "_users": "Accounts",
-      "documents": "Further reading"
+      "documents": "Documents"
     },
     "state": {
       "undone": "Undone",
@@ -1564,8 +1564,8 @@
       "deleteTitle_other": "Delete {{count}} items permanently?",
       "deleteConfirm_one": "This item and its files will be deleted for good. This cannot be undone.",
       "deleteConfirm_other": "These {{count}} items and their files will be deleted for good. This cannot be undone.",
-      "documents_one": "Further reading ({{count}})",
-      "documents_other": "Further reading ({{count}})"
+      "documents_one": "Documents ({{count}})",
+      "documents_other": "Documents ({{count}})"
     }
   },
   "indexPages": {
@@ -1681,7 +1681,7 @@
       "removed": "Removed",
       "kindsLabel": "Content",
       "changesLabel": "Change",
-      "documents": "Further reading"
+      "documents": "Documents"
     },
     "kinds": {
       "caves": "Cave",
@@ -1690,7 +1690,7 @@
       "maps": "Survey map",
       "photos": "Photos",
       "videos": "Videos",
-      "documents": "Further reading"
+      "documents": "Document"
     },
     "inSistema": "in {{name}}",
     "mapOf": "map of {{name}}",
@@ -1760,9 +1760,9 @@
       "mapOrder": "map order",
       "videoOrder": "video order",
       "reviewed": "confirmed still accurate",
-      "documentOrder": "further reading order"
+      "documentOrder": "document order"
     },
-    "untitledDocument": "Untitled reading",
+    "untitledDocument": "Untitled document",
     "documentAbout": "about {{name}}"
   },
   "feedback": {
@@ -2137,7 +2137,7 @@
       "text": "Create a free account to report a change on a cave, so the OpenCaves team can check it."
     },
     "documents": {
-      "title": "Add further reading",
+      "title": "Add a document",
       "text": "Create a free account to add papers, reports and links about caves and cave systems."
     }
   },
@@ -2499,10 +2499,10 @@
   },
   "furtherReading": {
     "title": "Further reading",
-    "empty": "No reading yet.",
-    "addButton": "Add reading",
-    "addTitle": "Add further reading",
-    "editTitle": "Edit reading",
+    "empty": "No document yet.",
+    "addButton": "Add a document",
+    "addTitle": "Add a document",
+    "editTitle": "Edit the document",
     "tabs": {
       "file": "Upload a PDF",
       "link": "Paste a link"
@@ -2543,16 +2543,16 @@
     "cancel": "Cancel",
     "save": "Save",
     "add": "Add",
-    "saved": "Reading saved.",
+    "saved": "Document saved.",
     "added": "Added to Further reading.",
     "uploaded": "PDF uploaded: it shows once checked.",
     "edit": "Edit",
     "trash": "Delete",
     "remove": "Remove",
-    "trashTitle": "Delete this reading?",
+    "trashTitle": "Delete this document?",
     "trashConfirm": "\"{{title}}\" goes to the trash and disappears from every cave and system that shows it. An admin can restore it from Audits > Trash.",
-    "trashed": "Reading moved to the trash.",
-    "trashFailed": "Couldn't delete the reading.",
+    "trashed": "Document moved to the trash.",
+    "trashFailed": "Couldn't delete the document.",
     "removed": "File removed.",
     "removeFailed": "Couldn't remove the file.",
     "checking": "Checking…",
