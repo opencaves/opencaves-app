@@ -1,6 +1,6 @@
-import { randomBytes } from 'node:crypto'
 import { db } from '../init.js'
 import { FEEDBACK_PRIVATE_COLL_NAME, FEEDBACK_REPLY_DOMAIN, FEEDBACK_REPLY_TO } from '../constants.js'
+import { randomToken } from '../email/unsubscribeUrl.js'
 
 // A report's reply addresses, at FEEDBACK_REPLY_DOMAIN (feedbackInbound adds
 // what comes in to its thread): <token>@ on its author's emails, taken from
@@ -13,13 +13,7 @@ export const TEAM_ADDRESS_PREFIX = 'team-'
 // lowercase letters and digits - unguessable, and safe from mail servers that
 // lowercase addresses (push ids are case-sensitive). `length`: other tokens
 // (an account's unsubscribe token, email/unsubscribe.js) are longer.
-const TOKEN_ALPHABET = 'abcdefghijklmnopqrstuvwxyz0123456789'
-export function newReplyToken(length = 24) {
-  // 252 = 7 × 36: bytes above it are skipped, so every character is as likely.
-  let token = ''
-  while (token.length < length) for (const byte of randomBytes(32)) if (byte < 252 && token.length < length) token += TOKEN_ALPHABET[byte % 36]
-  return token
-}
+export const newReplyToken = randomToken
 
 // The report's token, created (by the server only) the first time one of its
 // emails needs it - kept in its _feedbackPrivate doc (admins only: every

@@ -53,3 +53,38 @@ export const UNSUBSCRIBE_PAGE_CONTENT = {
     errorText: 'No se pudo guardar tu elección. Inténtalo más tarde, o desactiva los correos sobre tus comentarios en la configuración de tu cuenta.',
   },
 }
+
+// The news emails' page (&list=news): the texts that differ from the
+// feedback emails' (UNSUBSCRIBE_PAGE_CONTENT), which it takes the rest from.
+export const NEWS_UNSUBSCRIBE_PAGE_CONTENT = {
+  en: {
+    confirmTitle: 'Stop news emails?',
+    confirmHeading: 'Stop the news emails?',
+    confirmText: 'You won’t get news from OpenCaves by email anymore - new versions and ways to help. The team’s replies to your feedback aren’t affected, and you can turn the news back on in your account settings.',
+    heading: 'You won’t get news emails anymore',
+    text: 'News from OpenCaves won’t be emailed to you. The team’s replies to your feedback aren’t affected.',
+    settings: 'You can turn the news back on in your account settings.',
+    invalidText: 'It may be incomplete or outdated. You can turn the news emails off in your account settings.',
+    errorText: 'Your choice couldn’t be saved. Please try again later, or turn the news emails off in your account settings.',
+  },
+  fr: {
+    confirmTitle: 'Arrêter les nouvelles ?',
+    confirmHeading: 'Arrêter les nouvelles par courriel ?',
+    confirmText: 'Vous ne recevrez plus les nouvelles d’OpenCaves par courriel - nouvelles versions et façons d’aider. Les réponses de l’équipe à vos commentaires ne changent pas, et vous pourrez réactiver les nouvelles dans les paramètres de votre compte.',
+    heading: 'Vous ne recevrez plus de nouvelles par courriel',
+    text: 'Les nouvelles d’OpenCaves ne vous seront plus envoyées par courriel. Les réponses de l’équipe à vos commentaires ne changent pas.',
+    settings: 'Vous pouvez réactiver les nouvelles dans les paramètres de votre compte.',
+    invalidText: 'Il est peut-être incomplet ou périmé. Vous pouvez désactiver les nouvelles par courriel dans les paramètres de votre compte.',
+    errorText: 'Votre choix n’a pas pu être enregistré. Réessayez plus tard, ou désactivez les nouvelles par courriel dans les paramètres de votre compte.',
+  },
+  es: {
+    confirmTitle: '¿Dejar de recibir noticias?',
+    confirmHeading: '¿Dejar de recibir noticias por correo?',
+    confirmText: 'Ya no recibirás por correo las noticias de OpenCaves: nuevas versiones y formas de ayudar. Las respuestas del equipo a tus comentarios no cambian, y podrás volver a activar las noticias en la configuración de tu cuenta.',
+    heading: 'Ya no recibirás noticias por correo',
+    text: 'Las noticias de OpenCaves ya no te llegarán por correo. Las respuestas del equipo a tus comentarios no cambian.',
+    settings: 'Puedes volver a activar las noticias en la configuración de tu cuenta.',
+    invalidText: 'Puede que esté incompleto o vencido. Puedes desactivar las noticias por correo en la configuración de tu cuenta.',
+    errorText: 'No se pudo guardar tu elección. Inténtalo más tarde, o desactiva las noticias por correo en la configuración de tu cuenta.',
+  },
+}

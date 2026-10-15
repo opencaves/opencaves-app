@@ -439,12 +439,13 @@ service cloud.firestore {
 
     // An account's own document (created at sign-up by the beforeUserCreated
     // blocking function, with email and savedPlaces). The person may only
-    // change their UI language, units, display mode and whether the team's
-    // replies to their feedback are emailed to them in it (the account page's
-    // settings; language and units absent for Automatic, feedbackEmails
-    // absent for yes) - the other fields stay server-managed, among them
-    // unsubscribeToken (the emails' unsubscribe link, email/unsubscribe.js),
-    // which the owner may read but never write.
+    // change their UI language, units, display mode and which emails they get
+    // in it - the team's replies to their feedback, news from OpenCaves (the
+    // account page's settings; language and units absent for Automatic,
+    // feedbackEmails and newsEmails absent for yes) - the other fields stay
+    // server-managed, among them unsubscribeToken (the emails' unsubscribe
+    // link, email/unsubscribe.js), which the owner may read but never write,
+    // and newsSent (the news emails sent, scripts/send-news.js).
     match /_users/{uid} {
       function isAccountOwner() {
         return request.auth != null && request.auth.uid == uid
@@ -463,11 +464,14 @@ service cloud.firestore {
       function hasValidFeedbackEmails() {
         return !('feedbackEmails' in request.resource.data) || request.resource.data.feedbackEmails is bool
       }
+      function hasValidNewsEmails() {
+        return !('newsEmails' in request.resource.data) || request.resource.data.newsEmails is bool
+      }
       function hasValidMapLegendOpen() {
         return !('mapLegendOpen' in request.resource.data) || request.resource.data.mapLegendOpen is bool
       }
-      allow create: if isAccountOwner() && request.resource.data.keys().hasOnly(['language', 'units', 'colorMode', 'feedbackEmails', 'mapLegendOpen']) && hasValidLanguage() && hasValidUnits() && hasValidColorMode() && hasValidFeedbackEmails() && hasValidMapLegendOpen()
-      allow update: if isAccountOwner() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['language', 'units', 'colorMode', 'feedbackEmails', 'mapLegendOpen']) && hasValidLanguage() && hasValidUnits() && hasValidColorMode() && hasValidFeedbackEmails() && hasValidMapLegendOpen()
+      allow create: if isAccountOwner() && request.resource.data.keys().hasOnly(['language', 'units', 'colorMode', 'feedbackEmails', 'newsEmails', 'mapLegendOpen']) && hasValidLanguage() && hasValidUnits() && hasValidColorMode() && hasValidFeedbackEmails() && hasValidNewsEmails() && hasValidMapLegendOpen()
+      allow update: if isAccountOwner() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['language', 'units', 'colorMode', 'feedbackEmails', 'newsEmails', 'mapLegendOpen']) && hasValidLanguage() && hasValidUnits() && hasValidColorMode() && hasValidFeedbackEmails() && hasValidNewsEmails() && hasValidMapLegendOpen()
     }
 
     // Caves a user saved from the result pane's Save quick action. Private

@@ -2,7 +2,8 @@ import { onRequest } from 'firebase-functions/v2/https'
 import { logger } from 'firebase-functions/v2'
 import { REGION, SITE_URL } from '../constants.js'
 import { accountOfUnsubscribeToken } from '../email/unsubscribe.js'
-import { UNSUBSCRIBE_PAGE_CONTENT } from './unsubscribeContent.js'
+import { EMAIL_LISTS, emailListOf } from '../email/unsubscribeUrl.js'
+import { NEWS_UNSUBSCRIBE_PAGE_CONTENT, UNSUBSCRIBE_PAGE_CONTENT } from './unsubscribeContent.js'
 import { escapeHtml } from '../html.js'
 
 const LANGUAGES = Object.keys(UNSUBSCRIBE_PAGE_CONTENT)
@@ -51,12 +52,14 @@ function languageOf(req, account) {
 }
 
 /**
- * The feedback emails' unsubscribe link (/email/unsubscribe?t=<token>, a
- * Hosting rewrite; the token: email/unsubscribe.js), without signing in.
- * Opening it (GET) changes nothing - mail scanners open every link of an
- * email: a page asks to confirm, its button posting back (confirm=1); then
- * the account's feedbackEmails is turned off and a page says so, with a link
- * to the settings to turn them back on (already off: that page at once). A
+ * The emails' unsubscribe link (/email/unsubscribe?t=<token>, a Hosting
+ * rewrite; the token: email/unsubscribe.js), without signing in: the
+ * feedback emails', or with &list=news the news emails' (EMAIL_LISTS: the
+ * setting each turns off). Opening it (GET) changes nothing - mail scanners
+ * open every link of an email: a page asks to confirm, its button posting
+ * back (confirm=1); then the account's setting (feedbackEmails, newsEmails)
+ * is turned off and a page says so, with a link to the settings to turn it
+ * back on (already off: that page at once). A
  * POST without confirm is RFC 8058's one-click (the mail app's own
  * Unsubscribe button, List-Unsubscribe-Post): turned off, a short answer.
  * Idempotent. An unknown or malformed token: 400, with no detail. Never
@@ -74,20 +77,22 @@ export const feedbackUnsubscribe = onRequest({ region: REGION, maxInstances: 5 }
   // The confirmation page's own button, as opposed to a mail app's one-click.
   const confirmed = post && String(req.body?.confirm || '') === '1'
   const token = String(req.query.t || '')
+  const list = emailListOf(req.query.list)
+  const setting = EMAIL_LISTS[list]
   let account = null
   let failed = false
   let off = false
   try {
     account = await accountOfUnsubscribeToken(token)
-    off = account?.get('feedbackEmails') === false
+    off = account?.get(setting) === false
     if (account && post && !off) {
-      await account.ref.update({ feedbackEmails: false })
+      await account.ref.update({ [setting]: false })
       off = true
-      logger.info('[feedback] an author unsubscribed from the feedback emails', { uid: account.id, via: confirmed ? 'page' : 'one-click' })
+      logger.info(`[email] an account unsubscribed from the ${list} emails`, { uid: account.id, list, via: confirmed ? 'page' : 'one-click' })
     }
   } catch (error) {
     failed = true
-    logger.error('[feedback] the unsubscribe failed', { error: error.message })
+    logger.error('[email] the unsubscribe failed', { list, error: error.message })
   }
 
   if (post && !confirmed) {
@@ -95,7 +100,7 @@ export const feedbackUnsubscribe = onRequest({ region: REGION, maxInstances: 5 }
     return
   }
   const language = languageOf(req, account)
-  const c = UNSUBSCRIBE_PAGE_CONTENT[language]
+  const c = { ...UNSUBSCRIBE_PAGE_CONTENT[language], ...(list === 'news' && NEWS_UNSUBSCRIBE_PAGE_CONTENT[language]) }
   res.set('Content-Language', language)
   if (failed) {
     res.status(500).type('html').send(page({ language, title: c.errorTitle, heading: c.errorTitle, paragraphs: [c.errorText], button: c.button }))
@@ -103,7 +108,7 @@ export const feedbackUnsubscribe = onRequest({ region: REGION, maxInstances: 5 }
     res.status(400).type('html').send(page({ language, title: c.invalidTitle, heading: c.invalidHeading, paragraphs: [c.invalidText], button: c.button }))
   } else if (!off) {
     // The address the page was opened at, for its form (relative: Hosting's).
-    const url = `/email/unsubscribe?t=${encodeURIComponent(token)}`
+    const url = `/email/unsubscribe?t=${encodeURIComponent(token)}${list === 'feedback' ? '' : `&list=${list}`}`
     res.status(200).type('html').send(page({ language, title: c.confirmTitle, heading: c.confirmHeading, paragraphs: [c.confirmText], button: c.settingsLink, action: { url, label: c.confirmButton } }))
   } else {
     res.status(200).type('html').send(page({ language, title: c.title, heading: c.heading, paragraphs: [c.text, c.settings], button: c.button }))
