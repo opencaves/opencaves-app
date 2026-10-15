@@ -289,8 +289,9 @@ export default defineConfig(({ isSsrBuild }) => ({
             { name: 'photo-sphere-viewer', test: /node_modules[\\/](@photo-sphere-viewer|react-photo-sphere-viewer)[\\/]/, priority: 40 },
             { name: 'swiper', test: /node_modules[\\/]swiper[\\/]/, priority: 40 },
             // pdf.js: Further reading's form reads a PDF picked with it - its own
-            // chunk, loaded then, and left out of the precache (globIgnores).
-            { name: 'pdfjs', test: /node_modules[\\/]pdfjs-dist[\\/]/, priority: 40 },
+            // chunk, loaded then, and left out of the precache (globIgnores). Not
+            // its dependencies (as mapbox): it captured a helper every page shares.
+            { name: 'pdfjs', test: /node_modules[\\/]pdfjs-dist[\\/]/, priority: 40, includeDependenciesRecursively: false },
             // Not its dependencies either (as mapbox): the shared helper would move here.
             { name: 'ionic', test: /node_modules[\\/]@ionic[\\/]/, priority: 10, includeDependenciesRecursively: false },
           ],

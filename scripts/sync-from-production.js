@@ -18,11 +18,12 @@
 //   userId, layerSkippedBy, an audit entry's authorId) become the local
 //   account with the same email (or paired in SYNC_ACCOUNTS, .env), else
 //   keep production's id.
-// - Storage: caves/ (photos, their resized copies) and maps/ (scans, their
-//   previews). Files missing or different (MD5) locally are copied with their
-//   metadata (download tokens included, gzip-encoded SVG maps as stored) and
-//   marked ocSync=true, so the upload functions leave them alone. Files only
-//   local are deleted.
+// - Storage: caves/ (photos, their resized copies), maps/ (scans, their
+//   previews) and documents/ (Further reading's PDFs, checked already).
+//   Files missing or different (MD5) locally are copied with their metadata
+//   (download tokens included, gzip-encoded SVG maps as stored) and marked
+//   ocSync=true, so the upload functions leave them alone. Files only local
+//   are deleted.
 //
 // Production is only read. A dry run (--dry-run) lists what would change;
 // --write first copies the whole emulator data folder (.emulator-data, the
@@ -48,7 +49,7 @@ const BUCKET = 'opencaves.appspot.com'
 const SKIP = ['_users', '_frozenUsers', '_feedback', '_feedbackPrivate', '_errorReports', '_cavesAssetsPrivate', '_caveRatings']
 // Added to, never trimmed: production's entries join the local ones.
 const ADD_ONLY = ['_auditLog']
-const STORAGE_PREFIXES = ['caves/', 'maps/']
+const STORAGE_PREFIXES = ['caves/', 'maps/', 'documents/']
 const FIRESTORE_EMULATOR = process.env.FIRESTORE_EMULATOR_HOST || '127.0.0.1:8080'
 const STORAGE_EMULATOR = process.env.FIREBASE_STORAGE_EMULATOR_HOST || '127.0.0.1:9199'
 const AUTH_EMULATOR = process.env.FIREBASE_AUTH_EMULATOR_HOST || '127.0.0.1:9099'
@@ -70,7 +71,7 @@ try {
 const PAIRED_EMAILS = new Map((process.env.SYNC_ACCOUNTS || '').split(',').map((pair) => pair.split('=').map((email) => email.trim().toLowerCase())).filter(([from, to]) => from && to).map(([from, to]) => [to, from]))
 
 const cli = yargs(hideBin(process.argv))
-  .usage('$0 --dry-run | --write [--no-files]\n\nMirrors production to the local emulators: every collection but the private ones (accounts, settings, feedback, error reports, uploaders, ratings) and the caves/ and maps/ files; the audit log gets production\'s entries and keeps its own. Production is only read.')
+  .usage('$0 --dry-run | --write [--no-files]\n\nMirrors production to the local emulators: every collection but the private ones (accounts, settings, feedback, error reports, uploaders, ratings) and the caves/, maps/ and documents/ files; the audit log gets production\'s entries and keeps its own. Production is only read.')
   .option('dry-run', { type: 'boolean', default: false, describe: 'List the changes, change nothing' })
   .option('write', { type: 'boolean', default: false, describe: 'Back the local emulator data up, then mirror' })
   .option('files', { type: 'boolean', default: true, describe: 'Mirror the Storage files too (--no-files: documents only)' })
