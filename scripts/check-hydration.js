@@ -57,7 +57,9 @@ const SETTLE_MS = 1_500
 const HYDRATION_MESSAGE = /\[hydrate\]|hydrat|Minified React error #4(1[89]|2[0-5])\b/i
 
 const random = () => Math.random().toString(36).slice(2, 10)
-const withCheck = (path) => `${BASE}${path}${path.includes('?') ? '&' : '?'}oc-check=${random()}`
+// ?no-analytics too: never counted as a visit (the app also skips analytics in
+// an automated browser, navigator.webdriver - this doesn't rely on it).
+const withCheck = (path) => `${BASE}${path}${path.includes('?') ? '&' : '?'}oc-check=${random()}&no-analytics`
 
 // The first link to /<section>/<id> in a page's HTML (not the editor's /edit).
 function firstLinkId(html, section) {
