@@ -42,6 +42,29 @@ service firebase.storage {
       allow delete: if request.auth != null && 'admin' in request.auth.token.roles && notFrozen()
     }
 
+    // Further reading's PDFs (documents/{documentId}.pdf): uploaded once, by
+    // the editor who created its record (firestore.rules: a file `checking`),
+    // a PDF of 20 MB at most (src/config/documents.js). The server checks and
+    // cleans it in place (onDocumentUploaded, Admin SDK); its ocChecked mark is
+    // the server's alone.
+    match /documents/{fileName} {
+      function documentRecord() {
+        return firestore.get(/databases/(default)/documents/documents/$(fileName.split('[.]')[0])).data
+      }
+      allow create: if request.auth != null
+                      && 'editor' in request.auth.token.roles
+                      && notFrozen()
+                      && fileName.matches('[-_A-Za-z0-9]{1,64}[.]pdf')
+                      && request.resource.size <= 20 * 1024 * 1024
+                      && request.resource.contentType == 'application/pdf'
+                      && (request.resource.metadata == null || !request.resource.metadata.keys().hasAny(['ocChecked', 'ocSync']))
+                      && documentRecord().kind == 'file'
+                      && documentRecord().status == 'checking'
+                      && documentRecord().userId == request.auth.uid;
+
+      allow delete: if request.auth != null && 'admin' in request.auth.token.roles && notFrozen()
+    }
+
     match /maps/original-pdf/{mapId} {
       allow create: if request.auth != null
                       && 'editor' in request.auth.token.roles

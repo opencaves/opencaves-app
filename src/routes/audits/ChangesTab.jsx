@@ -10,7 +10,7 @@ import UndoRounded from '@mui/icons-material/UndoRounded'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { getAuditPage, getRecord, isUndoable, undoAuditEntries } from '@/models/AuditLogModel.js'
-import { USERS_COLLECTION } from '@/config/collections.js'
+import { DOCUMENTS_COLLECTION, USERS_COLLECTION } from '@/config/collections.js'
 import { EMULATOR_AUTHOR_ID } from '@/config/audits.js'
 import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.js'
 import AuditEntryRow from './AuditEntryRow.jsx'
@@ -21,7 +21,7 @@ import { hasRecordPage, nameOf, recordPath } from './auditFormat.js'
 
 // The collections the filter offers: the cave data, the photos and maps, the
 // reference data, and the admins' user management.
-const FILTER_COLLECTIONS = ['caves', 'sistemas', 'connections', 'cavesAssets', 'maps', ...Object.keys(REFERENCE_DATA_CONFIGS), USERS_COLLECTION]
+const FILTER_COLLECTIONS = ['caves', 'sistemas', 'connections', 'cavesAssets', 'maps', DOCUMENTS_COLLECTION, ...Object.keys(REFERENCE_DATA_CONFIGS), USERS_COLLECTION]
 
 // The kinds of change the filter offers: the data's, then the admins' user
 // management.

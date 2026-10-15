@@ -38,6 +38,22 @@
  */
 
 /**
+ * A Further reading item (`documents`), as the server checks and lists it
+ * (documents/, whatsNew/).
+ *
+ * @typedef {object} CaveDocument
+ * @property {'file'|'link'} kind
+ * @property {string} [title]
+ * @property {string} [url]
+ * @property {string} [userId] - Who added it.
+ * @property {string} [fullPath] - A file: documents/{id}.pdf.
+ * @property {'checking'|'ready'|'rejected'} [status] - A file: checked (onDocumentUploaded), shown, or refused.
+ * @property {string} [rejectReason]
+ * @property {number} [size] - A file: its size once cleaned, in bytes.
+ * @property {Timestamp} [deletedAt] - In the trash.
+ */
+
+/**
  * A feedback report (`_feedback`), read by every registered account: nothing
  * private on it (see {@link FeedbackPrivate}).
  *
@@ -122,7 +138,7 @@
  *
  * @typedef {object} WhatsNewItem
  * @property {'added'|'modified'|'removed'} change - Photos and videos are always added.
- * @property {'caves'|'sistemas'|'connections'|'maps'|'photos'|'videos'} kind
+ * @property {'caves'|'sistemas'|'connections'|'maps'|'documents'|'photos'|'videos'} kind
  * @property {string} docId - The record's id (photos, videos: an id of the group).
  * @property {string|null} [name] - Its current name (removed: its last).
  * @property {string|null} [sistemaId] - A cave's system, a connection's joining system.

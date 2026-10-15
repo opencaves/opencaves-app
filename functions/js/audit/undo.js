@@ -3,7 +3,7 @@ import { FieldPath, FieldValue, Timestamp } from 'firebase-admin/firestore'
 import { onCall, HttpsError } from 'firebase-functions/v2/https'
 import { logger } from 'firebase-functions/v2'
 import { db } from '../init.js'
-import { BUCKET_NAME, ENFORCE_APP_CHECK, REGION, USERS_COLL_NAME } from '../constants.js'
+import { BUCKET_NAME, DOCUMENTS_COLL_NAME, ENFORCE_APP_CHECK, REGION, USERS_COLL_NAME } from '../constants.js'
 import { requireAdmin } from '../users/requireAdmin.js'
 import { mapOriginalPaths } from '../maps/files.js'
 import { AUDIT_LOG_COLL_NAME, AUDITED_COLLECTIONS, TRASH_COLLECTIONS, actionOf, auditEntry } from './log.js'
@@ -28,9 +28,10 @@ function skipReason(entry) {
   return null
 }
 
-// A deleted photo's or map's files go with it (onAssetDeleted, emptyTrash):
-// its record alone can't be brought back.
+// A deleted photo's, map's or PDF's files go with it (onAssetDeleted,
+// emptyTrash): its record alone can't be brought back. A link has none.
 async function filesExist(collection, docId, data) {
+  if (collection === DOCUMENTS_COLL_NAME && data.kind !== 'file') return true
   const bucket = getStorage().bucket(BUCKET_NAME)
   const paths = collection === 'maps' ? mapOriginalPaths(docId, data) : [data.fullPath].filter(Boolean)
   for (const path of paths) {

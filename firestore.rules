@@ -276,7 +276,8 @@ service cloud.firestore {
     function isValidCave(d, k) {
       return k.hasOnly(['name', 'nameTranslations', 'aka', 'keys', 'location', 'entrance', 'parking', 'sistemaId', 'sistemaColor', 'area', 'source',
           'access', 'accessDetails', 'accessibility', 'accessibilityDetails', 'description', 'direction', 'note', 'reporter',
-          'explorationDate', 'videos', 'photoOrder', 'cenoteEntrance', 'facilities', 'fees', 'textSources', 'reviewed'])
+          'explorationDate', 'videos', 'photoOrder', 'cenoteEntrance', 'facilities', 'fees', 'textSources', 'reviewed',
+          'documents', 'documentOrder'])
         && (!('name' in k) || !('name' in d) || d.name == null || (d.name is map && d.name.keys().hasOnly(['value', 'languageCode'])
           && d.name.value is string && d.name.value.size() <= 240
           && (!('languageCode' in d.name) || (d.name.languageCode is string && d.name.languageCode.size() <= 8))))
@@ -288,6 +289,8 @@ service cloud.firestore {
         && partialDate(d, k, 'explorationDate') && items(d, k, 'videos', 20)
         // Its photos' order (cavesAssets ids, CaveAsset.js's photoOrder).
         && items(d, k, 'photoOrder', 1000)
+        // Its Further reading (documents ids), and their order.
+        && items(d, k, 'documents', 100) && items(d, k, 'documentOrder', 100)
         && flag(d, k, 'cenoteEntrance') && flag(d, k, 'facilities') && flag(d, k, 'fees')
         && textSources(d, k, ['description', 'direction', 'accessDetails', 'accessibilityDetails'])
         && reviewed(d, k)
@@ -295,7 +298,8 @@ service cloud.firestore {
 
     function isValidSistema(d, k) {
       return k.hasOnly(['name', 'nameTranslations', 'aka', 'area', 'color', 'description', 'direction', 'note', 'source',
-          'location', 'exploredLength', 'exploredLengthDate', 'maxDepth', 'public', 'explorations', 'maps', 'mapOrder', 'textSources'])
+          'location', 'exploredLength', 'exploredLengthDate', 'maxDepth', 'public', 'explorations', 'maps', 'mapOrder', 'textSources',
+          'documents', 'documentOrder'])
         && text(d, k, 'name', 240) && entries(d, k, 'nameTranslations', 20) && items(d, k, 'aka', 20) && text(d, k, 'area', 240)
         && color(d, k, 'color') && text(d, k, 'description', 10000) && text(d, k, 'direction', 4000) && text(d, k, 'note', 2000)
         && recordId(d, k, 'source') && point(d, k, 'location')
@@ -303,6 +307,8 @@ service cloud.firestore {
         && items(d, k, 'explorations', 80) && items(d, k, 'maps', 60)
         // Its maps' order (maps ids, utils/sistemaMaps.js's orderMaps).
         && items(d, k, 'mapOrder', 60)
+        // Its Further reading (documents ids), and their order.
+        && items(d, k, 'documents', 100) && items(d, k, 'documentOrder', 100)
         && textSources(d, k, ['description', 'direction'])
     }
 
@@ -421,6 +427,50 @@ service cloud.firestore {
       allow update: if isTrashChange()
       allow update: if isLayerSkipChange()
       allow delete: if isAdmin()
+    }
+
+    // Further reading (src/config/documents.js): papers, reports and links
+    // about caves and systems, added by editors - a link (`url` a web address)
+    // or a PDF (`url` its download link in the project's Storage, at
+    // documents/{id}.pdf). A PDF's record is created first, `checking`, by its
+    // uploader (storage.rules let them upload its file then); the server
+    // checks and cleans the file and alone sets `status` to ready or rejected,
+    // with `size` and `rejectReason` (functions/js/documents/onUploaded.js).
+    // Editors change the details; what it is, its file and who added it stay.
+    function isWebUrl(url) {
+      return url is string && url.size() <= 2000 && url.matches('https?://[^ ]+')
+    }
+    function isValidDocument(d, k) {
+      return k.hasOnly(['kind', 'title', 'url', 'authors', 'year', 'publishedIn', 'language', 'description', 'doi',
+          'userId', 'fullPath', 'contentType', 'status', 'rightsConfirmed'])
+        && d.title is string && d.title.size() > 0 && d.title.size() <= 500
+        && items(d, k, 'authors', 50)
+        && (!('year' in k) || !('year' in d) || (d.year is string && d.year.matches('[0-9]{4}')))
+        // Where a PDF appeared (a journal, a book, a website); a link's site is its address.
+        && text(d, k, 'publishedIn', 300) && (!('publishedIn' in d) || d.kind == 'file') && text(d, k, 'description', 1000)
+        && (!('language' in k) || !('language' in d) || (d.language is string && d.language.matches('[a-z]{2,8}')))
+        && (!('doi' in k) || !('doi' in d) || (d.doi is string && d.doi.size() <= 300 && d.doi.matches('10[.][0-9]{4,9}/.+')))
+        && (!('url' in k) || !('url' in d) || (d.kind == 'link' && isWebUrl(d.url)) || (d.kind == 'file' && isStorageUrl(d.url)))
+    }
+    match /documents/{documentId} {
+      allow read: if true
+      allow create: if isEditor() && isValidDocument(request.resource.data, request.resource.data.keys())
+        && request.resource.data.userId == request.auth.uid
+        && ((request.resource.data.kind == 'link' && isWebUrl(request.resource.data.url)
+              && !request.resource.data.keys().hasAny(['fullPath', 'contentType', 'status', 'rightsConfirmed']))
+          || (request.resource.data.kind == 'file' && request.resource.data.status == 'checking'
+              && request.resource.data.fullPath == 'documents/' + documentId + '.pdf'
+              && request.resource.data.contentType == 'application/pdf' && request.resource.data.rightsConfirmed == true))
+      // A file's `url` is set by its uploader alone, once uploaded.
+      allow update: if isEditor() && !('deletedAt' in resource.data) && isValidDocument(request.resource.data, setKeys())
+        && !setKeys().hasAny(['kind', 'userId', 'fullPath', 'contentType', 'status', 'rightsConfirmed'])
+        && (!('url' in setKeys()) || resource.data.kind == 'link' || resource.data.userId == request.auth.uid)
+      // Deleted to the trash and restored by admins (isTrashChange).
+      allow update: if isTrashChange()
+      // Admins; or its uploader, a file that never got through (its upload
+      // failed, or the server refused it).
+      allow delete: if isAdmin() || (isEditor() && resource.data.userId == request.auth.uid
+        && resource.data.kind == 'file' && resource.data.status in ['checking', 'rejected'])
     }
 
     // App settings shared by everyone (settings/caveLayer: the cave layer's

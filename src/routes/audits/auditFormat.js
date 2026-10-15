@@ -1,5 +1,6 @@
 import { GeoPoint, Timestamp } from 'firebase/firestore'
 import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.js'
+import { DOCUMENTS_COLLECTION } from '@/config/collections.js'
 
 // Formatting the audit log's entries and the trash's items for the Audits
 // page, in the reader's language.
@@ -94,7 +95,7 @@ export function toDiffText(value, language) {
 }
 
 /**
- * A record's name: its name field (a string, or { value }).
+ * A record's name: its name field (a string, or { value }); a document's title.
  *
  * @param {object} [record]
  * @returns {string}
@@ -103,12 +104,13 @@ export function nameOf(record) {
   const name = record?.name
   if (typeof name === 'string') return name
   if (typeof name?.value === 'string') return name.value
+  if (typeof record?.title === 'string') return record.title
   return ''
 }
 
 /**
  * Where a record is seen or edited in the app, from what it is now (null:
- * gone). The trash's photos and maps lead to the Trash tab.
+ * gone). The trash's photos, maps and documents lead to the Trash tab.
  *
  * @param {string} collectionName
  * @param {string} id
@@ -117,7 +119,7 @@ export function nameOf(record) {
  */
 export function recordPath(collectionName, id, record) {
   if (!record) return null
-  if (collectionName === 'cavesAssets' || collectionName === 'maps') {
+  if (collectionName === 'cavesAssets' || collectionName === 'maps' || collectionName === DOCUMENTS_COLLECTION) {
     if (record.deletedAt != null) return '/audits?tab=trash'
     return collectionName === 'cavesAssets' && record.caveId ? `/map/${record.caveId}/medias/${id}` : null
   }
@@ -135,7 +137,7 @@ export function recordPath(collectionName, id, record) {
  * @returns {boolean}
  */
 export function hasRecordPage(collectionName) {
-  return ['caves', 'sistemas', 'connections', 'cavesAssets', 'maps'].includes(collectionName) || Boolean(REFERENCE_DATA_CONFIGS[collectionName])
+  return ['caves', 'sistemas', 'connections', 'cavesAssets', 'maps', DOCUMENTS_COLLECTION].includes(collectionName) || Boolean(REFERENCE_DATA_CONFIGS[collectionName])
 }
 
 /**

@@ -12,7 +12,7 @@ export const AUTH_PROMPT_EVENT = 'oc-auth-prompt'
  * back here afterwards.
  *
  * @param {string} [reason='default'] - 'photos',
- *   'videos', 'maps', 'feedback', 'confirm' (a cave's "Still accurate"),
+ *   'videos', 'maps', 'documents' (Further reading), 'feedback', 'confirm' (a cave's "Still accurate"),
  *   'report' (a cave's Report a change) - else a general wording.
  * @returns {() => void}
  */

@@ -42,3 +42,7 @@ export const FEEDBACK_MESSAGES_COLLECTION = 'messages'
 // written by the server only (onCaveReportChanged) - { reports: [{ kind,
 // at, feedbackId }] }, the document gone once none is open.
 export const CAVE_REPORTS_COLLECTION = '_caveReports'
+
+// Further reading (config/documents.js): cave data, so no "_" - papers,
+// reports and links the caves and systems list (their `documents`).
+export const DOCUMENTS_COLLECTION = 'documents'

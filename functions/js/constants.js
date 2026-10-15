@@ -70,6 +70,14 @@ export const FEEDBACK_REPLY_TO = 'feedback@opencaves.org'
 // FEEDBACK_REPLY_MAX_LENGTH, firestore.rules): an emailed answer is cut there.
 export const FEEDBACK_REPLY_MAX_LENGTH = 10000
 
+// Further reading: papers, reports, books and links about caves and systems
+// (src/config/documents.js). A PDF is stored at documents/{id}.pdf, checked
+// and cleaned by onDocumentUploaded.
+export const DOCUMENTS_COLL_NAME = 'documents'
+export const DOCUMENTS_FOLDER = 'documents'
+// A PDF's largest size (storage.rules, src/config/documents.js).
+export const DOCUMENT_MAX_BYTES = 20 * 1024 * 1024
+
 // Storage constants
 export const BUCKET_NAME = 'opencaves.appspot.com'
 export const THUMBNAILS_FOLDER = 'thumbnails'

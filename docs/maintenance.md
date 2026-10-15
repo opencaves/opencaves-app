@@ -439,6 +439,54 @@ progress); Confirmed keeps it showing, and reopening the report brings it
 back. `scripts/sync-to-production.js` leaves production's `_caveReports`
 alone.
 
+## Further reading
+
+Caves and cave systems have a **Further reading** section (on their pages,
+`#further-reading`, after the maps; in the map's pane when there's some):
+papers, survey reports, articles, books and web pages about them. A cave's
+page lists its own, then its system's and those of the systems it joined.
+Each item is a `documents` record - an uploaded PDF (`kind: 'file'`, its file
+at `documents/<id>.pdf`) or a link (`kind: 'link'`) - with its title,
+authors, year, language, description and DOI; a PDF also says where it
+appeared (`publishedIn`: a journal, a book, a website), a link shows its
+site's domain instead. Caves and systems list theirs in `documents` (and
+their order in `documentOrder`); one record can be listed by several.
+
+Every editor adds them from the section's **Add reading** (a dialog: Upload a
+PDF, 20 MB at most, confirming they may share it, or Paste a link). The form
+fills itself where it can, for the person to check before saving:
+
+- a PDF is read in the browser with pdf.js (loaded only then): its title and
+  authors, else its first page's largest text, and a DOI in its first pages
+  (not its year: a file's dates are when it was made, not published);
+- a link is read by the `linkMetadata` callable (registered accounts): the
+  page's `citation_*` tags, else its Open Graph tags and title. It fetches
+  only public http(s) addresses (an address resolving to a private, loopback
+  or link-local IP is refused, at every redirect), 8 s and 1 MB at most;
+- with a DOI (from either, or a doi.org link), Crossref's details come first
+  (`api.crossref.org`, from the browser).
+
+**PDF checks.** A PDF's record is created first, `status: 'checking'` (only
+its uploader may then upload its file: `storage.rules`). The
+`onDocumentUploaded` function checks it: a PDF (`%PDF-`), readable by
+pdf-lib, not encrypted, with pages. It takes out what a reader could run or
+open by itself - JavaScript, actions run as it opens or a page shows
+(`/OpenAction`, `/AA`), launch/submit/import actions, embedded files and
+forms - saves the cleaned file in place (same download link, marked
+`ocChecked`), then sets `status: 'ready'` and its `size`. A refused file is
+deleted and its record says `rejected`, with `rejectReason` (`notPdf`,
+`unreadable`, `encrypted`, `noPages`, `tooLarge`). Until it's ready only its
+uploader (and admins) see it, saying "Checking…" or why it was refused; the
+uploader can remove a refused one. Encrypted PDFs (even with only an owner
+password) are refused: pdf-lib can't rewrite them - the form suggests adding
+the paper's link instead.
+
+Editors edit and reorder the items; admins delete them to the trash (Audits >
+Trash), where **Delete permanently** (`emptyTrash`) removes the record, its
+file, and its id from every cave and system listing it. Their changes are in
+the audit log, can be undone, and show in What's new (a PDF once it's ready).
+The sync scripts carry the collection and the `documents/` files.
+
 ## Error reports
 
 When a page fails to load ("Something went wrong" - not a missing page, not

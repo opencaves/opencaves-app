@@ -783,7 +783,8 @@
       "report": {
         "photo": "Reportar esta foto",
         "map": "Reportar esta topografía",
-        "video": "Reportar este video"
+        "video": "Reportar este video",
+        "document": "Reportar este documento"
       },
       "linkCopied": "Enlace copiado.",
       "shareFail": "No se pudo compartir el enlace.",
@@ -1452,7 +1453,8 @@
       "areas": "Zonas",
       "colors": "Colores",
       "languages": "Idiomas",
-      "_users": "Cuentas"
+      "_users": "Cuentas",
+      "documents": "Documentos"
     },
     "state": {
       "undone": "Deshecho",
@@ -1561,7 +1563,9 @@
       "deleteTitle_one": "¿Eliminar definitivamente?",
       "deleteTitle_other": "¿Eliminar {{count}} elementos definitivamente?",
       "deleteConfirm_one": "Este elemento y sus archivos se eliminarán para siempre. Esta acción no se puede deshacer.",
-      "deleteConfirm_other": "Estos {{count}} elementos y sus archivos se eliminarán para siempre. Esta acción no se puede deshacer."
+      "deleteConfirm_other": "Estos {{count}} elementos y sus archivos se eliminarán para siempre. Esta acción no se puede deshacer.",
+      "documents_one": "Documentos ({{count}})",
+      "documents_other": "Documentos ({{count}})"
     }
   },
   "indexPages": {
@@ -1676,7 +1680,8 @@
       "modified": "Modificados",
       "removed": "Retirados",
       "kindsLabel": "Contenido",
-      "changesLabel": "Cambio"
+      "changesLabel": "Cambio",
+      "documents": "Documentos"
     },
     "kinds": {
       "caves": "Cueva",
@@ -1684,7 +1689,8 @@
       "connections": "Conexión",
       "maps": "Topografía",
       "photos": "Fotos",
-      "videos": "Videos"
+      "videos": "Videos",
+      "documents": "Documento"
     },
     "inSistema": "en {{name}}",
     "mapOf": "mapa de {{name}}",
@@ -1753,8 +1759,11 @@
       "photoOrder": "orden de las fotos",
       "mapOrder": "orden de las topografías",
       "videoOrder": "orden de los videos",
-      "reviewed": "confirmación de exactitud"
-    }
+      "reviewed": "confirmación de exactitud",
+      "documentOrder": "orden de los documentos"
+    },
+    "untitledDocument": "Documento sin título",
+    "documentAbout": "sobre {{name}}"
   },
   "feedback": {
     "title": "Enviar comentarios",
@@ -2126,6 +2135,10 @@
     "report": {
       "title": "Reportar un cambio",
       "text": "Crea una cuenta gratis para reportar un cambio en una cueva, para que el equipo de OpenCaves lo revise."
+    },
+    "documents": {
+      "title": "Añadir un documento",
+      "text": "Crea una cuenta gratuita para añadir artículos, informes y enlaces sobre cuevas y sistemas."
     }
   },
   "languagePicker": {
@@ -2483,5 +2496,74 @@
     },
     "undone": "Confirmación anulada: {{section}}, {{name}}.",
     "undoError": "No se pudo anular la confirmación. Inténtalo de nuevo."
+  },
+  "furtherReading": {
+    "title": "Lecturas recomendadas",
+    "empty": "Todavía no hay documentos.",
+    "addButton": "Añadir un documento",
+    "addTitle": "Añadir un documento",
+    "editTitle": "Editar el documento",
+    "tabs": {
+      "file": "Subir un PDF",
+      "link": "Pegar un enlace"
+    },
+    "pickFile": "Elige un PDF o suéltalo aquí",
+    "pickFileHint": "Un archivo PDF de {{size}} MB como máximo",
+    "fileSize": "{{size}} MB",
+    "changeFile": "Cambiar",
+    "preferLink": "¿Está en línea? Pega mejor su enlace: se mantiene al día en su fuente.",
+    "readingFile": "Leyendo el archivo…",
+    "readingLink": "Leyendo la página…",
+    "found": "Se encontraron y rellenaron detalles: revísalos antes de guardar.",
+    "fields": {
+      "url": "Enlace",
+      "urlHint": "La dirección de la página o del documento (http o https)",
+      "title": "Título",
+      "authorsHint": "Pulsa Intro o escribe una coma después de cada nombre",
+      "year": "Año",
+      "publishedIn": "Publicado en",
+      "publishedInHint": "Una revista, un libro o un sitio web",
+      "language": "Idioma",
+      "noLanguage": "Sin indicar",
+      "doi": "DOI",
+      "doiHint": "Su identificador, si lo tiene",
+      "description": "Descripción"
+    },
+    "rights": "Tengo derecho a compartir este archivo",
+    "rightsHint": "Será público. Si el artículo ya está en línea, añade mejor su enlace.",
+    "uploading": "Subiendo… {{progress}} %",
+    "errors": {
+      "notPdf": "Este archivo no es un PDF.",
+      "tooLarge": "Este archivo supera {{size}} MB.",
+      "linkUnread": "No se pudo leer esta página: rellena los detalles tú mismo.",
+      "url": "Escribe una dirección web que empiece por http:// o https://.",
+      "year": "Un año de cuatro cifras.",
+      "saveFailed": "No se pudo guardar. Inténtalo de nuevo."
+    },
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "add": "Añadir",
+    "saved": "Documento guardado.",
+    "added": "Añadido a Lecturas recomendadas.",
+    "uploaded": "PDF subido: se mostrará una vez revisado.",
+    "edit": "Editar",
+    "trash": "Eliminar",
+    "remove": "Quitar",
+    "trashTitle": "¿Eliminar este documento?",
+    "trashConfirm": "«{{title}}» va a la papelera y desaparece de cada cueva y sistema que la muestra. Un admin puede restaurarla desde Auditorías > Papelera.",
+    "trashed": "Documento movido a la papelera.",
+    "trashFailed": "No se pudo eliminar el documento.",
+    "removed": "Archivo quitado.",
+    "removeFailed": "No se pudo quitar el archivo.",
+    "checking": "Revisando…",
+    "rejected": {
+      "notPdf": "Rechazado: no es un PDF",
+      "unreadable": "Rechazado: el PDF no se puede leer",
+      "encrypted": "Rechazado: el PDF está protegido o cifrado - añade mejor su enlace",
+      "noPages": "Rechazado: el PDF no tiene páginas",
+      "tooLarge": "Rechazado: el archivo es demasiado grande"
+    },
+    "options": "Opciones de «{{title}}»",
+    "etAl": "et al."
   }
 }

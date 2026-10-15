@@ -17,7 +17,9 @@ import ExplorationHistory from '@/components/ResultPane/ExplorationHistory.jsx'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
 import IndexSection from '@/components/IndexPage/IndexSection.jsx'
 import MapsSection from '@/components/IndexPage/MapsSection.jsx'
+import FurtherReadingSection from '@/components/FurtherReading/FurtherReadingSection.jsx'
 import mapsModel from '@/models/MapModel.js'
+import documentsModel from '@/models/DocumentModel.js'
 import IndexLinkList from '@/components/IndexPage/IndexLinkList.jsx'
 import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
@@ -85,7 +87,7 @@ function sistemaDetails(sistema, data) {
 
 /**
  * /sistemas/<id>: a cave system - its area, length and depth, description,
- * connections, exploration history and cenotes. Editors edit it at
+ * connections, maps, Further reading, exploration history and cenotes. Editors edit it at
  * /sistemas/<id>/edit.
  */
 export default function SistemaPage() {
@@ -97,6 +99,8 @@ export default function SistemaPage() {
   // The maps (MapsSection's list), waited for like the data: drawn late, the
   // section pushed everything under it down.
   const [allMaps, mapsLoading] = mapsModel.useAll()
+  // Its Further reading (and that of the systems it joined), waited for too.
+  const [allDocuments, documentsLoading] = documentsModel.useAll()
   const sistema = data.sistemasById.get(sistemaId)
   const details = useMemo(() => (sistema ? sistemaDetails(sistema, data) : null), [sistema, data])
 
@@ -105,7 +109,7 @@ export default function SistemaPage() {
   const description = sistema ? truncate(summary ? `${t('sistema.descriptionPrefix', { name: sistema.name })} ${summary}` : t('sistema.description', { name: sistema.name })) : null
   useIndexPageHead({ title, description })
 
-  if (loading || mapsLoading) return <IndexPageSkeleton item back />
+  if (loading || mapsLoading || documentsLoading) return <IndexPageSkeleton item back />
   if (!sistema) {
     // A system's name in the address (as the pages first did): its id.
     const match = data.sistemas.find((candidate) => slugify(candidate.name) === slugify(sistemaId))
@@ -239,6 +243,7 @@ export default function SistemaPage() {
 
       {/* Opened in the page's gallery (MapGallery, in the Outlet below). */}
       <MapsSection sistemaId={sistema.id} sistemas={data.sistemas} connections={data.connections} pagePath={`/sistemas/${sistemaId}`} title={t('maps')} card pageMaps={allMaps} />
+      <FurtherReadingSection sistemaId={sistema.id} sistemas={data.sistemas} connections={data.connections} pagePath={`/sistemas/${sistemaId}`} pageDocuments={allDocuments} />
 
       {hasHistory && (
         // ExplorationHistory lines up with the details pane's icons there;

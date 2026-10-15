@@ -288,6 +288,10 @@ export default defineConfig(({ isSsrBuild }) => ({
             { name: 'firebase', test: /node_modules[\\/](firebase|@firebase)[\\/](?!(storage|functions)([\\/]|$))/, priority: 40 },
             { name: 'photo-sphere-viewer', test: /node_modules[\\/](@photo-sphere-viewer|react-photo-sphere-viewer)[\\/]/, priority: 40 },
             { name: 'swiper', test: /node_modules[\\/]swiper[\\/]/, priority: 40 },
+            // pdf.js: Further reading's form reads a PDF picked with it - its own
+            // chunk, loaded then, and left out of the precache (globIgnores). Not
+            // its dependencies (as mapbox): it captured a helper every page shares.
+            { name: 'pdfjs', test: /node_modules[\\/]pdfjs-dist[\\/]/, priority: 40, includeDependenciesRecursively: false },
             // Not its dependencies either (as mapbox): the shared helper would move here.
             { name: 'ionic', test: /node_modules[\\/]@ionic[\\/]/, priority: 10, includeDependenciesRecursively: false },
           ],
@@ -358,7 +362,8 @@ export default defineConfig(({ isSsrBuild }) => ({
         // offline" one included, shows its photo offline, even never seen.
         globPatterns: ['**/*.{js,css,html,woff,woff2}', '**/{error-bg,bg}-*.webp'],
         // The source maps (build.sourcemap): for the browser's tools only.
-        globIgnores: ['**/*.map'],
+        // And pdf.js with its worker: only for editors adding a PDF, online.
+        globIgnores: ['**/*.map', '**/pdfjs-*.js', '**/pdf.worker*'],
         // The app registers this with a plain (non-module) `register()`
         // call, so it needs to be a classic script, not an ES module -
         // also makes the output land at service-worker.js instead of .mjs.

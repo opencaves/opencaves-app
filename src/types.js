@@ -78,6 +78,9 @@
  * @property {string[]} [videos] - Video URLs (older records: one "|"-separated string), in the order shown.
  * @property {string[]} [photoOrder] - Its photos' order after the cover (`cavesAssets` ids), as editors arranged them;
  *   the photos it doesn't name come first, newest first (CaveAsset.js's photoOrder).
+ * @property {string[]} [documents] - Its Further reading: its `documents` records' ids.
+ * @property {string[]} [documentOrder] - Its documents' order as editors arranged them (`documents` ids); the
+ *   documents it doesn't name come last, in the order they were added (utils/documents.js's orderDocumentIds).
  * @property {boolean} [cenoteEntrance] - A cenote used to enter a cave system.
  * @property {boolean} [facilities]
  * @property {boolean} [fees]
@@ -161,6 +164,8 @@
  * @property {string[]} [maps] - Its `maps` records' ids.
  * @property {string[]} [mapOrder] - Its maps' order as editors arranged them (`maps` ids); the maps it doesn't name
  *   come first, by date (utils/sistemaMaps.js's orderMaps).
+ * @property {string[]} [documents] - Its Further reading: its `documents` records' ids.
+ * @property {string[]} [documentOrder] - As {@link Cave.documentOrder}.
  * @property {Record<string, TextSource>} [textSources]
  */
 
@@ -273,6 +278,40 @@
  */
 
 /**
+ * A Further reading item (`documents`): a paper, a survey report, an article,
+ * a book or a web page about caves or cave systems - an uploaded PDF (`file`)
+ * or a link. Listed by the caves and systems it's about (their `documents`).
+ * A PDF is checked and cleaned by the server before it's shown
+ * (functions/js/documents/onUploaded.js): `status` says where it is.
+ *
+ * @typedef {object} CaveDocumentFields
+ * @property {string} id
+ * @property {'file'|'link'} kind
+ * @property {string} title
+ * @property {string} [url] - A link's address (http or https); a file's download link.
+ * @property {string[]} [authors]
+ * @property {string} [year] - 'YYYY'.
+ * @property {string} [publishedIn] - A file's: where it appeared - a journal, a book, a survey bulletin, a website
+ *   (not the publishing company). A link has none: its line shows its address' domain.
+ * @property {string} [language] - A content language's code (the `languages` collection: eng, spa...).
+ * @property {string} [description] - Short, plain text.
+ * @property {string} [doi] - Its DOI ("10.1234/..."), without the https://doi.org/.
+ * @property {string} [userId] - Who added it.
+ * @property {string} [fullPath] - A file: its path in Storage (documents/{id}.pdf).
+ * @property {string} [contentType] - A file: application/pdf.
+ * @property {number} [size] - A file, server: its size in bytes once cleaned.
+ * @property {'checking'|'ready'|'rejected'} [status] - A file: being checked by the server, shown, or refused.
+ * @property {string} [rejectReason] - A refused file, server: why ('notPdf', 'unreadable', 'encrypted', 'tooLarge', 'noPages').
+ * @property {boolean} [rightsConfirmed] - A file: its uploader confirmed they may share it.
+ */
+
+/**
+ * A Further reading item, with its trash mark.
+ *
+ * @typedef {CaveDocumentFields & Trashable} CaveDocument
+ */
+
+/**
  * An error the "Something went wrong" page showed (`_errorReports`, written by
  * the browser: src/utils/errorReports.js; read by admins).
  *
@@ -381,7 +420,7 @@
  *
  * @typedef {object} WhatsNewItem
  * @property {'added'|'modified'|'removed'} change - Photos and videos are always added.
- * @property {'caves'|'sistemas'|'connections'|'maps'|'photos'|'videos'} kind
+ * @property {'caves'|'sistemas'|'connections'|'maps'|'documents'|'photos'|'videos'} kind
  * @property {string} docId - The record's id (photos, videos: an id of the group).
  * @property {string|null} [name] - Its current name (removed: its last).
  * @property {string|null} [sistemaId] - A cave's system, a connection's joining system.

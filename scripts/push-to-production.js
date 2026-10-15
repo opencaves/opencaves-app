@@ -14,9 +14,9 @@
 // - A conflict: production's audit log has an entry for the same record
 //   since --since - someone changed it there meanwhile. That record isn't
 //   pushed (nor its entries); the rest is.
-// - Files: a photo's or a map's (their paths hold the record's id: caves/
-//   <cave>/images/<id>, caves/<cave>/thumbnails/<id>_..., maps/<id>,
-//   maps/derived/<id>_...), uploaded when missing or different (MD5) in
+// - Files: a photo's, a map's or a Further reading PDF's (their paths hold
+//   the record's id: caves/<cave>/images/<id>, caves/<cave>/thumbnails/
+//   <id>_..., maps/<id>, maps/derived/<id>_..., documents/<id>.pdf), uploaded when missing or different (MD5) in
 //   production, as stored (gzip-encoded SVG maps too), marked ocSync=true so
 //   the upload functions leave them alone; deleted in production with a
 //   record that's gone.
@@ -46,9 +46,9 @@ const PROJECT_ID = 'opencaves'
 const BUCKET = 'opencaves.appspot.com'
 // The collections edited in the app, whose changes the audit log records
 // (functions/js/audit/log.js' AUDITED_COLLECTIONS).
-const AUDITED = ['caves', 'sistemas', 'connections', 'accesses', 'accessibilities', 'sources', 'areas', 'colors', 'languages', 'maps', 'cavesAssets', '_settings']
+const AUDITED = ['caves', 'sistemas', 'connections', 'accesses', 'accessibilities', 'sources', 'areas', 'colors', 'languages', 'maps', 'documents', 'cavesAssets', '_settings']
 // The records with files, under these Storage prefixes.
-const FILE_PREFIXES = { cavesAssets: 'caves/', maps: 'maps/' }
+const FILE_PREFIXES = { cavesAssets: 'caves/', maps: 'maps/', documents: 'documents/' }
 const ACCOUNT_FIELDS = ['deletedBy', 'userId', 'layerSkippedBy', 'authorId']
 const FIRESTORE_EMULATOR = process.env.FIRESTORE_EMULATOR_HOST || '127.0.0.1:8080'
 const STORAGE_EMULATOR = process.env.FIREBASE_STORAGE_EMULATOR_HOST || '127.0.0.1:9199'
@@ -202,7 +202,7 @@ for (const record of records.values()) {
   plan.push({ ...record, data: mine.exists ? forProduction(mine.data()) : null, current })
 }
 
-// --- Files of the photos and maps pushed.
+// --- Files of the photos, maps and documents pushed.
 async function localFiles(prefix) {
   const items = []
   let pageToken = ''
