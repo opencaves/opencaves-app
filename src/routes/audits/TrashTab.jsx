@@ -6,6 +6,7 @@ import { Alert, Box, Button, Checkbox, Dialog, DialogActions, DialogContent, Dia
 import DeleteForeverRounded from '@mui/icons-material/DeleteForeverRounded'
 import MapRounded from '@mui/icons-material/MapRounded'
 import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded'
+import LinkRounded from '@mui/icons-material/LinkRounded'
 import RefreshRounded from '@mui/icons-material/RefreshRounded'
 import RestoreFromTrashRounded from '@mui/icons-material/RestoreFromTrashRounded'
 import DialogCloseButton from '@/components/DialogCloseButton.jsx'
@@ -13,6 +14,8 @@ import Picture from '@/components/Picture.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import CaveAsset from '@/models/CaveAsset.js'
 import mapsModel from '@/models/MapModel.js'
+import documentsModel from '@/models/DocumentModel.js'
+import { DOCUMENTS_COLLECTION } from '@/config/collections.js'
 import { emptyTrash } from '@/models/AuditLogModel.js'
 import { When } from './AuditEntryRow.jsx'
 import PersonLabel from './PersonLabel.jsx'
@@ -40,6 +43,11 @@ function MapThumbnail({ map }) {
   return <Box sx={{ width: '100%', height: '100%', display: 'grid', placeItems: 'center' }}>{map.contentType === 'application/pdf' ? <PictureAsPdfRounded color="action" fontSize="large" /> : <MapRounded color="action" fontSize="large" />}</Box>
 }
 
+// A Further reading document: its kind's icon (a PDF, a link).
+function DocumentThumbnail({ document }) {
+  return <Box sx={{ width: '100%', height: '100%', display: 'grid', placeItems: 'center' }}>{document.kind === 'file' ? <PictureAsPdfRounded color="action" fontSize="large" /> : <LinkRounded color="action" fontSize="large" />}</Box>
+}
+
 // One item: its thumbnail with a checkbox over it, its name (a photo: its
 // cave's, linked), and when and by whom it was deleted.
 function TrashCard({ item, selected, onToggle, disabled, accountLabel }) {
@@ -56,7 +64,7 @@ function TrashCard({ item, selected, onToggle, disabled, accountLabel }) {
         bgcolor: 'background.paper',
       })}
     >
-      <Box sx={(theme) => ({ aspectRatio: '4 / 3', bgcolor: theme.vars.sys.color.surfaceContainerHigh })}>{item.collection === 'cavesAssets' ? <PhotoThumbnail asset={item.data} /> : <MapThumbnail map={item.data} />}</Box>
+      <Box sx={(theme) => ({ aspectRatio: '4 / 3', bgcolor: theme.vars.sys.color.surfaceContainerHigh })}>{item.collection === 'cavesAssets' ? <PhotoThumbnail asset={item.data} /> : item.collection === DOCUMENTS_COLLECTION ? <DocumentThumbnail document={item.data} /> : <MapThumbnail map={item.data} />}</Box>
       <Checkbox
         checked={selected}
         disabled={disabled}
@@ -96,7 +104,7 @@ function GridSkeleton() {
 }
 
 /**
- * The Trash tab: the photos and maps admins deleted, to restore or to delete
+ * The Trash tab: the photos, maps and Further reading documents admins deleted, to restore or to delete
  * for good ({@link emptyTrash}, which also removes their files).
  */
 export default function TrashTab({ accountLabel }) {
@@ -105,6 +113,7 @@ export default function TrashTab({ accountLabel }) {
   const caves = useSelector((/** @type {RootState} */ state) => state.data.caves)
   const [photos, setPhotos] = useState([])
   const [maps, setMaps] = useState([])
+  const [documents, setDocuments] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [selected, setSelected] = useState(() => new Set())
@@ -118,9 +127,10 @@ export default function TrashTab({ accountLabel }) {
     setLoading(true)
     setError(null)
     try {
-      const [trashedPhotos, trashedMaps] = await Promise.all([CaveAsset.getTrashed(), mapsModel.getTrashed()])
+      const [trashedPhotos, trashedMaps, trashedDocuments] = await Promise.all([CaveAsset.getTrashed(), mapsModel.getTrashed(), documentsModel.getTrashed()])
       setPhotos(trashedPhotos)
       setMaps(trashedMaps)
+      setDocuments(trashedDocuments)
       setSelected(new Set())
     } catch (err) {
       console.error(err)
@@ -140,11 +150,13 @@ export default function TrashTab({ accountLabel }) {
       return { collection: 'cavesAssets', id: asset.id, data: asset, title: caveName || asset.caveId || asset.id, path: asset.caveId ? `/map/${asset.caveId}` : null, deletedAt: asset.deletedAt, deletedBy: asset.deletedBy }
     })
     const mapItems = maps.map((map) => ({ collection: 'maps', id: map.id, data: map, title: map.name || map.id, path: null, deletedAt: map.deletedAt, deletedBy: map.deletedBy }))
+    const documentItems = documents.map((document) => ({ collection: DOCUMENTS_COLLECTION, id: document.id, data: document, title: document.title || document.id, path: null, deletedAt: document.deletedAt, deletedBy: document.deletedBy }))
     return [
       { name: 'photos', items: photoItems },
       { name: 'maps', items: mapItems },
+      { name: 'documents', items: documentItems },
     ]
-  }, [photos, maps, caves])
+  }, [photos, maps, documents, caves])
 
   const allItems = sections.flatMap((section) => section.items)
   const selectedItems = allItems.filter((item) => selected.has(itemKey(item)))
@@ -169,7 +181,7 @@ export default function TrashTab({ accountLabel }) {
     let failed = 0
     setBusy({ action: 'restore', done, total: items.length })
     for (let i = 0; i < items.length; i += RESTORE_CONCURRENCY) {
-      const outcomes = await Promise.allSettled(items.slice(i, i + RESTORE_CONCURRENCY).map((item) => (item.collection === 'cavesAssets' ? CaveAsset.restoreById(item.id) : mapsModel.restore(item.id))))
+      const outcomes = await Promise.allSettled(items.slice(i, i + RESTORE_CONCURRENCY).map((item) => (item.collection === 'cavesAssets' ? CaveAsset.restoreById(item.id) : (item.collection === DOCUMENTS_COLLECTION ? documentsModel : mapsModel).restore(item.id))))
       failed += outcomes.filter((outcome) => outcome.status === 'rejected').length
       done += outcomes.length
       setBusy({ action: 'restore', done, total: items.length })

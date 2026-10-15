@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link as RouterLink, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
 import { Box, Chip, Skeleton, Stack, SvgIcon, Typography } from '@mui/material'
 import LinkRounded from '@mui/icons-material/LinkRounded'
 import PhotoLibraryRounded from '@mui/icons-material/PhotoLibraryRounded'
 import VideoLibraryRounded from '@mui/icons-material/VideoLibraryRounded'
+import MenuBookRounded from '@mui/icons-material/MenuBookRounded'
 import CaveAsset from '@/models/CaveAsset.js'
 import MapRounded from '@mui/icons-material/MapRounded'
 import { doc, onSnapshot } from 'firebase/firestore'
@@ -26,7 +28,7 @@ const getWhatsNew = callable('getWhatsNew')
 // colours stay visible.
 const iconColorSx = (color) => ({ color: color || SISTEMA_DEFAULT_COLOR, filter: 'drop-shadow(0 0 0.6px var(--oc-sistema-cookie-edge))' })
 
-const KINDS = ['caves', 'sistemas', 'connections', 'maps', 'photos', 'videos']
+const KINDS = ['caves', 'sistemas', 'connections', 'maps', 'documents', 'photos', 'videos']
 const CHANGES = ['added', 'modified', 'removed']
 
 // Each change's label chip: M3 container colours from the theme (light and
@@ -184,7 +186,7 @@ function ChangeChip({ change, kind }) {
 }
 
 /**
- * /whats-new: the caves, cave systems, connections and maps people added,
+ * /whats-new: the caves, cave systems, connections, maps and Further reading people added,
  * modified or removed in the app (from the audit log, {@link getWhatsNew}),
  * and the photos and videos added to caves (by cave and day), newest first, by
  * day - each marked Added, Modified (with the fields changed) or Removed,
@@ -203,6 +205,9 @@ export default function WhatsNew() {
   const [changes, setChanges, toggleChange] = useFilterParam('change', CHANGES)
 
   useIndexPageHead({ title: t('title'), description: t('description', { name: APP_NAME }) })
+
+  // The caves as stored (the index's leave out their documents): which lists a document.
+  const storeCaves = useSelector((/** @type {RootState} */ state) => state.data.caves)
 
   // Each item as the page shows it: its icon, label, link, secondary line
   // and, for a modified record, its changed fields (a line of their own).
@@ -246,10 +251,19 @@ export default function WhatsNew() {
         const to = !cave ? null : photos && item.count === 1 ? `/caves/${item.caveId}/photos/${item.media[0].id}` : `/caves/${item.caveId}#${photos ? 'photos' : 'videos'}`
         return { ...item, at, icon: photos ? <PhotoLibraryRounded /> : <VideoLibraryRounded />, thumbnails, label: t(photos ? 'photosAdded' : 'videosAdded', { count: item.count, name: cave?.name || item.name || t('unnamedCave') }), to, context: inSistema(sistema, cave?.name || item.name) }
       }
+      if (item.kind === 'documents') {
+        // Further reading opens in its cave's or system's section (the first listing it).
+        const holder = storeCaves.find((c) => Array.isArray(c.documents) && c.documents.includes(item.docId))
+        const cave = holder ? data.caves.find((c) => c.id === holder.id) : null
+        const sistema = cave ? null : data.sistemas.find((s) => Array.isArray(s.documents) && s.documents.includes(item.docId))
+        const to = cave ? `/caves/${cave.id}#further-reading` : sistema?.slug ? `/sistemas/${sistema.slug}#further-reading` : null
+        const about = cave?.name || sistema?.name
+        return { ...item, at, icon: <MenuBookRounded />, label: item.name || t('untitledDocument'), to, context: about ? t('documentAbout', { name: about }) : null }
+      }
       const sistema = sistemaOfMap(item.docId)
       return { ...item, at, icon: <MapRounded />, label: item.name || t('unnamedMap'), to: sistema?.slug ? `/sistemas/${sistema.slug}/maps/${item.docId}` : null, context: sistema ? t('mapOf', { name: sistema.name }) : null }
     }
-  }, [items, data, t])
+  }, [items, data, storeCaves, t])
 
   // Each filter group's counts follow the other group's choice.
   const kindShown = (row) => kinds.size === 0 || kinds.has(row.kind)

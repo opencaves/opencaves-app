@@ -13,6 +13,7 @@ import { useCaveData } from '@/hooks/useCaveData.js'
 import { buildSistemaAncestryComputer } from '@/services/data-service/postProcessCaveData.js'
 import { useCoverImage } from '@/models/CaveAsset.js'
 import mapsModel from '@/models/MapModel.js'
+import documentsModel from '@/models/DocumentModel.js'
 import { slugify } from '@/utils/slug.js'
 import { markdownToPlainText, truncate } from '@/utils/seo.js'
 import { COORDINATE_DECIMALS } from '@/config/map.js'
@@ -32,6 +33,7 @@ import ExplorationHistory from '@/components/ResultPane/ExplorationHistory.jsx'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
 import IndexSection, { CARD_FOOTER_SX } from '@/components/IndexPage/IndexSection.jsx'
 import MapsSection from '@/components/IndexPage/MapsSection.jsx'
+import FurtherReadingSection from '@/components/FurtherReading/FurtherReadingSection.jsx'
 import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 import SistemaArrow from '@/components/SistemaArrow.jsx'
@@ -237,8 +239,8 @@ function CaveMapTile({ cave, location, color, alone = false }) {
 
 /**
  * /caves/<id>: a cave's own page - what the map's details pane shows, as a
- * page: its area and system, location, access, description, photos and its
- * system's exploration history, and a small map of its spot linking to it
+ * page: its area and system, location, access, description, photos, its
+ * system's maps, Further reading (its own and its systems') and exploration history, and a small map of its spot linking to it
  * on the map (/map/<id>) - beside its cover photo. Its open "closed" or "now
  * private" reports lead it (CaveReportWarnings); each section says how old
  * its information is, on its card's foot: Still accurate to confirm it,
@@ -258,6 +260,8 @@ export default function CavePage() {
   const [cover, coverLoading] = useCoverImage(caveId)
   // Its system's maps (MapsSection), waited for too.
   const [allMaps, mapsLoading] = mapsModel.useAll()
+  // Its Further reading (and its systems'), waited for too.
+  const [allDocuments, documentsLoading] = documentsModel.useAll()
   const cave = useMemo(() => caves.find((c) => c.id === caveId), [caves, caveId])
   // Its nearest caves: the server's, on the page it rendered (it sends the one
   // cave, not every position); else from every cave here.
@@ -282,7 +286,7 @@ export default function CavePage() {
     return ancestry.map(({ id }) => data.sistemasById.get(id)).filter(Boolean)
   }, [cave, data])
 
-  if (loading || coverLoading || mapsLoading) return <IndexPageSkeleton item back cover />
+  if (loading || coverLoading || mapsLoading || documentsLoading) return <IndexPageSkeleton item back cover />
   // No such cave: the "not found" page, rendered rather than thrown - a
   // thrown error is logged to the console by React and React Router.
   if (!cave) return <NoMatch inLayout />
@@ -421,6 +425,7 @@ export default function CavePage() {
       <CaveVideosSection cave={cave} />
 
       <MapsSection sistemaId={cave.sistemaId} sistemas={data.sistemas} connections={data.connections} pagePath={`/caves/${cave.id}`} title={t('maps')} card pageMaps={allMaps} />
+      <FurtherReadingSection cave={cave} sistemaId={cave.sistemaId} sistemas={data.sistemas} connections={data.connections} pagePath={`/caves/${cave.id}`} pageDocuments={allDocuments} />
 
       {hasHistory && (
         <IndexSection id="history" title={tPane('explorationHistory')} className="oc-cave-page--history" card>

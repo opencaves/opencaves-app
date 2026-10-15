@@ -441,12 +441,13 @@ service cloud.firestore {
       return url is string && url.size() <= 2000 && url.matches('https?://[^ ]+')
     }
     function isValidDocument(d, k) {
-      return k.hasOnly(['kind', 'title', 'url', 'authors', 'year', 'publisher', 'language', 'description', 'doi',
+      return k.hasOnly(['kind', 'title', 'url', 'authors', 'year', 'publishedIn', 'language', 'description', 'doi',
           'userId', 'fullPath', 'contentType', 'status', 'rightsConfirmed'])
         && d.title is string && d.title.size() > 0 && d.title.size() <= 500
         && items(d, k, 'authors', 50)
         && (!('year' in k) || !('year' in d) || (d.year is string && d.year.matches('[0-9]{4}')))
-        && text(d, k, 'publisher', 300) && text(d, k, 'description', 1000)
+        // Where a PDF appeared (a journal, a book, a website); a link's site is its address.
+        && text(d, k, 'publishedIn', 300) && (!('publishedIn' in d) || d.kind == 'file') && text(d, k, 'description', 1000)
         && (!('language' in k) || !('language' in d) || (d.language is string && d.language.matches('[a-z]{2,8}')))
         && (!('doi' in k) || !('doi' in d) || (d.doi is string && d.doi.size() <= 300 && d.doi.matches('10[.][0-9]{4,9}/.+')))
         && (!('url' in k) || !('url' in d) || (d.kind == 'link' && isWebUrl(d.url)) || (d.kind == 'file' && isStorageUrl(d.url)))

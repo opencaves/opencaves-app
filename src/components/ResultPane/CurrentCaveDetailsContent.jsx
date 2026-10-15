@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Box, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip } from '@mui/material'
 import ContentCopy from '@mui/icons-material/ContentCopyRounded'
@@ -26,6 +27,7 @@ import QuickActions from './QuickActions.jsx'
 import Access, { AccessReview } from './Access.jsx'
 import SistemaHistory from './SistemaHistory.jsx'
 import CaveMediaTabs from './CaveMediaTabs.jsx'
+import FurtherReadingSection from '@/components/FurtherReading/FurtherReadingSection.jsx'
 import './CurrentCaveDetailsContent.scss'
 import { track } from '@/utils/track.js'
 
@@ -46,8 +48,8 @@ function DirectionsAction({ point, label, analytics }) {
 
 /**
  * The map's cave pane, read-only: its open reports' warnings, quick actions,
- * photos and videos, location, systems, access, description and getting
- * there - each of the last three with how old its information is ("Still
+ * photos and videos, location, systems, access, description, getting
+ * there and Further reading - access, description and getting there each with how old its information is ("Still
  * right?") and Report a change for what changed there.
  *
  * @param {object} props
@@ -55,6 +57,9 @@ function DirectionsAction({ point, label, analytics }) {
  */
 export default function CurrentCaveDetailsContent({ cave }) {
   const { t } = useTranslation('resultPane')
+  // Its systems, for its Further reading (theirs listed too).
+  const sistemas = useSelector((/** @type {RootState} */ state) => state.data.sistemas)
+  const connections = useSelector((/** @type {RootState} */ state) => state.data.connections)
 
   const isSmall = useSmall()
 
@@ -243,6 +248,9 @@ export default function CurrentCaveDetailsContent({ cave }) {
           <SectionReview cave={cave} sections={['directions']} />
         </Box>
       )}
+
+      {/* Its Further reading and its systems' (shown when there's some, or to editors). */}
+      <FurtherReadingSection cave={cave} sistemaId={cave.sistemaId} sistemas={sistemas} connections={connections} pagePath={`/map/${cave.id}`} variant="pane" />
 
 
     </Box>

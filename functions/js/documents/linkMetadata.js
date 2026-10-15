@@ -109,7 +109,7 @@ const clean = (text, max) => decode(text || '').replace(/\s+/g, ' ').trim().slic
  * (Google Scholar's), Dublin Core's, else Open Graph's and its <title>.
  *
  * @param {string} html
- * @returns {{title: string|null, authors: string[], year: string|null, publisher: string|null, doi: string|null, language: string|null}}
+ * @returns {{title: string|null, authors: string[], year: string|null, publishedIn: string|null, doi: string|null, language: string|null}}
  */
 export function pageDetails(html) {
   const headEnd = html.search(/<\/head>/i)
@@ -129,7 +129,8 @@ export function pageDetails(html) {
     title: clean(first('citation_title', 'dc.title', 'og:title') || /<title[^>]*>([\s\S]*?)<\/title>/i.exec(head)?.[1], 500),
     authors: [...new Set(authors)].slice(0, 50),
     year: date?.match(/\b(1[5-9]|20)\d{2}\b/)?.[0] || null,
-    publisher: clean(first('citation_journal_title', 'citation_conference_title', 'citation_publisher', 'dc.publisher', 'og:site_name'), 300),
+    // Where it appeared (a journal, a book, the site), not its publishing company.
+    publishedIn: clean(first('citation_journal_title', 'citation_conference_title', 'citation_inbook_title', 'citation_book_title', 'og:site_name'), 300),
     doi: doi ? decode(doi).replace(/[.,;]+$/, '') : null,
     language: (first('citation_language', 'dc.language') || /<html\b[^>]*\blang\s*=\s*["']?([a-z]{2,3})/i.exec(html)?.[1] || '').toLowerCase().slice(0, 3) || null,
   }
@@ -138,7 +139,7 @@ export function pageDetails(html) {
 /**
  * A web page's details, to fill the Further reading form (registered
  * accounts): { url (where it ended up, after redirects), contentType, title,
- * authors, year, publisher, doi, language (as the page gives it: "en",
+ * authors, year, publishedIn, doi, language (as the page gives it: "en",
  * "spa"...) } - each null when the page doesn't say ({@link pageDetails}). A
  * PDF's link comes back with its contentType alone.
  *

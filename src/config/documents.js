@@ -9,7 +9,7 @@ export const DOCUMENT_CONTENT_TYPE = 'application/pdf'
 
 // The fields' longest values (firestore.rules' isValidDocument).
 export const DOCUMENT_TITLE_MAX = 500
-export const DOCUMENT_PUBLISHER_MAX = 300
+export const DOCUMENT_PUBLISHED_IN_MAX = 300
 export const DOCUMENT_DESCRIPTION_MAX = 1000
 export const DOCUMENT_URL_MAX = 2000
 export const DOCUMENT_AUTHORS_MAX = 50

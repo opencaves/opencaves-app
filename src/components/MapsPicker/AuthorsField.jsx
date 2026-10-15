@@ -5,19 +5,26 @@ import mapsModel from '@/models/MapModel.js'
 
 /**
  * A chip-style, multi-value authors input suggested from every author name
- * already used across all maps, so repeat contributors get picked
- * consistently instead of being retyped (and possibly misspelled) each time.
+ * already used across all maps (or the names given), so repeat contributors
+ * get picked consistently instead of being retyped (and possibly misspelled)
+ * each time.
+ *
+ * @param {object} props
+ * @param {string[]} props.value
+ * @param {(authors: string[]) => void} props.onChange
+ * @param {string[]} [props.names] - The names suggested (Further reading's authors), instead of the maps'.
+ * @param {string} [props.helperText] - Its hint, instead of the maps' one.
  */
-export default function AuthorsField({ value, onChange }) {
+export default function AuthorsField({ value, onChange, names, helperText }) {
   const { t } = useTranslation('mapsPicker')
   const [maps] = mapsModel.useAll()
   const [inputValue, setInputValue] = useState('')
 
   const suggestions = useMemo(() => {
-    const authors = new Set()
-    maps.forEach((map) => (map.authors || []).forEach((author) => authors.add(author)))
+    const authors = new Set(names || [])
+    if (!names) maps.forEach((map) => (map.authors || []).forEach((author) => authors.add(author)))
     return [...authors].sort((a, b) => a.localeCompare(b))
-  }, [maps])
+  }, [maps, names])
 
   function addAuthors(names) {
     const additions = names.map((name) => name.trim()).filter((name) => name && !value.includes(name))
@@ -62,7 +69,7 @@ export default function AuthorsField({ value, onChange }) {
           setInputValue(newInputValue)
         }}
         onChange={(_, newValue) => onChange(newValue.map((author) => author.trim()).filter(Boolean))}
-        renderInput={(params) => <TextField {...params} label={t('mapAuthors')} placeholder={value.length === 0 ? t('addAuthor') : undefined} helperText={t('mapAuthorsHint')} />}
+        renderInput={(params) => <TextField {...params} label={t('mapAuthors')} placeholder={value.length === 0 ? t('addAuthor') : undefined} helperText={helperText ?? t('mapAuthorsHint')} />}
       />
     </Box>
   )

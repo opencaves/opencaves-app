@@ -782,7 +782,8 @@
       "report": {
         "photo": "Signaler cette photo",
         "map": "Signaler cette carte",
-        "video": "Signaler cette vidéo"
+        "video": "Signaler cette vidéo",
+        "document": "Signaler cette lecture"
       },
       "linkCopied": "Lien copié.",
       "shareFail": "Impossible de partager le lien.",
@@ -1451,7 +1452,8 @@
       "areas": "Zones",
       "colors": "Couleurs",
       "languages": "Langues",
-      "_users": "Comptes"
+      "_users": "Comptes",
+      "documents": "Pour en savoir plus"
     },
     "state": {
       "undone": "Défaite",
@@ -1560,7 +1562,9 @@
       "deleteTitle_one": "Supprimer définitivement ?",
       "deleteTitle_other": "Supprimer {{count}} éléments définitivement ?",
       "deleteConfirm_one": "Cet élément et ses fichiers seront supprimés pour de bon. Cette action est irréversible.",
-      "deleteConfirm_other": "Ces {{count}} éléments et leurs fichiers seront supprimés pour de bon. Cette action est irréversible."
+      "deleteConfirm_other": "Ces {{count}} éléments et leurs fichiers seront supprimés pour de bon. Cette action est irréversible.",
+      "documents_one": "Lectures ({{count}})",
+      "documents_other": "Lectures ({{count}})"
     }
   },
   "indexPages": {
@@ -1675,7 +1679,8 @@
       "modified": "Modifications",
       "removed": "Retraits",
       "kindsLabel": "Contenu",
-      "changesLabel": "Changement"
+      "changesLabel": "Changement",
+      "documents": "Lectures"
     },
     "kinds": {
       "caves": "Grotte",
@@ -1683,7 +1688,8 @@
       "connections": "Connexion",
       "maps": "Topographie",
       "photos": "Photos",
-      "videos": "Vidéos"
+      "videos": "Vidéos",
+      "documents": "Lecture"
     },
     "inSistema": "dans {{name}}",
     "mapOf": "carte de {{name}}",
@@ -1752,8 +1758,11 @@
       "photoOrder": "ordre des photos",
       "mapOrder": "ordre des topographies",
       "videoOrder": "ordre des vidéos",
-      "reviewed": "confirmation d'exactitude"
-    }
+      "reviewed": "confirmation d'exactitude",
+      "documentOrder": "ordre des lectures"
+    },
+    "untitledDocument": "Lecture sans titre",
+    "documentAbout": "sur {{name}}"
   },
   "feedback": {
     "title": "Envoyer des commentaires",
@@ -2125,6 +2134,10 @@
     "report": {
       "title": "Signaler un changement",
       "text": "Créez un compte gratuit pour signaler un changement sur une grotte, afin que l'équipe d'OpenCaves le vérifie."
+    },
+    "documents": {
+      "title": "Ajouter une lecture",
+      "text": "Créez un compte gratuit pour ajouter des articles, des rapports et des liens sur les grottes et les réseaux."
     }
   },
   "languagePicker": {
@@ -2482,5 +2495,74 @@
     },
     "undone": "Confirmation annulée : {{section}}, {{name}}.",
     "undoError": "La confirmation n'a pas pu être annulée. Réessayez."
+  },
+  "furtherReading": {
+    "title": "Pour en savoir plus",
+    "empty": "Aucune lecture pour l'instant.",
+    "addButton": "Ajouter une lecture",
+    "addTitle": "Ajouter une lecture",
+    "editTitle": "Modifier la lecture",
+    "tabs": {
+      "file": "Téléverser un PDF",
+      "link": "Coller un lien"
+    },
+    "pickFile": "Choisissez un PDF ou déposez-le ici",
+    "pickFileHint": "Un fichier PDF de {{size}} Mo au plus",
+    "fileSize": "{{size}} Mo",
+    "changeFile": "Changer",
+    "preferLink": "Le document est en ligne ? Collez plutôt son lien : il restera à jour à sa source.",
+    "readingFile": "Lecture du fichier…",
+    "readingLink": "Lecture de la page…",
+    "found": "Des détails ont été trouvés et remplis : vérifiez-les avant d'enregistrer.",
+    "fields": {
+      "url": "Lien",
+      "urlHint": "L'adresse de la page ou du document (http ou https)",
+      "title": "Titre",
+      "authorsHint": "Appuyez sur Entrée ou tapez une virgule après chaque nom",
+      "year": "Année",
+      "publishedIn": "Publié dans",
+      "publishedInHint": "Une revue, un livre ou un site web",
+      "language": "Langue",
+      "noLanguage": "Non précisée",
+      "doi": "DOI",
+      "doiHint": "Son identifiant, s'il en a un",
+      "description": "Description"
+    },
+    "rights": "J'ai le droit de partager ce fichier",
+    "rightsHint": "Il sera public. Si l'article est déjà en ligne, ajoutez plutôt son lien.",
+    "uploading": "Envoi… {{progress}} %",
+    "errors": {
+      "notPdf": "Ce fichier n'est pas un PDF.",
+      "tooLarge": "Ce fichier dépasse {{size}} Mo.",
+      "linkUnread": "Impossible de lire cette page : remplissez les détails vous-même.",
+      "url": "Entrez une adresse web commençant par http:// ou https://.",
+      "year": "Une année à quatre chiffres.",
+      "saveFailed": "Impossible d'enregistrer. Réessayez."
+    },
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "add": "Ajouter",
+    "saved": "Lecture enregistrée.",
+    "added": "Ajoutée à Pour en savoir plus.",
+    "uploaded": "PDF envoyé : il s'affichera une fois vérifié.",
+    "edit": "Modifier",
+    "trash": "Supprimer",
+    "remove": "Retirer",
+    "trashTitle": "Supprimer cette lecture ?",
+    "trashConfirm": "« {{title}} » va à la corbeille et disparaît de chaque grotte et réseau qui l'affiche. Un admin peut la restaurer depuis Audits > Corbeille.",
+    "trashed": "Lecture mise à la corbeille.",
+    "trashFailed": "Impossible de supprimer la lecture.",
+    "removed": "Fichier retiré.",
+    "removeFailed": "Impossible de retirer le fichier.",
+    "checking": "Vérification…",
+    "rejected": {
+      "notPdf": "Refusé : ce n'est pas un PDF",
+      "unreadable": "Refusé : le PDF est illisible",
+      "encrypted": "Refusé : le PDF est protégé ou chiffré - ajoutez plutôt son lien",
+      "noPages": "Refusé : le PDF n'a aucune page",
+      "tooLarge": "Refusé : le fichier est trop gros"
+    },
+    "options": "Options de « {{title}} »",
+    "etAl": "et al."
   }
 }

@@ -7,7 +7,7 @@ import CloseRounded from '@mui/icons-material/CloseRounded'
 import { setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { AUTH_PROMPT_EVENT } from '@/hooks/useRequireLogin.jsx'
 
-const REASONS = ['photos', 'videos', 'maps', 'feedback', 'confirm', 'report']
+const REASONS = ['photos', 'videos', 'maps', 'documents', 'feedback', 'confirm', 'report']
 
 /**
  * Why an account is needed, before the log-in or sign-up page

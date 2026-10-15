@@ -783,7 +783,8 @@
       "report": {
         "photo": "Report this photo",
         "map": "Report this map",
-        "video": "Report this video"
+        "video": "Report this video",
+        "document": "Report this reading"
       },
       "linkCopied": "Link copied.",
       "shareFail": "Couldn't share the link.",
@@ -1452,7 +1453,8 @@
       "areas": "Areas",
       "colors": "Colors",
       "languages": "Languages",
-      "_users": "Accounts"
+      "_users": "Accounts",
+      "documents": "Further reading"
     },
     "state": {
       "undone": "Undone",
@@ -1561,7 +1563,9 @@
       "deleteTitle_one": "Delete permanently?",
       "deleteTitle_other": "Delete {{count}} items permanently?",
       "deleteConfirm_one": "This item and its files will be deleted for good. This cannot be undone.",
-      "deleteConfirm_other": "These {{count}} items and their files will be deleted for good. This cannot be undone."
+      "deleteConfirm_other": "These {{count}} items and their files will be deleted for good. This cannot be undone.",
+      "documents_one": "Further reading ({{count}})",
+      "documents_other": "Further reading ({{count}})"
     }
   },
   "indexPages": {
@@ -1676,7 +1680,8 @@
       "modified": "Modified",
       "removed": "Removed",
       "kindsLabel": "Content",
-      "changesLabel": "Change"
+      "changesLabel": "Change",
+      "documents": "Further reading"
     },
     "kinds": {
       "caves": "Cave",
@@ -1684,7 +1689,8 @@
       "connections": "Connection",
       "maps": "Survey map",
       "photos": "Photos",
-      "videos": "Videos"
+      "videos": "Videos",
+      "documents": "Further reading"
     },
     "inSistema": "in {{name}}",
     "mapOf": "map of {{name}}",
@@ -1753,8 +1759,11 @@
       "photoOrder": "photo order",
       "mapOrder": "map order",
       "videoOrder": "video order",
-      "reviewed": "confirmed still accurate"
-    }
+      "reviewed": "confirmed still accurate",
+      "documentOrder": "further reading order"
+    },
+    "untitledDocument": "Untitled reading",
+    "documentAbout": "about {{name}}"
   },
   "feedback": {
     "title": "Send feedback",
@@ -2126,6 +2135,10 @@
     "report": {
       "title": "Report a change",
       "text": "Create a free account to report a change on a cave, so the OpenCaves team can check it."
+    },
+    "documents": {
+      "title": "Add further reading",
+      "text": "Create a free account to add papers, reports and links about caves and cave systems."
     }
   },
   "languagePicker": {
@@ -2483,5 +2496,74 @@
     },
     "undone": "Confirmation undone: {{section}}, {{name}}.",
     "undoError": "The confirmation couldn't be undone. Try again."
+  },
+  "furtherReading": {
+    "title": "Further reading",
+    "empty": "No reading yet.",
+    "addButton": "Add reading",
+    "addTitle": "Add further reading",
+    "editTitle": "Edit reading",
+    "tabs": {
+      "file": "Upload a PDF",
+      "link": "Paste a link"
+    },
+    "pickFile": "Choose a PDF or drop it here",
+    "pickFileHint": "A PDF file of {{size}} MB at most",
+    "fileSize": "{{size}} MB",
+    "changeFile": "Change",
+    "preferLink": "Is it online? Paste its link instead: it stays up to date at its source.",
+    "readingFile": "Reading the file…",
+    "readingLink": "Reading the page…",
+    "found": "Details were found and filled in: check them before saving.",
+    "fields": {
+      "url": "Link",
+      "urlHint": "The page's or the document's address (http or https)",
+      "title": "Title",
+      "authorsHint": "Press Enter or type a comma after each name",
+      "year": "Year",
+      "publishedIn": "Published in",
+      "publishedInHint": "A journal, book or website",
+      "language": "Language",
+      "noLanguage": "Not given",
+      "doi": "DOI",
+      "doiHint": "Its identifier, if it has one",
+      "description": "Description"
+    },
+    "rights": "I have the right to share this file",
+    "rightsHint": "It will be public. If the paper is already online, add its link instead.",
+    "uploading": "Uploading… {{progress}}%",
+    "errors": {
+      "notPdf": "This file isn't a PDF.",
+      "tooLarge": "This file is over {{size}} MB.",
+      "linkUnread": "This page couldn't be read: fill in the details yourself.",
+      "url": "Enter a web address starting with http:// or https://.",
+      "year": "A four-digit year.",
+      "saveFailed": "Couldn't save. Try again."
+    },
+    "cancel": "Cancel",
+    "save": "Save",
+    "add": "Add",
+    "saved": "Reading saved.",
+    "added": "Added to Further reading.",
+    "uploaded": "PDF uploaded: it shows once checked.",
+    "edit": "Edit",
+    "trash": "Delete",
+    "remove": "Remove",
+    "trashTitle": "Delete this reading?",
+    "trashConfirm": "\"{{title}}\" goes to the trash and disappears from every cave and system that shows it. An admin can restore it from Audits > Trash.",
+    "trashed": "Reading moved to the trash.",
+    "trashFailed": "Couldn't delete the reading.",
+    "removed": "File removed.",
+    "removeFailed": "Couldn't remove the file.",
+    "checking": "Checking…",
+    "rejected": {
+      "notPdf": "Refused: not a PDF",
+      "unreadable": "Refused: the PDF can't be read",
+      "encrypted": "Refused: the PDF is protected or encrypted - add its link instead",
+      "noPages": "Refused: the PDF has no pages",
+      "tooLarge": "Refused: the file is too large"
+    },
+    "options": "Options for \"{{title}}\"",
+    "etAl": "et al."
   }
 }

@@ -291,7 +291,8 @@
  * @property {string} [url] - A link's address (http or https); a file's download link.
  * @property {string[]} [authors]
  * @property {string} [year] - 'YYYY'.
- * @property {string} [publisher] - The journal, the book or the website.
+ * @property {string} [publishedIn] - A file's: where it appeared - a journal, a book, a survey bulletin, a website
+ *   (not the publishing company). A link has none: its line shows its address' domain.
  * @property {string} [language] - A content language's code (the `languages` collection: eng, spa...).
  * @property {string} [description] - Short, plain text.
  * @property {string} [doi] - Its DOI ("10.1234/..."), without the https://doi.org/.

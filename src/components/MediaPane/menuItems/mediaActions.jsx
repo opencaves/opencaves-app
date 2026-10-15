@@ -19,14 +19,15 @@ import { track } from '@/utils/track.js'
  */
 
 /**
- * The actions everyone has on a photo, a survey map or a video, the same in
+ * The actions everyone has on a photo, a survey map, a video or a Further
+ * reading document, the same in
  * each of their ⋮ menus: Share (the system's share sheet, else the link
  * copied) when it has a link, Download (its file, when there's one and no
  * button for it already) and Report this… (the Send feedback form about it:
  * a visitor is asked to sign in first). A builder, called for each item (a
  * list's, in a loop where a hook can't be).
  *
- * @returns {(media: { kind: 'photo'|'map'|'video', itemId?: string, shareUrl?: string, download?: { url: string, fileName: string }, reportPage: string, onDone?: () => void }) => MediaAction[]} The
+ * @returns {(media: { kind: 'photo'|'map'|'video'|'document', itemId?: string, shareUrl?: string, download?: { url: string, fileName: string }, reportPage: string, onDone?: () => void }) => MediaAction[]} The
  *   actions for one item: `itemId` its id (the analytics events': share, download, report_media),
  *   `shareUrl` its link (none: no Share), `download` its file (none: no Download), `reportPage` what a
  *   report is about (its address, or its link), `onDone` called as an action is chosen (closes the menu).
