@@ -2570,6 +2570,9 @@
     "options": "Opciones de «{{title}}»",
     "summaryMore": "Más",
     "summaryLess": "Menos",
+    "paneCount_one": "{{count}} documento",
+    "paneCount_other": "{{count}} documentos",
+    "paneEmpty": "Ninguno todavía: añada el primero",
     "etAl": "et al."
   }
 }

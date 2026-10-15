@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Box, Button, Dialog, IconButton, Typography, styled } from '@mui/material'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import { useSmall } from '@/hooks/useSmall.jsx'
+import { usePaneSwap } from '@/hooks/usePaneSwap.js'
 import Reorderable, { CoverBadge } from '@/components/Reorder/Reorderable.jsx'
 
 // MD3's carousel, uncontained layout
@@ -22,24 +23,17 @@ const ITEM_WIDTH = '80%'
 // variables.scss, matched to it: half the extra width each way).
 const PARALLAX = 0.2
 
-// The Show all pane's transition on phones (MD3's carousel guidelines): the
-// two screens swap side by side - the page squeezes toward its start edge,
-// shrinking in width, as the pane grows in from the end edge; back, the
-// reverse. MD3's emphasized easing, long duration. With reduced motion, a
-// fade.
-const SWAP = { duration: 450, easing: 'cubic-bezier(0.2, 0, 0, 1)' }
 // The pane's items: their visual's corners, and a photo's <picture> filling
 // it (its <img> at 100% of it: a photo wider than its tile kept its own
 // height otherwise, a band of the tile left under it).
 const GRID_SX = { '& .oc-carousel--media': { borderRadius: `${ITEM_RADIUS}px` }, '& .oc-carousel--media > picture': { width: '100%', height: '100%' } }
 const PANE_EDGE_SX = (theme) => ({ '& .MuiDialog-paper': { border: `12px solid ${theme.vars.palette.background.default}` } })
-const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 /**
  * Every item of a carousel or a strip, in a vertical grid (MD3: on a
  * vertically scrolling page, a way to see them all without scrolling
  * sideways): a pane, full screen on phones (two columns there, swapped in -
- * SWAP), with a back arrow and the list's title. Its children: `<li>`s, each
+ * {@link usePaneSwap}), with a back arrow and the list's title. Its children: `<li>`s, each
  * one's visual marked `.oc-carousel--media`.
  *
  * @param {object} props
@@ -54,44 +48,9 @@ const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: r
 export function ShowAllPane({ open, onClose, title, gridMinWidth = '200px', gridGap = 2, children, sortable }) {
   const { t } = useTranslation('app')
   const isPhone = useSmall()
-  const swap = isPhone && !prefersReducedMotion()
-  const paperRef = useRef(null)
-  const animations = useRef([])
-  const closingRef = useRef(false)
-
-  // The swap, one way: the page (the app, outside the dialog's portal) and
-  // the pane, each squeezed from its own edge.
-  function animateSwap(forward) {
-    const page = document.getElementById('root')
-    const pane = paperRef.current
-    animations.current.forEach((animation) => animation.cancel())
-    if (!page || !pane) return (animations.current = [])
-    const direction = forward ? 'normal' : 'reverse'
-    animations.current = [
-      page.animate([{ transformOrigin: '0 50%', transform: 'none' }, { transformOrigin: '0 50%', transform: 'scaleX(0)' }], { ...SWAP, direction, fill: 'both' }),
-      pane.animate([{ transformOrigin: '100% 50%', transform: 'scaleX(0)' }, { transformOrigin: '100% 50%', transform: 'none' }], { ...SWAP, direction, fill: 'both' }),
-    ]
-    return animations.current
-  }
-  // Leaving the page (an item opened) with the pane open: the page back.
-  useEffect(() => () => animations.current.forEach((animation) => animation.cancel()), [])
-
-  function close() {
-    if (!swap) return onClose()
-    if (closingRef.current) return undefined
-    closingRef.current = true
-    const [pageAnimation, paneAnimation] = animateSwap(false)
-    Promise.all([pageAnimation, paneAnimation].map((animation) => animation?.finished.catch(() => {}))).then(() => {
-      // The page's animation ends where it started: dropping it changes
-      // nothing. The pane's stays (squeezed to nothing) until the pane is
-      // gone - dropping it first would show the pane again for a frame.
-      pageAnimation?.cancel()
-      animations.current = paneAnimation ? [paneAnimation] : []
-      closingRef.current = false
-      onClose()
-    })
-    return undefined
-  }
+  // Phones: swapped in (usePaneSwap).
+  const { swap, paperRef, enter, close: swapClose } = usePaneSwap(isPhone)
+  const close = () => swapClose(onClose)
 
   return (
     <Dialog
@@ -113,7 +72,7 @@ export function ShowAllPane({ open, onClose, title, gridMinWidth = '200px', grid
         transitionDuration: 0,
         // Once the pane's content is in the page (the dialog mounts it after
         // opening).
-        slotProps: { paper: { ref: paperRef }, transition: { onEntering: () => animateSwap(true) } },
+        slotProps: { paper: { ref: paperRef }, transition: { onEntering: enter } },
       })}
     >
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, px: 0.5, minHeight: 64, flexShrink: 0 }}>

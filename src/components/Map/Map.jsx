@@ -1,5 +1,5 @@
 import { createRef, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useLocation, useParams, useNavigate } from 'react-router-dom'
+import { useLocation, useMatch, useParams, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import mapboxgl, { LngLat, Point } from 'mapbox-gl'
@@ -17,6 +17,7 @@ import { useSmall } from '@/hooks/useSmall.jsx'
 import useCurrentRoute from '@/hooks/useCurrentRoute.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { PANE_WIDTH } from '@/config/app.js'
+import { READING_PANE_PATH } from '@/components/FurtherReading/readingPane.js'
 import { SISTEMA_DEFAULT_COLOR, INITIAL_VIEW_STATE as defaultViewState, MAP_PROPS, MARKER_CONFIG, COORDINATE_DECIMALS } from '@/config/map.js'
 import { num } from '@/services/data-service/types.js'
 import PinIcon from '@/images/map/pin.svg?react'
@@ -133,6 +134,9 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   // its centering to keep the current cave visible in the narrower
   // remaining space.
   const isWidePaneEditMode = location.pathname.endsWith('/edit') && roles.includes('editor')
+  // Further reading's pane open beside the cave's (a computer's): the map
+  // left visible is narrower (paneCoverWidth).
+  const readingPaneOpen = Boolean(useMatch(READING_PANE_PATH))
 
   const [mapReady, setMapReady] = useState(false)
   const theme = useTheme()
@@ -419,6 +423,17 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     doSetActiveMarkerElem(markerElem)
   }
 
+  // A computer's panes: how much of the map's left they cover - the cave's
+  // pane, and Further reading's beside it when open (where it ends once in
+  // place: offsetLeft and offsetWidth ignore its entrance's transform).
+  function paneCoverWidth() {
+    // Keep in sync with ResultPaneLg.jsx's own `min(PANE_WIDTH * 2, 80vw)`
+    // cap on its max-width in edit mode.
+    const caveWidth = isWidePaneEditMode ? Math.min(PANE_WIDTH * 2, window.innerWidth * 0.8) : PANE_WIDTH
+    const reading = /** @type {HTMLElement|null} */ (document.getElementById('oc-further-reading-pane'))
+    return reading ? Math.max(caveWidth, reading.offsetLeft + reading.offsetWidth) : caveWidth
+  }
+
   function getCenterLngLat(lng, lat, offsetForPane = true, zoom = currentZoomLevel) {
     try {
       const map = mapRef.current
@@ -458,10 +473,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
 
         centerPoint = currentPoint.add(new Point(0, (resultPaneHeight - searchFieldBottom) / 2))
       } else {
-        // Keep in sync with ResultPaneLg.jsx's own `min(PANE_WIDTH * 2, 80vw)`
-        // cap on its max-width in edit mode.
-        const effectivePaneWidth = isWidePaneEditMode ? Math.min(PANE_WIDTH * 2, window.innerWidth * 0.8) : PANE_WIDTH
-        centerPoint = currentPoint.sub(new Point(effectivePaneWidth / 2, 0))
+        centerPoint = currentPoint.sub(new Point(paneCoverWidth() / 2, 0))
       }
 
       const centerLngLat = map.unproject(centerPoint)
@@ -485,8 +497,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
       const searchFieldBottom = document.querySelector('#oc-search-bar .oc-search-bar--field')?.getBoundingClientRect().bottom ?? 0
       return x >= margin && x <= container.width - margin && y >= Math.max(0, searchFieldBottom) + margin && y <= resultPaneTop - container.y - margin
     }
-    const effectivePaneWidth = isWidePaneEditMode ? Math.min(PANE_WIDTH * 2, window.innerWidth * 0.8) : PANE_WIDTH
-    return x >= effectivePaneWidth + margin && x <= container.width - margin && y >= margin && y <= container.height - margin
+    return x >= paneCoverWidth() + margin && x <= container.width - margin && y >= margin && y <= container.height - margin
   }
 
   // Phone: the layout the offset was measured against is often still moving
@@ -561,6 +572,15 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
       cameraFrameRef.current = requestAnimationFrame(move)
     })
   }
+
+  // Further reading's pane opened or closed (a computer's): the cave centred
+  // again in the map left visible (moveCameraTo waits two frames: the pane
+  // is in place by then, or gone).
+  useEffect(() => {
+    if (isSmall || !currentCave?.location) return
+    moveCameraTo(currentCave)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [readingPaneOpen])
 
   function flyToMarker({ animate = true, cave = currentCave, offsetForPane = true } = {}) {
     if (cave && cave.location) {

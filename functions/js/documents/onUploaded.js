@@ -21,7 +21,8 @@ const PATH = /^documents\/([-_A-Za-z0-9]{1,64})\.pdf$/
  * the browser's PDF viewer), with the same download
  * token (its record's `url` keeps working), marked ocChecked so this run's
  * own save isn't checked again. Its record (`documents/{id}`) then says
- * `ready`, with the cleaned file's size; a refused file is deleted, its
+ * `ready`, with the cleaned file's size and its cover (its first page,
+ * cover.js: `coverUrl`); a refused file is deleted, its
  * record `rejected` with why (`rejectReason`, which the app explains to its
  * uploader). A file without a record (deleted meanwhile) is deleted. Files
  * copied by the sync scripts (ocSync) come checked: they're only made to
@@ -80,6 +81,14 @@ export const onDocumentUploaded = onObjectFinalized({ memory: '1GiB', timeoutSec
       metadata: { ...metadata, ocChecked: 'true' },
     },
   })
-  await docRef.update({ status: 'ready', size: result.bytes.length })
-  logger.info('[documents] PDF checked', { documentId, pages: result.pages, uploadedBytes: bytes.length, savedBytes: result.bytes.length, removed: result.removed })
+  // Its cover (its first page): a PDF without one is shown all the same.
+  let coverUrl = null
+  try {
+    const { saveDocumentCover } = await import('./cover.js')
+    coverUrl = await saveDocumentCover(bucket, documentId, result.bytes)
+  } catch (error) {
+    logger.warn('[documents] no cover for the PDF', { documentId, error: error?.message })
+  }
+  await docRef.update({ status: 'ready', size: result.bytes.length, ...(coverUrl && { coverUrl }) })
+  logger.info('[documents] PDF checked', { documentId, pages: result.pages, uploadedBytes: bytes.length, savedBytes: result.bytes.length, removed: result.removed, cover: Boolean(coverUrl) })
 })

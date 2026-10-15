@@ -1,13 +1,18 @@
 import { Suspense, lazy, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box } from '@mui/material'
+import { Link, useMatch } from 'react-router-dom'
+import { Box, Divider, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
+import ChevronRightRounded from '@mui/icons-material/ChevronRightRounded'
+import MenuBookRounded from '@mui/icons-material/MenuBookRounded'
 import AddButton from '@/components/AddButton.jsx'
 import IndexSection from '@/components/IndexPage/IndexSection.jsx'
 import EmptySectionText from '@/components/IndexPage/EmptySectionText.jsx'
 import { useRequireLogin } from '@/hooks/useRequireLogin.jsx'
+import { useSmall } from '@/hooks/useSmall.jsx'
 import FurtherReadingList from './FurtherReadingList.jsx'
 import { useFurtherReading } from './useFurtherReading.js'
+import { READING_PANE_PATH, requestReadingPaneClose } from './readingPane.js'
 
 // The add and edit dialog (and its PDF reading), loaded once opened.
 const DocumentDialog = lazy(() => import('./DocumentDialog.jsx'))
@@ -19,7 +24,10 @@ const DocumentDialog = lazy(() => import('./DocumentDialog.jsx'))
  * (the others are asked to sign in first) opening {@link DocumentDialog}.
  * On a page (`page`): a section of its own (#further-reading), after the
  * maps - shown with nothing yet too, saying so. In the map's pane (`pane`):
- * shown when there's something, or to editors.
+ * one row, its count, opening Further reading's own pane (FurtherReadingPane,
+ * ./reading) - on a computer, a toggle: selected while the pane is open,
+ * closing it ({@link requestReadingPaneClose}) - shown when there's something, or to editors. In that pane
+ * (`panel`): the list and Add, the pane giving the title.
  *
  * @param {object} props
  * @param {Cave|null} [props.cave] - A cave's page or pane: the cave (its documents are added to it).
@@ -28,12 +36,15 @@ const DocumentDialog = lazy(() => import('./DocumentDialog.jsx'))
  * @param {Connection[]} props.connections
  * @param {string} props.pagePath - The page's address (reports).
  * @param {CaveDocument[]} [props.pageDocuments] - Every document, from the page that waited for them.
- * @param {'page'|'pane'} [props.variant='page']
+ * @param {'page'|'pane'|'panel'} [props.variant='page']
  */
 export default function FurtherReadingSection({ cave = null, sistemaId, sistemas, connections, pagePath, pageDocuments, variant = 'page' }) {
   const { t } = useTranslation('furtherReading')
   const isEditor = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('editor')
   const requireLogin = useRequireLogin('documents')
+  const isPhone = useSmall()
+  // The map's pane: Further reading's own pane open beside it.
+  const readingOpen = Boolean(useMatch(READING_PANE_PATH)) && variant === 'pane'
   const { items, loading, reorder, groupOf } = useFurtherReading({ cave, sistemaId, sistemas, connections, pageDocuments })
   // The dialog: { document } to edit one, {} to add one, null closed.
   const [dialog, setDialog] = useState(/** @type {{document?: CaveDocument}|null} */ (null))
@@ -59,15 +70,45 @@ export default function FurtherReadingSection({ cave = null, sistemaId, sistemas
   )
 
   if (variant === 'pane') {
+    // One row: the list would outweigh the rest of the pane (a cave with
+    // fourteen papers). Relative: /map/<id>/reading.
     return (
       <Box component="section" className="oc-details-section oc-further-reading oc-further-reading--pane">
-        <div className="details-container">
-          <h2 className="h2">{t('title')}</h2>
-        </div>
-        <Box sx={{ px: 'var(--oc-pane-padding-inline, 16px)' }}>
-          {list}
-          {isEditor && add}
-        </Box>
+        <ListItemButton
+          component={Link}
+          to="reading"
+          state={{ fromPane: true }}
+          className="oc-further-reading--open"
+          // A computer's toggle: open, the pane closes (animated) instead.
+          selected={readingOpen && !isPhone}
+          aria-expanded={isPhone ? undefined : readingOpen}
+          aria-controls={readingOpen && !isPhone ? 'oc-further-reading-pane' : undefined}
+          onClick={(event) => {
+            if (!readingOpen || isPhone) return
+            event.preventDefault()
+            requestReadingPaneClose()
+          }}
+          sx={{ px: 'var(--oc-pane-padding-inline, 16px)', py: 1.5 }}
+        >
+          <ListItemIcon sx={{ minWidth: 40, color: 'primary.main' }}>
+            <MenuBookRounded />
+          </ListItemIcon>
+          <ListItemText primary={t('title')} secondary={items.length > 0 ? t('paneCount', { count: items.length }) : t('paneEmpty')} slotProps={{ primary: { sx: { fontWeight: 500 } } }} />
+          {/* Pointing back to the cave's pane while its own pane is open. */}
+          <ChevronRightRounded sx={(theme) => ({ color: 'text.secondary', transform: readingOpen && !isPhone ? 'rotate(180deg)' : 'none', transition: `transform ${theme.oc.sys.motion.duration.emphasizedDecelerate}ms ${theme.sys.motion.easing.emphasizedDecelerate}` })} />
+        </ListItemButton>
+      </Box>
+    )
+  }
+
+  if (variant === 'panel') {
+    return (
+      <Box className="oc-further-reading oc-further-reading--panel" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        {items.length === 0 && <EmptySectionText>{t('empty')}</EmptySectionText>}
+        {list}
+        {/* Add apart from the list, as its items are from each other. */}
+        {items.length > 0 && <Divider sx={(theme) => ({ borderColor: theme.vars.sys.color.outlineVariant })} />}
+        {add}
         {dialogs}
       </Box>
     )

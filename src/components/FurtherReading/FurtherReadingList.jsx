@@ -149,6 +149,63 @@ function useTrashDocumentConfirm() {
 
 // A summary's lines shown before More.
 const SUMMARY_LINES = 3
+// A document's cover, an A4 page's proportions: a PDF's first page, else
+// one set in type (DocumentCover).
+const COVER_WIDTH = 56
+const COVER_SX = (theme) => ({ width: COVER_WIDTH, aspectRatio: '1 / 1.414', flexShrink: 0, borderRadius: 1, outline: `1px solid ${theme.vars.sys.color.outlineVariant}` })
+// A typeset cover's band: one of these by its site's name (each site its own,
+// the same on every page), in the theme's colours.
+const BAND_COLORS = ['primary.main', 'secondary.main', 'info.main', 'success.main', 'warning.main']
+
+/**
+ * A short name for a site, from its address: the name under its top-level
+ * domain (science.org: science; onlinelibrary.wiley.com: wiley).
+ *
+ * @param {string} [url]
+ * @returns {string}
+ */
+function siteName(url) {
+  try {
+    const labels = new URL(url).hostname.replace(/^www\./, '').split('.')
+    return labels.length >= 2 ? labels[labels.length - 2] : labels[0]
+  } catch {
+    return ''
+  }
+}
+
+/**
+ * A document's cover, beside its title: a PDF's first page (drawn by the
+ * server), else one set in type - a band in its source's colour
+ * ({@link BAND_COLORS}), the source (a link's site, {@link siteName}; a
+ * PDF's journal), the year, and a link's or a PDF's icon.
+ *
+ * @param {object} props
+ * @param {CaveDocument} props.document
+ */
+function DocumentCover({ document }) {
+  if (document.coverUrl) {
+    return <Box component="img" className="oc-further-reading--cover" src={document.coverUrl} alt="" loading="lazy" crossOrigin="anonymous" sx={(theme) => ({ ...COVER_SX(theme), objectFit: 'cover', objectPosition: 'top', bgcolor: '#ffffff' })} />
+  }
+  const source = document.kind === 'link' ? siteName(document.url) : document.publishedIn || 'PDF'
+  const band = BAND_COLORS[[...source].reduce((sum, char) => sum + char.charCodeAt(0), 0) % BAND_COLORS.length]
+  const Icon = document.kind === 'link' ? LinkRounded : PictureAsPdfRounded
+  return (
+    <Box
+      aria-hidden="true"
+      className="oc-further-reading--cover oc-further-reading--cover-typeset"
+      sx={(theme) => ({ ...COVER_SX(theme), display: 'flex', flexDirection: 'column', overflow: 'hidden', bgcolor: theme.vars.sys.color.surfaceContainerHighest, color: 'text.secondary' })}
+    >
+      <Box sx={{ height: 6, flexShrink: 0, bgcolor: band }} />
+      <Box sx={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', px: 0.5, pt: 0.5, pb: 0.25 }}>
+        <Box sx={{ fontSize: 8, lineHeight: 1.15, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', overflowWrap: 'anywhere', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{source}</Box>
+        <Box sx={{ mt: 'auto', display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+          <Box sx={{ fontSize: 12, fontWeight: 700, color: 'text.primary', fontVariantNumeric: 'tabular-nums' }}>{document.year}</Box>
+          <Icon sx={{ fontSize: 12 }} />
+        </Box>
+      </Box>
+    </Box>
+  )
+}
 
 /**
  * A document's summary: its first lines ({@link SUMMARY_LINES}), and a More
@@ -190,7 +247,7 @@ function DocumentSummary({ text }) {
 }
 
 /**
- * Further reading's items: each its icon (a PDF, a link), its title opening
+ * Further reading's items: each its cover ({@link DocumentCover}), its title opening
  * it in a new tab, its line ({@link citationLine}) and summary ({@link DocumentSummary}); a PDF its
  * uploader sees before it's shown says it's being checked, or why it was
  * refused. Each its ⋮ menu: Share, Download (a PDF) and Report for everyone
@@ -280,13 +337,7 @@ export default function FurtherReadingList({ items, onReorder, groupOf, onEdit, 
           '& + &': { borderTop: `1px solid ${theme.vars.sys.color.outlineVariant}` },
         })}
       >
-        {/* M3 list item's leading icon, on its tonal container. */}
-        <Box
-          aria-hidden="true"
-          sx={(theme) => ({ width: 40, height: 40, flexShrink: 0, borderRadius: '50%', display: 'grid', placeItems: 'center', bgcolor: theme.vars.sys.color.secondaryContainer, color: theme.vars.sys.color.onSecondaryContainer })}
-        >
-          {document.kind === 'file' ? <PictureAsPdfRounded fontSize="small" /> : <LinkRounded fontSize="small" />}
-        </Box>
+        <DocumentCover document={document} />
         <Box sx={{ flex: 1, minWidth: 0 }}>
           {href ? (
             <Link
@@ -296,17 +347,17 @@ export default function FurtherReadingList({ items, onReorder, groupOf, onEdit, 
               rel="noopener noreferrer"
               underline="hover"
               onClick={() => track('select_content', { content_type: 'document', item_id: document.id })}
-              sx={{ fontWeight: 500, overflowWrap: 'anywhere' }}
+              sx={{ fontWeight: 500, overflowWrap: 'break-word' }}
             >
               {document.title}
             </Link>
           ) : (
-            <Typography className="oc-further-reading--title" sx={{ fontWeight: 500, overflowWrap: 'anywhere' }}>
+            <Typography className="oc-further-reading--title" sx={{ fontWeight: 500, overflowWrap: 'break-word' }}>
               {document.title}
             </Typography>
           )}
           {line && (
-            <Typography variant="body2" className="oc-further-reading--line" sx={{ color: 'text.secondary', overflowWrap: 'anywhere' }}>
+            <Typography variant="body2" className="oc-further-reading--line" sx={{ color: 'text.secondary', overflowWrap: 'break-word' }}>
               {line}
             </Typography>
           )}

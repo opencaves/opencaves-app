@@ -10,6 +10,15 @@ import { DOCUMENTS_FOLDER } from '../constants.js'
 export const documentFilePath = (documentId) => `${DOCUMENTS_FOLDER}/${documentId}.pdf`
 
 /**
+ * A Further reading PDF's cover in Storage (its first page, cover.js):
+ * documents/{documentId}_cover.webp (its record's coverUrl).
+ *
+ * @param {string} documentId
+ * @returns {string}
+ */
+export const documentCoverPath = (documentId) => `${DOCUMENTS_FOLDER}/${documentId}_cover.webp`
+
+/**
  * A PDF's Content-Disposition: inline, so its link opens it in the browser's
  * PDF viewer rather than downloading it (Storage serves `attachment` to a
  * file without one), named after its title - an ASCII name for every
