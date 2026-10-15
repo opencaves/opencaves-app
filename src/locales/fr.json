@@ -2530,7 +2530,7 @@
       "noLanguage": "Non précisée",
       "doi": "DOI",
       "doiHint": "Son identifiant, s'il en a un",
-      "description": "Description"
+      "summary": "Résumé"
     },
     "rights": "J'ai le droit de partager ce fichier",
     "rightsHint": "Il sera public. Si l'article est déjà en ligne, ajoutez plutôt son lien.",
@@ -2567,6 +2567,8 @@
       "tooLarge": "Refusé : le fichier est trop gros"
     },
     "options": "Options de « {{title}} »",
+    "summaryMore": "Plus",
+    "summaryLess": "Moins",
     "etAl": "et al."
   }
 }

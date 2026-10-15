@@ -294,7 +294,8 @@
  * @property {string} [publishedIn] - A file's: where it appeared - a journal, a book, a survey bulletin, a website
  *   (not the publishing company). A link has none: its line shows its address' domain.
  * @property {string} [language] - A content language's code (the `languages` collection: eng, spa...).
- * @property {string} [description] - Short, plain text.
+ * @property {string} [summary] - What it says, in plain text (a paper's: in our own words, not its abstract).
+ * @property {string} [description] - The summary's older name, on documents saved before it: read when there's no `summary`, removed by the next edit.
  * @property {string} [doi] - Its DOI ("10.1234/..."), without the https://doi.org/.
  * @property {string} [userId] - Who added it.
  * @property {string} [fullPath] - A file: its path in Storage (documents/{id}.pdf).
