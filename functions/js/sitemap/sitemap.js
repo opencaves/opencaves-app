@@ -23,39 +23,41 @@ function buildSitemap(urls) {
 }
 
 const hasText = (value) => typeof value === 'string' && value.trim() !== ''
+const hasItems = (value) => Array.isArray(value) && value.length > 0
 
 /**
  * Whether a cave's page is listed in the sitemap: documented - a photo, a
- * description or directions. The others (a name and coordinates at most)
+ * description, directions or Further reading. The others (a name and coordinates at most)
  * stay reachable by links (the lists, the home page, Nearby caves) and
  * indexable, but search engines' first reads go to the pages that can rank;
  * a cave enters the sitemap as soon as one of these is added.
  *
- * @param {{description?: string, direction?: string}} cave
+ * @param {{description?: string, direction?: string, documents?: string[]}} cave
  * @param {boolean} hasPhoto - It has a photo outside the trash.
  * @returns {boolean}
  */
 export function listedCave(cave, hasPhoto) {
-  return hasPhoto || hasText(cave.description) || hasText(cave.direction)
+  return hasPhoto || hasText(cave.description) || hasText(cave.direction) || hasItems(cave.documents)
 }
 
 /**
  * Whether a system's page is listed in the sitemap: a description, survey
- * maps, an exploration history, its length or depth, or several caves.
+ * maps, Further reading, an exploration history, its length or depth, or
+ * several caves.
  *
  * @param {object} sistema
  * @param {number} caveCount - Its caves.
  * @returns {boolean}
  */
 export function listedSistema(sistema, caveCount) {
-  return hasText(sistema.description) || (Array.isArray(sistema.maps) && sistema.maps.length > 0) || (Array.isArray(sistema.explorations) && sistema.explorations.length > 0) || Number(sistema.exploredLength) > 0 || Number(sistema.maxDepth) > 0 || caveCount > 1
+  return hasText(sistema.description) || hasItems(sistema.maps) || hasItems(sistema.documents) || (Array.isArray(sistema.explorations) && sistema.explorations.length > 0) || Number(sistema.exploredLength) > 0 || Number(sistema.maxDepth) > 0 || caveCount > 1
 }
 
 export const sitemap = onRequest({ region: REGION }, async (req, res) => {
   // The caves' texts and their last write time (lastmod); which have a
   // photo (any image outside the trash); the systems and their caves.
   const [caves, photos, { sistemas, caves: indexCaves }] = await Promise.all([
-    db.collection(CAVES_COLL_NAME).select('description', 'direction').get(),
+    db.collection(CAVES_COLL_NAME).select('description', 'direction', 'documents').get(),
     db.collection(CAVES_ASSETS_COLL_NAME).where('type', '==', 'image').select('caveId', 'deletedAt').get(),
     loadIndexData(),
   ])

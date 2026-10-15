@@ -76,6 +76,8 @@ export const ROUTE_MODULES = {
  *   addresses: localhost).
  * @param {CaveData} options.raw - With maps and assets: the data (pageState.js).
  * @param {{id: string, data: CaveMap}[]} options.maps - The maps collection ([{ id, data }]).
+ * @param {{id: string, data: CaveDocument}[]} [options.documents] - The documents collection ([{ id, data }]):
+ *   Further reading.
  * @param {{id: string, data: object}[]} options.assets - The page's cave's photos ([{ id, data }]).
  * @param {{id: string, data: object}[]} [options.covers] - The cover photos ([{ id, data }]): /caves' No photo filter.
  * @param {{id: string, data: object}[]} [options.caveReports] - A cave's page: its _caveReports document
@@ -85,12 +87,12 @@ export const ROUTE_MODULES = {
  *   (App's Helmet) until the page sets it.
  * @returns {Promise<object>} { html, styles, status, ssr } or { notFound: true }.
  */
-export async function render({ url, raw, maps, assets, covers, caveReports, popularity, title }) {
+export async function render({ url, raw, maps, documents, assets, covers, caveReports, popularity, title }) {
   const started = performance.now()
   const { pathname, hostname } = new URL(url)
   const page = pageOf(pathname)
   if (!page) return { notFound: true }
-  const { data, queries, found } = buildPageState(page, { raw, maps, assets, covers, caveReports, popularity })
+  const { data, queries, found } = buildPageState(page, { raw, maps, documents, assets, covers, caveReports, popularity })
   if (!found) return { notFound: true }
   // The store: the app's title (the cave data is useCaveData's).
   const state = title ? { app: { ...createServerStore().getState().app, title } } : {}

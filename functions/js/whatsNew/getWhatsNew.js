@@ -2,13 +2,13 @@ import { onCall } from 'firebase-functions/v2/https'
 import { onSchedule } from 'firebase-functions/v2/scheduler'
 import { logger } from 'firebase-functions/v2'
 import { auth, db } from '../init.js'
-import { CAVES_ASSETS_COLL_NAME, ENFORCE_APP_CHECK, REGION, WHATS_NEW_COLL_NAME, WHATS_NEW_DOC_ID } from '../constants.js'
+import { CAVES_ASSETS_COLL_NAME, DOCUMENTS_COLL_NAME, ENFORCE_APP_CHECK, REGION, WHATS_NEW_COLL_NAME, WHATS_NEW_DOC_ID } from '../constants.js'
 import { AUDIT_LOG_COLL_NAME, SERVER_FIELDS, actionOf } from '../audit/log.js'
 
 // The records the What's new page (/whats-new) lists one by one - added,
 // modified or removed - and the photos, listed by cave (an upload's audit
 // entry, onAssetUploaded).
-const RECORDS = ['caves', 'sistemas', 'connections', 'maps']
+const RECORDS = ['caves', 'sistemas', 'connections', 'maps', DOCUMENTS_COLL_NAME]
 // How many of the audit log's latest entries are looked at: the creates,
 // deletes, undos and purges together; the records' updates on their own (so a
 // busy day of edits can't push the additions out); the caves' changes, for
@@ -31,19 +31,20 @@ const REFRESH_SCHEDULE = 'every 10 minutes'
 // Fields whose change alone isn't a modification: the server's, the trash's
 // (a record moved there is a removal), a cave's stale copy of its system's
 // colour, and the media lists whose additions are items of their own (a
-// cave's videos, a system's maps).
+// cave's videos, a system's maps, their Further reading).
 const IGNORED_FIELDS = new Set([...SERVER_FIELDS, 'deletedAt', 'deletedBy', 'sistemaColor'])
-const MEDIA_FIELDS = { caves: ['videos'], sistemas: ['maps'] }
+const MEDIA_FIELDS = { caves: ['videos', 'documents'], sistemas: ['maps', 'documents'] }
 
 let cached = null
 
-// Hidden from the public: a map in the trash, a system not public.
-const isHidden = (collection, data) => Boolean(data.deletedAt) || (collection === 'sistemas' && data.public === false)
+// Hidden from the public: a map or a document in the trash, a system not
+// public, a PDF not checked yet (or refused).
+const isHidden = (collection, data) => Boolean(data.deletedAt) || (collection === 'sistemas' && data.public === false) || (collection === DOCUMENTS_COLL_NAME && data.kind === 'file' && data.status !== 'ready')
 
-// A record as the page shows it: its name, what it belongs to (a cave's
-// system, a connection's two systems), a map's thumbnail.
+// A record as the page shows it: its name (a document's title), what it
+// belongs to (a cave's system, a connection's two systems), a map's thumbnail.
 function describe(collection, data) {
-  const name = collection === 'caves' ? data.name?.value : collection === 'connections' ? null : data.name
+  const name = collection === 'caves' ? data.name?.value : collection === 'connections' ? null : collection === DOCUMENTS_COLL_NAME ? data.title : data.name
   return {
     name: typeof name === 'string' && name.trim() ? name.trim() : null,
     sistemaId: (collection === 'caves' || collection === 'connections') && typeof data.sistemaId === 'string' ? data.sistemaId : null,
@@ -140,7 +141,7 @@ function findRemovals(entries) {
 
 /**
  * What's new, built from the audit log as it is now: the caves, cave systems,
- * connections and maps people added, modified and removed in the app, the
+ * connections, maps and Further reading documents people added, modified and removed in the app, the
  * photos uploaded and the videos added to caves, newest first - with the date,
  * the author's display name and what changed (public: the page is). Built
  * by {@link refreshWhatsNew} and {@link getWhatsNew}.

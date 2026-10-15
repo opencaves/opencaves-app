@@ -6,15 +6,16 @@ export const AUDIT_LOG_COLL_NAME = '_auditLog'
 
 // The collections people edit in the app: their changes are logged, and can
 // be undone (undoAuditEntries).
-export const AUDITED_COLLECTIONS = ['caves', 'sistemas', 'connections', 'accesses', 'accessibilities', 'sources', 'areas', 'colors', 'languages', 'maps', 'cavesAssets', '_settings']
+export const AUDITED_COLLECTIONS = ['caves', 'sistemas', 'connections', 'accesses', 'accessibilities', 'sources', 'areas', 'colors', 'languages', 'maps', 'documents', 'cavesAssets', '_settings']
 
 // The records deleted to the trash first (deletedAt, deletedBy), and only
 // then for good (emptyTrash).
-export const TRASH_COLLECTIONS = ['cavesAssets', 'maps']
+export const TRASH_COLLECTIONS = ['cavesAssets', 'maps', 'documents']
 
-// The fields only the server writes (photo stamps, a map's derived files):
-// not the app users' changes (onDataWritten in the emulator, getWhatsNew).
-export const SERVER_FIELDS = new Set(['_created', '_modified', '_updated', 'previewUrl', 'previewUrls', 'thumbnailUrl', 'svgIds'])
+// The fields only the server writes (photo stamps, a map's derived files, a
+// PDF's check - documents/onUploaded.js): not the app users' changes
+// (onDataWritten in the emulator, getWhatsNew).
+export const SERVER_FIELDS = new Set(['_created', '_modified', '_updated', 'previewUrl', 'previewUrls', 'thumbnailUrl', 'svgIds', 'status', 'rejectReason', 'size'])
 
 // Entries are deleted this long after they're written, by the TTL policy on
 // expireAt (firestore.indexes.json).

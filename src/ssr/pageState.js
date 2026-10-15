@@ -1,6 +1,8 @@
 import { postProcessCaveData } from '@/services/data-service/postProcessCaveData.js'
 import { buildIndexData, homeFeatured, homeFigures } from '@/utils/indexData.js'
 import { getSistemaMapRefs } from '@/utils/sistemaMaps.js'
+import { getDocumentHolders, isPublicDocument } from '@/utils/documents.js'
+import { DOCUMENTS_COLLECTION } from '@/config/collections.js'
 import { isTrashed } from '@/utils/trash.js'
 import { compactCaveFacts } from '@/utils/caveFilters.js'
 import { nearbyCaves } from '@/utils/nearbyCaves.js'
@@ -18,8 +20,9 @@ import { nearbyCaves } from '@/utils/nearbyCaves.js'
 //     which caves have a cover photo (the covers query);
 //   /sistemas: every public system's name, area and colour;
 //   /caves/<id>: the cave, its system and the systems that one joined, in
-//     full, their connections, the small reference collections, and its
-//     open reports' warnings (the caveReports query, _caveReports);
+//     full, their connections, the small reference collections, its
+//     open reports' warnings (the caveReports query, _caveReports), and the
+//     Further reading they list (the documents query);
 //   /sistemas/<id>: the same for the system, and the systems that joined it
 //     and their caves (their names, for its connections and its caves, and
 //     whether each is an entrance - the list's mark).
@@ -112,6 +115,8 @@ export function fullPageData(raw) {
  * @param {CaveData} sources.raw - The 9 cave-data collections as the app reads them ({ id, ...data },
  *   readCaveDataFromFirestore).
  * @param {{id: string, data: CaveMap}[]} [sources.maps=[]] - The maps collection ([{ id, data }]).
+ * @param {{id: string, data: CaveDocument}[]} [sources.documents=[]] - The documents collection ([{ id, data }]):
+ *   the page's Further reading.
  * @param {{id: string, data: object}[]} [sources.assets=[]] - The page's
  *   cave's photos ([{ id, data }]), if a cave's page.
  * @param {{id: string, data: object}[]} [sources.covers] - The cover photos outside the trash ([{ id, data }]):
@@ -125,7 +130,7 @@ export function fullPageData(raw) {
  * @returns {{data: object, queries: object, found: boolean}} { data (the page's
  *   cave data: useCaveData), queries, found }.
  */
-export function buildPageState(page, { raw, maps = [], assets = [], covers, caveReports, popularity }) {
+export function buildPageState(page, { raw, maps = [], documents = [], assets = [], covers, caveReports, popularity }) {
   const { data: all, index, areas } = processedData(raw)
   const cave = page.kind === 'cave' ? all.caves.find(({ id }) => id === page.id) : null
   // The page's system (or its cave's), and the systems it joined, and those
@@ -167,6 +172,12 @@ export function buildPageState(page, { raw, maps = [], assets = [], covers, cave
     queries.maps = maps.filter(({ id, data: map }) => ids.has(id) && !isTrashed(map))
   } else if (page.kind === 'cave' || page.kind === 'sistema') {
     queries.maps = []
+  }
+  // The Further reading the page lists (FurtherReadingSection: the cave's or
+  // the system's own, and its systems'), those everyone sees.
+  if (page.kind === 'cave' || page.kind === 'sistema') {
+    const ids = new Set(getDocumentHolders({ cave, sistemaId: focusSistemaId, sistemas: all.sistemas, connections: all.connections }).flatMap((holder) => holder.ids))
+    queries[DOCUMENTS_COLLECTION] = documents.filter(({ id, data: document }) => ids.has(id) && isPublicDocument(document))
   }
   // The caves with a cover photo (useCoverCaveIds): which have none.
   if (page.kind === 'caves' && covers) {
