@@ -264,6 +264,40 @@ never logged. To deploy it: `firebase deploy --only
 functions:js:feedbackUnsubscribe,functions:js:onAuthorMutedChanged,functions:js:onFeedbackReplied,functions:js:onFeedbackCreated,firestore:rules`,
 then `firebase deploy --only hosting` (the rewrite needs the function first).
 
+### News emails
+
+News from OpenCaves (a new version, ways to help) goes to the registered
+accounts with `scripts/send-news.js`, one email at a time, each in the
+account's app language (`language` on `_users`, else English). Each email is
+a module in `functions/js/email/news/` (its `ID`, its texts in en/fr/es, a
+render function using the emails' layout), listed in the script's `NEWS`.
+Answers go to `feedback@opencaves.org` (`FEEDBACK_REPLY_TO`).
+
+The recipients: accounts with a verified email (`hasVerifiedEmail`), not
+disabled, not frozen, whose `newsEmails` isn't `false`, and that didn't get
+this email yet (`newsSent.<id>` on `_users`, written by the script after each
+send - run it again after a failure and it sends only to the others;
+`--force` sends again). An account turns news off with the second **Emails**
+switch on its account page, or with the email's own link,
+`/email/unsubscribe?t=<token>&list=news` (and the `List-Unsubscribe` headers):
+the same page and function as the feedback emails' link (above), which then
+sets `newsEmails: false` and leaves the feedback replies alone.
+
+```
+node scripts/send-news.js release-1-0 -l --preview out/news            # the email in each language, as files
+node scripts/send-news.js release-1-0 -l --test me@example.com --language fr   # really sent, to that address only
+node scripts/send-news.js release-1-0 -p --dry-run                       # who would get it in production
+node scripts/send-news.js release-1-0 -p --send                          # send it
+```
+
+`-l` runs on the emulators, where nothing is sent or written (`--send`
+only lists). Sending (`--test`, `-p --send`) reads the Resend key from Secret
+Manager, the functions' own `RESEND_API_KEY` secret, with `gcloud` (signed in
+with an account that can read the project's secrets) - only in memory, never
+in a file; a `RESEND_API_KEY` in the environment or `.env` is used instead if
+set. Production also needs `gcloud auth application-default login`. Deploy the
+rules (`newsEmails`) and `feedbackUnsubscribe` before the first send.
+
 ### Replies by email
 
 An author's answer to a team reply joins the report's thread: Resend receives
