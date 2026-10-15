@@ -105,7 +105,7 @@ export default function MapsSection({ sistemaId, sistemas, connections, pagePath
             {maps.map((map) => (
               // A tile (the strip draws it from copies of itself, its caption
               // curved with it, its menu left live), one a column.
-              <Box key={map.id} className="oc-maps-section--item oc-media-strip--tile oc-media-strip--item" sx={{ position: 'relative', flexShrink: 0, width: PAGE_STRIP.itemWidth, height: PAGE_STRIP.itemHeight, borderRadius: 2 }}>
+              <Box key={map.id} className="oc-maps-section--item oc-media-strip--tile oc-media-strip--paper oc-media-strip--item" sx={{ position: 'relative', flexShrink: 0, width: PAGE_STRIP.itemWidth, height: PAGE_STRIP.itemHeight, borderRadius: 2 }}>
                 <ButtonBase {...mapLink(map)} className="oc-maps-section--link" sx={{ display: 'block', width: '100%', height: '100%', textAlign: 'left', color: 'inherit', textDecoration: 'none', borderRadius: 2, '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: 2 } }}>
                   <MapThumbnail map={map} />
                 </ButtonBase>
