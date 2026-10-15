@@ -1,15 +1,7 @@
-/* Ionic Variables and Theming. For more info, please see:
-http://ionicframework.com/docs/theming/ */
-
-/* Custom additions */
-
-// ionic
 :root {
   --font-size: 16px;
   font-size: var(--font-size);
 }
-
-// end ionic
 
 :root {
   --oc-titlebar-default-height: 33px;

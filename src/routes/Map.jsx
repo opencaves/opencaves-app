@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useRef, useState } from 'react'
+import { Suspense, lazy, useEffect, useRef } from 'react'
 import { useLocation, useNavigate, useNavigationType, useParams } from 'react-router-dom'
 import { Box, useMediaQuery, useTheme } from '@mui/material'
 import { useTranslation } from 'react-i18next'
@@ -14,7 +14,6 @@ import ResultPaneOutlet from '@/components/ResultPane/ResultPaneOutlet.jsx'
 import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
 import Dev from '@/components/utils/Dev.jsx'
 import SearchBarMockup from '@/components/SearchBar/SearchBarMockup.jsx'
-import { loadIonic, needsIonic } from '@/utils/loadIonic.js'
 import './Map.scss'
 
 // mapbox-gl/react-map-gl are ~500KB (compressed) on their own and were
@@ -25,20 +24,12 @@ import './Map.scss'
 // the (already-bundled, tiny) spinner below paint immediately instead.
 const Map = lazy(() => import('@/components/Map/Map.jsx'))
 
-// On phones with Ionic's sheet chosen (needsIonic, temporary) the page sits
-// in Ionic's IonApp (for the result pane's IonModal); elsewhere - the
-// home-made sheet, desktop - a plain div, and Ionic is never loaded (see
-// utils/ionic.js).
-const IonApp = lazy(() => loadIonic().then(({ IonApp }) => ({ default: IonApp })))
 
 export default function MapPage() {
   const theme = useTheme()
   const isLarge = useMediaQuery(theme.breakpoints.up('sm'))
   const { t } = useTranslation('seo')
   const { caveId } = useParams()
-  // Decided once, at mount: switching wrappers later (a resized window)
-  // would remount the whole map.
-  const [PageRoot] = useState(() => (needsIonic() ? IonApp : 'div'))
 
   // Marks a cave's history entry as reached from the bare map (state
   // fromMap), so closing it goes back to that entry instead of adding /map
@@ -59,7 +50,7 @@ export default function MapPage() {
   }, [location, caveId, navigationType, navigate])
 
   return (
-    // While Ionic loads (phones, Ionic's sheet): the loading screen, not a blank page.
+    // While the map's code loads: the loading screen, not a blank page.
     <Suspense
       fallback={
         <>
@@ -68,7 +59,7 @@ export default function MapPage() {
         </>
       }
     >
-      <PageRoot className="oc-map">
+      <div className="oc-map">
         <AddMediasProvider>
           {/* The page's h1 (for search engines and screen readers); the map is
             its own visual heading. While a cave is open, its name is the h1. */}
@@ -135,7 +126,7 @@ export default function MapPage() {
             }}
           />
         </AddMediasProvider>
-      </PageRoot>
+      </div>
     </Suspense>
   )
 }

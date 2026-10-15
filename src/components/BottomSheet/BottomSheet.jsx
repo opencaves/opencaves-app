@@ -134,7 +134,7 @@ export default function BottomSheet({ ref, snapPoints, initialSnap, label, expan
   })
 
   // The handle: up to the next snap point, from the top back to the lowest
-  // (as Ionic's handleBehavior="cycle"); arrow keys, one step up or down.
+  // (up a point each time, from the top back to the lowest); arrow keys, one step up or down.
   const index = snapPoints.indexOf(snap)
   function onHandleClick() {
     settle(snap === top ? snapPoints[0] : snapPoints[index + 1] ?? top)

@@ -18,15 +18,12 @@ import { setCurrentCave } from '@/redux/slices/mapSlice.jsx'
 import CaveSeo from '@/components/Seo/CaveSeo.jsx'
 import './ResultPane.scss'
 import { useWindowFileDrop } from '@/hooks/useWindowFileDrop.jsx'
-import { usesIonicSheet } from '@/utils/loadIonic.js'
 
 // The edit form, editors only: loaded when opened (it brings the Firestore SDK).
 const CurrentCaveDetailsContentEdit = lazy(() => import('./CurrentCaveDetailsContentEdit.jsx'))
 
-// Phones only: the home-made bottom sheet, or - TEMPORARY, until the device
-// test, ?sheet=ionic (usesIonicSheet) - Ionic's, which brings Ionic along
-// (see utils/ionic.js).
-const ResultPaneSm = lazy(() => (usesIonicSheet() ? import('./ResultPaneSmIonic.jsx') : import('./ResultPaneSm.jsx')))
+// Phones only: the home-made bottom sheet.
+const ResultPaneSm = lazy(() => import('./ResultPaneSm.jsx'))
 
 // Once per page load: whether the phone sheet's restored breakpoint was
 // kept or reset (the effect below).
