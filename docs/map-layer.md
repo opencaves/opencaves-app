@@ -119,6 +119,18 @@ points, or by its scale bar and north plus one or more points.
 - Leader lines, cross-sections and their marks, labels and the page border are
   not drawn; pillars and islands are walls; the drawn details between the
   walls (boulders, slopes...) are kept.
+- Labels never count as passage. On a `colour-fill` map with `greyFill`, dark
+  text reads as fill and the walls wrap round it: `inkColours` masks the ink
+  of a colour (e.g. red depth numbers and labels) by hue, saturation and
+  value, as text-sized pieces (`minPx`, `maxExtentPx`), and keeps as passage
+  the pieces written inside a passage (`inSymbolBoxes` limits it to the
+  boxes of the symbols `extract_symbols.py` placed, `exceptNear` leaves out
+  ink next to another colour); a fill colour's `maxSaturation` leaves out a
+  stronger ink of the same hue. `clearSymbols`, last of all, redraws each
+  symbol box lying mostly in a passage from the band around it, so a number
+  on a wall neither bulges it nor dents it. Hand-drawn `fillPolygons` with
+  `fillPolygonsOverMasks` are passage as drawn, over those masks (e.g.
+  `maps/sagitario-la-mina-macdonald-2020.json`).
 
 ## Symbols
 
