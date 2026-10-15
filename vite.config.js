@@ -1,3 +1,4 @@
+import { execFileSync } from 'node:child_process'
 import { copyFileSync, existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { defineConfig } from 'vite'
@@ -197,6 +198,34 @@ function loadAppAfterFirstPaint() {
   }
 }
 
+// What the client build was made from - the git commit, and whether there
+// were uncommitted changes - in build/.vite/build-info.json (not served:
+// Hosting ignores dot folders), copied into the server build: the deploy
+// stops when the app's code changed since (scripts/check-ssr-build.js).
+function buildInfo() {
+  let outDir
+  const git = (...args) => {
+    try {
+      return execFileSync('git', args, { encoding: 'utf8' }).trim()
+    } catch {
+      return null
+    }
+  }
+  return {
+    name: 'oc-build-info',
+    apply: 'build',
+    configResolved(config) {
+      outDir = path.resolve(config.root, config.build.outDir)
+    },
+    writeBundle() {
+      const status = git('status', '--porcelain')
+      const info = { commit: git('rev-parse', 'HEAD'), dirty: status === null ? null : status !== '', builtAt: new Date().toISOString() }
+      mkdirSync(path.join(outDir, '.vite'), { recursive: true })
+      writeFileSync(path.join(outDir, '.vite', 'build-info.json'), `${JSON.stringify(info, null, 2)}\n`)
+    },
+  }
+}
+
 // The server build (vite build --ssr src/entry-server.jsx, npm run build),
 // which renders the public pages for functions/js/seo/ssr.js: the store and
 // Firebase set up for the server instead of the browser.
@@ -219,7 +248,8 @@ function serverModules() {
 
 // The server build takes the client build's page (app.html, its shell) and
 // manifest (which files each page needs) along: the function serves them
-// together, so the two always match. OC_CLIENT_OUT_DIR: the client build's
+// together, so the two always match - and what it was built from
+// (buildInfo). OC_CLIENT_OUT_DIR: the client build's
 // folder, when not build/.
 function copyClientBuild() {
   let outDir
@@ -234,6 +264,8 @@ function copyClientBuild() {
       mkdirSync(outDir, { recursive: true })
       copyFileSync(path.join(clientDir, 'app.html'), path.join(outDir, 'app.html'))
       copyFileSync(path.join(clientDir, '.vite', 'manifest.json'), path.join(outDir, 'manifest.json'))
+      const info = path.join(clientDir, '.vite', 'build-info.json')
+      if (existsSync(info)) copyFileSync(info, path.join(outDir, 'build-info.json'))
     },
   }
 }
@@ -332,6 +364,7 @@ export default defineConfig(({ isSsrBuild }) => ({
     copyClientBuild(),
   ] : [
     appShellName(),
+    buildInfo(),
     react({
       include: /\.(js|jsx|ts|tsx)$/,
       jsxRuntime: 'automatic',
