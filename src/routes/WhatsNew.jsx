@@ -167,21 +167,15 @@ const photoThumbnail = (caveId, { id, thumbnailRevision, viewThumbnailRevision }
   return asset.getThumbnailUrl('resultThumbnail')
 }
 
-// The added kinds whose chip names them: New cave, New system.
-const NEW_KIND_LABELS = { caves: 'newCave', sistemas: 'newSistema' }
-const namesItsKind = (row) => row.change === 'added' && Boolean(NEW_KIND_LABELS[row.kind])
-
 /**
- * A change's label: Added, Modified, Removed - for an added cave or system,
- * New cave or New system.
+ * A change's label: Added, Modified, Removed.
  *
  * @param {object} props
  * @param {'added'|'modified'|'removed'} props.change
- * @param {string} props.kind - The item's kind (caves, sistemas, maps...).
  */
-function ChangeChip({ change, kind }) {
+function ChangeChip({ change }) {
   const { t } = useTranslation('whatsNew')
-  const label = change === 'added' && NEW_KIND_LABELS[kind] ? t(`changes.${NEW_KIND_LABELS[kind]}`) : t(`changes.${change}`)
+  const label = t(`changes.${change}`)
   return <Chip className={`oc-whats-new--change oc-whats-new--change-${change}`} size="small" label={label} sx={[{ height: 20, fontSize: '0.75rem', fontWeight: 500, '& .MuiChip-label': { px: 1 } }, CHANGE_CHIP_SX[change]]} />
 }
 
@@ -381,11 +375,11 @@ export default function WhatsNew() {
                       <Typography component="div" className="oc-whats-new--label" sx={{ fontWeight: 500, minWidth: 0, color: row.to ? 'var(--mui-sys-color-primary)' : row.change === 'removed' ? 'text.secondary' : 'text.primary' }}>
                         {row.label}
                       </Typography>
-                      <ChangeChip change={row.change} kind={row.kind} />
+                      <ChangeChip change={row.change} />
                     </Box>
                     <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                      {/* The kind, unless the chip names it (New cave). */}
-                      {[!namesItsKind(row) && t(`kinds.${row.kind}`), row.context, row.authorName && t(`${row.change}By`, { name: row.authorName })].filter(Boolean).join(' · ')}
+                      {/* The kind - an added item's says so (New survey map...), and its author is "by" alone. */}
+                      {[row.change === 'added' ? t(`newKinds.${row.kind}`, { count: row.count ?? 1 }) : t(`kinds.${row.kind}`), row.context, row.authorName && t(row.change === 'added' ? 'addedByShort' : `${row.change}By`, { name: row.authorName })].filter(Boolean).join(' · ')}
                     </Typography>
                     {/* A modified record's changed fields, on a line of their own. */}
                     {row.changed && (

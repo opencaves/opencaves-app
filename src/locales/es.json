@@ -1720,7 +1720,6 @@
     "inSistema": "en {{name}}",
     "mapOf": "mapa de {{name}}",
     "connection": "{{child}} unido a {{parent}}",
-    "addedBy": "añadido por {{name}}",
     "unnamedCave": "(Cueva sin nombre)",
     "unnamedSistema": "(Sistema sin nombre)",
     "unnamedMap": "Mapa sin título",
@@ -1734,10 +1733,20 @@
     "changes": {
       "added": "Añadido",
       "modified": "Modificado",
-      "removed": "Retirado",
-      "newCave": "Nueva cueva",
-      "newSistema": "Nuevo sistema"
+      "removed": "Retirado"
     },
+    "newKinds": {
+      "caves": "Nueva cueva",
+      "sistemas": "Nuevo sistema",
+      "connections": "Nueva conexión",
+      "maps": "Nueva topografía",
+      "photos_one": "Nueva foto",
+      "photos_other": "Nuevas fotos",
+      "videos_one": "Nuevo video",
+      "videos_other": "Nuevos videos",
+      "documents": "Nuevo documento"
+    },
+    "addedByShort": "por {{name}}",
     "modifiedBy": "modificado por {{name}}",
     "removedBy": "retirado por {{name}}",
     "changedFields": "Cambió: {{fields}}",
