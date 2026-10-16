@@ -19,7 +19,11 @@ const ASPECT_RATIO = 1 / COVER_IMAGE_HEIGHT_RATIO
 // time the pane re-rendered (e.g. on every map move, which updates the URL).
 function Container({ width, children }) {
   return (
-    <Box className="oc-cover-image" sx={{ position: 'relative', width, aspectRatio: ASPECT_RATIO }}>
+    // Its own shape, whatever's in it: an inline image's line (the loading
+    // pixel's) made it 7px taller for a moment, the pane below jumping up
+    // once the cover came (overflow: an aspect-ratio box isn't stretched by
+    // its content then).
+    <Box className="oc-cover-image" sx={{ position: 'relative', width, aspectRatio: ASPECT_RATIO, overflow: 'hidden', '& img': { display: 'block' } }}>
       {children}
     </Box>
   )
