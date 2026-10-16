@@ -7,6 +7,7 @@ import CloseRounded from '@mui/icons-material/CloseRounded'
 import { SEARCH_FIELD_SX } from '@/components/searchFieldSx.js'
 import { foldSearch, searchMatcher } from '@/utils/searchText.js'
 import { isHydrating } from '@/ssr/ssrContext.js'
+import { matchesId as matchesIdTerm } from '@/utils/matchesId.js'
 
 // Names compared as every search of the site does (utils/searchText.js):
 // "Chac Mól", "Chac-Mol" and "chacmol" match "chac mol".
@@ -16,13 +17,14 @@ export const fold = foldSearch
  * An index page's search, kept in the address (?q=), so Back and a shared
  * link keep it. matches(texts): every word of the search is in one of the
  * texts (a record's name, other names, system, area...); matchesFolded: the
- * same in a text already folded (fold) - a long list's, prepared once.
+ * same in a text already folded (fold) - a long list's, prepared once;
+ * matchesId(id): the search is (a piece of) a record's id ({@link matchesIdTerm}).
  * query is the field's (as typed, its own state: the address only follows
  * it once typing pauses - written on every letter, a fast second letter was
  * lost); the matching follows it a little behind ({@link useDeferredValue}), so
  * typing never waits for a long list to redraw.
  *
- * @returns {{query: string, setQuery: (query: string) => void, matches: (texts: string[]) => boolean, matchesFolded: (text: string) => boolean, searching: boolean, searchedQuery: string}}
+ * @returns {{query: string, setQuery: (query: string) => void, matches: (texts: string[]) => boolean, matchesFolded: (text: string) => boolean, matchesId: (id: string) => boolean, searching: boolean, searchedQuery: string}}
  */
 export function useIndexSearch() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -62,7 +64,8 @@ export function useIndexSearch() {
   const matches = useCallback((texts) => words.length === 0 || matchesFolded(texts.map(fold).join(' ')),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [deferredQuery])
-  return { query, setQuery, matches, matchesFolded, searching: words.length > 0, searchedQuery: deferredQuery }
+  const matchesId = useCallback((id) => matchesIdTerm(id, deferredQuery), [deferredQuery])
+  return { query, setQuery, matches, matchesFolded, matchesId, searching: words.length > 0, searchedQuery: deferredQuery }
 }
 
 /**

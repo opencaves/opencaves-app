@@ -22,7 +22,7 @@ export default function SistemaIndex() {
   const { data, loading, failed } = useIndexData()
   // The Add button's new record: one id per visit, not per render.
   const [newId] = useState(pushId)
-  const { query, setQuery, matchesFolded, searching, searchedQuery } = useIndexSearch()
+  const { query, setQuery, matchesFolded, matchesId, searching, searchedQuery } = useIndexSearch()
 
   // Every system's row, and its search text (its name and other names, and
   // its area's), made once - not on every letter typed.
@@ -30,7 +30,8 @@ export default function SistemaIndex() {
     () => new Map(data.sistemas.map((sistema) => [sistema.id, { row: { key: sistema.id, to: `/sistemas/${sistema.slug}`, label: sistema.name, color: sistema.color || SISTEMA_DEFAULT_COLOR }, text: fold([sistema.name, ...(Array.isArray(sistema.aka) ? sistema.aka : []), sistema.area].join(' ')) }])),
     [data],
   )
-  const sistemas = useMemo(() => data.sistemas.filter((sistema) => matchesFolded(rows.get(sistema.id).text)), [data, rows, matchesFolded])
+  // By its words, or by (a piece of) its id.
+  const sistemas = useMemo(() => data.sistemas.filter((sistema) => matchesFolded(rows.get(sistema.id).text) || matchesId(sistema.id)), [data, rows, matchesFolded, matchesId])
   // Each area's rows: the same arrays until the search changes.
   const groups = useMemo(() => groupByArea(sistemas, data.areasBySlug).map(({ area, items }) => ({ area, items, rows: items.map((sistema) => rows.get(sistema.id).row) })), [sistemas, data, rows])
   const shownGroups = useProgressiveCount(groups.length, groups)

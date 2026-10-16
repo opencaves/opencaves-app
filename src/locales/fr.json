@@ -1,10 +1,4 @@
 {
-  "textSource": {
-    "fieldLabel": "Source du texte",
-    "fieldHint": "D'où provient ce texte. Vos propres mots ? Choisissez OpenCaves.",
-    "none": "Aucune",
-    "known": "Source : {{name}}"
-  },
   "404": {
     "header": "Oups !",
     "description": "Désolé mais la page que vous recherchez n'existe pas.",
@@ -30,6 +24,12 @@
       "placeHolder": "Rechercher...",
       "btn": "Rechercher"
     }
+  },
+  "textSource": {
+    "fieldLabel": "Source du texte",
+    "fieldHint": "D'où provient ce texte. Vos propres mots ? Choisissez OpenCaves.",
+    "none": "Aucune",
+    "known": "Source : {{name}}"
   },
   "app": {
     "markdown": {
@@ -1674,6 +1674,11 @@
       "photos": "Aucune photo pour l’instant.",
       "videos": "Aucune vidéo pour l’instant.",
       "maps": "Aucune topographie pour l’instant."
+    },
+    "idSearch": {
+      "unnamedMap": "Carte sans titre",
+      "untitledDocument": "Document sans titre",
+      "photoOf": "Photo de {{name}}"
     }
   },
   "appBarSearch": {
@@ -1684,7 +1689,10 @@
     "hint": "Tapez un nom",
     "groups": {
       "sistemas": "Réseaux",
-      "caves": "Grottes"
+      "caves": "Grottes",
+      "maps": "Topographies",
+      "documents": "Pour en savoir plus",
+      "photos": "Photos"
     }
   },
   "whatsNew": {
@@ -2130,7 +2138,10 @@
       "groups": {
         "areas": "Régions",
         "sistemas": "Réseaux",
-        "caves": "Grottes"
+        "caves": "Grottes",
+        "maps": "Topographies",
+        "documents": "Pour en savoir plus",
+        "photos": "Photos"
       },
       "none": "Aucune grotte, aucun réseau ni aucune région ne correspond.",
       "hint": "Tapez un nom"

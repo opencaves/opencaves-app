@@ -1,10 +1,4 @@
 {
-  "textSource": {
-    "fieldLabel": "Fuente del texto",
-    "fieldHint": "De dónde proviene este texto. ¿Son tus propias palabras? Elige OpenCaves.",
-    "none": "Ninguna",
-    "known": "Fuente: {{name}}"
-  },
   "404": {
     "header": "¡Ups!",
     "description": "Lo sentimos, pero la página que buscas no existe.",
@@ -30,6 +24,12 @@
       "placeHolder": "Buscar...",
       "btn": "Buscar"
     }
+  },
+  "textSource": {
+    "fieldLabel": "Fuente del texto",
+    "fieldHint": "De dónde proviene este texto. ¿Son tus propias palabras? Elige OpenCaves.",
+    "none": "Ninguna",
+    "known": "Fuente: {{name}}"
   },
   "app": {
     "markdown": {
@@ -1675,6 +1675,11 @@
       "photos": "Aún no hay fotos.",
       "videos": "Aún no hay videos.",
       "maps": "Aún no hay topografías."
+    },
+    "idSearch": {
+      "unnamedMap": "Mapa sin título",
+      "untitledDocument": "Documento sin título",
+      "photoOf": "Foto de {{name}}"
     }
   },
   "appBarSearch": {
@@ -1685,7 +1690,10 @@
     "hint": "Escribe un nombre",
     "groups": {
       "sistemas": "Sistemas",
-      "caves": "Cuevas"
+      "caves": "Cuevas",
+      "maps": "Topografías",
+      "documents": "Lecturas recomendadas",
+      "photos": "Fotos"
     }
   },
   "whatsNew": {
@@ -2131,7 +2139,10 @@
       "groups": {
         "areas": "Zonas",
         "sistemas": "Sistemas de cuevas",
-        "caves": "Cuevas"
+        "caves": "Cuevas",
+        "maps": "Topografías",
+        "documents": "Lecturas recomendadas",
+        "photos": "Fotos"
       },
       "none": "Ninguna cueva, sistema o zona coincide.",
       "hint": "Escribe un nombre"

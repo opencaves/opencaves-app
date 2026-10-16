@@ -1,10 +1,4 @@
 {
-  "textSource": {
-    "fieldLabel": "Text source",
-    "fieldHint": "Where this text comes from. Your own words? Choose OpenCaves.",
-    "none": "None",
-    "known": "Source: {{name}}"
-  },
   "404": {
     "header": "Oops!",
     "description": "Sorry but the page you are looking for does not exist.",
@@ -30,6 +24,12 @@
       "placeHolder": "Search...",
       "btn": "Search"
     }
+  },
+  "textSource": {
+    "fieldLabel": "Text source",
+    "fieldHint": "Where this text comes from. Your own words? Choose OpenCaves.",
+    "none": "None",
+    "known": "Source: {{name}}"
   },
   "app": {
     "markdown": {
@@ -1675,6 +1675,11 @@
       "photos": "No photos yet.",
       "videos": "No videos yet.",
       "maps": "No survey maps yet."
+    },
+    "idSearch": {
+      "unnamedMap": "Untitled map",
+      "untitledDocument": "Untitled document",
+      "photoOf": "Photo of {{name}}"
     }
   },
   "appBarSearch": {
@@ -1685,7 +1690,10 @@
     "hint": "Type a name",
     "groups": {
       "sistemas": "Cave systems",
-      "caves": "Caves"
+      "caves": "Caves",
+      "maps": "Survey maps",
+      "documents": "Further reading",
+      "photos": "Photos"
     }
   },
   "whatsNew": {
@@ -2131,7 +2139,10 @@
       "groups": {
         "areas": "Areas",
         "sistemas": "Cave systems",
-        "caves": "Caves"
+        "caves": "Caves",
+        "maps": "Survey maps",
+        "documents": "Further reading",
+        "photos": "Photos"
       },
       "none": "No cave, system or area matches.",
       "hint": "Type a name"

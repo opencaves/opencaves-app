@@ -150,7 +150,7 @@ export default function FeedbackList() {
 
   // The search (?q=), as the index pages' (accents and case ignored; the
   // address follows the field once typing pauses).
-  const { query: q, setQuery, matches } = useIndexSearch()
+  const { query: q, setQuery, matches, matchesId } = useIndexSearch()
   const state = params.get('state') === 'closed' ? 'closed' : 'open'
   const kind = FEEDBACK_KINDS.includes(params.get('kind')) ? params.get('kind') : null
   const stages = state === 'open' ? OPEN_FEEDBACK_STATUSES : CLOSED_FEEDBACK_STATUSES
@@ -190,8 +190,8 @@ export default function FeedbackList() {
   // The search and kind filter first (the tabs count what they leave), then
   // the tab and stage.
   const matching = useMemo(
-    () => (reports || []).filter((report) => (!kind || report.kind === kind) && matches([report.message, report.page, authorOf(report), emails.get(report.userId)].filter(Boolean))),
-    [reports, kind, matches, authorOf, emails],
+    () => (reports || []).filter((report) => (!kind || report.kind === kind) && (matches([report.message, report.page, authorOf(report), emails.get(report.userId)].filter(Boolean)) || matchesId(report.id))),
+    [reports, kind, matches, matchesId, authorOf, emails],
   )
   const openCount = matching.filter(isOpen).length
   const list = matching.filter((report) => (state === 'open') === isOpen(report) && (!stage || statusOf(report) === stage)).sort(SORTERS[sort])

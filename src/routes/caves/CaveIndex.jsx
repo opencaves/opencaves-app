@@ -35,7 +35,7 @@ export default function CaveIndex() {
   const { data, loading, failed } = useIndexData()
   // The Add button's new record: one id per visit, not per render.
   const [newId] = useState(pushId)
-  const { query, setQuery, matchesFolded, searching, searchedQuery } = useIndexSearch()
+  const { query, setQuery, matchesFolded, matchesId, searching, searchedQuery } = useIndexSearch()
   const { t: tFilter } = useTranslation('filter')
   const [searchParams, setSearchParams] = useSearchParams()
   // The caves with photos (their cover's), for the No photo filter.
@@ -92,8 +92,9 @@ export default function CaveIndex() {
       }),
     )
   }, [data, t])
-  // The caves the text search finds, then those the filters keep.
-  const searched = useMemo(() => data.caves.filter((cave) => matchesFolded(rows.get(cave.id).text)), [data, rows, matchesFolded])
+  // The caves the text search finds (by their words, or by (a piece of)
+  // their id), then those the filters keep.
+  const searched = useMemo(() => data.caves.filter((cave) => matchesFolded(rows.get(cave.id).text) || matchesId(cave.id)), [data, rows, matchesFolded, matchesId])
   // The month confirmations' age is counted in: the server's until hydrated.
   const month = useReviewMonth()
   const caves = useMemo(() => (filtered ? searched.filter((cave) => matchesCaveFilters(cave, filters, covers, month)) : searched), [searched, filters, filtered, covers, month])
