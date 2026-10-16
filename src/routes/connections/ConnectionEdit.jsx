@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { deleteField } from 'firebase/firestore'
 import pushId from 'unique-push-id'
@@ -19,6 +19,7 @@ import SourceSelect from '@/components/SourceSelect.jsx'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import { matchesId } from '@/utils/matchesId.js'
+import { leaveEditPage } from '@/utils/leaveEditPage.js'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import StickyActionBar from '@/components/StickyActionBar.jsx'
 
@@ -171,7 +172,7 @@ export default function ConnectionEdit() {
     <div className="oc-connection-edit">
       <EditPageHeader>
         <Tooltip title={t('backToConnections')}>
-          <IconButton component={Link} to="/connections" aria-label={t('backToConnections')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
+          <IconButton onClick={() => leaveEditPage(navigate, '/connections')} aria-label={t('backToConnections')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
             <ArrowBackRounded />
           </IconButton>
         </Tooltip>
@@ -292,7 +293,7 @@ export default function ConnectionEdit() {
       {/* The forms' sticky bottom bar (they were inside the card here). */}
       {form && (
         <StickyActionBar gap={1}>
-          <Button component={Link} to="/connections" disabled={saving}>
+          <Button onClick={() => leaveEditPage(navigate, '/connections')} disabled={saving}>
             {t('cancel')}
           </Button>
           <Button variant="contained" onClick={() => handleSave()} disabled={saving || !isDirty || !canSave}>

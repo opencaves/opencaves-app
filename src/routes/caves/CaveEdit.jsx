@@ -35,6 +35,7 @@ import SourceSelect from '@/components/SourceSelect.jsx'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { FIT_SELECT_MENU_PROPS, fitSelectSx } from '@/utils/fitSelect.js'
+import { leaveEditPage } from '@/utils/leaveEditPage.js'
 import TriStateField from '@/components/ResultPane/TriStateField.jsx'
 
 const sectionHeadingProps = formSectionHeadingProps('oc-cave-edit--section-title')
@@ -373,7 +374,8 @@ export default function CaveEdit() {
     discardChanges()
     invalidateData()
     getData().catch((error) => console.warn(error))
-    navigate('/caves')
+    // In this entry's place: Back mustn't reopen a deleted cave's form.
+    navigate('/caves', { replace: true })
   }
 
   if (loading) {
@@ -600,7 +602,7 @@ export default function CaveEdit() {
         {/* As in the map pane's form: Save while there are changes (Cancel
             beside it drops them), Exit when there's nothing to save. */}
         {isDirty && (
-          <Button onClick={() => navigate(isNew ? '/caves' : `/caves/${caveId}`)} disabled={saving}>
+          <Button onClick={() => leaveEditPage(navigate, isNew ? '/caves' : `/caves/${caveId}`)} disabled={saving}>
             {t('cancel')}
           </Button>
         )}
@@ -609,7 +611,7 @@ export default function CaveEdit() {
             {t('save')}
           </Button>
         ) : (
-          <Button variant="contained" onClick={() => navigate(isNew ? '/caves' : `/caves/${caveId}`)} disabled={saving}>
+          <Button variant="contained" onClick={() => leaveEditPage(navigate, isNew ? '/caves' : `/caves/${caveId}`)} disabled={saving}>
             {t('exit')}
           </Button>
         )}

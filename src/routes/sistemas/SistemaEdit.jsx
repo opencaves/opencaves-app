@@ -6,6 +6,7 @@ import { useTitle } from '@/hooks/useTitle.jsx'
 import { useSistemaSlugs } from '@/hooks/useIndexData.jsx'
 import SistemaEditForm, { SISTEMA_FORM_SKELETON_SECTIONS } from '@/components/SistemaPane/SistemaEditForm.jsx'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
+import { leaveEditPage } from '@/utils/leaveEditPage.js'
 
 // The system an address names: its slug (the public page's), or its id
 // (older links, and a new system's push id). prev: the last one resolved -
@@ -59,14 +60,11 @@ export default function SistemaEdit() {
   // wherever it was opened from) - a link up would stack a new entry, the
   // system's page's back arrow then returning here; otherwise up to the
   // system's page, in this entry's place.
-  const done = () => {
-    if (window.history.state?.idx > 0) navigate(-1)
-    else navigate(slugs.get(sistemaId) ? `/sistemas/${slugs.get(sistemaId)}` : '/sistemas', { replace: true })
-  }
+  const done = () => leaveEditPage(navigate, slugs.get(sistemaId) ? `/sistemas/${slugs.get(sistemaId)}` : '/sistemas')
 
   return (
     <div className="oc-sistema-edit">
-      <SistemaEditForm sistemaId={sistemaId} onTitleChange={setPageTitle} onDone={done} onDeleted={() => navigate('/sistemas')} showMapPreview backLabel={slugs.get(sistemaId) ? t('backToSistema') : undefined} />
+      <SistemaEditForm sistemaId={sistemaId} onTitleChange={setPageTitle} onDone={done} onDeleted={() => navigate('/sistemas', { replace: true })} showMapPreview backLabel={slugs.get(sistemaId) ? t('backToSistema') : undefined} />
     </div>
   )
 }
