@@ -219,7 +219,9 @@ def main(config_path, output):
     buffer = io.BytesIO()
     overlay.save(buffer, 'PNG', optimize=True)
     data_url = 'data:image/png;base64,' + base64.b64encode(buffer.getvalue()).decode()
-    corners = [list(to_lnglat.transform(*place(x, y))) for x, y in ((0, 0), (width, 0), (width, height), (0, height))]
+    # The image's outer edges: half a pixel out from the first and last pixels,
+    # as trace_scan.py places a pixel (x, y) at place(x, y) - its centre here.
+    corners = [list(to_lnglat.transform(*place(x, y))) for x, y in ((-0.5, -0.5), (width - 0.5, -0.5), (width - 0.5, height - 0.5), (-0.5, height - 0.5))]
 
     env = {}
     for env_file in ('.env', '.env.local'):
