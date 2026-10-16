@@ -1,6 +1,8 @@
 // Applies a reviewed list of field edits to records (a JSON file: an array of
 // { collection, id, set: { field: value }, why }) - each an update of those
-// fields alone, nothing else of the record written. For the small fixes read
+// fields alone, nothing else of the record written - or creates a record
+// ({ collection, id, create: { field: value }, why }: only when no record has
+// that id yet, so a second run skips it). For the small fixes read
 // off sources (a depth, a cave's coordinates from a survey map) that no import
 // covers. In production the changes are credited to an account (--as
 // <email>) with their audit log entries (scripts/lib/audit.js), so What's new
@@ -17,7 +19,7 @@ import { accountUid, auditWriter, updateEntry } from './lib/audit.js'
 const PROJECT_ID = 'opencaves'
 
 const cli = yargs(hideBin(process.argv))
-  .usage('Apply a reviewed list of field edits to records (JSON: [{ collection, id, set: { field: value }, why }]).\n\nUsage: $0 [-l | -p] --file <edits.json> --dry-run | --write [--as <email>]')
+  .usage('Apply a reviewed list of field edits to records (JSON: [{ collection, id, set: { field: value }, why }], or create: { field: value } for a new record).\n\nUsage: $0 [-l | -p] --file <edits.json> --dry-run | --write [--as <email>]')
   .option('file', { type: 'string', demandOption: true, describe: 'The edits (JSON)' })
   .option('dry-run', { type: 'boolean', default: false, describe: 'Only print the changes' })
   .option('write', { type: 'boolean', default: false, describe: 'Apply them' })
@@ -48,9 +50,24 @@ console.log(`${argv.production ? 'PRODUCTION' : 'local emulators'}${argv.write ?
 
 const same = (a, b) => JSON.stringify(a ?? null) === JSON.stringify(b ?? null)
 let changed = 0
-for (const { collection, id, set, why } of JSON.parse(readFileSync(argv.file, 'utf8'))) {
+for (const { collection, id, set, create, why } of JSON.parse(readFileSync(argv.file, 'utf8'))) {
   const ref = db.collection(collection).doc(id)
   const snap = await ref.get()
+  // A new record: created as given, with its audit entry - unless it exists.
+  if (create) {
+    const name = create.name?.value ?? create.name ?? id
+    if (snap.exists) {
+      console.log(`${name} (${collection}/${id}): exists already - skipped`)
+      continue
+    }
+    console.log(`${name} (${collection}/${id}): new ${JSON.stringify(create)}${why ? `  (${why})` : ''}`)
+    if (argv.write) {
+      await ref.set(create)
+      await audit({ action: 'create', collection, docId: id, after: create })
+    }
+    changed++
+    continue
+  }
   if (!snap.exists) {
     console.error(`${collection}/${id}: not found - skipped`)
     process.exitCode = 1

@@ -122,7 +122,9 @@
     {
       "name": "Cenote Mul Tun",
       "written": false,
-      "px": [1462, 1292],
+      "knownEntrance": true,
+      "knownEntranceWhy": "the big hole - the open-air collapse ringed by the cavern - is the cenote entrance: the user, 2026-10-16 (its centre; the 'E' and circled cross at (1462, 1292) are on its east rim)",
+      "px": [1156, 1314],
       "note": "the map's only cenote (not in the database): its open-air collapse is the white centre ringed by the drip line; placed at the circled cross marked 'E' on the cavern floor east of the collapse (the survey's GPS/tie-in mark, it seems). The map writes no 'entrance' ('E' alone is ambiguous). Position NOMINAL - see 'unverified'."
     }
   ],

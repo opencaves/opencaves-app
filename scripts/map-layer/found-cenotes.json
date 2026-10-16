@@ -172,52 +172,6 @@
     "Sagitario and La Mina - CINDAQ, MacDonald et al. 2020"
    ],
    "id": "-Nvh-j7RxUgSWqlYnKyG"
-  },
-  {
-   "name": "Carita",
-   "cenoteEntrance": false,
-   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
-   "maps": [
-    "Carita - Czech survey 2015"
-   ],
-   "note": "the map's only cenote (not in the database); the mouth of the dry cenote chamber, at the triangle-edged wall line; the map writes no 'entrance'",
-   "languageCode": "spa",
-   "sistemaId": "-KPZgfru4wvU1zu1_osa",
-   "sistemaName": "Cenote Carita",
-   "area": "",
-   "action": "create",
-   "why": "position not given: the map is unverified (Placed only by the map's own data: its printed WGS 1984 coordinates (N 20°25'17.8\" W 087°23'20.9\"), its scale bar (100 ft) and its north arrow. Nothing independent confirms it: Carita has no cave in the database (the sistema has no position), OpenStreetMap has nothing within 2.5 km (Overpass), no placed map is within 750 m (Ash Puk's walls end 762 m west), and the Esri and Google imagery show unbroken canopy at the point - no pond, clearing or trail (the cenote is a dry chamber under the forest, so none is expected). Indirect support only: the same team's printed point for Ash Puk (N 20°25'21.7\" W 087°23'53.4\") falls 8 m from a roofed hut in a small clearing on the Google imagery, so this team's GPS fixes look good to about 10 m.)",
-   "id": "-P44oWXiwm_Vye_0DRJH"
-  },
-  {
-   "name": "Cenote Heder",
-   "cenoteEntrance": false,
-   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
-   "maps": [
-    "Sistema Heder - Mafia Maps 2000"
-   ],
-   "languageCode": "spa",
-   "sistemaId": "-KPZgfw8jIiogblUeWUQ",
-   "sistemaName": "Heder",
-   "area": "Puerto Aventuras",
-   "action": "create",
-   "why": "position not given: the map is unverified (No cenote of the map has a position: the database has no cave in sistema Heder (and none named Heder, Kahlua, Bucket or Air Dome), OpenStreetMap has no feature named Heder (Overpass name search over the whole Yucatan coast, 19.5-21.6 N), web searches found no location for Cenote Heder or Sistema Heder, and the map's only source (wetworx.nl Cavemaps, listed alphabetically, no area) gives none. The map draws no road, coast, building or other ground feature, and no other map names its cenotes. The single control point is a NOMINAL anchor (Cenote Heder put at 20.5000 N, 87.3000 W, 2.4 km from any placed map, west of Puerto Aventuras where the Mafia Maps team worked - a guess of the region only) so the pipeline can run: the geometry is NOT on the ground. To fix: field GPS positions of Cenote Heder and of a second point (the small pool 55 m north of it, or better a far end: the line ends are up to 420 m apart at the derived scale).)",
-   "id": "-P44oWXip2v8hFEnp5Ye"
-  },
-  {
-   "name": "unnamed pool north of Cenote Heder",
-   "cenoteEntrance": false,
-   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
-   "maps": [
-    "Sistema Heder - Mafia Maps 2000"
-   ],
-   "languageCode": "spa",
-   "sistemaId": "-KPZgfw8jIiogblUeWUQ",
-   "sistemaName": "Heder",
-   "area": "Puerto Aventuras",
-   "action": "create",
-   "why": "position not given: the map is unverified (No cenote of the map has a position: the database has no cave in sistema Heder (and none named Heder, Kahlua, Bucket or Air Dome), OpenStreetMap has no feature named Heder (Overpass name search over the whole Yucatan coast, 19.5-21.6 N), web searches found no location for Cenote Heder or Sistema Heder, and the map's only source (wetworx.nl Cavemaps, listed alphabetically, no area) gives none. The map draws no road, coast, building or other ground feature, and no other map names its cenotes. The single control point is a NOMINAL anchor (Cenote Heder put at 20.5000 N, 87.3000 W, 2.4 km from any placed map, west of Puerto Aventuras where the Mafia Maps team worked - a guess of the region only) so the pipeline can run: the geometry is NOT on the ground. To fix: field GPS positions of Cenote Heder and of a second point (the small pool 55 m north of it, or better a far end: the line ends are up to 420 m apart at the derived scale).)",
-   "id": "-P44oWXiZeXVI6PqusGV"
   }
  ]
 }
