@@ -181,13 +181,18 @@ export default function Layout() {
         },
         backgroundPosition: 'center',
         backgroundSize: 'cover',
+        // An error shown in the page (NoMatch marks it): no side photo.
+        'html[data-oc-error-page] &': { backgroundImage: 'none', backgroundColor: 'var(--oc-page-surface)' },
       }}
     >
       <AppBar />
       {/* One column, never wider than the page (sized by its content, a
           wide form pushed the page past the screen's edge on phones). */}
       <Container id="main" className="oc-layout--main" component="main" sx={{ py: 2, display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', flexGrow: '1', bgcolor: isDashboardHome ? 'transparent' : isTranslucentPage ? 'var(--oc-page-surface-translucent)' : 'var(--oc-page-surface)', border: { xs: '0.5rem solid var(--oc-page-surface)', sm: '1rem solid var(--oc-page-surface)' }, ...(sideBordersSeeThrough && { borderLeftWidth: { xs: 0, sm: '1rem' }, borderRightWidth: { xs: 0, sm: '1rem' }, mx: { xs: '0.5rem', sm: 'auto' }, width: { xs: 'auto', sm: '100%' } }), // Square on the dashboard home, whose frame AdminDashboard draws.
-        borderRadius: isDashboardHome ? 0 : sideBordersSeeThrough ? { xs: 0, sm: '4px' } : '4px' }}>
+        borderRadius: isDashboardHome ? 0 : sideBordersSeeThrough ? { xs: 0, sm: '4px' } : '4px',
+        // An error shown in the page: no column, no frame - its picture the
+        // whole width, edge to edge (NoMatch).
+        'html[data-oc-error-page] &': { maxWidth: 'none', width: '100%', mx: 0, p: 0, border: 0, borderRadius: 0, bgcolor: 'var(--oc-page-surface)' } }}>
         <Outlet />
         {/* The Privacy and Terms links at every page's foot - not the landing
             page's, whose own footer has them, nor the dashboard home's, which

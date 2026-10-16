@@ -230,6 +230,18 @@ export const routes = [
             // stay (the root's NoMatch replaced them).
             errorElement: <NoMatch inLayout />,
             children: [
+              // Development: a page failing inside the layout (the app bar kept).
+              ...(import.meta.env.DEV
+                ? [
+                    {
+                      path: 'dev/error/in-layout',
+                      loader: () => {
+                        throw new Error('Preview of a page failing inside the layout')
+                      },
+                      element: null,
+                    },
+                  ]
+                : []),
               {
                 // The landing page (its content to be settled).
                 index: true,

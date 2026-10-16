@@ -576,8 +576,13 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   // Further reading's pane opened or closed (a computer's): the cave centred
   // again in the map left visible (moveCameraTo waits two frames: the pane
   // is in place by then, or gone).
+  // Not on the page's first render (the map isn't made yet, and centres the
+  // cave itself as it loads): when the pane opens or closes.
+  const readingPaneWasOpen = useRef(readingPaneOpen)
   useEffect(() => {
-    if (isSmall || !currentCave?.location) return
+    if (readingPaneWasOpen.current === readingPaneOpen) return
+    readingPaneWasOpen.current = readingPaneOpen
+    if (isSmall || !mapRef.current || !currentCave?.location) return
     moveCameraTo(currentCave)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [readingPaneOpen])
