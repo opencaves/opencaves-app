@@ -27,6 +27,10 @@ import { SITE_URL } from '@/config/app.js'
 const TITLE_BAR_PY = 0.5
 const TITLE_BAR_HEIGHT = 'calc(0.75rem * 1.66 + 8px)'
 const TITLE_BAR_MENU_SX = { top: 0, right: 4, height: TITLE_BAR_HEIGHT, width: TITLE_BAR_HEIGHT, p: 0 }
+// The title and cartography bars' ground: solid, not see-through. On the 3D
+// strip a tile is drawn as overlapping slices, and a see-through bar drawn
+// twice where they overlap showed darker stripes all along it.
+const CAPTION_BG = 'grey.900'
 
 function MapPreview({ caveId, map, index, returnTo, mapPath, menu = false }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
@@ -63,7 +67,7 @@ function MapPreview({ caveId, map, index, returnTo, mapPath, menu = false }) {
           // Room at the right for the options menu, when it's there.
           pr: menu ? 5 : 1,
           color: 'common.white',
-          bgcolor: 'rgba(0, 0, 0, 0.6)',
+          bgcolor: CAPTION_BG,
           // Over the thumbnail's outline: along the title, the edge is its colour.
           zIndex: 1,
           // Its date after its name, whole: only the name is cut short.
@@ -82,7 +86,7 @@ function MapPreview({ caveId, map, index, returnTo, mapPath, menu = false }) {
       </Typography>
       {/* Who drew it, along the bottom edge as the title along the top. */}
       {file?.authors?.length > 0 && (
-        <Typography variant="caption" noWrap className="oc-cave-map-list--cartography" sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, px: 1, py: TITLE_BAR_PY, color: 'common.white', bgcolor: 'rgba(0, 0, 0, 0.6)', zIndex: 1 }}>
+        <Typography variant="caption" noWrap className="oc-cave-map-list--cartography" sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, px: 1, py: TITLE_BAR_PY, color: 'common.white', bgcolor: CAPTION_BG, zIndex: 1 }}>
           {tMaps('cartography', { names: file.authors.join(', ') })}
         </Typography>
       )}
