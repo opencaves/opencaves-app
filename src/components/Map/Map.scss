@@ -122,7 +122,33 @@
   }
 }
 
-// The cave layer's edit-mode popups (CaveLayer): rounder, M3 large corners.
+// The cave layer's edit-mode popups (CaveLayer): the theme's container
+// colours, light or dark (Mapbox paints its popups white), their tip too.
+.oc-cave-layer-edit-card,
+.oc-cave-layer-edit-hover {
+  .mapboxgl-popup-content {
+    background-color: var(--mui-sys-color-surfaceContainerHigh);
+    color: var(--mui-palette-text-primary);
+  }
+
+  &.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
+    border-top-color: var(--mui-sys-color-surfaceContainerHigh);
+  }
+
+  &.mapboxgl-popup-anchor-top .mapboxgl-popup-tip {
+    border-bottom-color: var(--mui-sys-color-surfaceContainerHigh);
+  }
+
+  &.mapboxgl-popup-anchor-left .mapboxgl-popup-tip {
+    border-right-color: var(--mui-sys-color-surfaceContainerHigh);
+  }
+
+  &.mapboxgl-popup-anchor-right .mapboxgl-popup-tip {
+    border-left-color: var(--mui-sys-color-surfaceContainerHigh);
+  }
+}
+
+// Rounder: M3 large corners.
 .oc-cave-layer-edit-card .mapboxgl-popup-content {
   border-radius: 16px;
   padding: 14px 16px 12px;
