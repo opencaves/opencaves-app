@@ -109,7 +109,8 @@ const App = ({ serverRouter = null }) => {
 
   return (
     <Fragment>
-      <InitColorSchemeScript defaultMode="light" />
+      {/* A first visit (no mode kept): the system's, as ThemeProvider's default - not light, then dark once the app ran. */}
+      <InitColorSchemeScript defaultMode="system" />
       <ThemeProvider theme={theme}>
         <Splash />
         <GlobalStyles

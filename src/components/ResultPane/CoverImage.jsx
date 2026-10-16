@@ -19,7 +19,11 @@ const ASPECT_RATIO = 1 / COVER_IMAGE_HEIGHT_RATIO
 // time the pane re-rendered (e.g. on every map move, which updates the URL).
 function Container({ width, children }) {
   return (
-    <Box className="oc-cover-image" sx={{ position: 'relative', width, aspectRatio: ASPECT_RATIO }}>
+    // Its own shape, whatever's in it: an inline image's line (the loading
+    // pixel's) made it 7px taller for a moment, the pane below jumping up
+    // once the cover came (overflow: an aspect-ratio box isn't stretched by
+    // its content then).
+    <Box className="oc-cover-image" sx={{ position: 'relative', width, aspectRatio: ASPECT_RATIO, overflow: 'hidden', '& img': { display: 'block' } }}>
       {children}
     </Box>
   )
@@ -80,7 +84,10 @@ export default function CoverImage({ caveId, width = '100%' }) {
     return (
       <Container width={width}>
         <Tooltip title={t('addImages.tooltip')}>
-          <ButtonBase onClick={promptForMedias}>
+          {/* The whole cover's area, as a photo's link: as an inline button it
+              was 200px in the 225px area, a dark band under it - and the
+              cover shrank as the page loaded. */}
+          <ButtonBase onClick={promptForMedias} sx={{ display: 'block', width: '100%', height: '100%' }}>
             <Picture
               src={defaultMediaCardImage}
               alt=""

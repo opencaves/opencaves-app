@@ -81,39 +81,51 @@
     #oc-shell .oc-shell--account { display: none; }
     #oc-shell .oc-shell--layers { top: 88px; width: 48px; height: 48px; }
     #oc-shell .oc-shell--locate { bottom: 16px; }
-    #oc-shell .oc-shell--pane { display: none; position: absolute; left: 0; right: 0; bottom: 0; height: calc((100% - 48px) * 0.33); background: #fff; border-radius: 16px 16px 0 0; }
+    /* The details pane (keep in step with MapState.scss's .oc-map-loading--pane
+       and the pane itself): its ground (M3's surface container high), the
+       header on it - the name, the alias, the rating; a phone's close button -
+       then its sections as cards (the surface; a phone's, surface container
+       low), 8px apart: the quick actions, the media tabs, the place's rows. */
+    #oc-shell .oc-shell--pane { display: none; position: absolute; left: 0; right: 0; bottom: 0; height: calc((100% - 48px) * 0.33); overflow: hidden; background: #eceae9; border-radius: 16px 16px 0 0; }
     #oc-shell .oc-shell--pane::before { content: ''; position: absolute; top: 13px; left: calc(50% - 27px); width: 54px; height: 5px; border-radius: 3px; background: rgba(0, 0, 0, 0.11); }
     #oc-shell.oc-shell--cave .oc-shell--pane { display: block; }
     #oc-shell.oc-shell--cave .oc-shell--locate { bottom: calc((100% - 48px) * 0.33 + 32px); }
     #oc-shell.oc-shell--cave .oc-shell--map .oc-shell--loading { bottom: calc((100% - 48px) * 0.33); }
-    #oc-shell .oc-shell--cover { display: none; height: 200px; background: #222d3a; }
+    #oc-shell .oc-shell--cover { display: none; height: 225px; background: #222d3a; }
     #oc-shell .oc-shell--bone { display: block; height: 14px; border-radius: 4px; background: rgba(0, 0, 0, 0.11); }
-    #oc-shell .oc-shell--head { padding: 23px 22px 0; height: 102px; box-sizing: border-box; }
+    #oc-shell .oc-shell--head { position: relative; padding: 23px 22px 0; height: 109px; box-sizing: border-box; }
     /* The cave's name: as the pane's title (22px Roboto), only a touch larger and
        in Arial's metrics, as MapLoading's - the real title, painted seconds
        later, is then no larger a paint than this one (Largest Contentful
        Paint), whatever fonts the device has. */
-    #oc-shell .oc-shell--name { width: 45%; height: 22px; margin: 4px 0 16px; }
-    #oc-shell.oc-shell--named .oc-shell--bone.oc-shell--name { width: auto; height: 30px; margin: 0 0 12px; border-radius: 0; background: none; font: 400 24px/30px Helvetica, Arial, sans-serif; color: rgba(0, 0, 0, 0.87); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    #oc-shell .oc-shell--head .oc-shell--bone + .oc-shell--bone { width: 48%; }
-    #oc-shell .oc-shell--actions { display: flex; gap: 12px; padding: 0 22px; height: 60px; box-sizing: border-box; border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
+    #oc-shell .oc-shell--name { width: 45%; height: 22px; margin: 4px 0 12px; }
+    #oc-shell.oc-shell--named .oc-shell--bone.oc-shell--name { width: auto; height: 30px; margin: 0 48px 6px 0; border-radius: 0; background: none; font: 400 24px/30px Helvetica, Arial, sans-serif; color: rgba(0, 0, 0, 0.87); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    #oc-shell .oc-shell--alias { width: 35%; height: 12px; margin-bottom: 12px; }
+    #oc-shell .oc-shell--stars { width: 150px; height: 12px; }
+    #oc-shell .oc-shell--close { position: absolute; top: 21px; right: 18px; width: 32px; height: 32px; border-radius: 50%; background: rgba(0, 0, 0, 0.08); }
+    #oc-shell .oc-shell--card { margin: 0 8px 8px; border-radius: 16px; background: #f6f3f1; box-sizing: border-box; overflow: hidden; }
+    #oc-shell .oc-shell--actions { display: flex; gap: 12px; padding: 16px 14px; height: 74px; }
     #oc-shell .oc-shell--actions span { flex: none; width: 132px; height: 42px; border-radius: 21px; border: 1px solid rgba(0, 0, 0, 0.11); box-sizing: border-box; }
     #oc-shell .oc-shell--actions span:first-child { border: 0; background: #145e79; }
-    #oc-shell .oc-shell--tabs { display: flex; gap: 44px; margin: 0 22px; padding: 32px 22px 0; height: 64px; box-sizing: border-box; border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
-    #oc-shell .oc-shell--tabs .oc-shell--bone { width: 52px; }
-    #oc-shell .oc-shell--row { padding: 24px 22px 0 62px; }
-    #oc-shell .oc-shell--row .oc-shell--bone { width: 60%; }
+    #oc-shell .oc-shell--tabs { padding: 32px 22px 0; height: 171px; }
+    #oc-shell .oc-shell--tablist { display: flex; gap: 44px; padding: 0 22px 18px; border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
+    #oc-shell .oc-shell--tablist .oc-shell--bone { width: 52px; }
+    #oc-shell .oc-shell--media { display: block; height: 72px; margin-top: 20px; border-radius: 8px; background: rgba(0, 0, 0, 0.06); }
+    #oc-shell .oc-shell--rows { padding: 26px 22px 0 62px; height: 172px; }
+    #oc-shell .oc-shell--rows .oc-shell--bone { width: 60%; margin-bottom: 28px; }
     @media (min-width: 600px) {
       #oc-shell .oc-shell--ctl { right: 24px; width: 56px; height: 56px; }
       #oc-shell .oc-shell--account { display: block; top: 24px; box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
       #oc-shell .oc-shell--layers { top: 96px; }
       #oc-shell .oc-shell--locate, #oc-shell.oc-shell--cave .oc-shell--locate { bottom: 24px; }
       #oc-shell .oc-shell--pane { top: 0; right: auto; width: 400px; height: auto; border-radius: 4px; box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 5px 8px 0 rgba(0, 0, 0, 0.14), 0 1px 14px 0 rgba(0, 0, 0, 0.12); }
-      #oc-shell .oc-shell--pane::before { display: none; }
+      #oc-shell .oc-shell--pane::before, #oc-shell .oc-shell--close { display: none; }
       #oc-shell.oc-shell--cave .oc-shell--map .oc-shell--loading { left: 400px; bottom: 0; }
       #oc-shell .oc-shell--cover { display: block; }
-      #oc-shell .oc-shell--head { padding-top: 41px; height: 105px; border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
-      #oc-shell .oc-shell--actions { justify-content: space-around; gap: 0; padding: 23px 41px 0; height: 99px; }
+      #oc-shell .oc-shell--head { padding-top: 16px; height: 100px; }
+      #oc-shell.oc-shell--named .oc-shell--bone.oc-shell--name { margin-right: 0; }
+      #oc-shell .oc-shell--card { background: #fbf9f7; }
+      #oc-shell .oc-shell--actions { justify-content: space-around; gap: 0; padding: 25px 41px 0; height: 101px; }
       #oc-shell .oc-shell--actions span { width: 36px; height: 36px; border-radius: 50%; }
     }
     /* The other pages: the page's surface (M3's surface, the theme's
@@ -137,9 +149,13 @@
     #oc-shell.oc-shell--dark .oc-shell--title { color: #302f33; }
     #oc-shell.oc-shell--dark .oc-shell--dot { fill: #087e91; }
     #oc-shell.oc-shell--dark .oc-shell--map { background: #141219; }
-    #oc-shell.oc-shell--dark .oc-shell--ctl, #oc-shell.oc-shell--dark .oc-shell--pane { background: #1c1b1f; }
+    #oc-shell.oc-shell--dark .oc-shell--ctl { background: #1c1b1f; }
+    #oc-shell.oc-shell--dark .oc-shell--pane { background: #2b2930; }
+    #oc-shell.oc-shell--dark .oc-shell--card { background: #1c1b21; }
+    @media (min-width: 600px) { #oc-shell.oc-shell--dark .oc-shell--card { background: #141219; } }
     #oc-shell.oc-shell--dark .oc-shell--bone, #oc-shell.oc-shell--dark .oc-shell--pane::before { background: rgba(255, 255, 255, 0.13); }
-    #oc-shell.oc-shell--dark .oc-shell--head, #oc-shell.oc-shell--dark .oc-shell--actions, #oc-shell.oc-shell--dark .oc-shell--tabs { border-color: rgba(255, 255, 255, 0.12); }
+    #oc-shell.oc-shell--dark .oc-shell--close, #oc-shell.oc-shell--dark .oc-shell--media { background: rgba(255, 255, 255, 0.07); }
+    #oc-shell.oc-shell--dark .oc-shell--tablist { border-color: rgba(255, 255, 255, 0.12); }
     #oc-shell.oc-shell--dark.oc-shell--named .oc-shell--name.oc-shell--bone { color: #dedbd7; }
     #oc-shell.oc-shell--dark .oc-shell--actions span { border-color: rgba(255, 255, 255, 0.13); }
     #oc-shell.oc-shell--dark .oc-shell--actions span:first-child { background: #087e91; }
@@ -181,12 +197,10 @@
       <span class="oc-shell--ctl oc-shell--locate"></span>
       <div class="oc-shell--pane">
         <div class="oc-shell--cover"></div>
-        <div class="oc-shell--head"><span class="oc-shell--bone oc-shell--name"></span><span class="oc-shell--bone"></span></div>
-        <div class="oc-shell--actions"><span></span><span></span><span></span></div>
-        <div class="oc-shell--tabs"><span class="oc-shell--bone"></span><span class="oc-shell--bone"></span><span class="oc-shell--bone"></span></div>
-        <div class="oc-shell--row"><span class="oc-shell--bone"></span></div>
-        <div class="oc-shell--row"><span class="oc-shell--bone"></span></div>
-        <div class="oc-shell--row"><span class="oc-shell--bone"></span></div>
+        <div class="oc-shell--head"><span class="oc-shell--bone oc-shell--name"></span><span class="oc-shell--bone oc-shell--alias"></span><span class="oc-shell--bone oc-shell--stars"></span><span class="oc-shell--close"></span></div>
+        <div class="oc-shell--card oc-shell--actions"><span></span><span></span><span></span></div>
+        <div class="oc-shell--card oc-shell--tabs"><div class="oc-shell--tablist"><span class="oc-shell--bone"></span><span class="oc-shell--bone"></span><span class="oc-shell--bone"></span></div><span class="oc-shell--media"></span></div>
+        <div class="oc-shell--card oc-shell--rows"><span class="oc-shell--bone"></span><span class="oc-shell--bone"></span><span class="oc-shell--bone"></span></div>
       </div>
     </div>
     <div class="oc-shell--search">
@@ -226,7 +240,8 @@
       try {
         mode = localStorage.getItem('mui-mode')
       } catch (e) {}
-      var dark = mode === 'dark' || (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+      // No mode kept yet (a first visit): the system's, as the app's (MUI's default).
+      var dark = mode === 'dark' || ((mode === 'system' || !mode) && window.matchMedia('(prefers-color-scheme: dark)').matches)
       if (!isMapRoute) shell.classList.add('oc-shell--page')
       else if (/^\/map\/[^/]/.test(path)) {
         shell.classList.add('oc-shell--cave')
