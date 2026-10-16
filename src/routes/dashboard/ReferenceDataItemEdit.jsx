@@ -20,6 +20,7 @@ import EditPageHeader from '@/components/EditPageHeader.jsx'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import { slugify } from '@/utils/slug.js'
+import { leaveEditPage } from '@/utils/leaveEditPage.js'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 
 const emptyFields = (fields) => Object.fromEntries(fields.map((f) => [f, '']))
@@ -120,12 +121,11 @@ export default function ReferenceDataItemEdit() {
   const fieldLabel = (field) => t(`fieldLabels.${field}`, { defaultValue: field })
 
   function goBack() {
-    // Replace, not push: otherwise the edit URL stays in history as its own
-    // entry, and the browser Back button from the list (after Cancel/Save)
-    // would land right back on it instead of skipping past it. An area goes
-    // back to its public page (its name can't change once created).
+    // Never left in the history (leaveEditPage). Opened straight at its
+    // address, an area goes up to its public page (its name can't change once
+    // created), the others to their list.
     const areaSlug = isArea && !isNew ? slugify(form.name || itemId) : ''
-    navigate(areaSlug ? `/caves#${areaSlug}` : `/${collectionName}`, { replace: true })
+    leaveEditPage(navigate, areaSlug ? `/caves#${areaSlug}` : `/${collectionName}`)
   }
 
   if (!config) {

@@ -33,6 +33,7 @@ import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { CAVE_TEXT_FIELDS, textSourcesOf, textSourcesUpdate, withTextChange } from '@/utils/textSources.js'
 import TextSourceField from '@/components/TextSourceField.jsx'
 import { FIT_SELECT_MENU_PROPS, fitSelectSx } from '@/utils/fitSelect.js'
+import { leaveEditPage } from '@/utils/leaveEditPage.js'
 import TriStateField from './TriStateField.jsx'
 
 const areasModel = createCollectionModel('areas')
@@ -165,10 +166,9 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
   }
 
   function exitEditMode() {
-    // replace: true so Cancel/Save never leave a stray edit-mode entry
-    // behind in history - closing should be a one-way exit, not something
-    // a later back-navigation could reopen.
-    navigate(`/map/${cave.id}`, { replace: true })
+    // Never left in the history, nor the cave's pane twice (leaveEditPage):
+    // a later Back neither reopens it nor seems to do nothing.
+    leaveEditPage(navigate, `/map/${cave.id}`)
   }
 
   // leaving: saving from the unsaved-changes dialog, which then goes on to
