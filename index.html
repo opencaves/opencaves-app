@@ -16,6 +16,12 @@
        actually gets around to requesting them. -->
   <link rel="preconnect" href="https://api.mapbox.com" crossorigin />
   <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin />
+  <!-- Storage's two hosts: the photos' thumbnails and covers (public files,
+       storage.googleapis.com), the maps, documents and originals (the
+       Storage API). Both loaded with crossorigin="anonymous" (the service
+       worker caches them), so the connections are opened the same way. -->
+  <link rel="preconnect" href="https://storage.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://firebasestorage.googleapis.com" crossorigin />
 
   <link rel="icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" sizes="32x32" href="/pwa/icons/favicon-32x32.png" />
