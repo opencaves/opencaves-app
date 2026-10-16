@@ -161,7 +161,7 @@ function MapThumbnail({ map }) {
       ) : (
         <MapRounded color="primary" fontSize="large" />
       )}
-      <Box className="oc-maps-section--caption" sx={{ position: 'absolute', left: { xs: 12, sm: 8 }, right: { xs: 12, sm: 8 }, bottom: { xs: 12, sm: 8 }, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '6px', '& span': { lineHeight: 1, px: '6px', py: '3px', color: 'common.white', bgcolor: 'rgb(32, 32, 32)', boxDecorationBreak: 'clone', WebkitBoxDecorationBreak: 'clone' } }}>
+      <Box className="oc-maps-section--caption" sx={{ position: 'absolute', left: { xs: 12, sm: 8 }, right: { xs: 12, sm: 8 }, bottom: { xs: 12, sm: 8 }, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', '& span': { lineHeight: 1, px: '6px', py: '3px', color: 'common.white', bgcolor: 'rgb(32, 32, 32)', boxDecorationBreak: 'clone', WebkitBoxDecorationBreak: 'clone' } }}>
         <Box sx={{ lineHeight: 1 }}>
           <Typography component="span" sx={{ fontSize: '0.875rem', fontWeight: 500, letterSpacing: '0.01em', overflowWrap: 'anywhere' }}>
             {map.name}
