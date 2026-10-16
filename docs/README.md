@@ -4,6 +4,10 @@ How-to guides for running and maintaining OpenCaves. For how the code is
 organized and its conventions, see [AGENTS.md](../AGENTS.md) at the root of
 the project.
 
+- [Design system](design-system.md): how the interface looks and behaves -
+  Material Design 3 and the theme's tokens (colours, light and dark, type,
+  shapes, motion, icons), the components to reuse, navigation and forms,
+  links, class names, texts.
 - [Maintenance](maintenance.md): checking the cave photos, syncing the
   database from the Google Sheet, user roles, Storage CORS, deploying, and
   local emulator troubleshooting, who changed what (the audit log), and the
