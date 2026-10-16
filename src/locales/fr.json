@@ -32,6 +32,10 @@
     }
   },
   "app": {
+    "markdown": {
+      "footnotes": "Notes",
+      "footnoteBack": "Retour à la référence {{ref}}"
+    },
     "back": "Retour",
     "previous": "Précédent",
     "item_zero": "{{count}} item",
