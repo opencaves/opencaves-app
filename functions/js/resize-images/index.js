@@ -16,8 +16,6 @@
 
 import { getStorage } from 'firebase-admin/storage'
 import { getEventarc } from 'firebase-admin/eventarc'
-import { getFunctions } from 'firebase-admin/functions'
-import { getExtensions } from 'firebase-admin/extensions'
 import fs from 'fs'
 import * as functions from 'firebase-functions/v1'
 import os from 'os'
@@ -29,7 +27,6 @@ import { modifyImage } from './resize-image.js'
 import config, { deleteImage } from './config.js'
 import * as logs from './logs.js'
 import { shouldResize } from './shouldResize.js'
-import { REGION } from '../constants.js'
 import '../init.js'
 
 sharp.cache(false)
@@ -189,80 +186,3 @@ export const generateResizedImage = functions.storage
 // export const generateResizedImage = onObjectFinalized(async event => {
 //   await generateResizedImageHandler(event.data)
 // })
-
-/**
- *
- */
-export const backfillResizedImages = functions
-  .region(REGION)
-  .tasks
-  .taskQueue()
-  .onDispatch(async data => {
-    // export const backfillResizedImages = onTaskDispatched(async ({ data }) => {
-    //   console.log('data: %o', data)
-    const runtime = getExtensions().runtime()
-    if (!config.doBackfill) {
-      await runtime.setProcessingState(
-        'PROCESSING_COMPLETE',
-        'Existing images were not resized because \'Backfill existing images\' was configured to false.' +
-        ' If you want to resize existing images, reconfigure this instance.'
-      )
-      return
-    }
-    if (data?.nextPageQuery === undefined) {
-      logs.startBackfill()
-    }
-    const bucket = getStorage().bucket(process.env.IMG_BUCKET)
-    const query = data.nextPageQuery || {
-      autoPaginate: false,
-      maxResults: 3 // We only grab 3 images at a time to minimize the chance of OOM errors.
-    }
-    const [files, nextPageQuery] = await bucket.getFiles(query)
-    const filesToResize = files.filter(f => {
-      logs.continueBackfill(f.metadata.name)
-      return shouldResize(f.metadata)
-    })
-    const filePromises = filesToResize.map(f => {
-      return generateResizedImageHandler(f.metadata, /*verbose=*/ false)
-    })
-    const results = await Promise.allSettled(filePromises)
-
-    const pageErrorsCount = results.filter(r => r.status === 'rejected').length
-    const pageSuccessCount = results.filter(r => r.status === 'fulfilled')
-      .length
-    const oldErrorsCount = Number(data.errorsCount) || 0
-    const oldSuccessCount = Number(data.successCount) || 0
-    const errorsCount = pageErrorsCount + oldErrorsCount
-    const successCount = pageSuccessCount + oldSuccessCount
-
-    if (nextPageQuery) {
-      const queue = getFunctions().taskQueue(
-        `locations/${config.location}/functions/backfillResizedImages`,
-        process.env.EXT_INSTANCE_ID
-      )
-      await queue.enqueue({
-        nextPageQuery,
-        errorsCount,
-        successCount
-      })
-    } else {
-      logs.backfillComplete(successCount, errorsCount)
-      if (errorsCount == 0) {
-        await runtime.setProcessingState(
-          'PROCESSING_COMPLETE',
-          `Successfully resized ${successCount} images.`
-        )
-      } else if (errorsCount > 0 && successCount > 0) {
-        await runtime.setProcessingState(
-          'PROCESSING_WARNING',
-          `Successfully resized ${successCount} images, failed to resize ${errorsCount} images. See function logs for error details.`
-        )
-      }
-      if (errorsCount > 0 && successCount == 0) {
-        await runtime.setProcessingState(
-          'PROCESSING_FAILED',
-          `Successfully resized ${successCount} images, failed to resize ${errorsCount} images. See function logs for error details.`
-        )
-      }
-    }
-  })

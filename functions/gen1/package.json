@@ -1,0 +1,14 @@
+{
+  "name": "opencaves-functions-gen1",
+  "description": "The Cloud Functions that only exist in the first generation (an Auth account deleted): Gen1 runs Node 22 at most, the rest (functions/js) Node 24.",
+  "private": true,
+  "type": "module",
+  "main": "index.js",
+  "engines": {
+    "node": "22"
+  },
+  "dependencies": {
+    "firebase-admin": "^14.5.0",
+    "firebase-functions": "^7.4.0"
+  }
+}

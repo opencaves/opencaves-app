@@ -1,31 +1,30 @@
 import { beforeUserCreated } from 'firebase-functions/v2/identity'
-// import { log } from 'firebase-functions/logger'
 import { db } from '../init.js'
 import { USERS_COLL_NAME } from '../constants.js'
+import { hasVerifiedEmail } from './verifiedEmail.js'
 
+/**
+ * A new account, before Firebase Auth saves it: its `_users` document, and its
+ * role in the token's claims - editor when its email is known to be the
+ * person's ({@link hasVerifiedEmail}), else guest, until `ensureEditorRole`
+ * makes it an editor once the email is verified. Returned as `customClaims`
+ * (a blocking function can't call setCustomUserClaims: the user doesn't exist
+ * yet); the Gen1 onCreate trigger that set them before can't run Node 24.
+ */
 export const onBeforeUserCreated = beforeUserCreated(async event => {
-  const users = db.collection(USERS_COLL_NAME)
   const user = event.data
   const { uid, email } = user
+  const roles = hasVerifiedEmail(user) ? ['editor'] : ['guest']
 
-  // Role assignment happens in assignRole.js's onCreate trigger, which runs
-  // after the user actually exists: auth.setCustomUserClaims() throws
-  // auth/user-not-found if called here, since beforeUserCreated fires before
-  // the user record is persisted.
   try {
-    const userRef = users.doc(uid)
-    await userRef.set({
+    await db.collection(USERS_COLL_NAME).doc(uid).set({
       email,
       savedPlaces: []
     })
-
-    return
   } catch (error) {
+    // The account is still created, with its role.
     console.error(error)
-
   }
-})
 
-// export const beforesignedin = beforeUserSignedIn((event) => {
-//   // TODO
-// })
+  return { customClaims: { roles } }
+})
