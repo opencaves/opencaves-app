@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Autocomplete, Box, InputAdornment, TextField } from '@mui/material'
 import SearchRounded from '@mui/icons-material/SearchRounded'
 import { useSiteSearch } from '@/hooks/useSiteSearch.js'
-import { renderSearchGroup, renderSearchOption } from './searchSuggestions.jsx'
+import { renderSearchGroup, renderSearchOption, searchOptionKey } from './searchSuggestions.jsx'
 import { track } from '@/utils/track.js'
 
 /**
@@ -47,6 +47,7 @@ export default function SiteSearch({ sx, inputSx }) {
         }}
         renderGroup={renderSearchGroup((group) => t(`search.groups.${group}`))}
         renderOption={renderSearchOption}
+        getOptionKey={searchOptionKey}
         noOptionsText={input.trim() ? t('search.none') : t('search.hint')}
         renderInput={(params) => (
           <TextField

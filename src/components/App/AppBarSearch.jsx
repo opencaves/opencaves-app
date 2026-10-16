@@ -5,7 +5,7 @@ import { Autocomplete, Box, ClickAwayListener, IconButton, InputAdornment, Input
 import SearchRounded from '@mui/icons-material/SearchRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import { useSiteSearch } from '@/hooks/useSiteSearch.js'
-import { renderSearchGroup, renderSearchOption } from '@/components/IndexPage/searchSuggestions.jsx'
+import { renderSearchGroup, renderSearchOption, searchOptionKey } from '@/components/IndexPage/searchSuggestions.jsx'
 import { track } from '@/utils/track.js'
 
 /**
@@ -137,6 +137,7 @@ export default function AppBarSearch() {
         }}
         renderGroup={renderSearchGroup((group) => t(`groups.${group}`))}
         renderOption={renderSearchOption}
+        getOptionKey={searchOptionKey}
         noOptionsText={input.trim() ? t('none') : t('hint')}
         slotProps={{ popper: { className: 'oc-app-bar-search--popper', sx: { minWidth: 320 } } }}
         renderInput={(params) => (

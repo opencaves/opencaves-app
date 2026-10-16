@@ -1,6 +1,15 @@
 import { Box, Typography } from '@mui/material'
 
 /**
+ * A search suggestion's key: its id (two caves can share a name - Pajaro -
+ * and MUI keys options by their label otherwise), or typed text itself.
+ *
+ * @param {{id: string}|string} option
+ * @returns {string}
+ */
+export const searchOptionKey = (option) => (typeof option === 'string' ? option : option.id)
+
+/**
  * How the site's searches (SiteSearch, AppBarSearch) show their suggestions
  * (useSiteSearch): under a small heading per kind, each with its secondary
  * text (a cave's system) beside it.
