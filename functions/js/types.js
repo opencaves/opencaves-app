@@ -50,6 +50,7 @@
  * @property {'checking'|'ready'|'rejected'} [status] - A file: checked (onDocumentUploaded), shown, or refused.
  * @property {string} [rejectReason]
  * @property {number} [size] - A file: its size once cleaned, in bytes.
+ * @property {boolean} [summaryAi] - Its summary started as an AI draft (documents/draftSummary.js).
  * @property {string} [coverUrl] - A file: its first page's picture (documents/{id}_cover.webp), drawn by the server.
  * @property {Timestamp} [deletedAt] - In the trash.
  */

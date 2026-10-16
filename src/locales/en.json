@@ -2547,7 +2547,10 @@
       "linkUnread": "This page couldn't be read: fill in the details yourself.",
       "url": "Enter a web address starting with http:// or https://.",
       "year": "A four-digit year.",
-      "saveFailed": "Couldn't save. Try again."
+      "saveFailed": "Couldn't save. Try again.",
+      "draftLimit": "You've used today's AI drafts. Try again tomorrow.",
+      "draftNoSource": "No abstract or text was found to draft from.",
+      "draftFailed": "The draft couldn't be made. Try again."
     },
     "cancel": "Cancel",
     "save": "Save",
@@ -2578,6 +2581,18 @@
     "paneCount_one": "{{count}} document",
     "paneCount_other": "{{count}} documents",
     "paneEmpty": "None yet: add the first one",
+    "draft": {
+      "button": "Draft with AI",
+      "drafting": "Drafting…",
+      "check": "Drafted with AI: check it against the paper before saving.",
+      "offline": "Needs a connection",
+      "noSource": "Pick the PDF or enter its DOI first: the draft is made from its abstract or its text.",
+      "replaceTitle": "Replace your summary?",
+      "replaceText": "The AI draft takes the place of the summary you wrote.",
+      "replace": "Replace",
+      "chip": "AI",
+      "chipTitle": "Summary drafted with AI"
+    },
     "etAl": "et al."
   }
 }

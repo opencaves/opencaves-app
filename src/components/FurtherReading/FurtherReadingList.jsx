@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Chip, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Link, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from '@mui/material'
+import AutoAwesomeRounded from '@mui/icons-material/AutoAwesomeRounded'
 import DeleteForeverRounded from '@mui/icons-material/DeleteForeverRounded'
 import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
@@ -363,6 +364,8 @@ export default function FurtherReadingList({ items, onReorder, groupOf, onEdit, 
           )}
           {/* `description`: its older name, on documents saved before. */}
           {(document.summary || document.description) && <DocumentSummary text={document.summary || document.description} />}
+          {/* Admins: a summary that started as an AI draft. */}
+          {isAdmin && document.summaryAi && <Chip className="oc-further-reading--ai" size="small" variant="outlined" icon={<AutoAwesomeRounded />} label={t('draft.chip')} title={t('draft.chipTitle')} sx={{ mt: 0.5 }} />}
           {document.kind === 'file' && document.status === 'checking' && (
             <Chip className="oc-further-reading--status" size="small" icon={<CircularProgress size={12} />} label={t('checking')} sx={{ mt: 1 }} />
           )}

@@ -2547,7 +2547,10 @@
       "linkUnread": "No se pudo leer esta página: rellena los detalles tú mismo.",
       "url": "Escribe una dirección web que empiece por http:// o https://.",
       "year": "Un año de cuatro cifras.",
-      "saveFailed": "No se pudo guardar. Inténtalo de nuevo."
+      "saveFailed": "No se pudo guardar. Inténtalo de nuevo.",
+      "draftLimit": "Ya usó los borradores de IA de hoy. Inténtelo mañana.",
+      "draftNoSource": "No se encontró resumen ni texto para redactar.",
+      "draftFailed": "No se pudo hacer el borrador. Inténtelo de nuevo."
     },
     "cancel": "Cancelar",
     "save": "Guardar",
@@ -2578,6 +2581,18 @@
     "paneCount_one": "{{count}} documento",
     "paneCount_other": "{{count}} documentos",
     "paneEmpty": "Ninguno todavía: añada el primero",
+    "draft": {
+      "button": "Redactar con IA",
+      "drafting": "Redactando…",
+      "check": "Redactado con IA: compárelo con el artículo antes de guardar.",
+      "offline": "Necesita conexión",
+      "noSource": "Elija primero el PDF o indique su DOI: el borrador se hace a partir de su resumen o su texto.",
+      "replaceTitle": "¿Reemplazar su resumen?",
+      "replaceText": "El borrador de la IA reemplaza el resumen que escribió.",
+      "replace": "Reemplazar",
+      "chip": "IA",
+      "chipTitle": "Resumen redactado con IA"
+    },
     "etAl": "et al."
   }
 }

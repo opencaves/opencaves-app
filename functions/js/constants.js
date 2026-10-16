@@ -24,6 +24,9 @@ export const CAVE_RATINGS_COLL_NAME = '_caveRatings'
 // The errors the app's "Something went wrong" page showed (written by the
 // browser, src/utils/errorReports.js; read by admins).
 export const ERROR_REPORTS_COLL_NAME = '_errorReports'
+// Each editor's AI summary drafts today (draftDocumentSummary's daily limit):
+// server-only, by account.
+export const AI_DRAFTS_COLL_NAME = '_aiDrafts'
 // What's new, built by the server (refreshWhatsNew) into one public document
 // the page reads.
 export const WHATS_NEW_COLL_NAME = '_whatsNew'
