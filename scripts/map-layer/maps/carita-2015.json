@@ -525,14 +525,14 @@
   "north": "up",
   "controlPoints": [
     {
-      "name": "Carita (printed WGS 1984 coordinates, at the cave's mouth)",
+      "name": "Carita (printed WGS 1984 coordinates, at the cenote: where the guideline enters the water)",
       "px": [
-        228,
-        1245
+        213,
+        1099
       ],
       "latitude": 20.421611,
       "longitude": -87.389139,
-      "why": "the map's printed coordinates N 20°25'17.8\" W 087°23'20.9\", put at the mouth of the cenote chamber (the triangle-edged wall at its south end); Carita has no cave in the database"
+      "why": "the map's printed coordinates N 20°25'17.8\" W 087°23'20.9\", put at the cenote divers enter - where the main line leaves the dry chamber, crosses the air (the pale strip) and enters the water (the user, 2026-10-16: the only part of the main line that crosses air); before, at the chamber's south mouth (228, 1245). Carita has no cave in the database"
     }
   ],
   "entrances": [
@@ -540,10 +540,13 @@
       "name": "Carita",
       "written": false,
       "px": [
-        228,
-        1245
+        213,
+        1099
       ],
-      "note": "the map's only cenote (not in the database); the mouth of the dry cenote chamber, at the triangle-edged wall line; the map writes no 'entrance'"
+      "note": "the map's only cenote (not in the database); the mouth of the dry cenote chamber, at the triangle-edged wall line; the map writes no 'entrance'",
+      "why": "the cenote: where the main line crosses the air into the water (the user, 2026-10-16)",
+      "knownEntrance": true,
+      "knownEntranceWhy": "an entrance of Sistema Carita: the user's first-hand knowledge (2026-10-16)"
     }
   ],
   "symbols": {
