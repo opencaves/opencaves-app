@@ -549,6 +549,7 @@
     "invalidVideoUrl": "Ce n’est pas le lien d’une vidéo YouTube, Vimeo ou Facebook.",
     "addVideo": "Ajouter la vidéo",
     "accessHeader": "Accès",
+    "descriptionHeader": "Description",
     "aka": "alias",
     "directionsHeader": "S'y rendre",
     "cenote": "Cénote",

@@ -220,6 +220,9 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
       {cave.description && (
         <Box component="section" className="oc-details-section">
+          <div className="details-container">
+            <h2 className="h2">{t('descriptionHeader')}</h2>
+          </div>
           <div className="details-container details-text">
             <Markdown>{cave.description}</Markdown>
             <TextSource record={cave} field="description" />
