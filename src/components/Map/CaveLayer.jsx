@@ -94,8 +94,10 @@ function EditCard({ map, hidden, sistemaName, onHide, onShow, onClose }) {
       <Typography variant="caption" color="text.secondary" component="p">
         {t('file', { name: map?.name })}
       </Typography>
-      {scan?.url && (
-        <Link href={scan.url} target="_blank" rel="noopener" variant="caption" sx={{ display: 'inline-block', mt: 0.5 }}>
+      {/* In the survey maps' viewer (on its system's page), not the file:
+          a raw file may download instead of opening. */}
+      {scan?.id && map?.sistemaId && (
+        <Link href={`/sistemas/${map.sistemaId}/maps/${scan.id}`} target="_blank" rel="noopener noreferrer" variant="caption" sx={{ display: 'inline-block', mt: 0.5 }}>
           {t('openScan')}
         </Link>
       )}
