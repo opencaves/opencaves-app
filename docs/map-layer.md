@@ -24,6 +24,13 @@ included). Admins see the list in the Map layers page's **To process** tab
 "Not for the layer" asks for a reason (a cross-section, a dry cave, a sketch,
 a duplicate...) and can be undone there.
 
+Each of these maps also gets a task on the admins' Tasks page (`/tasks`),
+which says whether its system is already in the layer (and from an older
+survey or not) or whether it duplicates a map OpenCaves has; the server reads
+the layer from the published `maps.json` and `configs.json`, so the task closes
+by itself once the tiles naming its map are deployed (see
+[maintenance.md](maintenance.md), "Map tasks").
+
 To process them:
 
 ```
