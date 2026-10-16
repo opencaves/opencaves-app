@@ -18,6 +18,7 @@ import MapsToProcess from './MapsToProcess.jsx'
 import { DASHBOARD_LIST_SX } from '@/components/dashboardSurface.js'
 import { useMapsToProcess } from './useMapsToProcess.js'
 import { SEARCH_FIELD_SX } from '@/components/searchFieldSx.js'
+import { matchesId } from '@/utils/matchesId.js'
 
 // The zoom that fits a map's extent ([west, south, east, north]) on screen.
 function zoomFor(bounds) {
@@ -58,6 +59,9 @@ export default function MapLayersAdmin() {
   const [savingId, setSavingId] = useState(null)
   const [error, setError] = useState(null)
   const [thumbnails, setThumbnails] = useState(new Map())
+  // Each imported scan's map record id, by its importKey (the search finds a
+  // drawing by its map's id).
+  const [recordIds, setRecordIds] = useState(new Map())
   // "Show only hidden": the maps hidden when it was turned on, so one shown
   // again stays in the list (to hide it back) until it's turned off.
   const [onlyHidden, setOnlyHidden] = useState(null)
@@ -66,7 +70,11 @@ export default function MapLayersAdmin() {
   // read once (not those in the trash).
   useEffect(() => {
     getDocs(collection(db, 'maps'))
-      .then((snapshot) => setThumbnails(new Map(snapshot.docs.filter((doc) => !isTrashed(doc)).flatMap((doc) => [doc.get('importKey'), doc.id].filter(Boolean).map((key) => [key, doc.get('thumbnailUrl') || doc.get('previewUrl')])))))
+      .then((snapshot) => {
+        const docs = snapshot.docs.filter((doc) => !isTrashed(doc))
+        setThumbnails(new Map(docs.flatMap((doc) => [doc.get('importKey'), doc.id].filter(Boolean).map((key) => [key, doc.get('thumbnailUrl') || doc.get('previewUrl')]))))
+        setRecordIds(new Map(docs.filter((doc) => doc.get('importKey')).map((doc) => [doc.get('importKey'), doc.id])))
+      })
       .catch((err) => console.error(err))
   }, [])
 
@@ -81,9 +89,10 @@ export default function MapLayersAdmin() {
     return Object.entries(maps)
       .map(([id, map]) => ({ id, ...map, sistema: sistemaNames.get(map.sistemaId) || '' }))
       .filter((map) => !onlyHidden || onlyHidden.has(map.id) || hiddenMaps.includes(map.id))
-      .filter((map) => !needle || [map.title, map.name, map.sistema, map.date].some((v) => String(v || '').toLowerCase().includes(needle)))
+      // By its words, or by (a piece of) an id: the drawing's, its map record's, its system's.
+      .filter((map) => !needle || [map.title, map.name, map.sistema, map.date].some((v) => String(v || '').toLowerCase().includes(needle)) || [map.id, map.mapId, recordIds.get(map.mapImportKey), map.sistemaId].some((id) => matchesId(id, search)))
       .sort((a, b) => a.title.localeCompare(b.title))
-  }, [maps, search, sistemaNames, onlyHidden, hiddenMaps])
+  }, [maps, search, sistemaNames, onlyHidden, hiddenMaps, recordIds])
 
   async function toggle(id, shown) {
     setSavingId(id)

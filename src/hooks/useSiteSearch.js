@@ -4,11 +4,13 @@ import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { foldSearch, searchMatcher } from '@/utils/searchText.js'
 import { popularityOf } from '@/utils/popularity.js'
 import { usePopularity } from '@/hooks/usePopularity.js'
+import { useRecordById } from '@/hooks/useRecordById.js'
+import { matchesId } from '@/utils/matchesId.js'
 
 // How many suggestions show at once.
 const MAX_SUGGESTIONS = 8
 // The kinds' order in the suggestions.
-const KIND_ORDER = ['caves', 'sistemas', 'areas']
+const KIND_ORDER = ['caves', 'sistemas', 'areas', 'maps', 'documents', 'photos']
 
 // Names compared as every search of the site does (utils/searchText.js).
 const fold = foldSearch
@@ -20,6 +22,9 @@ const fold = foldSearch
  * the areas when asked; among equal matches, the most popular first
  * (usePopularity: page views and saves, read once something is typed),
  * then by name. Each has a label, maybe a secondary text, and where it leads.
+ * A cave or system is also found by (a piece of) its id - the id then its
+ * secondary text, saying why; a whole pasted id also finds the survey map,
+ * document or photo it names ({@link useRecordById}).
  *
  * @param {string} input
  * @param {object} [options]
@@ -33,6 +38,7 @@ export function useSiteSearch(input, { areas = false } = {}) {
   const typed = Boolean(input)
   const { popularity: cavesPopularity } = usePopularity('caves', typed)
   const { popularity: sistemasPopularity } = usePopularity('sistemas', typed)
+  const byId = useRecordById(input)
 
   // Every searchable thing once: its label, the texts it's found by, where it leads.
   const entries = useMemo(
@@ -58,17 +64,20 @@ export function useSiteSearch(input, { areas = false } = {}) {
     const matches = searchMatcher(input)
     // An entry's popularity, by its kind's (areas: none).
     const popularity = (entry) => popularityOf(entry.kind === 'caves' ? cavesPopularity : entry.kind === 'sistemas' ? sistemasPopularity : null, entry.recordId)
+    // By the words, or by (a piece of) the id - then shown under the name.
     const found = entries
-      .filter((entry) => matches(entry.haystack))
+      .flatMap((entry) => (matches(entry.haystack) ? [entry] : entry.recordId && matchesId(entry.recordId, input) ? [{ ...entry, secondary: entry.recordId }] : []))
       // Names starting with it first, by kind (caves first), the most
       // popular first, then by name.
       .sort((a, b) => Number(fold(b.label).startsWith(query)) - Number(fold(a.label).startsWith(query)) || KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind) || popularity(b) - popularity(a) || a.label.localeCompare(b.label))
       .slice(0, MAX_SUGGESTIONS)
       // Grouped by kind for the list (groupBy needs them together).
       .sort((a, b) => KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind))
+    // The map, document or photo a pasted id names, after them.
+    found.push(...byId)
     // Nothing found: said, with the full list's search (the suggestions
     // showed nothing at all - freeSolo hides the no-options text).
     if (found.length === 0) return [{ kind: 'none', id: 'none', label: t('searchNoResult', { query: input.trim() }), to: `/caves?q=${encodeURIComponent(input.trim())}` }]
     return found
-  }, [entries, input, partial, t, cavesPopularity, sistemasPopularity])
+  }, [entries, input, partial, t, cavesPopularity, sistemasPopularity, byId])
 }
