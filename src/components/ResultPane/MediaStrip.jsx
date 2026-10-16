@@ -338,6 +338,9 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
         // rounded less as much.
         const edge = PICTURE_EDGE_INSET
         const corner = `calc(${radius} - ${edge}px)`
+        // The corners' reach (px): only the slices within it are cut.
+        const radiusPx = radius.endsWith('rem') ? parseFloat(radius) * 16 : parseFloat(radius) || 8
+        const inner = w - 2 * edge
         for (let i = 0; i < count; i++) {
           const sx = i * sliceWidth
           const sw = Math.min(sliceWidth, w - sx)
@@ -364,11 +367,13 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
             // The image where it was: moved back by the slice's own inset.
             backgroundPosition: `${(w - bw) / 2 - edge - from}px ${(h - bh) / 2 - edge}px`,
             backfaceVisibility: 'hidden',
-            // Each slice cut to the whole box's rounded outline, in its own
-            // place: the corners are wider than a slice, and only the end
-            // slices rounded left the next ones square there - the picture
-            // (a white scan) showed past the curve of the card's dark bars.
-            clipPath: `inset(0 ${from + width - (w - 2 * edge)}px 0 ${-from}px round ${corner})`,
+            // The slices within a corner's reach cut to the whole box's
+            // rounded outline, in their own place: the corners are wider than
+            // a slice, and only the end slices rounded left the next ones
+            // square there - the picture (a white scan) showed past the curve
+            // of the card's dark bars. Not the others: a clip on every slice
+            // (hundreds, turned in 3D) made dragging lag, with black bands.
+            ...((from < radiusPx || from + width > inner - radiusPx) && { clipPath: `inset(0 ${from + width - inner}px 0 ${-from}px round ${corner})` }),
           })
           track.append(slice)
           slices.push({ slice, x: x + sx + sw / 2 })
