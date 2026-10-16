@@ -9,7 +9,7 @@ Further reading in a pane of its own on the map, a search that finds anything by
 
 * **Further reading on the map:** a cave's documents open in a pane of their own beside the cave's on a computer (the map makes room for it), and slide in over it on a phone. Each document shows its cover - a PDF's first page, or a cover drawn from the title for a link. A cave or system with no document yet shows Add a document right away.
 * **Search by id:** the search in the app bar finds a cave or a cave system by its id, or a piece of it; a whole id also finds the survey map, document or photo it belongs to and opens it. The caves, systems and Ideas and fixes lists find their own records by id too.
-* **More survey maps:** maps found in public archives added to Ax Puk, Carita, Heder, Mul Tun Spring, Boca Paila, Borges, Katu Balam, Alux, Grutas de las Palmas and Quebrada, with what they tell of each system's exploration.
+* **More survey maps:** maps found in public archives added to Ax Puk, Carita, Heder, Mul Tun Spring, Boca Paila, Borges, Katu Balam, Alux, Grutas de las Palmas and Quebrada, with what they tell of each system's exploration. Carita, Heder and Mul Tun Spring have their cenote at last.
 * **For the team:** a survey map uploaded again is recognised - the upload offers to attach the existing map instead - and each new map gets a task on the new Tasks page (possible duplicates, whether its system is already in the map layer), emailed to the admins. Draft with AI writes a first summary of a new document, in its own language, for its editor to review.
 
 ### Changes
@@ -34,7 +34,7 @@ Further reading in a pane of its own on the map, a search that finds anything by
 
 ### For the team
 
-* The functions run on Node.js 24, like the local tools; the map-layer scripts leave no CRLF and keep stable ids for unnamed cenotes; a deploy stops when the build is older than the code; the design rules are written down in docs/design-system.md.
+* The functions run on Node.js 24, like the local tools; the map-layer scripts leave no CRLF and keep stable ids for unnamed cenotes; a deploy stops when the build is older than the code; `apply-edits.js` can create records; the design rules are written down in docs/design-system.md.
 
 ## [1.2.0](https://github.com/opencaves/opencaves-app/compare/v1.1.0...v1.2.0) (2026-10-15)
 
