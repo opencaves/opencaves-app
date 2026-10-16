@@ -42,7 +42,7 @@ export default [
     ],
   },
   {
-    files: ['src/**/*.{js,jsx}', 'functions/js/**/*.js'],
+    files: ['src/**/*.{js,jsx}', 'functions/js/**/*.js', 'functions/gen1/*.js'],
     plugins: { jsdoc, 'oc-jsdoc': ocJsdoc, 'react-hooks': reactHooks },
     languageOptions: {
       ecmaVersion: 'latest',
