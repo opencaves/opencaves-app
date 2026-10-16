@@ -93,8 +93,10 @@ The script writes `matched.csv`, which adds `mapName`, `matchHow` (`exact`, `sim
 node scripts/maps-import/upload-maps.js -l             # dry run, local emulators
 node scripts/maps-import/upload-maps.js --apply        # upload to the local emulators
 node scripts/maps-import/upload-maps.js -p             # dry run, production
-node scripts/maps-import/upload-maps.js -p --apply     # upload to production
+node scripts/maps-import/upload-maps.js -p --apply --as you@example.org   # upload to production
 ```
+
+In production, `--as <email>` is required: the script writes the audit log entries the app's own edits would (the audit trigger doesn't log scripts there), credited to that account, so What's new lists the maps and each change can be undone. New maps also get their file's SHA-256 (`contentHash`), which the app's duplicate check compares. A row with a `mapId` column and no `image` attaches that existing map to the row's sistema(s) instead of uploading a file (a sheet that shows two systems).
 
 **Every run is a dry run unless you pass `--apply`**: it lists what it would do, and writes nothing. Other options:
 
@@ -153,8 +155,10 @@ The workbook isn't produced by a script: it was filled in by reading each map. R
 ```sh
 node scripts/maps-import/import-explorations.js -l                 # dry run, local emulators
 node scripts/maps-import/import-explorations.js -l --apply         # import locally
-node scripts/maps-import/import-explorations.js -p --apply         # import to production
+node scripts/maps-import/import-explorations.js -p --apply --as you@example.org   # import to production
 ```
+
+Options: `--workbook` and `--csv` point at another import's files (a later batch of maps, in its own folder); `--mark <name>` gives its entries their own import mark (`importedFrom`, `maps` by default), so a rerun replaces only that batch's entries - an earlier import's are always kept, and only entries entered by hand can be replaced as "the same exploration"; `--as <email>` is required in production, for the audit log entries (as the upload's). The team is written as a list of names (`|`-separated in the workbook).
 
 The dry run lists, for each sistema, the entries the maps add, and which existing entries they replace or keep:
 

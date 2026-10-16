@@ -14,8 +14,14 @@
 //
 // A dry run by default: --apply to write. --undo removes everything an
 // import added (documents, files, sistema links).
+//
+// A row with a mapId and no image attaches that existing map to its
+// sistema(s) instead of uploading one. New maps get their file's SHA-256
+// (contentHash, the app's duplicate check). In production, the changes are
+// credited to an account (--as <email>) with their audit log entries
+// (scripts/lib/audit.js), so What's new shows them and they can be undone.
 
-import { randomUUID } from 'node:crypto'
+import { createHash, randomUUID } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 import pushId from 'unique-push-id'
@@ -25,6 +31,7 @@ import { initializeApp, applicationDefault } from 'firebase-admin/app'
 import { getFirestore, FieldValue } from 'firebase-admin/firestore'
 import { getStorage } from 'firebase-admin/storage'
 import { readWorkbook, mapCredits, toPartialDate } from './explorations-workbook.js'
+import { accountUid, auditWriter, updateEntry } from '../lib/audit.js'
 
 const PROJECT_ID = 'opencaves'
 const BUCKET = 'opencaves.appspot.com'
@@ -39,10 +46,12 @@ const cli = yargs(hideBin(process.argv))
   .option('only', { type: 'string', describe: 'Only maps whose name or file contains this text' })
   .option('undo', { type: 'boolean', default: false, describe: 'Remove every imported map (documents, files, sistema links) instead' })
   .option('local', { alias: 'l', type: 'boolean', describe: 'The local emulators - the default, named to run with no other option' })
+  .option('as', { type: 'string', describe: 'The account the changes are credited to in the audit log (its email); required to write to production' })
   .check((args) => !(args.local && args.production) || 'Use --local or --production, not both')
+  .check((args) => !(args.production && args.apply && !args.undo && !args.as) || 'Give --as <email> to write to production (the audit log credits that account)')
   .example('$0 -l', 'Dry run against the local emulators')
   .example('$0 --apply --limit 5', 'Upload the first 5 maps locally')
-  .example('$0 -p --apply', 'Upload everything to production')
+  .example('$0 -p --apply --as me@example.org', 'Upload everything to production, credited to that account')
   .help()
   .alias('help', 'h')
   .strict()
@@ -62,6 +71,22 @@ initializeApp({ projectId: PROJECT_ID, storageBucket: BUCKET, ...(argv.productio
 const db = getFirestore()
 const bucket = getStorage().bucket()
 const mode = `${argv.production ? 'PRODUCTION' : 'local emulators'}${argv.apply ? '' : ' - dry run, nothing written (--apply to write)'}`
+const audit = auditWriter(db, { production: argv.production, uid: argv.as ? await accountUid(argv.as) : null })
+
+// A map added to a sistema's list (arrayUnion: nothing else of it written),
+// with its audit entry - when it isn't there already.
+async function attach(sistemaId, mapId) {
+  const ref = db.collection('sistemas').doc(sistemaId)
+  const snap = await ref.get()
+  if (!snap.exists) throw new Error(`no sistema ${sistemaId}`)
+  const maps = snap.get('maps') || []
+  if (maps.includes(mapId)) return false
+  if (argv.apply) {
+    await ref.update({ maps: FieldValue.arrayUnion(mapId) })
+    await audit(updateEntry('sistemas', sistemaId, { maps: snap.get('maps') }, { maps: [...maps, mapId] }))
+  }
+  return true
+}
 
 // The same download URL shape getDownloadURL() gives the app.
 function downloadUrl(storagePath, token) {
@@ -115,7 +140,7 @@ async function upload() {
   const csvDir = path.dirname(argv.csv)
   const workbook = path.join(csvDir, 'explorations.xlsx')
   const credits = existsSync(workbook) ? mapCredits(await readWorkbook(workbook)) : new Map()
-  let rows = readCsv(argv.csv).filter((row) => row.image && list(row.sistemaIds).length && (row.include ?? 'yes').toLowerCase() !== 'no')
+  let rows = readCsv(argv.csv).filter((row) => (row.image || row.mapId) && list(row.sistemaIds).length && (row.include ?? 'yes').toLowerCase() !== 'no')
   if (argv.only) rows = rows.filter((row) => `${row.name || row.mapName} ${row.image} ${row.source}`.toLowerCase().includes(argv.only.toLowerCase()))
   if (argv.limit) rows = rows.slice(0, argv.limit)
   console.log(`${rows.length} maps to import (${mode})`)
@@ -124,6 +149,16 @@ async function upload() {
   for (const [index, row] of rows.entries()) {
     const label = `[${index + 1}/${rows.length}] ${row.name || row.mapName} (${row.image})`
     try {
+      // An existing map, attached to more sistemas.
+      if (row.mapId && !row.image) {
+        const map = await db.collection('maps').doc(row.mapId).get()
+        if (!map.exists || map.get('deletedAt')) throw new Error(`no map ${row.mapId}`)
+        const added = []
+        for (const id of list(row.sistemaIds)) if (await attach(id, row.mapId)) added.push(id)
+        console.log(`${label}: existing map ${row.mapId}${added.length ? ` attached to ${row.sistemaNames}` : ', already attached'}`)
+        counts.updated++
+        continue
+      }
       const importKey = row.sha1
       const details = mapDetails(row, credits)
       const sistemaIds = list(row.sistemaIds)
@@ -135,9 +170,15 @@ async function upload() {
         const stale = (await db.collection('sistemas').where('maps', 'array-contains', mapId).get()).docs.filter((doc) => !sistemaIds.includes(doc.id))
         console.log(`${label}: already imported as ${mapId} - details and links updated${stale.length ? `, unlinked from ${stale.map((doc) => doc.data().name).join(', ')}` : ''}`)
         if (argv.apply) {
+          const before = existing.docs[0].data()
           await existing.docs[0].ref.set({ ...details, authors: details.authors ?? FieldValue.delete() }, { merge: true })
-          await Promise.all(sistemaIds.map((id) => db.collection('sistemas').doc(id).update({ maps: FieldValue.arrayUnion(mapId) })))
-          await Promise.all(stale.map((doc) => doc.ref.update({ maps: FieldValue.arrayRemove(mapId) })))
+          const after = Object.fromEntries(Object.entries({ ...details, authors: details.authors ?? null }).filter(([k, v]) => JSON.stringify(before[k] ?? null) !== JSON.stringify(v ?? null)))
+          if (Object.keys(after).length) await audit(updateEntry('maps', mapId, before, after))
+          for (const id of sistemaIds) await attach(id, mapId)
+          for (const doc of stale) {
+            await doc.ref.update({ maps: FieldValue.arrayRemove(mapId) })
+            await audit(updateEntry('sistemas', doc.id, { maps: doc.get('maps') }, { maps: (doc.get('maps') || []).filter((m) => m !== mapId) }))
+          }
         }
         counts.updated++
         continue
@@ -151,9 +192,12 @@ async function upload() {
       console.log(`${label}: upload as ${mapId}, attach to ${sistemaIds.length} sistema(s): ${row.sistemaNames}`)
       if (argv.apply) {
         const token = randomUUID()
-        await bucket.file(storagePath).save(readFileSync(file), { metadata: { contentType, metadata: { firebaseStorageDownloadTokens: token } } })
-        await db.collection('maps').doc(mapId).set({ ...details, url: downloadUrl(storagePath, token), contentType, importKey, importSource: row.source })
-        await Promise.all(sistemaIds.map((id) => db.collection('sistemas').doc(id).update({ maps: FieldValue.arrayUnion(mapId) })))
+        const bytes = readFileSync(file)
+        await bucket.file(storagePath).save(bytes, { metadata: { contentType, metadata: { firebaseStorageDownloadTokens: token } } })
+        const record = { ...details, url: downloadUrl(storagePath, token), contentType, contentHash: createHash('sha256').update(bytes).digest('hex'), importKey, importSource: row.source }
+        await db.collection('maps').doc(mapId).set(record)
+        await audit({ action: 'create', collection: 'maps', docId: mapId, after: record })
+        for (const id of sistemaIds) await attach(id, mapId)
       }
       counts.uploaded++
     } catch (error) {
