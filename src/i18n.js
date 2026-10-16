@@ -55,7 +55,9 @@ i18n
 
     //   return fallbacks
     // },
-    debug: import.meta.env.DEV,
+    // No i18next console messages, in development too (its debug output and
+    // warnings - "No backend was added..." - drowned the app's own).
+    debug: false,
     defaultNS: 'app',
     // ns: ['common'],
     lowerCaseLng: true,
