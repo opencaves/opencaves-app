@@ -112,6 +112,16 @@ export default function NoMatch({ inLayout = false }) {
     if (firestoreFailed) recoverFromFirestoreFailure()
   }, [firestoreFailed])
 
+  // An error inside the layout (not a missing page): the page marked, so the
+  // layout drops its side photo and its column's frame (Layout.jsx) - the
+  // error's own picture fills the space between the app bar and the footer.
+  const errorInLayout = inLayout && kind !== 'notFound'
+  useEffect(() => {
+    if (!errorInLayout) return undefined
+    document.documentElement.setAttribute('data-oc-error-page', '')
+    return () => document.documentElement.removeAttribute('data-oc-error-page')
+  }, [errorInLayout])
+
   // An error page outside Layout (a route failing, the map's): index.html's
   // splash goes, as no page will remove it.
   useEffect(() => {
@@ -139,7 +149,7 @@ export default function NoMatch({ inLayout = false }) {
     <Helmet>
       <title>{`${kind === 'notFound' ? tSeo('notFoundTitle') : t(`${kind}.header`)} / ${TITLE_NAME}`}</title>
     </Helmet>
-    <Grid container className={`oc-no-match no-match--container${kind === 'notFound' ? '' : ' no-match--error'}${kind === 'offline' ? ' no-match--with-back' : ''}${inLayout ? ' no-match--in-layout' : ''}`} sx={{ flexDirection: 'column', height: inLayout ? 'auto' : '100dvh', py: inLayout ? 6 : 0, justifyContent: 'center', alignItems: 'center', flexWrap: 'nowrap' }}>
+    <Grid container className={`oc-no-match no-match--container${kind === 'notFound' ? '' : ' no-match--error'}${kind === 'offline' ? ' no-match--with-back' : ''}${inLayout ? ' no-match--in-layout' : ''}`} sx={{ flexDirection: 'column', height: inLayout ? 'auto' : '100dvh', py: inLayout ? 6 : 0, ...(errorInLayout && { minHeight: '100%', px: 2 }), justifyContent: 'center', alignItems: 'center', flexWrap: 'nowrap' }}>
       {/* Offline: a way back to what's on the device (MD3: a full-screen
           view's back arrow at its top left), on a light disc over the photo. */}
       {kind === 'offline' && (
