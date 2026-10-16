@@ -1719,7 +1719,6 @@
     "inSistema": "dans {{name}}",
     "mapOf": "carte de {{name}}",
     "connection": "{{child}} relié à {{parent}}",
-    "addedBy": "ajouté par {{name}}",
     "unnamedCave": "(Grotte sans nom)",
     "unnamedSistema": "(Réseau sans nom)",
     "unnamedMap": "Carte sans titre",
@@ -1733,10 +1732,20 @@
     "changes": {
       "added": "Ajout",
       "modified": "Modification",
-      "removed": "Retrait",
-      "newCave": "Nouvelle grotte",
-      "newSistema": "Nouveau réseau"
+      "removed": "Retrait"
     },
+    "newKinds": {
+      "caves": "Nouvelle grotte",
+      "sistemas": "Nouveau réseau",
+      "connections": "Nouvelle connexion",
+      "maps": "Nouvelle topographie",
+      "photos_one": "Nouvelle photo",
+      "photos_other": "Nouvelles photos",
+      "videos_one": "Nouvelle vidéo",
+      "videos_other": "Nouvelles vidéos",
+      "documents": "Nouveau document"
+    },
+    "addedByShort": "par {{name}}",
     "modifiedBy": "modifié par {{name}}",
     "removedBy": "retiré par {{name}}",
     "changedFields": "Modifié : {{fields}}",
