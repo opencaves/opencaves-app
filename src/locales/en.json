@@ -550,6 +550,7 @@
     "invalidVideoUrl": "This isn't a link to a YouTube, Vimeo or Facebook video.",
     "addVideo": "Add video",
     "accessHeader": "Access",
+    "descriptionHeader": "Description",
     "aka": "aka",
     "directionsHeader": "Getting there",
     "cenote": "Cenote",
