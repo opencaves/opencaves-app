@@ -9,8 +9,9 @@
 //   upload of that copy (its "Original file" download) - the visual hash still
 //   finds the same map;
 // - visualHash, its thumbnail's difference hash (maps/derived/<id>_thumb.webp),
-//   the same function as the server's (functions/js/maps/visualHash.js). A map
-//   without a thumbnail is left without one.
+//   the same function as the server's (functions/js/maps/visualHash.js) - an
+//   image without a thumbnail from its original; a PDF or an SVG without one
+//   is left without.
 // Both are server fields (not in the audit log in production, nor in What's
 // new). Re-runnable: a map with its fingerprints is skipped (--all hashes them
 // all again).
@@ -91,8 +92,14 @@ for (const { doc, content, visual } of todo) {
     }
     if (visual) {
       const thumbnail = bucket.file(`maps/derived/${doc.id}_thumb.webp`)
+      const raster = doc.get('contentType')?.startsWith('image/') && doc.get('contentType') !== 'image/svg+xml'
       if ((await thumbnail.exists())[0]) fields.visualHash = await visualHash((await thumbnail.download())[0])
-      else notes.push('no thumbnail')
+      // An image without a thumbnail (some of the bulk import's): its original,
+      // which a thumbnail only shrinks - the hash comes out the same or nearly.
+      else if (raster && (await bucket.file(originalPath(doc)).exists())[0]) {
+        fields.visualHash = await visualHash((await bucket.file(originalPath(doc)).download())[0])
+        notes.push('from the original')
+      } else notes.push('no thumbnail')
     }
     if (Object.keys(fields).length) await doc.ref.update(fields)
     else skipped++
