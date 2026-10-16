@@ -16,7 +16,12 @@ import { visualHash } from './visualHash.js'
 // gzip-compressed (stored with Content-Encoding: gzip, see compressSvg.js).
 // The flags say both were done.
 async function storedSvg(svg) {
-  const [{ sanitizeSvg }, { gzipSvg, minifySvg }] = await Promise.all([import('./sanitizeSvg.js'), import('./compressSvg.js')])
+  // One after the other, not in parallel: jsdom (sanitizeSvg) require()s
+  // css-tree, an ES module SVGO (compressSvg) imports too - loaded at the same
+  // time, Node 22's require() found it half-loaded ("request for './List.js'
+  // is from a module not been linked") and every SVG map upload failed.
+  const { sanitizeSvg } = await import('./sanitizeSvg.js')
+  const { gzipSvg, minifySvg } = await import('./compressSvg.js')
   return gzipSvg(minifySvg(sanitizeSvg(svg)))
 }
 const STORED_SVG_FLAGS = { ocSanitized: 'true', ocCompressed: 'true' }
