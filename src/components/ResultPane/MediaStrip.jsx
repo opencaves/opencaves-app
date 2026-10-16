@@ -590,7 +590,75 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
         atFrame(0, frameBottom(last)),
       ]
       root.style.setProperty('--oc-strip-frame-shape', `polygon(${framePoints.join(', ')})`)
+      scrollbarShape(cx, half, front, steps, rootRect)
     }
+    // The scrollbar (the library's horizontal track): a ribbon following the
+    // gallery's bottom edge - flat in the middle, rising with the cylinder
+    // toward the sides - its ends rounded; the thumb, clipped to it, takes
+    // the curve as it moves (and the clip keeps the taller track's hit area
+    // to the ribbon). Its middle stays where its CSS puts it; the track grows
+    // upward by the curve's rise (--oc-strip-scrollbar-rise).
+    function scrollbarShape(cx, half, front, steps, rootRect) {
+      const track = scrollbarsRef.current?.trackHorizontal
+      if (!track) return
+      const trackRect = track.getBoundingClientRect()
+      const width = trackRect.width
+      if (!width) return
+      const left = trackRect.left - rootRect.left
+      // How far the bottom edge has risen at x (from the root's left), between
+      // the steps' offsets from the middle.
+      const riseAt = (x) => {
+        const distance = Math.abs(x - cx)
+        for (let i = 1; i < steps.length; i++) {
+          if (steps[i].offset >= distance) {
+            const t = (distance - steps[i - 1].offset) / (steps[i].offset - steps[i - 1].offset || 1)
+            return half * (front - (steps[i - 1].scale + t * (steps[i].scale - steps[i - 1].scale)))
+          }
+        }
+        return half * (front - steps.at(-1).scale)
+      }
+      const cap = SCROLLBAR_TRACK_HEIGHT / 2
+      const rise = Math.max(riseAt(left + cap), riseAt(left + width - cap))
+      ribbon = { track, topAt: (x) => rise - riseAt(left + x) }
+      root.style.setProperty('--oc-strip-scrollbar-rise', `${rise.toFixed(1)}px`)
+      root.style.setProperty('--oc-strip-scrollbar-shape', ribbonOutline(0, width))
+      thumbShape()
+    }
+    // The ribbon's outline from `from` to `to` (px along the track), its
+    // ends rounded, in coordinates starting at `from`.
+    let ribbon = null
+    function ribbonOutline(from, to) {
+      const thick = SCROLLBAR_TRACK_HEIGHT
+      const cap = thick / 2
+      const { topAt } = ribbon
+      const xs = Array.from({ length: 33 }, (_, i) => from + cap + (Math.max(0, to - from - thick) * i) / 32)
+      const at = (x, y) => `${(x - from).toFixed(1)}px ${y.toFixed(1)}px`
+      // A half circle around an end's middle, from angle to angle + PI.
+      const arc = (x, y, start) => Array.from({ length: 7 }, (_, i) => at(x + cap * Math.cos(start + (Math.PI * (i + 1)) / 8), y + cap * Math.sin(start + (Math.PI * (i + 1)) / 8)))
+      return `polygon(${[
+        ...xs.map((x) => at(x, topAt(x))),
+        ...arc(xs.at(-1), topAt(xs.at(-1)) + cap, -Math.PI / 2),
+        ...[...xs].reverse().map((x) => at(x, topAt(x) + thick)),
+        ...arc(xs[0], topAt(xs[0]) + cap, Math.PI / 2),
+      ].join(', ')})`
+    }
+    // The thumb: the ribbon's piece under it, its ends rounded wherever it
+    // is - again once the library has moved it (a scroll).
+    function thumbShape() {
+      const thumb = scrollbarsRef.current?.thumbHorizontal
+      if (!ribbon || !thumb) return
+      const trackLeft = ribbon.track.getBoundingClientRect().left
+      const box = thumb.getBoundingClientRect()
+      if (!box.width) return
+      const from = box.left - trackLeft
+      thumb.style.clipPath = ribbonOutline(from, from + box.width)
+    }
+    let thumbFrame
+    const onThumbScroll = () => {
+      cancelAnimationFrame(thumbFrame)
+      thumbFrame = requestAnimationFrame(thumbShape)
+    }
+    view.addEventListener('scroll', onThumbScroll, { passive: true })
     // The distance from the middle on the flat strip that shows `target` px
     // from it on the screen - or, past what the sides reach (turned at most
     // ~70°, still facing the reader), the farthest they show.
@@ -873,6 +941,11 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       Object.assign(row.style, { marginInlineStart: '', marginInlineEnd: '', pointerEvents: '' })
       root.style.removeProperty('--oc-strip-band-shape')
       root.style.removeProperty('--oc-strip-frame-shape')
+      root.style.removeProperty('--oc-strip-scrollbar-rise')
+      root.style.removeProperty('--oc-strip-scrollbar-shape')
+      view.removeEventListener('scroll', onThumbScroll)
+      cancelAnimationFrame(thumbFrame)
+      if (scrollbarsRef.current?.thumbHorizontal) scrollbarsRef.current.thumbHorizontal.style.clipPath = ''
     }
   }, [rebuildKey, start, cylinder, sideRadius, flatShare, zoom, perspective, sliceWidth, fill])
 
@@ -951,6 +1024,11 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
             right: 'calc(var(--oc-pane-padding-inline) / 2)',
             // Filling: in its bottom margin (no room of its own under it).
             bottom: fill ? `${Math.max(0, (margin - SCROLLBAR_TRACK_HEIGHT) / 2)}px` : `calc((var(--oc-pane-padding-block) - ${SCROLLBAR_TRACK_HEIGHT}px) / 2)`,
+            // Curved with the gallery (scrollbarShape): taller by the curve's
+            // rise, cut to the ribbon; square corners, the ribbon has its own.
+            height: `calc(${SCROLLBAR_TRACK_HEIGHT}px + var(--oc-strip-scrollbar-rise, 0px))`,
+            clipPath: 'var(--oc-strip-scrollbar-shape, none)',
+            borderRadius: 0,
           },
         }}
       >
