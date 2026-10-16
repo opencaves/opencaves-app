@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GOOGLE_BUTTON_SX } from './providerButtonSx.js'
+import { PROVIDER_BUTTON_SX } from './providerButtonSx.js'
 import { GoogleAuthProvider } from 'firebase/auth'
 import noop from 'lodash/noop'
 import LogInWithProvider from './LogInWithProvider.jsx'
@@ -21,5 +21,5 @@ export default function LogInWithGoogle({ message = null, onSuccess = noop }) {
     setMessage(message ?? t('withGoogle'))
   }, [message, t])
 
-  return <LogInWithProvider message={_message} Provider={GoogleAuthProvider} onSuccess={onSuccess} Logo={GoogleGLogo} className="oc-log-in-with-google" sx={GOOGLE_BUTTON_SX} />
+  return <LogInWithProvider message={_message} Provider={GoogleAuthProvider} onSuccess={onSuccess} Logo={GoogleGLogo} className="oc-log-in-with-google" sx={PROVIDER_BUTTON_SX} />
 }

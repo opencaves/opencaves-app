@@ -36,8 +36,9 @@ export default function Layout() {
   const isSistemaPage = /^\/(sistemas|caves)(\/(?!edit$)[^/]+)?$/.test(path)
   // A cave's or system's edit page: its page's background.
   const isItemEditPage = /^\/(sistemas|caves)\/(?!edit$)[^/]+\/edit$/.test(path)
-  // What can I do? and What's new: on the lists' background, translucent like them.
-  const isContributionPage = ['/what-can-i-do', '/whats-new'].includes(path)
+  // What can I do?, What's new, logging in and signing up (their steps
+  // too: /login/with-email...): on the lists' background, translucent like them.
+  const isContributionPage = ['/what-can-i-do', '/whats-new'].includes(path) || ['login', 'signup'].includes(path.split('/')[1])
   const hasPagesBackground = ['/about', '/caves', '/sistemas'].includes(path) || isReferenceDataPage || isSistemaPage || isItemEditPage || isContributionPage
   // The dashboard home's page is transparent: its white margins are drawn by
   // AdminDashboard itself, around a window onto this background image. The
