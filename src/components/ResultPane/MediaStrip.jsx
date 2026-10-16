@@ -38,6 +38,11 @@ const WHEEL_NOTCH = 100
 // showing - the band through a thin line every slice. Two cover it (the next
 // slice draws over the same picture).
 const SLICE_OVERLAP = 2
+// How far a picture's slices stay in from its card's outer edges (px): the
+// card's overlays (a map's dark title and caption bars) end on soft, partly
+// see-through edges, and the picture under them - a white scan, on white -
+// showed there as a white line around the card and its corners.
+const PICTURE_EDGE_INSET = 1
 // How long thumbnails must stop loading before the strip is built again
 // with them, in ms (lazy ones arrive one by one: one build, not one each).
 const LOADS_SETTLE_MS = 150
@@ -329,27 +334,41 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
         const bw = img.naturalWidth * scale
         const bh = img.naturalHeight * scale
         const count = Math.ceil(w / sliceWidth)
+        // In from the card's outer edges (PICTURE_EDGE_INSET), its corners
+        // rounded less as much.
+        const edge = PICTURE_EDGE_INSET
+        const corner = `calc(${radius} - ${edge}px)`
         for (let i = 0; i < count; i++) {
           const sx = i * sliceWidth
           const sw = Math.min(sliceWidth, w - sx)
+          const first = i === 0
+          const last = i === count - 1
           const slice = document.createElement('div')
+          // Where it starts in the picture's box (inset), and its width.
+          const from = first ? 0 : sx - edge
+          const width = (last ? sw : sw + SLICE_OVERLAP) - (first ? edge : 0) - (last ? edge : 0)
           // Over the next one by SLICE_OVERLAP: no seams between slices (not
-          // the last, its corner rounded). A paper tile's on white: a
+          // the last). A paper tile's on white: a
           // semi-transparent image (a map's thumbnail) drawn twice where
           // slices overlap showed a band at every slice. Only there: under an
           // opaque photo, the white showed at each slice's edge as a line.
           Object.assign(slice.style, {
             ...(paper && { backgroundColor: '#ffffff' }),
             position: 'absolute',
-            left: `${x + sx}px`,
-            top: `${y}px`,
-            width: `${i === count - 1 ? sw : sw + SLICE_OVERLAP}px`,
-            height: `${h}px`,
+            left: `${x + edge + from}px`,
+            top: `${y + edge}px`,
+            width: `${width}px`,
+            height: `${h - 2 * edge}px`,
             backgroundImage: `url("${img.currentSrc}")`,
             backgroundSize: `${bw}px ${bh}px`,
-            backgroundPosition: `${(w - bw) / 2 - sx}px ${(h - bh) / 2}px`,
+            // The image where it was: moved back by the slice's own inset.
+            backgroundPosition: `${(w - bw) / 2 - edge - from}px ${(h - bh) / 2 - edge}px`,
             backfaceVisibility: 'hidden',
-            borderRadius: count === 1 ? radius : i === 0 ? `${radius} 0 0 ${radius}` : i === count - 1 ? `0 ${radius} ${radius} 0` : '0',
+            // Each slice cut to the whole box's rounded outline, in its own
+            // place: the corners are wider than a slice, and only the end
+            // slices rounded left the next ones square there - the picture
+            // (a white scan) showed past the curve of the card's dark bars.
+            clipPath: `inset(0 ${from + width - (w - 2 * edge)}px 0 ${-from}px round ${corner})`,
           })
           track.append(slice)
           slices.push({ slice, x: x + sx + sw / 2 })
