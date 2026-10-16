@@ -37,6 +37,10 @@
           "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
         },
         {
+          "regex": "^/((caves|sistemas)/[^/]+/(photos|maps|edit)|(caves|sistemas)/edit|areas/[^/]+/edit|map/sistemas|map/[^/]+/(medias|maps|edit|reading)|dashboard|connections|users|map-layers|audits|error-reports|tasks|feedback|dev)(/.*)?$",
+          "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+        },
+        {
           "source": "/map/*",
           "headers": [{ "key": "Cache-Control", "value": "public, max-age=300, s-maxage=3600" }]
         },
