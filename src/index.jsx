@@ -12,6 +12,7 @@ import HydrationDone from '@/ssr/HydrationDone.jsx'
 // Drags of the page's own pictures never start the "drop to add" process.
 import '@/utils/externalFileDrag.js'
 import { watchFirestoreFailures } from '@/utils/firestoreRecovery.js'
+import { watchStaleBuild } from '@/utils/staleBuild.js'
 import { watchFocusRestore } from '@/utils/restoreFocus.js'
 import { deferFirebase, loadFirebase } from '@/utils/loadFirebase.js'
 import { analyticsAllowed, applyAnalyticsOptOut } from '@/utils/analytics.js'
@@ -19,6 +20,10 @@ import { track } from '@/utils/track.js'
 
 // Firestore's internal failures, recovered rather than left on the error page.
 watchFirestoreFailures()
+
+// A page from before a deploy, failing to load the old build's code: reloaded
+// for the new one (utils/staleBuild.js).
+watchStaleBuild()
 
 // A dialog or menu closed: the focus back where it was (utils/restoreFocus.js).
 watchFocusRestore()
