@@ -602,7 +602,8 @@ export default function SignupWithEmail({ open: initialOpen }) {
                 <Section>
                   <SectionForm>
                     <SectionFields>
-                      <TextInput type="email" name="email" label={ts('email.label')} value={email} required inputMode="email" autoComplete="email" helperText={emailInputHelperText} onChange={(event) => setEmail(event.target.value)} onKeyUp={onEmailInputKeyUp} onValidityChange={(validity) => setEmailInputValidity(validity)} />
+                      {/* Typed into at once on its first step - not on phones (their keyboard). */}
+                      <TextInput type="email" name="email" autoFocus={!isSmall && initialStep === 0} label={ts('email.label')} value={email} required inputMode="email" autoComplete="email" helperText={emailInputHelperText} onChange={(event) => setEmail(event.target.value)} onKeyUp={onEmailInputKeyUp} onValidityChange={(validity) => setEmailInputValidity(validity)} />
                     </SectionFields>
                     <SectionActions>
                       <Progress enabled={stepEmailLoading} />

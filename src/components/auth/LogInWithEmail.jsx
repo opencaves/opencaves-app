@@ -8,6 +8,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 import { Section, SectionActions, SectionFields, SectionForm } from './Section.jsx'
 import AuthButton from './AuthButton.jsx'
 import TextInput from './TextInput.jsx'
+import { useSmall } from '@/hooks/useSmall.jsx'
 import { auth } from '@/config/firebase.js'
 import { PASSWORD_MIN_LENGTH } from '@/config/auth.js'
 import PasswordResetDialog from './PasswordResetDialog.jsx'
@@ -20,6 +21,7 @@ export default function LogInWithEmail() {
   const { t: tErrors } = useTranslation('errors')
 
   const emailInputRef = useRef(null)
+  const isSmall = useSmall()
   const passwordInputRef = useRef(null)
 
   // Filled in when coming from sign-up with an email already in use.
@@ -98,7 +100,9 @@ export default function LogInWithEmail() {
     <Section className="oc-log-in-with-email">
       <SectionForm>
         <SectionFields>
-          <TextInput ref={emailInputRef} label={t('emailLabel')} type="email" name="email" required inputMode="email" autoComplete="email" value={email} error={emailError} onChange={(e) => setEmail(e.target.value)} onKeyUp={onEmailInputKeyUp} onValidityChange={onEmailInputValidityChange} />
+          {/* Typed into at once - not on phones, whose keyboard would cover the
+              page (the Google and Microsoft buttons above). */}
+          <TextInput ref={emailInputRef} autoFocus={!isSmall} label={t('emailLabel')} type="email" name="email" required inputMode="email" autoComplete="email" value={email} error={emailError} onChange={(e) => setEmail(e.target.value)} onKeyUp={onEmailInputKeyUp} onValidityChange={onEmailInputValidityChange} />
           <Grid container sx={{ flexDirection: 'column' }}>
             <TextInput id={passwordId} ref={passwordInputRef} label={t('passwordLabel')} type="password" name="password" required value={password} error={passwordError} minLength={PASSWORD_MIN_LENGTH} onChange={(e) => setPassword(e.target.value)} onKeyUp={onPasswordInputKeyUp} onValidityChange={(validity) => setPasswordInputValid(validity.valid)} />
             {/* A link's look; a button: it opens the reset dialog. */}
