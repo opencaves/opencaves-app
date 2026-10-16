@@ -25,17 +25,15 @@ import pushId from 'unique-push-id'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 import { initializeApp, applicationDefault } from 'firebase-admin/app'
-import { getAuth } from 'firebase-admin/auth'
-import { getFirestore, FieldValue, Timestamp } from 'firebase-admin/firestore'
+import { getFirestore, FieldValue } from 'firebase-admin/firestore'
 import { getStorage } from 'firebase-admin/storage'
 import { inlineDisposition } from '../functions/js/documents/files.js'
+import { accountUid, auditWriter } from './lib/audit.js'
 
 const PROJECT_ID = 'opencaves'
 const BUCKET = 'opencaves.appspot.com'
 // storage.rules' and the server's limit.
 const MAX_BYTES = 20 * 1024 * 1024
-// The audit log's retention (functions/js/audit/log.js).
-const AUDIT_RETENTION_MONTHS = 12
 
 const cli = yargs(hideBin(process.argv))
   .usage('Add Further reading documents (links and PDFs) to caves and cave systems from a reviewed list.\n\nUsage: $0 [-l | -p] --dry-run | --write --as <email> [--file <list.json>]')
@@ -73,7 +71,7 @@ const db = getFirestore()
 const bucket = getStorage().bucket()
 console.log(`${argv.production ? 'PRODUCTION' : 'local emulators'}${argv.write ? '' : ' - dry run, nothing written'}`)
 
-const uid = (await getAuth().getUserByEmail(argv.as)).uid
+const uid = await accountUid(argv.as)
 console.log(`credited to ${argv.as} (${uid})`)
 
 // The same download URL shape getDownloadURL() gives the app.
@@ -82,14 +80,8 @@ function downloadUrl(storagePath, token) {
   return `${host}/v0/b/${BUCKET}/o/${encodeURIComponent(storagePath)}?alt=media&token=${token}`
 }
 
-// An audit log entry as the audit trigger writes it (production only: the
-// emulators' trigger logs this script's writes itself).
-async function audit(entry) {
-  if (!argv.production) return
-  const expireAt = new Date()
-  expireAt.setMonth(expireAt.getMonth() + AUDIT_RETENTION_MONTHS)
-  await db.collection('_auditLog').add({ ...entry, authorId: uid, authType: 'unknown', at: FieldValue.serverTimestamp(), expireAt: Timestamp.fromDate(expireAt) })
-}
+// Audit log entries (scripts/lib/audit.js): production only.
+const audit = auditWriter(db, { production: argv.production, uid })
 
 // Already there (outside the trash): by DOI, else by link.
 async function existing(item) {

@@ -13,7 +13,11 @@
 // backup file (_data/maps-import/backups/). --undo puts those values back -
 // skipping anything edited since the import, unless --force.
 //
-// A dry run by default: --apply to write.
+// A dry run by default: --apply to write. Each import marks its entries
+// (importedFrom: --mark, 'maps' for the bulk import's), and replaces only the
+// entries of its own mark - another workbook's import is kept. In production
+// the changes are credited to an account (--as <email>) with their audit log
+// entries (scripts/lib/audit.js).
 
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
@@ -22,9 +26,9 @@ import { hideBin } from 'yargs/helpers'
 import { initializeApp, applicationDefault } from 'firebase-admin/app'
 import { getFirestore, FieldValue } from 'firebase-admin/firestore'
 import { readWorkbook, isExcluded, hasExploration, toPartialDate, mapCredits } from './explorations-workbook.js'
+import { accountUid, auditWriter, updateEntry } from '../lib/audit.js'
 
 const PROJECT_ID = 'opencaves'
-const IMPORT_MARK = 'maps'
 // Words that say nothing about who explored: never enough to call two entries the same.
 const GENERIC_WORDS = new Set(['team', 'teams', 'society', 'speleological', 'czech', 'cave', 'diving', 'divers', 'survey', 'members', 'expedition', 'expédition', 'expéditions', 'unknown', 'explorer', 'quintana', 'speleo'])
 
@@ -39,9 +43,12 @@ const cli = yargs(hideBin(process.argv))
   .option('only', { type: 'string', describe: 'Only sistemas whose name contains this text' })
   .option('undo', { type: 'string', describe: 'Restore the values saved by an import: a backup file, or "latest" for the newest one of this target' })
   .option('force', { type: 'boolean', default: false, describe: 'With --undo: also restore documents edited since the import' })
+  .option('mark', { type: 'string', default: 'maps', describe: "The entries' import mark (importedFrom): a rerun replaces the entries of its own mark only" })
+  .option('as', { type: 'string', describe: 'The account the changes are credited to in the audit log (its email); required to write to production' })
+  .check((args) => !(args.production && args.apply && !args.as) || 'Give --as <email> to write to production (the audit log credits that account)')
   .example('$0 -l', 'Dry run against the local emulators')
   .example('$0 -l --apply', 'Import locally')
-  .example('$0 -p --apply', 'Import to production')
+  .example('$0 -p --apply --as me@example.org', 'Import to production, credited to that account')
   .example('$0 -p --undo latest --apply', 'Undo the latest production import')
   .help()
   .alias('help', 'h')
@@ -60,6 +67,8 @@ const db = getFirestore()
 const target = argv.production ? 'production' : 'local'
 const mode = `${argv.production ? 'PRODUCTION' : 'local emulators'}${argv.apply ? '' : ' - dry run, nothing written (--apply to write)'}`
 const BACKUP_DIR = path.join(path.dirname(argv.workbook), 'backups')
+const IMPORT_MARK = argv.mark
+const audit = auditWriter(db, { production: argv.production, uid: argv.as ? await accountUid(argv.as) : null })
 
 // Minimal CSV reader (quoted fields, "" escapes, CRLF, BOM) - the file comes from Python's csv module.
 function readCsv(file) {
@@ -87,7 +96,7 @@ function readCsv(file) {
 }
 
 const list = (value) => (value || '').split('|').map((v) => v.trim()).filter(Boolean)
-const surnames = (text) => new Set((text || '').toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').match(/[a-z']{4,}/g)?.filter((w) => !GENERIC_WORDS.has(w)) || [])
+const surnames = (text) => new Set((Array.isArray(text) ? text.join(' ') : text || '').toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').match(/[a-z']{4,}/g)?.filter((w) => !GENERIC_WORDS.has(w)) || [])
 const years = (text) => new Set((text || '').match(/\b(19|20)\d\d\b/g) || [])
 const overlaps = (a, b) => [...a].some((x) => b.has(x))
 
@@ -100,7 +109,9 @@ function explorationFrom(row, credit) {
     !exact && row.explorationDate && `Dates as given on the map: ${row.explorationDate}.`,
   ].filter(Boolean).join('\n\n')
   const notes = source && `Source: map ${source}.`
-  const entry = { ...(date && { date }), ...(row.explorationTeam && { team: row.explorationTeam }), ...(description && { description }), ...(notes && { notes }), importedFrom: IMPORT_MARK }
+  // The team as names (the app's list), separated by "|" in the workbook.
+  const team = list(row.explorationTeam)
+  const entry = { ...(date && { date }), ...(team.length && { team }), ...(description && { description }), ...(notes && { notes }), importedFrom: IMPORT_MARK }
   // The latest year this entry (or its map) speaks of - not written.
   const latest = Math.max(0, ...[...years(row.explorationDate), ...years(credit.date)].map(Number))
   Object.defineProperty(entry, 'latestYear', { value: latest || null })
@@ -152,7 +163,9 @@ async function plan() {
     if (argv.only && !name.toLowerCase().includes(argv.only.toLowerCase())) continue
     const current = snap.get('explorations') || []
     const previous = current.filter((e) => e.importedFrom !== IMPORT_MARK)
-    const replaced = previous.filter((e) => superseded(e, imported))
+    // Another import's entries are kept: only entries made by hand can be the
+    // same exploration as one read off these maps.
+    const replaced = previous.filter((e) => !e.importedFrom && superseded(e, imported))
     const kept = previous.filter((e) => !replaced.includes(e))
     sistemas.push({ id, name, ref: snap.ref, updateTime: snap.updateTime, current: snap.get('explorations') ?? null, next: [...kept, ...imported].sort(byDate), replaced, kept, imported })
   }
@@ -173,7 +186,7 @@ async function plan() {
   return { sistemas, maps, skipped }
 }
 
-const describe = (e) => [e.date, e.team].filter(Boolean).join(' - ') || '(no date or team)'
+const describe = (e) => [e.date, Array.isArray(e.team) ? e.team.join(', ') : e.team].filter(Boolean).join(' - ') || '(no date or team)'
 
 async function importExplorations() {
   const { sistemas, maps, skipped } = await plan()
@@ -201,10 +214,12 @@ async function importExplorations() {
   for (const s of sistemas) {
     const result = await s.ref.update({ explorations: s.next })
     backup.sistemas[s.id].writtenAt = result.writeTime.toDate().toISOString()
+    await audit(updateEntry('sistemas', s.id, { explorations: s.current }, { explorations: s.next }))
   }
   for (const m of maps) {
     const result = await m.ref.update(m.update)
     backup.maps[m.id].writtenAt = result.writeTime.toDate().toISOString()
+    await audit(updateEntry('maps', m.id, m.current, m.update))
   }
   // The write times let --undo tell an edit made since the import.
   writeFileSync(file, JSON.stringify(backup, null, 2))
