@@ -80,7 +80,10 @@ export default function CoverImage({ caveId, width = '100%' }) {
     return (
       <Container width={width}>
         <Tooltip title={t('addImages.tooltip')}>
-          <ButtonBase onClick={promptForMedias}>
+          {/* The whole cover's area, as a photo's link: as an inline button it
+              was 200px in the 225px area, a dark band under it - and the
+              cover shrank as the page loaded. */}
+          <ButtonBase onClick={promptForMedias} sx={{ display: 'block', width: '100%', height: '100%' }}>
             <Picture
               src={defaultMediaCardImage}
               alt=""
