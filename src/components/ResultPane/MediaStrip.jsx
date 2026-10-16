@@ -45,7 +45,7 @@ const LOADS_SETTLE_MS = 150
 // viewing area's edge (px).
 const START_MARGIN = 8
 // The space around the cylinder's band, above and below it (px): the
-// strip's ground (surface container high) between the band's curved edges
+// band's tone, as the band, between the band's curved edges
 // and what's around the strip, kept along the curve (bandShape).
 const BAND_MARGIN = 8
 // The longest a build waits for its slices' images to be decoded before it
@@ -537,7 +537,10 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       const rootRect = root.getBoundingClientRect()
       const viewRect = view.getBoundingClientRect()
       const rowRect = row.getBoundingClientRect()
-      const width = rootRect.width
+      // Ending where the cylinder's stage does (the viewing area's
+      // clientWidth, a whole pixel): the strip's own width can have a
+      // fraction, and the frame showed a line past the drawing on the right.
+      const width = Math.min(rootRect.width, viewRect.left + view.clientLeft + view.clientWidth - rootRect.left)
       const cx = viewRect.left + view.clientLeft + view.clientWidth / 2 - rootRect.left
       const cy = rowRect.top + rowRect.height / 2 - rootRect.top - bandTop
       const half = row.offsetHeight / 2
@@ -908,8 +911,9 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
           // bandShape); straight while flat.
           clipPath: 'var(--oc-strip-band-shape, none)',
         },
-        // Around the band, its margin (BAND_MARGIN) in the pane's own ground
-        // tone (M3's surface container high), curved as the band, the same
+        // Around the band, its margin (BAND_MARGIN) in the band's own tone -
+        // one band over and under the items, whatever is behind the strip (a
+        // second tone showed on the pane's cards) - curved as the band, the same
         // below as above: as tall as the band and its margins (not over the
         // scrollbar's room under a pane's strip). Only on the cylinder.
         ...(renderCylinder && {
@@ -921,7 +925,8 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
             right: 0,
             top: 0,
             height: `calc(${rowHeight} + 2 * ${zoomRoom})`,
-            bgcolor: theme.vars.sys.color.surfaceContainerHigh,
+            bgcolor: theme.vars.sys.color.surfaceContainer,
+            ...theme.applyStyles('dark', { bgcolor: theme.vars.sys.color.surfaceContainerHighest }),
             clipPath: 'var(--oc-strip-frame-shape, none)',
           },
         }),
