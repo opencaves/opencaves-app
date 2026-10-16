@@ -33,8 +33,60 @@
  * A survey map's record (`maps`), as its files' paths need it (maps/files.js).
  *
  * @typedef {object} CaveMap
+ * @property {string} [name]
+ * @property {string} [date] - A partial date ("2012-10").
  * @property {string} [url] - The uploaded file's download link.
+ * @property {string} [previewUrl]
  * @property {string[]} [svgIds] - A PDF's pages' ids in Storage (maps/{svgId}).
+ * @property {string} [importKey] - Added by the bulk import (scripts/maps-import), not in the app.
+ * @property {string} [contentHash] - The uploaded file's SHA-256 (hex), sent by the app (scripts/map-content-hashes.js for older maps).
+ * @property {string} [visualHash] - Server: its thumbnail's 64-bit difference hash, 16 hex digits (maps/visualHash.js).
+ * @property {string} [layerSkipReason] - Marked "not for the cave layer" by an admin: why.
+ * @property {Timestamp} [deletedAt] - In the trash.
+ */
+
+/**
+ * A map of the cave layer, as the tiles build publishes it (tasks/layerMaps.js).
+ *
+ * @typedef {object} LayerMap
+ * @property {string} [mapId] - Its "maps" document, for a map added in the app.
+ * @property {string} [mapImportKey] - Its "maps" document's importKey, for the bulk import's.
+ * @property {string} [sistemaId]
+ * @property {string} [date] - Its survey's partial date.
+ * @property {string} title
+ */
+
+/**
+ * An admins' task (`_tasks`, the /tasks page): written by the server, its
+ * status changed by admins. Every kind has these fields; each kind adds its own.
+ *
+ * @typedef {object} Task
+ * @property {'map'} kind
+ * @property {'open'|'done'|'dismissed'} status
+ * @property {Timestamp} createdAt
+ * @property {Timestamp} [updatedAt] - Server: its findings last changed.
+ * @property {string|null} addedBy - Who caused it (an account's id; null: a script).
+ * @property {Timestamp} [closedAt]
+ * @property {string} [closedBy] - An admin's account id, or 'system' when the server closed it.
+ * @property {'inLayer'|'skipped'|'trashed'|'deleted'} [closedReason] - Closed by the server: why.
+ * @property {Timestamp} [notifiedAt] - When the admins were emailed about it.
+ */
+
+/**
+ * A survey map's task (tasks/mapTasks.js): its id is map-<mapId>.
+ *
+ * @typedef {object} MapTaskFields
+ * @property {string} mapId
+ * @property {string[]} sistemaIds - The systems listing the map.
+ * @property {'exactDuplicate'|'possibleDuplicate'|'newerSurvey'|'alreadyTraced'|'newToLayer'} scenario - What the checks found, the most urgent.
+ * @property {'newerSurvey'|'alreadyTraced'|'newToLayer'} layerStatus - Its systems in the cave layer.
+ * @property {string[]} duplicates - Older maps that are the same (identical, then look-alikes).
+ * @property {string[]} exactDuplicates - Those of them with the same file (contentHash).
+ * @property {{title: string, date?: string}[]} [tracedMaps] - Its systems' maps in the cave layer.
+ */
+
+/**
+ * @typedef {Task & MapTaskFields} MapTask
  */
 
 /**

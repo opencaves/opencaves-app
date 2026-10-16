@@ -18,7 +18,15 @@ const IS_EMULATOR = process.env.FUNCTIONS_EMULATOR === 'true'
 // server alike: there, every write is taken as an app user's ("emulator"),
 // so the audit log and undo can be tried locally - scripts run against the
 // emulator get logged too.
-function writer({ authType, authId }) {
+/**
+ * Who made a Firestore write, from its event's auth context: { authorId,
+ * authType } for an app user ("emulator" for any write in the emulators),
+ * null for a script's or the server's.
+ *
+ * @param {{authType?: string, authId?: string}} event
+ * @returns {{authorId: string, authType: string}|null}
+ */
+export function writer({ authType, authId }) {
   if (IS_EMULATOR && authType === 'unknown') return { authorId: 'emulator', authType }
   if (authType === 'service_account' || authType === 'system') return null
   return typeof authId === 'string' && /^[A-Za-z0-9]{20,128}$/.test(authId) ? { authorId: authId, authType } : null

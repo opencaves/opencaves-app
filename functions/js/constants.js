@@ -73,6 +73,19 @@ export const FEEDBACK_REPLY_TO = 'feedback@opencaves.org'
 // FEEDBACK_REPLY_MAX_LENGTH, firestore.rules): an emailed answer is cut there.
 export const FEEDBACK_REPLY_MAX_LENGTH = 10000
 
+// The admins' to-do list (the /tasks page): one task per thing to look at,
+// created and closed by the server, kept open or closed by admins - today a
+// survey map added in the app (tasks/mapTasks.js), its id map-<mapId>. Kind
+// apart, every task has { kind, status, createdAt, addedBy, closedAt,
+// closedBy, closedReason, notifiedAt } (functions/js/types.js' Task).
+export const TASKS_COLL_NAME = '_tasks'
+// The cave layer's maps, as the tiles build publishes them with the tiles
+// (scripts/map-layer/build-tiles.js): maps.json the traced maps (their
+// "maps" document - mapId or mapImportKey -, system and date), configs.json
+// every config's map, traced or not. Read by the map tasks (tasks/layerMaps.js).
+export const LAYER_MAPS_PATH = '/tiles/caves/maps.json'
+export const LAYER_CONFIGS_PATH = '/tiles/caves/configs.json'
+
 // Further reading: papers, reports, books and links about caves and systems
 // (src/config/documents.js). A PDF is stored at documents/{id}.pdf, checked
 // and cleaned by onDocumentUploaded.

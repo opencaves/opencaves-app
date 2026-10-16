@@ -5,6 +5,7 @@ import { onObjectFinalized } from 'firebase-functions/v2/storage'
 import sharp from 'sharp'
 import pushId from 'unique-push-id'
 import { db } from '../init.js'
+import { visualHash } from './visualHash.js'
 
 // The map libraries (jsdom, SVGO, pdf-lib, pdf-into-svg: ~100 MB) are
 // imported when a map comes in, not with this file: every function of the
@@ -68,6 +69,19 @@ function webpThumbnail(input, { svg = false } = {}) {
     .toBuffer()
 }
 
+// The thumbnail saved, and the fields it gives the map: its link and its
+// visual fingerprint (visualHash.js: the map tasks' possible duplicates) -
+// none for a fingerprint that fails, which only leaves the map out of that check.
+async function thumbnailFields(bucket, mapId, thumbnail) {
+  const thumbnailUrl = await saveWithDownloadUrl(bucket, `${DERIVED_FOLDER}/${mapId}_thumb.webp`, thumbnail, 'image/webp')
+  try {
+    return { thumbnailUrl, visualHash: await visualHash(thumbnail) }
+  } catch (error) {
+    logger.warn('Could not fingerprint a map thumbnail', { mapId, error })
+    return { thumbnailUrl }
+  }
+}
+
 export const onMapPdfUploaded = onObjectFinalized({ memory: '1GiB', timeoutSeconds: 300 }, async event => {
   const { bucket: bucketName, name: originalPath, contentType, metadata } = event.data
   const match = /^maps\/original-pdf\/([^/]+)$/.exec(originalPath || '')
@@ -108,20 +122,21 @@ export const onMapPdfUploaded = onObjectFinalized({ memory: '1GiB', timeoutSecon
   // A small raster of the first page for the map cards - a full SVG page can
   // be heavy to render at card size. Optional: a page sharp can't rasterize
   // just leaves the cards on the SVG.
-  let thumbnailUrl
+  let thumbnail = {}
   try {
-    thumbnailUrl = await saveWithDownloadUrl(bucket, `${DERIVED_FOLDER}/${mapId}_thumb.webp`, await webpThumbnail(Buffer.from(pages[0].svg), { svg: true }), 'image/webp')
+    thumbnail = await thumbnailFields(bucket, mapId, await webpThumbnail(Buffer.from(pages[0].svg), { svg: true }))
   } catch (error) {
     logger.warn('Could not rasterize a thumbnail for PDF map', { mapId, error })
   }
 
-  await mapRef.set({ previewUrl: previewUrls[0], previewUrls, ...(thumbnailUrl && { thumbnailUrl }), ...(title && { name: title }) }, { merge: true })
+  await mapRef.set({ previewUrl: previewUrls[0], previewUrls, ...thumbnail, ...(title && { name: title }) }, { merge: true })
   logger.info('Converted PDF map to vector SVG pages', { mapId, pages: previewUrls.length })
 })
 
 /**
  * Image maps (scans, usually large JPEG/PNG) get a WebP viewing copy and
- * thumbnail, stored as previewUrl/thumbnailUrl - which the app already
+ * thumbnail, stored as previewUrl/thumbnailUrl (with the thumbnail's
+ * visualHash, every kind of map) - which the app already
  * prefers over the original `url` for display (and offline downloads). The
  * original upload stays untouched as `url`, for the "Original file" download.
  * SVG uploads are cleaned and compressed ({@link storedSvg}), then get only the
@@ -164,8 +179,7 @@ export const onMapImageUploaded = onObjectFinalized({ memory: '2GiB', timeoutSec
     if (!pdfPage.empty) return
     const [svg] = await bucket.file(originalPath).download()
     try {
-      const thumbnailUrl = await saveWithDownloadUrl(bucket, `${DERIVED_FOLDER}/${mapId}_thumb.webp`, await webpThumbnail(svg, { svg: true }), 'image/webp')
-      await db.collection('maps').doc(mapId).set({ thumbnailUrl }, { merge: true })
+      await db.collection('maps').doc(mapId).set(await thumbnailFields(bucket, mapId, await webpThumbnail(svg, { svg: true })), { merge: true })
       logger.info('Made a WebP thumbnail for SVG map', { mapId, svgBytes: svg.length })
     } catch (error) {
       // Cards fall back to the SVG itself.
@@ -184,10 +198,10 @@ export const onMapImageUploaded = onObjectFinalized({ memory: '2GiB', timeoutSec
     .toBuffer()
 
   const previewUrl = await saveWithDownloadUrl(bucket, `${DERIVED_FOLDER}/${mapId}_view.webp`, view, 'image/webp')
-  const thumbnailUrl = await saveWithDownloadUrl(bucket, `${DERIVED_FOLDER}/${mapId}_thumb.webp`, await webpThumbnail(original), 'image/webp')
+  const thumbnail = await thumbnailFields(bucket, mapId, await webpThumbnail(original))
 
   // merge: the client writes the map doc's own fields (name, url, ...) around
   // the same time, in either order.
-  await db.collection('maps').doc(mapId).set({ previewUrl, thumbnailUrl }, { merge: true })
+  await db.collection('maps').doc(mapId).set({ previewUrl, ...thumbnail }, { merge: true })
   logger.info('Converted image map to WebP', { mapId, originalBytes: original.length, viewBytes: view.length })
 })
