@@ -547,6 +547,75 @@ A development build (`npm run dev`) sends them too, to the emulators'
 database (`/dev/error/page` fails on purpose, to try it); set
 `VITE_ERROR_REPORTS=false` in `.env.local` to send none.
 
+## Map tasks
+
+Each survey map someone adds in the app gets a **task** for the admins, on the
+Tasks page (`/tasks`, from the dashboard, with the count of open tasks), saying
+what OpenCaves already has of it. Tasks live in `_tasks` (`map-<mapId>`), made
+and kept by the server (`functions/js/tasks/mapTasks.js`); admins only read
+them and change their status (Done, Dismiss, Open again - `firestore.rules`).
+They aren't in the audit log: a to-do list, not cave data - each task keeps
+who closed it and when.
+
+**The checks.** Every map carries two fingerprints:
+
+- `contentHash`, the file's SHA-256, sent by the app with a new map. Before
+  uploading, the app looks for a map (not in the trash) with the same hash and
+  asks: **Attach the existing map** (added to the system, nothing uploaded) or
+  **Upload anyway**.
+- `visualHash`, a 64-bit difference hash of the map's thumbnail, made by the
+  server with the thumbnail (`functions/js/maps/visualHash.js`): two files of
+  the same map (another scan, size or format) come out a few bits apart.
+
+The task's scenario, the first that applies:
+
+| Scenario | When |
+| --- | --- |
+| `exactDuplicate` | An older map has the same `contentHash`: uploaded although identical (the server checks it itself: Upload anyway, or a map added offline) |
+| `possibleDuplicate` | An older map's `visualHash` is 10 bits or fewer away (`VISUAL_HASH_MAX_DISTANCE`), the same systems first |
+| `newerSurvey` | One of its systems has a map in the cave layer, of an earlier date |
+| `alreadyTraced` | One of its systems has a map in the cave layer, of the same date or later (or no date to compare) |
+| `newToLayer` | None of its systems is in the cave layer |
+
+The task also keeps the layer status apart (`layerStatus`), its duplicates
+(`duplicates`, the identical ones also in `exactDuplicates`) and its systems'
+traced maps (`tracedMaps`). It follows its map: a change to the map or to a
+system's maps list works it out again.
+
+**What the layer has.** The server reads the two files the tiles build
+publishes with the tiles (`scripts/map-layer/build-tiles.js`):
+`/tiles/caves/maps.json` (the traced maps, with their map record, system and
+date) and `/tiles/caves/configs.json` (every config's map, traced or not, as
+the Map layers page's To process tab reads it) - on the site, so a map counts
+once its tiles are deployed; in the emulators, the last local build's
+`public/tiles/caves/` (`functions/js/tasks/layerMaps.js`).
+
+**Closing by itself.** A task closes (`done`, by `system`) when its map goes to
+the trash, is marked not for the layer, is named by a layer config, or is
+deleted; it opens again if the trash or the mark is undone.
+
+**The emails.** Every 10 minutes `mapTasksSweep` checks the open tasks against
+the layer (a deploy of new tiles closes theirs), then emails each new task,
+once it's two minutes old (so its thumbnail and system are known), to every
+account with the admin role, each in their account's language - through Resend
+like the other emails (the `RESEND_API_KEY` secret); `notifiedAt` records it.
+An identical file comes first in the email, as a warning. In the emulators
+nothing is sent (the email is logged), and the sweep only runs when called.
+
+**Backfill.** The maps made before these checks have no fingerprints: fill
+them in with
+
+```
+node scripts/map-content-hashes.js -l --dry-run    # the maps without them
+node scripts/map-content-hashes.js -p --write      # production
+```
+
+`--content` or `--visual` for one kind only, `--all` to hash every map again.
+It hashes an image's or a PDF's original file, and the thumbnail. An SVG's
+original was replaced by its cleaned copy when it was uploaded, so its
+`contentHash` only matches a new upload of that copy - its `visualHash` still
+finds the same map.
+
 ## Analytics: whose visits count
 
 Google Tag Manager (and with it Google Analytics) loads only for the real site's visitors (`src/utils/analytics.js`):

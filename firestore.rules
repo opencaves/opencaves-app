@@ -113,6 +113,21 @@ service cloud.firestore {
       allow read: if isAdmin()
     }
 
+    // The admins' tasks (the /tasks page; functions/js/tasks/): made, kept up
+    // to date and closed by themselves by the server only. Admins read them
+    // and change their status alone: close one (done or dismissed, with
+    // their account and the time) or open it again (closing fields removed).
+    match /_tasks/{task} {
+      allow read: if isAdmin()
+      allow update: if isAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'closedAt', 'closedBy', 'closedReason'])
+        && ((request.resource.data.status in ['done', 'dismissed']
+              && request.resource.data.closedBy == request.auth.uid && request.resource.data.closedAt == request.time
+              && !('closedReason' in request.resource.data))
+          || (request.resource.data.status == 'open'
+              && !('closedAt' in request.resource.data) && !('closedBy' in request.resource.data) && !('closedReason' in request.resource.data)))
+    }
+
     // The errors the "Something went wrong" page showed (src/utils/errorReports.js):
     // anyone creates one - every field checked, its own account or none, the
     // server's time, deleted by the TTL policy within 100 days; admins read
@@ -349,10 +364,13 @@ service cloud.firestore {
           || !('layerSkipReason' in d || 'layerSkippedBy' in d || 'layerSkippedAt' in d));
     }
 
+    // contentHash: the file's SHA-256 (hex), sent by the app with a new map
+    // (its exact-duplicate check, functions/js/tasks/mapTasks.js).
     function isValidMap(d, k) {
-      return k.hasOnly(['name', 'authors', 'date', 'note', 'contentType', 'url'])
+      return k.hasOnly(['name', 'authors', 'date', 'note', 'contentType', 'url', 'contentHash'])
         && text(d, k, 'name', 240) && items(d, k, 'authors', 20) && text(d, k, 'date', 40) && text(d, k, 'note', 2000)
         && text(d, k, 'contentType', 100)
+        && (!('contentHash' in k) || !('contentHash' in d) || (d.contentHash is string && d.contentHash.matches('[0-9a-f]{64}')))
     }
 
     match /caves/{document} {

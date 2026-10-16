@@ -5,6 +5,7 @@
 // stays as it is locally: the accounts (Auth, _users/* - settings, saved
 // caves), the frozen accounts (_frozenUsers), the testers' reports
 // (_feedback, _feedbackPrivate), the error reports (_errorReports), the
+// admins' tasks (_tasks: about production's maps and accounts), the
 // photos' uploaders (_cavesAssetsPrivate) and the caves' ratings (their
 // ratings subcollections, and so their summaries, _caveRatings).
 //
@@ -46,7 +47,7 @@ import { getAuth } from 'firebase-admin/auth'
 const PROJECT_ID = 'opencaves'
 const BUCKET = 'opencaves.appspot.com'
 // Private or personal: never copied, the local ones kept.
-const SKIP = ['_users', '_frozenUsers', '_feedback', '_feedbackPrivate', '_errorReports', '_cavesAssetsPrivate', '_caveRatings']
+const SKIP = ['_users', '_frozenUsers', '_feedback', '_feedbackPrivate', '_errorReports', '_cavesAssetsPrivate', '_caveRatings', '_tasks']
 // Added to, never trimmed: production's entries join the local ones.
 const ADD_ONLY = ['_auditLog']
 const STORAGE_PREFIXES = ['caves/', 'maps/', 'documents/']

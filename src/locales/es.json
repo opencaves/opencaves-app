@@ -957,7 +957,20 @@
     "mapDateHint": "Cuándo se dibujó o publicó el mapa.",
     "cartography": "Cartografía: {{names}}",
     "needsConnection": "Estás sin conexión: subir archivos necesita una conexión.",
-    "wrongType": "Elige una imagen o un PDF."
+    "wrongType": "Elige una imagen o un PDF.",
+    "duplicate": {
+      "title": "Este mapa ya está en OpenCaves",
+      "text_one": "«{{file}}» es el mismo archivo que este mapa:",
+      "text_other": "«{{file}}» es el mismo archivo que estos mapas:",
+      "listedBy": "En {{names}}",
+      "notListed": "No aparece en ningún sistema",
+      "untitled": "Mapa sin título",
+      "uploadAnywayHint": "Adjunta el mapa existente para agregarlo sin volver a subirlo. Si lo subes de todos modos, los administradores tendrán que revisarlo.",
+      "attach": "Adjuntar el mapa existente",
+      "uploadAnyway": "Subir de todos modos",
+      "cancel": "Cancelar",
+      "attached": "«{{name}}» adjuntado."
+    }
   },
   "colorPicker": {
     "addColor": "Agregar un color",
@@ -1239,7 +1252,10 @@
     "backToCaveIndex": "Volver a las cuevas",
     "backToSistemaIndex": "Volver a los sistemas de cuevas",
     "mapsToProcess_one": "{{count}} por procesar",
-    "mapsToProcess_other": "{{count}} por procesar"
+    "mapsToProcess_other": "{{count}} por procesar",
+    "manageTasks": "Tareas",
+    "openTasks_one": "{{count}} abierta",
+    "openTasks_other": "{{count}} abiertas"
   },
   "usersAdmin": {
     "title": "Usuarios",
@@ -2594,5 +2610,63 @@
       "chipTitle": "Resumen redactado con IA"
     },
     "etAl": "et al."
+  },
+  "tasks": {
+    "title": "Tareas",
+    "intro": "Lo que requiere la revisión de un administrador: cada mapa topográfico agregado en la aplicación, con lo que OpenCaves ya tiene de él. Una tarea se cierra sola cuando su mapa va a la papelera, se marca fuera de la capa o entra en la capa de cuevas.",
+    "openTab": "Abiertas ({{count}})",
+    "closedTab": "Cerradas",
+    "loading": "Cargando las tareas",
+    "failed": "No se pudieron leer las tareas.",
+    "saveFailed": "No se pudo guardar la tarea. Inténtalo de nuevo.",
+    "noneOpen": "Nada que hacer: ninguna tarea abierta.",
+    "noneClosed": "Aún no hay tareas cerradas.",
+    "untitled": "Mapa sin título",
+    "noSystem": "Aún no aparece en ningún sistema",
+    "added": "Agregado por {{name}}, {{date}}",
+    "script": "un script",
+    "mapDate": "mapa de {{date}}",
+    "traced": "En la capa de cuevas para su sistema: {{maps}}.",
+    "identicalTo": "Archivo idéntico:",
+    "looksLike": "Se parece a:",
+    "inTrash": "en la papelera",
+    "done": "Hecho",
+    "dismiss": "Descartar",
+    "reopen": "Reabrir",
+    "toProcess": "Capas del mapa: Por procesar",
+    "status": {
+      "done": "Hecha",
+      "dismissed": "Descartada"
+    },
+    "closedBy": "Cerrada por {{name}}, {{date}}",
+    "closedBySystem": {
+      "inLayer": "Cerrada sola, {{date}}: el mapa está en la capa de cuevas.",
+      "skipped": "Cerrada sola, {{date}}: el mapa se marcó fuera de la capa.",
+      "trashed": "Cerrada sola, {{date}}: el mapa está en la papelera.",
+      "deleted": "Cerrada sola, {{date}}: el mapa se eliminó.",
+      "other": "Cerrada sola, {{date}}."
+    },
+    "scenarios": {
+      "exactDuplicate": {
+        "label": "Archivo idéntico",
+        "text": "Se subió aunque un archivo idéntico ya está en OpenCaves: conserva uno y adjúntalo al sistema."
+      },
+      "possibleDuplicate": {
+        "label": "Posible duplicado",
+        "text": "Se parece a un mapa que ya está en OpenCaves: revisa si es el mismo."
+      },
+      "newerSurvey": {
+        "label": "Levantamiento más reciente",
+        "text": "Su sistema está en la capa de cuevas a partir de un levantamiento más antiguo: este mapa puede actualizar la capa."
+      },
+      "alreadyTraced": {
+        "label": "Ya en la capa",
+        "text": "Su sistema está en la capa de cuevas a partir de un levantamiento igual de reciente o más: quizá la capa no lo necesite."
+      },
+      "newToLayer": {
+        "label": "Nuevo para la capa",
+        "text": "Su sistema aún no está en la capa de cuevas: un mapa por trazar."
+      }
+    }
   }
 }

@@ -12,6 +12,33 @@ import { invalidateData, getData } from '@/services/data-service.jsx'
 import { assertOnline } from '@/utils/assertOnline.js'
 import { addPendingUpload } from '@/services/offline/pendingUploads.js'
 import { track } from '@/utils/track.js'
+import { sha256Hex } from '@/utils/fileHash.js'
+import { isTrashed } from '@/utils/trash.js'
+import DuplicateMapDialog from './DuplicateMapDialog.jsx'
+
+// The file's SHA-256 (a map's contentHash), or null when the browser can't
+// tell: the upload goes on without the check (the server still makes it).
+async function contentHashOf(file) {
+  try {
+    return await sha256Hex(file)
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}
+
+/**
+ * The maps already on OpenCaves with this file (the same contentHash), not in
+ * the trash.
+ *
+ * @param {string} contentHash
+ * @returns {Promise<CaveMap[]>}
+ */
+export async function findIdenticalMaps(contentHash) {
+  const { db, collection, getDocs, query, where } = await loadFirebase()
+  const snapshot = await getDocs(query(collection(db, mapsModel.collectionName), where('contentHash', '==', contentHash)))
+  return snapshot.docs.map((d) => /** @type {CaveMap} */ ({ id: d.id, ...d.data() })).filter((map) => !isTrashed(map))
+}
 
 /**
  * A map file sent to Storage and its record made.
@@ -21,11 +48,14 @@ import { track } from '@/utils/track.js'
  * @param {object} [options]
  * @param {string} [options.id] - Its record's id - a waiting upload's reserved one (a new push id by default).
  * @param {(percent: number) => void} [options.onProgress] - Its percent sent.
+ * @param {string|null} [options.contentHash] - The file's SHA-256 if already worked out (else worked out here), saved
+ *   with the map: the server's exact-duplicate check (functions/js/tasks/mapTasks.js).
  * @returns {Promise<CaveMap>} The map ({ id, ...record }).
  * @throws {Error} As the upload does (offline: code 'offline').
  */
-export async function uploadMapFile(file, { title, authors = [], date, note } = {}, { id = pushId(), onProgress } = {}) {
+export async function uploadMapFile(file, { title, authors = [], date, note } = {}, { id = pushId(), onProgress, contentHash } = {}) {
   assertOnline()
+  if (contentHash === undefined) contentHash = await contentHashOf(file)
   const isPdf = file.type === 'application/pdf'
   const { storage, ref, uploadBytesResumable, getDownloadURL } = await (await loadFirebase()).getStorageService()
   const storageRef = ref(storage, isPdf ? `maps/original-pdf/${id}` : `maps/${id}`)
@@ -34,7 +64,7 @@ export async function uploadMapFile(file, { title, authors = [], date, note } = 
     task.on('state_changed', (snapshot) => onProgress?.(Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)), reject, resolve)
   })
   const url = await getDownloadURL(storageRef)
-  const map = { name: title, url, contentType: file.type, authors: authors.length > 0 ? authors : undefined, date: date || undefined, note: note || undefined }
+  const map = { name: title, url, contentType: file.type, authors: authors.length > 0 ? authors : undefined, date: date || undefined, note: note || undefined, contentHash: contentHash || undefined }
   await mapsModel.save(id, map)
   return { id, ...map }
 }
@@ -42,9 +72,14 @@ export async function uploadMapFile(file, { title, authors = [], date, note } = 
 /**
  * A map's title always comes from the person uploading it (see MapUploadDetailsFields)
  * rather than being guessed from the file, so every map has a name the person
- * who added it actually chose.
+ * who added it actually chose. A file already on OpenCaves (the same
+ * contentHash, {@link findIdenticalMaps}) is asked about first
+ * (DuplicateMapDialog, shown by {@link MapUploadFeedback}): its existing map
+ * attached instead - uploadMap then gives { id, existing: true, ...map }, which
+ * the caller adds to the system as it would the new one - or uploaded anyway
+ * (the server makes it an admin task, exactDuplicate).
  *
- * @returns {{uploadMap: Function, uploading: boolean, progress: number, current: *, error: *, clearError: () => void}}
+ * @returns {{uploadMap: Function, uploading: boolean, progress: number, current: *, error: *, clearError: () => void, duplicate: {file: File, maps: CaveMap[]}|null, answerDuplicate: (answer: 'attach'|'upload'|null, map?: CaveMap) => void}}
  */
 export function useMapUpload() {
   const { t } = useTranslation('mapsPicker')
@@ -52,6 +87,8 @@ export function useMapUpload() {
   const [progress, setProgress] = useState(0)
   const [current, setCurrent] = useState(null)
   const [error, setError] = useState(null)
+  // The identical maps found, waiting for the uploader's answer.
+  const [duplicate, setDuplicate] = useState(null)
   const [openSnackbar] = useSnackbar()
   const { t: tOffline } = useTranslation('offline')
 
@@ -83,6 +120,26 @@ export function useMapUpload() {
       }
     }
 
+    const contentHash = await contentHashOf(file)
+    if (contentHash) {
+      let identical = []
+      try {
+        identical = await findIdenticalMaps(contentHash)
+      } catch (cause) {
+        // Not checked (offline since...): the upload goes on, the server checks.
+        console.error(cause)
+      }
+      if (identical.length > 0) {
+        const answer = await new Promise((resolve) => setDuplicate({ file, maps: identical, resolve }))
+        setDuplicate(null)
+        if (!answer) return null
+        if (answer.choice === 'attach') {
+          openSnackbar(t('duplicate.attached', { name: answer.map.name || '' }), { severity: 'success' })
+          return { ...answer.map, existing: true }
+        }
+      }
+    }
+
     setUploading(true)
     setProgress(0)
     // A quick object URL, not the heavier vector conversion used for the
@@ -92,7 +149,7 @@ export function useMapUpload() {
     let uploadedMap = null
     const isPdf = file.type === 'application/pdf'
     try {
-      uploadedMap = await uploadMapFile(file, { title, authors, date, note }, { onProgress: setProgress })
+      uploadedMap = await uploadMapFile(file, { title, authors, date, note }, { onProgress: setProgress, contentHash })
 
       invalidateData()
       try {
@@ -118,17 +175,34 @@ export function useMapUpload() {
     return uploadedMap
   }
 
-  return { uploadMap, uploading, progress, current, error, clearError: () => setError(null) }
+  // The uploader's answer: attach `map` (one of the identical maps), upload
+  // anyway, or null (cancelled: nothing is added).
+  function answerDuplicate(choice, map) {
+    duplicate?.resolve(choice ? { choice, map } : null)
+  }
+
+  return { uploadMap, uploading, progress, current, error, clearError: () => setError(null), duplicate, answerDuplicate }
 }
 
 /**
- * The upload's progress and its error; its success is the shared snackbar's.
+ * The upload's progress and its error, and the question about a file already
+ * on OpenCaves; its success is the shared snackbar's.
+ *
+ * @param {object} props
+ * @param {boolean} props.uploading
+ * @param {number} props.progress
+ * @param {*} props.current
+ * @param {*} props.error
+ * @param {() => void} props.clearError
+ * @param {{file: File, maps: CaveMap[]}|null} [props.duplicate] - The identical maps found ({@link useMapUpload}).
+ * @param {(answer: 'attach'|'upload'|null, map?: CaveMap) => void} [props.answerDuplicate]
  */
-export default function MapUploadFeedback({ uploading, progress, current, error, clearError }) {
+export default function MapUploadFeedback({ uploading, progress, current, error, clearError, duplicate = null, answerDuplicate }) {
   const { t } = useTranslation('mapsPicker')
 
   return (
     <>
+      <DuplicateMapDialog duplicate={duplicate} onAnswer={answerDuplicate} />
       <Snackbar open={uploading} autoHide={false}>
         <UploadInfo total={1} progress={progress} current={current} />
       </Snackbar>

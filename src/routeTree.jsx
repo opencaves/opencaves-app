@@ -431,6 +431,13 @@ export const routes = [
                 ...requireAdmin(() => import('@/routes/error-reports/ErrorReports.jsx')),
               },
               {
+                // The admins' to-do list (_tasks): the survey maps added in
+                // the app, with what OpenCaves already has of them;
+                // ?tab=closed: the closed ones.
+                path: 'tasks',
+                ...requireAdmin(() => import('@/routes/tasks/Tasks.jsx')),
+              },
+              {
                 // The members' reports (Send feedback), listed like
                 // GitHub's issues (?state, q, kind, stage, sort)... Every
                 // registered account reads them (Ideas and fixes: what's

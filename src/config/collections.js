@@ -46,3 +46,8 @@ export const CAVE_REPORTS_COLLECTION = '_caveReports'
 // Further reading (config/documents.js): cave data, so no "_" - papers,
 // reports and links the caves and systems list (their `documents`).
 export const DOCUMENTS_COLLECTION = 'documents'
+
+// The admins' to-do list (the /tasks page): made, kept up to date and closed
+// by itself by the server (functions/js/tasks/) - today one per survey map
+// added in the app (map-<mapId>); admins read them and change their status.
+export const TASKS_COLLECTION = '_tasks'
