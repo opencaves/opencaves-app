@@ -365,12 +365,24 @@ def main(review_path, config_paths, production):
             return (e['action'], e['caveId'])
         position = (round(e['latitude'], 4), round(e['longitude'], 4)) if e.get('latitude') is not None else None
         return (e['action'], key(e['name']), tuple(sorted(e.get('maps', []))), position)
+    # Entries alike (unnamed entrances of an unverified map: no name, no
+    # position) told apart by their rank among them, in the config's order -
+    # the same from run to run; alike, they took one id and the others a new
+    # one on every run.
+    def ranked_keys(list_):
+        seen = {}
+        keys = []
+        for e in list_:
+            k = entry_key(e)
+            seen[k] = seen.get(k, -1) + 1
+            keys.append((*k, seen[k]))
+        return keys
     known_ids = {}
-    for e in previous['entries']:
-        known_ids.setdefault(entry_key(e), e.get('id'))
+    for k, e in zip(ranked_keys(previous['entries']), previous['entries']):
+        known_ids.setdefault(k, e.get('id'))
     used = set()
-    for entry in entries:
-        entry['id'] = known_ids.get(entry_key(entry)) or (push_id() if entry['action'] == 'create' else entry['caveId'])
+    for k, entry in zip(ranked_keys(entries), entries):
+        entry['id'] = known_ids.get(k) or (push_id() if entry['action'] == 'create' else entry['caveId'])
         # Ids are unique per new cenote, even where an earlier run gave one id to several.
         if entry['action'] == 'create':
             while entry['id'] in used or entry['id'] in by_id:
@@ -380,7 +392,7 @@ def main(review_path, config_paths, production):
     kept = others + [e for e in entries if entry_key(e) not in {entry_key(o) for o in others}]
     FOUND_FILE.write_text(json.dumps({'note': 'Cenotes found on the cave maps, kept aside for a direct database import (see cenote_candidates.py). '
                                               'Positions come from maps: never mark them as GPS.',
-                                      'entries': kept}, indent=1, ensure_ascii=False) + '\n', encoding='utf-8')
+                                      'entries': kept}, indent=1, ensure_ascii=False) + '\n', encoding='utf-8', newline='')
 
     workbook = Workbook()
 
