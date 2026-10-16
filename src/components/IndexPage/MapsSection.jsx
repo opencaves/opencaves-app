@@ -168,7 +168,9 @@ function MapThumbnail({ map }) {
           </Typography>
         </Box>
         {year && (
-          <Typography component="span" sx={{ fontSize: '0.75rem', letterSpacing: '0.03em', color: 'rgba(255, 255, 255, 0.8) !important' }}>
+          // Smaller than the title, its box as tall as at 12px (22.5px): the
+          // smaller text's lost height given back in its padding.
+          <Typography component="span" sx={{ fontSize: '0.6875rem', letterSpacing: '0.03em', color: 'rgba(255, 255, 255, 0.8) !important', '&&': { py: '3.625px' } }}>
             {year}
           </Typography>
         )}
