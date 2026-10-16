@@ -1,5 +1,40 @@
 # Changelog
 
+## [1.3.0](https://github.com/opencaves/opencaves-app/compare/v1.2.0...v1.3.0) (2026-10-16)
+
+Further reading in a pane of its own on the map, a search that finds anything by its id, more survey maps, and a smoother, more polished interface - from the photo galleries to the sign-in pages.
+
+
+### Features
+
+* **Further reading on the map:** a cave's documents open in a pane of their own beside the cave's on a computer (the map makes room for it), and slide in over it on a phone. Each document shows its cover - a PDF's first page, or a cover drawn from the title for a link. A cave or system with no document yet shows Add a document right away.
+* **Search by id:** the search in the app bar finds a cave or a cave system by its id, or a piece of it; a whole id also finds the survey map, document or photo it belongs to and opens it. The caves, systems and Ideas and fixes lists find their own records by id too.
+* **More survey maps:** maps found in public archives added to Ax Puk, Carita, Heder, Mul Tun Spring, Boca Paila, Borges, Katu Balam, Alux, Grutas de las Palmas and Quebrada, with what they tell of each system's exploration.
+* **For the team:** a survey map uploaded again is recognised - the upload offers to attach the existing map instead - and each new map gets a task on the new Tasks page (possible duplicates, whether its system is already in the map layer), emailed to the admins. Draft with AI writes a first summary of a new document, in its own language, for its editor to review.
+
+### Changes
+
+* **Photo galleries:** switching between Photos, Videos and Survey maps slides, and the height changes smoothly; the 3D strips' scrollbar follows their curve, its ends rounded.
+* **What's new:** a newly added survey map, document or photo reads "New survey map", "New document"... with who added it.
+* **Pages:** What can I do?, What's new, Log in and Sign up have the background of the caves and systems lists. On Log in and Sign up, the email field is ready to type in on computers, and the Google and Microsoft buttons look alike.
+* **Map layer:** slopes are drawn as the survey maps draw them, a line with its ticks, instead of V's.
+* **Links that open a new tab** show an icon saying so; Open the original map opens the map viewer instead of downloading the file.
+* **Survey map captions:** the title and the year sit together, the year smaller.
+* **The map's pane:** the Description has its heading, footnotes a smaller one, and the pane's placeholder while it loads matches the page that comes.
+* **Leaving an edit page** no longer leaves it in the browser's history, so Back doesn't return to it.
+
+### Fixes
+
+* **Survey map uploads:** SVG maps uploaded in the app are processed again (they failed on the server).
+* **Galleries:** no more white bands, lines or corners around the photos and maps of the 3D strips, no black bands while dragging, and dragging with a finger is smooth again.
+* **Dark mode:** the logo, the "or" between the sign-in buttons, and the map layer's drawing card follow the dark theme.
+* **The search** no longer warns in the console about two caves of the same name, and a page reached from the keyboard no longer shows a focus ring around its title.
+* **The error page** shows its message on its own card.
+
+### For the team
+
+* The functions run on Node.js 24, like the local tools; the map-layer scripts leave no CRLF and keep stable ids for unnamed cenotes; a deploy stops when the build is older than the code; the design rules are written down in docs/design-system.md.
+
 ## [1.2.0](https://github.com/opencaves/opencaves-app/compare/v1.1.0...v1.2.0) (2026-10-15)
 
 Further reading: papers, articles, reports and books about a cave or a cave system, right on its page - starting with some thirty scientific papers about the caves of the Yucatán. Plus news emails you can turn off, and a smoother map on phones.
@@ -434,7 +469,7 @@ The second beta: a full security audit and its fixes, an audit log with undo and
 * Confirmation messages all show the green check.
 * The error page's development details on their own panel.
 
-## [1.0.0-beta-1](https://github.com/opencaves/opencaves-app/compare/v1.2.0...v1.0.0-beta-1) (2026-10-02)
+## [1.0.0-beta-1](https://github.com/opencaves/opencaves-app/compare/v0.4.0...v1.0.0-beta-1) (2026-10-02)
 
 The first beta of the new OpenCaves. It covers all the work since 1.2.0: the app now runs on Vite with its data in Firestore, can be edited in the app, and shows the cave passages traced from published survey maps.
 
@@ -466,7 +501,11 @@ The first beta of the new OpenCaves. It covers all the work since 1.2.0: the app
 * Access icons in the detail pane have tooltips and line up with their labels.
 * Markdown cave links navigate within the app instead of reloading the page.
 
-## [1.2.0](https://github.com/opencaves/opencaves-app/compare/v1.1.0...v1.2.0) (2023-07-23)
+## [0.4.0](https://github.com/opencaves/opencaves-app/compare/v0.3.0...v0.4.0) (2026-09-21)
+
+A snapshot before the 1.0 betas: the functions on Firebase Functions v7 and its Node runtime.
+
+## [0.3.0](https://github.com/opencaves/opencaves-app/compare/v0.2.0...v0.3.0) (2023-07-23)
 
 
 ### Features
@@ -478,14 +517,14 @@ The first beta of the new OpenCaves. It covers all the work since 1.2.0: the app
 
 * Long URLs in result details don't break layout ([4855b10](https://github.com/opencaves/opencaves-app/commit/4855b1039516a5de46534f2b2694bdd94b0ef854))
 
-## [1.1.0](https://github.com/opencaves/opencaves-app/compare/v1.0.1...v1.1.0) (2023-07-20)
+## [0.2.0](https://github.com/opencaves/opencaves-app/compare/v0.1.1...v0.2.0) (2023-07-20)
 
 
 ### Features
 
 * **app:** New custom window title bar ([529ac6c](https://github.com/opencaves/opencaves-app/commit/529ac6c44a0a0878f5365198261eebfff3d41341))
 
-## [1.0.1](https://github.com/opencaves/opencaves-app/compare/v1.0.0...v1.0.1) (2023-07-19)
+## [0.1.1](https://github.com/opencaves/opencaves-app/compare/v0.1.0...v0.1.1) (2023-07-19)
 
 
 ### Bug Fixes
@@ -496,7 +535,7 @@ The first beta of the new OpenCaves. It covers all the work since 1.2.0: the app
 * Hide snackbar on clipboard copy on Android devices since they use their own ([5e7ee06](https://github.com/opencaves/opencaves-app/commit/5e7ee063bb5457ca897a5de3dea8e2456e9ab94b))
 * Result pane did not fill the viewport height ([7998082](https://github.com/opencaves/opencaves-app/commit/7998082c286c49dbb7b69140f81350b040e99343))
 
-## [1.0.0](https://github.com/opencaves/opencaves-app/compare/v1.0.0...v1.0.0) (2023-07-18)
+## [0.1.0](https://github.com/opencaves/opencaves-app/tree/v0.1.0) (2023-07-18)
 
 
 ### Features
