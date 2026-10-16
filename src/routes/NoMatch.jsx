@@ -12,6 +12,7 @@ import { Button } from '@mui/material'
 import { useOnline } from '@/hooks/useOnline.jsx'
 import { removeShell } from '@/utils/shell.js'
 import { isFirestoreFailure, recoverFromFirestoreFailure } from '@/utils/firestoreRecovery.js'
+import { isStaleBuildError, reloadForNewBuild } from '@/utils/staleBuild.js'
 import { reportError } from '@/utils/errorReports.js'
 import './NoMatch.scss'
 
@@ -99,9 +100,12 @@ export default function NoMatch({ inLayout = false }) {
   }, [error, notFound])
 
   // Something went wrong (not a missing page, not offline): a digest of the
-  // error for the team (_errorReports).
+  // error for the team (_errorReports) - unless it's the old build's code
+  // gone after a deploy, which a reload fixes (utils/staleBuild.js).
   useEffect(() => {
-    if (kind === 'failed') reportError(error)
+    if (kind !== 'failed') return
+    if (isStaleBuildError(error) && reloadForNewBuild()) return
+    reportError(error)
   }, [kind, error])
 
   // Firestore failed inside (its SDK's bug): recovered with a reload; once
