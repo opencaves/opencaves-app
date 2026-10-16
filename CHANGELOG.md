@@ -30,6 +30,7 @@ Further reading in a pane of its own on the map, a search that finds anything by
 * **Dark mode:** the logo, the "or" between the sign-in buttons, and the map layer's drawing card follow the dark theme.
 * **The search** no longer warns in the console about two caves of the same name, and a page reached from the keyboard no longer shows a focus ring around its title.
 * **The error page** shows its message on its own card.
+* **Search engines:** a photo's, a survey map viewer's, an edit page's and the members' pages' addresses are no longer listed as empty pages - they're marked not to index; the caves' and systems' pages carry their photos and maps.
 
 ### For the team
 
