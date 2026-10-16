@@ -1,4 +1,13 @@
 .oc-scrollbar {
+  // The library's view (its first child) pushes the browser's own scrollbar
+  // out of sight by a whole number of pixels; at a fractional pixel ratio the
+  // scrollbar is a fraction wider, and a sliver of it showed at the right
+  // edge (a grey line in dark mode). Transparent, it keeps its size (the
+  // library's arithmetic) and never shows.
+  > :first-child {
+    scrollbar-color: transparent transparent;
+  }
+
   &--autohide {
     .oc-scrollbar--track {
       opacity: 0;
