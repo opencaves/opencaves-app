@@ -957,7 +957,20 @@
     "mapDateHint": "When the map was drawn or published.",
     "cartography": "Cartography: {{names}}",
     "needsConnection": "You’re offline: uploading needs a connection.",
-    "wrongType": "Choose an image or a PDF."
+    "wrongType": "Choose an image or a PDF.",
+    "duplicate": {
+      "title": "This map is already on OpenCaves",
+      "text_one": "“{{file}}” is the same file as this map:",
+      "text_other": "“{{file}}” is the same file as these maps:",
+      "listedBy": "Listed by {{names}}",
+      "notListed": "Not listed by any system",
+      "untitled": "Untitled map",
+      "uploadAnywayHint": "Attach the existing map to add it without uploading it again. If you upload it anyway, the admins will be asked to check it.",
+      "attach": "Attach the existing map",
+      "uploadAnyway": "Upload anyway",
+      "cancel": "Cancel",
+      "attached": "“{{name}}” attached."
+    }
   },
   "colorPicker": {
     "addColor": "Add a color",
@@ -1239,7 +1252,10 @@
     "backToCaveIndex": "Back to the caves",
     "backToSistemaIndex": "Back to the cave systems",
     "mapsToProcess_one": "{{count}} to process",
-    "mapsToProcess_other": "{{count}} to process"
+    "mapsToProcess_other": "{{count}} to process",
+    "manageTasks": "Tasks",
+    "openTasks_one": "{{count}} open",
+    "openTasks_other": "{{count}} open"
   },
   "usersAdmin": {
     "title": "Users",
@@ -2594,5 +2610,63 @@
       "chipTitle": "Summary drafted with AI"
     },
     "etAl": "et al."
+  },
+  "tasks": {
+    "title": "Tasks",
+    "intro": "What needs an admin’s look: each survey map added in the app, with what OpenCaves already has of it. Tasks close by themselves when their map goes to the trash, is marked not for the layer, or enters the cave layer.",
+    "openTab": "Open ({{count}})",
+    "closedTab": "Closed",
+    "loading": "Loading the tasks",
+    "failed": "The tasks could not be read.",
+    "saveFailed": "The task could not be saved. Try again.",
+    "noneOpen": "Nothing to do: no open task.",
+    "noneClosed": "No closed task yet.",
+    "untitled": "Untitled map",
+    "noSystem": "Not listed by any system yet",
+    "added": "Added by {{name}}, {{date}}",
+    "script": "a script",
+    "mapDate": "map dated {{date}}",
+    "traced": "In the cave layer for its system: {{maps}}.",
+    "identicalTo": "Identical file:",
+    "looksLike": "Looks like:",
+    "inTrash": "in the trash",
+    "done": "Done",
+    "dismiss": "Dismiss",
+    "reopen": "Open again",
+    "toProcess": "Map layers: To process",
+    "status": {
+      "done": "Done",
+      "dismissed": "Dismissed"
+    },
+    "closedBy": "Closed by {{name}}, {{date}}",
+    "closedBySystem": {
+      "inLayer": "Closed by itself, {{date}}: the map is in the cave layer.",
+      "skipped": "Closed by itself, {{date}}: the map was marked not for the layer.",
+      "trashed": "Closed by itself, {{date}}: the map is in the trash.",
+      "deleted": "Closed by itself, {{date}}: the map was deleted.",
+      "other": "Closed by itself, {{date}}."
+    },
+    "scenarios": {
+      "exactDuplicate": {
+        "label": "Identical file",
+        "text": "Uploaded although an identical file is already on OpenCaves: keep one, and attach it to the system."
+      },
+      "possibleDuplicate": {
+        "label": "Possible duplicate",
+        "text": "Looks like a map already on OpenCaves: check whether it is the same map."
+      },
+      "newerSurvey": {
+        "label": "Newer survey",
+        "text": "Its system is in the cave layer from an older survey: this map may update the layer."
+      },
+      "alreadyTraced": {
+        "label": "Already in the layer",
+        "text": "Its system is in the cave layer from a survey as recent or more: the layer may not need it."
+      },
+      "newToLayer": {
+        "label": "New to the layer",
+        "text": "Its system is not in the cave layer yet: a map to trace."
+      }
+    }
   }
 }

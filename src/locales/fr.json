@@ -956,7 +956,20 @@
     "mapDateHint": "Date à laquelle la carte a été dessinée ou publiée.",
     "cartography": "Cartographie : {{names}}",
     "needsConnection": "Vous êtes hors ligne : le téléversement nécessite une connexion.",
-    "wrongType": "Choisissez une image ou un PDF."
+    "wrongType": "Choisissez une image ou un PDF.",
+    "duplicate": {
+      "title": "Cette carte est déjà sur OpenCaves",
+      "text_one": "« {{file}} » est le même fichier que cette carte :",
+      "text_other": "« {{file}} » est le même fichier que ces cartes :",
+      "listedBy": "Listée par {{names}}",
+      "notListed": "Listée par aucun système",
+      "untitled": "Carte sans titre",
+      "uploadAnywayHint": "Joignez la carte existante pour l’ajouter sans la téléverser de nouveau. Si vous la téléversez quand même, les administrateurs devront la vérifier.",
+      "attach": "Joindre la carte existante",
+      "uploadAnyway": "Téléverser quand même",
+      "cancel": "Annuler",
+      "attached": "« {{name}} » jointe."
+    }
   },
   "colorPicker": {
     "addColor": "Ajouter une couleur",
@@ -1238,7 +1251,10 @@
     "backToCaveIndex": "Retour aux grottes",
     "backToSistemaIndex": "Retour aux réseaux",
     "mapsToProcess_one": "{{count}} à traiter",
-    "mapsToProcess_other": "{{count}} à traiter"
+    "mapsToProcess_other": "{{count}} à traiter",
+    "manageTasks": "Tâches",
+    "openTasks_one": "{{count}} ouverte",
+    "openTasks_other": "{{count}} ouvertes"
   },
   "usersAdmin": {
     "title": "Utilisateurs",
@@ -2593,5 +2609,63 @@
       "chipTitle": "Résumé rédigé avec l'IA"
     },
     "etAl": "et al."
+  },
+  "tasks": {
+    "title": "Tâches",
+    "intro": "Ce qui demande l’œil d’un administrateur : chaque carte topographique ajoutée dans l’application, avec ce qu’OpenCaves en a déjà. Une tâche se ferme d’elle-même quand sa carte va à la corbeille, est marquée hors couche ou entre dans la couche des grottes.",
+    "openTab": "Ouvertes ({{count}})",
+    "closedTab": "Fermées",
+    "loading": "Chargement des tâches",
+    "failed": "Les tâches n’ont pas pu être lues.",
+    "saveFailed": "La tâche n’a pas pu être enregistrée. Réessayez.",
+    "noneOpen": "Rien à faire : aucune tâche ouverte.",
+    "noneClosed": "Aucune tâche fermée pour l’instant.",
+    "untitled": "Carte sans titre",
+    "noSystem": "Encore listée par aucun système",
+    "added": "Ajoutée par {{name}}, {{date}}",
+    "script": "un script",
+    "mapDate": "carte datée de {{date}}",
+    "traced": "Dans la couche des grottes pour son système : {{maps}}.",
+    "identicalTo": "Fichier identique :",
+    "looksLike": "Ressemble à :",
+    "inTrash": "à la corbeille",
+    "done": "Fait",
+    "dismiss": "Écarter",
+    "reopen": "Rouvrir",
+    "toProcess": "Couches de la carte : À traiter",
+    "status": {
+      "done": "Faite",
+      "dismissed": "Écartée"
+    },
+    "closedBy": "Fermée par {{name}}, {{date}}",
+    "closedBySystem": {
+      "inLayer": "Fermée d’elle-même, {{date}} : la carte est dans la couche des grottes.",
+      "skipped": "Fermée d’elle-même, {{date}} : la carte a été marquée hors couche.",
+      "trashed": "Fermée d’elle-même, {{date}} : la carte est à la corbeille.",
+      "deleted": "Fermée d’elle-même, {{date}} : la carte a été supprimée.",
+      "other": "Fermée d’elle-même, {{date}}."
+    },
+    "scenarios": {
+      "exactDuplicate": {
+        "label": "Fichier identique",
+        "text": "Téléversée bien qu’un fichier identique soit déjà sur OpenCaves : gardez-en une, et joignez-la au système."
+      },
+      "possibleDuplicate": {
+        "label": "Doublon possible",
+        "text": "Ressemble à une carte déjà sur OpenCaves : vérifiez s’il s’agit de la même."
+      },
+      "newerSurvey": {
+        "label": "Relevé plus récent",
+        "text": "Son système est dans la couche des grottes d’après un relevé plus ancien : cette carte peut mettre la couche à jour."
+      },
+      "alreadyTraced": {
+        "label": "Déjà dans la couche",
+        "text": "Son système est dans la couche des grottes d’après un relevé aussi récent ou plus : la couche n’en a peut-être pas besoin."
+      },
+      "newToLayer": {
+        "label": "Nouvelle pour la couche",
+        "text": "Son système n’est pas encore dans la couche des grottes : une carte à tracer."
+      }
+    }
   }
 }

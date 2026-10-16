@@ -55,7 +55,7 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
   const isSmall = useSmall()
   const [maps] = mapsModel.useAll()
   const [anchorEl, setAnchorEl] = useState(null)
-  const { uploadMap, uploading, progress, current, error, clearError } = useMapUpload()
+  const { uploadMap, uploading, progress, current, error, clearError, duplicate, answerDuplicate } = useMapUpload()
   const [pendingFile, setPendingFile] = useState(null)
   const [pendingDetails, setPendingDetails] = useState(emptyPendingDetails)
   const open = Boolean(anchorEl)
@@ -108,7 +108,9 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
     })
     if (!uploaded) return
 
-    onChange([...value, uploaded.id])
+    // An existing map attached (the same file already on OpenCaves) may be
+    // listed already.
+    onChange(value.includes(uploaded.id) ? value : [...value, uploaded.id])
     handleClose()
   }
 
@@ -199,7 +201,7 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
           </>
         )}
       </Menu>
-      <MapUploadFeedback uploading={uploading} progress={progress} current={current} error={error} clearError={clearError} />
+      <MapUploadFeedback uploading={uploading} progress={progress} current={current} error={error} clearError={clearError} duplicate={duplicate} answerDuplicate={answerDuplicate} />
     </Box>
   )
 }

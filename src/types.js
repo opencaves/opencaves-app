@@ -269,12 +269,52 @@
  * @property {string} [layerSkipReason] - Marked "not for the cave layer" by an admin: why.
  * @property {string} [layerSkippedBy]
  * @property {Timestamp} [layerSkippedAt]
+ * @property {string} [importKey] - Added by the bulk import (scripts/maps-import), not in the app.
+ * @property {string} [contentHash] - The uploaded file's SHA-256, in hex: the app sends it with a new map (the
+ *   exact-duplicate check, MapUpload.jsx); scripts/map-content-hashes.js fills it in for older ones.
+ * @property {string} [visualHash] - Server: its thumbnail's 64-bit difference hash, 16 hex digits (possible duplicates).
  */
 
 /**
  * A survey map, with its trash mark.
  *
  * @typedef {CaveMapFields & Trashable} CaveMap
+ */
+
+/**
+ * An admins' task (`_tasks`, the /tasks page): made, kept up to date and
+ * closed by itself by the server (functions/js/tasks/); admins change its
+ * status. Every kind has these fields; each kind adds its own.
+ *
+ * @typedef {object} TaskFields
+ * @property {string} id
+ * @property {'map'} kind
+ * @property {'open'|'done'|'dismissed'} status
+ * @property {Timestamp} [createdAt]
+ * @property {Timestamp} [updatedAt]
+ * @property {string|null} [addedBy] - Who caused it (an account's id; null: a script).
+ * @property {Timestamp} [closedAt]
+ * @property {string} [closedBy] - An admin's account id, or 'system' when the server closed it.
+ * @property {'inLayer'|'skipped'|'trashed'|'deleted'} [closedReason] - Closed by the server: why.
+ * @property {Timestamp} [notifiedAt] - When the admins were emailed about it.
+ */
+
+/**
+ * A survey map's task, map-<mapId>: what OpenCaves already has of a map added
+ * in the app (functions/js/tasks/mapTasks.js).
+ *
+ * @typedef {object} MapTaskFields
+ * @property {string} mapId
+ * @property {string[]} [sistemaIds] - The systems listing the map.
+ * @property {'exactDuplicate'|'possibleDuplicate'|'newerSurvey'|'alreadyTraced'|'newToLayer'} scenario - What the checks found, the most urgent.
+ * @property {'newerSurvey'|'alreadyTraced'|'newToLayer'} [layerStatus] - Its systems in the cave layer.
+ * @property {string[]} [duplicates] - Older maps that are the same (identical, then look-alikes).
+ * @property {string[]} [exactDuplicates] - Those of them with the same file (contentHash).
+ * @property {{title: string, date?: string}[]} [tracedMaps] - Its systems' maps in the cave layer.
+ */
+
+/**
+ * @typedef {TaskFields & MapTaskFields} MapTask
  */
 
 /**

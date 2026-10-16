@@ -34,7 +34,7 @@ export default function AddMapButton({ sistemaId, canAdd = true, onAddUnauthoriz
   const fileInputRef = useRef(null)
   const [pendingFile, setPendingFile] = useState(null)
   const [pendingDetails, setPendingDetails] = useState(emptyPendingDetails)
-  const { uploadMap, uploading, progress, current, error, clearError } = useMapUpload()
+  const { uploadMap, uploading, progress, current, error, clearError, duplicate, answerDuplicate } = useMapUpload()
   const mapValues = (Array.isArray(sistema?.maps) ? sistema.maps : []).map((value) => value.trim()).filter(Boolean)
 
   if (!canAdd && !onAddUnauthorized) return null
@@ -73,8 +73,10 @@ export default function AddMapButton({ sistemaId, canAdd = true, onAddUnauthoriz
     }, { attachToSistemaId: sistemaId })
     if (!uploaded) return
 
-    // Offline, kept to upload later: it's added to the system then.
-    if (!uploaded.pending) await SistemaModel.save(sistemaId, { maps: [...mapValues, uploaded.id] })
+    // Offline, kept to upload later: it's added to the system then. An
+    // existing map attached (the same file already on OpenCaves) is added the
+    // same way, unless the system lists it already.
+    if (!uploaded.pending && !mapValues.includes(uploaded.id)) await SistemaModel.save(sistemaId, { maps: [...mapValues, uploaded.id] })
     setPendingFile(null)
     setPendingDetails(emptyPendingDetails)
   }
@@ -97,7 +99,7 @@ export default function AddMapButton({ sistemaId, canAdd = true, onAddUnauthoriz
         </Typography>
       )}
       <input ref={fileInputRef} type="file" hidden accept="image/*,application/pdf" onChange={handleFileSelected} />
-      <MapUploadFeedback uploading={uploading} progress={progress} current={current} error={error} clearError={clearError} />
+      <MapUploadFeedback uploading={uploading} progress={progress} current={current} error={error} clearError={clearError} duplicate={duplicate} answerDuplicate={answerDuplicate} />
 
       {/* Phones: full screen, the preview above the form at the screen's
           width, no dragging (as EditMapDialog) - it kept a 900px layout, its

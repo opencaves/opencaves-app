@@ -16,9 +16,11 @@ import FeedbackRounded from '@mui/icons-material/FeedbackRounded'
 import TipsAndUpdatesRounded from '@mui/icons-material/TipsAndUpdatesRounded'
 import PublicRounded from '@mui/icons-material/PublicRounded'
 import SourceRounded from '@mui/icons-material/SourceRounded'
+import TaskAltRounded from '@mui/icons-material/TaskAltRounded'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useMapsToProcess } from '@/routes/map-layers/useMapsToProcess.js'
 import { useNewFeedbackCount } from '@/routes/feedback/useNewFeedbackCount.js'
+import { useOpenTaskCount } from '@/routes/tasks/useTasks.js'
 import CaveIcon from '@/images/map/cave.svg?react'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
 import { REFERENCE_DATA_CONFIGS } from './referenceDataConfigs.js'
@@ -50,7 +52,7 @@ const dashboardItemSx = (theme) => ({
 /**
  * /dashboard: the pages to manage the data, as the account's roles allow -
  * editors the caves, systems, connections and reference data; admins also
- * the users, map layers, feedback (with the count of new reports), audits
+ * the users, tasks (with the count of open ones), map layers, feedback (with the count of new reports), audits
  * and error reports. Anyone who isn't an admin gets Ideas and fixes instead:
  * the members' reports, to read (/feedback).
  */
@@ -63,6 +65,7 @@ export default function AdminDashboard() {
   // The members' reports still to read.
   const newFeedback = useNewFeedbackCount(isAdmin)
   const mapsToProcess = useMapsToProcess().toProcess.length
+  const openTasks = useOpenTaskCount(isAdmin)
 
   useEffect(() => {
     setTitle(t('title'))
@@ -153,6 +156,16 @@ export default function AdminDashboard() {
                       <PeopleRounded />
                     </ListItemIcon>
                     <ListItemText primary={t('manageUsers')} />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton className="oc-admin-dashboard--tasks" component={Link} to="/tasks" divider sx={dashboardItemSx}>
+                    <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
+                      <TaskAltRounded />
+                    </ListItemIcon>
+                    <ListItemText primary={t('manageTasks')} />
+                    {/* The tasks still open (the maps added in the app to look at). */}
+                    {openTasks > 0 && <Chip className="oc-admin-dashboard--open-tasks" size="small" color="primary" label={t('openTasks', { count: openTasks })} />}
                   </ListItemButton>
                 </ListItem>
                 <ListItem disablePadding>
