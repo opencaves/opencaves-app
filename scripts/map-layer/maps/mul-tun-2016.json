@@ -1,0 +1,167 @@
+{
+  "id": "-P44oWMhoFefw1imqo2T",
+  "mapImportKey": "f3acfbc963b1",
+  "image": "../../../_data/map-layer/scans/mul-tun-2016-prepared.png",
+  "importImage": "../../../_data/found-maps-2026-10/import/images/cenote-mul-tun.svg",
+  "title": "Cenote Mul Tun - Sprouse 2016",
+  "date": "2016-04",
+  "credits": "Cenote Mul Tun, Tulum, Quintana Roo, Mexico. Surveyed April 2, 2016 by Nathan Roser and Carol Vesely; map drafted by Juliana Rincón and Peter Sprouse. Length 180 m, depth 6 m. AMCS Activities Newsletter 39, p. 11 (2016). Source: AMCS Index to Cave Maps of Mexico (mexicancaves.org/maps/3684.pdf).",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfx6HrT4lGgouidJ",
+  "sistemaWhy": "Mul Tun Spring (QRSS, 3084 m, explored from 2016-01 by Leal and Reato, connected to K'oox Baal in 2016-06) - the cenote, its cavern ring and the sump that leads on into that system. The other sistema, 'Cenote Mul Tun Siphon' (-KPZgftK2jzo0nw0kG41, QRSS, 109.7 m, 8.5 m deep, 2015-07, same divers), is the siphon beyond this map's sump: its 8.5 m depth is deeper than this map's 6 m and its 110 m isn't this map's 180 m. Neither sistema has a cave or a position in the database; which of the two the cenote belongs to (or whether the Siphon sistema is now part of Mul Tun Spring) is for the user to confirm.",
+  "utmEpsg": 32616,
+  "unverified": "No position at all: Cenote Mul Tun has no cave in the database (neither sistema Mul Tun Spring nor Cenote Mul Tun Siphon has a cave or a position), OpenStreetMap has no Mul Tun near Tulum (Nominatim: only Cenote Multun-Ha at Cobá, a different cenote 35 km inland; Overpass mirrors timed out), the web gives no coordinates (press reports of the 2016 photo trip: a 1.5 h walk through the jungle), and the map prints no coordinates, road or other cenote. The single control point is a NOMINAL anchor: the map's GPS-style mark (the circled cross by 'E') put on the K'oox Baal cenote of the database, the system Mul Tun Spring was connected to in 2016 (QRSS) - so the geometry is NOT on the ground, it lies over K'oox Baal. To fix: a field GPS of the cenote (the circled cross by 'E' looks like the survey's GPS mark). Scale and north are the map's own and trustworthy for a vector drawing (scale bar 0-50 m, 'Ngrid' = UTM grid north).",
+  "placementWhy": "UNVERIFIED (see 'unverified'). The map is a vector PDF/SVG (Peter Sprouse / AMCS style): rasterised at 300 DPI (4.1667 px per PDF point, 2122 x 2573 px), then prepared (see 'prep'). Scale from the printed bar, 0-50 m between ticks at x 271.5 and 1140.5 (y 2306.5): 869 px = 50 m, 0.0575 m/px - the SVG's own tick coordinates (65.288 and 273.838 pt) give the same; the drawing's 75 x 85 m and the 180 m length agree. North: the arrow is 'Ngrid / Ncuadrícula' (grid north) pointing straight up: the drawing is aligned to the UTM grid, so 'up' in UTM (zone 16N) is exact. Position nominal.",
+  "prep": {
+    "why": "Vector map: the water is filled pale cyan (#dcffff), but the dry floor of the cavern ring between the water and the drip line (stipple and breakdown under the overhang) is left white, so the colour-fill trace would take the water only. Prepared in the scratchpad (scratchpad/multun/prep.py, not a repo script): the SVG rendered at 300 DPI with Chrome; the bold wall strokes (stroke-width 0.736 pt) rendered alone; the area inside the bold wall (flooded from outside over the wall and the cyan) minus the open-air area of the cenote (flooded from its centre over the ink grown by 16 px, so the drip line's ticks close it, then grown back; plus a disc of 48 px at (1035, 1172) for the rock in the open area) minus the water and the insides of the small bold loops (pillars) is tinted #dcffff on its white pixels; ink (stipple, boulders, ticks) is left as drawn.",
+    "renderScale": 4.16667,
+    "openSeed": [1160, 1300],
+    "openGrowPx": 16,
+    "openDisks": [[1035, 1172, 48]]
+  },
+  "trace": {
+    "method": "colour-fill",
+    "water": false,
+    "cyanFill": true,
+    "threshold": 12,
+    "weakThreshold": 6,
+    "regionThreshold": 8,
+    "minBandSqMetres": 4,
+    "minHoleSqMetres": 0.5,
+    "minOutlineMetres": 2,
+    "wallSimplifyMetres": 0.1,
+    "dropIsolated": {
+      "maxSqMetres": 3,
+      "gapMetres": 2
+    },
+    "why": "the prepared image's cyan (the drawn water plus the tinted dry cavern floor) is the passage: the outer bold line is the cave wall, the inner edge the drip line of the cenote's open-air collapse, the bold rings in the water (and the white-filled rocks) pillars and islands. Small map (0.0575 m/px): small thresholds and a 0.1 m simplification."
+  },
+  "exclude": [
+    {
+      "why": "title and place",
+      "box": [330, 180, 790, 300]
+    },
+    {
+      "why": "surveyors and drafters",
+      "box": [240, 300, 880, 700],
+      "history": true
+    },
+    {
+      "why": "north arrow (Ngrid / Ncuadrícula)",
+      "box": [1720, 120, 2000, 540]
+    },
+    {
+      "why": "cross-section, NW (with its leader line)",
+      "box": [360, 790, 800, 975]
+    },
+    {
+      "why": "cross-section, NE (with its leader line)",
+      "box": [1432, 670, 1700, 828]
+    },
+    {
+      "why": "cross-section, SW (with its leader line)",
+      "box": [460, 1455, 742, 1600]
+    },
+    {
+      "why": "length and depth",
+      "box": [1520, 2030, 1960, 2140]
+    },
+    {
+      "why": "scale bar",
+      "box": [250, 2235, 1180, 2360]
+    },
+    {
+      "why": "'low / bajo' label",
+      "box": [1675, 1475, 1835, 1535]
+    },
+    {
+      "why": "'Amarre de línea de vida / Diveline tie' label",
+      "box": [895, 1780, 1060, 1900]
+    },
+    {
+      "why": "'sump / sifón' label",
+      "box": [930, 1910, 1020, 1990]
+    },
+    {
+      "why": "page border, top",
+      "box": [0, 0, 2122, 70]
+    },
+    {
+      "why": "page border, bottom",
+      "box": [0, 2500, 2122, 2573]
+    },
+    {
+      "why": "page border, left",
+      "box": [0, 0, 70, 2573]
+    },
+    {
+      "why": "page border, right",
+      "box": [2050, 0, 2122, 2573]
+    }
+  ],
+  "scaleBar": {
+    "from": [271.5, 2306.5],
+    "to": [1140.5, 2306.5],
+    "metres": 50
+  },
+  "north": "up",
+  "northWhy": "'Ngrid / Ncuadrícula': UTM grid north, straight up - exact in UTM coordinates",
+  "controlPoints": [
+    {
+      "name": "NOMINAL anchor: the circled cross by 'E' put on the database's K'oox Baal cenote - not a real position (see 'unverified')",
+      "px": [1462, 1292],
+      "latitude": 20.37981,
+      "longitude": -87.43179,
+      "why": "nominal only, so the pipeline can run: K'oox Baal is the system Mul Tun Spring was connected to (QRSS, 2016-06); no position of Cenote Mul Tun is known"
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Cenote Mul Tun",
+      "written": false,
+      "px": [1462, 1292],
+      "note": "the map's only cenote (not in the database): its open-air collapse is the white centre ringed by the drip line; placed at the circled cross marked 'E' on the cavern floor east of the collapse (the survey's GPS/tie-in mark, it seems). The map writes no 'entrance' ('E' alone is ambiguous). Position NOMINAL - see 'unverified'."
+    }
+  ],
+  "symbols": {
+    "why": "The plan carries no depth numbers (only the title block's 6 m), no letter codes, no bones and no flow arrows (checked by eye at full size on the whole drawing; a vector map, so nothing is lost to the scan). The small black triangles and T-ticks in the water and on the cavern floor are drawn UIS detail (left as drawn, not typed). Kept by hand: the sump pointer, the low continuation, the named rock of the collapse and the diveline tie.",
+    "units": "m",
+    "letters": {},
+    "fix": [
+      {
+        "px": [1110, 837],
+        "value": null,
+        "why": "a boulder's cloud outline read as a circled '2' (no circled numbers on this map)"
+      }
+    ],
+    "extra": [
+      {
+        "type": "leads-to",
+        "label": "sump / sifón",
+        "px": [1035, 1915],
+        "why": "the sump at the SW end (darker blue, dashed walls running off west): the way on into the system"
+      },
+      {
+        "type": "ceiling-low",
+        "label": "low / bajo",
+        "px": [1615, 1490],
+        "why": "'low / bajo' beside the dashed walls of the east bay: the passage goes on, low"
+      },
+      {
+        "type": "place-name",
+        "label": "The Mul Tun / El Mul Tun",
+        "px": [1220, 1172],
+        "why": "the name written in the cenote's open-air collapse (Mul Tun: 'stone mound')"
+      },
+      {
+        "type": "place-name",
+        "label": "Diveline tie / Amarre de línea de vida",
+        "px": [1098, 1882],
+        "why": "the arrow's tip on the wall by the sump: where the diveline is tied"
+      }
+    ]
+  }
+}

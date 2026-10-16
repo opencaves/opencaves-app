@@ -126,6 +126,12 @@ points, or by its scale bar and north plus one or more points.
 - Leader lines, cross-sections and their marks, labels and the page border are
   not drawn; pillars and islands are walls; the drawn details between the
   walls (boulders, slopes...) are kept.
+- **Slopes** (kind `slope`) are drawn as the maps draw them: a line across
+  the slope with its ticks hanging downhill. On a `colour-fill` map whose
+  slopes are their own colour (`colouredLines`), each slope's own line and
+  ticks are kept (`"slope": {"asDrawn": false}` redraws them evenly instead);
+  slopes marked by hand (`slopeAreas`) are redrawn evenly in the same style
+  (`slope_drawings`).
 - Labels never count as passage. On a `colour-fill` map with `greyFill`, dark
   text reads as fill and the walls wrap round it: `inkColours` masks the ink
   of a colour (e.g. red depth numbers and labels) by hue, saturation and

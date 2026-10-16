@@ -1,0 +1,1589 @@
+{
+  "id": "-P44oWMf6FhVIkBnxYs-",
+  "mapImportKey": "83323745561d",
+  "image": "../../../_data/found-maps-2026-10/import/images/sistema-heder.jpg",
+  "title": "Sistema Heder - Mafia Maps 2000",
+  "date": "2000-03",
+  "credits": "Sistema Heder; surveyed passage to date 5,736 feet; exploration and survey German Mendosa, Edsel Rios del Rios, Christian Thomas, Claude Touloumdjian, Bernd Birnbach, Yair Azubel, Fred Devos; Mafia Maps, March 2000 (c) B. Birnbach, Y. Azubel, F. Devos, 2000",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfw8jIiogblUeWUQ",
+  "utmEpsg": 32616,
+  "unverified": "No cenote of the map has a position: the database has no cave in sistema Heder (and none named Heder, Kahlua, Bucket or Air Dome), OpenStreetMap has no feature named Heder (Overpass name search over the whole Yucatan coast, 19.5-21.6 N), web searches found no location for Cenote Heder or Sistema Heder, and the map's only source (wetworx.nl Cavemaps, listed alphabetically, no area) gives none. The map draws no road, coast, building or other ground feature, and no other map names its cenotes. The single control point is a NOMINAL anchor (Cenote Heder put at 20.5000 N, 87.3000 W, 2.4 km from any placed map, west of Puerto Aventuras where the Mafia Maps team worked - a guess of the region only) so the pipeline can run: the geometry is NOT on the ground. To fix: field GPS positions of Cenote Heder and of a second point (the small pool 55 m north of it, or better a far end: the line ends are up to 420 m apart at the derived scale).",
+  "placementWhy": "UNVERIFIED (see 'unverified'). No scale bar: 0.388 m/px from the surveyed length (5,736 ft) over the traced lines' length. North from the compass rose (up), unchecked. Position nominal. No placed map can be checked against it, since its position is unknown.",
+  "scaleBar": {
+    "why": "not a drawn bar (the map has none): the scale derived from the title block's 'Surveyed Passage to Date: 5,736 feet' (1,748.3 m) over the traced lines' length (about 4,504 px, all levels of the Bucket included): 0.388 m/px. Assumes the whole surveyed length is drawn; Mafia line plots are smoothed and run a little short (Valet: 7%), so the true scale is likely a few percent fewer metres per pixel.",
+    "from": [
+      0,
+      0
+    ],
+    "to": [
+      1000,
+      0
+    ],
+    "metres": 388
+  },
+  "north": "up",
+  "controlPoints": [
+    {
+      "name": "NOMINAL anchor at Cenote Heder (not a real position: see 'unverified')",
+      "px": [
+        681,
+        735
+      ],
+      "latitude": 20.5,
+      "longitude": -87.3
+    }
+  ],
+  "exclude": [
+    {
+      "why": "title block: Sistema Heder, surveyed passage to date 5,736 feet, exploration and survey team, Mafia Maps March 2000",
+      "box": [
+        760,
+        50,
+        1092,
+        588
+      ],
+      "history": true
+    },
+    {
+      "why": "copyright B. Birnbach, Y. Azubel, F. Devos, 2000",
+      "box": [
+        60,
+        1410,
+        570,
+        1452
+      ],
+      "history": true
+    },
+    {
+      "why": "compass rose",
+      "box": [
+        185,
+        125,
+        390,
+        342
+      ]
+    },
+    {
+      "why": "page border (top)",
+      "box": [
+        0,
+        0,
+        1138,
+        4
+      ]
+    },
+    {
+      "why": "page border (bottom)",
+      "box": [
+        0,
+        1479,
+        1138,
+        1484
+      ]
+    },
+    {
+      "why": "page border (left)",
+      "box": [
+        0,
+        0,
+        4,
+        1484
+      ]
+    },
+    {
+      "why": "page border (right)",
+      "box": [
+        1133,
+        0,
+        1138,
+        1484
+      ]
+    },
+    {
+      "why": "label The Bucket - 3 levels -",
+      "box": [
+        540,
+        382,
+        652,
+        424
+      ]
+    },
+    {
+      "why": "label Air Dome",
+      "box": [
+        426,
+        705,
+        481,
+        747
+      ]
+    },
+    {
+      "why": "label Cenote Heder",
+      "box": [
+        725,
+        737,
+        800,
+        779
+      ]
+    },
+    {
+      "why": "label Kahlua",
+      "box": [
+        825,
+        975,
+        897,
+        995
+      ]
+    },
+    {
+      "why": "flow arrow (wavy, pointing south) east of the Bucket",
+      "box": [
+        699,
+        609,
+        723,
+        680
+      ]
+    },
+    {
+      "why": "flow arrow (wavy, pointing south-east) south-west of Kahlua",
+      "box": [
+        783,
+        1120,
+        832,
+        1174
+      ]
+    },
+    {
+      "why": "small blue pool north of Cenote Heder (no line reaches it)",
+      "box": [
+        676,
+        579,
+        697,
+        615
+      ]
+    },
+    {
+      "why": "Cenote Heder's pool (dark blue): the lines end at its edge",
+      "box": [
+        658,
+        698,
+        706,
+        770
+      ]
+    },
+    {
+      "why": "depth 51 (ft), NW",
+      "box": [
+        71,
+        457,
+        98,
+        485
+      ]
+    },
+    {
+      "why": "depth 35 (ft), W",
+      "box": [
+        92,
+        609,
+        120,
+        637
+      ]
+    },
+    {
+      "why": "depth 15 (ft), far W",
+      "box": [
+        38,
+        797,
+        65,
+        825
+      ]
+    },
+    {
+      "why": "depth 15 (ft), SW loop",
+      "box": [
+        245,
+        832,
+        273,
+        860
+      ]
+    },
+    {
+      "why": "depth 90 (ft), the Bucket's lowest level (red)",
+      "box": [
+        473,
+        496,
+        501,
+        524
+      ]
+    },
+    {
+      "why": "depth 54 (ft), the Bucket's middle level (lavender)",
+      "box": [
+        604,
+        478,
+        632,
+        506
+      ]
+    },
+    {
+      "why": "depth 15 (ft), the Bucket's upper level (green)",
+      "box": [
+        556,
+        547,
+        583,
+        575
+      ]
+    },
+    {
+      "why": "depth 35 (ft), SE",
+      "box": [
+        1016,
+        1127,
+        1043,
+        1154
+      ]
+    },
+    {
+      "why": "depth 20 (ft), SE end",
+      "box": [
+        994,
+        1388,
+        1022,
+        1416
+      ]
+    }
+  ],
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black"
+    ],
+    "inkLevel": 215,
+    "bridgePx": 1,
+    "leaderMaxPx": 1,
+    "eraseLines": [
+      {
+        "from": [
+          652,
+          516
+        ],
+        "to": [
+          652,
+          526
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          652,
+          526
+        ],
+        "to": [
+          649,
+          536
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          649,
+          536
+        ],
+        "to": [
+          644,
+          545
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          644,
+          545
+        ],
+        "to": [
+          638,
+          554
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          638,
+          554
+        ],
+        "to": [
+          631,
+          561
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          631,
+          561
+        ],
+        "to": [
+          622,
+          568
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          622,
+          568
+        ],
+        "to": [
+          612,
+          573
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          612,
+          573
+        ],
+        "to": [
+          602,
+          577
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          602,
+          577
+        ],
+        "to": [
+          590,
+          580
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          590,
+          580
+        ],
+        "to": [
+          579,
+          580
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          579,
+          580
+        ],
+        "to": [
+          568,
+          580
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          568,
+          580
+        ],
+        "to": [
+          556,
+          577
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          556,
+          577
+        ],
+        "to": [
+          546,
+          573
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          546,
+          573
+        ],
+        "to": [
+          536,
+          568
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          536,
+          568
+        ],
+        "to": [
+          527,
+          561
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          527,
+          561
+        ],
+        "to": [
+          520,
+          554
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          520,
+          554
+        ],
+        "to": [
+          514,
+          545
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          514,
+          545
+        ],
+        "to": [
+          509,
+          536
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          509,
+          536
+        ],
+        "to": [
+          506,
+          526
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          506,
+          526
+        ],
+        "to": [
+          506,
+          516
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          506,
+          516
+        ],
+        "to": [
+          506,
+          505
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          506,
+          505
+        ],
+        "to": [
+          509,
+          495
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          509,
+          495
+        ],
+        "to": [
+          514,
+          486
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          514,
+          486
+        ],
+        "to": [
+          520,
+          477
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          520,
+          477
+        ],
+        "to": [
+          527,
+          470
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          527,
+          470
+        ],
+        "to": [
+          536,
+          463
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          536,
+          463
+        ],
+        "to": [
+          546,
+          458
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          546,
+          458
+        ],
+        "to": [
+          556,
+          454
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          556,
+          454
+        ],
+        "to": [
+          568,
+          451
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          568,
+          451
+        ],
+        "to": [
+          579,
+          450
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          579,
+          450
+        ],
+        "to": [
+          590,
+          451
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          590,
+          451
+        ],
+        "to": [
+          602,
+          454
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          602,
+          454
+        ],
+        "to": [
+          612,
+          458
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          612,
+          458
+        ],
+        "to": [
+          622,
+          463
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          622,
+          463
+        ],
+        "to": [
+          631,
+          470
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          631,
+          470
+        ],
+        "to": [
+          638,
+          477
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          638,
+          477
+        ],
+        "to": [
+          644,
+          486
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          644,
+          486
+        ],
+        "to": [
+          649,
+          495
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          649,
+          495
+        ],
+        "to": [
+          652,
+          505
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          652,
+          505
+        ],
+        "to": [
+          652,
+          516
+        ],
+        "widthPx": 6
+      },
+      {
+        "from": [
+          436,
+          702
+        ],
+        "to": [
+          436,
+          706
+        ],
+        "widthPx": 4
+      },
+      {
+        "from": [
+          436,
+          706
+        ],
+        "to": [
+          434,
+          709
+        ],
+        "widthPx": 4
+      },
+      {
+        "from": [
+          434,
+          709
+        ],
+        "to": [
+          431,
+          710
+        ],
+        "widthPx": 4
+      },
+      {
+        "from": [
+          431,
+          710
+        ],
+        "to": [
+          428,
+          711
+        ],
+        "widthPx": 4
+      },
+      {
+        "from": [
+          428,
+          711
+        ],
+        "to": [
+          425,
+          710
+        ],
+        "widthPx": 4
+      },
+      {
+        "from": [
+          425,
+          710
+        ],
+        "to": [
+          422,
+          709
+        ],
+        "widthPx": 4
+      },
+      {
+        "from": [
+          422,
+          709
+        ],
+        "to": [
+          420,
+          706
+        ],
+        "widthPx": 4
+      },
+      {
+        "from": [
+          420,
+          706
+        ],
+        "to": [
+          420,
+          702
+        ],
+        "widthPx": 4
+      },
+      {
+        "from": [
+          420,
+          702
+        ],
+        "to": [
+          420,
+          699
+        ],
+        "widthPx": 4
+      },
+      {
+        "from": [
+          420,
+          699
+        ],
+        "to": [
+          422,
+          696
+        ],
+        "widthPx": 4
+      },
+      {
+        "from": [
+          422,
+          696
+        ],
+        "to": [
+          425,
+          695
+        ],
+        "widthPx": 4
+      },
+      {
+        "from": [
+          425,
+          695
+        ],
+        "to": [
+          428,
+          694
+        ],
+        "widthPx": 4
+      },
+      {
+        "from": [
+          428,
+          694
+        ],
+        "to": [
+          431,
+          695
+        ],
+        "widthPx": 4
+      },
+      {
+        "from": [
+          431,
+          695
+        ],
+        "to": [
+          434,
+          696
+        ],
+        "widthPx": 4
+      },
+      {
+        "from": [
+          434,
+          696
+        ],
+        "to": [
+          436,
+          699
+        ],
+        "widthPx": 4
+      },
+      {
+        "from": [
+          436,
+          699
+        ],
+        "to": [
+          436,
+          702
+        ],
+        "widthPx": 4
+      }
+    ],
+    "addLines": [
+      {
+        "why": "the grey line runs on as the Bucket's lavender level where the dashed circle crosses (erased with it)",
+        "from": [
+          535,
+          459
+        ],
+        "to": [
+          539,
+          464
+        ],
+        "widthPx": 5
+      },
+      {
+        "why": "the light-grey line meets the green level at the dashed circle (west)",
+        "from": [
+          509,
+          546
+        ],
+        "to": [
+          519,
+          541
+        ],
+        "widthPx": 5
+      },
+      {
+        "why": "the green level meets the light-grey line at the dashed circle (east)",
+        "from": [
+          643,
+          539
+        ],
+        "to": [
+          650,
+          549
+        ],
+        "widthPx": 5
+      },
+      {
+        "why": "the line runs through the Air Dome's circle (its ring erased)",
+        "from": [
+          415,
+          714
+        ],
+        "to": [
+          437,
+          692
+        ],
+        "widthPx": 5
+      },
+      {
+        "why": "Bucket level green, 15 ft (the upper level, drawn on top of the others): continuous, joined to the light-grey line at both ends of the dashed circle",
+        "from": [
+          512,
+          546
+        ],
+        "to": [
+          519,
+          541
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level green, 15 ft (the upper level, drawn on top of the others): continuous, joined to the light-grey line at both ends of the dashed circle",
+        "from": [
+          519,
+          541
+        ],
+        "to": [
+          528,
+          536
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level green, 15 ft (the upper level, drawn on top of the others): continuous, joined to the light-grey line at both ends of the dashed circle",
+        "from": [
+          528,
+          536
+        ],
+        "to": [
+          537,
+          537
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level green, 15 ft (the upper level, drawn on top of the others): continuous, joined to the light-grey line at both ends of the dashed circle",
+        "from": [
+          537,
+          537
+        ],
+        "to": [
+          543,
+          538
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level green, 15 ft (the upper level, drawn on top of the others): continuous, joined to the light-grey line at both ends of the dashed circle",
+        "from": [
+          543,
+          538
+        ],
+        "to": [
+          546,
+          541
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level green, 15 ft (the upper level, drawn on top of the others): continuous, joined to the light-grey line at both ends of the dashed circle",
+        "from": [
+          546,
+          541
+        ],
+        "to": [
+          545,
+          533
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level green, 15 ft (the upper level, drawn on top of the others): continuous, joined to the light-grey line at both ends of the dashed circle",
+        "from": [
+          545,
+          533
+        ],
+        "to": [
+          548,
+          528
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level green, 15 ft (the upper level, drawn on top of the others): continuous, joined to the light-grey line at both ends of the dashed circle",
+        "from": [
+          548,
+          528
+        ],
+        "to": [
+          554,
+          524
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level green, 15 ft (the upper level, drawn on top of the others): continuous, joined to the light-grey line at both ends of the dashed circle",
+        "from": [
+          554,
+          524
+        ],
+        "to": [
+          561,
+          526
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level green, 15 ft (the upper level, drawn on top of the others): continuous, joined to the light-grey line at both ends of the dashed circle",
+        "from": [
+          561,
+          526
+        ],
+        "to": [
+          580,
+          526
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level green, 15 ft (the upper level, drawn on top of the others): continuous, joined to the light-grey line at both ends of the dashed circle",
+        "from": [
+          580,
+          526
+        ],
+        "to": [
+          600,
+          525
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level green, 15 ft (the upper level, drawn on top of the others): continuous, joined to the light-grey line at both ends of the dashed circle",
+        "from": [
+          600,
+          525
+        ],
+        "to": [
+          629,
+          524
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level green, 15 ft (the upper level, drawn on top of the others): continuous, joined to the light-grey line at both ends of the dashed circle",
+        "from": [
+          629,
+          524
+        ],
+        "to": [
+          633,
+          527
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level green, 15 ft (the upper level, drawn on top of the others): continuous, joined to the light-grey line at both ends of the dashed circle",
+        "from": [
+          633,
+          527
+        ],
+        "to": [
+          642,
+          538
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level green, 15 ft (the upper level, drawn on top of the others): continuous, joined to the light-grey line at both ends of the dashed circle",
+        "from": [
+          642,
+          538
+        ],
+        "to": [
+          648,
+          543
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level red, 90 ft: the vertical line, a free end at its top; stops 7 px short of the green line it passes under",
+        "from": [
+          540,
+          479
+        ],
+        "to": [
+          541,
+          495
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level red, 90 ft: the vertical line, a free end at its top; stops 7 px short of the green line it passes under",
+        "from": [
+          541,
+          495
+        ],
+        "to": [
+          542,
+          510
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level red, 90 ft: the vertical line, a free end at its top; stops 7 px short of the green line it passes under",
+        "from": [
+          542,
+          510
+        ],
+        "to": [
+          543,
+          521
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level red, 90 ft: its short stretch seen between the two places where it passes under the green line",
+        "from": [
+          552,
+          536
+        ],
+        "to": [
+          556,
+          534
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level red, 90 ft: its short stretch seen between the two places where it passes under the green line",
+        "from": [
+          556,
+          534
+        ],
+        "to": [
+          559,
+          533
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level red, 90 ft: its small arc above the green line (drawn over the lavender line, which stops short of it)",
+        "from": [
+          563,
+          519
+        ],
+        "to": [
+          565,
+          515
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level red, 90 ft: its small arc above the green line (drawn over the lavender line, which stops short of it)",
+        "from": [
+          565,
+          515
+        ],
+        "to": [
+          569,
+          513
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level red, 90 ft: its small arc above the green line (drawn over the lavender line, which stops short of it)",
+        "from": [
+          569,
+          513
+        ],
+        "to": [
+          573,
+          514
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level red, 90 ft: its small arc above the green line (drawn over the lavender line, which stops short of it)",
+        "from": [
+          573,
+          514
+        ],
+        "to": [
+          577,
+          517
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level lavender, 54 ft: from the grey line's end (where the dashed circle crosses) east, then down to the red arc it passes under",
+        "from": [
+          538,
+          463
+        ],
+        "to": [
+          551,
+          467
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level lavender, 54 ft: from the grey line's end (where the dashed circle crosses) east, then down to the red arc it passes under",
+        "from": [
+          551,
+          467
+        ],
+        "to": [
+          563,
+          471
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level lavender, 54 ft: from the grey line's end (where the dashed circle crosses) east, then down to the red arc it passes under",
+        "from": [
+          563,
+          471
+        ],
+        "to": [
+          572,
+          475
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level lavender, 54 ft: from the grey line's end (where the dashed circle crosses) east, then down to the red arc it passes under",
+        "from": [
+          572,
+          475
+        ],
+        "to": [
+          578,
+          479
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level lavender, 54 ft: from the grey line's end (where the dashed circle crosses) east, then down to the red arc it passes under",
+        "from": [
+          578,
+          479
+        ],
+        "to": [
+          576,
+          488
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level lavender, 54 ft: from the grey line's end (where the dashed circle crosses) east, then down to the red arc it passes under",
+        "from": [
+          576,
+          488
+        ],
+        "to": [
+          574,
+          497
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level lavender, 54 ft: from the grey line's end (where the dashed circle crosses) east, then down to the red arc it passes under",
+        "from": [
+          574,
+          497
+        ],
+        "to": [
+          575,
+          505
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level lavender, 54 ft: from the grey line's end (where the dashed circle crosses) east, then down to the red arc it passes under",
+        "from": [
+          575,
+          505
+        ],
+        "to": [
+          576,
+          507
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level lavender, 54 ft: its V south of the green line, both arms ending under it (stopped 7 px short of it)",
+        "from": [
+          591,
+          533
+        ],
+        "to": [
+          595,
+          536
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level lavender, 54 ft: its V south of the green line, both arms ending under it (stopped 7 px short of it)",
+        "from": [
+          595,
+          536
+        ],
+        "to": [
+          601,
+          541
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level lavender, 54 ft: its V south of the green line, both arms ending under it (stopped 7 px short of it)",
+        "from": [
+          601,
+          541
+        ],
+        "to": [
+          606,
+          539
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level lavender, 54 ft: its V south of the green line, both arms ending under it (stopped 7 px short of it)",
+        "from": [
+          606,
+          539
+        ],
+        "to": [
+          611,
+          534
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Bucket level lavender, 54 ft: its V south of the green line, both arms ending under it (stopped 7 px short of it)",
+        "from": [
+          611,
+          534
+        ],
+        "to": [
+          613,
+          532
+        ],
+        "widthPx": 3
+      }
+    ],
+    "why": "Colour stick map (Mafia Maps line plot, guidelines only, no walls): traced as lines, no thickness. Main lines are mid-grey, a second set light grey, and the Bucket's three levels red (90 ft), lavender (54 ft) and green (15 ft): inkLevel 215 takes them all as ink. The Bucket's dashed black circle is erased along its ellipse (centre 579,515, semi-axes 73.5 x 65 px). The Bucket's three levels (red 90 ft, lavender 54 ft, green 15 ft) overlap in plan: their ink is masked by colour (excludeColours) and each level is drawn by hand along its own ink (addLines, 3 px), so the skeleton of the merged ink no longer mixes them. They stay separate features: the green (top) level is continuous and joins the light-grey line at both ends of the circle; the red and lavender levels stop about 7 px (centre to centre; 3 px of white between the strokes) short of the line drawn over them where they pass under it in plan (they are at other depths), so the red level is 3 pieces (vertical, a short stretch between the green crossings, the arc) and the lavender 2 (from the grey line to the red arc, and its V); the stretches the map hides under a level drawn on top are not guessed. survey-lines has no per-feature level/depth property (see the report). the Air Dome's small open circle is erased and the line bridged through it. Cenote pools, the compass rose, labels, depths, the two wavy flow arrows and the title and copyright blocks are masked. bridgePx 1 and no joinShortPx: the jump south-west of Cenote Heder (a 3-4 px gap at 557,855 where the line from the pool and the line going south don't touch) and the separate stub east of the SE line (1050-1100, 1160-1210) are kept as drawn. minOutlineMetres 2 (about 5 px), so the short pieces between junctions stay, and the red level's short stretch between the two green crossings.",
+    "minOutlineMetres": 2,
+    "excludeColours": [
+      {
+        "why": "the Bucket's red level (90 ft): traced from levelLines below, not from the ink",
+        "hue": [
+          0,
+          12
+        ],
+        "minSaturation": 90,
+        "keepHoles": true,
+        "padPx": 2,
+        "minSizePx": 5
+      },
+      {
+        "why": "red (hue wraps round)",
+        "hue": [
+          240,
+          255
+        ],
+        "minSaturation": 90,
+        "keepHoles": true,
+        "padPx": 2,
+        "minSizePx": 5
+      },
+      {
+        "why": "the Bucket's green level (15 ft)",
+        "hue": [
+          70,
+          100
+        ],
+        "minSaturation": 80,
+        "keepHoles": true,
+        "padPx": 2,
+        "minSizePx": 5
+      },
+      {
+        "why": "the Bucket's lavender level (54 ft)",
+        "hue": [
+          175,
+          205
+        ],
+        "minSaturation": 35,
+        "keepHoles": true,
+        "padPx": 2,
+        "minSizePx": 5
+      }
+    ]
+  },
+  "entrances": [
+    {
+      "name": "Cenote Heder",
+      "written": false,
+      "px": [
+        681,
+        735
+      ],
+      "why": "The large dark-blue pool labelled CENOTE HEDER; lines reach it from the north-west and the south-west. Not in the database."
+    },
+    {
+      "name": "unnamed pool north of Cenote Heder",
+      "written": false,
+      "px": [
+        686,
+        597
+      ],
+      "why": "A small dark-blue pool with no label, 140 px north of Cenote Heder, next to the light-grey line's bend; no line drawn to it. Not in the database."
+    }
+  ],
+  "symbols": {
+    "why": "Mafia Maps line plot: depths are overlined numbers in feet (no legend on this sheet; Mafia Maps give depths in feet, and 90 ft is the deepest point the brief and the Bucket agree on). Nine overlined depths, listed by hand (exclude boxes over their ink hide them from extraction); the Bucket's three are in their level's colour (90 red, 54 lavender, 15 green). Two wavy flow arrows. Named places: The Bucket (a shaft on three levels, ringed by a dashed circle), the Air Dome (a small open circle on the line) and Kahlua. No letter codes, restrictions, 'To ...' pointers or bones (checked by eye over the whole sheet: nothing bone-like, no 'B').",
+    "units": "ft",
+    "letters": {},
+    "extra": [
+      {
+        "type": "depth",
+        "label": "51",
+        "px": [
+          84,
+          471
+        ],
+        "value": 51,
+        "halfPx": 14
+      },
+      {
+        "type": "depth",
+        "label": "35",
+        "px": [
+          106,
+          623
+        ],
+        "value": 35,
+        "halfPx": 14
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "px": [
+          51,
+          811
+        ],
+        "value": 15,
+        "halfPx": 14
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "px": [
+          259,
+          846
+        ],
+        "value": 15,
+        "halfPx": 14
+      },
+      {
+        "type": "depth",
+        "label": "90",
+        "px": [
+          487,
+          510
+        ],
+        "value": 90,
+        "halfPx": 14
+      },
+      {
+        "type": "depth",
+        "label": "54",
+        "px": [
+          618,
+          492
+        ],
+        "value": 54,
+        "halfPx": 14
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "px": [
+          570,
+          561
+        ],
+        "value": 15,
+        "halfPx": 14
+      },
+      {
+        "type": "depth",
+        "label": "35",
+        "px": [
+          1029,
+          1140
+        ],
+        "value": 35,
+        "halfPx": 14
+      },
+      {
+        "type": "depth",
+        "label": "20",
+        "px": [
+          1008,
+          1402
+        ],
+        "value": 20,
+        "halfPx": 14
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          711,
+          645
+        ],
+        "bearing": 180
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          807,
+          1147
+        ],
+        "bearing": 140
+      },
+      {
+        "type": "place-name",
+        "label": "The Bucket (3 levels)",
+        "px": [
+          595,
+          403
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Air Dome",
+        "px": [
+          428,
+          702
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Kahlua",
+        "px": [
+          861,
+          985
+        ]
+      }
+    ]
+  }
+}
