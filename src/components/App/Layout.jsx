@@ -36,18 +36,20 @@ export default function Layout() {
   const isSistemaPage = /^\/(sistemas|caves)(\/(?!edit$)[^/]+)?$/.test(path)
   // A cave's or system's edit page: its page's background.
   const isItemEditPage = /^\/(sistemas|caves)\/(?!edit$)[^/]+\/edit$/.test(path)
-  const hasPagesBackground = ['/about', '/caves', '/sistemas'].includes(path) || isReferenceDataPage || isSistemaPage || isItemEditPage
+  // What can I do? and What's new: on the lists' background, translucent like them.
+  const isContributionPage = ['/what-can-i-do', '/whats-new'].includes(path)
+  const hasPagesBackground = ['/about', '/caves', '/sistemas'].includes(path) || isReferenceDataPage || isSistemaPage || isItemEditPage || isContributionPage
   // The dashboard home's page is transparent: its white margins are drawn by
   // AdminDashboard itself, around a window onto this background image. The
   // pages it leads to (the map layers too) are translucent, as its own card.
   const isDashboardHome = location.pathname === '/dashboard'
   // ...and a cave system's public page, whose sections stand on cards.
-  const isTranslucentPage = isDashboardPage || location.pathname.split('/')[1] === 'map-layers' || isSistemaPage
+  const isTranslucentPage = isDashboardPage || location.pathname.split('/')[1] === 'map-layers' || isSistemaPage || isContributionPage
   // Phones, dashboard sub-pages and the account page: side margins showing
   // the background image instead of the page's white side borders (margins
   // rather than transparent borders, whose corners would join the top/bottom
   // borders diagonally).
-  const sideBordersSeeThrough = (isDashboardPage && !isDashboardHome) || isSistemaPage || location.pathname === '/account'
+  const sideBordersSeeThrough = (isDashboardPage && !isDashboardHome) || isSistemaPage || isContributionPage || location.pathname === '/account'
 
   // index.html's splash goes once the page is here: the router renders this
   // with its page already loaded (lazy routes resolve first, under the
