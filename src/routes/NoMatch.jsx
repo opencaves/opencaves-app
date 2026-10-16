@@ -11,7 +11,7 @@ import { Link, isRouteErrorResponse, useLocation, useNavigate, useRevalidator, u
 import { Button } from '@mui/material'
 import { useOnline } from '@/hooks/useOnline.jsx'
 import { removeShell } from '@/utils/shell.js'
-import { isFirestoreFailure, recoverFromFirestoreFailure } from '@/utils/firestoreRecovery.js'
+import { isFirestoreFailure, isFirestoreOffline, recoverFromFirestoreFailure } from '@/utils/firestoreRecovery.js'
 import { isStaleBuildError, reloadForNewBuild } from '@/utils/staleBuild.js'
 import { reportError } from '@/utils/errorReports.js'
 import './NoMatch.scss'
@@ -87,8 +87,10 @@ export default function NoMatch({ inLayout = false }) {
   const revalidator = useRevalidator()
   const notFound = !error || (isRouteErrorResponse(error) && error.status === 404)
   // offlinePreview: the development preview of the offline page
-  // (/dev/error/offline), shown as offline while online.
-  const kind = notFound ? 'notFound' : online && !/** @type {{ offlinePreview?: boolean }} */ (error)?.offlinePreview ? 'failed' : 'offline'
+  // (/dev/error/offline), shown as offline while online. Firestore unable to
+  // reach its server is offline too (not reported), the browser online or not.
+  const offline = !online || /** @type {{ offlinePreview?: boolean }} */ (error)?.offlinePreview || isFirestoreOffline(error)
+  const kind = notFound ? 'notFound' : offline ? 'offline' : 'failed'
   const navigate = useNavigate()
   const { t: tApp } = useTranslation('app')
   // Back where the visitor came from; to the home page when this is the

@@ -19,6 +19,20 @@ export function isFirestoreFailure(error) {
   return /FIRESTORE \([\d.]+\) INTERNAL ASSERTION FAILED/.test(message)
 }
 
+/**
+ * Whether Firestore couldn't reach its server ("Failed to get document
+ * because the client is offline"): offline as far as the page is concerned,
+ * though the browser says it's online - a network that blocks Firestore, or
+ * a crawler that doesn't let it connect.
+ *
+ * @param {unknown} error
+ * @returns {boolean}
+ */
+export function isFirestoreOffline(error) {
+  const { code, message } = /** @type {{ code?: string, message?: string }} */ (error ?? {})
+  return code === 'unavailable' || /because the client is offline/.test(String(message ?? error ?? ''))
+}
+
 function readSteps() {
   try {
     const { at = 0, steps = 0 } = JSON.parse(sessionStorage.getItem(RECOVERY_KEY)) || {}
