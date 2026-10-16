@@ -5,7 +5,7 @@ import { Box } from '@mui/material'
  *
  * @param {object} props - Also a Box's.
  * @param {string} [props.strokeWidth] - Each line's minimum width (2em by default).
- * @param {object} [props.sx]
+ * @param {Sx} [props.sx]
  * @param {import('react').ReactNode} props.children - The word.
  * @param {string} [props.className]
  */
@@ -15,9 +15,10 @@ export default function Or({ strokeWidth, sx, children, className, ...props }) {
     <Box
       component='span'
       // bgcolor='background.paper'
-      sx={{
+      // The lines in the theme's divider colour (a fixed black vanished in dark).
+      sx={[(theme) => ({
         '--oc_gap': '0.75em',
-        '--oc_stroke-color': 'rgba(0, 0, 0, 0.18)',
+        '--oc_stroke-color': theme.vars.sys.color.outlineVariant,
         '--oc_stroke-thick': '1.5px',
         '--oc_stroke-style': 'solid',
         '--oc_min-width': strokeWidth || '2em',
@@ -43,8 +44,7 @@ export default function Or({ strokeWidth, sx, children, className, ...props }) {
           borderBottomStyle: 'var(--oc-or-stroke-style, var(--oc_stroke-style))',
           borderImage: 'linear-gradient(to right, var(--oc-or-stroke-color, var(--oc_stroke-color)) 70%,rgba(0, 0, 0, 0) 100%) 1'
         },
-        ...sx
-      }}
+      }), ...(Array.isArray(sx) ? sx : [sx])]}
       className={`oc-or ${className || ''}`.trim()}
       {...props}
     >
