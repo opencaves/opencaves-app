@@ -30,6 +30,8 @@
   // MUI's Skeleton colour, and the dividers'.
   --oc-map-loading-bone: rgba(0, 0, 0, 0.11);
   --oc-map-loading-line: var(--mui-palette-divider);
+  // The media block's tone.
+  --oc-map-loading-media: rgba(0, 0, 0, 0.06);
   // The phone sheet's first height (PANE_INITIAL_BREAKPOINT of the screen
   // under ResultPaneSm's 48px top bar).
   --oc-map-loading-sheet: calc((100% - 48px) * 0.33);
@@ -37,6 +39,7 @@
   [data-mui-color-scheme='dark'] & {
     --oc-map-loading-bone: rgba(255, 255, 255, 0.13);
     --oc-map-loading-mark: #302f33;
+    --oc-map-loading-media: rgba(255, 255, 255, 0.07);
   }
 
   position: absolute;
@@ -135,14 +138,18 @@
     bottom: var(--oc-map-control-edge-margin);
   }
 
-  // The details pane (ResultPaneLg): a card at the left, full height.
+  // The details pane (ResultPaneLg; keep in step with index.html's
+  // oc-shell--pane): at the left, full height, its ground (M3's surface
+  // container high), the header on it, then its sections as cards (the
+  // surface; a phone's, surface container low), 8px apart.
   &--pane {
     position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
     width: 400px; // PANE_WIDTH
-    background: var(--oc-map-loading-paper);
+    overflow: hidden;
+    background: var(--mui-sys-color-surfaceContainerHigh);
     border-radius: 4px;
     box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 5px 8px 0 rgba(0, 0, 0, 0.14), 0 1px 14px 0 rgba(0, 0, 0, 0.12);
   }
@@ -151,9 +158,10 @@
     left: 400px; // PANE_WIDTH
   }
 
-  // The no-photo cover's colour (CoverImage).
+  // The cover's area (CoverImage: 225px, a photo filling it), the no-photo
+  // cover's colour.
   &--cover {
-    height: 200px;
+    height: 225px;
     background: #222d3a;
   }
 
@@ -165,10 +173,10 @@
   }
 
   &--head {
-    padding: 41px 22px 0;
-    height: 105px;
+    position: relative;
+    padding: 16px 22px 0;
+    height: 100px;
     box-sizing: border-box;
-    border-bottom: 1px solid var(--oc-map-loading-line);
   }
 
   // As the pane's title (CurrentCaveDetailsHeader: caveDetailsHeader): the
@@ -176,13 +184,13 @@
   &--title {
     width: 45%;
     height: 22px;
-    margin: 4px 0 16px;
+    margin: 4px 0 12px;
   }
 
   &--named {
     width: auto;
     height: 30px;
-    margin: 0 0 12px;
+    margin: 0 0 6px;
     border-radius: 0;
     background: none;
     // As index.html's (see there), a hair smaller: no larger a paint than it.
@@ -193,18 +201,37 @@
     text-overflow: ellipsis;
   }
 
+  // The alias line, and the rating's stars.
   &--subtitle {
-    width: 48%;
+    width: 35%;
+    height: 12px;
+    margin-bottom: 12px;
+  }
+
+  &--stars {
+    width: 150px;
+    height: 12px;
+  }
+
+  // A phone's close button (none on a computer).
+  &--close {
+    display: none;
+  }
+
+  &--card {
+    margin: 0 8px 8px;
+    border-radius: 16px;
+    background: var(--mui-sys-color-surface);
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   // The quick actions: round buttons (the first, filled, in the primary colour).
   &--actions {
     display: flex;
     justify-content: space-around;
-    padding: 23px 41px 0;
-    height: 99px;
-    box-sizing: border-box;
-    border-bottom: 1px solid var(--oc-map-loading-line);
+    padding: 25px 41px 0;
+    height: 101px;
 
     span {
       width: 36px;
@@ -213,20 +240,23 @@
       border: 1px solid var(--oc-map-loading-bone);
       box-sizing: border-box;
 
-      &:first-child {
+      &:first-of-type {
         border: 0;
         background: var(--mui-palette-primary-main);
       }
     }
   }
 
+  // The media tabs, their underline, and the strip's room.
   &--tabs {
+    padding: 32px 22px 0;
+    height: 171px;
+  }
+
+  &--tablist {
     display: flex;
     gap: 44px;
-    margin: 0 22px;
-    padding: 32px 22px 0;
-    height: 64px;
-    box-sizing: border-box;
+    padding: 0 22px 18px;
     border-bottom: 1px solid var(--oc-map-loading-line);
 
     .oc-map-loading--bar {
@@ -234,11 +264,22 @@
     }
   }
 
-  &--row {
-    padding: 24px 22px 0 62px;
+  &--media {
+    display: block;
+    height: 72px;
+    margin-top: 20px;
+    border-radius: 8px;
+    background: var(--oc-map-loading-media);
+  }
+
+  // The place's rows (address, coordinates, area), after their icons.
+  &--rows {
+    padding: 26px 22px 0 62px;
+    height: 172px;
 
     .oc-map-loading--bar {
       width: 60%;
+      margin-bottom: 28px;
     }
   }
 
@@ -293,16 +334,34 @@
 
     &--head {
       padding-top: 23px;
-      height: 102px;
-      border-bottom: 0;
+      height: 109px;
+    }
+
+    &--named {
+      margin-right: 48px;
+    }
+
+    &--close {
+      display: block;
+      position: absolute;
+      top: 21px;
+      right: 18px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--oc-map-loading-media);
+    }
+
+    &--card {
+      background: var(--mui-sys-color-surfaceContainerLow);
     }
 
     // The quick actions: a row of pill buttons.
     &--actions {
       justify-content: flex-start;
       gap: 12px;
-      padding: 0 22px;
-      height: 60px;
+      padding: 16px 14px;
+      height: 74px;
 
       span {
         flex: none;

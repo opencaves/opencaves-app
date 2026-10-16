@@ -50,25 +50,32 @@ export const MapLoading = forwardRef(function MapLoading(props, ref) {
       {withPane && (
         <div className="oc-map-loading--pane">
           <div className="oc-map-loading--cover"></div>
+          {/* On the pane's ground: the name, the alias, the rating (a phone's close button). */}
           <div className="oc-map-loading--head">
             <span className={`oc-map-loading--bar oc-map-loading--title${caveName ? ' oc-map-loading--named' : ''}`}>{caveName}</span>
             <span className="oc-map-loading--bar oc-map-loading--subtitle"></span>
+            <span className="oc-map-loading--bar oc-map-loading--stars"></span>
+            <span className="oc-map-loading--close"></span>
           </div>
-          <div className="oc-map-loading--actions">
+          {/* Its sections as cards: the quick actions, the media tabs, the place's rows. */}
+          <div className="oc-map-loading--card oc-map-loading--actions">
             <span></span>
             <span></span>
             <span></span>
           </div>
-          <div className="oc-map-loading--tabs">
-            <span className="oc-map-loading--bar"></span>
-            <span className="oc-map-loading--bar"></span>
-            <span className="oc-map-loading--bar"></span>
-          </div>
-          {[0, 1, 2].map((row) => (
-            <div key={row} className="oc-map-loading--row">
+          <div className="oc-map-loading--card oc-map-loading--tabs">
+            <div className="oc-map-loading--tablist">
+              <span className="oc-map-loading--bar"></span>
+              <span className="oc-map-loading--bar"></span>
               <span className="oc-map-loading--bar"></span>
             </div>
-          ))}
+            <span className="oc-map-loading--media"></span>
+          </div>
+          <div className="oc-map-loading--card oc-map-loading--rows">
+            <span className="oc-map-loading--bar"></span>
+            <span className="oc-map-loading--bar"></span>
+            <span className="oc-map-loading--bar"></span>
+          </div>
         </div>
       )}
     </div>
