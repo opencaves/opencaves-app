@@ -15,13 +15,17 @@ const ImgRoot = styled(Box, {
 }))
 
 /**
- * The app's logo, its light or dark drawing by the color scheme. `variant`:
+ * The app's logo, its light or dark drawing by the color scheme (the system's
+ * when set to follow it). `variant`:
  * 'logo' (the default), 'brand' or 'brand-short'; `colorScheme` forces one
  * scheme's drawing.
  */
 const Logo = forwardRef(function Logo(/** @type {{ variant?: 'logo' | 'brand' | 'brand-short', alt?: string, colorScheme?: 'light' | 'dark', width?: number | string, height?: number | string, mb?: object | number, sx?: object, className?: string } & Record<string, any>} */ props, /** @type {import('react').Ref<HTMLDivElement>} */ ref) {
   const { variant = 'logo', alt = '', colorScheme, width, height, mb, sx, className, ...other } = props
-  const { mode } = useColorScheme()
+  // "system" is the screen's own scheme: it showed the dark drawing (white
+  // lettering) on light screens.
+  const { mode: chosen, systemMode } = useColorScheme()
+  const mode = (chosen === 'system' ? systemMode : chosen) || 'light'
   const [src, setSrc] = useState(/** @type {string} */ (undefined))
 
   function getSrc(variant, mode) {

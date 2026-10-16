@@ -23,6 +23,8 @@ export default function Or({ strokeWidth, sx, children, className, ...props }) {
         '--oc_stroke-style': 'solid',
         '--oc_min-width': strokeWidth || '2em',
 
+        // The word dimmed: a pause between the choices, not one of them.
+        color: theme.vars.palette.text.secondary,
         display: 'inline-flex',
         alignItems: 'center',
         gap: 'var(--oc-or-gap, var(--oc_gap))',
