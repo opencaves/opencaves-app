@@ -48,7 +48,9 @@ def placed(config_path, config):
     place, _, _ = raster_placement(config)
     to_lnglat = Transformer.from_crs(config['utmEpsg'], 4326, always_xy=True)
     w, h = image.size
-    corners = [to_lnglat.transform(*place(x, y)) for x, y in [(0, 0), (w, 0), (w, h), (0, h)]]
+    # The image's outer edges: half a pixel out from the first and last pixels,
+    # as trace_scan.py places a pixel (x, y) at place(x, y) - its centre here.
+    corners = [to_lnglat.transform(*place(x, y)) for x, y in [(-0.5, -0.5), (w - 0.5, -0.5), (w - 0.5, h - 0.5), (-0.5, h - 0.5)]]
     return image, corners
 
 
@@ -63,7 +65,8 @@ def main(output):
         vector = config.get('pdf') and config.get('walls') and not config.get('trace')
         source = config_path.parent.joinpath(config['pdf'] if vector else config['image']).resolve()
         webp, corners_file = out / f"{config['id']}.webp", out / f"{config['id']}.json"
-        newest = max(config_path.stat().st_mtime, source.stat().st_mtime)
+        # Redone when its config, its image or this script changed.
+        newest = max(config_path.stat().st_mtime, source.stat().st_mtime, Path(__file__).stat().st_mtime)
         if webp.exists() and corners_file.exists() and min(webp.stat().st_mtime, corners_file.stat().st_mtime) > newest:
             skipped += 1
             continue
