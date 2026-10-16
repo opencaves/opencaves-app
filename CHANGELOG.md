@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.3.1](https://github.com/opencaves/opencaves-app/compare/v1.3.0...v1.3.1) (2026-10-16)
+
+Fixes for pages that showed "Something went wrong".
+
+
+### Fixes
+
+* **A date the app can't read** no longer takes a page down: Ba'ab Zooz's and the Baab Zotz system's pages showed "Something went wrong".
+* **After an update**, a page left open from before reloads itself once to get the new version, instead of failing when it opens another page.
+* **Offline:** when the app can't reach its database, it shows the offline page with Try again, not "Something went wrong".
+
 ## [1.3.0](https://github.com/opencaves/opencaves-app/compare/v1.2.0...v1.3.0) (2026-10-16)
 
 Further reading in a pane of its own on the map, a search that finds anything by its id, more survey maps, and a smoother, more polished interface - from the photo galleries to the sign-in pages.
