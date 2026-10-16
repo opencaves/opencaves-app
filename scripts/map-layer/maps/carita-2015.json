@@ -1,0 +1,554 @@
+{
+  "id": "-P44oWMd5mtZd1UkMpcI",
+  "mapImportKey": "14f0e541bec9",
+  "image": "../../../_data/found-maps-2026-10/import/images/carita.webp",
+  "title": "Carita - Czech survey 2015",
+  "date": "2015-08",
+  "credits": "Carita, Akumal, Quintana Roo, Mexico. Survey: Zdeněk Motyčka, Jan Sirotek, Radoslav Jančar (August 2015). Thanks: Bil Phillips, Jacobo Pacheco, Jorge Pacheco. Digitalization: Anna Hutňanová, Daniel Hutňan. (c) 2015. Total surveyed passage 357 m (1171 ft), maximum depth 22.0 m (71 ft), one cenote. Source: AMCS Index to Cave Maps of Mexico (cavelife.info/maps/3806.pdf).",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfru4wvU1zu1_osa",
+  "utmEpsg": 32616,
+  "unverified": "Placed only by the map's own data: its printed WGS 1984 coordinates (N 20°25'17.8\" W 087°23'20.9\"), its scale bar (100 ft) and its north arrow. Nothing independent confirms it: Carita has no cave in the database (the sistema has no position), OpenStreetMap has nothing within 2.5 km (Overpass), no placed map is within 750 m (Ash Puk's walls end 762 m west), and the Esri and Google imagery show unbroken canopy at the point - no pond, clearing or trail (the cenote is a dry chamber under the forest, so none is expected). Indirect support only: the same team's printed point for Ash Puk (N 20°25'21.7\" W 087°23'53.4\") falls 8 m from a roofed hut in a small clearing on the Google imagery, so this team's GPS fixes look good to about 10 m.",
+  "placementWhy": "Scale from the printed scale bar (0-50-100 ft, ticks at x 61.5 / 152.5 / 243.5: 182 px = 30.48 m, 0.1675 m/px) - consistent with the totals: about 357 m of passage fits the drawing's 85 x 185 m; north up (the compass rose; magnetic or true not said, 2015); shifted onto the printed coordinates, taken at the cave's mouth (the only opening, at the bottom of the grey cenote chamber, where the wall line carries small triangles). Where the team took its GPS fix within the cenote isn't said: allow a few tens of metres.",
+  "trace": {
+    "method": "colour-fill",
+    "water": false,
+    "greyFill": true,
+    "greyFillWhy": "the passages are blue (siphon), the cenote chamber grey (dry floor) and its lakes pale blue: darkness against the paper takes the three; the paper is near-white with a faint texture",
+    "threshold": 30,
+    "weakThreshold": 25,
+    "regionThreshold": 10,
+    "minBandSqMetres": 8,
+    "dropIsolated": {
+      "maxSqMetres": 20,
+      "gapMetres": 5
+    },
+    "minHoleSqMetres": 5,
+    "minOutlineMetres": 3,
+    "wallSimplifyMetres": 0.2,
+    "minHoleWhy": "the white pillar in the cenote chamber is about 3 x 4 m",
+    "paperIslands": {
+      "minGrey": 225,
+      "maxBlue": 14,
+      "minPx": 60,
+      "maxPx": 1500,
+      "ringPx": 4,
+      "ringInBand": 0.7
+    },
+    "bandGrowPx": 1,
+    "bandShrinkPx": 7,
+    "fillPolygons": [
+      [
+        [
+          134,
+          1082
+        ],
+        [
+          134,
+          1095
+        ],
+        [
+          131,
+          1105
+        ],
+        [
+          128,
+          1110
+        ],
+        [
+          124,
+          1115
+        ],
+        [
+          121,
+          1120
+        ],
+        [
+          118,
+          1125
+        ],
+        [
+          115,
+          1130
+        ],
+        [
+          112,
+          1135
+        ],
+        [
+          111,
+          1140
+        ],
+        [
+          111,
+          1145
+        ],
+        [
+          112,
+          1150
+        ],
+        [
+          113,
+          1155
+        ],
+        [
+          115,
+          1160
+        ],
+        [
+          117,
+          1165
+        ],
+        [
+          119,
+          1170
+        ],
+        [
+          121,
+          1175
+        ],
+        [
+          122,
+          1180
+        ],
+        [
+          123,
+          1185
+        ],
+        [
+          125,
+          1190
+        ],
+        [
+          150,
+          1190
+        ],
+        [
+          150,
+          1082
+        ]
+      ],
+      [
+        [
+          160,
+          1072
+        ],
+        [
+          232,
+          1072
+        ],
+        [
+          232,
+          1172
+        ],
+        [
+          200,
+          1172
+        ],
+        [
+          160,
+          1110
+        ]
+      ]
+    ],
+    "fillPolygonsWhy": "the cenote chamber lakes (pale blue with dashes, about as light as the paper): the west lake from the wall ink centre to the grey floor, and the inner (east) lake between the grey floor and the blue passage, all inside the walls",
+    "wallOffsetWhy": "greyFill counts the dark wall stroke itself as fill, and the default thresholds took the pale halo along the walls: the band, grown 5 px, ended 4-6 px (about 1 m) outside the drawn wall. Thresholds 30/25 keep the halo out, bandGrowPx 1 stops the growth and bandShrinkPx 3 brings the outline from the stroke outer edge to its centre (2026-10-16, after the user saw the walls offset outside)",
+    "colouredLines": {
+      "blueMinusRed": 60,
+      "greyMax": 140,
+      "tickMaxPx": 15,
+      "minPiecePx": 8,
+      "minLinePx": 100000,
+      "why": "the slopes (lines with ticks) and the main line are drawn in dark slate blue over the blue fill (blue minus red about 80, grey about 110; the walls are greyer, blue minus red under 50): the ticks give the slopes; the automatic Arianne line is switched off (minLinePx), as the main line is the same colour and only 1 px wide - it is drawn by hand in arianneLines"
+    },
+    "arianneLines": [
+      [
+        [
+          220,
+          1239
+        ],
+        [
+          181,
+          1164
+        ],
+        [
+          206,
+          1145
+        ],
+        [
+          202,
+          1102
+        ],
+        [
+          223,
+          1098
+        ],
+        [
+          225,
+          1069
+        ],
+        [
+          239,
+          999
+        ],
+        [
+          251,
+          949
+        ],
+        [
+          277,
+          897
+        ],
+        [
+          300,
+          852
+        ],
+        [
+          312,
+          835
+        ],
+        [
+          346,
+          817
+        ],
+        [
+          346,
+          780
+        ],
+        [
+          343,
+          773
+        ],
+        [
+          357,
+          744
+        ],
+        [
+          358,
+          676
+        ],
+        [
+          359,
+          649
+        ],
+        [
+          386,
+          618
+        ],
+        [
+          418,
+          583
+        ],
+        [
+          455,
+          496
+        ],
+        [
+          454,
+          457
+        ]
+      ],
+      [
+        [
+          454,
+          457
+        ],
+        [
+          419,
+          433
+        ],
+        [
+          350,
+          405
+        ],
+        [
+          331,
+          413
+        ],
+        [
+          308,
+          451
+        ],
+        [
+          293,
+          491
+        ]
+      ],
+      [
+        [
+          454,
+          457
+        ],
+        [
+          485,
+          409
+        ],
+        [
+          510,
+          381
+        ],
+        [
+          501,
+          344
+        ],
+        [
+          497,
+          301
+        ],
+        [
+          494,
+          271
+        ],
+        [
+          510,
+          248
+        ],
+        [
+          541,
+          236
+        ],
+        [
+          551,
+          206
+        ],
+        [
+          581,
+          191
+        ],
+        [
+          608,
+          197
+        ],
+        [
+          631,
+          223
+        ],
+        [
+          637,
+          254
+        ],
+        [
+          654,
+          269
+        ],
+        [
+          658,
+          282
+        ],
+        [
+          648,
+          322
+        ],
+        [
+          622,
+          355
+        ],
+        [
+          620,
+          403
+        ],
+        [
+          616,
+          464
+        ],
+        [
+          589,
+          552
+        ]
+      ],
+      [
+        [
+          654,
+          269
+        ],
+        [
+          678,
+          272
+        ]
+      ]
+    ],
+    "arianneLinesWhy": "the main line (survey line) read off the scan station by station (straight shots between bends), each point snapped to the line's darkest pixel within 1 px: trunk from the cenote mouth through the chamber (purple on grey) to the junction at (454, 457), the west lobe branch, the north-east branch with its east leg, and the short spur at (654, 269). A second, parallel line between (251, 949) and (300, 852) in the room south of the big room is not drawn (one line kept)"
+  },
+  "exclude": [
+    {
+      "why": "title, place and printed coordinates",
+      "box": [
+        40,
+        50,
+        450,
+        202
+      ]
+    },
+    {
+      "why": "totals (surveyed length, depth, cenotes)",
+      "box": [
+        40,
+        210,
+        272,
+        300
+      ]
+    },
+    {
+      "why": "logos",
+      "box": [
+        625,
+        60,
+        850,
+        152
+      ]
+    },
+    {
+      "why": "compass rose",
+      "box": [
+        65,
+        458,
+        245,
+        665
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        45,
+        668,
+        268,
+        730
+      ]
+    },
+    {
+      "why": "surveyors and thanks",
+      "box": [
+        545,
+        640,
+        725,
+        865
+      ],
+      "history": true
+    },
+    {
+      "why": "cross-section A (section on orange brick, 21 ft x 30 ft)",
+      "box": [
+        318,
+        948,
+        548,
+        1110
+      ]
+    },
+    {
+      "why": "symbol index",
+      "box": [
+        622,
+        932,
+        842,
+        1097
+      ]
+    },
+    {
+      "why": "digitalization credit",
+      "box": [
+        430,
+        1222,
+        790,
+        1275
+      ],
+      "history": true
+    },
+    {
+      "why": "section A mark (arrow) west of the passage",
+      "box": [
+        207,
+        911,
+        232,
+        943
+      ]
+    },
+    {
+      "why": "section A mark (letter A) east of the passage",
+      "box": [
+        277,
+        952,
+        298,
+        977
+      ]
+    },
+    {
+      "why": "page border, top",
+      "box": [
+        0,
+        0,
+        906,
+        14
+      ]
+    },
+    {
+      "why": "page border, bottom",
+      "box": [
+        0,
+        1316,
+        906,
+        1351
+      ]
+    },
+    {
+      "why": "page border, left",
+      "box": [
+        0,
+        0,
+        14,
+        1351
+      ]
+    },
+    {
+      "why": "page border, right",
+      "box": [
+        892,
+        0,
+        906,
+        1351
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      61.5,
+      719
+    ],
+    "to": [
+      243.5,
+      719
+    ],
+    "metres": 30.48
+  },
+  "north": "up",
+  "controlPoints": [
+    {
+      "name": "Carita (printed WGS 1984 coordinates, at the cave's mouth)",
+      "px": [
+        228,
+        1245
+      ],
+      "latitude": 20.421611,
+      "longitude": -87.389139,
+      "why": "the map's printed coordinates N 20°25'17.8\" W 087°23'20.9\", put at the mouth of the cenote chamber (the triangle-edged wall at its south end); Carita has no cave in the database"
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Carita",
+      "written": false,
+      "px": [
+        228,
+        1245
+      ],
+      "note": "the map's only cenote (not in the database); the mouth of the dry cenote chamber, at the triangle-edged wall line; the map writes no 'entrance'"
+    }
+  ],
+  "symbols": {
+    "why": "The plan carries no depth numbers, no letter codes, no bones and no flow arrows (checked by eye at 3x on the whole drawing); the symbol index lists only drawn symbols (boulder, column, step, slope, pit, chimney, ladder, speleothems, sinter pools, loam, lake, siphon, roots, trees). Feet are the map's units (scale bar, cross-section).",
+    "units": "ft",
+    "letters": {}
+  }
+}

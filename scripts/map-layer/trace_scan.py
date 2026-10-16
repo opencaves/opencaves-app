@@ -818,10 +818,11 @@ def redrawn_relief(points, ink, rule):
 
 
 def slope_drawings(area, downhill, scale, rule):
-    """A slope drawn the same on every map: V's of a set size in metres, on a
-    staggered grid "spacingMetres" apart filling its area, each pointing
-    downhill - downhill(x, y) gives the direction at a point. Lines in pixel
-    coordinates."""
+    """A slope drawn the same on every map, as the maps draw slopes (Carita,
+    Shoot's Hool): short lines across the slope, "widthMetres" long, each with
+    "ticks" ticks "depthMetres" long hanging downhill, on a staggered grid
+    "spacingMetres" apart filling its area - downhill(x, y) gives the
+    direction at a point. Lines in pixel coordinates."""
     step = rule.get('spacingMetres', 3) / scale
     width, depth = rule.get('widthMetres', 1.6) / scale, rule.get('depthMetres', 1.1) / scale
     ys, xs = numpy.nonzero(area)
@@ -833,9 +834,16 @@ def slope_drawings(area, downhill, scale, rule):
                 continue
             dx, dy = downhill(gx, gy)
             px, py = -dy, dx
-            apex = (gx + dx * depth / 2, gy + dy * depth / 2)
-            back = (gx - dx * depth / 2, gy - dy * depth / 2)
-            lines.append([(back[0] + px * width / 2, back[1] + py * width / 2), apex, (back[0] - px * width / 2, back[1] - py * width / 2)])
+            # The line across, on the uphill side; its ticks hang from it.
+            top = (gx - dx * depth / 2, gy - dy * depth / 2)
+            left = (top[0] + px * width / 2, top[1] + py * width / 2)
+            right = (top[0] - px * width / 2, top[1] - py * width / 2)
+            lines.append([left, right])
+            count = rule.get('ticks', 3)
+            for k in range(count):
+                t = (k + 0.5) / count
+                foot = (left[0] + (right[0] - left[0]) * t, left[1] + (right[1] - left[1]) * t)
+                lines.append([foot, (foot[0] + dx * depth, foot[1] + dy * depth)])
     return lines
 
 
@@ -848,7 +856,7 @@ def coloured_lines(rgb, rule):
     each kept as (foot, tip); the remaining pieces are slope lines where tick
     feet sit on them often ("ticksPer100Px"), else the Arianne line - unless
     they run along grey fill (a boulder's outline). Returns (navy mask, Arianne pixel polylines,
-    ticks)."""
+    ticks, slope pixel polylines - the pieces carrying ticks)."""
     grey = rgb.mean(axis=2)
     blue = rgb[..., 2].astype(int) - rgb[..., 0].astype(int)
     black = (grey < 60) & (blue < 50)
@@ -894,6 +902,7 @@ def coloured_lines(rgb, rule):
     nb = neighbours(skeleton)
     joints = cv2.dilate((skeleton & (nb >= 3)).astype(numpy.uint8), numpy.ones((3, 3), numpy.uint8)) > 0
     pieces = []
+    slope_pieces = []
     for path in trace_skeleton(skeleton & ~joints):
         if len(path) < rule.get('minPiecePx', 15):
             continue
@@ -946,9 +955,21 @@ def coloured_lines(rgb, rule):
                         best = (gap, other)
             if best:
                 bridges.append(LineString([end, best[1]]))
+    # The slope lines whole: each piece of the skeleton (ticks cut off, not
+    # cut at its junctions - every tick's foot is one, which left only bits
+    # between ticks) carrying tick feet often, traced end to end.
+    parts, count = ndimage.label(skeleton, structure=numpy.ones((3, 3), int))
+    for i in range(1, count + 1):
+        part = parts == i
+        size = int(part.sum())
+        if size < rule.get('minPiecePx', 15):
+            continue
+        feet_on = ndimage.label(part & (feet_near > 0))[1]
+        if feet_on / size * 100 > rule.get('ticksPer100Px', 4):
+            slope_pieces += [[(x, y) for y, x in path] for path in trace_skeleton(part) if len(path) >= 2]
     merged = linemerge(unary_union(pieces + bridges)) if pieces else None
     lines = [list(g.coords) for g in getattr(merged, 'geoms', [merged]) if g is not None and g.length >= rule.get('minLinePx', 25)]
-    return navy, lines, ticks
+    return navy, lines, ticks, slope_pieces
 
 
 def faint_guideline(rgb, rule):
@@ -1818,8 +1839,9 @@ def main(config_path, output):
         # V's pointing downhill), marked by hand: the V's are too small on a
         # scan to read their direction reliably. Their ink goes (the V's
         # joined to the walls too; the strokes as bold as a wall stay), and
-        # each is redrawn the same on every map (slope_drawings), pointing
-        # towards the given point (a cenote's pool) or the given angle.
+        # each is redrawn the same on every map (slope_drawings: lines with
+        # ticks), hanging towards the given point (a cenote's pool) or the
+        # given angle.
         slope_lines, slope_area = [], numpy.zeros_like(strokes)
         rule = trace.get('slopes') or {}
         for item in trace.get('slopeAreas', []):
@@ -1847,7 +1869,7 @@ def main(config_path, output):
                     strokes[sl] &= ~piece
             bold = cv2.morphologyEx(strokes.astype(numpy.uint8), cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * rule.get('keepWallHalfPx', 3) + 1,) * 2)) > 0
             strokes &= ~(slope_area & ~bold)
-            print(f"{len(trace['slopeAreas'])} slopes, {len(slope_lines)} V's drawn")
+            print(f"{len(trace['slopeAreas'])} slopes, {len(slope_lines)} slope strokes drawn")
         # "dottedLine": {} - the main line drawn as a dash-dot line between
         # stations: kept as survey lines (dotted_line), its dots out of the
         # details.
@@ -2392,19 +2414,29 @@ def main(config_path, output):
                                  'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
     walls_count = len(features)
     # "colouredLines": {...} - the Arianne line and slopes drawn in navy over
-    # the fill (see coloured_lines): the line kept, each slope redrawn as
-    # V's over the ground its ticks cover, pointing as they hang (downhill).
+    # the fill (see coloured_lines): the line kept, each slope drawn as
+    # on the map (or redrawn evenly over the ground its ticks cover, hanging downhill).
     navy_ink = None
     if trace.get('colouredLines'):
         rule = trace['colouredLines']
         rgb_image = numpy.asarray(Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('RGB'))
-        navy_ink, guide_lines, ticks = coloured_lines(rgb_image, rule)
+        navy_ink, guide_lines, ticks, slope_pieces = coloured_lines(rgb_image, rule)
         for line in guide_lines:
             simple = LineString(line).simplify(1.5)
             cv2.polylines(review, [numpy.array(simple.coords, numpy.int32)], False, (0, 0, 255), 2)
             features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'arianne', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
                              'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in simple.coords]))})
-        if ticks:
+        # Each slope drawn as the map draws it, its line and its ticks (kind
+        # "slope"); "slope": {"asDrawn": false} redraws them evenly instead
+        # (slope_drawings) - for ink too broken to show.
+        if ticks and (rule.get('slope') or {}).get('asDrawn', True):
+            drawn = [LineString(line).simplify(1) for line in slope_pieces if len(line) >= 2] + [LineString([foot, tip]) for foot, tip in ticks]
+            for line in drawn:
+                cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (0, 150, 0), 2)
+                features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'slope', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+                                 'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
+            print(f'{len(guide_lines)} Arianne lines, {len(slope_pieces)} slope lines and {len(ticks)} ticks, as drawn')
+        elif ticks:
             from scipy.spatial import cKDTree
             area = numpy.zeros(navy_ink.shape, numpy.uint8)
             for foot, tip in ticks:
@@ -2422,7 +2454,7 @@ def main(config_path, output):
                 cv2.polylines(review, [numpy.array(v, numpy.int32)], False, (0, 150, 0), 2)
                 features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'slope', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
                                  'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in v]))})
-            print(f'{len(guide_lines)} Arianne lines, {len(ticks)} slope ticks -> {len(vs)} slope Vs')
+            print(f'{len(guide_lines)} Arianne lines, {len(ticks)} slope ticks -> {len(vs)} slope strokes, redrawn')
     # "arianneLines": [[[x, y], ...]] - Arianne lines drawn by hand from the scan.
     for line in trace.get('arianneLines', []):
         cv2.polylines(review, [numpy.array(line, numpy.int32)], False, (0, 0, 255), 2)
