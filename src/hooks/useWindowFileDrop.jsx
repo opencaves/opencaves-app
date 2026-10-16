@@ -7,7 +7,9 @@ import { isExternalFileDrag } from '@/utils/externalFileDrag.js'
  * while files from outside the page are over it, close once dropped. The
  * window, not an element: it covers everything (the map too, outside the
  * result pane's own DOM). The enter/leave counter: the browser fires
- * dragenter/dragleave for every element the pointer passes over.
+ * dragenter/dragleave for every element the pointer passes over. A dialog
+ * open (Add a document; not this zone, a dialog itself) takes its own
+ * drops: the zone stays shut.
  *
  * @param {boolean} [enabled=true]
  * @returns {[boolean, () => void]} [open, close].
@@ -26,7 +28,7 @@ export function useWindowFileDrop(enabled = true) {
     // Files from outside the page only: dragging one of its own pictures
     // (a gallery thumbnail) isn't adding one.
     function onDragEnter(event) {
-      if (!isExternalFileDrag(event)) return
+      if (!isExternalFileDrag(event) || document.querySelector('.MuiDialog-root:not(.oc-dropzone)')) return
       event.preventDefault()
       counter.current += 1
       setOpen(true)

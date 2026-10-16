@@ -2604,7 +2604,6 @@
     "summaryLess": "Moins",
     "paneCount_one": "{{count}} document",
     "paneCount_other": "{{count}} documents",
-    "paneEmpty": "Aucun pour l'instant : ajoutez le premier",
     "draft": {
       "button": "Rédiger avec l'IA",
       "drafting": "Rédaction…",
