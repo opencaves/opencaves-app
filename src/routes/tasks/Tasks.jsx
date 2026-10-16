@@ -48,7 +48,13 @@ function MapTaskCard({ task, maps, systemsOf, accountLabel, onStatus, saving }) 
   const map = maps.get(task.mapId)
   const name = map?.name || t('untitled')
   const thumbnail = map && (map.thumbnailUrl || map.previewUrl || (map.contentType?.startsWith('image/') ? map.url : null))
-  const fileUrl = map && (map.previewUrl || map.url)
+  // A map opens in the survey maps' viewer on its system's page (a raw file
+  // may download instead of opening); its file only when no system lists it.
+  const viewerOf = (id, record) => {
+    const sistema = systemsOf(id)[0]
+    return sistema ? `/sistemas/${sistema.id}/maps/${id}` : record && (record.previewUrl || record.url)
+  }
+  const fileUrl = viewerOf(task.mapId, map)
   const date = (value) => (value?.toDate ? value.toDate().toLocaleDateString(i18n.language, { dateStyle: 'medium' }) : '')
   const systems = systemsOf(task.mapId)
   const exact = task.exactDuplicates || []
@@ -78,7 +84,7 @@ function MapTaskCard({ task, maps, systemsOf, accountLabel, onStatus, saving }) 
         <Stack direction="row" sx={{ alignItems: 'center', flexWrap: 'wrap', gap: 1, mb: 0.5 }}>
           <Typography component="h3" variant="subtitle1" sx={{ fontWeight: 500, overflowWrap: 'anywhere' }}>
             {fileUrl ? (
-              <MuiLink href={fileUrl} target="_blank" rel="noopener" underline="hover" color="inherit">
+              <MuiLink href={fileUrl} target="_blank" rel="noopener noreferrer" underline="hover" color="inherit">
                 {name}
               </MuiLink>
             ) : (
@@ -108,13 +114,13 @@ function MapTaskCard({ task, maps, systemsOf, accountLabel, onStatus, saving }) 
             <Box component="ul" sx={{ m: 0, pl: 2 }}>
               {duplicates.map((id) => {
                 const duplicate = maps.get(id)
-                const href = duplicate && (duplicate.previewUrl || duplicate.url)
+                const href = duplicate && viewerOf(id, duplicate)
                 const label = duplicate?.name || id
                 return (
                   <li key={id}>
                     {t(exact.includes(id) ? 'identicalTo' : 'looksLike')}{' '}
                     {href ? (
-                      <MuiLink href={href} target="_blank" rel="noopener">
+                      <MuiLink href={href} target="_blank" rel="noopener noreferrer">
                         {label}
                       </MuiLink>
                     ) : (
