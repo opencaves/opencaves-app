@@ -179,7 +179,8 @@ export default function SistemaPage() {
 
       {sistema.description && (
         <IndexSection id="description" title={t('sistema.about')} className="oc-sistema-page--description" card>
-          <Box sx={{ typography: 'body1', '& > :first-child': { mt: 0 }, '& > :last-child': { mb: 0 } }}>
+          {/* :first-of-type, not :first-child: on the server, Emotion puts a <style> before a styled child, which :first-child would pick. */}
+          <Box sx={{ typography: 'body1', '& > :first-of-type > :first-of-type': { mt: 0 }, '& > :last-child': { mb: 0 } }}>
             <Markdown>{sistema.description}</Markdown>
             <TextSource record={sistema} field="description" />
           </Box>

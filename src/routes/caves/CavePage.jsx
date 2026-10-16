@@ -404,7 +404,8 @@ export default function CavePage() {
 
       {cave.description && (
         <Box sx={{ mb: 3 }}>
-          <Box component="section" id="description" className="oc-cave-page--description" sx={{ scrollMarginTop: 'calc(64px + var(--oc-page-title-height, 0px) + 8px)', ...DASHBOARD_SURFACE_SX, p: { xs: 2, sm: 3 }, '& > :first-child > :first-child': { mt: 0 }, '& > :last-child > :last-child': { mb: 0 } }}>
+          {/* :first-of-type, not :first-child: on the server, Emotion puts a <style> before a styled child (the Markdown's), which :first-child would pick. */}
+          <Box component="section" id="description" className="oc-cave-page--description" sx={{ scrollMarginTop: 'calc(64px + var(--oc-page-title-height, 0px) + 8px)', ...DASHBOARD_SURFACE_SX, p: { xs: 2, sm: 3 }, '& > :first-of-type > :first-of-type': { mt: 0 }, '& > :last-child > :last-child': { mb: 0 } }}>
             <Markdown>{cave.description}</Markdown>
             <TextSource record={cave} field="description" />
             {/* Its Still accurate on the card's foot, as the other cards'. */}
