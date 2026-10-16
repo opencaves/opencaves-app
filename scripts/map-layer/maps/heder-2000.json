@@ -1431,6 +1431,8 @@
     {
       "name": "Cenote Heder",
       "written": false,
+      "knownEntrance": true,
+      "knownEntranceWhy": "an entrance of Sistema Heder: the user's first-hand knowledge (2026-10-16)",
       "px": [
         681,
         735
