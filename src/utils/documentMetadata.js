@@ -21,6 +21,7 @@ import { loadFirebase } from '@/utils/loadFirebase.js'
  * @property {string} [url] - A link: where it ended up (after redirects).
  * @property {string} [contentType] - A link: what it serves (a PDF's link: application/pdf).
  * @property {string} [cover] - A PDF: its first page's picture, an object URL (the form's preview; revoke it).
+ * @property {string} [text] - A PDF: its first pages' text (an AI draft's source when there's no abstract).
  */
 
 // ISO 639-1 codes as the sources give them -> the content languages' ISO
@@ -81,6 +82,8 @@ async function lastPagesDoi(pdf) {
 // saved): its first page, COVER_PREVIEW_WIDTH pixels wide, as an object URL -
 // '' when it can't be drawn.
 const COVER_PREVIEW_WIDTH = 240
+// A PDF's first pages' text kept for an AI draft (the server takes as much).
+const PDF_TEXT_MAX = 20000
 async function firstPageImage(pdf) {
   try {
     const page = await pdf.getPage(1)
@@ -106,7 +109,8 @@ async function firstPageImage(pdf) {
  * title, and a DOI in its first pages, else in its last ones (where many
  * journals print it). Not its year: the file's dates are
  * when it was made or saved, not published (Crossref's comes with a DOI).
- * And its first page's picture (`cover`, {@link firstPageImage}), the form's preview.
+ * And its first page's picture (`cover`, {@link firstPageImage}), the form's preview,
+ * and its first pages' text (`text`, {@link PDF_TEXT_MAX} characters at most).
  *
  * @param {File} file
  * @returns {Promise<FoundDetails>}
@@ -136,6 +140,7 @@ export async function readPdfDetails(file) {
       doi: findDoi(text) || (await lastPagesDoi(pdf)) || '',
       language: info?.Language || '',
       cover: await firstPageImage(pdf),
+      text: pages.map((items) => items.map((item) => item.str).join(' ')).join('\n').replace(/[ \t]+/g, ' ').slice(0, PDF_TEXT_MAX),
     }
   } finally {
     // The loading task frees the document and its worker (pdf.js 6: not the document's own).

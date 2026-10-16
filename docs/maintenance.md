@@ -499,6 +499,20 @@ file, and its id from every cave and system listing it. Their changes are in
 the audit log, can be undone, and show in What's new (a PDF once it's ready).
 The sync scripts carry the collection and the `documents/` files.
 
+**AI drafts of a summary.** In the Add a document form (new documents only),
+**Draft with AI** asks the `draftDocumentSummary` callable for a draft of the
+summary, which the editor reviews before saving: Gemini (`MODEL` in
+`functions/js/documents/draftSummary.js`, on the project's Vertex AI - the
+functions' service account needs the Vertex AI User role) writes 120-200
+words in the paper's language (the form's Language, else English), from the
+paper's abstract (Crossref, else OpenAlex, by its DOI) or else the first
+pages' text the form read from the PDF, with the cave's and system's names;
+no source, no draft. Editors only, App Check, 20 drafts a day each (counted
+in `_aiDrafts/{uid}`, server-only); online only (never queued). A summary
+kept from a draft is marked `summaryAi: true`, which only admins see (an AI
+chip in the list). Each draft's tokens are in the function's logs; a draft
+costs well under a cent.
+
 **Adding many at once.** `node scripts/documents-import.js` adds a reviewed
 list (`--file`, `_data/papers/papers.json` by default: title, authors, year,
 language, a link's `url` or a PDF's `file` and `publishedIn`, DOI, summary,

@@ -2546,7 +2546,10 @@
       "linkUnread": "Impossible de lire cette page : remplissez les détails vous-même.",
       "url": "Entrez une adresse web commençant par http:// ou https://.",
       "year": "Une année à quatre chiffres.",
-      "saveFailed": "Impossible d'enregistrer. Réessayez."
+      "saveFailed": "Impossible d'enregistrer. Réessayez.",
+      "draftLimit": "Vous avez utilisé les brouillons IA d'aujourd'hui. Réessayez demain.",
+      "draftNoSource": "Aucun résumé ni texte trouvé pour rédiger.",
+      "draftFailed": "Le brouillon n'a pas pu être fait. Réessayez."
     },
     "cancel": "Annuler",
     "save": "Enregistrer",
@@ -2577,6 +2580,18 @@
     "paneCount_one": "{{count}} document",
     "paneCount_other": "{{count}} documents",
     "paneEmpty": "Aucun pour l'instant : ajoutez le premier",
+    "draft": {
+      "button": "Rédiger avec l'IA",
+      "drafting": "Rédaction…",
+      "check": "Rédigé avec l'IA : vérifiez-le avec l'article avant d'enregistrer.",
+      "offline": "Nécessite une connexion",
+      "noSource": "Choisissez d'abord le PDF ou indiquez son DOI : le brouillon est fait de son résumé ou de son texte.",
+      "replaceTitle": "Remplacer votre résumé ?",
+      "replaceText": "Le brouillon de l'IA prend la place du résumé que vous avez écrit.",
+      "replace": "Remplacer",
+      "chip": "IA",
+      "chipTitle": "Résumé rédigé avec l'IA"
+    },
     "etAl": "et al."
   }
 }

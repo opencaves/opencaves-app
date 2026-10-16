@@ -2,7 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
-import { Alert, Box, Button, ButtonBase, Checkbox, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, FormHelperText, LinearProgress, MenuItem, Tab, Tabs, TextField, Typography } from '@mui/material'
+import { Alert, Box, Button, ButtonBase, Checkbox, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, FormHelperText, LinearProgress, MenuItem, Tab, Tabs, TextField, Tooltip, Typography } from '@mui/material'
+import AutoAwesomeRounded from '@mui/icons-material/AutoAwesomeRounded'
 import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded'
 import UploadFileRounded from '@mui/icons-material/UploadFileRounded'
 import DialogCloseButton from '@/components/DialogCloseButton.jsx'
@@ -10,6 +11,7 @@ import AuthorsField from '@/components/MapsPicker/AuthorsField.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
+import { useOnline } from '@/hooks/useOnline.jsx'
 import { useCaveData } from '@/hooks/useCaveData.js'
 import documentsModel from '@/models/DocumentModel.js'
 import { DOCUMENTS_COLLECTION } from '@/config/collections.js'
@@ -21,7 +23,7 @@ import { assertOnline } from '@/utils/assertOnline.js'
 import { toContentLanguage } from '@/utils/lang.js'
 import { track } from '@/utils/track.js'
 
-const EMPTY = { title: '', authors: [], year: '', publishedIn: '', language: '', summary: '', doi: '' }
+const EMPTY = { title: '', authors: [], year: '', publishedIn: '', language: '', summary: '', doi: '', summaryAi: false }
 
 // The form's values from a document (editing it).
 // A document saved before has its summary as `description`.
@@ -57,6 +59,8 @@ function savedFields(details, kind, remove) {
     publishedIn: kind === 'file' ? details.publishedIn.trim() || undefined : undefined,
     language: details.language || undefined,
     summary: details.summary.trim() || undefined,
+    // Drafted with AI (admins see it): a new document's, its summary kept.
+    summaryAi: details.summaryAi && details.summary.trim() ? true : undefined,
     // The summary's older name, gone once edited.
     description: undefined,
     doi: findDoi(details.doi) || undefined,
@@ -97,6 +101,12 @@ export default function DocumentDialog({ open, onClose, holder, document = null,
   const [file, setFile] = useState(/** @type {File|null} */ (null))
   // The picked PDF's first page (an object URL), shown beside its name.
   const [cover, setCover] = useState('')
+  // The picked PDF's first pages' text: an AI draft's source without an abstract.
+  const [pdfText, setPdfText] = useState('')
+  // An AI draft being made; replacing what was typed, asked first.
+  const [drafting, setDrafting] = useState(false)
+  const [confirmDraft, setConfirmDraft] = useState(false)
+  const online = useOnline()
   // Each preview freed once replaced, or the form gone.
   useEffect(() => () => {
     if (cover) URL.revokeObjectURL(cover)
@@ -132,6 +142,9 @@ export default function DocumentDialog({ open, onClose, holder, document = null,
     setTab('file')
     setFile(null)
     setCover('')
+    setPdfText('')
+    setDrafting(false)
+    setConfirmDraft(false)
     setRights(false)
     setReading(false)
     setFound(false)
@@ -179,10 +192,12 @@ export default function DocumentDialog({ open, onClose, holder, document = null,
     if (picked.size > DOCUMENT_MAX_BYTES) return setError(t('errors.tooLarge', { size: megabytes(DOCUMENT_MAX_BYTES, i18n.language) }))
     setFile(picked)
     setCover('')
+    setPdfText('')
     setReading(true)
     try {
       const read = await readPdfDetails(picked)
       setCover(read.cover || '')
+      setPdfText(read.text || '')
       fill(await withCrossref(read))
     } catch (cause) {
       // Not read here: the server says whether it's a PDF it takes.
@@ -215,6 +230,38 @@ export default function DocumentDialog({ open, onClose, holder, document = null,
   const urlInvalid = kind === 'link' && !isWebUrl(url.trim())
   const fileMissing = !editing && kind === 'file' && (!file || !rights)
   const canSave = !saving && !titleMissing && !yearInvalid && !urlInvalid && !fileMissing
+
+  // An AI draft (new documents only): from the abstract the server finds by
+  // the DOI, else the picked PDF's text - none of them, no draft. Online only:
+  // never queued, to land later unreviewed.
+  const draftSource = !editing && (Boolean(findDoi(details.doi)) || (kind === 'file' && pdfText.split(/\s+/).length >= 60))
+  async function draftSummary() {
+    setConfirmDraft(false)
+    setDrafting(true)
+    setError('')
+    try {
+      const { callable } = await loadFirebase()
+      const { data } = await callable('draftDocumentSummary')({
+        doi: findDoi(details.doi) || '',
+        pdfText: kind === 'file' ? pdfText : '',
+        title: details.title.trim(),
+        authors: details.authors,
+        year: details.year.trim(),
+        publishedIn: kind === 'file' ? details.publishedIn.trim() : '',
+        language: details.language,
+        holder,
+      })
+      touched.current.add('summary')
+      setDetails((current) => ({ ...current, summary: String(data?.summary || '').slice(0, DOCUMENT_SUMMARY_MAX), summaryAi: true }))
+      track('ai_draft', { content_type: 'document', source: data?.source })
+    } catch (cause) {
+      console.warn('[furtherReading] no AI draft', cause)
+      const code = /** @type {{code?: string}} */ (cause)?.code || ''
+      setError(t(code.endsWith('resource-exhausted') ? 'errors.draftLimit' : code.endsWith('failed-precondition') ? 'errors.draftNoSource' : 'errors.draftFailed'))
+    } finally {
+      setDrafting(false)
+    }
+  }
 
   async function save() {
     setSaving(true)
@@ -480,6 +527,38 @@ export default function DocumentDialog({ open, onClose, holder, document = null,
           slotProps={{ htmlInput: { maxLength: DOCUMENT_SUMMARY_MAX }, formHelperText: { sx: { textAlign: 'right' } } }}
           sx={{ '& textarea': { resize: 'vertical' } }}
         />
+        {/* A new document's AI draft: why it can't be made, when it can't. */}
+        {!editing && (
+          <Box className="oc-document-dialog--draft" sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1, mt: -1.5 }}>
+            <Tooltip title={!online ? t('draft.offline') : !draftSource ? t('draft.noSource') : ''}>
+              <span>
+                <Button
+                  size="small"
+                  startIcon={drafting ? <CircularProgress size={16} /> : <AutoAwesomeRounded />}
+                  disabled={!online || !draftSource || drafting || saving}
+                  onClick={() => (details.summary.trim() ? setConfirmDraft(true) : draftSummary())}
+                >
+                  {drafting ? t('draft.drafting') : t('draft.button')}
+                </Button>
+              </span>
+            </Tooltip>
+            {details.summaryAi && !drafting && (
+              <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                {t('draft.check')}
+              </Typography>
+            )}
+          </Box>
+        )}
+        <Dialog className="oc-document-dialog--draft-confirm" open={confirmDraft} onClose={() => setConfirmDraft(false)} maxWidth="xs">
+          <DialogTitle>{t('draft.replaceTitle')}</DialogTitle>
+          <DialogContent>
+            <Typography>{t('draft.replaceText')}</Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setConfirmDraft(false)}>{t('cancel')}</Button>
+            <Button onClick={draftSummary}>{t('draft.replace')}</Button>
+          </DialogActions>
+        </Dialog>
 
         {kind === 'file' && !editing && (
           <Box className="oc-document-dialog--rights">
