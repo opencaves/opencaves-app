@@ -26,7 +26,8 @@ const DocumentDialog = lazy(() => import('./DocumentDialog.jsx'))
  * maps - shown with nothing yet too, saying so. In the map's pane (`pane`):
  * one row, its count, opening Further reading's own pane (FurtherReadingPane,
  * ./reading) - on a computer, a toggle: selected while the pane is open,
- * closing it ({@link requestReadingPaneClose}) - shown when there's something, or to editors. In that pane
+ * closing it ({@link requestReadingPaneClose}) - shown when there's something; with nothing yet,
+ * editors get Add a document there instead (the dialog at once). In that pane
  * (`panel`): the list and Add, the pane giving the title.
  *
  * @param {object} props
@@ -69,6 +70,16 @@ export default function FurtherReadingSection({ cave = null, sistemaId, sistemas
     </Suspense>
   )
 
+  if (variant === 'pane' && items.length === 0) {
+    // Nothing to open a pane for: Add at once.
+    return (
+      <Box component="section" className="oc-details-section oc-further-reading oc-further-reading--pane oc-further-reading--pane-empty" sx={{ px: 'var(--oc-pane-padding-inline, 16px)', py: 1.5 }}>
+        {add}
+        {dialogs}
+      </Box>
+    )
+  }
+
   if (variant === 'pane') {
     // One row: the list would outweigh the rest of the pane (a cave with
     // fourteen papers). Relative: /map/<id>/reading.
@@ -93,7 +104,7 @@ export default function FurtherReadingSection({ cave = null, sistemaId, sistemas
           <ListItemIcon sx={{ minWidth: 40, color: 'primary.main' }}>
             <MenuBookRounded />
           </ListItemIcon>
-          <ListItemText primary={t('title')} secondary={items.length > 0 ? t('paneCount', { count: items.length }) : t('paneEmpty')} slotProps={{ primary: { sx: { fontWeight: 500 } } }} />
+          <ListItemText primary={t('title')} secondary={t('paneCount', { count: items.length })} slotProps={{ primary: { sx: { fontWeight: 500 } } }} />
           {/* Pointing back to the cave's pane while its own pane is open. */}
           <ChevronRightRounded sx={(theme) => ({ color: 'text.secondary', transform: readingOpen && !isPhone ? 'rotate(180deg)' : 'none', transition: `transform ${theme.oc.sys.motion.duration.emphasizedDecelerate}ms ${theme.sys.motion.easing.emphasizedDecelerate}` })} />
         </ListItemButton>
