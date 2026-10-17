@@ -118,21 +118,13 @@
 }
 
 // Inside the pages' layout (app bar kept): a page in the frame, like the
-// others - no box of its own (the frame is its surface), its photo as a
-// picture above the message, and a page's heading, not a poster's.
+// others - no box of its own (the frame is its surface, the frame's photo
+// behind it: no photo of its own), and a page's heading, not a poster's.
 .oc-no-match.no-match--in-layout {
-  .no-match--picture {
-    display: block;
-    width: 100%;
-    max-width: 36rem;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    border-radius: var(--oc-radius, 8px);
-    margin-bottom: 2rem;
-  }
-
   .no-match--box {
     max-height: none;
+    // The page's width (its content centred in it): room for the details.
+    width: 100%;
     max-width: 100%;
     padding: 0;
     border: 0;
@@ -141,24 +133,29 @@
   }
 
   .no-match--header {
-    text-transform: none;
-    // Every page's title (PAGE_TITLE_SX, components/pageTitle.js): the h4,
-    // medium weight, its accent bar under it (centred, as the message).
-    font: var(--mui-font-h4);
-    font-weight: 500;
+    // The error page's own title, as on its own (capitals, 3rem, bold),
+    // smaller on phones, with every page's accent bar under it
+    // (PAGE_TITLE_SX, components/pageTitle.js). Centred, as the message, but
+    // as wide as its text (inline-block), the bar starting at its left edge.
+    display: inline-block;
+    margin: 0;
+    text-transform: uppercase;
+    font-size: clamp(2rem, 8vw, 3rem);
+    line-height: 1.15;
 
     &::after {
       content: '';
       display: block;
       width: 56px;
       height: 4px;
-      margin: 12px auto 0;
+      margin: 12px 0 0;
       border-radius: 2px;
       background-color: var(--mui-palette-secondary-main);
     }
   }
 
+  // Wide, for reading a stack, but short of the page's whole width.
   .no-match--dev-details {
-    max-width: min(48rem, 100%);
+    max-width: min(66rem, 100%);
   }
 }
