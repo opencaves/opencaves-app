@@ -1350,6 +1350,17 @@
     }
   },
   "seo": {
+    "titleWords": {
+      "separator": ": ",
+      "cenoteLong": "cenote cave diving, location & map",
+      "cenoteShort": "location & map",
+      "caveLong": "cave diving, location & map",
+      "caveShort": "location & map",
+      "sistemaMapsLong": "cave diving, survey maps",
+      "sistemaMapsShort": "survey maps",
+      "sistemaLong": "cave diving",
+      "sistemaName": "{{name}} cave system"
+    },
     "mapHeading": "OpenCaves: map of the cenotes of the Yucatán",
     "caveDescriptionPrefix": "{{name}} (Yucatán, Mexico):",
     "caveDescriptionFallback": "{{name}}, a cave in the Yucatán, Mexico: location, access, pictures and maps on OpenCaves.",
@@ -1617,6 +1628,7 @@
     "sistemaCount_one": "{{count}} cave system",
     "sistemaCount_other": "{{count}} cave systems",
     "caves": {
+      "headTitle": "Cenotes and caves of the Yucatán by area",
       "filters": {
         "add": "Add filter",
         "remove": "Remove the filter {{label}}",
@@ -1632,6 +1644,7 @@
       "subtitle_other": "{{count}} caves, by area."
     },
     "sistemas": {
+      "headTitle": "Underwater cave systems of the Yucatán",
       "title": "Cave systems of the Yucatán",
       "description": "The underwater cave systems of the Yucatán, Mexico, by area: their length, depth, connections, exploration history and cenotes, on OpenCaves.",
       "add": "Add a cave system",

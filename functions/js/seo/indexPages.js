@@ -4,7 +4,8 @@ import { REGION, GITHUB_URL, SITE_URL, TITLE_NAME } from '../constants.js'
 import { cavePageMeta, readCaveRating } from './cavePage.js'
 import { sistemaJsonLd } from './structuredData.js'
 import { loadPageIndex, loadSsr, renderWithApp } from './ssr.js'
-import { decodeSegment, plainParagraphs, renderPage, sendHtml, shareImageOf, shellFor, truncate } from './shared.js'
+import { TITLE_WORDS, decodeSegment, plainParagraphs, renderPage, sendHtml, shareImageOf, shellFor, truncate } from './shared.js'
+import { sistemaPageTitle } from './pageTitles.js'
 import { answerWarmPing, isWarmPing } from './keepWarm.js'
 
 // The public pages rendered on the server for search engines and a fast
@@ -43,7 +44,8 @@ function collectionJsonLd({ name, description, path }, items) {
 
 function cavesPage(data) {
   const page = {
-    title: `Caves of the Yucatán by area / ${TITLE_NAME}`,
+    // The app's (src/locales/en.json indexPages.caves.headTitle).
+    title: `Cenotes and caves of the Yucatán by area / ${TITLE_NAME}`,
     // The app's (src/locales/en.json indexPages.caves.description), word for word.
     description: 'Every cenote of the Yucatán, Mexico, listed on OpenCaves by area, each with its location, access, pictures and maps.',
     path: '/caves',
@@ -54,7 +56,8 @@ function cavesPage(data) {
 
 function sistemasPage(data) {
   const page = {
-    title: `Cave systems of the Yucatán / ${TITLE_NAME}`,
+    // The app's (indexPages.sistemas.headTitle).
+    title: `Underwater cave systems of the Yucatán / ${TITLE_NAME}`,
     description: 'The underwater cave systems of the Yucatán, Mexico, by area: their length, depth, connections, exploration history and cenotes, on OpenCaves.',
     path: '/sistemas',
     trail: [{ name: 'Home', path: '/' }, { name: 'Cave systems', path: '/sistemas' }],
@@ -94,7 +97,14 @@ function sistemaPage(sistema, data) {
   // Its map card (share/shareImages.js), else the site's.
   const image = shareImageOf(sistema, sistemaTitle(sistema.name))
   return {
-    title: `${sistemaTitle(sistema.name)} / ${TITLE_NAME}`,
+    // "<name> cave system" and the words people search, as the app's
+    // (src/utils/seo.js' sistemaHeadTitle).
+    title: sistemaPageTitle({
+      title: SAYS_SYSTEM.test(sistema.name) ? sistema.name : `${sistema.name} cave system`,
+      hasMaps: Array.isArray(sistema.maps) && sistema.maps.length > 0,
+      words: TITLE_WORDS,
+      brand: ` / ${TITLE_NAME}`,
+    }),
     description,
     path,
     image,

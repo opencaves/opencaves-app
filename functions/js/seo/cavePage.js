@@ -2,8 +2,9 @@ import { onRequest } from 'firebase-functions/v2/https'
 import { logger } from 'firebase-functions/v2'
 import { REGION, CAVES_COLL_NAME, CAVE_RATINGS_COLL_NAME } from '../constants.js'
 import { db } from '../init.js'
-import { SITE_URL, TITLE_NAME } from '../constants.js'
-import { escapeHtml, jsonLdScript, plainParagraphs, renderPage, sendHtml, shareImageOf, shellFor, truncate } from './shared.js'
+import { REGION_BBOX, SITE_URL, TITLE_NAME } from '../constants.js'
+import { TITLE_WORDS, escapeHtml, jsonLdScript, plainParagraphs, renderPage, sendHtml, shareImageOf, shellFor, truncate } from './shared.js'
+import { caveTitle } from './pageTitles.js'
 import { loadSistemaSlugs } from './indexData.js'
 import { slugify } from './slug.js'
 import { caveJsonLd } from './structuredData.js'
@@ -63,7 +64,9 @@ export function cavePageMeta(cave, id, sistema, path = `/map/${id}`, rating = nu
   const subject = name ? label : 'An unnamed cave'
   // As the app's (seo.caveDescriptionPrefix / caveDescriptionFallback).
   const description = truncate(summary ? `${subject} (Yucatán, Mexico): ${summary}` : `${subject}, a cave in the Yucatán, Mexico: location, access, pictures and maps on OpenCaves.`)
-  const title = `${label} / ${TITLE_NAME}`
+  // Its name and the words people search, as the app's (src/utils/seo.js'
+  // caveHeadTitle).
+  const title = caveTitle({ label, location: cave.location, bbox: REGION_BBOX, words: TITLE_WORDS, brand: ` / ${TITLE_NAME}` })
   const canonical = `/caves/${id}`
   const url = `${SITE_URL}${canonical}`
   const aka = Array.isArray(cave.aka) ? cave.aka.filter(Boolean) : []

@@ -102,6 +102,12 @@ export const DOCUMENTS_FOLDER = 'documents'
 // A PDF's largest size (storage.rules, src/config/documents.js).
 export const DOCUMENT_MAX_BYTES = 20 * 1024 * 1024
 
+// The region the app covers - the Yucatán peninsula, where caves' entrances
+// are cenotes - as [west, south, east, north]: place searches are limited to
+// it (src/components/MapPlaceSearch.jsx), and a cave in it is called a cenote
+// in its page's title (seo/pageTitles.js). Shared with the app (src/config/map.js).
+export const REGION_BBOX = [-92.5, 17.5, -86.5, 21.8]
+
 // Storage constants
 export const BUCKET_NAME = 'opencaves.appspot.com'
 export const THUMBNAILS_FOLDER = 'thumbnails'
