@@ -41,6 +41,18 @@ export const MAP_PROPS = {
   useWebGL2: true
 }
 
+// The map's Measure tool (MeasureTool.jsx): a point put down (or dragged)
+// within this many screen pixels of a cave's pin goes on the cave itself -
+// about the pin's own size, so a click on the pin snaps.
+export const MEASURE_SNAP_RADIUS_PX = 18
+// The bottom-right column's room for the ruler button (MeasureButton: 56px,
+// 16px above the locate button), which what sits higher in it - the editors'
+// edit FAB, the cave layer's legend - adds to their own offset.
+export const MEASURE_BUTTON_SLOT = '56px + 16px'
+// A segment's length is labelled at its middle once it's this long on screen
+// (shorter, the label would cover the line and its points).
+export const MEASURE_LABEL_MIN_PX = 56
+
 export const MARKER_CONFIG = {
   label: {
     minZoomLevel: 11,

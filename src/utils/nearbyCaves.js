@@ -2,27 +2,13 @@
 // (src/ssr/pageState.js, which sends them) and in the browser: links search
 // engines follow from cave to cave.
 
+import { distanceMetres } from './geoDistance.js'
+
 // How many, and how far at most (metres).
 const NEARBY_COUNT = 6
 const NEARBY_MAX_M = 20000
 
-const toRadians = (degrees) => (degrees * Math.PI) / 180
-
 const point = (location) => (location && Number.isFinite(Number(location.latitude)) && Number.isFinite(Number(location.longitude)) && (Number(location.latitude) || Number(location.longitude)) ? { latitude: Number(location.latitude), longitude: Number(location.longitude) } : null)
-
-/**
- * The great-circle distance between two points, in metres.
- *
- * @param {{latitude: number, longitude: number}} a
- * @param {{latitude: number, longitude: number}} b
- * @returns {number}
- */
-export function distanceMetres(a, b) {
-  const dLat = toRadians(b.latitude - a.latitude)
-  const dLng = toRadians(b.longitude - a.longitude)
-  const h = Math.sin(dLat / 2) ** 2 + Math.cos(toRadians(a.latitude)) * Math.cos(toRadians(b.latitude)) * Math.sin(dLng / 2) ** 2
-  return 6371000 * 2 * Math.asin(Math.sqrt(h))
-}
 
 /**
  * The named caves nearest a cave ({@link NEARBY_COUNT} at most, within

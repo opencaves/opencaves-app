@@ -1,21 +1,5 @@
 import { PHOTO_GPS_MAX_DISTANCE } from '@/config/mediaPane.js'
-
-const EARTH_RADIUS = 6371008.8
-
-/**
- * Metres between two { latitude, longitude } points (haversine).
- *
- * @param {{latitude: number, longitude: number}} a
- * @param {{latitude: number, longitude: number}} b
- * @returns {number}
- */
-function distanceMetres(a, b) {
-  const rad = Math.PI / 180
-  const dLat = (b.latitude - a.latitude) * rad
-  const dLng = (b.longitude - a.longitude) * rad
-  const h = Math.sin(dLat / 2) ** 2 + Math.cos(a.latitude * rad) * Math.cos(b.latitude * rad) * Math.sin(dLng / 2) ** 2
-  return 2 * EARTH_RADIUS * Math.asin(Math.sqrt(h))
-}
+import { distanceMetres } from './geoDistance.js'
 
 /**
  * The photo's GPS position from its EXIF tags, or null (none, or unreadable).

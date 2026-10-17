@@ -7,6 +7,7 @@ import { Box, SpeedDial, SpeedDialAction, SpeedDialIcon, speedDialActionClasses,
 import AddRounded from '@mui/icons-material/AddRounded'
 import EditOffRounded from '@mui/icons-material/EditOffRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
+import { MEASURE_BUTTON_SLOT } from '@/config/map.js'
 
 // Sits directly above the map's "find my location" control (bottom-right,
 // same margin from the edge) - only shown to editors, since both actions
@@ -124,9 +125,10 @@ export default function EditCaveFab() {
         // 16dp on phones, 24dp from 600px), as the geolocate control's, so
         // the two align on the same right edge.
         right: 'var(--oc-map-control-edge-margin)',
-        // Above the geolocate control (its edge margin + 56px), 16dp apart:
-        // MD3's spacing between stacked FABs.
-        bottom: `calc(var(--oc-result-pane-sm-height, 0px) + var(--oc-map-control-edge-margin) + 56px + ${theme.spacing(2)})`,
+        // Above the geolocate control (its edge margin + 56px) and the ruler
+        // button over it (MeasureButton), 16dp apart: MD3's spacing between
+        // stacked FABs.
+        bottom: `calc(var(--oc-result-pane-sm-height, 0px) + var(--oc-map-control-edge-margin) + 56px + ${theme.spacing(2)} + ${MEASURE_BUTTON_SLOT})`,
         opacity: 'var(--oc-map-controls-opacity, 1)',
         visibility: 'var(--oc-map-controls-visibility, visible)',
         transition: 'opacity 150ms ease, visibility 150ms ease',
