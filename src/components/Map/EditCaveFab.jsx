@@ -3,8 +3,9 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
-import { Box, SpeedDial, SpeedDialAction, SpeedDialIcon, speedDialActionClasses, speedDialClasses } from '@mui/material'
+import { Box, ClickAwayListener, SpeedDial, SpeedDialAction, SpeedDialIcon, speedDialActionClasses, speedDialClasses } from '@mui/material'
 import AddRounded from '@mui/icons-material/AddRounded'
+import CloseRounded from '@mui/icons-material/CloseRounded'
 import EditOffRounded from '@mui/icons-material/EditOffRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
 import { MEASURE_BUTTON_SLOT } from '@/config/map.js'
@@ -15,9 +16,6 @@ import { MEASURE_BUTTON_SLOT } from '@/config/map.js'
 // above the mobile result pane's sheet and fades out once the sheet is
 // mostly open (ResultPaneSm's --oc-result-pane-sm-height and
 // --oc-map-controls-* variables).
-// How long it stays open once the pointer has left it: a path that strays a
-// little (towards a label, past the gap between the buttons) doesn't close it.
-const CLOSE_DELAY_MS = 500
 
 /**
  * The editor actions, shared with the mobile result pane's header
@@ -49,20 +47,23 @@ export default function EditCaveFab() {
   const [open, setOpen] = useState(false)
   const { t } = useTranslation('map', { keyPrefix: 'editFab' })
   const dialRef = useRef(null)
-  const closeTimer = useRef(null)
-  useEffect(() => () => clearTimeout(closeTimer.current), [])
 
-  function openDial() {
-    clearTimeout(closeTimer.current)
-    setOpen(true)
+  // Opened by a click (or Enter/Space) on its button only - not by hovering
+  // or focusing it, MUI's default.
+  function openDial(_event, reason) {
+    if (reason === 'toggle') setOpen(true)
   }
 
-  // The pointer leaving: closed after CLOSE_DELAY_MS, unless it comes back;
-  // a tap on the button, Escape or the keyboard leaving: closed at once.
+  // Closed by its button, Escape, the focus leaving it or a click outside
+  // (closeOutside) - not by the pointer leaving it.
   function closeDial(_event, reason) {
-    clearTimeout(closeTimer.current)
-    if (reason === 'mouseLeave') closeTimer.current = setTimeout(() => setOpen(false), CLOSE_DELAY_MS)
-    else setOpen(false)
+    if (reason !== 'mouseLeave') setOpen(false)
+  }
+
+  // A click outside it: Safari doesn't focus a clicked button, so no blur
+  // closes it there.
+  function closeOutside() {
+    setOpen(false)
   }
 
   // The height its open actions take above it, for what sits over it (the
@@ -79,19 +80,16 @@ export default function EditCaveFab() {
   }
 
   function editCave() {
-    clearTimeout(closeTimer.current)
     setOpen(false)
     goEditCave()
   }
 
   function exitEditMode() {
-    clearTimeout(closeTimer.current)
     setOpen(false)
     goExitEditMode()
   }
 
   function addNewCave() {
-    clearTimeout(closeTimer.current)
     setOpen(false)
     goAddNewCave()
   }
@@ -107,18 +105,17 @@ export default function EditCaveFab() {
   // Its own labeled section: on the map page it sits outside the map's region
   // and any other landmark.
   return (
+    <ClickAwayListener onClickAway={closeOutside} mouseEvent={open ? 'onClick' : false} touchEvent={open ? 'onTouchEnd' : false}>
     <Box component="section" className="oc-edit-cave-fab--section" aria-label={t('ariaLabel')}>
     <SpeedDial
       ref={dialRef}
       className="oc-edit-cave-fab"
       ariaLabel={t('ariaLabel')}
-      icon={<SpeedDialIcon icon={<EditRounded />} />}
+      // Open, its button closes it (M3's FAB menu): a cross.
+      icon={<SpeedDialIcon icon={<EditRounded />} openIcon={<CloseRounded />} />}
       open={open}
       onOpen={openDial}
       onClose={closeDial}
-      // Back over it - its button, an action or a label - within the delay:
-      // it stays open (MUI only calls onOpen when it's closed).
-      onMouseEnter={() => clearTimeout(closeTimer.current)}
       sx={(theme) => ({
         position: 'absolute',
         // MD3's FAB-to-edge margin (--oc-map-control-edge-margin, theme/variables.scss:
@@ -186,7 +183,7 @@ export default function EditCaveFab() {
         },
         // Labels take clicks (actionSlots): the hand, as on their buttons -
         // only while open: a closed dial keeps them in the page, invisible,
-        // where they'd catch the pointer and open it.
+        // where they'd catch the pointer.
         [`& .${speedDialActionClasses.staticTooltip}:not(.${speedDialActionClasses.staticTooltipClosed}) .oc-edit-cave-fab--label`]: { cursor: 'pointer', pointerEvents: 'auto' },
         // A label and its button are one control: hovering either hovers
         // both - the button in its hover colour, the label paler.
@@ -212,5 +209,6 @@ export default function EditCaveFab() {
       <SpeedDialAction icon={<AddRounded />} onClick={addNewCave} slotProps={actionSlots(t('addNewCave'), addNewCave)} />
     </SpeedDial>
     </Box>
+    </ClickAwayListener>
   )
 }
