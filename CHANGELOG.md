@@ -42,6 +42,7 @@ Caves and cave systems shared with their own picture, distances measured on the 
 * No first-generation function left among the Node 24 ones (a deploy stopped on them before Hosting); a deleted account's cleanup has its own small Node 22 codebase.
 * `submit-to-search.js` asks Bing (its daily quota) and the IndexNow engines to crawl the pages; `sync-from-production.js` now really deletes the local-only files. `apply-edits.js` can delete records too, each kept whole in its audit entry. The map layer can warp a map onto another survey (`warp.py`); the map's loading shells show the Measure button.
 * New guides: every key, secret and token the app uses - its name, where it's kept, what uses it, how to replace it (`docs/keys-and-secrets.md`); and a design rule: no text under 12px.
+* Where styles go, written in the design system (the theme, one SCSS file per component, `sx` for small or dynamic styles), and the longest `sx` blocks moved to SCSS files, the look unchanged; the theme's motion durations as CSS variables in ms; the unused Carousel removed (its Show all pane in its own file); `submit-to-search.js --sitemap` resubmits the sitemap to Bing.
 
 ## [1.3.1](https://github.com/opencaves/opencaves-app/compare/v1.3.0...v1.3.1) (2026-10-16)
 
