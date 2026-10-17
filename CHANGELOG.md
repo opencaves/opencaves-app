@@ -21,6 +21,7 @@ Caves and cave systems shared with their own picture, one look for every page - 
 * **What's new:** its filters on a card, the line saying what it lists under them.
 * **A cave system's edit form:** its name edited in place, as its title.
 * **Cave names:** "Entrada" left out of the names of cenotes that are entrances (the diver icon says so; the old name still finds them), and names that were only a map's labels replaced.
+* **Search engines:** a cave's and a cave system's page titles say what's on them ("Nariz: cenote cave diving, location & map"); each cave and system is described as a place - its area, its system, its coordinates once confirmed, its rating; and the sitemap lists each cave's photos, for image searches.
 
 ### Fixes
 
