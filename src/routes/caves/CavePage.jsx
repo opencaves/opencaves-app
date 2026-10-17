@@ -31,7 +31,7 @@ import Picture from '@/components/Picture.jsx'
 import Access, { AccessReview } from '@/components/ResultPane/Access.jsx'
 import ExplorationHistory from '@/components/ResultPane/ExplorationHistory.jsx'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
-import IndexSection, { CARD_FOOTER_SX } from '@/components/IndexPage/IndexSection.jsx'
+import IndexSection from '@/components/IndexPage/IndexSection.jsx'
 import MapsSection from '@/components/IndexPage/MapsSection.jsx'
 import FurtherReadingSection from '@/components/FurtherReading/FurtherReadingSection.jsx'
 import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
@@ -240,8 +240,8 @@ function CaveMapTile({ cave, location, color, alone = false }) {
  * page: its area and system, location, access, description, photos, its
  * system's maps, Further reading (its own and its systems') and exploration history, and a small map of its spot linking to it
  * on the map (/map/<id>) - beside its cover photo. Its open "closed" or "now
- * private" reports lead it (CaveReportWarnings); each section says how old
- * its information is, on its card's foot: Still accurate to confirm it,
+ * private" reports lead it (CaveReportWarnings); its access and getting
+ * there say how old their information is, on their card's foot: Still accurate to confirm it,
  * its arrow for what changed there (SectionReview).
  * Editors edit it at /caves/<id>/edit.
  */
@@ -411,10 +411,6 @@ export default function CavePage() {
           <Box component="section" id="description" className="oc-cave-page--description" sx={{ scrollMarginTop: 'calc(64px + var(--oc-page-title-height, 0px) + 8px)', ...DASHBOARD_SURFACE_SX, p: { xs: 2, sm: 3 }, '& > :first-of-type > :first-of-type': { mt: 0 }, '& > :last-child > :last-child': { mb: 0 } }}>
             <Markdown>{cave.description}</Markdown>
             <TextSource record={cave} field="description" />
-            {/* Its Still accurate on the card's foot, as the other cards'. */}
-            <Box className="oc-cave-page--review" sx={CARD_FOOTER_SX}>
-              <SectionReview cave={cave} sections={['description']} />
-            </Box>
           </Box>
         </Box>
       )}

@@ -99,7 +99,8 @@
  * @property {boolean} [fees]
  * @property {Record<string, TextSource>} [textSources] - By Markdown field (utils/textSources.js).
  * @property {Partial<Record<'access'|'directions'|'fees'|'description', string>>} [reviewed] - The month ('YYYY-MM') each
- *   section was last confirmed still accurate ("Still right?", config/caveReview.js' REVIEW_SECTIONS).
+ *   section was last confirmed still accurate ("Still right?", config/caveReview.js' REVIEW_SECTIONS;
+ *   description: older stamps, before 2026-10).
  * @property {string} [lastReviewed] - Derived: the latest of its shown sections' {@link Cave.reviewed} months, in a
  *   server-rendered list's data (ssr/pageState.js), which leaves reviewed out.
  * @property {SistemaAncestor[]} [sistemas] - Derived: its system and that system's ancestors, its own first
