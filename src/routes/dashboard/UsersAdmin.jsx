@@ -8,6 +8,7 @@ import IconButtonGroup from '@/components/IconButtonGroup.jsx'
 import { auth, callable } from '@/config/firebase.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
+import { SearchStatus } from '@/components/IndexPage/IndexSearchField.jsx'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import { DASHBOARD_LIST_SX } from '@/components/dashboardSurface.js'
 import { matchesId } from '@/utils/matchesId.js'
@@ -121,7 +122,7 @@ export default function UsersAdmin() {
 
   return (
     <Box className="oc-users-admin" sx={{ minHeight: '100%' }}>
-      <IndexPageHeader title={t('title')} subtitle={!loading && t('count', { count: filtered.length })} backTo="/dashboard" />
+      <IndexPageHeader title={t('title')} backTo="/dashboard" />
 
       <TextField
         fullWidth
@@ -142,6 +143,7 @@ export default function UsersAdmin() {
           },
         }}
       />
+      {!loading && <SearchStatus>{t('count', { count: filtered.length })}</SearchStatus>}
 
       {error && (
         <Alert className="oc-users-admin--error" severity="error" sx={{ mb: 2 }} onClose={() => setError(null)}>

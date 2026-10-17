@@ -46,8 +46,6 @@ export default function SistemaIndex() {
         trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }]}
         current={t('menu.sistemas', { ns: 'app' })}
         title={t('sistemas.title')}
-        // No line under it: the search field follows, the count under it.
-        divider={false}
         addTo={`/sistemas/${newId}/edit`}
         addLabel={t('sistemas.add')}
       />
@@ -59,7 +57,7 @@ export default function SistemaIndex() {
         setQuery={setQuery}
         placeholder={t('search.sistemasShort')}
         label={t('search.sistemas')}
-        // Its count, by area (the caves' list is in the menu), until a search's results.
+        // Its count, by area (the caves' list is in the menu), under the field until a search's results.
         status={searching ? (sistemas.length ? t('search.results', { count: sistemas.length }) : t('search.none', { query: searchedQuery })) : t('sistemas.subtitle', { count: data.sistemas.length })}
       />
 

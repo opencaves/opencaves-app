@@ -9,6 +9,7 @@ import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
+import { SearchStatus } from '@/components/IndexPage/IndexSearchField.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import IndexSection from '@/components/IndexPage/IndexSection.jsx'
@@ -71,7 +72,7 @@ export default function CaveList() {
   return (
     <div className="oc-cave-list">
       {/* Its arrow: back to the public list of the caves, this list's /edit counterpart. */}
-      <IndexPageHeader title={t('caves')} subtitle={!loading && t('caveCount', { count: filtered.length })} backTo="/caves" addTo={`/caves/${newId}/edit`} addLabel={t('newCave')} />
+      <IndexPageHeader title={t('caves')} backTo="/caves" addTo={`/caves/${newId}/edit`} addLabel={t('newCave')} />
 
       {loading ? (
         <ListSkeleton rows={10} leading="square" count search grouped card />
@@ -96,6 +97,7 @@ export default function CaveList() {
               },
             }}
           />
+          <SearchStatus>{t('caveCount', { count: filtered.length })}</SearchStatus>
           {/* An area per card, its name and count above (as /caves). */}
           {groups.map(([areaName, groupCaves]) => (
             <IndexSection key={areaName} title={areaName} count={groupCaves.length} card cardSx={{ p: 0, overflow: 'hidden' }}>

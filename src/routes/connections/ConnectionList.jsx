@@ -8,6 +8,7 @@ import ConnectionModel from '@/models/ConnectionModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
+import { SearchStatus } from '@/components/IndexPage/IndexSearchField.jsx'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import { DASHBOARD_LIST_SX } from '@/components/dashboardSurface.js'
 import { matchesId } from '@/utils/matchesId.js'
@@ -54,7 +55,7 @@ export default function ConnectionList() {
 
   return (
     <div className="oc-connection-list">
-      <IndexPageHeader title={t('manageSistemaConnections')} subtitle={!loading && t('sistemaConnectionCount', { count: filtered.length })} backTo="/dashboard" addTo="/connections/new/edit" addLabel={t('newSistemaConnection')} />
+      <IndexPageHeader title={t('manageSistemaConnections')} backTo="/dashboard" addTo="/connections/new/edit" addLabel={t('newSistemaConnection')} />
 
       {loading ? (
         <ListSkeleton rows={12} leading={null} count search card columns={3} />
@@ -68,7 +69,7 @@ export default function ConnectionList() {
             placeholder={t('searchSistemaConnections')}
             value={search}
             onChange={(event) => setSearch(event.target.value)}
-            sx={[SEARCH_FIELD_SX, { mb: 3 }]}
+            sx={[SEARCH_FIELD_SX, { mb: 2 }]}
             slotProps={{
               input: {
                 startAdornment: (
@@ -79,6 +80,7 @@ export default function ConnectionList() {
               },
             }}
           />
+          <SearchStatus>{t('sistemaConnectionCount', { count: filtered.length })}</SearchStatus>
           <TableContainer component={Paper} elevation={0} sx={{ ...DASHBOARD_LIST_SX, maxHeight: '70vh' }}>
             <Table stickyHeader size="small" aria-label={t('manageSistemaConnections')} sx={{ tableLayout: 'fixed' }}>
               <TableHead>

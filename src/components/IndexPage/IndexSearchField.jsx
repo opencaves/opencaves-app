@@ -99,6 +99,22 @@ export function useProgressiveCount(total, resetKey, { first = 3, step = 3 } = {
 }
 
 /**
+ * A list's count (or intro) under its search field, as IndexSearchField's
+ * status line - for the lists whose field is a plain search TextField (its
+ * bottom margin 16px: this line sits 8px under the field).
+ *
+ * @param {object} props
+ * @param {import('react').ReactNode} props.children
+ */
+export function SearchStatus({ children }) {
+  return (
+    <Typography className="oc-index-search-field--status" variant="body2" sx={{ mt: -1, mb: 2, color: 'text.secondary' }}>
+      {children}
+    </Typography>
+  )
+}
+
+/**
  * The search field above an index page's list, and its result line
  * (status), kept in view below the app bar while the list scrolls by. Only
  * the field itself is opaque (the list passes under it around the field).

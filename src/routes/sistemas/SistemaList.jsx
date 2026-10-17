@@ -8,6 +8,7 @@ import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
+import { SearchStatus } from '@/components/IndexPage/IndexSearchField.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import { matchesId } from '@/utils/matchesId.js'
@@ -68,7 +69,7 @@ export default function SistemaList() {
   return (
     <div className="oc-sistema-list">
       {/* Its arrow: back to the public list of the systems, this list's /edit counterpart. */}
-      <IndexPageHeader title={t('sistemas')} subtitle={!loading && t('sistemaCount', { count: filtered.length })} backTo="/sistemas" addTo={`/sistemas/${newId}/edit`} addLabel={t('newSistema')} />
+      <IndexPageHeader title={t('sistemas')} backTo="/sistemas" addTo={`/sistemas/${newId}/edit`} addLabel={t('newSistema')} />
 
       {loading ? (
         <ListSkeleton rows={10} leading="square" count search grouped card />
@@ -93,6 +94,7 @@ export default function SistemaList() {
               },
             }}
           />
+          <SearchStatus>{t('sistemaCount', { count: filtered.length })}</SearchStatus>
           {/* An area per card, its name and count above (as /sistemas). */}
           {groups.map(([areaName, groupSistemas]) => (
             <IndexSection key={areaName ?? 'unassigned'} title={areaName ?? t('noSistemaArea')} count={groupSistemas.length} card cardSx={{ p: 0, overflow: 'hidden' }}>

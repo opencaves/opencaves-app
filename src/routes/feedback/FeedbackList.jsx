@@ -17,7 +17,7 @@ import { useTitle } from '@/hooks/useTitle.jsx'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
 import { DASHBOARD_LIST_SX } from '@/components/dashboardSurface.js'
 import { SEARCH_FIELD_SX } from '@/components/searchFieldSx.js'
-import { useIndexSearch } from '@/components/IndexPage/IndexSearchField.jsx'
+import { SearchStatus, useIndexSearch } from '@/components/IndexPage/IndexSearchField.jsx'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import { CLOSED_FEEDBACK_STATUSES, KINDS, KindChip, RelativeTime, STATUS, StageChip, StateIcon, activityOf, isOpen, messageCountOf, statusOf, titleOf, toDate, useFeedbackReader } from './feedbackUi.jsx'
 
@@ -202,8 +202,7 @@ export default function FeedbackList() {
 
   return (
     <div className="oc-feedback-list">
-      {/* Members: what the page is for. */}
-      <IndexPageHeader title={title} subtitle={!isAdmin && <span className="oc-feedback-list--intro">{t('members.intro')}</span>} backTo="/dashboard" />
+      <IndexPageHeader title={title} backTo="/dashboard" />
 
       <TextField
         className="oc-feedback-list--search"
@@ -233,6 +232,12 @@ export default function FeedbackList() {
           },
         }}
       />
+      {/* Members: what the page is for, under the search (as the lists' counts). */}
+      {!isAdmin && (
+        <SearchStatus>
+          <span className="oc-feedback-list--intro">{t('members.intro')}</span>
+        </SearchStatus>
+      )}
       {filtered && (
         <Button
           className="oc-feedback-list--clear"

@@ -18,7 +18,9 @@ import { PAGE_HEADER_SX, PAGE_TITLE_SX, PAGE_TITLE_TYPOGRAPHY_SX } from '@/compo
 // page's parent; current: the page's own (short) name, ending it. sticky:
 // from 600px up, the row stays under the app bar as the page scrolls (phones
 // have the app bar's own: it shows the title once it's scrolled away).
-// The title and the divider under the row: PAGE_TITLE_SX, PAGE_HEADER_SX.
+// The title and the room under the row: PAGE_TITLE_SX, PAGE_HEADER_SX. A
+// page with a search field shows its count under the field instead
+// (IndexSearchField's status, SearchStatus), not as the subtitle.
 // Sticky: the row's height, for the anchored sections to clear it.
 const STICKY_HEIGHT_VAR = '--oc-page-title-height'
 const STICKY_FROM = '(min-width: 600px)'
@@ -79,10 +81,8 @@ export function PageBreadcrumbs({ trail, current }) {
  * @param {{ label: string, to: string }[]} [props.trail]
  * @param {string} [props.current]
  * @param {boolean} [props.sticky=false] - From 600px up, the heading row stays under the app bar.
- * @param {boolean} [props.divider=true] - The divider under the row (PAGE_HEADER_SX); without it, the row's
- *   margin alone.
  */
-export default function IndexPageHeader({ title, subtitle, backTo, addTo, onAdd, addLabel, editTo, editLabel, trail, current, sticky = false, divider = true }) {
+export default function IndexPageHeader({ title, subtitle, backTo, addTo, onAdd, addLabel, editTo, editLabel, trail, current, sticky = false }) {
   const { t: tApp } = useTranslation('app')
   const navigate = useNavigate()
   const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
@@ -122,7 +122,7 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, onAdd,
           alignItems: 'flex-start',
           gap: 1,
           mb: 3,
-          ...(divider ? PAGE_HEADER_SX : { mb: 3 }),
+          ...PAGE_HEADER_SX,
           // Under the app bar (64px), on the page's surface, over what scrolls under it.
           ...(sticky && { position: { sm: 'sticky' }, top: { sm: 64 }, zIndex: { sm: 3 }, py: { sm: 1 }, mt: { sm: -1 }, bgcolor: 'var(--oc-page-surface)' }),
         }}
