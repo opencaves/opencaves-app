@@ -1403,7 +1403,6 @@
   "errorReports": {
     "title": "Error reports",
     "intro": "The errors the \"Something went wrong\" page showed, grouped by error, the latest first. Each report is kept 90 days.",
-    "loading": "Loading the reports",
     "failed": "The reports couldn't be loaded.",
     "empty": "No error reported.",
     "limited": "only the latest {{count}} reports",
@@ -1427,7 +1426,15 @@
     "deleteText_other": "Its {{count}} reports will be deleted for good.",
     "deleteFailed": "The reports couldn't be deleted.",
     "cancel": "Cancel",
-    "deleteConfirm": "Delete"
+    "deleteConfirm": "Delete",
+    "details": "Details",
+    "selectAll": "Select all",
+    "selectGroup_one": "Select this error's report",
+    "selectGroup_other": "Select this error's {{count}} reports",
+    "deleteSelected": "Delete selected ({{count}})",
+    "deleteSelectedTitle": "Delete the selected reports?",
+    "deleteSelectedText_one": "The selected report will be deleted for good.",
+    "deleteSelectedText_other": "The {{count}} selected reports will be deleted for good."
   },
   "audits": {
     "title": "Audits",
