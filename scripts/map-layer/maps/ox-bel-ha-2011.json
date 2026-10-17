@@ -11,6 +11,7 @@
   },
   "sistemaId": "-KPZgfxVUsGBh6Jx9z7d",
   "utmEpsg": 32616,
+  "placementWhy": "Coarse (about 60-120 m outside the GEO 1999 map's area; inside it, warped onto that map: see 'warp'). Similarity fit on the four points located independently of the other Ox Bel Ha maps: Naharon (Cristal, Open Caves, on site) 71 m, Jailhouse (Open Caves / dive log) 75 m, the Ayim pond (OSM) 120 m, the Yax Chen pool (OSM) 62 m; 4.697 m/px, 0.9 degrees. Del Mar and Los Canales are checks only (2026-10-17): the former Del Mar point was Del Mar as placed on the GEO 1999 map, and the Los Canales pixel was chosen where that map has Los Canales, so they made this placement depend on the 1999 one, which the warp now uses openly. Checks: Del Mar (database, diveseven.com) 57 m, Los Canales pond 31 m. Left out: the 1999 map's five satellite pools as tie points (their pixels here come from matching this map to the 1999 drawing, which the warp already uses; with them the fit puts Naharon and Jailhouse 7-10 m further off, for mixed results in the centre - Amber Sun and the Los Canales lagoon 12 m closer, Xiix and Xux 9-12 m further - where the warp decides anyway)",
   "trace": {
     "method": "survey-lines",
     "why": "a 2051 x 2685 px line plot at about 4.7 m/px: passages drawn as black strokes 3-5 px wide (schematic), so traced as lines (a stick map)",
@@ -1158,14 +1159,15 @@
     },
     {
       "caveId": "-KPZkVHn5J6gyz85LeWf",
-      "name": "Del Mar",
+      "name": "Del Mar (database)",
       "px": [
         1873,
         1740
       ],
-      "latitude": 20.15398,
-      "longitude": -87.456861,
-      "why": "Del Mar as placed on the GEO 1999 map (ox-bel-ha-geo-1999)"
+      "latitude": 20.15371,
+      "longitude": -87.45779,
+      "why": "the database's Del Mar (diveseven.com, not located on site): a check only. This map's placement no longer uses Del Mar: its former point was Del Mar as placed on the GEO 1999 map (ox-bel-ha-geo-1999), which made this map's position depend on that one",
+      "check": true
     },
     {
       "caveId": "-KPZkVE7k5u1D9M6GBHo",
@@ -1198,7 +1200,8 @@
       ],
       "latitude": 20.16235,
       "longitude": -87.48003,
-      "why": "OSM pond 436893991, on the passage blob where the placed GEO 1999 map has Los Canales"
+      "why": "OSM pond 436893991 (Los Canales), a check only: this map has no dot there, and the pixel was chosen where the placed GEO 1999 map has Los Canales - not independent of that map, so left out of the fit",
+      "check": true
     },
     {
       "name": "Naharon (database / dive log)",
@@ -1235,6 +1238,1412 @@
       "why": "no dot on this map: px where the GEO 1999 map's Odyssey falls"
     }
   ],
+  "warp": {
+    "why": "The GEO 1999 survey (ox-bel-ha-geo-1999: Toporobot, 0.67 m/px, on 5 satellite pools, rms 26 m) and this coarse stick plot agree locally (about 5 m over any 400 m area) but bend apart: no similarity or affine fit overlaps them (best median gap 13-16 m), and the centre-east block (between Los Canales and Del Mar) is drawn about 100 m NNW of where the 1999 map has it. The warp rubber-sheets this map onto the 1999 map inside the 1999 map's area only ('extent': its passages' hull plus 200 m, fading out over 400 m beyond), so outside it the similarity (on the four independent points, pinned with the page's corners and edges) still decides. Pairs: a 300 m grid over the 1999 passages; at each node, the translation that best lays the 1999 centrelines within 400 m on this map's lines (robust distance cost), giving this map's pixel and the ground position the 1999 map gives it (as placed on 2026-10-17: if the 1999 placement changes, redo the pairs). 152 nodes; 20 dropped after checking each one visually (see 'dropped': single elongated passages a shift can slide along, wrong ones of parallel passages, nodes straddling the block's edge, too few passages), 132 kept. Smoothing 0.1 (leave-one-out: each pair predicted by the others to a median 5 m, 90th percentile 21 m; 0 gives 5/23 m, 0.5 gives 6/26 m, 2 gives 9/30 m). Pairs: 32 m median, 98 m 90th percentile from their ground before; 2 m and 10 m after. 1999 centrelines to this map's lines: median 16.3 m, 90th percentile 44.5 m before (the former placement), 16.4/45.3 m on the similarity alone, 5.7/19.6 m warped (72% within 10 m, was 34%). The 1999 map's satellite pools, where this map draws them: rms 56 m before, 58 m similarity, 27 m warped (Amber Sun 32->27, Los Canales lagoon 97->15, Esmeralda 54->30, Xiix 31->20, Xux 37->37 m; the 1999 map itself: 24, 16, 29, 22, 33 m). Del Mar: this map's dot lands 56 m S of the 1999 map's Del Mar once the passages around it coincide (the two maps put the dot at different spots of the same junction area); it was on it before only because it was a control point",
+    "smoothing": 0.1,
+    "pinControlPoints": true,
+    "pins": [
+      {
+        "px": [
+          0,
+          0
+        ],
+        "why": "page corner"
+      },
+      {
+        "px": [
+          2051,
+          0
+        ],
+        "why": "page corner"
+      },
+      {
+        "px": [
+          2051,
+          2685
+        ],
+        "why": "page corner"
+      },
+      {
+        "px": [
+          0,
+          2685
+        ],
+        "why": "page corner"
+      },
+      {
+        "px": [
+          1025,
+          0
+        ],
+        "why": "page edge"
+      },
+      {
+        "px": [
+          0,
+          1342
+        ],
+        "why": "page edge"
+      },
+      {
+        "px": [
+          2051,
+          1342
+        ],
+        "why": "page edge"
+      },
+      {
+        "px": [
+          1025,
+          2685
+        ],
+        "why": "page edge"
+      }
+    ],
+    "extent": [
+      [
+        1753,
+        2027
+      ],
+      [
+        843,
+        1742
+      ],
+      [
+        790,
+        1694
+      ],
+      [
+        655,
+        1383
+      ],
+      [
+        660,
+        1348
+      ],
+      [
+        703,
+        1317
+      ],
+      [
+        1399,
+        1171
+      ],
+      [
+        1514,
+        1169
+      ],
+      [
+        1717,
+        1246
+      ],
+      [
+        1866,
+        1443
+      ],
+      [
+        1977,
+        1654
+      ],
+      [
+        1990,
+        1699
+      ],
+      [
+        1965,
+        1774
+      ],
+      [
+        1800,
+        2009
+      ],
+      [
+        1781,
+        2024
+      ]
+    ],
+    "fadeMetres": 400,
+    "pairs": [
+      {
+        "px": [
+          763.0,
+          1457.4
+        ],
+        "longitude": -87.507805,
+        "latitude": 20.165222
+      },
+      {
+        "px": [
+          764.2,
+          1392.8
+        ],
+        "longitude": -87.507814,
+        "latitude": 20.167933
+      },
+      {
+        "px": [
+          765.7,
+          1327.3
+        ],
+        "longitude": -87.507823,
+        "latitude": 20.170644
+      },
+      {
+        "px": [
+          827.8,
+          1459.0
+        ],
+        "longitude": -87.504934,
+        "latitude": 20.16523
+      },
+      {
+        "px": [
+          828.7,
+          1394.7
+        ],
+        "longitude": -87.504943,
+        "latitude": 20.167941
+      },
+      {
+        "px": [
+          828.7,
+          1330.9
+        ],
+        "longitude": -87.504952,
+        "latitude": 20.170652
+      },
+      {
+        "px": [
+          892.2,
+          1714.9
+        ],
+        "longitude": -87.502029,
+        "latitude": 20.154395
+      },
+      {
+        "px": [
+          894.1,
+          1651.3
+        ],
+        "longitude": -87.502038,
+        "latitude": 20.157106
+      },
+      {
+        "px": [
+          893.9,
+          1589.8
+        ],
+        "longitude": -87.502046,
+        "latitude": 20.159817
+      },
+      {
+        "px": [
+          892.1,
+          1524.7
+        ],
+        "longitude": -87.502055,
+        "latitude": 20.162528
+      },
+      {
+        "px": [
+          891.9,
+          1460.1
+        ],
+        "longitude": -87.502064,
+        "latitude": 20.165238
+      },
+      {
+        "px": [
+          893.1,
+          1396.5
+        ],
+        "longitude": -87.502072,
+        "latitude": 20.167949
+      },
+      {
+        "px": [
+          956.1,
+          1715.4
+        ],
+        "longitude": -87.499158,
+        "latitude": 20.154403
+      },
+      {
+        "px": [
+          955.1,
+          1652.8
+        ],
+        "longitude": -87.499167,
+        "latitude": 20.157114
+      },
+      {
+        "px": [
+          955.4,
+          1589.1
+        ],
+        "longitude": -87.499176,
+        "latitude": 20.159825
+      },
+      {
+        "px": [
+          954.8,
+          1524.7
+        ],
+        "longitude": -87.499184,
+        "latitude": 20.162536
+      },
+      {
+        "px": [
+          955.2,
+          1460.6
+        ],
+        "longitude": -87.499193,
+        "latitude": 20.165247
+      },
+      {
+        "px": [
+          956.6,
+          1397.2
+        ],
+        "longitude": -87.499201,
+        "latitude": 20.167957
+      },
+      {
+        "px": [
+          1017.5,
+          1717.8
+        ],
+        "longitude": -87.496288,
+        "latitude": 20.154411
+      },
+      {
+        "px": [
+          1018.3,
+          1653.6
+        ],
+        "longitude": -87.496296,
+        "latitude": 20.157122
+      },
+      {
+        "px": [
+          1018.5,
+          1589.4
+        ],
+        "longitude": -87.496305,
+        "latitude": 20.159833
+      },
+      {
+        "px": [
+          1018.2,
+          1524.7
+        ],
+        "longitude": -87.496313,
+        "latitude": 20.162544
+      },
+      {
+        "px": [
+          1019.0,
+          1460.8
+        ],
+        "longitude": -87.496322,
+        "latitude": 20.165255
+      },
+      {
+        "px": [
+          1019.2,
+          1396.9
+        ],
+        "longitude": -87.496331,
+        "latitude": 20.167966
+      },
+      {
+        "px": [
+          1082.3,
+          1653.5
+        ],
+        "longitude": -87.493426,
+        "latitude": 20.15713
+      },
+      {
+        "px": [
+          1081.8,
+          1589.3
+        ],
+        "longitude": -87.493434,
+        "latitude": 20.159841
+      },
+      {
+        "px": [
+          1081.8,
+          1525.1
+        ],
+        "longitude": -87.493443,
+        "latitude": 20.162552
+      },
+      {
+        "px": [
+          1082.0,
+          1460.9
+        ],
+        "longitude": -87.493451,
+        "latitude": 20.165263
+      },
+      {
+        "px": [
+          1141.1,
+          1725.9
+        ],
+        "longitude": -87.490546,
+        "latitude": 20.154427
+      },
+      {
+        "px": [
+          1142.5,
+          1661.9
+        ],
+        "longitude": -87.490555,
+        "latitude": 20.157138
+      },
+      {
+        "px": [
+          1144.3,
+          1589.5
+        ],
+        "longitude": -87.490563,
+        "latitude": 20.159849
+      },
+      {
+        "px": [
+          1144.9,
+          1525.6
+        ],
+        "longitude": -87.490572,
+        "latitude": 20.16256
+      },
+      {
+        "px": [
+          1145.6,
+          1461.7
+        ],
+        "longitude": -87.49058,
+        "latitude": 20.165271
+      },
+      {
+        "px": [
+          1203.5,
+          1852.4
+        ],
+        "longitude": -87.487659,
+        "latitude": 20.149014
+      },
+      {
+        "px": [
+          1204.2,
+          1789.0
+        ],
+        "longitude": -87.487667,
+        "latitude": 20.151724
+      },
+      {
+        "px": [
+          1205.0,
+          1725.6
+        ],
+        "longitude": -87.487676,
+        "latitude": 20.154435
+      },
+      {
+        "px": [
+          1206.8,
+          1653.3
+        ],
+        "longitude": -87.487684,
+        "latitude": 20.157146
+      },
+      {
+        "px": [
+          1207.6,
+          1589.2
+        ],
+        "longitude": -87.487693,
+        "latitude": 20.159857
+      },
+      {
+        "px": [
+          1208.2,
+          1526.0
+        ],
+        "longitude": -87.487701,
+        "latitude": 20.162568
+      },
+      {
+        "px": [
+          1208.6,
+          1463.4
+        ],
+        "longitude": -87.487709,
+        "latitude": 20.165279
+      },
+      {
+        "px": [
+          1268.0,
+          1789.9
+        ],
+        "longitude": -87.484797,
+        "latitude": 20.151732
+      },
+      {
+        "px": [
+          1268.7,
+          1726.8
+        ],
+        "longitude": -87.484805,
+        "latitude": 20.154443
+      },
+      {
+        "px": [
+          1270.3,
+          1653.5
+        ],
+        "longitude": -87.484814,
+        "latitude": 20.157154
+      },
+      {
+        "px": [
+          1270.6,
+          1589.7
+        ],
+        "longitude": -87.484822,
+        "latitude": 20.159865
+      },
+      {
+        "px": [
+          1269.6,
+          1526.4
+        ],
+        "longitude": -87.48483,
+        "latitude": 20.162576
+      },
+      {
+        "px": [
+          1268.4,
+          1462.6
+        ],
+        "longitude": -87.484839,
+        "latitude": 20.165287
+      },
+      {
+        "px": [
+          1271.3,
+          1400.4
+        ],
+        "longitude": -87.484847,
+        "latitude": 20.167998
+      },
+      {
+        "px": [
+          1330.4,
+          1791.8
+        ],
+        "longitude": -87.481926,
+        "latitude": 20.15174
+      },
+      {
+        "px": [
+          1332.5,
+          1726.0
+        ],
+        "longitude": -87.481935,
+        "latitude": 20.154451
+      },
+      {
+        "px": [
+          1333.6,
+          1590.1
+        ],
+        "longitude": -87.481951,
+        "latitude": 20.159873
+      },
+      {
+        "px": [
+          1333.0,
+          1527.2
+        ],
+        "longitude": -87.481959,
+        "latitude": 20.162584
+      },
+      {
+        "px": [
+          1332.9,
+          1464.5
+        ],
+        "longitude": -87.481968,
+        "latitude": 20.165295
+      },
+      {
+        "px": [
+          1335.6,
+          1399.7
+        ],
+        "longitude": -87.481976,
+        "latitude": 20.168005
+      },
+      {
+        "px": [
+          1393.3,
+          1793.4
+        ],
+        "longitude": -87.479056,
+        "latitude": 20.151748
+      },
+      {
+        "px": [
+          1394.7,
+          1725.8
+        ],
+        "longitude": -87.479064,
+        "latitude": 20.154459
+      },
+      {
+        "px": [
+          1396.2,
+          1661.7
+        ],
+        "longitude": -87.479072,
+        "latitude": 20.15717
+      },
+      {
+        "px": [
+          1385.6,
+          1513.9
+        ],
+        "longitude": -87.479089,
+        "latitude": 20.162592
+      },
+      {
+        "px": [
+          1382.6,
+          1452.9
+        ],
+        "longitude": -87.479097,
+        "latitude": 20.165302
+      },
+      {
+        "px": [
+          1380.2,
+          1387.4
+        ],
+        "longitude": -87.479105,
+        "latitude": 20.168013
+      },
+      {
+        "px": [
+          1402.0,
+          1271.1
+        ],
+        "longitude": -87.479122,
+        "latitude": 20.173435
+      },
+      {
+        "px": [
+          1402.8,
+          1207.1
+        ],
+        "longitude": -87.47913,
+        "latitude": 20.176146
+      },
+      {
+        "px": [
+          1453.8,
+          1853.4
+        ],
+        "longitude": -87.476177,
+        "latitude": 20.149045
+      },
+      {
+        "px": [
+          1454.4,
+          1790.9
+        ],
+        "longitude": -87.476185,
+        "latitude": 20.151756
+      },
+      {
+        "px": [
+          1456.1,
+          1727.2
+        ],
+        "longitude": -87.476193,
+        "latitude": 20.154467
+      },
+      {
+        "px": [
+          1448.5,
+          1579.5
+        ],
+        "longitude": -87.47621,
+        "latitude": 20.159888
+      },
+      {
+        "px": [
+          1449.1,
+          1515.4
+        ],
+        "longitude": -87.476218,
+        "latitude": 20.162599
+      },
+      {
+        "px": [
+          1447.6,
+          1452.3
+        ],
+        "longitude": -87.476226,
+        "latitude": 20.16531
+      },
+      {
+        "px": [
+          1447.1,
+          1389.9
+        ],
+        "longitude": -87.476234,
+        "latitude": 20.168021
+      },
+      {
+        "px": [
+          1465.9,
+          1270.8
+        ],
+        "longitude": -87.476251,
+        "latitude": 20.173443
+      },
+      {
+        "px": [
+          1467.1,
+          1207.2
+        ],
+        "longitude": -87.476259,
+        "latitude": 20.176154
+      },
+      {
+        "px": [
+          1517.1,
+          1852.1
+        ],
+        "longitude": -87.473306,
+        "latitude": 20.149053
+      },
+      {
+        "px": [
+          1518.3,
+          1789.5
+        ],
+        "longitude": -87.473314,
+        "latitude": 20.151764
+      },
+      {
+        "px": [
+          1519.0,
+          1726.9
+        ],
+        "longitude": -87.473323,
+        "latitude": 20.154474
+      },
+      {
+        "px": [
+          1511.6,
+          1643.9
+        ],
+        "longitude": -87.473331,
+        "latitude": 20.157185
+      },
+      {
+        "px": [
+          1511.8,
+          1580.4
+        ],
+        "longitude": -87.473339,
+        "latitude": 20.159896
+      },
+      {
+        "px": [
+          1511.6,
+          1516.8
+        ],
+        "longitude": -87.473347,
+        "latitude": 20.162607
+      },
+      {
+        "px": [
+          1511.8,
+          1452.9
+        ],
+        "longitude": -87.473355,
+        "latitude": 20.165318
+      },
+      {
+        "px": [
+          1530.3,
+          1333.7
+        ],
+        "longitude": -87.473372,
+        "latitude": 20.17074
+      },
+      {
+        "px": [
+          1532.0,
+          1270.7
+        ],
+        "longitude": -87.47338,
+        "latitude": 20.173451
+      },
+      {
+        "px": [
+          1533.5,
+          1207.1
+        ],
+        "longitude": -87.473388,
+        "latitude": 20.176161
+      },
+      {
+        "px": [
+          1580.0,
+          1914.9
+        ],
+        "longitude": -87.470428,
+        "latitude": 20.14635
+      },
+      {
+        "px": [
+          1581.3,
+          1851.7
+        ],
+        "longitude": -87.470436,
+        "latitude": 20.14906
+      },
+      {
+        "px": [
+          1581.5,
+          1788.2
+        ],
+        "longitude": -87.470444,
+        "latitude": 20.151771
+      },
+      {
+        "px": [
+          1581.2,
+          1724.8
+        ],
+        "longitude": -87.470452,
+        "latitude": 20.154482
+      },
+      {
+        "px": [
+          1575.6,
+          1643.8
+        ],
+        "longitude": -87.47046,
+        "latitude": 20.157193
+      },
+      {
+        "px": [
+          1575.3,
+          1581.9
+        ],
+        "longitude": -87.470468,
+        "latitude": 20.159904
+      },
+      {
+        "px": [
+          1574.7,
+          1518.0
+        ],
+        "longitude": -87.470476,
+        "latitude": 20.162615
+      },
+      {
+        "px": [
+          1594.6,
+          1397.9
+        ],
+        "longitude": -87.470493,
+        "latitude": 20.168037
+      },
+      {
+        "px": [
+          1594.7,
+          1334.7
+        ],
+        "longitude": -87.470501,
+        "latitude": 20.170747
+      },
+      {
+        "px": [
+          1595.9,
+          1271.3
+        ],
+        "longitude": -87.470509,
+        "latitude": 20.173458
+      },
+      {
+        "px": [
+          1597.0,
+          1207.9
+        ],
+        "longitude": -87.470517,
+        "latitude": 20.176169
+      },
+      {
+        "px": [
+          1641.1,
+          1978.3
+        ],
+        "longitude": -87.467549,
+        "latitude": 20.143646
+      },
+      {
+        "px": [
+          1643.3,
+          1915.7
+        ],
+        "longitude": -87.467557,
+        "latitude": 20.146357
+      },
+      {
+        "px": [
+          1644.5,
+          1852.0
+        ],
+        "longitude": -87.467565,
+        "latitude": 20.149068
+      },
+      {
+        "px": [
+          1644.9,
+          1788.2
+        ],
+        "longitude": -87.467573,
+        "latitude": 20.151779
+      },
+      {
+        "px": [
+          1646.2,
+          1724.6
+        ],
+        "longitude": -87.467581,
+        "latitude": 20.15449
+      },
+      {
+        "px": [
+          1640.0,
+          1644.7
+        ],
+        "longitude": -87.467589,
+        "latitude": 20.157201
+      },
+      {
+        "px": [
+          1638.3,
+          1583.9
+        ],
+        "longitude": -87.467597,
+        "latitude": 20.159912
+      },
+      {
+        "px": [
+          1638.7,
+          1520.3
+        ],
+        "longitude": -87.467606,
+        "latitude": 20.162622
+      },
+      {
+        "px": [
+          1656.9,
+          1398.1
+        ],
+        "longitude": -87.467622,
+        "latitude": 20.168044
+      },
+      {
+        "px": [
+          1658.0,
+          1335.3
+        ],
+        "longitude": -87.46763,
+        "latitude": 20.170755
+      },
+      {
+        "px": [
+          1658.9,
+          1272.6
+        ],
+        "longitude": -87.467638,
+        "latitude": 20.173466
+      },
+      {
+        "px": [
+          1705.0,
+          1980.4
+        ],
+        "longitude": -87.464679,
+        "latitude": 20.143654
+      },
+      {
+        "px": [
+          1706.4,
+          1916.7
+        ],
+        "longitude": -87.464687,
+        "latitude": 20.146365
+      },
+      {
+        "px": [
+          1707.8,
+          1852.6
+        ],
+        "longitude": -87.464695,
+        "latitude": 20.149076
+      },
+      {
+        "px": [
+          1700.8,
+          1710.3
+        ],
+        "longitude": -87.464711,
+        "latitude": 20.154497
+      },
+      {
+        "px": [
+          1700.6,
+          1647.8
+        ],
+        "longitude": -87.464719,
+        "latitude": 20.157208
+      },
+      {
+        "px": [
+          1702.0,
+          1584.9
+        ],
+        "longitude": -87.464727,
+        "latitude": 20.159919
+      },
+      {
+        "px": [
+          1716.9,
+          1461.7
+        ],
+        "longitude": -87.464743,
+        "latitude": 20.165341
+      },
+      {
+        "px": [
+          1719.4,
+          1398.5
+        ],
+        "longitude": -87.464751,
+        "latitude": 20.168052
+      },
+      {
+        "px": [
+          1721.4,
+          1335.6
+        ],
+        "longitude": -87.464759,
+        "latitude": 20.170763
+      },
+      {
+        "px": [
+          1722.4,
+          1273.7
+        ],
+        "longitude": -87.464767,
+        "latitude": 20.173473
+      },
+      {
+        "px": [
+          1768.6,
+          1982.2
+        ],
+        "longitude": -87.461808,
+        "latitude": 20.143661
+      },
+      {
+        "px": [
+          1769.5,
+          1918.6
+        ],
+        "longitude": -87.461816,
+        "latitude": 20.146372
+      },
+      {
+        "px": [
+          1769.0,
+          1777.3
+        ],
+        "longitude": -87.461832,
+        "latitude": 20.151794
+      },
+      {
+        "px": [
+          1767.7,
+          1714.1
+        ],
+        "longitude": -87.46184,
+        "latitude": 20.154505
+      },
+      {
+        "px": [
+          1771.4,
+          1651.5
+        ],
+        "longitude": -87.461848,
+        "latitude": 20.157216
+      },
+      {
+        "px": [
+          1773.1,
+          1588.5
+        ],
+        "longitude": -87.461856,
+        "latitude": 20.159927
+      },
+      {
+        "px": [
+          1780.0,
+          1462.1
+        ],
+        "longitude": -87.461872,
+        "latitude": 20.165348
+      },
+      {
+        "px": [
+          1781.8,
+          1398.6
+        ],
+        "longitude": -87.46188,
+        "latitude": 20.168059
+      },
+      {
+        "px": [
+          1783.7,
+          1334.9
+        ],
+        "longitude": -87.461888,
+        "latitude": 20.17077
+      },
+      {
+        "px": [
+          1830.9,
+          1780.1
+        ],
+        "longitude": -87.458961,
+        "latitude": 20.151802
+      },
+      {
+        "px": [
+          1832.1,
+          1715.9
+        ],
+        "longitude": -87.458969,
+        "latitude": 20.154512
+      },
+      {
+        "px": [
+          1834.0,
+          1652.3
+        ],
+        "longitude": -87.458977,
+        "latitude": 20.157223
+      },
+      {
+        "px": [
+          1836.8,
+          1589.4
+        ],
+        "longitude": -87.458985,
+        "latitude": 20.159934
+      },
+      {
+        "px": [
+          1839.6,
+          1525.9
+        ],
+        "longitude": -87.458993,
+        "latitude": 20.162645
+      },
+      {
+        "px": [
+          1843.8,
+          1463.0
+        ],
+        "longitude": -87.459001,
+        "latitude": 20.165356
+      },
+      {
+        "px": [
+          1845.8,
+          1399.3
+        ],
+        "longitude": -87.459009,
+        "latitude": 20.168067
+      },
+      {
+        "px": [
+          1894.8,
+          1781.4
+        ],
+        "longitude": -87.456091,
+        "latitude": 20.151809
+      },
+      {
+        "px": [
+          1895.5,
+          1717.3
+        ],
+        "longitude": -87.456099,
+        "latitude": 20.15452
+      },
+      {
+        "px": [
+          1896.9,
+          1653.4
+        ],
+        "longitude": -87.456107,
+        "latitude": 20.157231
+      },
+      {
+        "px": [
+          1899.0,
+          1590.1
+        ],
+        "longitude": -87.456115,
+        "latitude": 20.159942
+      }
+    ],
+    "dropped": [
+      {
+        "px": [
+          706.5,
+          1390.5
+        ],
+        "shift": [
+          52,
+          17
+        ],
+        "why": "one elongated 1999 passage at the drawing's west edge: the shift can slide along it (E +52 m vs +22 m around)"
+      },
+      {
+        "px": [
+          707.8,
+          1326.6
+        ],
+        "shift": [
+          54,
+          17
+        ],
+        "why": "same patch as #0"
+      },
+      {
+        "px": [
+          832.4,
+          1716.0
+        ],
+        "shift": [
+          66,
+          -2
+        ],
+        "why": "fewer than 300 1999 points, ambiguous (another shift 40 m away almost as good)"
+      },
+      {
+        "px": [
+          839.1,
+          1582.7
+        ],
+        "shift": [
+          88,
+          24
+        ],
+        "why": "few 1999 passages, at the circle's edge; +88 m E against +26 m next door: likely the wrong one of two parallel passages"
+      },
+      {
+        "px": [
+          839.6,
+          1522.6
+        ],
+        "shift": [
+          86,
+          6
+        ],
+        "why": "same as #6, ambiguous"
+      },
+      {
+        "px": [
+          896.8,
+          1778.9
+        ],
+        "shift": [
+          73,
+          7
+        ],
+        "why": "fewer than 300 1999 points"
+      },
+      {
+        "px": [
+          1082.2,
+          1390.5
+        ],
+        "shift": [
+          16,
+          44
+        ],
+        "why": "a single N-S dead-end branch: the north shift can slide along it (+44 m vs +13 m around)"
+      },
+      {
+        "px": [
+          1082.9,
+          1325.5
+        ],
+        "shift": [
+          15,
+          49
+        ],
+        "why": "same branch as #34"
+      },
+      {
+        "px": [
+          1145.8,
+          1390.9
+        ],
+        "shift": [
+          15,
+          46
+        ],
+        "why": "same branch as #34"
+      },
+      {
+        "px": [
+          1333.6,
+          1654.7
+        ],
+        "shift": [
+          16,
+          20
+        ],
+        "why": "ambiguous, median gap 10 m after the shift"
+      },
+      {
+        "px": [
+          1385.3,
+          1578.1
+        ],
+        "shift": [
+          -47,
+          84
+        ],
+        "why": "straddles the centre-east block's edge (two shifts mixed), gap 11 m after"
+      },
+      {
+        "px": [
+          1460.4,
+          1662.7
+        ],
+        "shift": [
+          11,
+          -8
+        ],
+        "why": "straddles the centre-east block's edge, gap 12 m after"
+      },
+      {
+        "px": [
+          1468.9,
+          1333.9
+        ],
+        "shift": [
+          28,
+          37
+        ],
+        "why": "fewer than 300 points, ambiguous"
+      },
+      {
+        "px": [
+          1497.0,
+          1870.7
+        ],
+        "shift": [
+          -102,
+          218
+        ],
+        "why": "no match: shift 240 m, gap 12 m after"
+      },
+      {
+        "px": [
+          1520.4,
+          1401.3
+        ],
+        "shift": [
+          -25,
+          24
+        ],
+        "why": "ambiguous, few passages, between the block and its neighbours"
+      },
+      {
+        "px": [
+          1620.8,
+          1481.5
+        ],
+        "shift": [
+          152,
+          -46
+        ],
+        "why": "wrong match (+152 m E): the green lines miss the 1999 passages"
+      },
+      {
+        "px": [
+          1655.9,
+          1462.0
+        ],
+        "shift": [
+          15,
+          48
+        ],
+        "why": "few passages at the circle's edges, ambiguous (its neighbours carry the same shift)"
+      },
+      {
+        "px": [
+          1705.5,
+          1786.9
+        ],
+        "shift": [
+          -29,
+          26
+        ],
+        "why": "ambiguous, few passages"
+      },
+      {
+        "px": [
+          1703.1,
+          1521.2
+        ],
+        "shift": [
+          -59,
+          73
+        ],
+        "why": "ambiguous (parallel passages); its neighbours carry the same shift"
+      },
+      {
+        "px": [
+          1775.4,
+          1525.2
+        ],
+        "shift": [
+          -19,
+          60
+        ],
+        "why": "a single N-S passage: the north shift can slide along it"
+      }
+    ]
+  },
   "entrances": [
     {
       "name": "Hunpiit",

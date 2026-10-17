@@ -26,6 +26,7 @@ from pyproj import Transformer
 from shapely.geometry import LineString, box, mapping
 from shapely.ops import linemerge, transform, unary_union
 from mapbox_token import mapbox_token  # noqa: E402
+from warp import with_warp  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 # Simplification tolerance, in metres: below the survey's own precision.
@@ -82,7 +83,8 @@ def matches_style(drawing, style):
 def vector_placement(config):
     """PDF points -> (longitude, latitude), for a vector map: scale from the
     scale bar, grid north (y down on the page, up on the ground), shifted onto
-    the control points. Returns (place, metres per point, residuals)."""
+    the control points; a config's "warp" then bends it (warp.py). Returns
+    (place, metres per point, residuals); place.utm places in UTM metres."""
     (x0, y0), (x1, y1) = config['scaleBar']['from'], config['scaleBar']['to']
     metres_per_point = config['scaleBar']['metres'] / ((x1 - x0) ** 2 + (y1 - y0) ** 2) ** 0.5
     if config.get('north') != 'grid':
@@ -97,9 +99,12 @@ def vector_placement(config):
     shift_n = sum(s[1] for s in shifts) / len(shifts)
     residuals = [((s[0] - shift_e) ** 2 + (s[1] - shift_n) ** 2) ** 0.5 for s in shifts]
 
-    def place(x, y, z=None):
-        return to_lnglat.transform(shift_e + x * metres_per_point, shift_n - y * metres_per_point)
+    utm = with_warp(lambda x, y: (shift_e + x * metres_per_point, shift_n - y * metres_per_point), config, 'pdf', to_utm)
 
+    def place(x, y, z=None):
+        return to_lnglat.transform(*utm(x, y))
+    # The UTM placement (warped, with its .warp, when the config has a "warp").
+    place.utm = utm
     return place, metres_per_point, residuals
 
 
