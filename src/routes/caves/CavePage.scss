@@ -1,0 +1,78 @@
+// A cave's page (CavePage.jsx), on its own oc- classes (docs/design-system.md,
+// "Where styles go").
+
+// The cover's place without a photo (CoverEmptyPanel), a MUI ButtonBase:
+// through button., one more than ButtonBase's own class, which resets its
+// padding, border, background and corners.
+button.oc-cave-page--cover-empty {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 480px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 24px;
+  // A quiet surface, a soft light from above, a fine edge - its edge the
+  // primary colour, dashed, while photos are dragged over it.
+  background: radial-gradient(120% 90% at 50% 0%, var(--mui-sys-color-surfaceContainerLow), var(--mui-sys-color-surfaceContainerHigh));
+  border: 1px solid var(--mui-sys-color-outlineVariant);
+  color: var(--mui-palette-text-primary);
+  transition:
+    border-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  // M3's state layer: the content colour over it, 8% on hover (and while
+  // photos hover over it), 10% pressed; its pill lifted with it.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: currentColor;
+    opacity: 0;
+    transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+  }
+
+  &:hover::before,
+  &[data-drag-over]::before {
+    opacity: 0.08;
+  }
+
+  &:active::before {
+    opacity: 0.1;
+  }
+
+  &:hover .oc-cave-page--add-photos,
+  &.oc-cave-page--cover-empty-focus-visible .oc-cave-page--add-photos {
+    box-shadow: var(--mui-shadows-2);
+  }
+
+  &.oc-cave-page--cover-empty-focus-visible {
+    outline: 3px solid var(--mui-palette-primary-main);
+    outline-offset: 2px;
+  }
+
+  &[data-drag-over] {
+    border: 2px dashed var(--mui-palette-primary-main);
+    box-shadow: var(--mui-shadows-2);
+  }
+
+  // The button's label, styled as a filled tonal pill: the theme's button
+  // type, a little larger, not in capitals.
+  .oc-cave-page--add-photos {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 48px;
+    padding: 0 24px;
+    border-radius: 28px;
+    font: var(--mui-font-button);
+    font-size: 0.9375rem;
+    letter-spacing: 0.02857em;
+    text-transform: none;
+    background-color: var(--mui-sys-color-secondaryContainer);
+    color: var(--mui-sys-color-onSecondaryContainer);
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
