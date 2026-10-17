@@ -191,6 +191,7 @@
     },
     "login": {
       "title": "Log in",
+      "lastUsed": "Last used",
       "withGoogle": "Log in with Google",
       "withEmail": "Log in with email",
       "or": "or",

@@ -11,6 +11,7 @@ import i18n from '../i18n.js'
 import { toServiceLanguage } from '../utils/lang.js'
 import { FIREBASE_CONFIG } from './firebase.config.js'
 import { savePendingLink } from '../services/pendingLinkAuth.js'
+import { rememberSignInMethod } from '@/utils/lastSignInMethod.js'
 
 export * from './firebaseSdk.js'
 
@@ -152,7 +153,11 @@ try {
   // No storage: nothing was flagged.
 }
 if (redirectPending) {
-  getRedirectResult(auth, browserPopupRedirectResolver).catch((error) => {
+  // A sign-in (or up) on a phone, back from its provider: remembered for the
+  // log-in page's "Last used".
+  getRedirectResult(auth, browserPopupRedirectResolver).then((result) => {
+    if (result?.providerId) rememberSignInMethod(result.providerId)
+  }).catch((error) => {
     // The email already has an account: kept to add to it (AccountLinking).
     if (error.code === 'auth/account-exists-with-different-credential' && savePendingLink(error)) return
     console.error('Provider sign-in failed', error)

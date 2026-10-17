@@ -191,6 +191,7 @@
     },
     "login": {
       "title": "Se connecter",
+      "lastUsed": "Dernière utilisée",
       "withGoogle": "Se connecter avec Google",
       "withFacebook": "Se connecter avec Facebook",
       "or": "ou",

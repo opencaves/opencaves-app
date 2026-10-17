@@ -13,6 +13,8 @@ import { auth } from '@/config/firebase.js'
 import { PASSWORD_MIN_LENGTH } from '@/config/auth.js'
 import PasswordResetDialog from './PasswordResetDialog.jsx'
 import { track } from '@/utils/track.js'
+import { rememberSignInMethod } from '@/utils/lastSignInMethod.js'
+import LastUsedChip from './LastUsedChip.jsx'
 
 export default function LogInWithEmail() {
   const navigate = useNavigate()
@@ -78,6 +80,7 @@ export default function LogInWithEmail() {
     try {
       await signInWithEmailAndPassword(auth, email, password)
       track('login', { method: 'password' })
+      rememberSignInMethod('email')
       navigateToContinueUrl()
     } catch (error) {
       console.error('Error login in: %o', error)
@@ -122,6 +125,7 @@ export default function LogInWithEmail() {
             onClick={onLogInBtnClick}
           >
             {t('loginBtn.label')}
+            <LastUsedChip method="email" />
           </AuthButton>
         </SectionActions>
       </SectionForm>
