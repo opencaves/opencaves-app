@@ -8,7 +8,7 @@ Caves and cave systems shared with their own picture, distances measured on the 
 ### Features
 
 * **Share images:** a cave's link shared on WhatsApp, Facebook or elsewhere shows its photo - or, without one, a map of where it is with its name; a cave system's shows the map of its caves. Search engines get them too.
-* **Measure on the map:** the ruler button measures distances - click or tap to add points, each stretch's length and the total in metres or feet (a switch, for the measurement alone); a point near a cave goes right on it, and points can be moved or deleted.
+* **Measure on the map:** the ruler button measures distances - click or tap to add points, each stretch's length and magnetic bearing (as a compass reads it) and the total in metres or feet (a switch, for the measurement alone); the next stretch shows beside the cursor, a double-click ends the line; a point near a cave goes right on it, and points can be moved or deleted.
 * **Error reports:** each error on its own card, a checkbox for each one with Select all, and Delete selected - the reports of several errors gone at once.
 * **Who changed what:** a click anywhere on a change's line opens it; a Select all checkbox before Undo selected; the time right after the author's name.
 * **Breadcrumbs on the dashboard's pages:** Home > Dashboard > the page, always in the same place.
@@ -22,6 +22,7 @@ Caves and cave systems shared with their own picture, distances measured on the 
 * **What's new:** its filters on a card, the line saying what it lists under them.
 * **A cave system's edit form:** its name edited in place, as its title.
 * **Cave names:** "Entrada" left out of the names of cenotes that are entrances (the diver icon says so; the old name still finds them), and names that were only a map's labels replaced.
+* **The cave layer:** Ox Bel Ha's two surveys (GEO 1999 and J. Coke 2011) line up - the 2011 map bent onto the 1999 one, the better placed: their passages now within about 6 m of each other instead of 16, up to 85 m before.
 * **Search engines:** a cave's and a cave system's page titles say what's on them ("Nariz: cenote cave diving, location & map"); each cave and system is described as a place - its area, its system, its coordinates once confirmed, its rating; and the sitemap lists each cave's photos, for image searches.
 
 ### Fixes
@@ -32,7 +33,7 @@ Caves and cave systems shared with their own picture, distances measured on the 
 ### For the team
 
 * No first-generation function left among the Node 24 ones (a deploy stopped on them before Hosting); a deleted account's cleanup has its own small Node 22 codebase.
-* `submit-to-search.js` asks Bing (its daily quota) and the IndexNow engines to crawl the pages; `sync-from-production.js` now really deletes the local-only files. `apply-edits.js` can delete records too, each kept whole in its audit entry.
+* `submit-to-search.js` asks Bing (its daily quota) and the IndexNow engines to crawl the pages; `sync-from-production.js` now really deletes the local-only files. `apply-edits.js` can delete records too, each kept whole in its audit entry. The map layer can warp a map onto another survey (`warp.py`); the map's loading shells show the Measure button.
 
 ## [1.3.1](https://github.com/opencaves/opencaves-app/compare/v1.3.0...v1.3.1) (2026-10-16)
 
