@@ -5,7 +5,13 @@ import { useTranslation } from 'react-i18next'
 import { Typography } from '@mui/material'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { groupByArea } from '@/utils/indexData.js'
-import { MISSING_CRITERIA, TYPE_VALUES, UNKNOWN_VALUE, caveFiltersParams, caveValue, emptyCaveFilters, matchesCaveFilters, noCaveFilters, parseCaveFilters, sameCaveFilterParams, withCaveFilter } from '@/utils/caveFilters.js'
+import { MISSING_CRITERIA, TYPE_VALUES, UNKNOWN_VALUE, caveFiltersParams, caveValue, emptyCaveFilters, matchesCaveFilters, noCaveFilters, parseCaveFilters, parseCaveSort, sameCaveFilterParams, withCaveFilter } from '@/utils/caveFilters.js'
+import { DEFAULT_CAVE_SORT, gpxFile, roadDistanceText, sortByRoadDistance } from '@/utils/roadDistance.js'
+import { SITE_URL } from '@/config/app.js'
+import { track } from '@/utils/track.js'
+import { useUnits } from '@/hooks/useUnits.jsx'
+import { useRoadsMeta } from '@/models/roads.js'
+import CaveConfirmTools, { RoadsCredit } from './CaveConfirmTools.jsx'
 import { useCoverCaveIds } from '@/models/CaveAsset.js'
 import CaveFilterBar from './CaveFilterBar.jsx'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
@@ -26,11 +32,14 @@ const byIdUnknownLast = (a, b) => (a === UNKNOWN_VALUE ? 1 : b === UNKNOWN_VALUE
  * shown as chips with an Add filter menu (CaveFilterBar), with the text
  * search. The server renders the address with its query
  * (functions/js/seo/ssr.js): the first render is filtered on both sides, with
- * the facts pageState.js sends and the covers query's results. Editors'
- * list: /caves/edit.
+ * the facts pageState.js sends and the covers query's results. The caves
+ * still to confirm (missing=position) - for a field trip - also get their
+ * road distances on each row, an order by them (sort=road: easiest to reach
+ * first, in one list), a GPX file of the list (Download for GPS) and the
+ * roads' credit line. Editors' list: /caves/edit.
  */
 export default function CaveIndex() {
-  const { t } = useTranslation('indexPages')
+  const { t, i18n } = useTranslation('indexPages')
   const { t: t404 } = useTranslation('404')
   const { data, loading, failed } = useIndexData()
   // The Add button's new record: one id per visit, not per render.
@@ -66,8 +75,14 @@ export default function CaveIndex() {
     [searchParams, options, loading],
   )
   const filtered = !noCaveFilters(filters)
-  // The address written anew for filters: in its fixed order, the text search last.
-  const setFilters = useCallback((next) => setSearchParams((params) => caveFiltersParams(next, params.get('q')), { replace: true, preventScrollReset: true }), [setSearchParams])
+  // The caves still to confirm: their tools, and the list's order.
+  const toConfirm = filters.missing.includes('position')
+  const sort = loading ? DEFAULT_CAVE_SORT : parseCaveSort(searchParams, filters)
+  const roadsMeta = useRoadsMeta(toConfirm)
+  const units = useUnits()
+  // The address written anew for filters: in its fixed order (the list's
+  // order kept, while it applies), the text search last.
+  const setFilters = useCallback((next, nextSort) => setSearchParams((params) => caveFiltersParams(next, params.get('q'), nextSort ?? params.get('sort')), { replace: true, preventScrollReset: true }), [setSearchParams])
   // An address whose filters aren't written the way the page writes them
   // (the older ?filter=, another order, unknown values): written anew, so
   // the same filters have one address.
@@ -110,9 +125,38 @@ export default function CaveIndex() {
   const order = (kind) => options[kind].map(({ value }) => value)
   const onToggle = (kind, value, on) => setFilters(withCaveFilter(filters, kind, value, on, order(kind)))
   // Each area's rows: the same arrays until the search changes (the lists
-  // aren't drawn again meanwhile).
-  const groups = useMemo(() => groupByArea(caves, data.areasBySlug).map(({ area, items }) => ({ area, items, rows: items.map((cave) => rows.get(cave.id).row) })), [caves, data, rows])
+  // aren't drawn again meanwhile). The caves still to confirm: with their
+  // road distances, and by them in one list (sorted: no area).
+  const groups = useMemo(() => {
+    const rowOf = (cave) => (toConfirm ? { ...rows.get(cave.id).row, detail: roadDistanceText(cave.roadDistance, t, units, i18n.language) } : rows.get(cave.id).row)
+    if (toConfirm && sort === 'road') {
+      const items = sortByRoadDistance(caves)
+      return items.length ? [{ area: null, sorted: true, items, rows: items.map(rowOf) }] : []
+    }
+    return groupByArea(caves, data.areasBySlug).map(({ area, items }) => ({ area, sorted: false, items, rows: items.map(rowOf) }))
+  }, [caves, data, rows, toConfirm, sort, t, units, i18n.language])
   const shownGroups = useProgressiveCount(groups.length, groups)
+
+  // Download for GPS: the list shown, in its order, as a GPX file - each
+  // cave's distances and nearest road in its description.
+  const downloadGpx = () => {
+    const waypoints = groups.flatMap(({ items, rows: groupRows }) => items.map((cave, index) => {
+      if (!cave.point) return null
+      const road = cave.roadDistance?.road?.name ? t('caves.toConfirm.gpxRoad', { name: cave.roadDistance.road.name }) : null
+      return { id: cave.id, name: cave.name || t('unnamedCave'), ...cave.point, description: [groupRows[index].detail, road].filter(Boolean).join(' · ') || null }
+    })).filter(Boolean)
+    const params = caveFiltersParams(filters, null, sort)
+    const xml = gpxFile({ name: t('caves.toConfirm.gpxName'), link: `${SITE_URL}/caves?${params}`, waypoints })
+    const url = URL.createObjectURL(new Blob([xml], { type: 'application/gpx+xml' }))
+    const link = document.createElement('a')
+    link.href = url
+    link.download = 'opencaves-to-confirm.gpx'
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+    setTimeout(() => URL.revokeObjectURL(url), 1000)
+    track('download_gpx', { content_type: 'caves_to_confirm', item_count: waypoints.length, choice: sort })
+  }
 
   useIndexPageHead({ title: t('caves.headTitle'), description: t('caves.description') })
 
@@ -145,21 +189,25 @@ export default function CaveIndex() {
 
       {filters.missing.includes('photo') && coversError && <Typography color="error" sx={{ mb: 2 }}>{t('caves.filters.photosFailed')}</Typography>}
 
-      {groups.slice(0, shownGroups).map(({ area, items, rows: groupRows }) => (
+      {toConfirm && <CaveConfirmTools sort={sort} onSort={(next) => setFilters(filters, next)} onDownload={downloadGpx} disabled={caves.length === 0} />}
+
+      {groups.slice(0, shownGroups).map(({ area, sorted, items, rows: groupRows }) => (
         <IndexSection
           card
           lazy
           stickyTitle
-          key={area?.slug ?? 'unknown'}
+          key={sorted ? 'easiest-first' : (area?.slug ?? 'unknown')}
           // Its anchor: the area's slug (#akumal) - where an area's links lead.
-          id={area?.slug ?? 'no-area'}
+          id={sorted ? 'easiest-first' : (area?.slug ?? 'no-area')}
           // Its name alone: an area has no page of its own (its # links here).
-          title={area ? area.name : t('unknownArea')}
+          title={sorted ? t('caves.toConfirm.sortedTitle') : area ? area.name : t('unknownArea')}
           count={t('caveCount', { count: items.length })}
         >
           <IndexLinkList items={groupRows} />
         </IndexSection>
       ))}
+
+      {toConfirm && roadsMeta && <RoadsCredit asOf={roadsMeta.asOf} />}
     </div>
   )
 }

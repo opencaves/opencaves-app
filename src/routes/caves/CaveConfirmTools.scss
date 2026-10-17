@@ -1,0 +1,19 @@
+// The caves still to confirm's tools (CaveConfirmTools.jsx): the order's
+// segmented button and Download for GPS on one row, wrapping on phones; the
+// road distances' credit line under the list.
+
+.oc-cave-confirm-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin-bottom: 16px;
+}
+
+.oc-cave-confirm-tools--credit {
+  margin-top: 16px;
+
+  a {
+    color: var(--mui-sys-color-primary);
+  }
+}

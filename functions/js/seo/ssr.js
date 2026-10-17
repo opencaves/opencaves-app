@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import { logger } from 'firebase-functions/v2'
 import { db } from '../init.js'
-import { CAVE_REPORTS_COLL_NAME, CAVES_ASSETS_COLL_NAME, CAVES_COLL_NAME, DOCUMENTS_COLL_NAME, POPULARITY_COLL_NAME } from '../constants.js'
+import { CAVE_REPORTS_COLL_NAME, CAVES_ASSETS_COLL_NAME, CAVES_COLL_NAME, DOCUMENTS_COLL_NAME, POPULARITY_COLL_NAME, ROADS_COLL_NAME, ROADS_META_DOC_ID } from '../constants.js'
 import { renderSsrPage, shellFor } from './shared.js'
 import { groupIndexData } from './indexData.js'
 
@@ -98,7 +98,7 @@ const rendered = new Map()
 
 async function readData() {
   if (dataCache && Date.now() - dataCache.at < DATA_TTL_MS) return dataCache.data
-  const [entries, mapsSnap, documentsSnap, coversSnap, popularitySnap] = await Promise.all([
+  const [entries, mapsSnap, documentsSnap, coversSnap, popularitySnap, roadsSnap] = await Promise.all([
     Promise.all(Object.entries(DATA_COLLECTIONS).map(async ([key, name]) => [key, (await db.collection(name).get()).docs.map((doc) => ({ id: doc.id, ...plain(doc.data()) }))])),
     db.collection('maps').get(),
     // Further reading: the caves' and systems' pages list theirs.
@@ -109,6 +109,8 @@ async function readData() {
     db.collection(CAVES_ASSETS_COLL_NAME).where('type', '==', 'image').where('isCover', '==', true).get(),
     // The caves' visit counts: the landing page's featured caves.
     db.collection(POPULARITY_COLL_NAME).doc('caves').get(),
+    // The roads' date: the caves' list's road distances' credit line.
+    db.collection(ROADS_COLL_NAME).doc(ROADS_META_DOC_ID).get(),
   ])
   const data = {
     raw: Object.fromEntries(entries),
@@ -116,6 +118,7 @@ async function readData() {
     documents: documentsSnap.docs.map((doc) => ({ id: doc.id, data: plain(doc.data()) })),
     covers: coversSnap.docs.map((doc) => ({ id: doc.id, data: plain(doc.data()) })),
     popularity: popularitySnap.exists ? { views: popularitySnap.get('views') || {} } : null,
+    roads: roadsSnap.exists ? { asOf: roadsSnap.get('asOf') || null, source: roadsSnap.get('source') || null } : null,
   }
   dataCache = { data, at: Date.now() }
   return data
@@ -176,7 +179,7 @@ export async function renderWithApp(req, meta) {
   if (!ssr || !(await isSiteBuild(req, ssr))) return null
   const page = ssr.pageOf(req.path)
   if (!page) return null
-  const { raw, maps, documents, covers, popularity } = await readData()
+  const { raw, maps, documents, covers, popularity, roads } = await readData()
   // A cave's page: its photos, and its open reports' warnings (_caveReports,
   // read fresh: a report shows at once).
   const [assets, caveReports] = page.kind === 'cave'
@@ -195,7 +198,7 @@ export async function renderWithApp(req, meta) {
   const cached = rendered.get(url)
   if (cached?.raw === raw && cached.reportsKey === reportsKey) return cached.html
   const started = Date.now()
-  const result = await ssr.render({ url, raw, maps, documents, assets, covers, caveReports, popularity, title: meta.title })
+  const result = await ssr.render({ url, raw, maps, documents, assets, covers, caveReports, popularity, roads, title: meta.title })
   if (result.notFound) return null
   logger.debug('[ssr] rendered', { path: req.path, ms: Date.now() - started, ...result.timings })
   const html = renderSsrPage(ssr.shell, meta, result, ssr.links(page.kind))

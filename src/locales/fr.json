@@ -1659,7 +1659,23 @@
       "description": "Toutes les cénotes du Yucatán, au Mexique, répertoriées sur OpenCaves par région, chacune avec son emplacement, son accès, des photos et des plans.",
       "add": "Ajouter une grotte",
       "subtitle_one": "{{count}} grotte, par région.",
-      "subtitle_other": "{{count}} grottes, par région."
+      "subtitle_other": "{{count}} grottes, par région.",
+      "toConfirm": {
+        "sortLabel": "Ordre des grottes",
+        "sortArea": "Par région",
+        "sortRoad": "Les plus faciles d’accès d’abord",
+        "sortedTitle": "Les plus faciles d’accès d’abord",
+        "gpx": "Télécharger pour GPS",
+        "gpxName": "OpenCaves : grottes à confirmer",
+        "gpxRoad": "route la plus proche : {{name}}",
+        "credit": "Distances aux routes d’après les <osm>© contributeurs d’OpenStreetMap</osm>, en date de {{date}}.",
+        "distance": {
+          "pathAndRoad": "≈ {{path}} d’un sentier · {{road}} d’une route",
+          "road": "≈ {{road}} d’une route",
+          "pathOnly": "≈ {{path}} d’un sentier · aucune route à moins de {{within}}",
+          "none": "Aucun sentier à moins de {{within}}"
+        }
+      }
     },
     "sistemas": {
       "headTitle": "Réseaux de grottes noyées du Yucatán",

@@ -6,6 +6,8 @@ import { DOCUMENTS_COLLECTION } from '@/config/collections.js'
 import { isTrashed } from '@/utils/trash.js'
 import { compactCaveFacts } from '@/utils/caveFilters.js'
 import { nearbyCaves } from '@/utils/nearbyCaves.js'
+import { shownRoadDistance } from '@/utils/roadDistance.js'
+import { ROADS_META_DOC_ID } from '@/config/collections.js'
 
 // Server only (entry-server.jsx): the cave data and the query results
 // (ssrContext.js) a public page is rendered with - which the page carries to
@@ -16,8 +18,11 @@ import { nearbyCaves } from '@/utils/nearbyCaves.js'
 // is drawn the same with every record (falling back to them all if not).
 //   /: its figures only (Home: the counts and the areas);
 //   /caves: every cave's name, area, system and whether it's located, the
-//     facts its filters test (utils/caveFilters.js), their systems' names, and
-//     which caves have a cover photo (the covers query);
+//     facts its filters test (utils/caveFilters.js), their systems' names,
+//     which caves have a cover photo (the covers query), and for the caves
+//     still to confirm their coordinates and road distances (the list to
+//     confirm: its order, its rows' line, its GPX file) with the roads' date
+//     (the roads query, _roads/meta);
 //   /sistemas: every public system's name, area and colour;
 //   /caves/<id>: the cave, its system and the systems that one joined, in
 //     full, their connections, the small reference collections, its
@@ -44,6 +49,12 @@ function listCave(cave) {
   if (Array.isArray(cave.aka) && cave.aka.length > 0) item.aka = cave.aka
   if (cave.area) item.area = cave.area
   if (cave.sistemaId) item.sistemaId = cave.sistemaId
+  // Still to confirm: where it is, and how far from a road (if measured there).
+  if (item.located && !item.positionConfirmed) {
+    item.location = { latitude: cave.location.latitude, longitude: cave.location.longitude }
+    const distance = shownRoadDistance(cave)
+    if (distance) item.roadDistance = distance
+  }
   return item
 }
 
@@ -127,10 +138,12 @@ export function fullPageData(raw) {
  *   ([{ id, data }], none without one): the warnings it shows (useCaveReports).
  * @param {{views?: Record<string, number>}} [sources.popularity] - The landing page: _popularity/caves (its
  *   featured caves, homeFeatured). Not given (an older server): picked by name.
+ * @param {{asOf?: string, source?: string}|null} [sources.roads] - The caves' list: _roads/meta (its road
+ *   distances' credit line; null: none yet). Not given (an older server): the browser reads it.
  * @returns {{data: object, queries: object, found: boolean}} { data (the page's
  *   cave data: useCaveData), queries, found }.
  */
-export function buildPageState(page, { raw, maps = [], documents = [], assets = [], covers, caveReports, popularity }) {
+export function buildPageState(page, { raw, maps = [], documents = [], assets = [], covers, caveReports, popularity, roads }) {
   const { data: all, index, areas } = processedData(raw)
   const cave = page.kind === 'cave' ? all.caves.find(({ id }) => id === page.id) : null
   // The page's system (or its cave's), and the systems it joined, and those
@@ -182,6 +195,10 @@ export function buildPageState(page, { raw, maps = [], documents = [], assets = 
   // The caves with a cover photo (useCoverCaveIds): which have none.
   if (page.kind === 'caves' && covers) {
     queries.covers = covers.filter(({ data: asset }) => !isTrashed(asset)).map(({ id, data: asset }) => ({ id, data: { caveId: asset.caveId } }))
+  }
+  // The roads' date (useRoadsMeta): the list to confirm's credit line.
+  if (page.kind === 'caves' && roads !== undefined) {
+    queries.roads = roads ? [{ id: ROADS_META_DOC_ID, data: pick(roads, ['asOf', 'source']) }] : []
   }
   // The landing page's photos (Home's useCoverPhotos): without Firestore,
   // which the page doesn't load until the person does something.

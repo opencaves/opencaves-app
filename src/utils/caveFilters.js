@@ -1,10 +1,13 @@
 import { slugify } from './slug.js'
 import { hasText, isRecentReview, lastReviewedMonth, monthOf } from './caveReview.js'
+import { CAVE_SORTS, DEFAULT_CAVE_SORT } from './roadDistance.js'
 
 // The caves' search criteria, shared by the caves' list (/caves) and the
 // map's filter menu: each criterion once, its test on a cave's facts
 // ({@link caveFacts}), its address value. In the address (/caves):
 //   /caves?type=entrance&area=tulum&missing=photo&missing=fees
+// and, for the caves still to confirm (missing=position) only, their order:
+//   /caves?missing=position&sort=road (by road distance; by area without it)
 // - every parameter key=value, no bare flags;
 // - several values repeat the key (read with getAll), never a comma list;
 // - values are lowercase letters, digits and "-" only (area slugs, the
@@ -196,17 +199,34 @@ export function sameCaveFilterParams(params, filters) {
 }
 
 /**
- * The address's query for filters and a text search (q): the kinds in their
- * order ({@link FILTER_KINDS}), each value once, then q - the same filters,
- * the same address.
+ * The list's order an address asks for: 'road' (by road distance) only with
+ * the caves still to confirm (missing=position), else
+ * {@link DEFAULT_CAVE_SORT}.
+ *
+ * @param {URLSearchParams} params
+ * @param {CaveFilters} filters - {@link parseCaveFilters}' reading of it.
+ * @returns {string} One of {@link CAVE_SORTS}.
+ */
+export function parseCaveSort(params, filters) {
+  const sort = params.get('sort')
+  return filters.missing.includes('position') && CAVE_SORTS.includes(sort) ? sort : DEFAULT_CAVE_SORT
+}
+
+/**
+ * The address's query for filters, the list's order and a text search (q):
+ * the kinds in their order ({@link FILTER_KINDS}), each value once, then the
+ * order (sort, when not the default and the caves still to confirm are
+ * listed: {@link parseCaveSort}), then q - the same filters, the same address.
  *
  * @param {CaveFilters} filters
  * @param {string} [q] - The text search.
+ * @param {string} [sort] - The list's order (one of {@link CAVE_SORTS}).
  * @returns {URLSearchParams}
  */
-export function caveFiltersParams(filters, q) {
+export function caveFiltersParams(filters, q, sort) {
   const params = new URLSearchParams()
   FILTER_KINDS.forEach(({ key }) => [...new Set(filters[key])].forEach((value) => params.append(key, value)))
+  if (sort && sort !== DEFAULT_CAVE_SORT && CAVE_SORTS.includes(sort) && filters.missing.includes('position')) params.set('sort', sort)
   if (q) params.set('q', q)
   return params
 }
