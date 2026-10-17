@@ -172,6 +172,10 @@ export default function ResultPaneLg({ children, editMode, cave, ...props }) {
         <CardContent
           sx={{
             p: 0,
+            // MUI's CardContent has its own padding-bottom in a `&:last-child`
+            // rule that beats a plain `p`: 24px under the details, a band of
+            // the pane's darker surface below their own ground.
+            '&:last-child': { pb: 0 },
           }}
         >
           {children}
