@@ -1090,6 +1090,18 @@
       "parkingShort": "Parking",
       "keyShort": "Key"
     },
+    "measure": {
+      "button": "Measure distance",
+      "hintClick": "Click on the map to add points",
+      "hintTap": "Tap the map to add points",
+      "total": "Total distance",
+      "totalShort": "Total",
+      "undo": "Undo last point",
+      "clear": "Clear",
+      "done": "Done",
+      "point": "Point {{index}} of {{count}}",
+      "pointOnCave": "Point {{index}} of {{count}}: {{cave}}"
+    },
     "caveLayer": {
       "button": "Map layers",
       "title": "Cave passages",

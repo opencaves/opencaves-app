@@ -70,3 +70,18 @@ export function formatDistance(metres, units, locale) {
   const value = Number(metres) / (units === 'imperial' ? METRES_PER_MILE : 1000)
   return `${value.toLocaleString(locale, { minimumFractionDigits: 1, maximumFractionDigits: 1 })} ${units === 'imperial' ? 'mi' : 'km'}`
 }
+
+/**
+ * A measured distance (metres) as the person reads it: under a kilometre (a
+ * mile in imperial) in whole metres or feet ({@link formatMeasure}: "640 m",
+ * "2,100 ft"), else in kilometres or miles ({@link formatDistance}: "3.2 km").
+ * The map's Measure tool.
+ *
+ * @param {number} metres
+ * @param {'metric'|'imperial'} units
+ * @param {string} locale
+ * @returns {string}
+ */
+export function formatMeasuredDistance(metres, units, locale) {
+  return Number(metres) < (units === 'imperial' ? METRES_PER_MILE : 1000) ? formatMeasure(metres, units, locale) : formatDistance(metres, units, locale)
+}

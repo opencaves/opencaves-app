@@ -139,7 +139,9 @@ export default function CaveLayer({ selectedSistemaId, mapId }) {
   const connections = useSelector((/** @type {RootState} */ state) => state.data.connections)
   const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
   const { visible, scope, colorBySistema, editMode: editModeChosen } = useSelector((/** @type {RootState} */ state) => state.caveLayer)
-  const editMode = !mapId && editModeChosen && visible && roles.includes('editor')
+  // Not while the Measure tool takes the map's clicks (MeasureTool).
+  const measuring = useSelector((/** @type {RootState} */ state) => state.map.measuring)
+  const editMode = !mapId && editModeChosen && visible && roles.includes('editor') && !measuring
   const { maps, hiddenMaps } = useCaveLayerMaps()
   const units = useUnits()
   // A symbol's value (metres in the tiles) in the reader's units, as text.

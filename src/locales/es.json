@@ -1090,6 +1090,18 @@
       "parkingShort": "Estacionamiento",
       "keyShort": "Llave"
     },
+    "measure": {
+      "button": "Medir distancia",
+      "hintClick": "Haz clic en el mapa para añadir puntos",
+      "hintTap": "Toca el mapa para añadir puntos",
+      "total": "Distancia total",
+      "totalShort": "Total",
+      "undo": "Deshacer el último punto",
+      "clear": "Borrar",
+      "done": "Listo",
+      "point": "Punto {{index}} de {{count}}",
+      "pointOnCave": "Punto {{index}} de {{count}}: {{cave}}"
+    },
     "caveLayer": {
       "button": "Capas del mapa",
       "title": "Galerías",

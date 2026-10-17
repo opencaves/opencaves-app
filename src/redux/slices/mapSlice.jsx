@@ -31,6 +31,10 @@ const initialState = {
   // The nav's Map item, used while the map is open: Map.jsx goes back to the
   // default view and clears it.
   viewResetRequested: false,
+  // The Measure tool on (the map's ruler button, MeasureButton): Map.jsx's
+  // MeasureTool takes the map's clicks while it is. Its points are its own,
+  // never stored.
+  measuring: false,
 }
 
 export const mapSlice = createSlice({
@@ -149,11 +153,14 @@ export const mapSlice = createSlice({
     },
     endCrossPick: (state) => {
       state.crossPickFor = null
-    }
+    },
+    setMeasuring: (state, action) => {
+      state.measuring = Boolean(action.payload)
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setViewState, /* setShowPopup, */ setPopupData, setCurrentCave, clearCurrentCave, setMapData, setFilteredData, setPickingCoordinateFor, setPickedCoordinate, clearPickedCoordinate, setEditFieldCoordinate, clearEditFieldCoordinate, clearAllEditFieldCoordinates, requestFlyToCoordinate, clearFlyToCoordinateRequest, startPlaceOnMap, endPlaceOnMap, startCrossPick, endCrossPick, resetView, clearViewResetRequest } = mapSlice.actions
+export const { setViewState, /* setShowPopup, */ setPopupData, setCurrentCave, clearCurrentCave, setMapData, setFilteredData, setPickingCoordinateFor, setPickedCoordinate, clearPickedCoordinate, setEditFieldCoordinate, clearEditFieldCoordinate, clearAllEditFieldCoordinates, requestFlyToCoordinate, clearFlyToCoordinateRequest, startPlaceOnMap, endPlaceOnMap, startCrossPick, endCrossPick, setMeasuring, resetView, clearViewResetRequest } = mapSlice.actions
 
 export default mapSlice.reducer

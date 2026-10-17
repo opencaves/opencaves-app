@@ -8,6 +8,7 @@ import FilterMenu from '@/components/Map/FilterMenu.jsx'
 import AppMenu from '@/components/App/AppMenu.jsx'
 import EditCaveFab from '@/components/Map/EditCaveFab.jsx'
 import CaveLayerButton from '@/components/Map/CaveLayerButton.jsx'
+import MeasureButton from '@/components/Map/MeasureButton.jsx'
 import CaveLayerLegend from '@/components/Map/CaveLayerLegend.jsx'
 import MapLegalLinks from '@/components/Map/MapLegalLinks.jsx'
 import ResultPaneOutlet from '@/components/ResultPane/ResultPaneOutlet.jsx'
@@ -117,6 +118,7 @@ export default function MapPage() {
                   }
             }
           />
+          <MeasureButton />
           <CaveLayerLegend isLarge={isLarge} />
           <ResultPaneOutlet keepOnExit={isLarge} />
           <Dev
