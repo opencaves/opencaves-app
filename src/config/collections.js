@@ -22,6 +22,12 @@ export const WHATS_NEW_DOC_ID = 'latest'
 // suggestions, the most visited first (to come: hooks/usePopularity.js).
 export const POPULARITY_COLLECTION = '_popularity'
 
+// The roads near the caves (OpenStreetMap), kept by the server
+// (functions/js/roads/): _roads/meta, public - { source, asOf ('YYYY-MM'),
+// ... } - the caves' list's credit line for its road distances.
+export const ROADS_COLLECTION = '_roads'
+export const ROADS_META_DOC_ID = 'meta'
+
 // Who changed or deleted what (written by the server's audit trigger, read
 // by admins on the Audits page).
 export const AUDIT_LOG_COLLECTION = '_auditLog'

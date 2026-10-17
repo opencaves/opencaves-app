@@ -3,11 +3,12 @@ import { onDocumentUpdated, onDocumentWrittenWithAuthContext } from 'firebase-fu
 import { onSchedule } from 'firebase-functions/v2/scheduler'
 import { logger } from 'firebase-functions/v2'
 import { auth, db } from '../init.js'
-import { REGION, TASKS_COLL_NAME, USERS_COLL_NAME } from '../constants.js'
+import { REGION, TASKS_COLL_NAME } from '../constants.js'
 import { writer } from '../audit/onDataWritten.js'
 import { RESEND_API_KEY, sendEmail } from '../email/sendEmail.js'
 import { hammingDistance, VISUAL_HASH_MAX_DISTANCE } from '../maps/visualHash.js'
 import { mapTaskEmail } from './emailContent.js'
+import { adminRecipients } from '../users/adminRecipients.js'
 import { isLaterDate, loadLayerMaps } from './layerMaps.js'
 
 // The map tasks: each survey map added in the app (a "maps" document given its
@@ -225,19 +226,6 @@ export const onSistemaMapsChanged = onDocumentUpdated({ document: 'sistemas/{sis
     }
   }
 })
-
-// The admins: { uid, email, language } of each account with the admin role.
-async function adminRecipients() {
-  const admins = []
-  let pageToken
-  do {
-    const page = await auth.listUsers(1000, pageToken)
-    for (const user of page.users) if (user.email && !user.disabled && Array.isArray(user.customClaims?.roles) && user.customClaims.roles.includes('admin')) admins.push({ uid: user.uid, email: user.email })
-    pageToken = page.pageToken
-  } while (pageToken)
-  const settings = admins.length ? await db.getAll(...admins.map((admin) => db.collection(USERS_COLL_NAME).doc(admin.uid))) : []
-  return admins.map((admin, index) => ({ ...admin, language: String(settings[index].get('language') || 'en').slice(0, 2) }))
-}
 
 /**
  * Emails a map task to every admin, each in their account's language

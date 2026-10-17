@@ -64,6 +64,28 @@
  */
 
 /**
+ * The nearest way of a kind to a cave (roadDistance's path or road).
+ *
+ * @typedef {object} RoadDistanceWay
+ * @property {number} m - Its distance in whole metres.
+ * @property {string} kind - Its OpenStreetMap highway tag (track, residential, path...).
+ * @property {string} [name] - Its name (or ref), when it has one.
+ */
+
+/**
+ * How far a cave still to confirm is from the nearest path and road
+ * (OpenStreetMap; functions/js/roads/roadDistances.js; firestore.rules
+ * refuses it from the app).
+ *
+ * @typedef {object} RoadDistance
+ * @property {RoadDistanceWay|null} path - The nearest way a person can walk; null: none within `within`.
+ * @property {RoadDistanceWay|null} road - The nearest a car can use; null: none within `within`.
+ * @property {number} within - The farthest distance measured (metres).
+ * @property {{latitude: number, longitude: number}} from - The coordinates measured from: none shown once the cave moved.
+ * @property {string} at - The roads' download day ('YYYY-MM-DD').
+ */
+
+/**
  * A cave (`caves`): one record per cave, its entrance usually a cenote.
  *
  * @typedef {object} Cave
@@ -108,6 +130,8 @@
  * @property {boolean} [located] - Derived: whether it has coordinates, in a server-rendered page's data
  *   (ssr/pageState.js), which leaves the coordinates out.
  * @property {ShareImage} [shareImage] - Its share image (the server's).
+ * @property {RoadDistance} [roadDistance] - Its position still to confirm: how far it is from the nearest path
+ *   and road (the server's, functions/js/roads/).
  */
 
 /**

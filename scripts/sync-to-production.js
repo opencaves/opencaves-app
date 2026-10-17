@@ -13,8 +13,8 @@
 // (_feedback, and their private docs _feedbackPrivate), its What's new
 // (_whatsNew, built from its audit log), its caves' and systems' popularity
 // (_popularity, built from its Google Analytics and its accounts), its
-// error reports (_errorReports) and its admins' tasks (_tasks), which stay
-// untouched.
+// error reports (_errorReports), its admins' tasks (_tasks) and its roads'
+// date (_roads, the server's monthly refresh), which stay untouched.
 //
 // - Firestore: every other collection. New documents are created, differing
 //   ones overwritten whole, the ones only in production deleted. Map
@@ -53,7 +53,7 @@ const BUCKET = 'opencaves.appspot.com'
 // What's new, its caves' and systems' popularity
 // (built from its Google Analytics and its accounts), its error reports and
 // its admins' tasks.
-const KEEP = ['_users', '_frozenUsers', '_auditLog', '_caveRatings', '_caveReports', '_feedback', '_feedbackPrivate', '_whatsNew', '_popularity', '_errorReports', '_tasks']
+const KEEP = ['_users', '_frozenUsers', '_auditLog', '_caveRatings', '_caveReports', '_feedback', '_feedbackPrivate', '_whatsNew', '_popularity', '_errorReports', '_tasks', '_roads']
 const STORAGE_PREFIXES = ['caves/', 'maps/']
 const FIRESTORE_EMULATOR = process.env.FIRESTORE_EMULATOR_HOST || '127.0.0.1:8080'
 const STORAGE_EMULATOR = process.env.FIREBASE_STORAGE_EMULATOR_HOST || '127.0.0.1:9199'
