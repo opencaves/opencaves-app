@@ -2,7 +2,10 @@
 // { collection, id, set: { field: value }, why }) - each an update of those
 // fields alone, nothing else of the record written - or creates a record
 // ({ collection, id, create: { field: value }, why }: only when no record has
-// that id yet, so a second run skips it). For the small fixes read
+// that id yet, so a second run skips it), or deletes one ({ collection, id,
+// delete: true, why }: its whole record kept in its audit entry, so it can be
+// undone; a cave with photos or ratings is refused - those would
+// be left behind). For the small fixes read
 // off sources (a depth, a cave's coordinates from a survey map) that no import
 // covers. In production the changes are credited to an account (--as
 // <email>) with their audit log entries (scripts/lib/audit.js), so What's new
@@ -19,7 +22,7 @@ import { accountUid, auditWriter, updateEntry } from './lib/audit.js'
 const PROJECT_ID = 'opencaves'
 
 const cli = yargs(hideBin(process.argv))
-  .usage('Apply a reviewed list of field edits to records (JSON: [{ collection, id, set: { field: value }, why }], or create: { field: value } for a new record).\n\nUsage: $0 [-l | -p] --file <edits.json> --dry-run | --write [--as <email>]')
+  .usage('Apply a reviewed list of field edits to records (JSON: [{ collection, id, set: { field: value }, why }], or create: { field: value } for a new record, or delete: true).\n\nUsage: $0 [-l | -p] --file <edits.json> --dry-run | --write [--as <email>]')
   .option('file', { type: 'string', demandOption: true, describe: 'The edits (JSON)' })
   .option('dry-run', { type: 'boolean', default: false, describe: 'Only print the changes' })
   .option('write', { type: 'boolean', default: false, describe: 'Apply them' })
@@ -50,9 +53,39 @@ console.log(`${argv.production ? 'PRODUCTION' : 'local emulators'}${argv.write ?
 
 const same = (a, b) => JSON.stringify(a ?? null) === JSON.stringify(b ?? null)
 let changed = 0
-for (const { collection, id, set, create, why } of JSON.parse(readFileSync(argv.file, 'utf8'))) {
+// What still points at a cave (a deleted cave would leave them behind).
+async function caveLinks(id) {
+  const [photos, ratings] = await Promise.all([
+    db.collection('cavesAssets').where('caveId', '==', id).limit(1).get(),
+    db.collection('caves').doc(id).collection('ratings').limit(1).get(),
+  ])
+  return [!photos.empty && 'photos', !ratings.empty && 'ratings'].filter(Boolean)
+}
+
+for (const { collection, id, set, create, delete: remove, why } of JSON.parse(readFileSync(argv.file, 'utf8'))) {
   const ref = db.collection(collection).doc(id)
   const snap = await ref.get()
+  // A record deleted, its audit entry keeping it whole (undo puts it back).
+  if (remove) {
+    if (!snap.exists) {
+      console.log(`${collection}/${id}: gone already - skipped`)
+      continue
+    }
+    const name = snap.get('name')?.value ?? snap.get('name') ?? id
+    const links = collection === 'caves' ? await caveLinks(id) : []
+    if (links.length) {
+      console.error(`${name} (${collection}/${id}): has ${links.join(', ')} - not deleted`)
+      process.exitCode = 1
+      continue
+    }
+    console.log(`${name} (${collection}/${id}): delete${why ? `  (${why})` : ''}`)
+    if (argv.write) {
+      await ref.delete()
+      await audit({ action: 'delete', collection, docId: id, before: snap.data() })
+    }
+    changed++
+    continue
+  }
   // A new record: created as given, with its audit entry - unless it exists.
   if (create) {
     const name = create.name?.value ?? create.name ?? id
