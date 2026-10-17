@@ -1661,10 +1661,9 @@
       "subtitle_one": "{{count}} cave, by area.",
       "subtitle_other": "{{count}} caves, by area.",
       "toConfirm": {
-        "sortLabel": "Order of the caves",
-        "sortArea": "By area",
+        "sortLabel": "Order within each area",
+        "sortArea": "A to Z",
         "sortRoad": "Easiest to reach first",
-        "sortedTitle": "Easiest to reach first",
         "gpx": "Download for GPS",
         "gpxName": "OpenCaves: caves to confirm",
         "gpxRoad": "nearest road: {{name}}",

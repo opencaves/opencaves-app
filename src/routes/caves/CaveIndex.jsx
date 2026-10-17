@@ -34,8 +34,8 @@ const byIdUnknownLast = (a, b) => (a === UNKNOWN_VALUE ? 1 : b === UNKNOWN_VALUE
  * (functions/js/seo/ssr.js): the first render is filtered on both sides, with
  * the facts pageState.js sends and the covers query's results. The caves
  * still to confirm (missing=position) - for a field trip - also get their
- * road distances on each row, an order by them (sort=road: easiest to reach
- * first, in one list), a GPX file of the list (Download for GPS) and the
+ * road distances on each row, an order by them within each area (sort=road:
+ * easiest to reach first; else A to Z), a GPX file of the list (Download for GPS) and the
  * roads' credit line. Editors' list: /caves/edit.
  */
 export default function CaveIndex() {
@@ -126,14 +126,15 @@ export default function CaveIndex() {
   const onToggle = (kind, value, on) => setFilters(withCaveFilter(filters, kind, value, on, order(kind)))
   // Each area's rows: the same arrays until the search changes (the lists
   // aren't drawn again meanwhile). The caves still to confirm: with their
-  // road distances, and by them in one list (sorted: no area).
+  // road distances, and by them within each area (sort=road) - the caves
+  // are spread too far apart for one list to plan a trip by.
   const groups = useMemo(() => {
     const rowOf = (cave) => (toConfirm ? { ...rows.get(cave.id).row, detail: roadDistanceText(cave.roadDistance, t, units, i18n.language) } : rows.get(cave.id).row)
-    if (toConfirm && sort === 'road') {
-      const items = sortByRoadDistance(caves)
-      return items.length ? [{ area: null, sorted: true, items, rows: items.map(rowOf) }] : []
-    }
-    return groupByArea(caves, data.areasBySlug).map(({ area, items }) => ({ area, sorted: false, items, rows: items.map(rowOf) }))
+    const byRoad = toConfirm && sort === 'road'
+    return groupByArea(caves, data.areasBySlug).map(({ area, items }) => {
+      const ordered = byRoad ? sortByRoadDistance(items) : items
+      return { area, items: ordered, rows: ordered.map(rowOf) }
+    })
   }, [caves, data, rows, toConfirm, sort, t, units, i18n.language])
   const shownGroups = useProgressiveCount(groups.length, groups)
 
@@ -191,16 +192,16 @@ export default function CaveIndex() {
 
       {toConfirm && <CaveConfirmTools sort={sort} onSort={(next) => setFilters(filters, next)} onDownload={downloadGpx} disabled={caves.length === 0} />}
 
-      {groups.slice(0, shownGroups).map(({ area, sorted, items, rows: groupRows }) => (
+      {groups.slice(0, shownGroups).map(({ area, items, rows: groupRows }) => (
         <IndexSection
           card
           lazy
           stickyTitle
-          key={sorted ? 'easiest-first' : (area?.slug ?? 'unknown')}
+          key={area?.slug ?? 'unknown'}
           // Its anchor: the area's slug (#akumal) - where an area's links lead.
-          id={sorted ? 'easiest-first' : (area?.slug ?? 'no-area')}
+          id={area?.slug ?? 'no-area'}
           // Its name alone: an area has no page of its own (its # links here).
-          title={sorted ? t('caves.toConfirm.sortedTitle') : area ? area.name : t('unknownArea')}
+          title={area ? area.name : t('unknownArea')}
           count={t('caveCount', { count: items.length })}
         >
           <IndexLinkList items={groupRows} />

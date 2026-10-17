@@ -1661,10 +1661,9 @@
       "subtitle_one": "{{count}} cueva, por zona.",
       "subtitle_other": "{{count}} cuevas, por zona.",
       "toConfirm": {
-        "sortLabel": "Orden de las cuevas",
-        "sortArea": "Por zona",
+        "sortLabel": "Orden dentro de cada zona",
+        "sortArea": "De la A a la Z",
         "sortRoad": "Las más fáciles de alcanzar primero",
-        "sortedTitle": "Las más fáciles de alcanzar primero",
         "gpx": "Descargar para GPS",
         "gpxName": "OpenCaves: cuevas por confirmar",
         "gpxRoad": "camino vehicular más cercano: {{name}}",

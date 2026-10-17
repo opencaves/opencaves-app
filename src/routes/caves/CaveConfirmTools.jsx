@@ -8,8 +8,8 @@ const OSM_COPYRIGHT_URL = 'https://www.openstreetmap.org/copyright'
 
 /**
  * The caves still to confirm's tools, above their list (/caves?missing=position):
- * its order - by area, or easiest to reach first (by road distance; MD3's
- * segmented button) - and Download for GPS (a GPX file of the list shown).
+ * the order within each area - A to Z, or easiest to reach first (by road
+ * distance; MD3's segmented button) - and Download for GPS (a GPX file of the list shown).
  *
  * @param {object} props
  * @param {string} props.sort - 'area' or 'road' (utils/roadDistance.js' CAVE_SORTS).

@@ -6,7 +6,7 @@ import { formatMeasuredDistance } from './units.js'
 // them (/caves?missing=position): its sort ("Easiest to reach first"), each
 // row's line, the GPX file of the list.
 
-/** The orders of the caves still to confirm: by area (the list's own), or by road distance. */
+/** The orders of the caves still to confirm within each area: A to Z (the list's own), or by road distance. */
 export const CAVE_SORTS = ['area', 'road']
 /** The list's order when the address names none. */
 export const DEFAULT_CAVE_SORT = 'area'

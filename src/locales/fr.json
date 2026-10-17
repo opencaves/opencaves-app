@@ -1661,10 +1661,9 @@
       "subtitle_one": "{{count}} grotte, par région.",
       "subtitle_other": "{{count}} grottes, par région.",
       "toConfirm": {
-        "sortLabel": "Ordre des grottes",
-        "sortArea": "Par région",
+        "sortLabel": "Ordre dans chaque région",
+        "sortArea": "De A à Z",
         "sortRoad": "Les plus faciles d’accès d’abord",
-        "sortedTitle": "Les plus faciles d’accès d’abord",
         "gpx": "Télécharger pour GPS",
         "gpxName": "OpenCaves : grottes à confirmer",
         "gpxRoad": "route la plus proche : {{name}}",
