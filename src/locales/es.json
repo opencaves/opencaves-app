@@ -1350,6 +1350,17 @@
     }
   },
   "seo": {
+    "titleWords": {
+      "separator": ": ",
+      "cenoteLong": "buceo en cenote, ubicación y mapa",
+      "cenoteShort": "ubicación y mapa",
+      "caveLong": "buceo en cueva, ubicación y mapa",
+      "caveShort": "ubicación y mapa",
+      "sistemaMapsLong": "buceo en cueva y mapas",
+      "sistemaMapsShort": "mapas",
+      "sistemaLong": "buceo en cueva",
+      "sistemaName": "Sistema {{name}}"
+    },
     "mapHeading": "OpenCaves: mapa de los cenotes de Yucatán",
     "caveDescriptionPrefix": "{{name}} (Yucatán, México):",
     "caveDescriptionFallback": "{{name}}, una cueva de Yucatán, México: ubicación, acceso, fotos y mapas en OpenCaves.",
@@ -1617,6 +1628,7 @@
     "sistemaCount_one": "{{count}} sistema de cuevas",
     "sistemaCount_other": "{{count}} sistemas de cuevas",
     "caves": {
+      "headTitle": "Cenotes y cuevas de Yucatán por zona",
       "filters": {
         "add": "Agregar filtro",
         "remove": "Quitar el filtro {{label}}",
@@ -1632,6 +1644,7 @@
       "subtitle_other": "{{count}} cuevas, por zona."
     },
     "sistemas": {
+      "headTitle": "Sistemas de cuevas inundadas de Yucatán",
       "title": "Sistemas de cuevas de Yucatán",
       "description": "Los sistemas de cuevas inundadas de Yucatán, México, por zona: su longitud, profundidad, conexiones, historia de exploración y cenotes, en OpenCaves.",
       "add": "Añadir un sistema",

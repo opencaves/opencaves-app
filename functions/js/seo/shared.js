@@ -7,6 +7,20 @@ import { brotliCompressSync, constants as zlib, gzipSync } from 'node:zlib'
 import { APP_TITLE, SHARE_DEFAULT_IMAGE, SITE_URL } from '../constants.js'
 import { escapeHtml } from '../html.js'
 
+/**
+ * The words the pages' titles add (pageTitles.js), in English: the app's
+ * src/locales/en.json `seo.titleWords`, word for word - keep the two in step.
+ *
+ * @type {import('./pageTitles.js').TitleWords}
+ */
+export const TITLE_WORDS = {
+  separator: ': ',
+  cenote: ['cenote cave diving, location & map', 'location & map'],
+  cave: ['cave diving, location & map', 'location & map'],
+  sistemaMaps: ['cave diving, survey maps', 'survey maps'],
+  sistema: ['cave diving'],
+}
+
 // The hosts whose app shell may serve as the page: the site and this
 // project's Hosting domains (preview channels: opencaves--<channel>-<hash>).
 const ALLOWED_HOST_PATTERN = /^(opencaves\.org|www\.opencaves\.org|opencaves(--[-a-z0-9]+)?\.(web\.app|firebaseapp\.com))$/

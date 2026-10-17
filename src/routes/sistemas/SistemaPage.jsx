@@ -10,7 +10,7 @@ import { buildSistemaAncestryComputer } from '@/services/data-service/postProces
 import { formatMeasure } from '@/utils/units.js'
 import { COORDINATE_DECIMALS } from '@/config/map.js'
 import { slugify } from '@/utils/slug.js'
-import { markdownToPlainText, truncate } from '@/utils/seo.js'
+import { markdownToPlainText, sistemaHeadTitle, truncate } from '@/utils/seo.js'
 import Markdown from '@/components/Markdown/Markdown.jsx'
 import TextSource from '@/components/TextSource.jsx'
 import ExplorationHistory from '@/components/ResultPane/ExplorationHistory.jsx'
@@ -94,6 +94,7 @@ export default function SistemaPage() {
   const { sistemaId } = useParams()
   const { t, i18n } = useTranslation('indexPages')
   const { t: tPane } = useTranslation('resultPane')
+  const { t: tSeo } = useTranslation('seo')
   const units = useUnits()
   const { data, loading } = useIndexData()
   // The maps (MapsSection's list), waited for like the data: drawn late, the
@@ -107,7 +108,8 @@ export default function SistemaPage() {
   const title = sistema ? sistemaTitle(sistema.name, (name) => t('sistema.title', { name })) : null
   const summary = sistema ? markdownToPlainText(sistema.description) : ''
   const description = sistema ? truncate(summary ? `${t('sistema.descriptionPrefix', { name: sistema.name })} ${summary}` : t('sistema.description', { name: sistema.name })) : null
-  useIndexPageHead({ title, description, share: sistema ? { record: sistema, name: title } : null })
+  // Its <title>: "<name> cave system" and the words people search, as the server's.
+  useIndexPageHead({ title: sistema ? sistemaHeadTitle(sistema, tSeo) : null, fullTitle: true, description, share: sistema ? { record: sistema, name: title } : null })
 
   if (loading || mapsLoading || documentsLoading) return <IndexPageSkeleton item back />
   if (!sistema) {

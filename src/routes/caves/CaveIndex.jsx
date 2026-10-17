@@ -114,7 +114,7 @@ export default function CaveIndex() {
   const groups = useMemo(() => groupByArea(caves, data.areasBySlug).map(({ area, items }) => ({ area, items, rows: items.map((cave) => rows.get(cave.id).row) })), [caves, data, rows])
   const shownGroups = useProgressiveCount(groups.length, groups)
 
-  useIndexPageHead({ title: t('caves.title'), description: t('caves.description') })
+  useIndexPageHead({ title: t('caves.headTitle'), description: t('caves.description') })
 
   if (loading || photosPending) return <IndexPageSkeleton search card />
 
