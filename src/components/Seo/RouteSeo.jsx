@@ -3,7 +3,8 @@ import { useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { SITE_URL } from '@/config/app.js'
 import { canonicalPath, isIndexable, isPublicIndexPath } from '@/utils/seo.js'
-import { setHeadLink, setHeadMeta } from '@/utils/headTags.js'
+import { setHeadLink, setHeadMeta, setShareImage } from '@/utils/headTags.js'
+import { defaultShareImage } from '@/utils/shareImage.js'
 
 // The pages with a description of their own here (`seo` namespace), also in
 // their static page (map.html, about.html...: vite.config.js's
@@ -17,7 +18,8 @@ const OWN_DESCRIPTIONS = { '/map': 'mapDescription', '/about': 'aboutDescription
  * (search engines then show the page's own text) - and their own on /map,
  * /about, /privacy and /terms ({@link OWN_DESCRIPTIONS}). Cave pages set theirs
  * (CaveSeo), the index pages theirs (/caves, /sistemas, an area, a system:
- * useIndexPageHead). (Effects run children-first, so this must not touch it
+ * useIndexPageHead) - and their share image (og:image); the others get the
+ * site's. (Effects run children-first, so this must not touch it
  * there.)
  */
 export default function RouteSeo() {
@@ -34,6 +36,8 @@ export default function RouteSeo() {
     // Those pages their own; the others none - the last page's must not stay
     // either.
     if (!setsOwnDescription) setHeadMeta('description', OWN_DESCRIPTIONS[pathname] ? t(OWN_DESCRIPTIONS[pathname]) : null)
+    // Likewise the share image: the last cave's must not stay.
+    if (!setsOwnDescription) setShareImage(defaultShareImage(t))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, canonical, setsOwnDescription, i18n.resolvedLanguage])
 

@@ -1,4 +1,7 @@
 import { SETTINGS_COLLECTION } from './collections.js'
+// The map's style: one setting, the server's too (its share images' map
+// cards, functions/js/share/render.js).
+import { MAP_STYLE } from '../../functions/js/constants.js'
 
 export const SISTEMA_DEFAULT_COLOR = '#fff'
 
@@ -30,7 +33,7 @@ export const MAP_PROPS = {
   attributionControl: false,
   // No `hash`: Map.jsx syncs the URL hash itself, on map pages only (see
   // location-view-state.js).
-  mapStyle: 'mapbox://styles/remillc/clg9w4w1500fc01pphp0b039e',
+  mapStyle: MAP_STYLE,
   // reuseMaps: true,
   dragRotate: false,
   useWebGL2: true

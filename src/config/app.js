@@ -6,6 +6,9 @@ export const APP_TITLE = 'OpenCaves' // For use in the app title bar
 // the server's (functions/js/constants.js, which imports nothing), for the
 // app's titles and the server-rendered pages' alike.
 export { TITLE_NAME } from '../../functions/js/constants.js'
+// The share image (og:image) of the pages without one of their own
+// (public/og-image.png), the server's too.
+export { SHARE_DEFAULT_IMAGE } from '../../functions/js/constants.js'
 // The site's address (canonical URLs, shared links) and its source code; the
 // Cloud Functions repeat them (functions/js/constants.js).
 export const SITE_URL = 'https://opencaves.org'

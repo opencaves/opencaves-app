@@ -1358,7 +1358,10 @@
     "mapDescription": "Map of the Yucatán's caves and cenotes for cave divers: how to get there and in, photos, survey maps and the passages under the jungle.",
     "aboutDescription": "What OpenCaves is: open data on caves and cenotes for cave divers, built by divers and starting with the Yucatán - and how to help.",
     "privacyDescription": "How OpenCaves handles your data: what it collects and why, how long it keeps it, the emails it sends, and your rights.",
-    "termsDescription": "The terms of use of OpenCaves: using its cave data, contributing, your account, and the limits of a diving reference."
+    "termsDescription": "The terms of use of OpenCaves: using its cave data, contributing, your account, and the limits of a diving reference.",
+    "shareImageAltPhoto": "A photo of {{name}}",
+    "shareImageAltMap": "{{name}} on the map",
+    "shareImageAltDefault": "OpenCaves - open data for cave diving"
   },
   "mapLayersAdmin": {
     "title": "Map layers",

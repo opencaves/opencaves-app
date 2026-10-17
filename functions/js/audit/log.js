@@ -17,8 +17,9 @@ export const TRASH_COLLECTIONS = ['cavesAssets', 'maps', 'documents']
 // (onDataWritten in the emulator, getWhatsNew). A map's fingerprints too:
 // visualHash (the server's, from its thumbnail) and contentHash (its file's
 // SHA-256, sent with a new map by the app, filled in for older ones by
-// scripts/map-content-hashes.js) - not edits anyone made.
-export const SERVER_FIELDS = new Set(['_created', '_modified', '_updated', 'previewUrl', 'previewUrls', 'thumbnailUrl', 'svgIds', 'status', 'rejectReason', 'size', 'coverUrl', 'visualHash', 'contentHash'])
+// scripts/map-content-hashes.js) - not edits anyone made. A cave's or a
+// system's share image (share/shareImages.js) as well.
+export const SERVER_FIELDS = new Set(['_created', '_modified', '_updated', 'previewUrl', 'previewUrls', 'thumbnailUrl', 'svgIds', 'status', 'rejectReason', 'size', 'coverUrl', 'visualHash', 'contentHash', 'shareImage'])
 
 // Entries are deleted this long after they're written, by the TTL policy on
 // expireAt (firestore.indexes.json).

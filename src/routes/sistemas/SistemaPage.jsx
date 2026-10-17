@@ -107,7 +107,7 @@ export default function SistemaPage() {
   const title = sistema ? sistemaTitle(sistema.name, (name) => t('sistema.title', { name })) : null
   const summary = sistema ? markdownToPlainText(sistema.description) : ''
   const description = sistema ? truncate(summary ? `${t('sistema.descriptionPrefix', { name: sistema.name })} ${summary}` : t('sistema.description', { name: sistema.name })) : null
-  useIndexPageHead({ title, description })
+  useIndexPageHead({ title, description, share: sistema ? { record: sistema, name: title } : null })
 
   if (loading || mapsLoading || documentsLoading) return <IndexPageSkeleton item back />
   if (!sistema) {

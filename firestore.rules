@@ -288,6 +288,10 @@ service cloud.firestore {
         && (!('validity' in d[f]) || (d[f].validity is string && d[f].validity.size() <= 40)))
     }
 
+    // shareImage (caves and sistemas: the share image, functions/js/share/)
+    // is the server's alone: not in these lists, so an app write that sets,
+    // changes or removes it is refused, while one that leaves it as it is
+    // (setKeys: only the changed keys) goes through.
     function isValidCave(d, k) {
       return k.hasOnly(['name', 'nameTranslations', 'aka', 'keys', 'location', 'entrance', 'parking', 'sistemaId', 'sistemaColor', 'area', 'source',
           'access', 'accessDetails', 'accessibility', 'accessibilityDetails', 'description', 'direction', 'note', 'reporter',
