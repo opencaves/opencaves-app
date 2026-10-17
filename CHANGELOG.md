@@ -23,6 +23,7 @@ Caves and cave systems shared with their own picture, distances measured on the 
 * **A cave system's edit form:** its name edited in place, as its title.
 * **The map's edit button** opens on a click only, no longer when the pointer passes over it, and closes when you pick an action, press Escape or click elsewhere; while open, it shows a cross.
 * **Cave names:** "Entrada" left out of the names of cenotes that are entrances (the diver icon says so; the old name still finds them), and names that were only a map's labels replaced.
+* **Survey maps:** sharper copies of Actun Chen's and Mino Mi's maps, and two maps misnamed after another system renamed (Sistema Ojos, Maravilla); caves that were only placeholders or duplicates removed.
 * **The cave layer:** Ox Bel Ha's two surveys (GEO 1999 and J. Coke 2011) line up - the 2011 map bent onto the 1999 one, the better placed: their passages now within about 6 m of each other instead of 16, up to 85 m before.
 * **Search engines:** a cave's and a cave system's page titles say what's on them ("Nariz: cenote cave diving, location & map"); each cave and system is described as a place - its area, its system, its coordinates once confirmed, its rating; and the sitemap lists each cave's photos, for image searches.
 
@@ -36,6 +37,7 @@ Caves and cave systems shared with their own picture, distances measured on the 
 
 * No first-generation function left among the Node 24 ones (a deploy stopped on them before Hosting); a deleted account's cleanup has its own small Node 22 codebase.
 * `submit-to-search.js` asks Bing (its daily quota) and the IndexNow engines to crawl the pages; `sync-from-production.js` now really deletes the local-only files. `apply-edits.js` can delete records too, each kept whole in its audit entry. The map layer can warp a map onto another survey (`warp.py`); the map's loading shells show the Measure button.
+* New guides: every key, secret and token the app uses - its name, where it's kept, what uses it, how to replace it (`docs/keys-and-secrets.md`); and a design rule: no text under 12px.
 
 ## [1.3.1](https://github.com/opencaves/opencaves-app/compare/v1.3.0...v1.3.1) (2026-10-16)
 
