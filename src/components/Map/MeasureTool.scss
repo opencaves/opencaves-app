@@ -60,6 +60,27 @@
   white-space: nowrap;
 }
 
+// Beside the cursor (MeasureTool's mouse position, in the map's container):
+// the next segment's length and bearing, a segment label's look, below and
+// to the right of the pointer's tip so the cursor doesn't hide it.
+.oc-measure-tool--cursor-hint {
+  position: absolute;
+  z-index: 4;
+  transform: translate(14px, 14px);
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--mui-sys-color-surfaceContainerHigh);
+  color: var(--mui-palette-text-primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  // M3's label medium.
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.03125rem;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
 .oc-measure-tool--panel {
   position: absolute;
   // Over the map's Privacy and Terms links (MapLegalLinks), on phones.
