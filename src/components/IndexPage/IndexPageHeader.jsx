@@ -79,8 +79,10 @@ export function PageBreadcrumbs({ trail, current }) {
  * @param {{ label: string, to: string }[]} [props.trail]
  * @param {string} [props.current]
  * @param {boolean} [props.sticky=false] - From 600px up, the heading row stays under the app bar.
+ * @param {boolean} [props.divider=true] - The divider under the row (PAGE_HEADER_SX); without it, the row's
+ *   margin alone.
  */
-export default function IndexPageHeader({ title, subtitle, backTo, addTo, onAdd, addLabel, editTo, editLabel, trail, current, sticky = false }) {
+export default function IndexPageHeader({ title, subtitle, backTo, addTo, onAdd, addLabel, editTo, editLabel, trail, current, sticky = false, divider = true }) {
   const { t: tApp } = useTranslation('app')
   const navigate = useNavigate()
   const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
@@ -120,7 +122,7 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, onAdd,
           alignItems: 'flex-start',
           gap: 1,
           mb: 3,
-          ...PAGE_HEADER_SX,
+          ...(divider ? PAGE_HEADER_SX : { mb: 3 }),
           // Under the app bar (64px), on the page's surface, over what scrolls under it.
           ...(sticky && { position: { sm: 'sticky' }, top: { sm: 64 }, zIndex: { sm: 3 }, py: { sm: 1 }, mt: { sm: -1 }, bgcolor: 'var(--oc-page-surface)' }),
         }}
