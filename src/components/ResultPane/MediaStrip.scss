@@ -1,0 +1,88 @@
+// The media strip (MediaStrip.jsx), on its own oc- classes
+// (docs/design-system.md, "Where styles go"). Its sizes come from the
+// component: --oc-strip-row-height (its row), --oc-strip-zoom-room (the room
+// the zoomed cylinder takes above and below), --oc-strip-band-margin
+// (BAND_MARGIN, 0 when flat), --oc-strip-decode-wait (DECODE_WAIT_MS); its
+// shapes from its effect (--oc-strip-*-shape).
+
+.oc-media-strip {
+  position: relative;
+  // Its own stacking context: the frame (::after, z-index -1) under the band
+  // (::before) and the items.
+  isolation: isolate;
+  // What follows overlaps the scrollbar's room - not on a filling strip,
+  // whose band covers it.
+  margin-bottom: calc(var(--oc-pane-padding-block) * -1);
+  height: calc(var(--oc-pane-padding-block) + var(--oc-strip-row-height) + 2 * var(--oc-strip-zoom-room));
+
+  // Its content (not its band) hidden while it's first built, then faded in
+  // (M3's standard motion); shown after DECODE_WAIT_MS whatever happens.
+  > * {
+    transition: opacity 300ms var(--mui-sys-motion-easing-standard);
+  }
+
+  &[data-oc-building] > * {
+    opacity: 0;
+    animation: oc-media-strip-shown 0s var(--oc-strip-decode-wait) forwards;
+  }
+
+  // A band of its own tone behind the cylinder, as tall as the items in front
+  // (zoomed on the cylinder) - lighter than the pane in dark mode, a faint
+  // tint in light mode.
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    // In from the strip's top and bottom by its margin (the page's colour
+    // there).
+    top: var(--oc-strip-band-margin);
+    height: calc(var(--oc-strip-row-height) + 2 * var(--oc-strip-zoom-room) - 2 * var(--oc-strip-band-margin));
+    background-color: var(--mui-sys-color-surfaceContainer);
+    // Its top and bottom curved with the cylinder (the effect's bandShape);
+    // straight while flat.
+    clip-path: var(--oc-strip-band-shape, none);
+  }
+
+  // Filling (a page's strip): the whole strip, its scrollbar's room too - no
+  // other colour around or between its items.
+  &.oc-media-strip--fill {
+    margin-bottom: 0;
+    height: calc(var(--oc-strip-row-height) + 2 * var(--oc-strip-zoom-room));
+
+    &::before {
+      height: auto;
+      bottom: var(--oc-strip-band-margin);
+    }
+  }
+
+  // Around the band, its margin (BAND_MARGIN) in the band's own tone - one
+  // band over and under the items, whatever is behind the strip (a second
+  // tone showed on the pane's cards) - curved as the band, the same below as
+  // above: as tall as the band and its margins (not over the scrollbar's room
+  // under a pane's strip). Only on the cylinder.
+  &.oc-media-strip--on-cylinder::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: calc(var(--oc-strip-row-height) + 2 * var(--oc-strip-zoom-room));
+    background-color: var(--mui-sys-color-surfaceContainer);
+    clip-path: var(--oc-strip-frame-shape, none);
+  }
+
+  [data-mui-color-scheme='dark'] & {
+    &::before,
+    &.oc-media-strip--on-cylinder::after {
+      background-color: var(--mui-sys-color-surfaceContainerHighest);
+    }
+  }
+}
+
+@keyframes oc-media-strip-shown {
+  to {
+    opacity: 1;
+  }
+}
