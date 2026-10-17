@@ -25,10 +25,15 @@ export function When({ value }) {
   return <RelativeTime value={value} className="oc-audit-when" />
 }
 
+// The row's own controls: a click on them isn't a click to expand it.
+const CONTROLS = 'a, button, input, label, [role="button"], [role="checkbox"]'
+
 // One change: who, when, what (action, collection, record - a link while it
 // exists), its state (undone, an undo of another change), the result of an
 // undo just asked for; a checkbox and an Undo button when it can be undone;
-// expanded, the change itself.
+// expanded, the change itself. A click anywhere on the row expands it (but on
+// its controls, or a click ending a text selection); the arrow stays the
+// control for the keyboard and screen readers.
 export default memo(function AuditEntryRow(/** @type {{ entry: object, label: string, path?: string, accountLabel: (uid: string) => string, selected?: boolean, onToggleSelected?: (id: string) => void, expanded?: boolean, onToggleExpanded?: (id: string) => void, onUndo?: (ids: string[]) => void, result?: object, busy?: boolean }} */ { entry, label, path, accountLabel, selected, onToggleSelected, expanded, onToggleExpanded, onUndo, result, busy }) {
   const { t } = useTranslation('audits')
   const undoable = isUndoable(entry)
@@ -36,7 +41,15 @@ export default memo(function AuditEntryRow(/** @type {{ entry: object, label: st
 
   return (
     <ListItem className="oc-audit-entry-row" divider disablePadding sx={{ display: 'block', py: 1, px: { xs: 0, sm: 1 } }}>
-      <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
+      <Box
+        className="oc-audit-entry-row--summary"
+        onClick={(event) => {
+          if (event.target instanceof Element && event.target.closest(CONTROLS)) return
+          if (window.getSelection()?.toString()) return
+          onToggleExpanded(entry.id)
+        }}
+        sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, cursor: 'pointer', borderRadius: 1, '&:hover': { bgcolor: 'action.hover' } }}
+      >
         <Box sx={{ width: 42, flex: 'none' }}>
           {undoable && <Checkbox checked={selected} disabled={busy} onChange={() => onToggleSelected(entry.id)} slotProps={{ input: { 'aria-label': t('selectEntry') } }} />}
         </Box>
@@ -63,11 +76,16 @@ export default memo(function AuditEntryRow(/** @type {{ entry: object, label: st
               </Tooltip>
             )}
           </Box>
-          <Box className="oc-audit-entry-row--who" sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start', columnGap: 1, mt: 0.25 }}>
-            <PersonLabel uid={entry.authorId} accountLabel={accountLabel} />
-            <Typography component="span" variant="body2" color="text.secondary">
-              <When value={entry.at} />
-            </Typography>
+          <Box className="oc-audit-entry-row--who" sx={{ mt: 0.25 }}>
+            <PersonLabel
+              uid={entry.authorId}
+              accountLabel={accountLabel}
+              after={
+                <Typography component="span" variant="body2" color="text.secondary">
+                  <When value={entry.at} />
+                </Typography>
+              }
+            />
           </Box>
           {result && result.status !== 'undone' && (
             <Alert className="oc-audit-entry-row--result" severity={result.status === 'skipped' ? 'info' : result.status === 'conflict' ? 'warning' : 'error'} sx={{ mt: 1, py: 0 }}>
