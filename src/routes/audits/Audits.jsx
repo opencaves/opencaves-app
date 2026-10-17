@@ -33,7 +33,7 @@ export default function Audits() {
 
   return (
     <Box className="oc-audits" sx={{ minHeight: '100%', minWidth: 0 }}>
-      <IndexPageHeader title={t('title')} backTo="/dashboard" />
+      <IndexPageHeader dashboard title={t('title')} backTo="/dashboard" />
 
       <Tabs className="oc-audits--tabs" value={tab} onChange={changeTab} aria-label={t('title')} sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
         <Tab value="changes" label={t('tabs.changes')} id="oc-audits-tab-changes" aria-controls="oc-audits-panel-changes" />

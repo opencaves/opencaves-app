@@ -68,7 +68,7 @@ export default function SistemaList() {
   return (
     <div className="oc-sistema-list">
       {/* Its arrow: back to the public list of the systems, this list's /edit counterpart. */}
-      <IndexPageHeader title={t('sistemas')} subtitle={!loading && t('sistemaCount', { count: filtered.length })} backTo="/sistemas" addTo={`/sistemas/${newId}/edit`} addLabel={t('newSistema')} />
+      <IndexPageHeader dashboard title={t('sistemas')} subtitle={!loading && t('sistemaCount', { count: filtered.length })} backTo="/sistemas" addTo={`/sistemas/${newId}/edit`} addLabel={t('newSistema')} />
 
       {loading ? (
         <ListSkeleton rows={10} leading="square" count search grouped card />

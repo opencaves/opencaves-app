@@ -18,6 +18,7 @@ import PublicRounded from '@mui/icons-material/PublicRounded'
 import SourceRounded from '@mui/icons-material/SourceRounded'
 import TaskAltRounded from '@mui/icons-material/TaskAltRounded'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
 import { useMapsToProcess } from '@/routes/map-layers/useMapsToProcess.js'
 import { useNewFeedbackCount } from '@/routes/feedback/useNewFeedbackCount.js'
 import { useOpenTaskCount } from '@/routes/tasks/useTasks.js'
@@ -74,12 +75,8 @@ export default function AdminDashboard() {
   return (
     // In Layout's frame, as every page; its own photo behind it (Layout).
     <Box className="oc-admin-dashboard">
-      <Box sx={{ mb: 4, pb: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
-        <Typography component="h1" variant="h4" sx={{ fontWeight: 500 }}>
-          {t('title')}
-        </Typography>
-        <Box sx={{ width: 56, height: 4, mt: 1.5, borderRadius: 2, bgcolor: 'secondary.main' }} />
-      </Box>
+      {/* The dashboard's title, as its pages' (IndexPageHeader's dashboard look). */}
+      <IndexPageHeader dashboard title={t('title')} />
 
       {/* Caves with Admin under it, Reference data beside them (one column on a phone: caves, admin, reference data). */}
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, minmax(0, 1fr))' }, gridTemplateAreas: { xs: '"caves" "admin" "reference"', md: '"caves reference" "admin reference"' }, gridTemplateRows: { md: 'auto 1fr' }, gap: 3, alignItems: 'start' }}>

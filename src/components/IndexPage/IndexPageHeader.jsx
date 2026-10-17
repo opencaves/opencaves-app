@@ -7,7 +7,7 @@ import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
 import AddRounded from '@mui/icons-material/AddRounded'
 import PageFab from '@/components/PageFab.jsx'
-import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
+import { DASHBOARD_TITLE_SX, PAGE_TITLE_SX } from '@/components/pageTitle.js'
 
 // An index page's heading row: a back arrow to the page above it (backTo),
 // the page's h1 with a line under it (subtitle), and, for editors, a
@@ -18,6 +18,7 @@ import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 // page's parent; current: the page's own (short) name, ending it. sticky:
 // from 600px up, the row stays under the app bar as the page scrolls (phones
 // have the app bar's own: it shows the title once it's scrolled away).
+// dashboard: the dashboard's look, its title larger with an accent bar.
 // Sticky: the row's height, for the anchored sections to clear it.
 const STICKY_HEIGHT_VAR = '--oc-page-title-height'
 const STICKY_FROM = '(min-width: 600px)'
@@ -78,14 +79,17 @@ export function PageBreadcrumbs({ trail, current }) {
  * @param {{ label: string, to: string }[]} [props.trail]
  * @param {string} [props.current]
  * @param {boolean} [props.sticky=false] - From 600px up, the heading row stays under the app bar.
+ * @param {boolean} [props.dashboard=false] - The dashboard's look (/dashboard and its pages): the title
+ *   in {@link DASHBOARD_TITLE_SX} with an accent bar under it, a divider under the row.
  */
-export default function IndexPageHeader({ title, subtitle, backTo, addTo, onAdd, addLabel, editTo, editLabel, trail, current, sticky = false }) {
+export default function IndexPageHeader({ title, subtitle, backTo, addTo, onAdd, addLabel, editTo, editLabel, trail, current, sticky = false, dashboard = false }) {
   const { t: tApp } = useTranslation('app')
   const navigate = useNavigate()
   const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
   // The /edit pages are behind RequireEditor (router.jsx).
   const isEditor = roles.includes('editor')
   const rowRef = useRef(null)
+  const titleSx = dashboard ? DASHBOARD_TITLE_SX : PAGE_TITLE_SX
 
   // Sticky: its height on the page (main), which the anchored sections'
   // scroll margin adds (IndexSection) - from 600px up, 0 below.
@@ -119,6 +123,7 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, onAdd,
           alignItems: 'flex-start',
           gap: 1,
           mb: 3,
+          ...(dashboard && { mb: 4, pb: 2, borderBottom: '1px solid', borderColor: 'divider' }),
           // Under the app bar (64px), on the page's surface, over what scrolls under it.
           ...(sticky && { position: { sm: 'sticky' }, top: { sm: 64 }, zIndex: { sm: 3 }, py: { sm: 1 }, mt: { sm: -1 }, bgcolor: 'var(--oc-page-surface)' }),
         }}
@@ -126,7 +131,7 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, onAdd,
         {backTo && (
           // As tall as the title's first line (1lh in its typography), the
           // arrow centred on it, whatever the title's size or length.
-          <Box sx={{ ...PAGE_TITLE_SX, height: '1lh', display: 'flex', alignItems: 'center', flexShrink: 0, ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
+          <Box sx={{ ...titleSx, height: '1lh', display: 'flex', alignItems: 'center', flexShrink: 0, ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
             <Tooltip title={tApp('back')}>
               {/* Opened from within the app: a step back (the list where it was,
                   scrolled as it was); otherwise up to backTo. */}
@@ -150,11 +155,12 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, onAdd,
           </Box>
         )}
         <Box sx={{ flex: 1, minWidth: 0 }}>
-          <Typography component="h1" sx={{ ...PAGE_TITLE_SX, overflowWrap: 'anywhere' }} data-appbar-page-title>
+          <Typography component="h1" sx={{ ...titleSx, overflowWrap: 'anywhere' }} data-appbar-page-title>
             {title}
           </Typography>
+          {dashboard && <Box className="oc-index-page-header--accent" sx={{ width: 56, height: 4, mt: 1.5, borderRadius: 2, bgcolor: 'secondary.main' }} />}
           {subtitle && (
-            <Typography component="div" variant="body2" sx={{ mt: 0.5, color: 'text.secondary' }}>
+            <Typography component="div" variant="body2" sx={{ mt: dashboard ? 1.5 : 0.5, color: 'text.secondary' }}>
               {subtitle}
             </Typography>
           )}

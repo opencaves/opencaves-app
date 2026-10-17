@@ -121,7 +121,7 @@ export default function UsersAdmin() {
 
   return (
     <Box className="oc-users-admin" sx={{ minHeight: '100%' }}>
-      <IndexPageHeader title={t('title')} subtitle={!loading && t('count', { count: filtered.length })} backTo="/dashboard" />
+      <IndexPageHeader dashboard title={t('title')} subtitle={!loading && t('count', { count: filtered.length })} backTo="/dashboard" />
 
       <TextField
         fullWidth

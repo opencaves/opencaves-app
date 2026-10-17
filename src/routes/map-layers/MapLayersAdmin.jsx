@@ -123,7 +123,7 @@ export default function MapLayersAdmin() {
 
   return (
     <Box className="oc-map-layers-admin" sx={{ minHeight: '100%' }}>
-      <IndexPageHeader title={t('title')} backTo="/dashboard" />
+      <IndexPageHeader dashboard title={t('title')} backTo="/dashboard" />
       {/* Its tabs and search stay at the top while the list scrolls under
           them: right under the fixed app bar (the toolbar's height, which
           changes with the screen). */}
