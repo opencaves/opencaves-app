@@ -2,11 +2,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { sortByLabel } from './sortOptions.js'
-import { Alert, Box, Button, CircularProgress, IconButton, List, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
+import { Alert, Box, Button, Checkbox, CircularProgress, IconButton, List, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
 import FilterListOffRounded from '@mui/icons-material/FilterListOffRounded'
 import ManageHistoryRounded from '@mui/icons-material/ManageHistoryRounded'
 import RefreshRounded from '@mui/icons-material/RefreshRounded'
-import UndoRounded from '@mui/icons-material/UndoRounded'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { getAuditPage, getRecord, isUndoable, undoAuditEntries } from '@/models/AuditLogModel.js'
@@ -215,7 +214,9 @@ export default function ChangesTab({ accountLabel, accountList }) {
     setFilters((prev) => ({ ...prev, [name]: value }))
   }
 
-  const selectedIds = entries.filter((entry) => selected.has(entry.id) && isUndoable(entry)).map((entry) => entry.id)
+  const undoableIds = entries.filter(isUndoable).map((entry) => entry.id)
+  const selectedIds = undoableIds.filter((id) => selected.has(id))
+  const allSelected = undoableIds.length > 0 && selectedIds.length === undoableIds.length
   const filtered = Object.values(filters).some(Boolean)
 
   return (
@@ -267,7 +268,19 @@ export default function ChangesTab({ accountLabel, accountList }) {
       </Box>
 
       <Box className="oc-audits-changes--toolbar" sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1, mb: 1 }}>
-        <Button variant="contained" disableElevation startIcon={undoing ? <CircularProgress size={16} color="inherit" /> : <UndoRounded />} disabled={selectedIds.length === 0 || undoing} onClick={() => askUndo(selectedIds)}>
+        {/* Select all, in the rows' checkbox column (AuditEntryRow: 42px wide,
+            the row's own padding before it). */}
+        <Box sx={{ width: 42, flex: 'none', ml: { xs: 0, sm: 1 } }}>
+          <Checkbox
+            className="oc-audits-changes--select-all"
+            checked={allSelected}
+            indeterminate={selectedIds.length > 0 && !allSelected}
+            disabled={undoableIds.length === 0 || undoing}
+            onChange={() => setSelected(allSelected ? new Set() : new Set(undoableIds))}
+            slotProps={{ input: { 'aria-label': t('selectAll') } }}
+          />
+        </Box>
+        <Button variant="contained" disableElevation startIcon={undoing ? <CircularProgress size={16} color="inherit" /> : undefined} disabled={selectedIds.length === 0 || undoing} onClick={() => askUndo(selectedIds)}>
           {t('undoSelected', { count: selectedIds.length })}
         </Button>
         <Button variant="outlined" startIcon={<ManageHistoryRounded />} disabled={undoing} onClick={() => setBulkOpen(true)}>
