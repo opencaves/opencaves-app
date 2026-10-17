@@ -137,7 +137,7 @@ function ReportRow({ report, authorName, search }) {
  * and shared links keep them. Each report opens its own page
  * (/feedback/:feedbackId, FeedbackReport). Admins manage them (the new ones
  * were also emailed to them, onFeedbackCreated); every other registered
- * account reads them, as Ideas and fixes - to follow what's coming - with
+ * account reads them, as Feedback - to follow what's coming - with
  * their authors' names only (useFeedbackReader).
  */
 export default function FeedbackList() {

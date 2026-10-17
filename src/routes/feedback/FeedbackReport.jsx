@@ -68,7 +68,7 @@ function StateBadge({ report }) {
  * on phones) with its stage, kind, author and page. Admins also get the
  * reply box, the stage menu, the author's email, the language, the browser
  * (its _feedbackPrivate doc, admins only), the email hints and its deletion;
- * every other registered account only reads it (Ideas and fixes), the
+ * every other registered account only reads it (Feedback), the
  * author by name only (useFeedbackReader).
  */
 

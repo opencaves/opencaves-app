@@ -374,7 +374,7 @@
 
 /**
  * A feedback report (`_feedback`), sent from the Send feedback form - read by
- * every registered account (Ideas and fixes): nothing private on it (see
+ * every registered account (Feedback): nothing private on it (see
  * {@link FeedbackPrivate}).
  *
  * @typedef {object} FeedbackReport

@@ -456,7 +456,7 @@ export const routes = [
               {
                 // The members' reports (Send feedback), listed like
                 // GitHub's issues (?state, q, kind, stage, sort)... Every
-                // registered account reads them (Ideas and fixes: what's
+                // registered account reads them (Feedback: what's
                 // coming), admins manage them; anonymous visitors are sent
                 // to log in, as for /account.
                 path: 'feedback',

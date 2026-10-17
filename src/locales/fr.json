@@ -58,7 +58,7 @@
       "about": "À propos",
       "about_withName": "À propos d'{{name}}",
       "feedback": "Envoyer un commentaire",
-      "feedbackList": "Idées et corrections",
+      "feedbackList": "Commentaires",
       "whatCanIDo": "Que puis-je faire ?",
       "whatsNew": "Nouveautés",
       "drawer": {
@@ -1242,7 +1242,7 @@
     "feedbackSection": "Commentaires",
     "manageMapLayers": "Couches de la carte",
     "manageFeedback": "Commentaires",
-    "followFeedback": "Idées et corrections",
+    "followFeedback": "Commentaires",
     "followFeedbackText": "Ce que les membres ont signalé, et ce qui s’en vient",
     "newFeedback_one": "{{count}} nouveau",
     "newFeedback_other": "{{count}} nouveaux",
@@ -1945,7 +1945,7 @@
       }
     },
     "members": {
-      "title": "Idées et corrections",
+      "title": "Commentaires",
       "intro": "Ce que les membres ont signalé, et ce que l’équipe d’OpenCaves en fait : suivez ce qui s’en vient.",
       "you": "Vous",
       "someone": "Un membre"

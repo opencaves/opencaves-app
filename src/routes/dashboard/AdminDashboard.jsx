@@ -52,7 +52,7 @@ const dashboardItemSx = (theme) => ({
  * /dashboard: the pages to manage the data, as the account's roles allow -
  * editors the caves, systems, connections and reference data; admins also
  * the users, tasks (with the count of open ones), map layers, feedback (with the count of new reports), audits
- * and error reports. Anyone who isn't an admin gets Ideas and fixes instead:
+ * and error reports. Anyone who isn't an admin gets Feedback instead:
  * the members' reports, to read (/feedback).
  */
 export default function AdminDashboard() {
@@ -187,7 +187,7 @@ export default function AdminDashboard() {
           </Box>
         )}
 
-        {/* Everyone else: the members' reports, to read (Ideas and fixes) -
+        {/* Everyone else: the members' reports, to read (Feedback) -
             the admins' Feedback entry above manages them. */}
         {!isAdmin && (
           <Box component="section" className="oc-admin-dashboard--feedback" sx={{ gridArea: 'admin' }}>

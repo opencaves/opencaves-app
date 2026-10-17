@@ -27,7 +27,7 @@ export { default as RelativeTime, toDate } from '@/components/RelativeTime/Relat
 
 // What the Feedback pages (the list, /feedback, and a report's page,
 // /feedback/:feedbackId) share: who reads them (admins manage the reports;
-// the other registered accounts only read them - Ideas and fixes), the
+// the other registered accounts only read them - Feedback), the
 // kinds' and stages' looks, the stage menu, dates, avatars and the writes.
 
 /**
