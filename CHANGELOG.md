@@ -1,5 +1,49 @@
 # Changelog
 
+## [1.4.0](https://github.com/opencaves/opencaves-app/compare/v1.3.1...v1.4.0) (2026-10-17)
+
+Caves and cave systems shared with their own picture, distances measured on the map, one look for every page - the same frame, the same titles, breadcrumbs on the dashboard's pages - and quicker tools for the team: error reports deleted in a few clicks, changes opened with a click on their line.
+
+
+### Features
+
+* **Share images:** a cave's link shared on WhatsApp, Facebook or elsewhere shows its photo - or, without one, a map of where it is with its name; a cave system's shows the map of its caves. Search engines get them too.
+* **Measure on the map:** the ruler button measures distances - click or tap to add points, each stretch's length and magnetic bearing (as a compass reads it) and the total in metres or feet (a switch, for the measurement alone); the next stretch shows beside the cursor, a double-click ends the line; a point near a cave goes right on it, and points can be moved or deleted.
+* **Error reports:** each error on its own card, a checkbox for each one with Select all, and Delete selected - the reports of several errors gone at once.
+* **Who changed what:** a click anywhere on a change's line opens it; a Select all checkbox before Undo selected; the time right after the author's name.
+* **Breadcrumbs on the dashboard's pages:** Home > Dashboard > the page, always in the same place.
+* **Log in:** the way you signed in last on this device - Google, Microsoft or email - is marked "Last used".
+
+### Changes
+
+* **One frame for every page:** the same photo behind a see-through page, the same borders and corners - the landing page, About, your account, the edit pages and the dashboard's pages included.
+* **One look for page titles:** larger, with a yellow bar under them. A page with a search keeps its search field in view as you scroll; a page without one, its title.
+* **The error page** sits in the page's frame, under the app bar, with its own title.
+* **Feedback** is called Feedback everywhere, as its address says.
+* **What's new:** its filters on a card, the line saying what it lists under them.
+* **A cave system's edit form:** its name edited in place, as its title.
+* **The map's edit button** opens on a click only, no longer when the pointer passes over it, and closes when you pick an action, press Escape or click elsewhere; while open, it shows a cross.
+* **A cave with an unknown access** no longer asks to confirm it: its Access card says "Access unknown" and offers Update the access, the list of values to propose.
+* **No Still accurate on a cave's description:** its access and getting there keep theirs.
+* **Unconfirmed coordinates** have their own icon - a crosshair with a question mark, as the map's pin - and a dimmed "(unconfirmed)", on the cave's page too.
+* **Cave names:** "Entrada" left out of the names of cenotes that are entrances (the diver icon says so; the old name still finds them), and names that were only a map's labels replaced.
+* **Survey maps:** sharper copies of Actun Chen's and Mino Mi's maps, and two maps misnamed after another system renamed (Sistema Ojos, Maravilla); caves that were only placeholders or duplicates removed.
+* **The cave layer:** Ox Bel Ha's two surveys (GEO 1999 and J. Coke 2011) line up - the 2011 map bent onto the 1999 one, the better placed: their passages now within about 6 m of each other instead of 16, up to 85 m before.
+* **Search engines:** a cave's and a cave system's page titles say what's on them ("Nariz: cenote cave diving, location & map"); each cave and system is described as a place - its area, its system, its coordinates once confirmed, its rating; and the sitemap lists each cave's photos, for image searches.
+
+### Fixes
+
+* **Search engines:** the map's page has a shorter description, and About, the privacy policy and the terms have their own.
+* **The map's pane** no longer ends with a dark band under its details.
+* **For admins:** the "Source: ..." line under a text is back in small print in the map's pane.
+
+### For the team
+
+* No first-generation function left among the Node 24 ones (a deploy stopped on them before Hosting); a deleted account's cleanup has its own small Node 22 codebase.
+* `submit-to-search.js` asks Bing (its daily quota) and the IndexNow engines to crawl the pages; `sync-from-production.js` now really deletes the local-only files. `apply-edits.js` can delete records too, each kept whole in its audit entry. The map layer can warp a map onto another survey (`warp.py`); the map's loading shells show the Measure button.
+* New guides: every key, secret and token the app uses - its name, where it's kept, what uses it, how to replace it (`docs/keys-and-secrets.md`); and a design rule: no text under 12px.
+* Where styles go, written in the design system (the theme, one SCSS file per component, `sx` for small or dynamic styles), and the longest `sx` blocks moved to SCSS files, the look unchanged; the theme's motion durations as CSS variables in ms; the unused Carousel removed (its Show all pane in its own file); `submit-to-search.js --sitemap` resubmits the sitemap to Bing.
+
 ## [1.3.1](https://github.com/opencaves/opencaves-app/compare/v1.3.0...v1.3.1) (2026-10-16)
 
 Fixes for pages that showed "Something went wrong".
