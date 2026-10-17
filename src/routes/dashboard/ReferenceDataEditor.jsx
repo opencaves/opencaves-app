@@ -85,7 +85,7 @@ export default function ReferenceDataEditor() {
   if (!config) {
     return (
       <div className="oc-reference-data-editor">
-        <IndexPageHeader title={<Box component="span" sx={{ color: 'error.main' }}>{t('unknownCollection', { name: collectionName })}</Box>} backTo="/dashboard" />
+        <IndexPageHeader sticky title={<Box component="span" sx={{ color: 'error.main' }}>{t('unknownCollection', { name: collectionName })}</Box>} backTo="/dashboard" />
       </div>
     )
   }
@@ -99,7 +99,7 @@ export default function ReferenceDataEditor() {
 
   return (
     <div className="oc-reference-data-editor">
-      <IndexPageHeader
+      <IndexPageHeader sticky
         title={t(`collections.${collectionName}.title`)}
         // What the list is for (accesses, accessibilities), when it says.
         subtitle={t(`collections.${collectionName}.description`, { defaultValue: '' }) && <span className="oc-reference-data-editor--description">{t(`collections.${collectionName}.description`)}</span>}
