@@ -19,7 +19,7 @@ OpenCaves: a React/Vite/MUI web app for finding cave-diving caves - today cenote
 - Design principles are based on **Material Design 3** — `src/theme/Theme.jsx` uses M3 token naming (`sys` typescale/motion/color roles, `oc` app tokens), emitted as CSS variables under MUI's `--mui-` prefix (see Gotchas); follow M3 conventions (color roles, typescale, motion tokens) for new UI rather than plain MUI defaults or ad hoc values. The interface's rules - colours in light and dark, type, shapes, motion, icons, the components to reuse, navigation and forms, links, class names, texts - are in **[docs/design-system.md](docs/design-system.md)**: read it before building or changing UI.
 - Custom CSS custom properties (i.e. anything outside the M3 `--md-*` tokens above) must be prefixed `--oc-`, mimicking the OpenCaves namespace.
 - Redux Toolkit + redux-persist for state
-- Mapbox GL / `react-map-gl` for the map (not Google Maps, despite one legacy geocoding call to `maps.googleapis.com` in `Address.jsx`)
+- Mapbox GL / `react-map-gl` for the map (not Google Maps: only a cave's address comes from Google's Geocoding API, through the `caveAddress` function, whose key stays on the server)
 - Node 24 everywhere: the functions' runtime (`engines` in `functions/js/package.json`) and the machine that runs the emulators, scripts and build (`.nvmrc`, the root `engines`). Keep them on the same major: the emulators run the functions on the local Node, so a different one hides production-only bugs (an SVG upload failure only Node 22 had). The one exception is `functions/gen1/` (below), on Node 22.
 - Firebase: Firestore (data), Auth (custom-claim roles), Storage (media), Cloud Functions v2 (`functions/js/`, region `northamerica-northeast1`), Hosting (the `opencaves` site; the `opencaves-api` site and its placeholder `/v1` function were removed, unused)
 - `vite-plugin-pwa` (`injectManifest` strategy) builds `src/service-worker.js` into a real file with a precache manifest — Vite has no equivalent to CRA's webpack plugin for this, so don't remove that plugin config thinking it's redundant.
@@ -31,6 +31,7 @@ OpenCaves: a React/Vite/MUI web app for finding cave-diving caves - today cenote
 
 - Values that describe the product (region, languages, coordinate precision, sizes and timings shared by several components) or that several files must agree on live in `src/config/`; constants that only matter to their own file stay next to their code.
 - Config values are `UPPER_SNAKE_CASE` (`APP_NAME`, `PANE_WIDTH`, `INITIAL_VIEW_STATE`, `COORDINATE_DECIMALS`…). The Firebase service handles in `src/config/firebase.js` (`db`, `auth`, `storage`, `functions`, `app`) are live objects, not config values, and stay camelCase.
+- Keys, secrets and tokens (Secret Manager, `.env`, `functions/js/.env`, `functions/js/.secret.local`) are listed in [docs/keys-and-secrets.md](docs/keys-and-secrets.md), names and places only - never write a value in a file in git. Only public values may start with `VITE_` (Vite builds them into the app); a new one goes in that guide and, by name, in `.env.example`.
 
 ## Code comments
 

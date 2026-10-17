@@ -13,6 +13,9 @@ the project.
   local emulator troubleshooting, who changed what (the audit log), and the
   caves' reports and confirmations (warnings, resolving them), and the
   caves' and systems' share images (link previews, their backfill script).
+- [Keys and secrets](keys-and-secrets.md): every key, secret, token and
+  credential - what it's for, who uses it, where it lives, whether it's
+  public, how to replace it, and what to do if one leaks.
 - [Importing cave maps](maps-import.md): bulk-import survey maps from a folder
   tree and attach them to their sistemas.
 - [The cave map layer](map-layer.md): turning survey maps into placed vector
