@@ -142,8 +142,38 @@ theme is `src/theme/Theme.jsx`; the app's own CSS variables are in
   tours, which find their elements by these classes (`src/tours/tourSteps.js`
   - check it before renaming one).
 - Custom CSS properties are prefixed `--oc-`.
-- Styles go in `sx` or `styled` with the theme; SCSS for what MUI doesn't
-  render (Mapbox's elements, global rules).
+- Styles go where [the three layers](#where-styles-go-three-layers) say.
+
+### Where styles go: three layers
+
+Each kind of style has one place, so a component's look can be read and
+changed in one spot. New code follows this; existing code moves when it's
+touched anyway (no rewrite for its own sake).
+
+1. **The theme** (`src/theme/Theme.jsx`): the tokens (colour roles, type
+   scale, shapes, motion) and **the look of MUI's own components** - Button,
+   Card, Chip, Dialog... - in `components.styleOverrides` and `variants`, so
+   it applies everywhere with MUI's class names and specificity. Never
+   restyle a MUI component from SCSS through `.Mui…` selectors: they break
+   at the next MUI update.
+2. **SCSS, one file per component** (`Component.scss` beside
+   `Component.jsx`): **the app's own layout and structure** - grids, panes,
+   cards, page sections, anything longer than a few properties - on the
+   component's `oc-` classes. In it:
+   - the theme's values through its CSS variables (`var(--mui-palette-…)`,
+     `var(--mui-sys-…)`, `var(--mui-oc-…)`; never `--md-`), the app's own
+     in `--oc-` variables (`src/theme/variables.scss`);
+   - dark mode with the theme's selector, `[data-mui-color-scheme='dark'] &`
+     (as `Map.scss`), never `prefers-color-scheme`;
+   - breakpoints at the theme's values (`breakpoints` in `Theme.jsx`: 600,
+     900, 1200, 1536 px), `min-width`, as MUI's `up()`.
+   Also what MUI doesn't render: Mapbox's elements, global rules.
+3. **`sx`** only for what's **small, local or dynamic**: a margin or two, a
+   value read from the data (a system's colour, a position), a style that
+   depends on the component's state. A dynamic value used by SCSS is passed
+   as a CSS variable (`style={{ '--oc-…': value }}`). A `sx` block past
+   about 15 lines belongs in the component's SCSS file. `styled()` stays for
+   the rare reusable styled element shared by several components.
 
 ## The map
 
