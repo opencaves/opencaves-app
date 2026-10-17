@@ -51,6 +51,19 @@
  */
 
 /**
+ * A cave's or a system's share image (og:image): its cover photo cropped, or
+ * its map card, 1200 x 630 - made and written by the server only
+ * (functions/js/share/shareImages.js; firestore.rules refuses it from the app).
+ *
+ * @typedef {object} ShareImage
+ * @property {'photo'|'map'} kind
+ * @property {string} url - Its public address in Storage (share/<caves|sistemas>/<id>/<key>.jpg).
+ * @property {number} width
+ * @property {number} height
+ * @property {string} key - A hash of what it shows: a new picture, a new key and address.
+ */
+
+/**
  * A cave (`caves`): one record per cave, its entrance usually a cenote.
  *
  * @typedef {object} Cave
@@ -93,6 +106,7 @@
  *   (postProcessCaveData.js, at read time).
  * @property {boolean} [located] - Derived: whether it has coordinates, in a server-rendered page's data
  *   (ssr/pageState.js), which leaves the coordinates out.
+ * @property {ShareImage} [shareImage] - Its share image (the server's).
  */
 
 /**
@@ -167,6 +181,7 @@
  * @property {string[]} [documents] - Its Further reading: its `documents` records' ids.
  * @property {string[]} [documentOrder] - As {@link Cave.documentOrder}.
  * @property {Record<string, TextSource>} [textSources]
+ * @property {ShareImage} [shareImage] - Its share image (the server's).
  */
 
 /**

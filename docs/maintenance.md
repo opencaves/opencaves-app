@@ -644,6 +644,49 @@ It needs the GA4 property's id, which isn't set yet:
 
 While `GA_PROPERTY_ID` is empty, the function logs a warning and writes the caves' saves only, keeping the views already there (none at first). The emulators have no `_popularity` documents (no Google Analytics there, and scheduled functions don't run).
 
+## Share images
+
+The picture a link to a cave's or a system's page shows on Facebook, WhatsApp, X... (the page's `og:image`, and the `image` of its structured data). The server makes one per record and names it in the record's `shareImage` field (`{ kind, url, width, height, key }`); a page without one shows the site's own `public/og-image.png`.
+
+- **A cave with photos:** its cover photo (its 1536-pixel copy, else the 1024 one, else the original), cropped to 1200 x 630 around what draws the eye.
+- **A cave without photos but with a location:** its map card. This is the app's own Mapbox style around the cave (zoom 13.5, about 3 km across), with its pin in its system's colour (the topmost system's, as on the map), the OpenCaves logo at the top left, the map's attribution, and a band across the bottom with its name and, smaller, its system and area.
+- **A cave system:** a map card of its caves (and the caves of the systems that joined it), each pin in the system's colour, with its name, its number of caves and its area. A system without located caves is centred on its own location; with neither, it has no share image. (Systems have no photos.)
+- **A cave without a location:** none, so the site's image.
+
+The pictures are 1200 x 630 JPEGs (about 100-250 KB, which every network accepts) at `share/<caves|sistemas>/<id>/<key>.jpg` in Storage. They are public, like the photos' copies, and cached for a year. The key is a hash of everything the picture shows, so a new picture gets a new address and no network keeps showing an old card. The older files are deleted. The text is drawn with the Roboto files in `functions/js/share/assets/` (SIL Open Font License, `Roboto-LICENSE.txt` there), so it looks the same locally and on Cloud Functions. The pin and logo there are copies of `src/images/map/pin.svg`, `pin-location-unknown.svg` and `src/images/logo/brand-short_light.svg`: keep them in step.
+
+**Kept up to date by the functions** in `functions/js/share/onShareImageChanges.js`:
+
+- `onCaveShareImage`: a cave created or deleted, or its location, name, system or area changed. If its location or system changed, its systems' cards too.
+- `onSistemaShareImage`: a system's name, colour, location or area. If its name or colour changed, its caves' cards too.
+- `onConnectionShareImage`: a system joined another or left it, which changes the parent systems' cards and the colour of the joined system's caves.
+- `onCaveAssetShareImage`: a cover photo set, moved to the trash, deleted, or its copies redone.
+
+Each one draws only the pictures whose key changed. Their own write of `shareImage` comes back to `onCaveShareImage` or `onSistemaShareImage`, which finds it up to date, so they don't loop. `shareImage` is the server's alone: `firestore.rules` refuses it from the app (an edit that leaves it as it is goes through), and the audit log leaves it out (`SERVER_FIELDS`).
+
+**The Mapbox token.** The map cards come from Mapbox's Static Images API, which the app's own token (`VITE_MAPBOX_ACCESS_TOKEN`) refuses outside the site, because it is URL-restricted. The functions use the `MAPBOX_STATIC_TOKEN` secret in Google Secret Manager instead: a public (`pk.`) token of the Mapbox account without a URL restriction, made for the server. It is set already. To replace it:
+
+```
+firebase functions:secrets:set MAPBOX_STATIC_TOKEN   # paste the token, then deploy the functions again
+```
+
+The emulators read it from `functions/js/.secret.local`, a git-ignored file that is never committed. Add the line `MAPBOX_STATIC_TOKEN=<the token>` to it, with the token from `gcloud secrets versions access latest --secret=MAPBOX_STATIC_TOKEN --project=opencaves`. The emulators read it when they start, or when they reload the functions.
+
+Each map card is one Static Images API request. Mapbox's free tier covers 50,000 a month, and the whole data is about 700.
+
+**The backfill:** `scripts/share-images.js` makes the missing pictures with the same code. Use it for the records made before the functions, after a change to the cards' look (raise `SHARE_RENDER_VERSION` in `functions/js/share/shareImages.js`, then run it with `--all`), or after a deploy without the secret:
+
+```
+node scripts/share-images.js -l --dry-run                 # what's missing locally
+node scripts/share-images.js -l --write --cave=<id>       # one cave ("=": ids start with "-"); --sistema=<id> for a system
+node scripts/share-images.js -p --dry-run                 # production: what's missing
+node scripts/share-images.js -p --write                   # production: make them
+```
+
+The script reads the caves, systems, connections, cover photos and stored pictures once, and works out the rest in memory. A dry run over the whole data takes under a second locally. Only the pictures it draws cost time: about 2 seconds each, plus the pause. `--caves` and `--sistemas` limit a run to one kind. `--all` draws every picture again. `--pause <ms>` sets the time between two pictures (400 by default). `--save <dir>` keeps a copy of each picture made. With `--write`, the script takes the token from `MAPBOX_STATIC_TOKEN` if it is set (the environment or `.env`), or else from the secret, with `gcloud`.
+
+After deploying, check one card in Facebook's Sharing Debugger or by pasting a cave's link into WhatsApp. A link already shared keeps its old card until the network reads the page again; the Sharing Debugger's **Scrape Again** does that for Facebook.
+
 ## Keep the page functions warm
 
 The functions that draw the public pages, `indexPages` (`/`, `/caves`, `/sistemas` and their records' pages) and `cavePage` (`/map/<id>`), took 2 to 6.6 seconds to answer when an instance had to start first (a cold start). The `keepPagesWarm` function (`functions/js/seo/keepWarm.js`) pings each of them every 5 minutes so an instance stays started. It asks the site for `/?warm=<time>` and `/map/warm?warm=<time>`, so the pings go through the Hosting rewrites like a visit.

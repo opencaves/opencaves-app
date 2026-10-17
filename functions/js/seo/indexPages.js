@@ -3,7 +3,7 @@ import { logger } from 'firebase-functions/v2'
 import { REGION, GITHUB_URL, SITE_URL, TITLE_NAME } from '../constants.js'
 import { cavePageMeta } from './cavePage.js'
 import { loadPageIndex, loadSsr, renderWithApp } from './ssr.js'
-import { decodeSegment, plainParagraphs, renderPage, sendHtml, shellFor, truncate } from './shared.js'
+import { decodeSegment, plainParagraphs, renderPage, sendHtml, shareImageOf, shellFor, truncate } from './shared.js'
 import { answerWarmPing, isWarmPing } from './keepWarm.js'
 
 // The public pages rendered on the server for search engines and a fast
@@ -90,10 +90,13 @@ function sistemaPage(sistema, data) {
     : `${sistema.name} cave system in the Yucatán, Mexico: length, depth, connections, exploration history and cenotes on OpenCaves.`)
   const path = `/sistemas/${sistema.slug}`
   const aka = Array.isArray(sistema.aka) ? sistema.aka.filter(Boolean) : []
+  // Its map card (share/shareImages.js), else the site's.
+  const image = shareImageOf(sistema, sistemaTitle(sistema.name))
   return {
     title: `${sistemaTitle(sistema.name)} / ${TITLE_NAME}`,
     description,
     path,
+    image,
     trail: [{ name: 'Home', path: '/' }, { name: 'Cave systems', path: '/sistemas' }, { name: sistema.name, path }],
     // The system as a place, its caves in it (each as its own page's: cavePage.js).
     jsonLd: {
@@ -104,6 +107,7 @@ function sistemaPage(sistema, data) {
       url: `${SITE_URL}${path}`,
       address: { '@type': 'PostalAddress', addressCountry: 'MX' },
       ...(aka.length && { alternateName: aka }),
+      ...(image && { image: image.url }),
       containsPlace: sistemaCaves(sistema, data).map((cave) => ({ '@type': 'TouristAttraction', name: caveName(cave), url: `${SITE_URL}/caves/${cave.id}` })),
     },
   }

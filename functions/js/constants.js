@@ -9,10 +9,18 @@ export const APP_TITLE = 'OpenCaves'
 // (src/config/app.js), so keep this file free of imports.
 export const TITLE_NAME = 'Open Caves'
 export const GITHUB_URL = 'https://github.com/opencaves/opencaves-app'
+// The map's Mapbox style: the app's map (src/config/map.js imports it) and
+// the share images' map cards (share/render.js).
+export const MAP_STYLE = 'mapbox://styles/remillc/clg9w4w1500fc01pphp0b039e'
+// The share image (og:image) of the pages without one of their own:
+// public/og-image.png (the app's src/config/app.js imports it).
+export const SHARE_DEFAULT_IMAGE = { url: `${SITE_URL}/og-image.png`, width: 1200, height: 630, alt: 'OpenCaves - open data for cave diving' }
 
 // Firestore database constants
 export const CAVES_COLL_NAME = 'caves'
 export const CAVES_ASSETS_COLL_NAME = 'cavesAssets'
+export const SISTEMAS_COLL_NAME = 'sistemas'
+export const CONNECTIONS_COLL_NAME = 'connections'
 // A photo's uploader and original file name, apart from its public record.
 export const CAVES_ASSETS_PRIVATE_COLL_NAME = '_cavesAssetsPrivate'
 export const USERS_COLL_NAME = '_users'

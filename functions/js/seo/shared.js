@@ -4,7 +4,7 @@
 // content in the HTML; the app then replaces #root and reuses those <head>
 // tags (src/utils/headTags.js), so the two must stay in step.
 import { brotliCompressSync, constants as zlib, gzipSync } from 'node:zlib'
-import { APP_TITLE, SITE_URL } from '../constants.js'
+import { APP_TITLE, SHARE_DEFAULT_IMAGE, SITE_URL } from '../constants.js'
 import { escapeHtml } from '../html.js'
 
 // The hosts whose app shell may serve as the page: the site and this
@@ -129,19 +129,35 @@ export function truncate(text, max = 158) {
  */
 export const jsonLdScript = (data) => `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`
 
-// The share image (og:image) of every page: public/og-image.png.
-const SHARE_IMAGE = { url: `${SITE_URL}/og-image.png`, width: 1200, height: 630, alt: 'OpenCaves - open data for cave diving' }
+/**
+ * A record's share image (og:image) - its shareImage field, made by the
+ * server (share/shareImages.js) - with its alt text, or null: then the
+ * site's own (SHARE_DEFAULT_IMAGE). The app's src/utils/shareImage.js
+ * gives the same, in its language.
+ *
+ * @param {{shareImage?: {kind: string, url: string, width: number, height: number}}} record
+ * @param {string} name - What it shows: the cave's name, the system's title.
+ * @returns {{url: string, width: number, height: number, alt: string}|null}
+ */
+export function shareImageOf(record, name) {
+  const image = record?.shareImage
+  if (!image?.url) return null
+  // As the app's (src/locales/en.json, seo.shareImageAltPhoto / shareImageAltMap).
+  return { url: image.url, width: image.width, height: image.height, alt: image.kind === 'photo' ? `A photo of ${name}` : `${name} on the map` }
+}
 
 // A page's <head> tags (title, description, canonical, og:, structured
 // data) and its breadcrumbs. path: the page's path ("/caves"); canonical:
 // the path search engines should know it by, when another (a cave's place on
-// the map: its own page); jsonLd: structured data (schema.org) for the
+// the map: its own page); image: its share image (shareImageOf), else the
+// site's; jsonLd: structured data (schema.org) for the
 // page's <head>, if any - structuredData too (a cave's: in its text for the
 // plain pages, in <head> for the rendered ones); trail: its breadcrumbs,
 // [{ name, path }] from the landing page to the page itself - links above
 // its content, and a BreadcrumbList for search results.
-function pageHead({ title, description, path, canonical = path, ogType = 'website', jsonLd = null, structuredData = null, trail = null }, { withStructuredData = false } = {}) {
+function pageHead({ title, description, path, canonical = path, ogType = 'website', image = null, jsonLd = null, structuredData = null, trail = null }, { withStructuredData = false } = {}) {
   const url = `${SITE_URL}${canonical}`
+  const shareImage = image || SHARE_DEFAULT_IMAGE
   const breadcrumbs = trail?.length
     ? {
         html: `<nav aria-label="Breadcrumbs" class="oc-ssr-breadcrumbs">${trail.map(({ name, path: crumbPath }, i) => (i === trail.length - 1 ? `<span aria-current="page">${escapeHtml(name)}</span>` : `<a href="${escapeHtml(crumbPath)}">${escapeHtml(name)}</a>`)).join(' &rsaquo; ')}</nav>
@@ -158,10 +174,10 @@ function pageHead({ title, description, path, canonical = path, ogType = 'websit
     `<meta property="og:title" content="${escapeHtml(title)}" />`,
     `<meta property="og:description" content="${escapeHtml(description)}" />`,
     `<meta property="og:url" content="${escapeHtml(url)}" />`,
-    `<meta property="og:image" content="${SHARE_IMAGE.url}" />`,
-    `<meta property="og:image:width" content="${SHARE_IMAGE.width}" />`,
-    `<meta property="og:image:height" content="${SHARE_IMAGE.height}" />`,
-    `<meta property="og:image:alt" content="${escapeHtml(SHARE_IMAGE.alt)}" />`,
+    `<meta property="og:image" content="${escapeHtml(shareImage.url)}" />`,
+    `<meta property="og:image:width" content="${shareImage.width}" />`,
+    `<meta property="og:image:height" content="${shareImage.height}" />`,
+    `<meta property="og:image:alt" content="${escapeHtml(shareImage.alt)}" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
     jsonLd ? jsonLdScript(jsonLd) : '',
     withStructuredData && structuredData ? jsonLdScript(structuredData) : '',

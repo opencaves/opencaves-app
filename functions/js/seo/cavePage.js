@@ -3,7 +3,7 @@ import { logger } from 'firebase-functions/v2'
 import { REGION, CAVES_COLL_NAME } from '../constants.js'
 import { db } from '../init.js'
 import { SITE_URL, TITLE_NAME } from '../constants.js'
-import { escapeHtml, jsonLdScript, plainParagraphs, renderPage, sendHtml, shellFor, truncate } from './shared.js'
+import { escapeHtml, jsonLdScript, plainParagraphs, renderPage, sendHtml, shareImageOf, shellFor, truncate } from './shared.js'
 import { loadSistemaSlugs } from './indexData.js'
 import { slugify } from './slug.js'
 import { answerWarmPing, isWarmPing } from './keepWarm.js'
@@ -22,8 +22,8 @@ import { answerWarmPing, isWarmPing } from './keepWarm.js'
  * address - /map/<id> (here), or /caves/<id>, its own page (indexPages.js).
  * Both are known to search engines by its own page: one URL per cave, not two
  * near-identical pages (Google skipped them as duplicates).
- * {@link cavePageMeta}: the page's <head> data and its text (body); cavePageHtml: the
- * page itself. structuredData: in the text (body), and in <head> when the
+ * {@link cavePageMeta}: the page's <head> data (its share image: the cave's
+ * shareImage) and its text (body); cavePageHtml: the page itself. structuredData: in the text (body), and in <head> when the
  * app renders the page (ssr.js).
  *
  * @param {string} shell
@@ -55,6 +55,8 @@ export function cavePageMeta(cave, id, sistema, path = `/map/${id}`) {
   const url = `${SITE_URL}${canonical}`
   const aka = Array.isArray(cave.aka) ? cave.aka.filter(Boolean) : []
   const location = cave.location?.latitude != null ? cave.location : null
+  // Its cover photo or its map card (share/shareImages.js), else the site's.
+  const image = shareImageOf(cave, name || label)
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'TouristAttraction',
@@ -64,6 +66,7 @@ export function cavePageMeta(cave, id, sistema, path = `/map/${id}`) {
     address: { '@type': 'PostalAddress', addressCountry: 'MX' },
     ...(aka.length && { alternateName: aka }),
     ...(location && { geo: { '@type': 'GeoCoordinates', latitude: location.latitude, longitude: location.longitude } }),
+    ...(image && { image: image.url }),
   }
 
   const body = [
@@ -88,7 +91,7 @@ export function cavePageMeta(cave, id, sistema, path = `/map/${id}`) {
   const trail = path.startsWith('/caves/')
     ? [{ name: 'Home', path: '/' }, { name: 'Caves', path: '/caves' }, { name: name || label, path }]
     : [{ name: 'Home', path: '/' }, { name: 'Map', path: '/map' }, { name: name || label, path }]
-  return { title, description, path, canonical, body, ogType: 'place', trail, structuredData }
+  return { title, description, path, canonical, body, ogType: 'place', image, trail, structuredData }
 }
 
 // A cave id as the app makes them (push ids): anything else is no cave - and
