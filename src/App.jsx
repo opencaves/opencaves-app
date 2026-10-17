@@ -114,18 +114,21 @@ const App = ({ serverRouter = null }) => {
       <ThemeProvider theme={theme}>
         <Splash />
         <GlobalStyles
-          styles={(theme) => ({
-            ':root': {
-              ...Object.entries(theme.transitions.duration).reduce(
-                (styles, style) => ({
-                  ...styles,
-                  // cssVarPrefix: the CSS variables theme's (extendTheme), unknown to Theme's type.
-                  [`--${/** @type {{ cssVarPrefix?: string }} */ (theme).cssVarPrefix}-transition-duration-${style[0]}`]: `${style[1]}ms`,
-                }),
-                {},
-              ),
-            },
-          })}
+          styles={(theme) => {
+            // cssVarPrefix: the CSS variables theme's (extendTheme), unknown to Theme's type.
+            const prefix = /** @type {{ cssVarPrefix?: string }} */ (theme).cssVarPrefix
+            // Durations in ms, as CSS variables: MUI's transitions', and the
+            // theme's M3 motion tokens (which Theme.jsx keeps MUI from
+            // writing in px).
+            const durations = (name, values) => Object.fromEntries(Object.entries(values).map(([key, value]) => [`--${prefix}-${name}-${key}`, `${value}ms`]))
+            return {
+              ':root': {
+                ...durations('transition-duration', theme.transitions.duration),
+                ...durations('sys-motion-duration', theme.sys.motion.duration),
+                ...durations('oc-sys-motion-duration', theme.oc.sys.motion.duration),
+              },
+            }
+          }}
         />
         <CssBaseline />
         <HelmetProvider>
