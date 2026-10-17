@@ -2,11 +2,12 @@
 
 ## [1.4.0](https://github.com/opencaves/opencaves-app/compare/v1.3.1...v1.4.0) (2026-10-17)
 
-One look for every page - the same frame, the same titles, breadcrumbs on the dashboard's pages - and quicker tools for the team: error reports deleted in a few clicks, changes opened with a click on their line.
+Caves and cave systems shared with their own picture, one look for every page - the same frame, the same titles, breadcrumbs on the dashboard's pages - and quicker tools for the team: error reports deleted in a few clicks, changes opened with a click on their line.
 
 
 ### Features
 
+* **Share images:** a cave's link shared on WhatsApp, Facebook or elsewhere shows its photo - or, without one, a map of where it is with its name; a cave system's shows the map of its caves. Search engines get them too.
 * **Error reports:** each error on its own card, a checkbox for each one with Select all, and Delete selected - the reports of several errors gone at once.
 * **Who changed what:** a click anywhere on a change's line opens it; a Select all checkbox before Undo selected; the time right after the author's name.
 * **Breadcrumbs on the dashboard's pages:** Home > Dashboard > the page, always in the same place.
