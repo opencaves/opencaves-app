@@ -14,7 +14,8 @@ import './Layout.scss'
  * the photo in thin side margins on phones (Layout.scss), the Privacy and
  * Terms links at its foot. One frame for all (the error pages too); a route
  * may set another photo behind it (its `handle.pageBackground`: 'dashboard'
- * for the feedback pages).
+ * for the feedback pages), and a variant of the frame (its `handle.frame`:
+ * 'wide-border' for the dashboard).
  * The page's scroller: it keeps each page's position in the history, and
  * scrolls to an address's #section.
  */
@@ -27,6 +28,8 @@ export default function Layout() {
   // Another photo behind the frame: the deepest route's that sets one
   // (routeTree.jsx; Layout.scss draws it).
   const pageBackground = /** @type {{ pageBackground?: string } | undefined} */ ([...useMatches()].reverse().find((match) => /** @type {{ pageBackground?: string } | undefined} */ (match.handle)?.pageBackground)?.handle)?.pageBackground
+  // A variant of the frame, the route's (handle.frame): 'wide-border' (the dashboard's).
+  const frameVariant = /** @type {{ frame?: string } | undefined} */ (useMatches().at(-1)?.handle)?.frame
 
   // index.html's splash goes once the page is here: the router renders this
   // with its page already loaded (lazy routes resolve first, under the
@@ -128,7 +131,7 @@ export default function Layout() {
     <Box ref={scrollRef} className={['oc-layout', pageBackground && `oc-layout--background-${pageBackground}`].filter(Boolean).join(' ')}>
       <AppBar />
       {/* Its frame: Layout.scss. */}
-      <Container id="main" className="oc-layout--main" component="main">
+      <Container id="main" className={['oc-layout--main', frameVariant && `oc-layout--main-${frameVariant}`].filter(Boolean).join(' ')} component="main">
         <Outlet />
         {/* The Privacy and Terms links at every page's foot - not the landing
             page's, whose own footer has them. */}

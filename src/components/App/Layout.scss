@@ -84,3 +84,17 @@
     border-radius: 4px;
   }
 }
+
+// handle.frame 'wide-border' (the dashboard): a wider border, all round on
+// phones too (no see-through sides) - 1rem + 16px there, from 600px up
+// 2rem + 16px above and below, 2rem + 24px at the sides.
+.oc-layout .oc-layout--main-wide-border {
+  border-width: calc(1rem + 16px);
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+
+  @media (min-width: 600px) {
+    border-width: calc(2rem + 16px) calc(2rem + 24px);
+  }
+}
