@@ -1,0 +1,47 @@
+// A system's exploration history (ExplorationHistory.jsx), on its own oc-
+// classes (docs/design-system.md, "Where styles go").
+
+// The timeline's geometry: a dot centred on an entry's first line (body2,
+// 20px), the text this far from the section's left; 12px between entries.
+$dot: 10px;
+$dot-top: 5px;
+$inset: 24px;
+$gap: 12px;
+
+// A vertical timeline at the left: a line through every entry, a dot beside
+// each one's first line (its date).
+.oc-exploration-history--timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+
+  > li {
+    position: relative;
+    padding-left: $inset;
+  }
+
+  // The line: from the first dot to the last one.
+  > li:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: $dot * 0.5 - 1px;
+    top: $dot-top + $dot * 0.5;
+    bottom: -$gap - ($dot-top + $dot * 0.5);
+    width: 2px;
+    background-color: var(--mui-sys-color-outlineVariant);
+  }
+
+  > li::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: $dot-top;
+    width: $dot;
+    height: $dot;
+    border-radius: 50%;
+    background-color: var(--mui-palette-primary-main);
+  }
+}
