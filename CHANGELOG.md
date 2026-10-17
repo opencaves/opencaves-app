@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.1](https://github.com/opencaves/opencaves-app/compare/v1.4.0...v1.4.1) (2026-10-17)
+
+A fix for the app's update message.
+
+
+### Fixes
+
+* **"A new version is available":** its Refresh button works again on an installed app left open through two updates in a row (it did nothing, the message stayed open). It now closes at once, and the app switches to the latest version.
+
 ## [1.4.0](https://github.com/opencaves/opencaves-app/compare/v1.3.1...v1.4.0) (2026-10-17)
 
 Caves and cave systems shared with their own picture, distances measured on the map, one look for every page - the same frame, the same titles, breadcrumbs on the dashboard's pages - and quicker tools for the team: error reports deleted in a few clicks, changes opened with a click on their line.
