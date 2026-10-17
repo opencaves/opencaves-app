@@ -80,6 +80,7 @@ export default memo(function AuditEntryRow(/** @type {{ entry: object, label: st
             <PersonLabel
               uid={entry.authorId}
               accountLabel={accountLabel}
+              hideId
               after={
                 <Typography component="span" variant="body2" color="text.secondary">
                   <When value={entry.at} />
