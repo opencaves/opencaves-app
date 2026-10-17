@@ -1,13 +1,94 @@
-// The caves still to confirm's tools (CaveConfirmTools.jsx): the order's
-// segmented button and Download for GPS on one row, wrapping on phones; the
-// road distances' credit line under the list.
+// The caves still to confirm's tools (CaveConfirmTools.jsx), at the end of
+// the filters' row (CaveFilterBar), pushed to its right: Download for GPS (a
+// link-style button) then the order's two icon buttons; on a narrow screen they wrap
+// under the filters, still at the right. The road distances' credit line
+// under the list.
 
 .oc-cave-confirm-tools {
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-end;
   align-items: center;
-  gap: 8px 16px;
-  margin-bottom: 16px;
+  gap: 4px 16px;
+  margin-left: auto;
+}
+
+// A link that acts (it downloads): the links' primary colour and underline,
+// its icon before the text; a 48px-tall target, as the sort button's row.
+button.oc-cave-confirm-tools--gpx {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 32px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.875rem;
+  color: var(--mui-sys-color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+
+  &:disabled {
+    color: var(--mui-palette-text-disabled);
+    cursor: default;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--mui-sys-color-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+.oc-cave-confirm-tools--gpx-icon {
+  font-size: 1.25rem;
+}
+
+// The order: "Sort", muted, then its two icon buttons joined (MD3's
+// segmented button: the chips' 32px, an outline, the chosen one in the
+// secondary container with its icon in full colour).
+.oc-cave-confirm-tools--sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.oc-cave-confirm-tools--sort-label {
+  font-size: 0.875rem;
+  color: var(--mui-palette-text-secondary);
+}
+
+.oc-cave-confirm-tools .oc-cave-confirm-tools--sort-button {
+  height: 32px;
+  width: 40px;
+  padding: 0;
+  border-color: var(--mui-sys-color-outline);
+  color: var(--mui-palette-text-secondary);
+
+  &:first-of-type {
+    border-radius: 16px 0 0 16px;
+  }
+
+  &:last-of-type {
+    border-radius: 0 16px 16px 0;
+  }
+
+  &:hover {
+    background-color: rgba(var(--mui-palette-text-primaryChannel) / 0.08);
+  }
+
+  &[aria-pressed='true'] {
+    background-color: var(--mui-sys-color-secondaryContainer);
+    color: var(--mui-sys-color-onSecondaryContainer);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--mui-sys-color-primary);
+    outline-offset: 2px;
+    z-index: 1;
+  }
 }
 
 .oc-cave-confirm-tools--credit {

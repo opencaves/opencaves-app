@@ -1664,6 +1664,7 @@
         "sortLabel": "Order within each area",
         "sortArea": "A to Z",
         "sortRoad": "Easiest to reach first",
+        "sortPrefix": "Sort",
         "gpx": "Download for GPS",
         "gpxName": "OpenCaves: caves to confirm",
         "gpxRoad": "nearest road: {{name}}",

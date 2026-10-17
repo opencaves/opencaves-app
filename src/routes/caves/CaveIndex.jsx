@@ -138,6 +138,13 @@ export default function CaveIndex() {
   }, [caves, data, rows, toConfirm, sort, t, units, i18n.language])
   const shownGroups = useProgressiveCount(groups.length, groups)
 
+  // The order within each area chosen (A to Z, easiest to reach first): as
+  // the other filters, an analytics filter_change.
+  const changeSort = (next) => {
+    setFilters(filters, next)
+    track('filter_change', { filter: 'caves_to_confirm_sort', choice: next, page: 'caves' })
+  }
+
   // Download for GPS: the list shown, in its order, as a GPX file - each
   // cave's distances and nearest road in its description.
   const downloadGpx = () => {
@@ -156,7 +163,8 @@ export default function CaveIndex() {
     link.click()
     link.remove()
     setTimeout(() => URL.revokeObjectURL(url), 1000)
-    track('download_gpx', { content_type: 'caves_to_confirm', item_count: waypoints.length, choice: sort })
+    // The app's download event, with the order the file was made in.
+    track('download', { content_type: 'caves_to_confirm_gpx', page: 'caves', choice: sort })
   }
 
   useIndexPageHead({ title: t('caves.headTitle'), description: t('caves.description') })
@@ -186,11 +194,16 @@ export default function CaveIndex() {
         count={!searching && !filtered && t('caves.subtitle', { count: data.caves.length })}
       />
 
-      <CaveFilterBar filters={filters} options={options} onToggle={onToggle} onClear={() => setFilters(emptyCaveFilters())} countWith={countWith} />
+      <CaveFilterBar
+        filters={filters}
+        options={options}
+        onToggle={onToggle}
+        onClear={() => setFilters(emptyCaveFilters())}
+        countWith={countWith}
+        end={toConfirm && <CaveConfirmTools sort={sort} onSort={changeSort} onDownload={downloadGpx} disabled={caves.length === 0} />}
+      />
 
       {filters.missing.includes('photo') && coversError && <Typography color="error" sx={{ mb: 2 }}>{t('caves.filters.photosFailed')}</Typography>}
-
-      {toConfirm && <CaveConfirmTools sort={sort} onSort={(next) => setFilters(filters, next)} onDownload={downloadGpx} disabled={caves.length === 0} />}
 
       {groups.slice(0, shownGroups).map(({ area, items, rows: groupRows }) => (
         <IndexSection

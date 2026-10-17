@@ -1664,6 +1664,7 @@
         "sortLabel": "Orden dentro de cada zona",
         "sortArea": "De la A a la Z",
         "sortRoad": "Las más fáciles de alcanzar primero",
+        "sortPrefix": "Ordenar",
         "gpx": "Descargar para GPS",
         "gpxName": "OpenCaves: cuevas por confirmar",
         "gpxRoad": "camino vehicular más cercano: {{name}}",

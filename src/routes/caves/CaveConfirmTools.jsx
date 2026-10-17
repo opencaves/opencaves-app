@@ -1,15 +1,27 @@
+import { useId } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Button, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
+import { ToggleButton, ToggleButtonGroup, Tooltip, Typography } from '@mui/material'
 import DownloadRounded from '@mui/icons-material/DownloadRounded'
+import RouteRounded from '@mui/icons-material/RouteRounded'
+import SortByAlphaRounded from '@mui/icons-material/SortByAlphaRounded'
 import './CaveConfirmTools.scss'
 
 // OpenStreetMap's attribution page (its licence asks for a link to it).
 const OSM_COPYRIGHT_URL = 'https://www.openstreetmap.org/copyright'
 
+// The orders within each area, each with its icon.
+const SORTS = [
+  { value: 'area', Icon: SortByAlphaRounded },
+  { value: 'road', Icon: RouteRounded },
+]
+
 /**
- * The caves still to confirm's tools, above their list (/caves?missing=position):
- * the order within each area - A to Z, or easiest to reach first (by road
- * distance; MD3's segmented button) - and Download for GPS (a GPX file of the list shown).
+ * The caves still to confirm's tools, at the end of the filters' row
+ * (/caves?missing=position): Download for GPS (a GPX file of the list shown),
+ * a link-style button, then the order within each area - "Sort" and two
+ * icon buttons side by side (MD3's segmented button, icons only: A to Z, or
+ * easiest to reach first), each named by its tooltip and its label for
+ * screen readers, the chosen one filled.
  *
  * @param {object} props
  * @param {string} props.sort - 'area' or 'road' (utils/roadDistance.js' CAVE_SORTS).
@@ -19,22 +31,32 @@ const OSM_COPYRIGHT_URL = 'https://www.openstreetmap.org/copyright'
  */
 export default function CaveConfirmTools({ sort, onSort, onDownload, disabled = false }) {
   const { t } = useTranslation('indexPages')
+  const labelId = useId()
+  const label = (value) => (value === 'road' ? t('caves.toConfirm.sortRoad') : t('caves.toConfirm.sortArea'))
   return (
     <div className="oc-cave-confirm-tools">
-      <ToggleButtonGroup
-        className="oc-cave-confirm-tools--sort"
-        size="small"
-        exclusive
-        value={sort}
-        onChange={(event, value) => value && onSort(value)}
-        aria-label={t('caves.toConfirm.sortLabel')}
-      >
-        <ToggleButton value="area">{t('caves.toConfirm.sortArea')}</ToggleButton>
-        <ToggleButton value="road">{t('caves.toConfirm.sortRoad')}</ToggleButton>
-      </ToggleButtonGroup>
-      <Button className="oc-cave-confirm-tools--gpx" variant="outlined" startIcon={<DownloadRounded />} onClick={onDownload} disabled={disabled}>
+      <button type="button" className="oc-cave-confirm-tools--gpx" onClick={onDownload} disabled={disabled}>
+        <DownloadRounded className="oc-cave-confirm-tools--gpx-icon" aria-hidden="true" />
         {t('caves.toConfirm.gpx')}
-      </Button>
+      </button>
+      <div className="oc-cave-confirm-tools--sort">
+        <span id={labelId} className="oc-cave-confirm-tools--sort-label">{t('caves.toConfirm.sortPrefix')}</span>
+        <ToggleButtonGroup
+          className="oc-cave-confirm-tools--sort-group"
+          exclusive
+          value={sort}
+          onChange={(event, value) => value && value !== sort && onSort(value)}
+          aria-labelledby={labelId}
+        >
+          {SORTS.map(({ value, Icon }) => (
+            <Tooltip key={value} title={label(value)}>
+              <ToggleButton value={value} className="oc-cave-confirm-tools--sort-button" aria-label={label(value)}>
+                <Icon fontSize="small" />
+              </ToggleButton>
+            </Tooltip>
+          ))}
+        </ToggleButtonGroup>
+      </div>
     </div>
   )
 }

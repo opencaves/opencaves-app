@@ -1664,6 +1664,7 @@
         "sortLabel": "Ordre dans chaque région",
         "sortArea": "De A à Z",
         "sortRoad": "Les plus faciles d’accès d’abord",
+        "sortPrefix": "Trier",
         "gpx": "Télécharger pour GPS",
         "gpxName": "OpenCaves : grottes à confirmer",
         "gpxRoad": "route la plus proche : {{name}}",
