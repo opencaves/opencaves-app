@@ -14,8 +14,6 @@ import { removeShell } from '@/utils/shell.js'
 import { isFirestoreFailure, isFirestoreOffline, recoverFromFirestoreFailure } from '@/utils/firestoreRecovery.js'
 import { isStaleBuildError, reloadForNewBuild } from '@/utils/staleBuild.js'
 import { reportError } from '@/utils/errorReports.js'
-import notFoundPicture from '@/images/404/bg-small.webp'
-import errorPicture from '@/images/404/error-bg.webp'
 import './NoMatch.scss'
 
 // The catch-all route's page, and every route's errorElement: a page that
@@ -74,8 +72,8 @@ ${reason}`)
 /**
  * The page not found, failed or offline (see above). A bad cave or system
  * address offers its list too. In the layout, a page like the others in its
- * frame, its photo as a picture above the message; on its own, the whole
- * window, the message on its photo.
+ * frame (its photo behind, none of its own); on its own, the whole window,
+ * the message on its photo.
  *
  * @param {object} props
  * @param {boolean} [props.inLayout=false] - Inside the pages' layout (app bar, search kept), not the whole
@@ -159,10 +157,6 @@ export default function NoMatch({ inLayout = false }) {
           <ArrowBackRounded />
         </IconButton>
       )}
-      {/* In the layout, a page like the others in its frame: the photo the
-          page shows on its own (a cave's entrance; a dead end's for a
-          failure) as its picture, above the message. */}
-      {inLayout && <img className="no-match--picture" src={kind === 'notFound' ? notFoundPicture : errorPicture} alt="" />}
       <Grid className="no-match--box">
         <h1 className="no-match--header">{kind === 'notFound' ? t('header') : t(`${kind}.header`)}</h1>
         <p>{kind === 'notFound' ? t('description') : t(`${kind}.description`)}</p>

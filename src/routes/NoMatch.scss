@@ -118,19 +118,9 @@
 }
 
 // Inside the pages' layout (app bar kept): a page in the frame, like the
-// others - no box of its own (the frame is its surface), its photo as a
-// picture above the message, and a page's heading, not a poster's.
+// others - no box of its own (the frame is its surface, the frame's photo
+// behind it: no photo of its own), and a page's heading, not a poster's.
 .oc-no-match.no-match--in-layout {
-  .no-match--picture {
-    display: block;
-    width: 100%;
-    max-width: 36rem;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    border-radius: var(--oc-radius, 8px);
-    margin-bottom: 2rem;
-  }
-
   .no-match--box {
     max-height: none;
     max-width: 100%;
@@ -143,7 +133,10 @@
   .no-match--header {
     text-transform: none;
     // Every page's title (PAGE_TITLE_SX, components/pageTitle.js): the h4,
-    // medium weight, its accent bar under it (centred, as the message).
+    // medium weight, its accent bar under it. Centred, as the message, but
+    // as wide as its text (inline-block), the bar starting at its left edge
+    // - as on the other pages, where titles start on the left.
+    display: inline-block;
     font: var(--mui-font-h4);
     font-weight: 500;
 
@@ -152,7 +145,7 @@
       display: block;
       width: 56px;
       height: 4px;
-      margin: 12px auto 0;
+      margin: 12px 0 0;
       border-radius: 2px;
       background-color: var(--mui-palette-secondary-main);
     }
