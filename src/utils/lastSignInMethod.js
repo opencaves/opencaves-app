@@ -34,3 +34,20 @@ export function lastSignInMethod() {
     return null
   }
 }
+
+// An account's sign-in providers (Firebase's providerData) as the log-in
+// page's methods: a password is email.
+const methodOf = (providerId) => (providerId === 'password' ? 'email' : providerId)
+
+/**
+ * For a session already open when nothing is remembered yet (signed in
+ * before the "Last used" chip, or elsewhere): the account's way to sign in,
+ * when it has only one - with several, which one was last can't be known.
+ *
+ * @param {{providerData?: {providerId: string}[]}} user - The signed-in Firebase user.
+ */
+export function rememberAccountMethod(user) {
+  if (lastSignInMethod()) return
+  const methods = [...new Set((user.providerData || []).map(({ providerId }) => methodOf(providerId)))].filter((method) => METHODS.includes(method))
+  if (methods.length === 1) rememberSignInMethod(methods[0])
+}
