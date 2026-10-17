@@ -23,6 +23,7 @@ Caves and cave systems shared with their own picture, distances measured on the 
 * **A cave system's edit form:** its name edited in place, as its title.
 * **The map's edit button** opens on a click only, no longer when the pointer passes over it, and closes when you pick an action, press Escape or click elsewhere; while open, it shows a cross.
 * **A cave with an unknown access** no longer asks to confirm it: its Access card says "Access unknown" and offers Update the access, the list of values to propose.
+* **No Still accurate on a cave's description:** its access and getting there keep theirs.
 * **Cave names:** "Entrada" left out of the names of cenotes that are entrances (the diver icon says so; the old name still finds them), and names that were only a map's labels replaced.
 * **Survey maps:** sharper copies of Actun Chen's and Mino Mi's maps, and two maps misnamed after another system renamed (Sistema Ojos, Maravilla); caves that were only placeholders or duplicates removed.
 * **The cave layer:** Ox Bel Ha's two surveys (GEO 1999 and J. Coke 2011) line up - the 2011 map bent onto the 1999 one, the better placed: their passages now within about 6 m of each other instead of 16, up to 85 m before.
