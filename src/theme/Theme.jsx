@@ -1,4 +1,4 @@
-import { extendTheme } from '@mui/material/styles'
+import { extendTheme, shouldSkipGeneratingVar as defaultShouldSkipGeneratingVar } from '@mui/material/styles'
 import merge from 'lodash/merge'
 
 // old
@@ -609,6 +609,10 @@ const darkThemeOptions = {
 
 // Cast: MUI's types don't know the app's own `sys` and `oc` token groups.
 export const theme = extendTheme(/** @type {import('@mui/material/styles').CssVarsThemeOptions} */ ({
+  // The motion durations are numbers (ms) for the code, which MUI's CSS
+  // variables would write as px ("300px"): skipped here, emitted in ms by
+  // App.jsx's GlobalStyles (--mui-sys-motion-duration-*, --mui-oc-sys-...).
+  shouldSkipGeneratingVar: (keys) => defaultShouldSkipGeneratingVar(keys) || (keys.includes('motion') && keys.includes('duration')),
   sys: lightThemeOptions.sys,
   oc: lightThemeOptions.oc,
   colorSchemeSelector: 'data-mui-color-scheme',
