@@ -8,6 +8,7 @@ import { auth, signInWithProviderPopup, signInWithProviderRedirect } from '@/con
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { useTranslation } from 'react-i18next'
 import { track } from '@/utils/track.js'
+import { rememberSignInMethod } from '@/utils/lastSignInMethod.js'
 
 /**
  * Signs up with an identity provider (Google, Microsoft), in a popup - a redirect
@@ -56,6 +57,7 @@ export default function AuthWithProvider({ Provider, message, color, onSuccess, 
         .then(() => {
           setDisabled(false)
           track('sign_up', { method: new Provider().providerId })
+          rememberSignInMethod(new Provider().providerId)
           onAuthWithProviderSuccess()
         })
         .catch((error) => {

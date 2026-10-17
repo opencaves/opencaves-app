@@ -8,10 +8,12 @@ import { auth, signInWithProviderPopup, signInWithProviderRedirect } from '@/con
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { useTranslation } from 'react-i18next'
 import { track } from '@/utils/track.js'
+import { rememberSignInMethod } from '@/utils/lastSignInMethod.js'
+import LastUsedChip from './LastUsedChip.jsx'
 
 /**
  * Logs in with an identity provider (Google, Microsoft), in a popup - a redirect
- * on phones.
+ * on phones. "Last used" on it when it's how this device last signed in.
  *
  * @param {object} props - Also AuthButton's.
  * @param {typeof import('firebase/auth').GoogleAuthProvider | typeof import('./providers.jsx').MicrosoftAuthProvider} props.Provider - The provider's class.
@@ -55,6 +57,7 @@ export default function LogInWithProvider({ Provider, message, color, onSuccess,
       signInWithProviderPopup(new Provider())
         .then(() => {
           track('login', { method: new Provider().providerId })
+          rememberSignInMethod(new Provider().providerId)
           onLogInWithProviderSuccess()
         })
         .catch((error) => {
@@ -88,6 +91,7 @@ export default function LogInWithProvider({ Provider, message, color, onSuccess,
       {...props}
     >
       {message}
+      <LastUsedChip method={new Provider().providerId} />
     </AuthButton>
   )
 }

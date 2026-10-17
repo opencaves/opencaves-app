@@ -30,6 +30,7 @@ import { NavigateNextRounded } from '../icons.jsx'
 import './SignupWithEmail.scss'
 import OfflineAuthNote from './OfflineAuthNote.jsx'
 import { track } from '@/utils/track.js'
+import { rememberSignInMethod } from '@/utils/lastSignInMethod.js'
 
 const emailValidatedParam = 'email-valid'
 
@@ -411,6 +412,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
           displayName: `${firstName}${lastName ? ` ${lastName}` : ``}`,
         })
         track('sign_up', { method: 'email_link' })
+        rememberSignInMethod('email')
 
         nextStep()
       } else {

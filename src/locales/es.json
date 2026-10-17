@@ -191,6 +191,7 @@
     },
     "login": {
       "title": "Iniciar sesión",
+      "lastUsed": "Último usado",
       "withGoogle": "Iniciar sesión con Google",
       "withEmail": "Iniciar sesión con correo electrónico",
       "or": "o",
