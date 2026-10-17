@@ -1,11 +1,12 @@
 import { onRequest } from 'firebase-functions/v2/https'
 import { logger } from 'firebase-functions/v2'
-import { REGION, CAVES_COLL_NAME } from '../constants.js'
+import { REGION, CAVES_COLL_NAME, CAVE_RATINGS_COLL_NAME } from '../constants.js'
 import { db } from '../init.js'
 import { SITE_URL, TITLE_NAME } from '../constants.js'
 import { escapeHtml, jsonLdScript, plainParagraphs, renderPage, sendHtml, shareImageOf, shellFor, truncate } from './shared.js'
 import { loadSistemaSlugs } from './indexData.js'
 import { slugify } from './slug.js'
+import { caveJsonLd } from './structuredData.js'
 import { answerWarmPing, isWarmPing } from './keepWarm.js'
 
 // A cave's page (/map/<caveId>) served with its content already in the HTML,
@@ -23,21 +24,33 @@ import { answerWarmPing, isWarmPing } from './keepWarm.js'
  * Both are known to search engines by its own page: one URL per cave, not two
  * near-identical pages (Google skipped them as duplicates).
  * {@link cavePageMeta}: the page's <head> data (its share image: the cave's
- * shareImage) and its text (body); cavePageHtml: the page itself. structuredData: in the text (body), and in <head> when the
- * app renders the page (ssr.js).
+ * shareImage) and its text (body); cavePageHtml: the page itself. structuredData
+ * (structuredData.js' caveJsonLd, as the app's on the map: CaveSeo.jsx): in
+ * the text (body), and in <head> when the app renders the page (ssr.js).
  *
  * @param {string} shell
  * @param {Cave} cave
  * @param {string} id
  * @param {{name: string, slug: string}} [sistema]
  * @param {string} [path]
+ * @param {{average: number|null, count: number}|null} [rating] - Its ratings' summary ({@link readCaveRating}).
  * @returns {string}
  */
-export function cavePageHtml(shell, cave, id, sistema, path = `/map/${id}`) {
-  return renderPage(shell, cavePageMeta(cave, id, sistema, path))
+export function cavePageHtml(shell, cave, id, sistema, path = `/map/${id}`, rating = null) {
+  return renderPage(shell, cavePageMeta(cave, id, sistema, path, rating))
 }
 
-export function cavePageMeta(cave, id, sistema, path = `/map/${id}`) {
+/**
+ * A cave's page's <head> data and text, as {@link cavePageHtml} says.
+ *
+ * @param {Cave} cave
+ * @param {string} id
+ * @param {{name: string, slug: string}|null} [sistema]
+ * @param {string} [path]
+ * @param {{average: number|null, count: number}|null} [rating]
+ * @returns {object}
+ */
+export function cavePageMeta(cave, id, sistema, path = `/map/${id}`, rating = null) {
   const area = cave.area || null
   const name = cave.name?.value || ''
   // Its name alone, as the app's titles (no "Cenote" prefix: "Cenote Cenote
@@ -57,17 +70,18 @@ export function cavePageMeta(cave, id, sistema, path = `/map/${id}`) {
   const location = cave.location?.latitude != null ? cave.location : null
   // Its cover photo or its map card (share/shareImages.js), else the site's.
   const image = shareImageOf(cave, name || label)
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'TouristAttraction',
+  const structuredData = caveJsonLd({
+    siteUrl: SITE_URL,
+    id,
     name: name || label,
     description,
-    url,
-    address: { '@type': 'PostalAddress', addressCountry: 'MX' },
-    ...(aka.length && { alternateName: aka }),
-    ...(location && { geo: { '@type': 'GeoCoordinates', latitude: location.latitude, longitude: location.longitude } }),
-    ...(image && { image: image.url }),
-  }
+    aka,
+    location,
+    image: image?.url || null,
+    area,
+    sistema: sistema ? { id: sistema.slug, name: sistema.name } : null,
+    rating,
+  })
 
   const body = [
     `<main class="oc-ssr-cave">`,
@@ -97,6 +111,20 @@ export function cavePageMeta(cave, id, sistema, path = `/map/${id}`) {
 // A cave id as the app makes them (push ids): anything else is no cave - and
 // can't carry markup into the page.
 const CAVE_ID_PATTERN = /^[-_A-Za-z0-9]{1,64}$/
+
+/**
+ * A cave's ratings' summary (_caveRatings/<id>, kept by onRatingWritten), for
+ * its structured data's aggregateRating - null when it has none.
+ *
+ * @param {string} id
+ * @returns {Promise<{average: number|null, count: number}|null>}
+ */
+export async function readCaveRating(id) {
+  const snapshot = await db.collection(CAVE_RATINGS_COLL_NAME).doc(id).get()
+  if (!snapshot.exists) return null
+  const { average, count } = snapshot.data()
+  return { average: typeof average === 'number' ? average : null, count: count || 0 }
+}
 
 /**
  * /map/<caveId>, server-rendered for search engines ({@link cavePageHtml}).
@@ -136,9 +164,7 @@ export const cavePage = onRequest({ region: REGION }, async (req, res) => {
   res.set('Cache-Control', 'public, max-age=300, s-maxage=3600')
   const cave = snapshot.data()
   let sistema = null
-  if (cave.sistemaId) {
-    const { slugs, names } = await loadSistemaSlugs()
-    if (names.has(cave.sistemaId)) sistema = { name: names.get(cave.sistemaId), slug: slugs.get(cave.sistemaId) }
-  }
-  sendHtml(req, res, cavePageHtml(shell, cave, id, sistema))
+  const [rating, sistemaSlugs] = await Promise.all([readCaveRating(id), cave.sistemaId ? loadSistemaSlugs() : null])
+  if (sistemaSlugs?.names.has(cave.sistemaId)) sistema = { name: sistemaSlugs.names.get(cave.sistemaId), slug: sistemaSlugs.slugs.get(cave.sistemaId) }
+  sendHtml(req, res, cavePageHtml(shell, cave, id, sistema, `/map/${id}`, rating))
 })
