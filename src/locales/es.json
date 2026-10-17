@@ -104,7 +104,6 @@
     "breadcrumbs": "Ruta de navegación",
     "carousel": {
       "showAll": "Mostrar todo: {{title}}",
-      "label": "{{title}}, carrusel",
       "showAllLink": "Mostrar todo"
     },
     "nameRequired": "El nombre es obligatorio",
