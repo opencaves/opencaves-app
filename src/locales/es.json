@@ -1101,7 +1101,7 @@
       "done": "Listo",
       "point": "Punto {{index}} de {{count}}",
       "pointOnCave": "Punto {{index}} de {{count}}: {{cave}}",
-      "segment": "{{length}} · {{bearing}}°",
+      "segment": "{{length}} · {{bearing}}° M",
       "units": "Unidades",
       "metric": "Métrico (m, km)",
       "imperial": "Imperial (ft, mi)",

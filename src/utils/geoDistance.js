@@ -3,6 +3,8 @@
 // plenty for caves a few kilometres apart. The Nearby caves (nearbyCaves.js),
 // a photo's distance from its cave (photoGps.js) and the map's Measure tool.
 
+import { magvar } from 'magvar'
+
 // The Earth's mean radius (IUGG), in metres.
 const EARTH_RADIUS = 6371008.8
 
@@ -49,4 +51,19 @@ export function bearingDegrees(a, b) {
   const y = Math.sin(dLng) * Math.cos(lat2)
   const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng)
   return Math.round(((Math.atan2(y, x) * 180) / Math.PI + 360) % 360) % 360
+}
+
+/**
+ * The magnetic bearing from one point to another - what a compass reads: the
+ * true bearing ({@link bearingDegrees}) less the magnetic declination at `a`
+ * today (the World Magnetic Model 2025-2030, via magvar; west negative), in
+ * whole degrees (0-359).
+ *
+ * @param {{latitude: number, longitude: number}} a
+ * @param {{latitude: number, longitude: number}} b
+ * @returns {number}
+ */
+export function magneticBearingDegrees(a, b) {
+  const declination = magvar(a.latitude, a.longitude)
+  return Math.round((((bearingDegrees(a, b) - declination) % 360) + 360) % 360) % 360
 }

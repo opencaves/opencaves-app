@@ -12,7 +12,7 @@ import { MEASURE_LABEL_MIN_PX, MEASURE_SNAP_RADIUS_PX } from '@/config/map.js'
 import { PANE_BREAKPOINTS } from '@/config/app.js'
 import { getPhoneSheet } from '@/components/ResultPane/phoneSheetControl.js'
 import { useUnits } from '@/hooks/useUnits.jsx'
-import { bearingDegrees, distanceMetres, pathMetres } from '@/utils/geoDistance.js'
+import { distanceMetres, magneticBearingDegrees, pathMetres } from '@/utils/geoDistance.js'
 import { formatMeasuredDistance } from '@/utils/units.js'
 import './MeasureTool.scss'
 
@@ -53,12 +53,13 @@ const LABEL_STYLE = { zIndex: 2, pointerEvents: /** @type {const} */ ('none') }
 /**
  * The map's Measure tool, while mapSlice's `measuring` is on (MeasureButton):
  * each click or tap on the map adds a point, a line joins them with each
- * segment's great-circle length and bearing (from its start, degrees from
- * true north: {@link bearingDegrees}) at its middle ({@link distanceMetres}), and a
+ * segment's great-circle length and magnetic bearing (from its start, as a
+ * compass reads it: {@link magneticBearingDegrees}) at its middle ({@link distanceMetres}), and a
  * panel at the bottom gives the total in the reader's units
  * ({@link formatMeasuredDistance}) with Undo, Clear and Done (Escape too),
  * and a metric/imperial switch for the measurement alone (the app's units
  * setting doesn't change, nor is the switch saved).
+ * A double-click ends the line (no more points until Undo or Clear).
  * With a mouse, the next segment shows as the pointer moves: dashed from the
  * last point to the cursor, its length and bearing in a hint beside it.
  * A point put down or dragged near a cave's pin ({@link MEASURE_SNAP_RADIUS_PX})
@@ -132,7 +133,14 @@ export default function MeasureTool({ mapRef, caves, panelContainer, isSmall, in
 
   const onCave = (cave) => ({ longitude: cave.location.longitude, latitude: cave.location.latitude, caveId: cave.id, caveName: cave.name?.value })
 
+  // A double-click ends the line: clicks (and pins' clicks) no longer add
+  // points until Undo or Clear. A ref too, for the map's own listeners.
+  const [finished, setFinished] = useState(false)
+  const finishedRef = useRef(false)
+  finishedRef.current = finished
+
   function addPoint(point) {
+    if (finishedRef.current) return
     setPoints((current) => [...current, { id: nextId.current++, ...point }])
   }
 
@@ -170,6 +178,19 @@ export default function MeasureTool({ mapRef, caves, panelContainer, isSmall, in
       if (event.originalEvent?.target?.closest?.('.mapboxgl-marker')) return
       addPoint(pointAt(event.lngLat, event.point.x, event.point.y))
     }
+    // A double-click: its second click added a point on its first one - gone
+    // - and the line ends there.
+    const onDoubleClick = (event) => {
+      if (finishedRef.current) return
+      setPoints((current) => {
+        if (current.length < 2) return current
+        const [a, b] = current.slice(-2).map((point) => map.project([point.longitude, point.latitude]))
+        return Math.hypot(a.x - b.x, a.y - b.y) < MEASURE_SNAP_RADIUS_PX ? current.slice(0, -1) : current
+      })
+      setFinished(true)
+      setCursor(null)
+      event.preventDefault?.()
+    }
     // Which labels fit, again as the map zooms - once a frame at most.
     let frame = 0
     const onZoom = () => {
@@ -197,6 +218,7 @@ export default function MeasureTool({ mapRef, caves, panelContainer, isSmall, in
     map.on('zoom', onZoom)
     map.on('mousemove', onMove)
     map.on('mouseout', onLeave)
+    map.on('dblclick', onDoubleClick)
     return () => {
       cancelAnimationFrame(frame)
       cancelAnimationFrame(moveFrame)
@@ -204,6 +226,7 @@ export default function MeasureTool({ mapRef, caves, panelContainer, isSmall, in
       map.off('zoom', onZoom)
       map.off('mousemove', onMove)
       map.off('mouseout', onLeave)
+      map.off('dblclick', onDoubleClick)
       if (doubleClickZoom) map.doubleClickZoom.enable()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -284,7 +307,7 @@ export default function MeasureTool({ mapRef, caves, panelContainer, isSmall, in
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [points, zoomTick])
 
-  // Each segment's length and bearing (from its start, true north) at its
+  // Each segment's length and magnetic bearing (from its start) at its
   // middle, if it's long enough on screen.
   const map = mapRef.current
   const labels = points.slice(1).flatMap((point, index) => {
@@ -294,13 +317,13 @@ export default function MeasureTool({ mapRef, caves, panelContainer, isSmall, in
       const b = map.project([point.longitude, point.latitude])
       if (Math.hypot(a.x - b.x, a.y - b.y) < MEASURE_LABEL_MIN_PX) return []
     }
-    return [{ id: point.id, longitude: (previous.longitude + point.longitude) / 2, latitude: (previous.latitude + point.latitude) / 2, text: t('segment', { length: format(distanceMetres(previous, point)), bearing: bearingDegrees(previous, point) }) }]
+    return [{ id: point.id, longitude: (previous.longitude + point.longitude) / 2, latitude: (previous.latitude + point.latitude) / 2, text: t('segment', { length: format(distanceMetres(previous, point)), bearing: magneticBearingDegrees(previous, point) }) }]
   })
 
   // The next segment, from the last point to the mouse, while there's one:
   // dashed on the map, its length and bearing in a hint beside the cursor.
   const last = points[points.length - 1]
-  const next = last && cursor && !dragging ? { from: last, to: cursor } : null
+  const next = last && cursor && !dragging && !finished ? { from: last, to: cursor } : null
   const preview = {
     type: 'FeatureCollection',
     features: next ? [{ type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: [[next.from.longitude, next.from.latitude], [next.to.longitude, next.to.latitude]] } }] : [],
@@ -359,14 +382,20 @@ export default function MeasureTool({ mapRef, caves, panelContainer, isSmall, in
       </ToggleButtonGroup>
       <Tooltip title={t('undo')}>
         <span>
-          <IconButton className="oc-measure-tool--undo" aria-label={t('undo')} disabled={points.length === 0} onClick={() => setPoints((current) => current.slice(0, -1))}>
+          <IconButton className="oc-measure-tool--undo" aria-label={t('undo')} disabled={points.length === 0} onClick={() => {
+            setFinished(false)
+            setPoints((current) => current.slice(0, -1))
+          }}>
             <UndoRounded />
           </IconButton>
         </span>
       </Tooltip>
       <Tooltip title={t('clear')}>
         <span>
-          <IconButton className="oc-measure-tool--clear" aria-label={t('clear')} disabled={points.length === 0} onClick={() => setPoints([])}>
+          <IconButton className="oc-measure-tool--clear" aria-label={t('clear')} disabled={points.length === 0} onClick={() => {
+            setFinished(false)
+            setPoints([])
+          }}>
             <DeleteSweepRounded />
           </IconButton>
         </span>
@@ -439,7 +468,7 @@ export default function MeasureTool({ mapRef, caves, panelContainer, isSmall, in
         mapContainer &&
         createPortal(
           <div className="oc-measure-tool--cursor-hint" aria-hidden="true" style={{ left: cursor.x, top: cursor.y }}>
-            {t('segment', { length: format(distanceMetres(next.from, next.to)), bearing: bearingDegrees(next.from, next.to) })}
+            {t('segment', { length: format(distanceMetres(next.from, next.to)), bearing: magneticBearingDegrees(next.from, next.to) })}
           </div>,
           mapContainer,
         )}
