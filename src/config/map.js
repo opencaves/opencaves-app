@@ -49,9 +49,10 @@ export const MEASURE_SNAP_RADIUS_PX = 18
 // 16px above the locate button), which what sits higher in it - the editors'
 // edit FAB, the cave layer's legend - adds to their own offset.
 export const MEASURE_BUTTON_SLOT = '56px + 16px'
-// A segment's length is labelled at its middle once it's this long on screen
-// (shorter, the label would cover the line and its points).
-export const MEASURE_LABEL_MIN_PX = 56
+// A segment's length and bearing are labelled at its middle once it's this
+// long on screen (shorter, the label - "3.2 km · 135°" - would cover the
+// line and its points).
+export const MEASURE_LABEL_MIN_PX = 96
 
 export const MARKER_CONFIG = {
   label: {

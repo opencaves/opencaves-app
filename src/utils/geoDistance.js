@@ -3,6 +3,8 @@
 // plenty for caves a few kilometres apart. The Nearby caves (nearbyCaves.js),
 // a photo's distance from its cave (photoGps.js) and the map's Measure tool.
 
+import { magvar } from 'magvar'
+
 // The Earth's mean radius (IUGG), in metres.
 const EARTH_RADIUS = 6371008.8
 
@@ -32,4 +34,36 @@ export function pathMetres(points) {
   let total = 0
   for (let index = 1; index < points.length; index++) total += distanceMetres(points[index - 1], points[index])
   return total
+}
+
+/**
+ * The bearing from one point to another: the great circle's initial
+ * direction at `a`, in whole degrees clockwise from true north (0-359).
+ *
+ * @param {{latitude: number, longitude: number}} a
+ * @param {{latitude: number, longitude: number}} b
+ * @returns {number}
+ */
+export function bearingDegrees(a, b) {
+  const lat1 = toRadians(a.latitude)
+  const lat2 = toRadians(b.latitude)
+  const dLng = toRadians(b.longitude - a.longitude)
+  const y = Math.sin(dLng) * Math.cos(lat2)
+  const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng)
+  return Math.round(((Math.atan2(y, x) * 180) / Math.PI + 360) % 360) % 360
+}
+
+/**
+ * The magnetic bearing from one point to another - what a compass reads: the
+ * true bearing ({@link bearingDegrees}) less the magnetic declination at `a`
+ * today (the World Magnetic Model 2025-2030, via magvar; west negative), in
+ * whole degrees (0-359).
+ *
+ * @param {{latitude: number, longitude: number}} a
+ * @param {{latitude: number, longitude: number}} b
+ * @returns {number}
+ */
+export function magneticBearingDegrees(a, b) {
+  const declination = magvar(a.latitude, a.longitude)
+  return Math.round((((bearingDegrees(a, b) - declination) % 360) + 360) % 360) % 360
 }

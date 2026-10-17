@@ -85,7 +85,8 @@ documented where the code reads them.
 ## Placement
 
 A map is placed with a similarity fit (scale, rotation, shift) on control
-points, or by its scale bar and north plus one or more points.
+points, or by its scale bar and north plus one or more points - and, for a
+map that bends, a warp after it (see "Warp").
 
 - **Never trust the north arrow or the scale bar alone.** Old magnetic norths
   were several degrees off (Mayan Blue 6.4°, Xel-Há 9.9°) and printed scale
@@ -102,6 +103,53 @@ points, or by its scale bar and north plus one or more points.
   tells (names, exploration history, depths, the cenotes it lists) is still
   used to correct the database, and the map file stays attached to its
   sistema.
+
+## Warp
+
+A map whose drawing bends away from the ground - right in one part, tens of
+metres off in another, with no single scale, rotation and shift fitting it
+everywhere - can be **warped**: a smooth correction (a thin-plate spline,
+`scripts/map-layer/warp.py`) applied after its similarity placement. It's
+off unless the config has a `"warp"` (the keys are documented in `warp.py`).
+`raster_placement` and `vector_placement` apply it, so everything placed
+through them moves alike - the traced lines, the symbols, the cenotes, the
+overlay - and the image laid on the ground for the Map layers page's
+original-vs-drawing viewer is **resampled** (north up, transparent outside
+the map, each pixel where the warp puts it) instead of laid by its four
+corners, which can't follow a bend. Retrace the map after changing a warp
+(`trace_scan.py`, `extract_symbols.py`, `trace_scan.py`), then
+`npm run build:tiles`.
+
+- **When:** only when a better-placed survey of the same passages shows the
+  map bending, measurably and over areas (not one spot), and a similarity
+  or affine fit can't make them overlap. The better map must be placed
+  independently of this one (no control point borrowed from it). Never to
+  make a single cenote land on its database position: the control points
+  and their residuals say how good the placement is.
+- **Pairs** (`"pairs"`: a pixel and where it belongs on the ground) come
+  from matching areas, not single points: on a grid (about 300 m) over the
+  better map's passages, the translation that best lays them on this map's
+  lines nearby (about 400 m). **Check every pair visually** - both maps'
+  passages, and this map's moved by the pair's shift: a single elongated
+  passage lets the shift slide along it, parallel passages let it jump to
+  the wrong one, an area across a fold mixes two shifts. Drop the doubtful
+  ones (keep them in `"dropped"` with the reason).
+- **Limits:** `"extent"` (this map's pixels) keeps the warp to where the
+  pairs are, fading out over `"fadeMetres"` beyond; `"pins"` and
+  `"pinControlPoints"` hold the page's corners and the independent control
+  points where the similarity put them. Choose `"smoothing"` by
+  leave-one-out (`python warp.py maps/<map>.json` prints it, with each pair's
+  distance before and after).
+- **Check:** before/after overlays of both maps (the whole map and
+  close-ups of the most moved areas), and the warp's own report. Record in
+  the warp's `"why"`: the pairs' source, how many were dropped and why, the
+  smoothing, and the gaps between the two maps before and after (median and
+  90th percentile) - plus any independent check (satellite pools). The
+  pairs' ground positions come from the other map's placement: if that one
+  changes, redo them.
+
+`maps/ox-bel-ha-2011.json` is the first warped map (onto the GEO 1999
+survey).
 
 ## Tracing
 
@@ -214,7 +262,8 @@ The build also lays each map's image on the ground, for the admin's Map layers
 page, where a map opens its original next to its drawing (a divider dragged
 sideways): `scripts/map-layer/georef_scans.py` (Python, like the tracing
 scripts) writes the image the drawing was traced from, reduced to 2048 px, and
-its four corners, placed like the drawing - in `_data/map-layer/georef/`,
+its four corners, placed like the drawing (a warped map's image resampled
+on the ground, see "Warp") - in `_data/map-layer/georef/`,
 redone only for a map whose config or image changed. They're copied to
 `public/tiles/caves/scans/<id>.webp`, and `maps.json` gives each map's corners
 (`scan`).

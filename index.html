@@ -81,6 +81,8 @@
     #oc-shell .oc-shell--account { display: none; }
     #oc-shell .oc-shell--layers { top: 88px; width: 48px; height: 48px; }
     #oc-shell .oc-shell--locate { bottom: 16px; }
+    /* The Measure button, right above the locate one (MeasureButton: 56px, 16px apart). */
+    #oc-shell .oc-shell--measure { bottom: calc(16px + 72px); }
     /* The details pane (keep in step with MapState.scss's .oc-map-loading--pane
        and the pane itself): its ground (M3's surface container high), the
        header on it - the name, the alias, the rating; a phone's close button -
@@ -90,6 +92,7 @@
     #oc-shell .oc-shell--pane::before { content: ''; position: absolute; top: 13px; left: calc(50% - 27px); width: 54px; height: 5px; border-radius: 3px; background: rgba(0, 0, 0, 0.11); }
     #oc-shell.oc-shell--cave .oc-shell--pane { display: block; }
     #oc-shell.oc-shell--cave .oc-shell--locate { bottom: calc((100% - 48px) * 0.33 + 32px); }
+    #oc-shell.oc-shell--cave .oc-shell--measure { bottom: calc((100% - 48px) * 0.33 + 32px + 72px); }
     #oc-shell.oc-shell--cave .oc-shell--map .oc-shell--loading { bottom: calc((100% - 48px) * 0.33); }
     #oc-shell .oc-shell--cover { display: none; height: 225px; background: #222d3a; }
     #oc-shell .oc-shell--bone { display: block; height: 14px; border-radius: 4px; background: rgba(0, 0, 0, 0.11); }
@@ -118,6 +121,7 @@
       #oc-shell .oc-shell--account { display: block; top: 24px; box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
       #oc-shell .oc-shell--layers { top: 96px; }
       #oc-shell .oc-shell--locate, #oc-shell.oc-shell--cave .oc-shell--locate { bottom: 24px; }
+      #oc-shell .oc-shell--measure, #oc-shell.oc-shell--cave .oc-shell--measure { bottom: calc(24px + 72px); }
       #oc-shell .oc-shell--pane { top: 0; right: auto; width: 400px; height: auto; border-radius: 4px; box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 5px 8px 0 rgba(0, 0, 0, 0.14), 0 1px 14px 0 rgba(0, 0, 0, 0.12); }
       #oc-shell .oc-shell--pane::before, #oc-shell .oc-shell--close { display: none; }
       #oc-shell.oc-shell--cave .oc-shell--map .oc-shell--loading { left: 400px; bottom: 0; }
@@ -194,6 +198,7 @@
       </div>
       <span class="oc-shell--ctl oc-shell--account"></span>
       <span class="oc-shell--ctl oc-shell--layers"></span>
+      <span class="oc-shell--ctl oc-shell--measure"></span>
       <span class="oc-shell--ctl oc-shell--locate"></span>
       <div class="oc-shell--pane">
         <div class="oc-shell--cover"></div>

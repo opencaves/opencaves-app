@@ -1101,6 +1101,7 @@
       "done": "Done",
       "point": "Point {{index}} of {{count}}",
       "pointOnCave": "Point {{index}} of {{count}}: {{cave}}",
+      "segment": "{{length}} · {{bearing}}° M",
       "units": "Units",
       "metric": "Metric (m, km)",
       "imperial": "Imperial (ft, mi)",

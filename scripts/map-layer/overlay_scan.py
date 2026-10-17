@@ -7,7 +7,8 @@ a pond or road on the satellite, a guess) and its spot on the map (blue).
 Placement: a similarity transform (scale, rotation, shift) fitted by least
 squares through the config's control points (pixel -> UTM); points marked
 "check": true are left out of the fit and only measured against it. Prints
-each point's error in metres.
+each point's error in metres. A config's "warp" bends the placement after
+the fit (warp.py); the preview's image is then resampled on the ground.
 
 Writes <output>/<name>-overlay.png (the ink, transparent elsewhere) and
 <output>/<name>-overlay.html (open it in a browser).
@@ -27,6 +28,7 @@ import numpy
 from PIL import Image
 from pyproj import Transformer
 from mapbox_token import mapbox_token  # noqa: E402
+from warp import resample_on_ground, with_warp  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 Image.MAX_IMAGE_PIXELS = None
@@ -56,7 +58,9 @@ def raster_placement(config):
     north arrow isn't up}), the scale comes from the bar and the orientation
     from north, then the map is shifted onto the control points (their
     average: one is enough). Otherwise a similarity fit (scale, rotation, shift)
-    through at least two control points. Points marked "check" are left out."""
+    through at least two control points. Points marked "check" are left out.
+    A config's "warp" then bends the placement (warp.py): the scale and
+    rotation returned are the similarity's, place.warp the Warp."""
     to_utm = Transformer.from_crs(4326, config['utmEpsg'], always_xy=True)
     fitted = [p for p in config['controlPoints'] if not p.get('check')]
     utm = [to_utm.transform(p['longitude'], p['latitude']) for p in fitted]
@@ -76,10 +80,12 @@ def raster_placement(config):
             return scale * (x * ex + y * ey), scale * (x * nx + y * ny)
         shift_e = sum(e - offset(*p['px'])[0] for p, (e, _) in zip(fitted, utm)) / len(fitted)
         shift_n = sum(n - offset(*p['px'])[1] for p, (_, n) in zip(fitted, utm)) / len(fitted)
-        return (lambda x, y: (shift_e + offset(x, y)[0], shift_n + offset(x, y)[1])), scale, math.degrees(angle)
+        place = lambda x, y: (shift_e + offset(x, y)[0], shift_n + offset(x, y)[1])  # noqa: E731
+        return with_warp(place, config, 'px', to_utm), scale, math.degrees(angle)
     if len(fitted) < 2:
         sys.exit('At least two control points (not marked "check") are needed, or a scale bar and "north": "up".')
-    return fit_similarity([p['px'] for p in fitted], utm)
+    place, scale, rotation = fit_similarity([p['px'] for p in fitted], utm)
+    return with_warp(place, config, 'px', to_utm), scale, rotation
 
 
 # Database sources, shortened for the red dots' labels.
@@ -214,6 +220,11 @@ def main(config_path, output):
             x0, y0, x1, y1 = (round(v * factor) for v in item['box'])
             pixels[max(0, y0):y1, max(0, x0):x1, 3] = 0
     overlay = Image.fromarray(pixels, 'RGBA')
+    warp = getattr(place, 'warp', None)
+    if warp:
+        # A warped map can't be laid by four corners: its image resampled on
+        # the ground, as the drawing is placed.
+        overlay, corners = resample_on_ground(overlay, warp, config['utmEpsg'], factor, (factor - 1) / 2, MAX_SIDE)
     overlay.save(out / f'{name}-overlay.png')
     # Embedded in the page: opened from disk, it may not load a separate file.
     buffer = io.BytesIO()
@@ -221,7 +232,8 @@ def main(config_path, output):
     data_url = 'data:image/png;base64,' + base64.b64encode(buffer.getvalue()).decode()
     # The image's outer edges: half a pixel out from the first and last pixels,
     # as trace_scan.py places a pixel (x, y) at place(x, y) - its centre here.
-    corners = [list(to_lnglat.transform(*place(x, y))) for x, y in ((-0.5, -0.5), (width - 0.5, -0.5), (width - 0.5, height - 0.5), (-0.5, height - 0.5))]
+    if not warp:
+        corners = [list(to_lnglat.transform(*place(x, y))) for x, y in ((-0.5, -0.5), (width - 0.5, -0.5), (width - 0.5, height - 0.5), (-0.5, height - 0.5))]
 
     env = {}
     for env_file in ('.env', '.env.local'):

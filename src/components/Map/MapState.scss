@@ -138,6 +138,12 @@
     bottom: var(--oc-map-control-edge-margin);
   }
 
+  // The Measure button, right above the locate one (MeasureButton: 56px,
+  // 16px apart).
+  &--measure {
+    bottom: calc(var(--oc-map-control-edge-margin) + 72px);
+  }
+
   // The details pane (ResultPaneLg; keep in step with index.html's
   // oc-shell--pane): at the left, full height, its ground (M3's surface
   // container high), the header on it, then its sections as cards (the
@@ -300,6 +306,10 @@
 
     &--with-pane &--locate {
       bottom: calc(var(--oc-map-loading-sheet) + 32px);
+    }
+
+    &--with-pane &--measure {
+      bottom: calc(var(--oc-map-loading-sheet) + 32px + 72px);
     }
 
     &--with-pane &--splash {
