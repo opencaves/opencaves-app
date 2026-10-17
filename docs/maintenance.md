@@ -395,7 +395,7 @@ committed).
 ## Cave reports and confirmations
 
 Much cave data is old, so each section of a cave - its access, getting there,
-its fees and facilities (shown when it charges fees), its description - has a
+its fees and facilities (shown when it charges fees) - has a
 **Still accurate** button, on the cave's page and in the map's pane, with how
 old the section is under it: "Confirmed Oct 2026", "Last confirmed in 2024" (a
 confirmation counts for 2 years), or "Not confirmed yet". An editor (every
