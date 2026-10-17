@@ -6,6 +6,7 @@ import ScubaDivingRounded from '@mui/icons-material/ScubaDivingRounded'
 import SistemaArrow from '@/components/SistemaArrow.jsx'
 import { MAP_BODY, MAP_OFF_BODY } from './mapIcons.js'
 import caveSvg from '@/images/map/cave.svg?raw'
+import './IndexLinkList.scss'
 
 // The map icons (MapRounded, and its crossed-out version) as CSS
 // masks, painted in the icon's color: no icon component per row.
@@ -14,6 +15,7 @@ const MAP_ICON = svgUrl(MAP_BODY)
 // The cave glyph (the nav menu's), before each cave.
 const CAVE_ICON = `url("data:image/svg+xml,${encodeURIComponent(caveSvg)}")`
 const MAP_OFF_ICON = svgUrl(MAP_OFF_BODY)
+const ICON_VARS = { '--oc-index-link-list-cave-icon': CAVE_ICON, '--oc-index-link-list-map-icon': MAP_ICON, '--oc-index-link-list-map-off-icon': MAP_OFF_ICON }
 
 /**
  * Links to caves or cave systems, in as many columns as the page's width
@@ -65,43 +67,8 @@ function IndexLinkList({ items, className }) {
         onMouseOut={hide}
         onFocus={show}
         onBlur={hide}
-        sx={(theme) => ({
-          listStyle: 'none',
-          m: 0,
-          mx: -1.5,
-          p: 0,
-          columnWidth: '15rem',
-          columnGap: 2,
-          '& > li': { breakInside: 'avoid', display: 'flex', alignItems: 'center', borderRadius: 2, '&:hover, &:focus-within': { bgcolor: 'action.hover' } },
-          '& .oc-index-link-list--link': { flex: 1, minWidth: 0, minHeight: 40, px: 1.5, py: 0.75, borderRadius: 2, display: 'flex', gap: 1, alignItems: 'center', color: 'inherit', textDecoration: 'none' },
-          // On the name's first line (body1: 24px high) when it wraps or has a
-          // second line.
-          '& .oc-index-link-list--cave': { flexShrink: 0, alignSelf: 'flex-start', mt: '2px', width: 20, height: 20, bgcolor: theme.vars.palette.text.secondary, mask: `${CAVE_ICON} center / contain no-repeat` },
-          '& .oc-index-link-list--text': { minWidth: 0, display: 'flex', flexDirection: 'column' },
-          '& .oc-index-link-list--label': { ...theme.typography.body1, color: theme.vars.sys.color.primary, overflowWrap: 'anywhere' },
-          // On the name's first line, as the cave icon.
-          '& .oc-index-link-list--entrance': { flexShrink: 0, alignSelf: 'flex-start', display: 'inline-flex', mt: '2px', color: theme.vars.palette.text.secondary, '& svg': { fontSize: 20 } },
-          '& .oc-index-link-list--secondary': { ...theme.typography.body2, color: theme.vars.palette.text.secondary, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' },
-          // The map icon: a 40dp button, its 24dp icon (MD3's icon button).
-          '& .oc-index-link-list--map': {
-            flexShrink: 0,
-            width: 40,
-            height: 40,
-            mr: 0.5,
-            display: 'grid',
-            placeItems: 'center',
-            borderRadius: '50%',
-            color: theme.vars.palette.text.secondary,
-            opacity: 0,
-            transition: 'opacity 120ms',
-            '&::before': { content: '""', width: 20, height: 20, bgcolor: 'currentColor', mask: `${MAP_ICON} center / contain no-repeat` },
-          },
-          '& .oc-index-link-list--map[aria-disabled="true"]::before': { maskImage: MAP_OFF_ICON },
-          '& a.oc-index-link-list--map:hover': { bgcolor: 'action.hover' },
-          '& .oc-index-link-list--map[aria-disabled="true"]': { color: theme.vars.palette.action.disabled },
-          '& > li:hover .oc-index-link-list--map, & > li:focus-within .oc-index-link-list--map': { opacity: 1 },
-          '@media (hover: none)': { '& .oc-index-link-list--map': { opacity: 1 } },
-        })}
+        // Its icons, for IndexLinkList.scss.
+        style={ICON_VARS}
       >
         {items.map(({ key, to, label, cave, color, secondary, mapTo, noMap, entrance }) => (
           <li key={key}>

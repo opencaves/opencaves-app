@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Box, Link, Typography } from '@mui/material'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import { TOUCH_TARGET_SX } from '@/components/touchTarget.js'
+import './IndexSection.scss'
 
 // A titled part of an index page (an area's cenotes, a system's
 // connections...): an h2 with an optional count beside it. card: the content
@@ -56,32 +57,8 @@ export default function IndexSection({ id, title, count, children, className, ca
       <Typography
         component="h2"
         variant="h6"
-        sx={{
-          mb: 1.5,
-          pb: 0.5,
-          ...(!card && { borderBottom: '1px solid', borderColor: 'divider' }),
-          ...(card && { ml: 0.5 }),
-          display: 'flex',
-          alignItems: 'baseline',
-          gap: 1,
-          flexWrap: 'wrap',
-          ...(stickyTitle && {
-            position: 'sticky',
-            // Under the app bar (64px) and the search field: a band across
-            // the section, reaching up over the search bar's bottom padding
-            // (12px, see-through) so nothing passing under shows between them.
-            top: 'calc(64px + var(--oc-index-search-height, 0px) - 12px)',
-            zIndex: 1,
-            ml: 0,
-            px: 1.5,
-            pt: '16px',
-            pb: 0.5,
-            borderRadius: '8px',
-            // A warm tone (M3's surface container low), the list's card under
-            // it on paper.
-            bgcolor: 'var(--mui-sys-color-surfaceContainerLow)',
-          }),
-        }}
+        // Its look is IndexSection.scss's.
+        className={['oc-index-section--title', card && 'oc-index-section--title-on-card', stickyTitle && 'oc-index-section--title-sticky'].filter(Boolean).join(' ')}
       >
         <span>{title}</span>
         {count != null && (

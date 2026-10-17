@@ -1,7 +1,7 @@
 import { Children, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Button } from '@mui/material'
-import { ShowAllPane } from '@/components/Carousel/Carousel.jsx'
+import { ShowAllPane } from '@/components/ShowAllPane/ShowAllPane.jsx'
 
 /**
  * A strip's Show all link, at its bottom right (MD3's carousel: a small text
@@ -14,7 +14,7 @@ import { ShowAllPane } from '@/components/Carousel/Carousel.jsx'
  * @param {string} props.title - The strip's name: the pane's title, and the link's label for screen readers.
  * @param {string} [props.gridMinWidth] - The pane's narrowest column.
  * @param {React.ReactNode} props.children
- * @param {import('@/components/Carousel/Carousel.jsx').ShowAllSortable} [props.sortable] - Editors reorder the
+ * @param {import('@/components/ShowAllPane/ShowAllPane.jsx').ShowAllSortable} [props.sortable] - Editors reorder the
  *   items ({@link ShowAllPane}'s).
  */
 export default function StripShowAll({ title, gridMinWidth, children, sortable }) {

@@ -104,7 +104,6 @@
     "breadcrumbs": "Breadcrumbs",
     "carousel": {
       "showAll": "Show all: {{title}}",
-      "label": "{{title}}, carousel",
       "showAllLink": "Show all"
     },
     "nameRequired": "Name is required",

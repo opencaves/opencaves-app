@@ -782,7 +782,8 @@ errors). It uses Chrome when installed, else Playwright's Chromium: run `npx
 playwright install chromium` once.
 
 Then tell the search engines what changed (next section):
-`node scripts/submit-to-search.js --indexnow --since <the day before> --send`.
+`node scripts/submit-to-search.js --indexnow --since <the day before> --send`,
+and, after a deploy that changed many pages, `--sitemap --send`.
 
 If a functions deploy fails with *"User code failed to load. Cannot determine
 backend specification. Timeout after 10000"*, the CLI took more than 10
@@ -796,12 +797,14 @@ $env:FUNCTIONS_DISCOVERY_TIMEOUT=60; firebase deploy --only functions
 ## Ask search engines to crawl pages
 
 `scripts/submit-to-search.js` asks Bing (and the other IndexNow engines) to
-crawl opencaves.org's pages, two ways. Google has no such API for ordinary
+crawl opencaves.org's pages, three ways. Google has no such API for ordinary
 pages: request its indexing by hand in Search Console (about 10 a day).
 
 ```
 node scripts/submit-to-search.js --bing --dry-run       # the next pages for Bing, and its quota
 node scripts/submit-to-search.js --bing --send
+node scripts/submit-to-search.js --sitemap --dry-run    # what Bing knows of the sitemap
+node scripts/submit-to-search.js --sitemap --send       # Bing reads it again
 node scripts/submit-to-search.js --indexnow --since 2026-10-17 --dry-run   # pages changed since that day
 node scripts/submit-to-search.js --indexnow --since 2026-10-17 --send
 node scripts/submit-to-search.js --indexnow --urls https://opencaves.org/caves/<id> --send
@@ -821,6 +824,11 @@ node scripts/submit-to-search.js --indexnow --urls https://opencaves.org/caves/<
 
   (In PowerShell, see [Keys and secrets](keys-and-secrets.md#replacing-a-secret-in-secret-manager):
   piping into gcloud there adds a byte order mark and a line break to the value.)
+
+- **`--sitemap`: the sitemap, resubmitted to Bing** (the API's `SubmitFeed`),
+  so it reads it again - after a deploy that changed many pages. The dry run
+  shows what Bing knows of it: when it was submitted and last read, how many
+  pages, its status.
 
 - **`--indexnow`: the pages that changed** (after a deploy, after data
   edits): the sitemap's pages whose `lastmod` is on or after `--since`, or the

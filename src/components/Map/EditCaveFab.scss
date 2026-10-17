@@ -1,0 +1,104 @@
+// The map's edit FAB (EditCaveFab.jsx), a MUI SpeedDial, styled on its own
+// oc- classes (docs/design-system.md, "Where styles go").
+
+.oc-edit-cave-fab {
+  position: absolute;
+  // MD3's FAB-to-edge margin (--oc-map-control-edge-margin, theme/variables.scss:
+  // 16dp on phones, 24dp from 600px), as the geolocate control's, so the two
+  // align on the same right edge.
+  right: var(--oc-map-control-edge-margin);
+  // Above the geolocate control (its edge margin + 56px) and the ruler button
+  // over it (MeasureButton: --oc-measure-button-slot, from config/map.js),
+  // 16dp apart: MD3's spacing between stacked FABs. It rides above the phone
+  // result sheet (--oc-result-pane-sm-height) and fades out once the sheet is
+  // mostly open (--oc-map-controls-*).
+  bottom: calc(var(--oc-result-pane-sm-height, 0px) + var(--oc-map-control-edge-margin) + 56px + 16px + var(--oc-measure-button-slot, 0px));
+  opacity: var(--oc-map-controls-opacity, 1);
+  visibility: var(--oc-map-controls-visibility, visible);
+  transition: opacity 150ms ease, visibility 150ms ease;
+  z-index: var(--oc-app-menu-z-index);
+
+  // Its button as the map's other buttons (CaveLayerButton, the geolocate
+  // control): the paper, the primary colour's icon, a surface container on
+  // hover.
+  .oc-edit-cave-fab--button {
+    background-color: var(--mui-palette-background-paper);
+    color: var(--mui-palette-primary-main);
+
+    &:hover {
+      background-color: var(--mui-sys-color-surfaceContainerHigh);
+    }
+  }
+
+  // "On" - a cave being edited - in the primary colour.
+  &.oc-edit-cave-fab--editing .oc-edit-cave-fab--button {
+    background-color: var(--mui-palette-primary-main);
+    color: var(--mui-palette-primary-contrastText);
+
+    &:hover {
+      background-color: var(--mui-palette-primary-dark);
+    }
+  }
+
+  // The actions' icons in full text colour: MUI's default grey
+  // (text.secondary) looked washed out, dark mode most.
+  .oc-edit-cave-fab--action:not(:disabled) {
+    color: var(--mui-palette-text-primary);
+  }
+
+  // A disabled action (Edit cave, while already editing it): the theme's
+  // highest container tone - distinct from the enabled actions' paper, but
+  // unlike MUI's near-transparent grey still visible over the map - with a
+  // greyed icon.
+  .oc-edit-cave-fab--action:disabled {
+    background-color: var(--mui-sys-color-surfaceContainerHighest);
+    color: var(--mui-palette-action-disabled);
+    box-shadow: var(--mui-shadows-2);
+  }
+
+  // Each action's label on one line, as plain text with a halo in the
+  // paper's colour, readable over any part of the map (no chip). M3's label
+  // medium. (Through its item: one class more than MUI's own rule for it.)
+  .oc-edit-cave-fab--item .oc-edit-cave-fab--label {
+    background-color: transparent;
+    color: var(--mui-palette-text-primary);
+    box-shadow: none;
+    white-space: nowrap;
+    // Its gap to the button is MUI's (8px).
+    padding: 0 4px;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.03125rem;
+    text-shadow:
+      0 0 2px var(--mui-palette-background-paper),
+      0 0 3px var(--mui-palette-background-paper),
+      0 0 4px var(--mui-palette-background-paper);
+  }
+
+  // Only while open (a closed dial keeps its labels in the page, invisible):
+  // a label takes clicks (actionSlots) with the hand, as its button; a
+  // disabled action's label dims with it; a label and its button are one
+  // control - hovering either hovers both, the button in its hover colour,
+  // the label paler.
+  &.oc-edit-cave-fab--open {
+    .oc-edit-cave-fab--item:not(:has(:disabled)) .oc-edit-cave-fab--label {
+      cursor: pointer;
+      pointer-events: auto;
+    }
+
+    .oc-edit-cave-fab--item:has(:disabled) .oc-edit-cave-fab--label {
+      opacity: 0.6;
+    }
+
+    .oc-edit-cave-fab--item:hover:not(:has(:disabled)) {
+      .oc-edit-cave-fab--action {
+        background-color: var(--mui-palette-SpeedDialAction-fabHoverBg);
+      }
+
+      .oc-edit-cave-fab--label {
+        opacity: 0.8;
+      }
+    }
+  }
+}

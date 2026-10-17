@@ -13,6 +13,10 @@
 // --since (their lastmod), or --urls. The key is public by design: its file,
 // public/<key>.txt, is on the site (deployed with Hosting).
 //
+// --sitemap: the sitemap itself resubmitted to Bing (Webmaster API's
+// SubmitFeed), so it reads it again - after a deploy that changed many pages;
+// the dry run shows what Bing knows of it (GetFeeds: last read, its pages).
+//
 // Production's site only (its sitemap and public data are only read). What
 // was sent, and when, is kept in _data/search-submit.json (not in git): a
 // page is sent to Bing once, unless --force. Nothing is sent without --send.
@@ -44,8 +48,9 @@ try {
 }
 
 const cli = yargs(hideBin(process.argv))
-  .usage('$0 (--bing | --indexnow --since <YYYY-MM-DD> | --indexnow --urls <url,...>) (--dry-run | --send)\n\nAsks search engines to crawl opencaves.org: Bing\'s daily quota on the sitemap\'s pages not sent yet (--bing), or the pages that changed through IndexNow (--indexnow).')
+  .usage('$0 (--bing | --sitemap | --indexnow --since <YYYY-MM-DD> | --indexnow --urls <url,...>) (--dry-run | --send)\n\nAsks search engines to crawl opencaves.org: Bing\'s daily quota on the sitemap\'s pages not sent yet (--bing), the sitemap resubmitted to Bing (--sitemap), or the pages that changed through IndexNow (--indexnow).')
   .option('bing', { type: 'boolean', default: false, describe: 'The next pages of the backlog, up to Bing\'s remaining daily quota' })
+  .option('sitemap', { type: 'boolean', default: false, describe: 'The sitemap, resubmitted to Bing (the dry run: what Bing knows of it)' })
   .option('indexnow', { type: 'boolean', default: false, describe: 'The pages that changed, through IndexNow' })
   .option('since', { type: 'string', describe: 'With --indexnow: the sitemap\'s pages modified since this date (YYYY-MM-DD)' })
   .option('urls', { type: 'string', describe: 'With --indexnow: these addresses (comma-separated; on opencaves.org)' })
@@ -55,15 +60,17 @@ const cli = yargs(hideBin(process.argv))
   .option('send', { type: 'boolean', default: false, describe: 'Send it' })
   .example('$0 --bing --dry-run', 'The next pages for Bing, and its quota')
   .example('$0 --bing --send', 'Send them')
+  .example('$0 --sitemap --send', 'Bing reads the sitemap again (after a deploy)')
   .example('$0 --indexnow --since 2026-10-17 --send', 'The pages changed since that day, through IndexNow')
   .help()
   .alias('h', 'help')
   .strict()
 
 const argv = cli.parseSync()
-if ((!argv.bing && !argv.indexnow) || argv.bing === argv.indexnow || argv.dryRun === argv.send) {
+const modes = [argv.bing, argv.sitemap, argv.indexnow].filter(Boolean).length
+if (modes !== 1 || argv.dryRun === argv.send) {
   cli.showHelp()
-  process.exit(argv.bing || argv.indexnow ? 1 : 0)
+  process.exit(modes ? 1 : 0)
 }
 if (argv.indexnow && !argv.since === !argv.urls) {
   console.error('--indexnow takes --since or --urls (one of them).')
@@ -158,6 +165,28 @@ async function runBing() {
   console.log(`\nsent ${batch.length} to Bing (logged in _data/search-submit.json).`)
 }
 
+// The sitemap resubmitted to Bing; the dry run: what Bing knows of it.
+async function runSitemap() {
+  const key = bingKey()
+  const feedUrl = `${SITE}/sitemap.xml`
+  const feeds = (await bingCall('GetFeeds', key)).d || []
+  const feed = feeds.find((item) => item.Url === feedUrl)
+  // Bing's dates: "/Date(1760000000000-0700)/".
+  const date = (value) => {
+    const ms = Number(String(value || '').match(/\d{10,}/)?.[0])
+    return ms ? new Date(ms).toISOString().slice(0, 16).replace('T', ' ') : '?'
+  }
+  console.log(feed
+    ? `Bing knows ${feedUrl}: submitted ${date(feed.Submitted)}, last read ${date(feed.LastCrawled)}, ${feed.UrlCount ?? '?'} pages, status ${feed.Status ?? '?'}`
+    : `Bing doesn't list ${feedUrl} yet.`)
+  if (argv.dryRun) {
+    console.log('\ndry run: nothing sent (--send to resubmit it).')
+    return
+  }
+  await bingCall('SubmitFeed', key, { siteUrl: SITE, feedUrl })
+  console.log(`\nresubmitted ${feedUrl} to Bing.`)
+}
+
 async function runIndexNow() {
   let urls
   if (argv.urls) {
@@ -195,6 +224,7 @@ async function runIndexNow() {
 
 try {
   if (argv.bing) await runBing()
+  else if (argv.sitemap) await runSitemap()
   else await runIndexNow()
 } catch (error) {
   console.error(error.message)

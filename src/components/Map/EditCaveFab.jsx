@@ -3,12 +3,13 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
-import { Box, ClickAwayListener, SpeedDial, SpeedDialAction, SpeedDialIcon, speedDialActionClasses, speedDialClasses } from '@mui/material'
+import { Box, ClickAwayListener, SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material'
 import AddRounded from '@mui/icons-material/AddRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import EditOffRounded from '@mui/icons-material/EditOffRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
 import { MEASURE_BUTTON_SLOT } from '@/config/map.js'
+import './EditCaveFab.scss'
 
 // Sits directly above the map's "find my location" control (bottom-right,
 // same margin from the edge) - only shown to editors, since both actions
@@ -95,12 +96,16 @@ export default function EditCaveFab() {
   }
 
   // An action's slots: its label beside it (MUI's "static tooltip") takes the
-  // same click as its button - unless disabled.
+  // same click as its button - unless disabled. Their classes are
+  // EditCaveFab.scss's.
   const actionSlots = (label, onClick, disabled = false) => ({
     tooltip: { title: label, open: true },
-    fab: { 'aria-label': label, disabled },
+    staticTooltip: { className: 'oc-edit-cave-fab--item' },
+    fab: { 'aria-label': label, disabled, className: 'oc-edit-cave-fab--action' },
     staticTooltipLabel: disabled ? {} : { onClick, className: 'oc-edit-cave-fab--label' },
   })
+  // The disabled label too: its look is the same, dimmed.
+  const labelClass = { className: 'oc-edit-cave-fab--label' }
 
   // Its own labeled section: on the map page it sits outside the map's region
   // and any other landmark.
@@ -109,93 +114,15 @@ export default function EditCaveFab() {
     <Box component="section" className="oc-edit-cave-fab--section" aria-label={t('ariaLabel')}>
     <SpeedDial
       ref={dialRef}
-      className="oc-edit-cave-fab"
+      className={['oc-edit-cave-fab', isEditingCave && 'oc-edit-cave-fab--editing', open && 'oc-edit-cave-fab--open'].filter(Boolean).join(' ')}
       ariaLabel={t('ariaLabel')}
-      // Open, its button closes it (M3's FAB menu): a cross.
       icon={<SpeedDialIcon icon={<EditRounded />} openIcon={<CloseRounded />} />}
       open={open}
       onOpen={openDial}
       onClose={closeDial}
-      sx={(theme) => ({
-        position: 'absolute',
-        // MD3's FAB-to-edge margin (--oc-map-control-edge-margin, theme/variables.scss:
-        // 16dp on phones, 24dp from 600px), as the geolocate control's, so
-        // the two align on the same right edge.
-        right: 'var(--oc-map-control-edge-margin)',
-        // Above the geolocate control (its edge margin + 56px) and the ruler
-        // button over it (MeasureButton), 16dp apart: MD3's spacing between
-        // stacked FABs.
-        bottom: `calc(var(--oc-result-pane-sm-height, 0px) + var(--oc-map-control-edge-margin) + 56px + ${theme.spacing(2)} + ${MEASURE_BUTTON_SLOT})`,
-        opacity: 'var(--oc-map-controls-opacity, 1)',
-        visibility: 'var(--oc-map-controls-visibility, visible)',
-        transition: 'opacity 150ms ease, visibility 150ms ease',
-        zIndex: 'var(--oc-app-menu-z-index)',
-        // Its button as the map's other buttons (CaveLayerButton, the
-        // geolocate control): the paper, the primary colour's icon, a surface
-        // container on hover; "on" - a cave being edited - in the primary
-        // colour.
-        [`& .${speedDialClasses.fab}`]: isEditingCave
-          ? { bgcolor: 'primary.main', color: 'primary.contrastText', '&:hover': { bgcolor: 'primary.dark' } }
-          : { bgcolor: 'background.paper', color: 'primary.main', '&:hover': { bgcolor: theme.vars.sys.color.surfaceContainerHigh } },
-        // The icon in full text colour: MUI's default grey (text.secondary)
-        // looked washed out, dark mode most.
-        [`& .${speedDialActionClasses.fab}:not(.Mui-disabled)`]: {
-          color: 'text.primary',
-        },
-        // Each action's label on one line, as plain text with a halo (below),
-        // readable over any part of the map.
-        // A disabled action (Edit cave, while already editing it) gets a
-        // container-tone surface (light or dark grey with the mode) -
-        // distinct from the enabled actions' paper, but unlike MUI's default
-        // near-transparent grey still visible over the map - with a greyed
-        // icon, and its label dims with it.
-        [`& .${speedDialActionClasses.fab}.Mui-disabled`]: {
-          // The theme's highest container tone: light grey, or its dark
-          // counterpart in dark mode.
-          bgcolor: theme.vars.sys.color.surfaceContainerHighest,
-          color: 'action.disabled',
-          boxShadow: theme.shadows[2],
-        },
-        // Only while open: MUI hides a closed dial's labels with opacity 0,
-        // which this would otherwise override, leaving the label floating.
-        [`& .${speedDialActionClasses.staticTooltip}:not(.${speedDialActionClasses.staticTooltipClosed}):has(.Mui-disabled) .${speedDialActionClasses.staticTooltipLabel}`]: {
-          opacity: 0.6,
-        },
-        [`& .${speedDialActionClasses.staticTooltipLabel}`]: {
-          bgcolor: 'transparent',
-          color: 'text.primary',
-          boxShadow: 'none',
-          whiteSpace: 'nowrap',
-          px: 0.5,
-          py: 0,
-          mr: 0,
-          // M3's label medium.
-          fontSize: '0.75rem',
-          lineHeight: '1rem',
-          fontWeight: 500,
-          letterSpacing: '0.03125rem',
-          // No chip: a halo in the paper's colour keeps it readable over the map.
-          textShadow: [
-            '0 0 2px',
-            '0 0 3px',
-            '0 0 4px',
-          ].map((blur) => `${blur} ${theme.vars.palette.background.paper}`).join(', '),
-        },
-        // Labels take clicks (actionSlots): the hand, as on their buttons -
-        // only while open: a closed dial keeps them in the page, invisible,
-        // where they'd catch the pointer.
-        [`& .${speedDialActionClasses.staticTooltip}:not(.${speedDialActionClasses.staticTooltipClosed}) .oc-edit-cave-fab--label`]: { cursor: 'pointer', pointerEvents: 'auto' },
-        // A label and its button are one control: hovering either hovers
-        // both - the button in its hover colour, the label paler.
-        [`& .${speedDialActionClasses.staticTooltip}:hover:not(:has(.Mui-disabled))`]: {
-          [`& .${speedDialActionClasses.fab}`]: {
-            bgcolor: theme.vars.palette.SpeedDialAction.fabHoverBg,
-          },
-          [`& .${speedDialActionClasses.staticTooltipLabel}`]: {
-            opacity: 0.8,
-          },
-        },
-      })}
+      FabProps={{ className: 'oc-edit-cave-fab--button' }}
+      // The ruler button's room under it (config/map.js), for its offset.
+      style={{ '--oc-measure-button-slot': `calc(${MEASURE_BUTTON_SLOT})` }}
     >
       {/* tooltip.open makes MUI render each action's title as a fixed label
           to the left of its icon (its "static tooltip") instead of a hover
@@ -204,7 +131,7 @@ export default function EditCaveFab() {
       {isEditingCave ? (
         <SpeedDialAction icon={<EditOffRounded />} onClick={exitEditMode} slotProps={actionSlots(t('exitEditMode'), exitEditMode)} />
       ) : (
-        <SpeedDialAction icon={<EditRounded />} onClick={editCave} slotProps={actionSlots(caveId ? t('editCave') : t('editCaveNoneSelected'), editCave, !caveId)} />
+        <SpeedDialAction icon={<EditRounded />} onClick={editCave} slotProps={{ ...actionSlots(caveId ? t('editCave') : t('editCaveNoneSelected'), editCave, !caveId), ...(!caveId && { staticTooltipLabel: labelClass }) }} />
       )}
       <SpeedDialAction icon={<AddRounded />} onClick={addNewCave} slotProps={actionSlots(t('addNewCave'), addNewCave)} />
     </SpeedDial>
