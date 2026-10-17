@@ -32,7 +32,7 @@ Caves and cave systems shared with their own picture, distances measured on the 
 ### For the team
 
 * No first-generation function left among the Node 24 ones (a deploy stopped on them before Hosting); a deleted account's cleanup has its own small Node 22 codebase.
-* `submit-to-search.js` asks Bing (its daily quota) and the IndexNow engines to crawl the pages; `sync-from-production.js` now really deletes the local-only files.
+* `submit-to-search.js` asks Bing (its daily quota) and the IndexNow engines to crawl the pages; `sync-from-production.js` now really deletes the local-only files. `apply-edits.js` can delete records too, each kept whole in its audit entry.
 
 ## [1.3.1](https://github.com/opencaves/opencaves-app/compare/v1.3.0...v1.3.1) (2026-10-16)
 
