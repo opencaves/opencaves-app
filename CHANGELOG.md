@@ -27,6 +27,7 @@ Caves and cave systems shared with their own picture, distances measured on the 
 ### Fixes
 
 * **Search engines:** the map's page has a shorter description, and About, the privacy policy and the terms have their own.
+* **For admins:** the "Source: ..." line under a text is back in small print in the map's pane.
 
 ### For the team
 
