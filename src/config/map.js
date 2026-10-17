@@ -1,7 +1,7 @@
 import { SETTINGS_COLLECTION } from './collections.js'
 // The map's style: one setting, the server's too (its share images' map
 // cards, functions/js/share/render.js).
-import { MAP_STYLE } from '../../functions/js/constants.js'
+import { MAP_STYLE, REGION_BBOX } from '../../functions/js/constants.js'
 
 export const SISTEMA_DEFAULT_COLOR = '#fff'
 
@@ -9,8 +9,10 @@ export const SISTEMA_DEFAULT_COLOR = '#fff'
 export const COORDINATE_DECIMALS = 5
 
 // The region the app covers - the Yucatán peninsula - as [west, south, east,
-// north]: e.g. what place searches are limited to (MapPlaceSearch).
-export const REGION_BBOX = [-92.5, 17.5, -86.5, 21.8]
+// north]: e.g. what place searches are limited to (MapPlaceSearch), and
+// where a cave is a cenote in its page's title (utils/pageTitles.js). One
+// setting, the server's too.
+export { REGION_BBOX }
 
 // How close "Place on map" zooms in on the field's point (or the cave):
 // enough to place a cave entrance precisely. Both placing modes

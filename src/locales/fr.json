@@ -1349,6 +1349,17 @@
     }
   },
   "seo": {
+    "titleWords": {
+      "separator": " : ",
+      "cenoteLong": "plongée en cénote, accès et carte",
+      "cenoteShort": "accès et carte",
+      "caveLong": "plongée souterraine, accès et carte",
+      "caveShort": "accès et carte",
+      "sistemaMapsLong": "plongée et topographies",
+      "sistemaMapsShort": "topographies",
+      "sistemaLong": "plongée",
+      "sistemaName": "Réseau {{name}}"
+    },
     "mapHeading": "OpenCaves : carte des cénotes du Yucatán",
     "caveDescriptionPrefix": "{{name}} (Yucatán, Mexique) :",
     "caveDescriptionFallback": "{{name}}, une grotte du Yucatán, au Mexique : emplacement, accès, photos et cartes sur OpenCaves.",
@@ -1617,6 +1628,7 @@
     "sistemaCount_one": "{{count}} réseau",
     "sistemaCount_other": "{{count}} réseaux",
     "caves": {
+      "headTitle": "Cénotes et grottes du Yucatán par région",
       "filters": {
         "add": "Ajouter un filtre",
         "remove": "Retirer le filtre {{label}}",
@@ -1632,6 +1644,7 @@
       "subtitle_other": "{{count}} grottes, par région."
     },
     "sistemas": {
+      "headTitle": "Réseaux de grottes noyées du Yucatán",
       "title": "Les réseaux du Yucatán",
       "description": "Les réseaux noyés du Yucatán, au Mexique, par région : leur longueur, leur profondeur, leurs connexions, l’histoire de leur exploration et leurs cénotes, sur OpenCaves.",
       "add": "Ajouter un réseau",

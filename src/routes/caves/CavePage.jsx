@@ -15,7 +15,7 @@ import { useCoverImage } from '@/models/CaveAsset.js'
 import mapsModel from '@/models/MapModel.js'
 import documentsModel from '@/models/DocumentModel.js'
 import { slugify } from '@/utils/slug.js'
-import { markdownToPlainText, truncate } from '@/utils/seo.js'
+import { caveHeadTitle, markdownToPlainText, truncate } from '@/utils/seo.js'
 import { COORDINATE_DECIMALS } from '@/config/map.js'
 import { staticMapUrl } from '@/utils/staticMap.js'
 import Markdown from '@/components/Markdown/Markdown.jsx'
@@ -249,6 +249,7 @@ export default function CavePage() {
   const { caveId } = useParams()
   const { t } = useTranslation('indexPages')
   const { t: tPane, i18n } = useTranslation('resultPane')
+  const { t: tSeo } = useTranslation('seo')
   const { data, loading } = useIndexData()
   const { languages, caves, nearby: serverNearby } = useCaveData()
   const units = useUnits()
@@ -276,7 +277,8 @@ export default function CavePage() {
   // The description's sentence names it without the parentheses.
   const description = cave ? truncate(summary ? `${t('cave.descriptionPrefix', { name: name || t('unnamedCavePlain') })} ${summary}` : t('cave.description', { name: name || t('unnamedCavePlain') })) : null
   // Its share image: its cover photo or its map card (the server's shareImage).
-  useIndexPageHead({ title: cave ? label : null, description, share: cave ? { record: cave, name: name || label } : null })
+  // Its <title>: its name and the words people search, as the server's.
+  useIndexPageHead({ title: cave ? caveHeadTitle(label, cave.location, tSeo) : null, fullTitle: true, description, share: cave ? { record: cave, name: name || label } : null })
 
   // Its system and the systems that one joined, for the history (as the
   // details pane).

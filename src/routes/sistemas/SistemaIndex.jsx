@@ -36,7 +36,7 @@ export default function SistemaIndex() {
   const groups = useMemo(() => groupByArea(sistemas, data.areasBySlug).map(({ area, items }) => ({ area, items, rows: items.map((sistema) => rows.get(sistema.id).row) })), [sistemas, data, rows])
   const shownGroups = useProgressiveCount(groups.length, groups)
 
-  useIndexPageHead({ title: t('sistemas.title'), description: t('sistemas.description') })
+  useIndexPageHead({ title: t('sistemas.headTitle'), description: t('sistemas.description') })
 
   if (loading) return <IndexPageSkeleton search card />
 

@@ -15,6 +15,7 @@ import { useSmall } from '@/hooks/useSmall.jsx'
 import { PANE_INITIAL_BREAKPOINT } from '@/config/app.js'
 import { setResultPaneSmCaveId, setResultPaneSmCurrentBreakpoint, setResultPaneSmOpen, toggleFilterMenu } from '@/redux/slices/appSlice.jsx'
 import { setCurrentCave } from '@/redux/slices/mapSlice.jsx'
+import { caveHeadTitle } from '@/utils/seo.js'
 import CaveSeo from '@/components/Seo/CaveSeo.jsx'
 import './ResultPane.scss'
 import { useWindowFileDrop } from '@/hooks/useWindowFileDrop.jsx'
@@ -32,6 +33,7 @@ let sheetRestoreChecked = false
 export default function ResultPane() {
   const { t } = useTranslation('resultPane')
   const { t: tApp } = useTranslation('app')
+  const { t: tSeo } = useTranslation('seo')
   const { caveId } = useParams()
   const dispatch = useDispatch()
   const store = useStore()
@@ -98,10 +100,13 @@ export default function ResultPane() {
   useEffect(() => {
     if (currentCave) {
       const title = t('title', { name: currentCave.name?.value || t('caveNameUnknown', { ns: 'map' }) })
-      setTitle(isEditingCave ? tApp('editTitle', { title }) : title)
+      // Its place on the map: the cave page's title, as the server's
+      // (functions/js/seo/cavePage.js).
+      if (isEditingCave) setTitle(tApp('editTitle', { title }))
+      else setTitle(caveHeadTitle(title, currentCave.location, tSeo), { full: true })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentCave, t, tApp, isEditingCave])
+  }, [currentCave, t, tApp, tSeo, isEditingCave])
 
   // Files dragged anywhere over the window, while a cave's details pane is
   // open: the full-screen drop zone (useWindowFileDrop) - not with Further
