@@ -179,7 +179,7 @@ function RedirectToCollectionEdit() {
 // The app's routes, for the browser's router (router.jsx) and the server's
 // rendering of the public pages (entry-server.jsx). A route's
 // handle.pageBackground: another photo behind its page (Layout); its
-// handle.frame: a variant of the page's frame (Layout: 'wide-border').
+// handle.frame: a variant of the page's frame (Layout: 'dashboard').
 export const routes = [
   {
     path: '/',
@@ -296,8 +296,9 @@ export const routes = [
               },
               {
                 path: 'dashboard',
-                // Its frame's wide border (Layout.scss).
-                handle: { frame: 'wide-border' },
+                // Its own frame: a wide border round a window onto the
+                // photo, the page inside it (Layout.scss).
+                handle: { frame: 'dashboard' },
                 ...requireAuth(() => import('@/routes/dashboard/AdminDashboard.jsx')),
               },
               {

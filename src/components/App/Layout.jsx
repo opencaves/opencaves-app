@@ -9,13 +9,25 @@ import { removeShell } from '@/utils/shell.js'
 import './Layout.scss'
 
 /**
+ * The page's column's content as it is - or, with a frame variant (a route's
+ * `handle.frame`), in an inner box Layout.scss styles for it.
+ *
+ * @param {object} props
+ * @param {string} [props.variant]
+ * @param {import('react').ReactNode} props.children
+ */
+function FrameInner({ variant, children }) {
+  return variant ? <div className="oc-layout--main-inner">{children}</div> : <>{children}</>
+}
+
+/**
  * The frame of every page but the map: the app bar, and the page's column on
  * the pages' background photo - translucent, its border the page's colour,
  * the photo in thin side margins on phones (Layout.scss), the Privacy and
  * Terms links at its foot. One frame for all (the error pages too); a route
  * may set another photo behind it (its `handle.pageBackground`: 'dashboard'
  * for the feedback pages), and a variant of the frame (its `handle.frame`:
- * 'wide-border' for the dashboard).
+ * 'dashboard' for the dashboard).
  * The page's scroller: it keeps each page's position in the history, and
  * scrolls to an address's #section.
  */
@@ -28,7 +40,7 @@ export default function Layout() {
   // Another photo behind the frame: the deepest route's that sets one
   // (routeTree.jsx; Layout.scss draws it).
   const pageBackground = /** @type {{ pageBackground?: string } | undefined} */ ([...useMatches()].reverse().find((match) => /** @type {{ pageBackground?: string } | undefined} */ (match.handle)?.pageBackground)?.handle)?.pageBackground
-  // A variant of the frame, the route's (handle.frame): 'wide-border' (the dashboard's).
+  // A variant of the frame, the route's (handle.frame): 'dashboard'.
   const frameVariant = /** @type {{ frame?: string } | undefined} */ (useMatches().at(-1)?.handle)?.frame
 
   // index.html's splash goes once the page is here: the router renders this
@@ -132,10 +144,13 @@ export default function Layout() {
       <AppBar />
       {/* Its frame: Layout.scss. */}
       <Container id="main" className={['oc-layout--main', frameVariant && `oc-layout--main-${frameVariant}`].filter(Boolean).join(' ')} component="main">
-        <Outlet />
-        {/* The Privacy and Terms links at every page's foot - not the landing
-            page's, whose own footer has them. */}
-        {path !== '/' && <LegalLinks sx={{ mt: 4, alignSelf: 'end' }} />}
+        {/* A frame variant: the page and its links in an inner box (Layout.scss). */}
+        <FrameInner variant={frameVariant}>
+          <Outlet />
+          {/* The Privacy and Terms links at every page's foot - not the landing
+              page's, whose own footer has them. */}
+          {path !== '/' && <LegalLinks sx={{ mt: 4, alignSelf: 'end' }} />}
+        </FrameInner>
       </Container>
 
       <Dev sx={{ '--oc-mode-switcher-top': 'calc(64px + 1rem)' }} />

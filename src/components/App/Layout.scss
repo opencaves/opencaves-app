@@ -85,16 +85,37 @@
   }
 }
 
-// handle.frame 'wide-border' (the dashboard): a wider border, all round on
-// phones too (no see-through sides) - 1rem + 16px there, from 600px up
-// 2rem + 16px above and below, 2rem + 24px at the sides.
-.oc-layout .oc-layout--main-wide-border {
+// handle.frame 'dashboard' (/dashboard): a square frame, its wide border
+// (the page's colour) all round - phones too, no see-through sides - round
+// a transparent window onto the photo, the page on a translucent inner box
+// in it, the Privacy and Terms links at its foot under a line.
+.oc-layout .oc-layout--main-dashboard {
+  background-color: transparent;
   border-width: calc(1rem + 16px);
+  border-radius: 0;
   margin-left: auto;
   margin-right: auto;
   width: 100%;
+  padding: 8px;
 
   @media (min-width: 600px) {
     border-width: calc(2rem + 16px) calc(2rem + 24px);
+    padding: 16px;
+  }
+
+  .oc-layout--main-inner {
+    min-width: 0;
+    padding: 16px 16px 32px;
+    background-color: var(--oc-page-surface-translucent);
+
+    @media (min-width: 600px) {
+      padding: 32px;
+    }
+  }
+
+  .oc-layout--main-inner > .oc-legal-links {
+    margin-top: 48px;
+    padding-top: 16px;
+    border-top: 1px solid var(--mui-palette-divider);
   }
 }
