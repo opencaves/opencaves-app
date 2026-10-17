@@ -123,6 +123,8 @@
 .oc-no-match.no-match--in-layout {
   .no-match--box {
     max-height: none;
+    // The page's width (its content centred in it): room for the details.
+    width: 100%;
     max-width: 100%;
     padding: 0;
     border: 0;
@@ -131,14 +133,15 @@
   }
 
   .no-match--header {
-    text-transform: none;
-    // Every page's title (PAGE_TITLE_SX, components/pageTitle.js): the h4,
-    // medium weight, its accent bar under it. Centred, as the message, but
-    // as wide as its text (inline-block), the bar starting at its left edge
-    // - as on the other pages, where titles start on the left.
+    // The error page's own title, as on its own (capitals, 3rem, bold),
+    // smaller on phones, with every page's accent bar under it
+    // (PAGE_TITLE_SX, components/pageTitle.js). Centred, as the message, but
+    // as wide as its text (inline-block), the bar starting at its left edge.
     display: inline-block;
-    font: var(--mui-font-h4);
-    font-weight: 500;
+    margin: 0;
+    text-transform: uppercase;
+    font-size: clamp(2rem, 8vw, 3rem);
+    line-height: 1.15;
 
     &::after {
       content: '';
@@ -151,7 +154,8 @@
     }
   }
 
+  // The page's whole width (it's for reading a stack).
   .no-match--dev-details {
-    max-width: min(48rem, 100%);
+    max-width: 100%;
   }
 }
