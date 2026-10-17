@@ -46,6 +46,7 @@ export const MapLoading = forwardRef(function MapLoading(props, ref) {
       </div>
       <span className="oc-map-loading--control oc-map-loading--account"></span>
       <span className="oc-map-loading--control oc-map-loading--layers"></span>
+      <span className="oc-map-loading--control oc-map-loading--measure"></span>
       <span className="oc-map-loading--control oc-map-loading--locate"></span>
       {withPane && (
         <div className="oc-map-loading--pane">
