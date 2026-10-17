@@ -734,6 +734,9 @@ it exits 1 when a check fails (`-v` also lists the pages' other console
 errors). It uses Chrome when installed, else Playwright's Chromium: run `npx
 playwright install chromium` once.
 
+Then tell the search engines what changed (next section):
+`node scripts/submit-to-search.js --indexnow --since <the day before> --send`.
+
 If a functions deploy fails with *"User code failed to load. Cannot determine
 backend specification. Timeout after 10000"*, the CLI took more than 10
 seconds to load the functions code. This is usually a slow cold start, not a
@@ -742,6 +745,42 @@ bug. Try again, or give it more time (the value is in seconds):
 ```powershell
 $env:FUNCTIONS_DISCOVERY_TIMEOUT=60; firebase deploy --only functions
 ```
+
+## Ask search engines to crawl pages
+
+`scripts/submit-to-search.js` asks Bing (and the other IndexNow engines) to
+crawl opencaves.org's pages, two ways. Google has no such API for ordinary
+pages: request its indexing by hand in Search Console (about 10 a day).
+
+```
+node scripts/submit-to-search.js --bing --dry-run       # the next pages for Bing, and its quota
+node scripts/submit-to-search.js --bing --send
+node scripts/submit-to-search.js --indexnow --since 2026-10-17 --dry-run   # pages changed since that day
+node scripts/submit-to-search.js --indexnow --since 2026-10-17 --send
+node scripts/submit-to-search.js --indexnow --urls https://opencaves.org/caves/<id> --send
+```
+
+- **`--bing`: the backlog**, through the Bing Webmaster API (its daily quota,
+  100 for this site): the sitemap's pages not sent yet, the landing page, the
+  lists and the map first, then the most visited (`_popularity`). Once a day.
+  It reads the API key from Secret Manager (`BING_WEBMASTER_API_KEY`), unless
+  that variable is set. The key comes from Bing Webmaster Tools, Settings >
+  API access; to store a new one, with it in the clipboard:
+
+  ```powershell
+  gcloud secrets create BING_WEBMASTER_API_KEY --replication-policy=automatic --project opencaves   # once
+  (Get-Clipboard).Trim() | gcloud secrets versions add BING_WEBMASTER_API_KEY --data-file=- --project opencaves
+  ```
+
+- **`--indexnow`: the pages that changed** (after a deploy, after data
+  edits): the sitemap's pages whose `lastmod` is on or after `--since`, or the
+  `--urls` given. IndexNow has no daily quota to speak of. Its key is public by
+  design: `public/<key>.txt` (deployed with Hosting) proves the site is ours;
+  the script refuses to send until it's on the site.
+
+What was sent, and when, is kept in `_data/search-submit.json` (not in git):
+`--bing` skips the pages already sent (`--force` sends them again). Nothing is
+sent without `--send`. Production's sitemap and public data are only read.
 
 ## Local emulators
 
