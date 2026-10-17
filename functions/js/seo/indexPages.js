@@ -1,7 +1,8 @@
 import { onRequest } from 'firebase-functions/v2/https'
 import { logger } from 'firebase-functions/v2'
 import { REGION, GITHUB_URL, SITE_URL, TITLE_NAME } from '../constants.js'
-import { cavePageMeta } from './cavePage.js'
+import { cavePageMeta, readCaveRating } from './cavePage.js'
+import { sistemaJsonLd } from './structuredData.js'
 import { loadPageIndex, loadSsr, renderWithApp } from './ssr.js'
 import { decodeSegment, plainParagraphs, renderPage, sendHtml, shareImageOf, shellFor, truncate } from './shared.js'
 import { answerWarmPing, isWarmPing } from './keepWarm.js'
@@ -98,18 +99,21 @@ function sistemaPage(sistema, data) {
     path,
     image,
     trail: [{ name: 'Home', path: '/' }, { name: 'Cave systems', path: '/sistemas' }, { name: sistema.name, path }],
-    // The system as a place, its caves in it (each as its own page's: cavePage.js).
-    jsonLd: {
-      '@context': 'https://schema.org',
-      '@type': 'Place',
+    // The system as a place, its caves in it (each as its own page's:
+    // structuredData.js).
+    jsonLd: sistemaJsonLd({
+      siteUrl: SITE_URL,
+      id: sistema.slug,
       name: sistema.name,
       description,
-      url: `${SITE_URL}${path}`,
-      address: { '@type': 'PostalAddress', addressCountry: 'MX' },
-      ...(aka.length && { alternateName: aka }),
-      ...(image && { image: image.url }),
-      containsPlace: sistemaCaves(sistema, data).map((cave) => ({ '@type': 'TouristAttraction', name: caveName(cave), url: `${SITE_URL}/caves/${cave.id}` })),
-    },
+      aka,
+      location: sistema.location,
+      image: image?.url || null,
+      area: sistema.area || null,
+      exploredLength: sistema.exploredLength,
+      maxDepth: sistema.maxDepth,
+      caves: sistemaCaves(sistema, data).map((cave) => ({ id: cave.id, name: caveName(cave) })),
+    }),
   }
 }
 
@@ -207,7 +211,9 @@ export const indexPages = onRequest({ region: REGION, memory: '512MiB' }, async 
     if (page?.cave) {
       const cave = data.cavesById.get(page.cave)
       const sistema = cave?.sistemaId && data.sistemasById.get(cave.sistemaId)
-      meta = cave ? cavePageMeta(cave, page.cave, sistema ? { name: sistema.name, slug: sistema.slug } : null, `/caves/${page.cave}`) : null
+      // Its rating (structured data's aggregateRating): read fresh, a document.
+      const rating = cave ? await readCaveRating(page.cave) : null
+      meta = cave ? cavePageMeta(cave, page.cave, sistema ? { name: sistema.name, slug: sistema.slug } : null, `/caves/${page.cave}`, rating) : null
     }
     if (page?.redirect) {
       res.set('Cache-Control', 'public, max-age=3600')
