@@ -2512,7 +2512,8 @@
       "confirmed": "Confirmé : {{date}}",
       "stale": "Dernière confirmation en {{year}}",
       "partly": "Confirmé en partie",
-      "never": "Aucune confirmation pour l’instant"
+      "never": "Aucune confirmation pour l’instant",
+      "accessUnknown": "Accès inconnu"
     },
     "sections": {
       "access": "Accès",
@@ -2526,6 +2527,7 @@
     "stillAccurate": "Toujours exact",
     "stillAccurateQuestion": "Toujours exact ?",
     "stillAccurateLabel": "{{section}} : c'est toujours exact",
+    "updateAccess": "Mettre à jour l’accès",
     "saved": "Merci ! Confirmation enregistrée : {{section}}, {{name}}.",
     "saveError": "La confirmation n'a pas pu être enregistrée. Réessayez.",
     "report": {

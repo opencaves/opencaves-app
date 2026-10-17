@@ -55,8 +55,9 @@ const iconOf = (kind) => {
  * @param {() => void} props.onClose
  * @param {string[]} [props.kinds] - Its quick reports ({@link CAVE_REPORT_KINDS}'s, every one by default).
  * @param {string} [props.page] - What Something else is about: the section on the cave's page.
+ * @param {string} [props.title] - Its title, What changed? by default.
  */
-export default function CaveReportMenu({ cave, anchorEl, onClose, kinds = CAVE_REPORT_KINDS, page }) {
+export default function CaveReportMenu({ cave, anchorEl, onClose, kinds = CAVE_REPORT_KINDS, page, title }) {
   const { t, i18n } = useTranslation('caveReview', { keyPrefix: 'report' })
   const { t: tPages } = useTranslation('indexPages')
   const { t: tTables } = useTranslation(['accesses', 'accessibilities', 'fees'])
@@ -143,12 +144,12 @@ export default function CaveReportMenu({ cave, anchorEl, onClose, kinds = CAVE_R
 
   return (
     <>
-      <Menu className="oc-cave-report-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onClose} slotProps={{ list: { 'aria-label': t('menuLabel') }, paper: { sx: { maxWidth: 340 } } }}>
+      <Menu className="oc-cave-report-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onClose} slotProps={{ list: { 'aria-label': title || t('menuLabel') }, paper: { sx: { maxWidth: 340 } } }}>
         {/* Its question as its title (not a small caption): bold, in the
             text's colour, a warning sign before it, a line under it. */}
         <Typography component="li" role="presentation" className="oc-cave-report-menu--title" sx={{ display: 'flex', alignItems: 'center', gap: 1, px: 2, pt: 1, pb: 1.25, mb: 0.5, fontSize: '0.9375rem', fontWeight: 600, color: 'text.primary', borderBottom: 1, borderColor: 'divider' }}>
           <WarningAmberRounded aria-hidden="true" fontSize="small" color="warning" />
-          {t('menuLabel')}
+          {title || t('menuLabel')}
         </Typography>
         {sorted.flatMap((item, index) => {
           // A group's heading before its first value: Access is now,

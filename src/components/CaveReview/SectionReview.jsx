@@ -37,6 +37,8 @@ const monthDate = (month) => new Date(Date.UTC(Number(month.slice(0, 4)), Number
  * - its arrow, What changed?: the card's quick reports - the Access card's
  *   other access, accessibility and fees values (accessProposals); Road
  *   changed - and Something else (CaveReportMenu), for everyone.
+ * The Access card with no access value ("Unknown"): nothing to confirm -
+ * "Access unknown" on the left, and the menu alone, Update the access.
  * The same on the server as in the browser (the page is hydrated): roles
  * only matter on a click.
  *
@@ -77,6 +79,8 @@ export default function SectionReview({ cave, sections, sx }) {
       : oldest
         ? t('card.stale', { year: oldest.slice(0, 4) })
         : t('card.partly')
+  // The Access card at its default, no access value: a menu alone.
+  const unknownAccess = sections.includes('access') && !cave.access
   const isEditor = roles.includes('editor')
   const name = cave.name?.value?.trim() || tPages('unnamedCavePlain')
 
@@ -144,7 +148,7 @@ export default function SectionReview({ cave, sections, sx }) {
   // or too long ago). In the dark theme toned down into the background (it
   // stood out more than a secondary action should): text about 6.6:1,
   // outline 3.4:1, amber 7.7:1.
-  const warn = !selected
+  const warn = !selected || unknownAccess
   const look = (theme) => {
     const quiet = (color, share) => `color-mix(in srgb, ${color} ${share}%, ${theme.vars.palette.background.default})`
     const tone = (dark) => (warn ? (dark ? quiet(theme.vars.palette.warning.main, 80) : theme.vars.palette.warning.dark) : (dark ? quiet(theme.vars.sys.color.primary, 75) : theme.vars.palette.primary.dark))
@@ -163,8 +167,17 @@ export default function SectionReview({ cave, sections, sx }) {
       {/* How old the card's information is, on the left: its length never
           moves the button. */}
       <Typography className="oc-section-review--age" variant="body2" component="p" sx={{ color: 'text.secondary', fontSize: '0.8125rem', m: 0 }}>
-        {age}
+        {unknownAccess ? t('card.accessUnknown') : age}
       </Typography>
+      {unknownAccess ? (
+        // One outlined pill, as the split button's height and colours: the menu.
+        <Box className="oc-section-review--add" sx={(theme) => ({ ml: 'auto', '& .MuiButton-root': { textTransform: 'none', height: 32, borderRadius: '999px', pl: '15px', pr: 1 }, ...look(theme) })}>
+          <Button variant="outlined" size="small" className="oc-section-review--report" endIcon={<ArrowDropDownRounded />} onClick={(event) => setMenuAnchor(event.currentTarget)} aria-haspopup="menu" aria-expanded={Boolean(menuAnchor)}>
+            {t('updateAccess')}
+          </Button>
+        </Box>
+      ) : (
+      <>
       {/* An outlined pill split in two, no taller than before (32px): its
           outline in M3's outline color (4.4:1 light - a control's edge needs
           3:1). The main part a toggle (filled while confirmed), the arrow the
@@ -177,7 +190,9 @@ export default function SectionReview({ cave, sections, sx }) {
           <ArrowDropDownRounded />
         </Button>
       </ButtonGroup>
-      <CaveReportMenu cave={cave} anchorEl={menuAnchor} onClose={() => setMenuAnchor(null)} kinds={kinds} page={page} />
+      </>
+      )}
+      <CaveReportMenu cave={cave} anchorEl={menuAnchor} onClose={() => setMenuAnchor(null)} kinds={kinds} page={page} title={unknownAccess ? t('updateAccess') : undefined} />
     </Box>
   )
 }
