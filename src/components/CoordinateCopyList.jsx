@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip } from '@mui/material'
+import { Box, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip } from '@mui/material'
 import ContentCopy from '@mui/icons-material/ContentCopyRounded'
 import DirectionsRounded from '@mui/icons-material/DirectionsRounded'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
@@ -29,6 +29,8 @@ export function useCopiedConfirmation() {
  * (in its own list): they carry its class names too (oc-icon-copy...), which
  * its styles use. A copy and a Directions are analytics events
  * (copy_coordinates, directions), with `analytics` - what the point is.
+ * Unconfirmed coordinates are followed by a dimmed "(unconfirmed)", which
+ * isn't copied.
  *
  * @param {object} props
  * @param {import('react').ReactNode} props.icon
@@ -40,8 +42,10 @@ export function useCopiedConfirmation() {
  * @param {() => void} props.onCopied - Called once copied (the confirmation).
  * @param {boolean} [props.tooltip=true] - The copy's tooltip (none on phones).
  * @param {Record<string, string>} [props.analytics] - The events' parameters: its record (cave_id, sistema_id) and which point (location, parking, entrance, key).
+ * @param {boolean} [props.unconfirmed] - Its coordinates aren't confirmed.
  */
-export function CoordinateRow({ icon, text, copyText, copyLabel, point, directionsLabel, onCopied, tooltip = true, analytics }) {
+export function CoordinateRow({ icon, text, copyText, copyLabel, point, directionsLabel, onCopied, tooltip = true, analytics, unconfirmed = false }) {
+  const { t } = useTranslation('resultPane')
   const [tooltipOpen, setTooltipOpen] = useState(false)
   const copyIconRef = useRef(null)
   const directionsRef = useRef(null)
@@ -96,7 +100,18 @@ export function CoordinateRow({ icon, text, copyText, copyLabel, point, directio
         <Tooltip describeChild title={copyLabel} slotProps={underCopyIcon} open={tooltip && tooltipOpen} onOpen={() => setTooltipOpen(true)} onClose={() => setTooltipOpen(false)}>
           <ListItemButton>
             <ListItemIcon>{icon}</ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText
+              primary={
+                <>
+                  {text}
+                  {unconfirmed && (
+                    <Box component="span" className="oc-coordinate-copy-list--unconfirmed" sx={{ color: 'text.secondary' }}>
+                      {` (${t('coordinateValidityUnknown')})`}
+                    </Box>
+                  )}
+                </>
+              }
+            />
             <ListItemIcon ref={copyIconRef} className="oc-coordinate-copy-list--copy oc-icon-copy-container">
               <ContentCopy className="oc-icon-copy" sx={{ fontSize: '1.125rem' }} />
             </ListItemIcon>
@@ -114,7 +129,7 @@ export function CoordinateRow({ icon, text, copyText, copyLabel, point, directio
  *
  * @param {object} props
  * @param {object[]} props.rows - { key, icon, text,
- *   copyText, copyLabel, point ({ latitude, longitude }), directionsLabel }.
+ *   copyText, copyLabel, point ({ latitude, longitude }), directionsLabel, unconfirmed }.
  * @param {Sx} [props.sx]
  */
 export default function CoordinateCopyList({ rows, sx }) {
