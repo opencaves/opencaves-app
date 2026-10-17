@@ -31,11 +31,12 @@ const ICON_VARS = { '--oc-index-link-list-cave-icon': CAVE_ICON, '--oc-index-lin
  *
  * @param {object} props
  * @param {string} [props.className]
- * @param {object[]} props.items - { key, to, label, cave, color, secondary, mapTo } - cave: a cave icon
+ * @param {object[]} props.items - { key, to, label, cave, color, secondary, detail, mapTo } - cave: a cave icon
  *   before its name; color: a sistema's colour, as
  *   a line arrow before its name ({@link SistemaArrow}); secondary: muted text on a
  *   second line (a cave's system), on one line (cut with an ellipsis) - a long
- *   name wraps; mapTo: the record on the map, the row's secondary action - a
+ *   name wraps; detail: muted text on a line of its own under them, wrapping (a cave's road
+ *   distances); mapTo: the record on the map, the row's secondary action - a
  *   map icon at its end, shown on hover or focus (always on touch screens);
  *   noMap: the icon disabled (a cave without coordinates isn't on the map);
  *   entrance: a cave that's an entrance into its system - a diver icon after
@@ -70,7 +71,7 @@ function IndexLinkList({ items, className }) {
         // Its icons, for IndexLinkList.scss.
         style={ICON_VARS}
       >
-        {items.map(({ key, to, label, cave, color, secondary, mapTo, noMap, entrance }) => (
+        {items.map(({ key, to, label, cave, color, secondary, detail, mapTo, noMap, entrance }) => (
           <li key={key}>
             {/* With a system's arrow: on the name's first line, standing on its baseline. */}
             <RouterLink className="oc-index-link-list--link" to={to} style={color ? { alignItems: 'baseline' } : undefined}>
@@ -82,6 +83,7 @@ function IndexLinkList({ items, className }) {
               <span className="oc-index-link-list--text">
                 <span className="oc-index-link-list--label">{label}</span>
                 {secondary && <span className="oc-index-link-list--secondary">{secondary}</span>}
+                {detail && <span className="oc-index-link-list--detail">{detail}</span>}
               </span>
               {entrance && (
                 <span className="oc-index-link-list--entrance" role="img" aria-label={entrance} data-tip={entrance}>

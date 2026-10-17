@@ -44,6 +44,13 @@ export const WHATS_NEW_DOC_ID = 'latest'
 // public document per kind, _popularity/caves and _popularity/sistemas: for
 // the search fields' suggestions (the most visited first; to come).
 export const POPULARITY_COLL_NAME = '_popularity'
+// The roads near the caves (OpenStreetMap, roads/): _roads/meta, public -
+// { source, licence, asOf, downloadedAt, bbox, ways, updatedAt, refresh } -
+// the caves' list's credit line, and the monthly refresh's state
+// (refreshRoadDistances). The roads themselves are a file in Storage
+// (roads/roadDistances.js' ROADS_FILE). src/config/collections.js repeats it.
+export const ROADS_COLL_NAME = '_roads'
+export const ROADS_META_DOC_ID = 'meta'
 // The caves an account saved (_users/{uid}/savedCaves/{caveId}).
 export const SAVED_CAVES_COLL_NAME = 'savedCaves'
 // The members' reports (Send feedback): read by every registered

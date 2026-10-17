@@ -1659,7 +1659,23 @@
       "description": "Every cenote of the Yucatán, Mexico, listed on OpenCaves by area, each with its location, access, pictures and maps.",
       "add": "Add a cave",
       "subtitle_one": "{{count}} cave, by area.",
-      "subtitle_other": "{{count}} caves, by area."
+      "subtitle_other": "{{count}} caves, by area.",
+      "toConfirm": {
+        "sortLabel": "Order within each area",
+        "sortArea": "A to Z",
+        "sortRoad": "Easiest to reach first",
+        "sortPrefix": "Sort",
+        "gpx": "Download for GPS",
+        "gpxName": "OpenCaves: caves to confirm",
+        "gpxRoad": "nearest road: {{name}}",
+        "credit": "Distances to roads from <osm>© OpenStreetMap contributors</osm>, as of {{date}}.",
+        "distance": {
+          "pathAndRoad": "≈ path {{path}} · road {{road}}",
+          "road": "≈ road {{road}}",
+          "pathOnly": "≈ path {{path}} · no road within {{within}}",
+          "none": "No path within {{within}}"
+        }
+      }
     },
     "sistemas": {
       "headTitle": "Underwater cave systems of the Yucatán",

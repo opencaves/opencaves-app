@@ -220,6 +220,13 @@ service cloud.firestore {
       allow read: if true
     }
 
+    // The roads the caves' distances are measured on (_roads/meta: their
+    // date, the monthly refresh's state), kept by the server
+    // (refreshRoadDistances): public, written by it only.
+    match /_roads/{document} {
+      allow read: if true
+    }
+
     // Data checks: an edit from the app may only set the fields the app
     // uses, with the right type and a sane size - limits about 4 times the
     // largest values in the data (2026-10). Only the fields an edit sets are
@@ -289,7 +296,8 @@ service cloud.firestore {
     }
 
     // shareImage (caves and sistemas: the share image, functions/js/share/)
-    // is the server's alone: not in these lists, so an app write that sets,
+    // and roadDistance (caves: how far from a road, functions/js/roads/) are
+    // the server's alone: not in these lists, so an app write that sets,
     // changes or removes it is refused, while one that leaves it as it is
     // (setKeys: only the changed keys) goes through.
     function isValidCave(d, k) {

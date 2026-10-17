@@ -35,6 +35,68 @@
  */
 
 /**
+ * The nearest way of a kind to a cave (roadDistance's path or road).
+ *
+ * @typedef {object} RoadDistanceWay
+ * @property {number} m - Its distance in whole metres.
+ * @property {string} kind - Its OpenStreetMap highway tag (track, residential, path...).
+ * @property {string} [name] - Its name (or ref), when it has one.
+ */
+
+/**
+ * How far a cave still to confirm is from the nearest path and road
+ * (OpenStreetMap; functions/js/roads/roadDistances.js; firestore.rules
+ * refuses it from the app).
+ *
+ * @typedef {object} RoadDistance
+ * @property {RoadDistanceWay|null} path - The nearest way a person can walk; null: none within `within`.
+ * @property {RoadDistanceWay|null} road - The nearest a car can use; null: none within `within`.
+ * @property {number} within - The farthest distance measured (metres).
+ * @property {{latitude: number, longitude: number}} from - The coordinates measured from: none shown once the cave moved.
+ * @property {string} at - The roads' download day ('YYYY-MM-DD').
+ */
+
+/**
+ * A way of the roads file: its highway tag, its name, its points.
+ *
+ * @typedef {object} RoadWay
+ * @property {string} k - Its highway tag.
+ * @property {string} [n] - Its name (or ref).
+ * @property {number[]} c - Its points, [lon, lat, lon, lat...].
+ */
+
+/**
+ * The roads file (Storage, roads/roads.json.gz: roads/roadDistances.js).
+ *
+ * @typedef {object} RoadsFile
+ * @property {number} version
+ * @property {string} source - 'OpenStreetMap'.
+ * @property {string} licence - 'ODbL'.
+ * @property {string} downloadedAt - ISO date.
+ * @property {string|null} osmBase - The OpenStreetMap data's own date (Overpass's).
+ * @property {number} margin - The metres downloaded around the caves, the farthest measured.
+ * @property {number[][]} boxes - The areas downloaded, [west, south, east, north] each.
+ * @property {RoadWay[]} ways
+ */
+
+/**
+ * The roads' segments in a grid (roadDistances.js' roadIndex).
+ *
+ * @typedef {object} RoadIndex
+ * @property {RoadWay[]} ways
+ * @property {boolean[]} isRoad - Whether each way is one a car can use.
+ * @property {Float64Array} ax
+ * @property {Float64Array} ay
+ * @property {Float64Array} bx
+ * @property {Float64Array} by
+ * @property {Int32Array} wayOf - Each segment's way.
+ * @property {Map<string, number[]>} grid - The segments in each cell ("x,y").
+ * @property {number[][]} boxes
+ * @property {number} margin
+ * @property {string} at - The roads' download day.
+ */
+
+/**
  * A cave (`caves`), as the server-rendered pages and the share images read it.
  *
  * @typedef {object} Cave
@@ -51,6 +113,7 @@
  * @property {Record<string, string>} [reviewed] - The month ('YYYY-MM') each section (access, directions, fees,
  *   description) was last confirmed still accurate, by editors from the app.
  * @property {ShareImage} [shareImage] - Its share image (share/shareImages.js).
+ * @property {RoadDistance} [roadDistance] - Still to confirm: how far it is from the nearest path and road (roads/).
  */
 
 /**

@@ -84,6 +84,15 @@
     text-overflow: ellipsis;
   }
 
+  // A line of facts under it (the list to confirm's road distances): the
+  // theme's body2, wrapping.
+  .oc-index-link-list--detail {
+    font: var(--mui-font-body2);
+    letter-spacing: 0.01071em;
+    color: var(--mui-palette-text-secondary);
+    overflow-wrap: anywhere;
+  }
+
   // The map icon: a 40dp button, its 24dp icon (MD3's icon button).
   .oc-index-link-list--map {
     flex-shrink: 0;

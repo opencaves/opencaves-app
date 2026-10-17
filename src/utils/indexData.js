@@ -1,5 +1,6 @@
 import { slugify } from './slug.js'
 import { caveFacts } from './caveFilters.js'
+import { shownRoadDistance } from './roadDistance.js'
 
 // What the public index pages (/caves, /sistemas,
 // /sistemas/<id>) show, from the store's cave data. Mirrors the server's
@@ -40,8 +41,18 @@ export function buildIndexData({ caves = [], sistemas = [], areas = [], connecti
   // server-rendered page carries (src/ssr/pageState.js), without them.
   // cenoteEntrance: an entrance into its system (a system page's list marks it).
   // With the other facts the caves' search criteria test (caveFacts).
+  // roadDistance: a cave still to confirm's distances to the nearest path and
+  // road, when measured from where it is (utils/roadDistance.js); point: its
+  // coordinates (the list to confirm's GPX file) - a server-rendered list
+  // sends them for the caves still to confirm only.
   const caveItems = caves
-    .map((cave) => ({ ...caveFacts(cave), aka: Array.isArray(cave.aka) ? cave.aka : [], sistemaId: cave.sistemaId || null }))
+    .map((cave) => ({
+      ...caveFacts(cave),
+      aka: Array.isArray(cave.aka) ? cave.aka : [],
+      sistemaId: cave.sistemaId || null,
+      roadDistance: shownRoadDistance(cave),
+      point: cave.location?.latitude != null && cave.location?.longitude != null ? { latitude: cave.location.latitude, longitude: cave.location.longitude } : null,
+    }))
     .sort((a, b) => (!a.name || !b.name ? Number(!a.name) - Number(!b.name) : byName(a, b)))
 
   const slugs = sistemaSlugs(sistemas)

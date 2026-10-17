@@ -83,16 +83,18 @@ export const ROUTE_MODULES = {
  * @param {{id: string, data: object}[]} [options.caveReports] - A cave's page: its _caveReports document
  *   ([{ id, data }], none without one) - the warnings it shows.
  * @param {{views?: Record<string, number>}} [options.popularity] - _popularity/caves: the landing page's featured caves.
+ * @param {{asOf?: string, source?: string}|null} [options.roads] - _roads/meta (null: none yet): the caves' list's
+ *   road distances' credit line.
  * @param {string} options.title - The page's <title> (the server's, functions/js/seo), the app's own title
  *   (App's Helmet) until the page sets it.
  * @returns {Promise<object>} { html, styles, status, ssr } or { notFound: true }.
  */
-export async function render({ url, raw, maps, documents, assets, covers, caveReports, popularity, title }) {
+export async function render({ url, raw, maps, documents, assets, covers, caveReports, popularity, roads, title }) {
   const started = performance.now()
   const { pathname, hostname } = new URL(url)
   const page = pageOf(pathname)
   if (!page) return { notFound: true }
-  const { data, queries, found } = buildPageState(page, { raw, maps, documents, assets, covers, caveReports, popularity })
+  const { data, queries, found } = buildPageState(page, { raw, maps, documents, assets, covers, caveReports, popularity, roads })
   if (!found) return { notFound: true }
   // The store: the app's title (the cave data is useCaveData's).
   const state = title ? { app: { ...createServerStore().getState().app, title } } : {}

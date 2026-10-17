@@ -19,10 +19,11 @@ import { FILTER_KINDS } from '@/utils/caveFilters.js'
  * @param {(kind: keyof CaveFilters, value: string, on: boolean) => void} props.onToggle - A value added to the
  *   filters, or removed.
  * @param {() => void} props.onClear - Every filter removed.
+ * @param {React.ReactNode} [props.end] - What sits at the row's end, at the right (the caves to confirm's tools).
  * @param {(kind: keyof CaveFilters, value: string) => number|null} props.countWith - How many caves the list
  *   shows with the value added (null when unknown yet): read only while the menu is open.
  */
-export default function CaveFilterBar({ filters, options, onToggle, onClear, countWith }) {
+export default function CaveFilterBar({ filters, options, onToggle, onClear, countWith, end }) {
   const { t } = useTranslation('indexPages')
   const { t: tFilter } = useTranslation('filter')
   const [anchor, setAnchor] = useState(null)
@@ -71,6 +72,7 @@ export default function CaveFilterBar({ filters, options, onToggle, onClear, cou
           {t('caves.filters.clearAll')}
         </Button>
       )}
+      {end}
       <Menu
         className="oc-cave-filter-bar--menu"
         anchorEl={anchor}

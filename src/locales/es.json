@@ -1659,7 +1659,23 @@
       "description": "Todos los cenotes de Yucatán, México, listados en OpenCaves por zona, cada uno con su ubicación, acceso, fotos y mapas.",
       "add": "Añadir una cueva",
       "subtitle_one": "{{count}} cueva, por zona.",
-      "subtitle_other": "{{count}} cuevas, por zona."
+      "subtitle_other": "{{count}} cuevas, por zona.",
+      "toConfirm": {
+        "sortLabel": "Orden dentro de cada zona",
+        "sortArea": "De la A a la Z",
+        "sortRoad": "Las más fáciles de alcanzar primero",
+        "sortPrefix": "Ordenar",
+        "gpx": "Descargar para GPS",
+        "gpxName": "OpenCaves: cuevas por confirmar",
+        "gpxRoad": "camino vehicular más cercano: {{name}}",
+        "credit": "Distancias a los caminos según los <osm>© colaboradores de OpenStreetMap</osm>, a {{date}}.",
+        "distance": {
+          "pathAndRoad": "≈ sendero {{path}} · camino {{road}}",
+          "road": "≈ camino {{road}}",
+          "pathOnly": "≈ sendero {{path}} · ningún camino a menos de {{within}}",
+          "none": "Ningún sendero a menos de {{within}}"
+        }
+      }
     },
     "sistemas": {
       "headTitle": "Sistemas de cuevas inundadas de Yucatán",

@@ -12,7 +12,9 @@ the project.
   database from the Google Sheet, user roles, Storage CORS, deploying, and
   local emulator troubleshooting, who changed what (the audit log), and the
   caves' reports and confirmations (warnings, resolving them), and the
-  caves' and systems' share images (link previews, their backfill script).
+  caves' and systems' share images (link previews, their backfill script),
+  and the road distances of the caves still to confirm (OpenStreetMap, the
+  monthly refresh, the manual script).
 - [Keys and secrets](keys-and-secrets.md): every key, secret, token and
   credential - what it's for, who uses it, where it lives, whether it's
   public, how to replace it, and what to do if one leaks.
