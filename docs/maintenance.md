@@ -691,6 +691,40 @@ The script reads the caves, systems, connections, cover photos and stored pictur
 
 After deploying, check one card in Facebook's Sharing Debugger or by pasting a cave's link into WhatsApp. A link already shared keeps its old card until the network reads the page again; the Sharing Debugger's **Scrape Again** does that for Facebook.
 
+## Road distances
+
+How far each cave still to confirm is from a path and from a road, for a field trip to confirm its coordinates. A cave is still to confirm when it has a `location` whose `validity` isn't `valid` (the caves list's **Position not confirmed** filter, `/caves?missing=position`). On that list, **Easiest to reach first** (`&sort=road`) puts the nearest a road first, each row shows its distances ("≈ 120 m from a path · 1.8 km from a road", in the reader's units), and **Download for GPS** saves the list shown as a GPX file (`opencaves-to-confirm.gpx`: a waypoint per cave, in the list's order, with its distances, its nearest road's name and a link to its page).
+
+The distances are measured on OpenStreetMap's highways, downloaded from the [Overpass API](https://overpass-api.de) in one query (with a `User-Agent` naming OpenCaves). The area comes from the caves themselves: every located cave's 0.25° cell, plus 5 km around it. Nothing in the code names a region. The kinds of way (`HIGHWAY_KINDS` in `functions/js/roads/roadDistances.js`) are:
+
+- **road**, what a car can use: motorway, trunk, primary, secondary and tertiary (and their links), unclassified, residential, living_street, service, track and road;
+- **path**, what a person can walk: every road, plus path, footway, pedestrian, steps, cycleway and bridleway.
+
+Ways that aren't built (construction, proposed), indoor ones and raceways are left out. Access tags (`private`, `no`) aren't read, because a private track to a cenote still shows the way in. The distance is to the nearest point of the nearest way, up to 5 km (`ROADS_MARGIN_M`). Beyond that, the row says "No path within 5 km".
+
+**Where it's kept:**
+
+- each cave's `roadDistance`: `{ path, road, within, from, at }`. `path` and `road` are each `{ m, kind, name? }`, or null when there's none within `within` metres. `from` holds the coordinates measured from, so the app shows nothing once the cave has moved. `at` is the roads' download day. Like `shareImage`, it's the server's alone: `firestore.rules` refuses it from the app, while an edit that leaves it as it is goes through, and the audit log leaves it out (`SERVER_FIELDS`). A cave whose position is confirmed, or that loses its location, loses it;
+- the roads: `roads/roads.json.gz` in Storage (gzip JSON: each way's highway kind, name and points, with the download's date and area). It is public, like the rest of the bucket;
+- `_roads/meta` (public): `{ source, licence, asOf, downloadedAt, bbox, ways, updatedAt }` for the list's credit line, and the monthly refresh's state, `refresh: { month, failures, lastError, lastAttemptAt, emailedAt }`.
+
+**Who does what:**
+
+- **The server, monthly:** `refreshRoadDistances` runs on the 1st of each month at 02:00, Cancún time. It downloads the roads again, replaces the file, measures every cave again (batch writes) and updates `_roads/meta`. When Overpass is busy (429, 502, 503, 504), it asks again after 30 s, 1 min and 2 min. A failed or partial download (fewer than half the previous file's ways) keeps the previous roads. The same schedule runs on the 2nd and the 3rd, and does nothing once the month's roads are in. After the third failure in a month, the admins are emailed once, each in their language.
+- **The server, at once:** `onCaveRoadDistance` measures a cave on the stored roads when it's created, or when its location's coordinates or validity change. Its own write of `roadDistance` comes back as a change of that field alone, which it leaves alone.
+- **By hand:** `scripts/road-distances.js`, with the same code. Use it for the first run, after a big import of caves (a new region: `--refresh`, so its roads are downloaded), or after the admins' failure email, once Overpass answers again:
+
+```
+node scripts/road-distances.js -l --refresh --dry-run      # download the roads, list what would change locally
+node scripts/road-distances.js -l --refresh --write        # and write it (the roads file, _roads/meta, the caves)
+node scripts/road-distances.js -l --write --cave=<id>      # one cave, on the stored roads ("=": ids start with "-")
+node scripts/road-distances.js -p --refresh --write        # production
+```
+
+Without `--refresh`, it uses the stored roads. `-v` prints each change's distances. A download takes about a minute, and the measuring a second. Locally, writing every cave fires the emulators' cave triggers for each, and they find nothing to do. The emulators are slow for a few minutes while they work through them, and other writes can time out meanwhile.
+
+**The licence:** OpenStreetMap's data is under the [ODbL](https://opendatacommons.org/licenses/odbl/). The list credits it under the distances ("Distances to roads from © OpenStreetMap contributors, as of <month>", linked to <https://www.openstreetmap.org/copyright>), as the licence asks. Keep that line wherever the distances are shown. The roads file is a derived database of OpenStreetMap's, so it stays under the ODbL too.
+
 ## Keep the page functions warm
 
 The functions that draw the public pages, `indexPages` (`/`, `/caves`, `/sistemas` and their records' pages) and `cavePage` (`/map/<id>`), took 2 to 6.6 seconds to answer when an instance had to start first (a cold start). The `keepPagesWarm` function (`functions/js/seo/keepWarm.js`) pings each of them every 5 minutes so an instance stays started. It asks the site for `/?warm=<time>` and `/map/warm?warm=<time>`, so the pings go through the Hosting rewrites like a visit.
