@@ -289,7 +289,12 @@ if (argv.write) {
     for (const { deletes } of Object.values(plan)) {
       await writeInBatches(deletes.map((d) => (batch) => batch.delete(d.ref)))
     }
-    for (const file of filePlan.deletes) await fetch(`${LOCAL_STORAGE}/${encodeURIComponent(file.name)}`, { method: 'DELETE' })
+    // As the emulator's owner: a plain request goes through storage.rules,
+    // which refuse it (deletes are admins'), and the file stayed.
+    for (const file of filePlan.deletes) {
+      const response = await fetch(`${LOCAL_STORAGE}/${encodeURIComponent(file.name)}`, { method: 'DELETE', headers: { Authorization: 'Bearer owner' } })
+      if (!response.ok && response.status !== 404) throw new Error(`Couldn't delete the local file ${file.name}: ${response.status} ${(await response.text()).slice(0, 200)}`)
+    }
     console.log(`deleted: ${Object.values(plan).reduce((n, p) => n + p.deletes.length, 0)} documents, ${filePlan.deletes.length} files`)
     // When the local data was last production's: push-to-production.js
     // pushes the local edits made since.
