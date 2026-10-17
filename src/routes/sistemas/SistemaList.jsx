@@ -2,14 +2,12 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
-import { Box, IconButton, InputAdornment, List, ListItem, ListItemButton, ListItemText, TextField, Tooltip, Typography } from '@mui/material'
-import PageFab from '@/components/PageFab.jsx'
-import AddRounded from '@mui/icons-material/AddRounded'
-import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
+import { Box, InputAdornment, List, ListItem, ListItemButton, ListItemText, TextField } from '@mui/material'
 import SearchRounded from '@mui/icons-material/SearchRounded'
 import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import { matchesId } from '@/utils/matchesId.js'
@@ -21,6 +19,8 @@ const areasModel = createCollectionModel('areas')
 
 export default function SistemaList() {
   const { t } = useTranslation('dashboard')
+  // The Add button's new record: one id per visit, not per render.
+  const [newId] = useState(pushId)
   const [sistemas, loading] = SistemaModel.useAll()
   const [areas] = areasModel.useAll()
   const [search, setSearch] = useState('')
@@ -67,25 +67,13 @@ export default function SistemaList() {
 
   return (
     <div className="oc-sistema-list">
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-        {/* Back to the public list of the systems, this list's /edit counterpart. */}
-        <Tooltip title={t('backToSistemaIndex')}>
-          <IconButton component={Link} to="/sistemas" aria-label={t('backToSistemaIndex')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
-            <ArrowBackRounded />
-          </IconButton>
-        </Tooltip>
-        <Typography component="h1" variant="h5">
-          {t('sistemas')}
-        </Typography>
-      </Box>
+      {/* Its arrow: back to the public list of the systems, this list's /edit counterpart. */}
+      <IndexPageHeader title={t('sistemas')} subtitle={!loading && t('sistemaCount', { count: filtered.length })} backTo="/sistemas" addTo={`/sistemas/${newId}/edit`} addLabel={t('newSistema')} />
 
       {loading ? (
         <ListSkeleton rows={10} leading="square" count search grouped card />
       ) : (
         <>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-            {t('sistemaCount', { count: filtered.length })}
-          </Typography>
           <TextField
             fullWidth
             size="small"
@@ -123,7 +111,6 @@ export default function SistemaList() {
         </>
       )}
 
-      <PageFab className="oc-sistema-list--new-fab" to={`/sistemas/${pushId()}/edit`} label={t('newSistema')} icon={<AddRounded />} />
     </div>
   )
 }

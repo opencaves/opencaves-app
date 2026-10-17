@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Alert, Badge, Box, FormControlLabel, IconButton, InputAdornment, List, ListItem, ListItemButton, ListItemText, Switch, Tab, Tabs, TextField, Tooltip, Typography } from '@mui/material'
-import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import MapRounded from '@mui/icons-material/MapRounded'
 import SearchRounded from '@mui/icons-material/SearchRounded'
 import { collection, getDocs } from 'firebase/firestore'
 import { db } from '@/config/firebase.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
 import { useCaveLayerMaps } from '@/hooks/useCaveLayerMaps.jsx'
 import { isTrashed } from '@/utils/trash.js'
 import { setMapHidden } from '@/services/caveLayerSettings.js'
@@ -123,31 +123,23 @@ export default function MapLayersAdmin() {
 
   return (
     <Box className="oc-map-layers-admin" sx={{ minHeight: '100%' }}>
-      {/* Stays at the top while the list scrolls under it: right under the
-          fixed app bar (the toolbar's height, which changes with the screen),
-          keeping the page's top margin (pulled into the page's padding). */}
+      <IndexPageHeader title={t('title')} backTo="/dashboard" />
+      {/* Its tabs and search stay at the top while the list scrolls under
+          them: right under the fixed app bar (the toolbar's height, which
+          changes with the screen). */}
       <Box
         className="oc-map-layers-admin--header"
         sx={(theme) => ({
           position: 'sticky',
           zIndex: 1,
-          bgcolor: 'background.paper',
+          // On the page's surface, as IndexPageHeader's sticky row.
+          bgcolor: 'var(--oc-page-surface)',
           mt: -2,
           pt: 2,
           pb: 1,
           ...belowAppBar(theme),
         })}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-          <Tooltip title={t('backToDashboard', { ns: 'dashboard' })}>
-            <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard', { ns: 'dashboard' })} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
-              <ArrowBackRounded />
-            </IconButton>
-          </Tooltip>
-          <Typography component="h1" variant="h5">
-            {t('title')}
-          </Typography>
-        </Box>
 
         <Tabs className="oc-map-layers-admin--tabs" value={tab} onChange={(_, value) => setSearchParams(value === 'toProcess' ? { tab: 'toProcess' } : {}, { replace: true })} sx={{ mb: 2, borderBottom: 1, borderColor: 'divider' }}>
           <Tab value="layer" label={t('tabs.layer')} />

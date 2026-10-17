@@ -11,8 +11,9 @@ import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 
 // An index page's heading row: a back arrow to the page above it (backTo),
 // the page's h1 with a line under it (subtitle), and, for editors, a
-// floating action button: Add (addTo: a new record's form - the lists) or
-// Edit (editTo: the page's /edit address - one area or system). trail: the
+// floating action button: Add (addTo: a new record's form - the lists; or
+// onAdd, an action run on a click) or Edit (editTo: the page's /edit
+// address - one area or system). trail: the
 // breadcrumbs above it, [{ label, to }] from the landing page down to the
 // page's parent; current: the page's own (short) name, ending it. sticky:
 // from 600px up, the row stays under the app bar as the page scrolls (phones
@@ -35,6 +36,34 @@ const BREADCRUMBS_SX = {
 }
 
 /**
+ * A page's breadcrumbs, above its heading row: `trail`, the links from the
+ * landing page down to the page's parent, then `current`, the page's own
+ * (short) name - on one line. IndexPageHeader's, and the dashboard pages'
+ * (Layout, from their route's `handle.dashboardCrumb`).
+ *
+ * @param {object} props
+ * @param {{ label: string, to: string }[]} props.trail
+ * @param {string} [props.current]
+ */
+export function PageBreadcrumbs({ trail, current }) {
+  const { t: tApp } = useTranslation('app')
+  return (
+    <Breadcrumbs className="oc-index-page-header--breadcrumbs" aria-label={tApp('breadcrumbs')} sx={BREADCRUMBS_SX}>
+      {trail.map(({ label, to }) => (
+        <MuiLink key={to} component={Link} to={to} underline="hover" color="inherit">
+          {label}
+        </MuiLink>
+      ))}
+      {current && (
+        <Typography component="span" variant="body2" aria-current="page" sx={{ color: 'text.primary' }}>
+          {current}
+        </Typography>
+      )}
+    </Breadcrumbs>
+  )
+}
+
+/**
  * An index page's heading row (see above).
  *
  * @param {object} props
@@ -42,6 +71,7 @@ const BREADCRUMBS_SX = {
  * @param {import('react').ReactNode} [props.subtitle]
  * @param {string} [props.backTo]
  * @param {string} [props.addTo]
+ * @param {() => void} [props.onAdd] - The Add button's action, instead of a link (addTo).
  * @param {string} [props.addLabel]
  * @param {string} [props.editTo]
  * @param {string} [props.editLabel]
@@ -49,7 +79,7 @@ const BREADCRUMBS_SX = {
  * @param {string} [props.current]
  * @param {boolean} [props.sticky=false] - From 600px up, the heading row stays under the app bar.
  */
-export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLabel, editTo, editLabel, trail, current, sticky = false }) {
+export default function IndexPageHeader({ title, subtitle, backTo, addTo, onAdd, addLabel, editTo, editLabel, trail, current, sticky = false }) {
   const { t: tApp } = useTranslation('app')
   const navigate = useNavigate()
   const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
@@ -78,24 +108,9 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLab
     }
   }, [sticky])
 
-  const crumbs = trail && (
-    <Breadcrumbs className="oc-index-page-header--breadcrumbs" aria-label={tApp('breadcrumbs')} sx={BREADCRUMBS_SX}>
-      {trail.map(({ label, to }) => (
-        <MuiLink key={to} component={Link} to={to} underline="hover" color="inherit">
-          {label}
-        </MuiLink>
-      ))}
-      {current && (
-        <Typography component="span" variant="body2" aria-current="page" sx={{ color: 'text.primary' }}>
-          {current}
-        </Typography>
-      )}
-    </Breadcrumbs>
-  )
-
   return (
     <>
-      {crumbs}
+      {trail && <PageBreadcrumbs trail={trail} current={current} />}
       <Box
         ref={rowRef}
         className={['oc-index-page-header', sticky && 'oc-index-page-header--sticky'].filter(Boolean).join(' ')}
@@ -144,8 +159,8 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLab
             </Typography>
           )}
         </Box>
-        {isEditor && addTo && <PageFab className="oc-index-page-header--add" to={addTo} label={addLabel} icon={<AddRounded />} />}
-        {isEditor && !addTo && editTo && <PageFab className="oc-index-page-header--edit" to={editTo} label={editLabel} icon={<EditRounded />} />}
+        {isEditor && (addTo || onAdd) && <PageFab className="oc-index-page-header--add" to={addTo} onClick={addTo ? undefined : onAdd} label={addLabel} icon={<AddRounded />} />}
+        {isEditor && !addTo && !onAdd && editTo && <PageFab className="oc-index-page-header--edit" to={editTo} label={editLabel} icon={<EditRounded />} />}
       </Box>
     </>
   )

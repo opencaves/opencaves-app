@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Alert, Box, IconButton, Tab, Tabs, Tooltip, Typography } from '@mui/material'
-import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
+import { Alert, Box, Tab, Tabs } from '@mui/material'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
 import ChangesTab from './ChangesTab.jsx'
 import TrashTab from './TrashTab.jsx'
 import { useAccounts } from './useAccounts.js'
@@ -33,16 +33,7 @@ export default function Audits() {
 
   return (
     <Box className="oc-audits" sx={{ minHeight: '100%', minWidth: 0 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-        <Tooltip title={t('backToDashboard', { ns: 'dashboard' })}>
-          <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard', { ns: 'dashboard' })} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
-            <ArrowBackRounded />
-          </IconButton>
-        </Tooltip>
-        <Typography component="h1" variant="h5">
-          {t('title')}
-        </Typography>
-      </Box>
+      <IndexPageHeader title={t('title')} backTo="/dashboard" />
 
       <Tabs className="oc-audits--tabs" value={tab} onChange={changeTab} aria-label={t('title')} sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
         <Tab value="changes" label={t('tabs.changes')} id="oc-audits-tab-changes" aria-controls="oc-audits-panel-changes" />

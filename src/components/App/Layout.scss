@@ -119,3 +119,10 @@
     border-top: 1px solid var(--mui-palette-divider);
   }
 }
+
+// A dashboard page's breadcrumbs (Layout's, above the page): their row as
+// tall as they are - the grid's auto rows share the page's spare height,
+// which put a gap under them.
+.oc-layout .oc-layout--main-with-crumbs {
+  grid-template-rows: max-content;
+}

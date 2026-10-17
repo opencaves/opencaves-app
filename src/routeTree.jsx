@@ -179,7 +179,9 @@ function RedirectToCollectionEdit() {
 // The app's routes, for the browser's router (router.jsx) and the server's
 // rendering of the public pages (entry-server.jsx). A route's
 // handle.pageBackground: another photo behind its page (Layout); its
-// handle.frame: a variant of the page's frame (Layout: 'dashboard').
+// handle.frame: a variant of the page's frame (Layout: 'dashboard'). A
+// dashboard page's handle.dashboardCrumb: its name in its breadcrumbs (Home >
+// Dashboard > it), which Layout draws above it.
 export const routes = [
   {
     path: '/',
@@ -364,6 +366,7 @@ export const routes = [
                 {
                   // /areas has no public page: visitors go to the caves by area.
                   path: collectionName,
+                  handle: { dashboardCrumb: `dashboard:collections.${collectionName}.title` },
                   // Colours and languages: admins only (adminOnly).
                   ...(REFERENCE_DATA_CONFIGS[collectionName].adminOnly
                     ? requireAdmin(() => import('@/routes/dashboard/ReferenceDataEditor.jsx'))
@@ -378,6 +381,7 @@ export const routes = [
               ]),
               {
                 path: 'caves/edit',
+                handle: { dashboardCrumb: 'dashboard:caves' },
                 ...requireEditor(() => import('@/routes/caves/CaveList.jsx')),
               },
               {
@@ -398,6 +402,7 @@ export const routes = [
               },
               {
                 path: 'sistemas/edit',
+                handle: { dashboardCrumb: 'dashboard:sistemas' },
                 ...requireEditor(() => import('@/routes/sistemas/SistemaList.jsx')),
               },
               {
@@ -407,6 +412,7 @@ export const routes = [
               },
               {
                 path: 'connections',
+                handle: { dashboardCrumb: 'dashboard:manageSistemaConnections' },
                 ...requireEditor(() => import('@/routes/connections/ConnectionList.jsx')),
               },
               {
@@ -415,24 +421,28 @@ export const routes = [
               },
               {
                 path: 'users',
+                handle: { dashboardCrumb: 'usersAdmin:title' },
                 ...requireAdmin(() => import('@/routes/dashboard/UsersAdmin.jsx')),
               },
               {
                 // With a map's id: its original next to its drawing, over the
                 // list (one route, so the list keeps its search and scroll).
                 path: 'map-layers/:mapId?',
+                handle: { dashboardCrumb: 'mapLayersAdmin:title' },
                 ...requireAdmin(() => import('@/routes/map-layers/MapLayersAdmin.jsx')),
               },
               {
                 // Who changed what (undoable), and the photos and maps in the
                 // trash: ?tab=trash.
                 path: 'audits',
+                handle: { dashboardCrumb: 'audits:title' },
                 ...requireAdmin(() => import('@/routes/audits/Audits.jsx')),
               },
               {
                 // The errors the "Something went wrong" page showed
                 // (_errorReports), grouped by error.
                 path: 'error-reports',
+                handle: { dashboardCrumb: 'errorReports:title' },
                 ...requireAdmin(() => import('@/routes/error-reports/ErrorReports.jsx')),
               },
               {
@@ -440,6 +450,7 @@ export const routes = [
                 // the app, with what OpenCaves already has of them;
                 // ?tab=closed: the closed ones.
                 path: 'tasks',
+                handle: { dashboardCrumb: 'tasks:title' },
                 ...requireAdmin(() => import('@/routes/tasks/Tasks.jsx')),
               },
               {
@@ -449,7 +460,7 @@ export const routes = [
                 // coming), admins manage them; anonymous visitors are sent
                 // to log in, as for /account.
                 path: 'feedback',
-                handle: { pageBackground: 'dashboard' },
+                handle: { pageBackground: 'dashboard', dashboardCrumb: 'app:menu.feedbackList' },
                 ...requireAuth(() => import('@/routes/feedback/FeedbackList.jsx')),
               },
               {
