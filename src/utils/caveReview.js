@@ -52,14 +52,15 @@ export function isRecentReview(month, now) {
 /**
  * The sections of a cave its page and the map's pane show (each with its
  * "Still right?" line), in {@link REVIEW_SECTIONS}' order: its access
- * always; getting there, its description when it has them; its fees when
- * they show (Access: fees charged).
+ * when it has a value (an unknown one has nothing to confirm); getting
+ * there, its description when it has them; its fees when they show
+ * (Access: fees charged).
  *
  * @param {Cave} cave
  * @returns {string[]}
  */
 export function shownReviewSections(cave) {
-  const shown = { access: true, directions: hasText(cave.direction), fees: Boolean(cave.fees), description: hasText(cave.description) }
+  const shown = { access: Boolean(cave.access), directions: hasText(cave.direction), fees: Boolean(cave.fees), description: hasText(cave.description) }
   return REVIEW_SECTIONS.filter((section) => shown[section])
 }
 

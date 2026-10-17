@@ -2512,7 +2512,8 @@
       "confirmed": "Confirmado: {{date}}",
       "stale": "Última confirmación en {{year}}",
       "partly": "Confirmado en parte",
-      "never": "Sin confirmar aún"
+      "never": "Sin confirmar aún",
+      "accessUnknown": "Acceso desconocido"
     },
     "sections": {
       "access": "Acceso",
@@ -2526,6 +2527,7 @@
     "stillAccurate": "Sigue correcto",
     "stillAccurateQuestion": "¿Sigue correcto?",
     "stillAccurateLabel": "{{section}}: sigue siendo correcto",
+    "updateAccess": "Actualizar el acceso",
     "saved": "¡Gracias! Confirmación guardada: {{section}}, {{name}}.",
     "saveError": "No se pudo guardar la confirmación. Inténtalo de nuevo.",
     "report": {

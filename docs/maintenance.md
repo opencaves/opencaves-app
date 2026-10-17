@@ -404,6 +404,10 @@ verified account) pressing it stamps the section with this month (the cave's
 (Audits) and in What's new, and can be undone. Visitors are asked to sign in.
 A change is corrected in the cave's edit form, or reported with **Report a
 change** (below).
+A cave with no access value (its Access card says "Unknown") has nothing to
+confirm there: the card says "Access unknown" and offers only **Update the
+access**, the menu of What changed? (below), and its access doesn't count in
+the filter that follows.
 
 The caves list's **Not confirmed recently** filter (`/caves?missing=review`,
 also What can I do?'s "Check what's there") keeps the caves none of whose
