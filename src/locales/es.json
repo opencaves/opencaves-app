@@ -1355,7 +1355,10 @@
     "caveDescriptionFallback": "{{name}}, una cueva de Yucatán, México: ubicación, acceso, fotos y mapas en OpenCaves.",
     "notFoundTitle": "Página no encontrada",
     "mapTitle": "Mapa de cenotes de Yucatán",
-    "mapDescription": "Mapa de cuevas y cenotes de Yucatán para buzos de cuevas: encuentra una cueva, cómo llegar y entrar, sus fotos, sus topografías y las galerías bajo la selva."
+    "mapDescription": "Mapa de cuevas y cenotes de Yucatán para buzos de cuevas: cómo llegar y entrar, fotos, topografías y las galerías bajo la selva.",
+    "aboutDescription": "Qué es OpenCaves: datos abiertos sobre cuevas y cenotes para buzos de cuevas, hechos por buzos, empezando por Yucatán, y cómo ayudar.",
+    "privacyDescription": "Cómo trata OpenCaves tus datos: qué recoge y por qué, cuánto tiempo los guarda, los correos que envía y tus derechos.",
+    "termsDescription": "Las condiciones de uso de OpenCaves: el uso de sus datos, las contribuciones, tu cuenta y los límites de una referencia de buceo."
   },
   "mapLayersAdmin": {
     "title": "Capas del mapa",

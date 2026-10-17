@@ -1355,7 +1355,10 @@
     "caveDescriptionFallback": "{{name}}, a cave in the Yucatán, Mexico: location, access, pictures and maps on OpenCaves.",
     "notFoundTitle": "Page not found",
     "mapTitle": "Cenote map of the Yucatán",
-    "mapDescription": "Map of the Yucatán's caves and cenotes for cave divers: find a cave, how to get there and get in, its photos and survey maps, and the passages under the jungle."
+    "mapDescription": "Map of the Yucatán's caves and cenotes for cave divers: how to get there and in, photos, survey maps and the passages under the jungle.",
+    "aboutDescription": "What OpenCaves is: open data on caves and cenotes for cave divers, built by divers and starting with the Yucatán - and how to help.",
+    "privacyDescription": "How OpenCaves handles your data: what it collects and why, how long it keeps it, the emails it sends, and your rights.",
+    "termsDescription": "The terms of use of OpenCaves: using its cave data, contributing, your account, and the limits of a diving reference."
   },
   "mapLayersAdmin": {
     "title": "Map layers",

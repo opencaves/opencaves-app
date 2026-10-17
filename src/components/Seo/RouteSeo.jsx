@@ -5,11 +5,17 @@ import { SITE_URL } from '@/config/app.js'
 import { canonicalPath, isIndexable, isPublicIndexPath } from '@/utils/seo.js'
 import { setHeadLink, setHeadMeta } from '@/utils/headTags.js'
 
+// The pages with a description of their own here (`seo` namespace), also in
+// their static page (map.html, about.html...: vite.config.js's
+// writeStaticPages) - kept in step.
+const OWN_DESCRIPTIONS = { '/map': 'mapDescription', '/about': 'aboutDescription', '/privacy': 'privacyDescription', '/terms': 'termsDescription' }
+
 /**
  * Per-route search-engine basics, for every page under AppRoot: a canonical
  * URL, noindex on private/admin pages, and no description on the pages that
  * have none of their own - one text shared by many pages is worse than none
- * (search engines then show the page's own text) - and the map's own on /map. Cave pages set theirs
+ * (search engines then show the page's own text) - and their own on /map,
+ * /about, /privacy and /terms ({@link OWN_DESCRIPTIONS}). Cave pages set theirs
  * (CaveSeo), the index pages theirs (/caves, /sistemas, an area, a system:
  * useIndexPageHead). (Effects run children-first, so this must not touch it
  * there.)
@@ -25,9 +31,9 @@ export default function RouteSeo() {
   useEffect(() => {
     setHeadLink('canonical', `${SITE_URL}${canonical}`)
     setHeadMeta('robots', isIndexable(pathname) ? null : 'noindex')
-    // The map has its own (also in its page, map.html: vite.config.js); the
-    // others none - the last page's must not stay either.
-    if (!setsOwnDescription) setHeadMeta('description', pathname === '/map' ? t('mapDescription') : null)
+    // Those pages their own; the others none - the last page's must not stay
+    // either.
+    if (!setsOwnDescription) setHeadMeta('description', OWN_DESCRIPTIONS[pathname] ? t(OWN_DESCRIPTIONS[pathname]) : null)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, canonical, setsOwnDescription, i18n.resolvedLanguage])
 

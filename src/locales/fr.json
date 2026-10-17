@@ -1354,7 +1354,10 @@
     "caveDescriptionFallback": "{{name}}, une grotte du Yucatán, au Mexique : emplacement, accès, photos et cartes sur OpenCaves.",
     "notFoundTitle": "Page introuvable",
     "mapTitle": "Carte des cénotes du Yucatán",
-    "mapDescription": "Carte des grottes et cénotes du Yucatán pour les plongeurs : trouvez une grotte, comment s'y rendre et y entrer, ses photos, ses topographies et ses galeries."
+    "mapDescription": "Carte des grottes et cénotes du Yucatán pour les plongeurs : comment s'y rendre et y entrer, photos, topographies et galeries sous la jungle.",
+    "aboutDescription": "Ce qu'est OpenCaves : des données ouvertes sur les grottes et cénotes, faites par des plongeurs, à commencer par le Yucatán, et comment aider.",
+    "privacyDescription": "Comment OpenCaves traite vos données : ce qu'il recueille et pourquoi, combien de temps il les garde, les courriels qu'il envoie et vos droits.",
+    "termsDescription": "Les conditions d'utilisation d'OpenCaves : l'usage de ses données, les contributions, votre compte et les limites d'une référence de plongée."
   },
   "mapLayersAdmin": {
     "title": "Couches de la carte",
