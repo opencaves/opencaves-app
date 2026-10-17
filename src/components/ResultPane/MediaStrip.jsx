@@ -4,6 +4,7 @@ import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
 import { centerFocused, leaveOnArrow, reducedMotion, scrollStrip, snapOnSettle } from '@/utils/mediaStrip.js'
 import { SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 import { useHydrated } from '@/hooks/useHydrated.js'
+import './MediaStrip.scss'
 
 // The strip wrapped around a vertical cylinder, its axis at the middle of
 // the strip's visible area: the items bend away on its surface, out of sight
@@ -975,60 +976,18 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
 
   return (
     <Box
-      className={`oc-media-strip ${className || ''}`.trim()}
+      className={['oc-media-strip', fill && 'oc-media-strip--fill', renderCylinder && 'oc-media-strip--on-cylinder', className].filter(Boolean).join(' ')}
       // Hidden until its cylinder is first built (its effect): never seen
       // flat, then half built.
       data-oc-building={renderCylinder ? '' : undefined}
-      sx={[(theme) => ({
-        // Its own stacking context: the frame (::after, z-index -1) under
-        // the band (::before) and the items.
-        isolation: 'isolate',
-        // Its content (not its band) hidden while it's first built, then
-        // faded in; shown after DECODE_WAIT_MS whatever happens.
-        '& > *': { transition: theme.transitions.create('opacity', { duration: theme.sys.motion.duration.standard, easing: theme.sys.motion.easing.standard }) },
-        '&[data-oc-building] > *': { opacity: 0, animation: `oc-media-strip-shown 0s ${DECODE_WAIT_MS}ms forwards` },
-        '@keyframes oc-media-strip-shown': { to: { opacity: 1 } },
-        // A band of its own tone behind the cylinder, as tall as the items in
-        // front (zoomed on the cylinder) - lighter than the pane in dark mode,
-        // a faint tint in light mode.
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          // In from the strip's top and bottom by its margin (the page's
-          // colour there).
-          top: bandMargin,
-          // Filling (a page's strip): the whole strip, its scrollbar's room
-          // too - no other colour around or between its items.
-          ...(fill ? { bottom: bandMargin } : { height: `calc(${rowHeight} + 2 * ${zoomRoom} - ${2 * bandMargin}px)` }),
-          bgcolor: theme.vars.sys.color.surfaceContainer,
-          ...theme.applyStyles('dark', { bgcolor: theme.vars.sys.color.surfaceContainerHighest }),
-          // Its top and bottom curved with the cylinder (the effect's
-          // bandShape); straight while flat.
-          clipPath: 'var(--oc-strip-band-shape, none)',
-        },
-        // Around the band, its margin (BAND_MARGIN) in the band's own tone -
-        // one band over and under the items, whatever is behind the strip (a
-        // second tone showed on the pane's cards) - curved as the band, the same
-        // below as above: as tall as the band and its margins (not over the
-        // scrollbar's room under a pane's strip). Only on the cylinder.
-        ...(renderCylinder && {
-          '&::after': {
-            content: '""',
-            position: 'absolute',
-            zIndex: -1,
-            left: 0,
-            right: 0,
-            top: 0,
-            height: `calc(${rowHeight} + 2 * ${zoomRoom})`,
-            bgcolor: theme.vars.sys.color.surfaceContainer,
-            ...theme.applyStyles('dark', { bgcolor: theme.vars.sys.color.surfaceContainerHighest }),
-            clipPath: 'var(--oc-strip-frame-shape, none)',
-          },
-        }),
-      }), { position: 'relative', // What follows overlaps the scrollbar's room - not on a filling strip, whose band covers it.
-        marginBottom: fill ? 0 : 'calc(var(--oc-pane-padding-block) * -1)', height: fill ? `calc(${rowHeight} + 2 * ${zoomRoom})` : `calc(var(--oc-pane-padding-block) + ${rowHeight} + 2 * ${zoomRoom})` }, ...(Array.isArray(sx) ? sx : [sx])]}
+      // Its sizes, for MediaStrip.scss.
+      style={{
+        '--oc-strip-row-height': rowHeight,
+        '--oc-strip-zoom-room': zoomRoom,
+        '--oc-strip-band-margin': `${bandMargin}px`,
+        '--oc-strip-decode-wait': `${DECODE_WAIT_MS}ms`,
+      }}
+      sx={sx}
       {...props}
     >
       {/* The cylinder's slices (filled by its effect): over the viewing area,

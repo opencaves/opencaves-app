@@ -1,0 +1,23 @@
+// The app bar's search (AppBarSearch.jsx), on its own oc- classes
+// (docs/design-system.md, "Where styles go").
+
+// Its overlay: fixed over the bar's links or the whole bar, like the bar (64px
+// at the top), in its colours. Its span and its reveal are set by the
+// component.
+.oc-app-bar-search--overlay {
+  position: fixed;
+  top: 0;
+  height: 64px;
+  // Over the app bar (theme.zIndex.appBar + 1).
+  z-index: 1101;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 4px;
+  background-color: var(--oc-app-bar-bg);
+  color: var(--oc-app-bar-fg);
+
+  @media (min-width: 600px) {
+    padding: 0 16px;
+  }
+}

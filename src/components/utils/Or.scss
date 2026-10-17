@@ -1,0 +1,34 @@
+// A separator with a word in the middle of its line (Or.jsx), on its own oc-
+// class (docs/design-system.md, "Where styles go"). Its look can be changed
+// from around it: --oc-or-gap, --oc-or-stroke-width (each line's minimum
+// width; else the component's strokeWidth, --oc-or-default-width),
+// --oc-or-stroke-thick, --oc-or-stroke-style, --oc-or-stroke-color.
+
+.oc-or {
+  // The word dimmed: a pause between the choices, not one of them.
+  color: var(--mui-palette-text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--oc-or-gap, 0.75em);
+  position: relative;
+  z-index: 1;
+
+  // The lines, fading out at their ends, in the theme's outline variant (a
+  // fixed black vanished in dark mode).
+  &::before,
+  &::after {
+    content: '';
+    flex-grow: 1;
+    min-width: var(--oc-or-stroke-width, var(--oc-or-default-width, 2em));
+    border-bottom-width: var(--oc-or-stroke-thick, 1.5px);
+    border-bottom-style: var(--oc-or-stroke-style, solid);
+  }
+
+  &::before {
+    border-image: linear-gradient(to left, var(--oc-or-stroke-color, var(--mui-sys-color-outlineVariant)) 70%, rgba(0, 0, 0, 0) 100%) 1;
+  }
+
+  &::after {
+    border-image: linear-gradient(to right, var(--oc-or-stroke-color, var(--mui-sys-color-outlineVariant)) 70%, rgba(0, 0, 0, 0) 100%) 1;
+  }
+}

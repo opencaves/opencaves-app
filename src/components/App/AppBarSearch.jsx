@@ -7,6 +7,7 @@ import CloseRounded from '@mui/icons-material/CloseRounded'
 import { useSiteSearch } from '@/hooks/useSiteSearch.js'
 import { renderSearchGroup, renderSearchOption, searchOptionKey } from '@/components/IndexPage/searchSuggestions.jsx'
 import { track } from '@/utils/track.js'
+import './AppBarSearch.scss'
 
 /**
  * The app bar's search, on every page but the map (which has its own): the
@@ -211,21 +212,14 @@ export default function AppBarSearch() {
         <ClickAwayListener onClickAway={() => open && !input && closeOverlay()}>
           <Box
             className="oc-app-bar-search--overlay"
-            sx={(theme) => {
+            // Its place and look are AppBarSearch.scss's; here, what moves:
+            // its span (over the links or the whole bar) and its circular
+            // reveal from the button, timed by the theme's motion tokens.
+            sx={() => {
               const at = origin ? `${origin.x}px ${origin.y}px` : 'right center'
               return {
-                position: 'fixed',
-                top: 0,
                 left: span.left,
                 right: span.right,
-                height: 64,
-                zIndex: theme.zIndex.appBar + 1,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 0.5,
-                px: { xs: 0.5, sm: 2 },
-                bgcolor: 'var(--oc-app-bar-bg)',
-                color: 'var(--oc-app-bar-fg)',
                 // Wider than the bar's diagonal from any point in it.
                 clipPath: revealed ? `circle(150vmax at ${at})` : `circle(24px at ${at})`,
                 opacity: revealed ? 1 : 0,

@@ -1,0 +1,35 @@
+// A titled part of an index page (IndexSection.jsx), on its own oc- classes
+// (docs/design-system.md, "Where styles go").
+
+// Its title (an h2, MUI's h6 type), the count and the # beside it. Through
+// the section: one class more than Typography's own rules.
+.oc-index-section .oc-index-section--title {
+  margin-bottom: 12px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--mui-palette-divider);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  // Over a card: no underline, in line with the card's corner.
+  &.oc-index-section--title-on-card {
+    border-bottom: 0;
+    margin-left: 4px;
+  }
+
+  &.oc-index-section--title-sticky {
+    position: sticky;
+    // Under the app bar (64px) and the search field: a band across the
+    // section, reaching up over the search bar's bottom padding (12px,
+    // see-through) so nothing passing under shows between them.
+    top: calc(64px + var(--oc-index-search-height, 0px) - 12px);
+    z-index: 1;
+    margin-left: 0;
+    padding: 16px 12px 4px;
+    border-radius: 8px;
+    // A warm tone (M3's surface container low), the list's card under it on
+    // paper.
+    background-color: var(--mui-sys-color-surfaceContainerLow);
+  }
+}

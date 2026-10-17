@@ -52,6 +52,7 @@ import { nearbyCaves } from '@/utils/nearbyCaves.js'
 import { useUnits } from '@/hooks/useUnits.jsx'
 import { formatDistance } from '@/utils/units.js'
 import { sistemaTitle } from '@/utils/sistemaTitle.js'
+import './CavePage.scss'
 
 // The cover photo, under the heading (cover: CavePage's useCoverImage).
 // Its box keeps the photo's 16:9 shape while it downloads. The page's
@@ -133,38 +134,8 @@ function CoverEmptyPanel({ onAdd, onFiles }) {
         const files = [...event.dataTransfer.files].filter((file) => ACCEPTED_MIME_TYPES.includes(file.type))
         if (files.length) onFiles(files)
       }}
-      sx={(theme) => ({
-        width: '100%',
-        aspectRatio: '16 / 9',
-        maxHeight: 480,
-        borderRadius: 3,
-        display: 'grid',
-        placeItems: 'center',
-        textAlign: 'center',
-        p: 3,
-        // A quiet surface, a soft light from above, a fine edge - its edge
-        // the primary colour, dashed, while photos are dragged over it.
-        background: `radial-gradient(120% 90% at 50% 0%, ${theme.vars.sys.color.surfaceContainerLow}, ${theme.vars.sys.color.surfaceContainerHigh})`,
-        border: `1px solid ${theme.vars.sys.color.outlineVariant}`,
-        color: theme.vars.palette.text.primary,
-        transition: theme.transitions.create(['border-color', 'box-shadow']),
-        // M3's state layer: the content colour over it, 8% on hover (and
-        // while photos hover over it), 10% pressed; its pill lifted with it.
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          inset: 0,
-          bgcolor: 'currentColor',
-          opacity: 0,
-          transition: theme.transitions.create('opacity', { duration: theme.transitions.duration.shortest }),
-          pointerEvents: 'none',
-        },
-        '&:hover::before, &[data-drag-over]::before': { opacity: 0.08 },
-        '&:active::before': { opacity: 0.1 },
-        '&:hover .oc-cave-page--add-photos, &.Mui-focusVisible .oc-cave-page--add-photos': { boxShadow: 2 },
-        '&.Mui-focusVisible': { outline: `3px solid ${theme.vars.palette.primary.main}`, outlineOffset: 2 },
-        '&[data-drag-over]': { border: `2px dashed ${theme.vars.palette.primary.main}`, boxShadow: 2 },
-      })}
+      // Its focus ring, CavePage.scss's.
+      focusVisibleClassName="oc-cave-page--cover-empty-focus-visible"
     >
       <Box component="span" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
         <AddAPhotoRounded aria-hidden="true" sx={{ fontSize: { xs: 48, sm: 64 }, color: 'text.disabled' }} />
@@ -173,7 +144,6 @@ function CoverEmptyPanel({ onAdd, onFiles }) {
         <Box
           component="span"
           className="oc-cave-page--add-photos"
-          sx={(theme) => ({ display: 'inline-flex', alignItems: 'center', gap: 1, height: 48, px: 3, borderRadius: 7, ...theme.typography.button, fontSize: '0.9375rem', textTransform: 'none', bgcolor: theme.vars.sys.color.secondaryContainer, color: theme.vars.sys.color.onSecondaryContainer, transition: theme.transitions.create('box-shadow') })}
         >
           <AddAPhotoRounded aria-hidden="true" fontSize="small" />
           {tEdit('addPictures')}

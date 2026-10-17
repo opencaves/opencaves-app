@@ -1,0 +1,87 @@
+// The Send feedback tab (FeedbackTab.jsx), a MUI ButtonBase, on its own oc-
+// classes (docs/design-system.md, "Where styles go"). Through button.: one
+// more than ButtonBase's own class, which resets position, padding, colours
+// and corners.
+
+button.oc-feedback-tab {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  // MUI's speedDial layer (theme.zIndex.speedDial).
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  // The label written sideways; compact on a small screen (below).
+  writing-mode: vertical-rl;
+  padding: 16px 8px;
+  border-radius: 12px 0 0 12px;
+  background-color: var(--mui-palette-secondary-main);
+  color: var(--mui-palette-secondary-contrastText);
+  box-shadow: var(--mui-shadows-3);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  // On a phone's map, it fades out with the map's buttons as the result
+  // pane's sheet rises (ResultPaneSm).
+  opacity: var(--oc-map-controls-opacity, 1);
+  visibility: var(--oc-map-controls-visibility, visible);
+  transition: padding 150ms, background-color 150ms, opacity 150ms ease, visibility 150ms ease;
+
+  // The 8px left of it still catches the pointer.
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -8px;
+    width: 8px;
+  }
+
+  svg {
+    font-size: 24px;
+    transform: rotate(90deg);
+  }
+
+  &:hover {
+    background-color: var(--mui-palette-secondary-dark);
+  }
+
+  &:hover,
+  &.oc-feedback-tab--focus-visible {
+    padding-right: 12px;
+  }
+
+  &.oc-feedback-tab--focus-visible {
+    outline: 2px solid var(--mui-sys-color-primary);
+    outline-offset: 2px;
+  }
+
+  // A small screen - its smaller side under 600px (the theme's sm), so a
+  // phone held sideways too: the icon alone, MD3's 24dp icon in a 48dp touch
+  // target (40dp shown on the edge, the 8dp left of it still catching taps).
+  @media (max-width: 599.95px), (max-height: 599.95px) {
+    width: 40px;
+    min-height: 48px;
+    padding: 12px 0;
+
+    svg {
+      transform: none;
+    }
+
+    &:hover,
+    &.oc-feedback-tab--focus-visible {
+      padding-right: 0;
+    }
+
+    .oc-feedback-tab--label {
+      display: none;
+    }
+  }
+
+  @media print {
+    display: none;
+  }
+}
