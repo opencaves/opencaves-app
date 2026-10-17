@@ -177,7 +177,9 @@ function RedirectToCollectionEdit() {
 }
 
 // The app's routes, for the browser's router (router.jsx) and the server's
-// rendering of the public pages (entry-server.jsx).
+// rendering of the public pages (entry-server.jsx). A route's
+// handle.pageBackground: another photo behind its page (Layout); its
+// handle.frame: a variant of the page's frame (Layout: 'dashboard').
 export const routes = [
   {
     path: '/',
@@ -294,6 +296,9 @@ export const routes = [
               },
               {
                 path: 'dashboard',
+                // Its own frame: a wide border round a window onto the
+                // photo, the page inside it (Layout.scss).
+                handle: { frame: 'dashboard' },
                 ...requireAuth(() => import('@/routes/dashboard/AdminDashboard.jsx')),
               },
               {
@@ -444,11 +449,13 @@ export const routes = [
                 // coming), admins manage them; anonymous visitors are sent
                 // to log in, as for /account.
                 path: 'feedback',
+                handle: { pageBackground: 'dashboard' },
                 ...requireAuth(() => import('@/routes/feedback/FeedbackList.jsx')),
               },
               {
                 // ...and each one on its own page, its thread and replies.
                 path: 'feedback/:feedbackId',
+                handle: { pageBackground: 'dashboard' },
                 ...requireAuth(() => import('@/routes/feedback/FeedbackReport.jsx')),
               },
               {

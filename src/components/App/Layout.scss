@@ -1,0 +1,121 @@
+// The frame every page inside Layout stands in (Layout.jsx): the pages'
+// background photo behind it, the page on a translucent surface with the
+// page's colour as its border - on phones without side borders, the photo
+// showing in thin margins instead (margins rather than transparent
+// borders, whose corners would join the top and bottom borders
+// diagonally). A route can have another photo (its handle.pageBackground:
+// .oc-layout--background-<name>).
+// Breakpoints: MUI's sm (600px) and md (900px).
+
+.oc-layout {
+  display: flex;
+  flex-direction: column;
+  // #root itself is pinned to the viewport with overflow-y hidden
+  // (disable-pull-to-refresh.scss, needed for the full-screen /map page's
+  // own internal scroll areas) - so any Layout-based page taller than the
+  // viewport needs to be its own scroll container, not rely on the
+  // document/body to scroll.
+  height: 100%;
+  overflow-y: auto;
+  // Never sideways: every page fits the width (wide content, like the
+  // connections table, scrolls within itself), and anything poking a few
+  // pixels past the edge brought a horizontal scrollbar - which, with the
+  // vertical one, shrank the background image.
+  overflow-x: hidden;
+  // Keep the scrollbar's room even when there's nothing to scroll: a page's
+  // height changes as it loads (skeleton, then content), and a scrollbar
+  // coming and going resized this box - rescaling and shifting its cover
+  // background image with it.
+  scrollbar-gutter: stable;
+  // Scrolling to a section (#photos...) glides there - unless the system
+  // asks for less motion.
+  scroll-behavior: smooth;
+  // Behind the photo while it loads (dark in both schemes, as the photo).
+  background-color: #000;
+  // Only the one for the screen's size is downloaded: the small copy
+  // (1080-1280 px, a few times lighter) below md.
+  background-image: url('../../images/pages/bg-small.webp');
+  background-position: center;
+  background-size: cover;
+
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
+
+  @media (min-width: 900px) {
+    background-image: url('../../images/pages/bg.webp');
+  }
+
+  // The dashboard's photo: the feedback pages.
+  &.oc-layout--background-dashboard {
+    background-image: url('../../images/dashboard/bg-small.webp');
+
+    @media (min-width: 900px) {
+      background-image: url('../../images/dashboard/bg.webp');
+    }
+  }
+}
+
+// The page's column (a MUI Container: its width and side padding are
+// MUI's). Two classes, to win over the Container's own styles. One column,
+// never wider than the page (sized by its content, a wide form pushed the
+// page past the screen's edge on phones).
+.oc-layout .oc-layout--main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  flex-grow: 1;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  background-color: var(--oc-page-surface-translucent);
+  border: 0.5rem solid var(--oc-page-surface);
+  // Phones: the photo in the side margins, square corners.
+  border-left-width: 0;
+  border-right-width: 0;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  width: auto;
+  border-radius: 0;
+
+  @media (min-width: 600px) {
+    border-width: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    border-radius: 4px;
+  }
+}
+
+// handle.frame 'dashboard' (/dashboard): a square frame, its wide border
+// (the page's colour) all round - phones too, no see-through sides - round
+// a transparent window onto the photo, the page on a translucent inner box
+// in it, the Privacy and Terms links at its foot under a line.
+.oc-layout .oc-layout--main-dashboard {
+  background-color: transparent;
+  border-width: calc(1rem + 16px);
+  border-radius: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  padding: 8px;
+
+  @media (min-width: 600px) {
+    border-width: calc(2rem + 16px) calc(2rem + 24px);
+    padding: 16px;
+  }
+
+  .oc-layout--main-inner {
+    min-width: 0;
+    padding: 16px 16px 32px;
+    background-color: var(--oc-page-surface-translucent);
+
+    @media (min-width: 600px) {
+      padding: 32px;
+    }
+  }
+
+  .oc-layout--main-inner > .oc-legal-links {
+    margin-top: 48px;
+    padding-top: 16px;
+    border-top: 1px solid var(--mui-palette-divider);
+  }
+}

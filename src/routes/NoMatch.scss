@@ -1,14 +1,18 @@
 .no-match {
   &--container {
-    background-color: #000;
-    background-image: url('../images/404/bg.webp');
-    background-size: cover;
-    background-position: center;
+    // On its own (no layout: a route failing at the top, the map's): the
+    // whole window, its photo behind the message's box.
+    &:not(.no-match--in-layout) {
+      background-color: #000;
+      background-image: url('../images/404/bg.webp');
+      background-size: cover;
+      background-position: center;
 
-    // A failure (a page that couldn't load, the map erroring) rather than a
-    // missing page: its own picture.
-    &.no-match--error {
-      background-image: url('../images/404/error-bg.webp');
+      // A failure (a page that couldn't load, the map erroring) rather than a
+      // missing page: its own picture.
+      &.no-match--error {
+        background-image: url('../images/404/error-bg.webp');
+      }
     }
 
     // Room above the box for the back arrow (top left, 8px + 48px).
@@ -113,14 +117,41 @@
   }
 }
 
-// Inside the pages' layout (app bar kept): a page's heading, not a poster's.
-.oc-no-match.no-match--in-layout .no-match--header {
-  text-transform: none;
-  // The page title's size (PAGE_TITLE_SX, components/pageTitle.js): the h5
-  // font on phones, h4 from 600px up.
-  font: var(--mui-font-h5);
+// Inside the pages' layout (app bar kept): a page in the frame, like the
+// others - no box of its own (the frame is its surface), its photo as a
+// picture above the message, and a page's heading, not a poster's.
+.oc-no-match.no-match--in-layout {
+  .no-match--picture {
+    display: block;
+    width: 100%;
+    max-width: 36rem;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--oc-radius, 8px);
+    margin-bottom: 2rem;
+  }
 
-  @media (min-width: 600px) {
-    font: var(--mui-font-h4);
+  .no-match--box {
+    max-height: none;
+    max-width: 100%;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+  }
+
+  .no-match--header {
+    text-transform: none;
+    // The page title's size (PAGE_TITLE_SX, components/pageTitle.js): the h5
+    // font on phones, h4 from 600px up.
+    font: var(--mui-font-h5);
+
+    @media (min-width: 600px) {
+      font: var(--mui-font-h4);
+    }
+  }
+
+  .no-match--dev-details {
+    max-width: min(48rem, 100%);
   }
 }
