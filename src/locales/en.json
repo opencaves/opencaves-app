@@ -2512,7 +2512,8 @@
       "confirmed": "Confirmed {{date}}",
       "stale": "Last confirmed in {{year}}",
       "partly": "Partly confirmed",
-      "never": "Not confirmed yet"
+      "never": "Not confirmed yet",
+      "accessUnknown": "Access unknown"
     },
     "sections": {
       "access": "Access",
@@ -2526,6 +2527,7 @@
     "stillAccurate": "Still accurate",
     "stillAccurateQuestion": "Still accurate?",
     "stillAccurateLabel": "{{section}} is still accurate",
+    "updateAccess": "Update the access",
     "saved": "Thank you! {{section}} confirmed for {{name}}.",
     "saveError": "The confirmation couldn't be saved. Try again.",
     "report": {
