@@ -21,6 +21,7 @@ Caves and cave systems shared with their own picture, distances measured on the 
 * **Feedback** is called Feedback everywhere, as its address says.
 * **What's new:** its filters on a card, the line saying what it lists under them.
 * **A cave system's edit form:** its name edited in place, as its title.
+* **The map's edit button** opens on a click only, no longer when the pointer passes over it, and closes when you pick an action, press Escape or click elsewhere; while open, it shows a cross.
 * **Cave names:** "Entrada" left out of the names of cenotes that are entrances (the diver icon says so; the old name still finds them), and names that were only a map's labels replaced.
 * **The cave layer:** Ox Bel Ha's two surveys (GEO 1999 and J. Coke 2011) line up - the 2011 map bent onto the 1999 one, the better placed: their passages now within about 6 m of each other instead of 16, up to 85 m before.
 * **Search engines:** a cave's and a cave system's page titles say what's on them ("Nariz: cenote cave diving, location & map"); each cave and system is described as a place - its area, its system, its coordinates once confirmed, its rating; and the sitemap lists each cave's photos, for image searches.
