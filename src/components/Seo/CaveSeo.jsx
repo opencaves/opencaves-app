@@ -5,12 +5,14 @@ import { SITE_URL } from '@/config/app.js'
 import { markdownToPlainText, truncate } from '@/utils/seo.js'
 import { setHeadMeta, setShareImage } from '@/utils/headTags.js'
 import { shareImageOf } from '@/utils/shareImage.js'
+import { caveJsonLd } from '@/utils/structuredData.js'
 
 /**
  * A cave page's own meta description and share image (RouteSeo leaves them
- * to this on cave pages) and schema.org TouristAttraction data (name,
- * coordinates, image, aggregate rating) - as the server's page
- * (functions/js/seo/cavePage.js).
+ * to this on cave pages) and schema.org data ({@link caveJsonLd}: the same
+ * as the server's page, functions/js/seo/cavePage.js, in the app's language). Rendered
+ * on the map only (/map/<caveId>, which the server doesn't render with the
+ * app): the server-rendered /caves/<caveId> keeps the server's, in <head>.
  *
  * @param {object} props
  * @param {Cave} props.cave
@@ -22,23 +24,23 @@ export default function CaveSeo({ cave }) {
   const name = cave.name?.value || ''
   const summary = markdownToPlainText(cave.description)
   const description = truncate(summary ? `${t('caveDescriptionPrefix', { name })} ${summary}` : t('caveDescriptionFallback', { name }))
-  // The cave's own page: its one URL for search engines (canonicalPath).
-  const url = `${SITE_URL}/caves/${cave.id}`
   // Its cover photo or its map card (the server's shareImage), else the site's.
   const image = shareImageOf(cave, name || tIndex('unnamedCave'), t)
+  // Its own system, as the server names it (none when it has no record).
+  const sistema = cave.sistemaId ? cave.sistemas?.find(({ id }) => id === cave.sistemaId) : null
 
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'TouristAttraction',
-    name,
+  const structuredData = caveJsonLd({
+    siteUrl: SITE_URL,
+    id: cave.id,
+    name: name || tIndex('unnamedCave'),
     description,
-    url,
-    address: { '@type': 'PostalAddress', addressCountry: 'MX' },
-    ...(Array.isArray(cave.aka) && cave.aka.length > 0 && { alternateName: cave.aka }),
-    ...(cave.location && { geo: { '@type': 'GeoCoordinates', latitude: cave.location.latitude, longitude: cave.location.longitude } }),
-    ...(cave.shareImage?.url && { image: image.url }),
-    ...(count > 0 && { aggregateRating: { '@type': 'AggregateRating', ratingValue: Number(average.toFixed(1)), ratingCount: count, bestRating: 5, worstRating: 1 } }),
-  }
+    aka: Array.isArray(cave.aka) ? cave.aka.filter(Boolean) : [],
+    location: cave.location?.latitude != null ? cave.location : null,
+    image: cave.shareImage?.url ? image.url : null,
+    area: cave.area || null,
+    sistema: sistema && sistema.name !== 'n. d.' ? { id: sistema.id, name: sistema.name } : null,
+    rating: { average, count },
+  })
 
   useEffect(() => {
     setHeadMeta('description', description)
