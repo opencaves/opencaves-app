@@ -2,16 +2,14 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, List, ListItem, ListItemButton, ListItemText, Tooltip, Typography } from '@mui/material'
-import PageFab from '@/components/PageFab.jsx'
-import Add from '@mui/icons-material/AddRounded'
-import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
 import Delete from '@mui/icons-material/DeleteRounded'
 import Edit from '@mui/icons-material/EditRounded'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { pickDescription } from '@/services/data-service/types.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
 import { toContentLanguage } from '@/utils/lang.js'
 import { DEFAULT_CONTENT_LANGUAGE } from '@/config/contentLanguages.js'
 import { REFERENCE_DATA_CONFIGS } from './referenceDataConfigs.js'
@@ -87,16 +85,7 @@ export default function ReferenceDataEditor() {
   if (!config) {
     return (
       <div className="oc-reference-data-editor">
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-          <Tooltip title={t('backToDashboard')}>
-            <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
-              <ArrowBackRounded />
-            </IconButton>
-          </Tooltip>
-          <Typography component="h1" variant="h5" color="error">
-            {t('unknownCollection', { name: collectionName })}
-          </Typography>
-        </Box>
+        <IndexPageHeader sticky title={<Box component="span" sx={{ color: 'error.main' }}>{t('unknownCollection', { name: collectionName })}</Box>} backTo="/dashboard" />
       </div>
     )
   }
@@ -110,22 +99,14 @@ export default function ReferenceDataEditor() {
 
   return (
     <div className="oc-reference-data-editor">
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-        <Tooltip title={t('backToDashboard')}>
-          <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
-            <ArrowBackRounded />
-          </IconButton>
-        </Tooltip>
-        <Typography component="h1" variant="h5">
-          {t(`collections.${collectionName}.title`)}
-        </Typography>
-      </Box>
-      {/* What the list is for (accesses, accessibilities), when it says. */}
-      {t(`collections.${collectionName}.description`, { defaultValue: '' }) && (
-        <Typography variant="body2" className="oc-reference-data-editor--description" sx={{ color: 'text.secondary', mb: 2 }}>
-          {t(`collections.${collectionName}.description`)}
-        </Typography>
-      )}
+      <IndexPageHeader sticky
+        title={t(`collections.${collectionName}.title`)}
+        // What the list is for (accesses, accessibilities), when it says.
+        subtitle={t(`collections.${collectionName}.description`, { defaultValue: '' }) && <span className="oc-reference-data-editor--description">{t(`collections.${collectionName}.description`)}</span>}
+        backTo="/dashboard"
+        onAdd={canEdit ? () => navigate('new/edit') : undefined}
+        addLabel={t('newItem')}
+      />
 
       {loading ? (
         <ListSkeleton rows={6} fill={false} card leading={collectionName === 'colors' ? 'square' : null} secondary={config.fields.includes('description')} trailing={!canEdit ? 0 : isAdmin ? 2 : 1} />
@@ -188,7 +169,6 @@ export default function ReferenceDataEditor() {
         </List>
       )}
 
-      {canEdit && <PageFab className="oc-reference-data-editor--new-fab" onClick={() => navigate('new/edit')} label={t('newItem')} icon={<Add />} />}
 
       <Dialog open={!!deleteTarget} onClose={() => setDeleteTarget(null)}>
         <DialogTitle>{t('deleteItemTitle')}</DialogTitle>

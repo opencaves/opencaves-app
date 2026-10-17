@@ -2,15 +2,14 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
-import { Box, IconButton, InputAdornment, List, ListItem, ListItemButton, ListItemText, TextField, Tooltip, Typography } from '@mui/material'
-import PageFab from '@/components/PageFab.jsx'
-import AddRounded from '@mui/icons-material/AddRounded'
-import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
+import { Box, InputAdornment, List, ListItem, ListItemButton, ListItemText, TextField } from '@mui/material'
 import SearchRounded from '@mui/icons-material/SearchRounded'
 import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
+import { SearchStatus } from '@/components/IndexPage/IndexSearchField.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import IndexSection from '@/components/IndexPage/IndexSection.jsx'
@@ -22,6 +21,8 @@ const NO_AREA = '(no area)'
 
 export default function CaveList() {
   const { t } = useTranslation('dashboard')
+  // The Add button's new record: one id per visit, not per render.
+  const [newId] = useState(pushId)
   const [caves, loading] = CaveModel.useAll()
   const [sistemas] = SistemaModel.useAll()
   const [areas] = areasModel.useAll()
@@ -70,25 +71,13 @@ export default function CaveList() {
 
   return (
     <div className="oc-cave-list">
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-        {/* Back to the public list of the cenotes, this list's /edit counterpart. */}
-        <Tooltip title={t('backToCaveIndex')}>
-          <IconButton component={Link} to="/caves" aria-label={t('backToCaveIndex')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
-            <ArrowBackRounded />
-          </IconButton>
-        </Tooltip>
-        <Typography component="h1" variant="h5">
-          {t('caves')}
-        </Typography>
-      </Box>
+      {/* Its arrow: back to the public list of the caves, this list's /edit counterpart. */}
+      <IndexPageHeader title={t('caves')} backTo="/caves" addTo={`/caves/${newId}/edit`} addLabel={t('newCave')} />
 
       {loading ? (
         <ListSkeleton rows={10} leading="square" count search grouped card />
       ) : (
         <>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-            {t('caveCount', { count: filtered.length })}
-          </Typography>
           <TextField
             fullWidth
             size="small"
@@ -108,6 +97,7 @@ export default function CaveList() {
               },
             }}
           />
+          <SearchStatus>{t('caveCount', { count: filtered.length })}</SearchStatus>
           {/* An area per card, its name and count above (as /caves). */}
           {groups.map(([areaName, groupCaves]) => (
             <IndexSection key={areaName} title={areaName} count={groupCaves.length} card cardSx={{ p: 0, overflow: 'hidden' }}>
@@ -126,7 +116,6 @@ export default function CaveList() {
         </>
       )}
 
-      <PageFab className="oc-cave-list--new-fab" to={`/caves/${pushId()}/edit`} label={t('newCave')} icon={<AddRounded />} />
     </div>
   )
 }

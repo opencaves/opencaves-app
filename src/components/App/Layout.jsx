@@ -1,11 +1,14 @@
 import { useEffect, useLayoutEffect, useRef } from 'react'
 import { Outlet, useLocation, useMatches, useNavigate, useNavigationType } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Box, Container } from '@mui/material'
 import AppBar from './AppBar.jsx'
 import LegalLinks from './LegalLinks.jsx'
 import Dev from '../utils/Dev.jsx'
 import { isMapPath } from '@/redux/slices/sessionSlice.jsx'
 import { removeShell } from '@/utils/shell.js'
+import { PageBreadcrumbs } from '@/components/IndexPage/IndexPageHeader.jsx'
+import { useDashboardTrail } from '@/components/IndexPage/useDashboardTrail.js'
 import './Layout.scss'
 
 /**
@@ -21,13 +24,30 @@ function FrameInner({ variant, children }) {
 }
 
 /**
+ * A dashboard page's breadcrumbs: Home > Dashboard > the page, its name the
+ * route's `handle.dashboardCrumb` (an i18n key with its namespace,
+ * "tasks:title"). Drawn by the layout, above the page, in the place and
+ * style of IndexPageHeader's - every dashboard page has them, the same for
+ * every reader.
+ *
+ * @param {object} props
+ * @param {string} props.crumb
+ */
+function DashboardBreadcrumbs({ crumb }) {
+  const { t } = useTranslation()
+  const trail = useDashboardTrail()
+  return <PageBreadcrumbs trail={trail} current={t(crumb)} />
+}
+
+/**
  * The frame of every page but the map: the app bar, and the page's column on
  * the pages' background photo - translucent, its border the page's colour,
  * the photo in thin side margins on phones (Layout.scss), the Privacy and
- * Terms links at its foot. One frame for all (the error pages too); a route
- * may set another photo behind it (its `handle.pageBackground`: 'dashboard'
- * for the feedback pages), and a variant of the frame (its `handle.frame`:
- * 'dashboard' for the dashboard).
+ * Terms links at its foot - and, on the dashboard's pages (their route's
+ * `handle.dashboardCrumb`), their breadcrumbs above the page. One frame for
+ * all (the error pages too); a route may set another photo behind it (its
+ * `handle.pageBackground`: 'dashboard' for the feedback pages), and a
+ * variant of the frame (its `handle.frame`: 'dashboard' for the dashboard).
  * The page's scroller: it keeps each page's position in the history, and
  * scrolls to an address's #section.
  */
@@ -42,6 +62,8 @@ export default function Layout() {
   const pageBackground = /** @type {{ pageBackground?: string } | undefined} */ ([...useMatches()].reverse().find((match) => /** @type {{ pageBackground?: string } | undefined} */ (match.handle)?.pageBackground)?.handle)?.pageBackground
   // A variant of the frame, the route's (handle.frame): 'dashboard'.
   const frameVariant = /** @type {{ frame?: string } | undefined} */ (useMatches().at(-1)?.handle)?.frame
+  // A dashboard page (routeTree.jsx: its route's handle): its breadcrumbs.
+  const dashboardCrumb = /** @type {{ dashboardCrumb?: string } | undefined} */ (useMatches().at(-1)?.handle)?.dashboardCrumb
 
   // index.html's splash goes once the page is here: the router renders this
   // with its page already loaded (lazy routes resolve first, under the
@@ -143,7 +165,8 @@ export default function Layout() {
     <Box ref={scrollRef} className={['oc-layout', pageBackground && `oc-layout--background-${pageBackground}`].filter(Boolean).join(' ')}>
       <AppBar />
       {/* Its frame: Layout.scss. */}
-      <Container id="main" className={['oc-layout--main', frameVariant && `oc-layout--main-${frameVariant}`].filter(Boolean).join(' ')} component="main">
+      <Container id="main" className={['oc-layout--main', frameVariant && `oc-layout--main-${frameVariant}`, dashboardCrumb && 'oc-layout--main-with-crumbs'].filter(Boolean).join(' ')} component="main">
+        {dashboardCrumb && <DashboardBreadcrumbs crumb={dashboardCrumb} />}
         {/* A frame variant: the page and its links in an inner box (Layout.scss). */}
         <FrameInner variant={frameVariant}>
           <Outlet />

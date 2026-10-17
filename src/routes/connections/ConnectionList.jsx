@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import AddRounded from '@mui/icons-material/AddRounded'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import SearchRounded from '@mui/icons-material/SearchRounded'
-import { Box, IconButton, InputAdornment, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, TextField, Tooltip, Typography } from '@mui/material'
-import PageFab from '@/components/PageFab.jsx'
+import { InputAdornment, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, TextField } from '@mui/material'
 import ConnectionModel from '@/models/ConnectionModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
+import { SearchStatus } from '@/components/IndexPage/IndexSearchField.jsx'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import { DASHBOARD_LIST_SX } from '@/components/dashboardSurface.js'
 import { matchesId } from '@/utils/matchesId.js'
@@ -55,24 +55,12 @@ export default function ConnectionList() {
 
   return (
     <div className="oc-connection-list">
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-        <Tooltip title={t('backToDashboard')}>
-          <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
-            <ArrowBackRounded />
-          </IconButton>
-        </Tooltip>
-        <Typography component="h1" variant="h5">
-          {t('manageSistemaConnections')}
-        </Typography>
-      </Box>
+      <IndexPageHeader title={t('manageSistemaConnections')} backTo="/dashboard" addTo="/connections/new/edit" addLabel={t('newSistemaConnection')} />
 
       {loading ? (
         <ListSkeleton rows={12} leading={null} count search card columns={3} />
       ) : (
         <>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-            {t('sistemaConnectionCount', { count: filtered.length })}
-          </Typography>
           <TextField
             fullWidth
             size="small"
@@ -81,7 +69,7 @@ export default function ConnectionList() {
             placeholder={t('searchSistemaConnections')}
             value={search}
             onChange={(event) => setSearch(event.target.value)}
-            sx={[SEARCH_FIELD_SX, { mb: 3 }]}
+            sx={[SEARCH_FIELD_SX, { mb: 2 }]}
             slotProps={{
               input: {
                 startAdornment: (
@@ -92,6 +80,7 @@ export default function ConnectionList() {
               },
             }}
           />
+          <SearchStatus>{t('sistemaConnectionCount', { count: filtered.length })}</SearchStatus>
           <TableContainer component={Paper} elevation={0} sx={{ ...DASHBOARD_LIST_SX, maxHeight: '70vh' }}>
             <Table stickyHeader size="small" aria-label={t('manageSistemaConnections')} sx={{ tableLayout: 'fixed' }}>
               <TableHead>
@@ -138,7 +127,6 @@ export default function ConnectionList() {
         </>
       )}
 
-      <PageFab className="oc-connection-list--new-fab" to="/connections/new/edit" label={t('newSistemaConnection')} icon={<AddRounded />} />
     </div>
   )
 }

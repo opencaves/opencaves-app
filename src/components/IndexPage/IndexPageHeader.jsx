@@ -7,16 +7,21 @@ import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
 import AddRounded from '@mui/icons-material/AddRounded'
 import PageFab from '@/components/PageFab.jsx'
-import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
+import { useStuck } from '@/hooks/useStuck.js'
+import { PAGE_HEADER_SX, PAGE_TITLE_SX, PAGE_TITLE_TYPOGRAPHY_SX } from '@/components/pageTitle.js'
 
 // An index page's heading row: a back arrow to the page above it (backTo),
 // the page's h1 with a line under it (subtitle), and, for editors, a
-// floating action button: Add (addTo: a new record's form - the lists) or
-// Edit (editTo: the page's /edit address - one area or system). trail: the
+// floating action button: Add (addTo: a new record's form - the lists; or
+// onAdd, an action run on a click) or Edit (editTo: the page's /edit
+// address - one area or system). trail: the
 // breadcrumbs above it, [{ label, to }] from the landing page down to the
 // page's parent; current: the page's own (short) name, ending it. sticky:
 // from 600px up, the row stays under the app bar as the page scrolls (phones
 // have the app bar's own: it shows the title once it's scrolled away).
+// The title and the room under the row: PAGE_TITLE_SX, PAGE_HEADER_SX. A
+// page with a search field shows its count under the field instead
+// (IndexSearchField's status, SearchStatus), not as the subtitle.
 // Sticky: the row's height, for the anchored sections to clear it.
 const STICKY_HEIGHT_VAR = '--oc-page-title-height'
 const STICKY_FROM = '(min-width: 600px)'
@@ -35,6 +40,34 @@ const BREADCRUMBS_SX = {
 }
 
 /**
+ * A page's breadcrumbs, above its heading row: `trail`, the links from the
+ * landing page down to the page's parent, then `current`, the page's own
+ * (short) name - on one line. IndexPageHeader's, and the dashboard pages'
+ * (Layout, from their route's `handle.dashboardCrumb`).
+ *
+ * @param {object} props
+ * @param {{ label: string, to: string }[]} props.trail
+ * @param {string} [props.current]
+ */
+export function PageBreadcrumbs({ trail, current }) {
+  const { t: tApp } = useTranslation('app')
+  return (
+    <Breadcrumbs className="oc-index-page-header--breadcrumbs" aria-label={tApp('breadcrumbs')} sx={BREADCRUMBS_SX}>
+      {trail.map(({ label, to }) => (
+        <MuiLink key={to} component={Link} to={to} underline="hover" color="inherit">
+          {label}
+        </MuiLink>
+      ))}
+      {current && (
+        <Typography component="span" variant="body2" aria-current="page" sx={{ color: 'text.primary' }}>
+          {current}
+        </Typography>
+      )}
+    </Breadcrumbs>
+  )
+}
+
+/**
  * An index page's heading row (see above).
  *
  * @param {object} props
@@ -42,6 +75,7 @@ const BREADCRUMBS_SX = {
  * @param {import('react').ReactNode} [props.subtitle]
  * @param {string} [props.backTo]
  * @param {string} [props.addTo]
+ * @param {() => void} [props.onAdd] - The Add button's action, instead of a link (addTo).
  * @param {string} [props.addLabel]
  * @param {string} [props.editTo]
  * @param {string} [props.editLabel]
@@ -49,13 +83,14 @@ const BREADCRUMBS_SX = {
  * @param {string} [props.current]
  * @param {boolean} [props.sticky=false] - From 600px up, the heading row stays under the app bar.
  */
-export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLabel, editTo, editLabel, trail, current, sticky = false }) {
+export default function IndexPageHeader({ title, subtitle, backTo, addTo, onAdd, addLabel, editTo, editLabel, trail, current, sticky = false }) {
   const { t: tApp } = useTranslation('app')
   const navigate = useNavigate()
   const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
   // The /edit pages are behind RequireEditor (router.jsx).
   const isEditor = roles.includes('editor')
   const rowRef = useRef(null)
+  const stuck = useStuck(rowRef, sticky)
 
   // Sticky: its height on the page (main), which the anchored sections'
   // scroll margin adds (IndexSection) - from 600px up, 0 below.
@@ -78,24 +113,9 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLab
     }
   }, [sticky])
 
-  const crumbs = trail && (
-    <Breadcrumbs className="oc-index-page-header--breadcrumbs" aria-label={tApp('breadcrumbs')} sx={BREADCRUMBS_SX}>
-      {trail.map(({ label, to }) => (
-        <MuiLink key={to} component={Link} to={to} underline="hover" color="inherit">
-          {label}
-        </MuiLink>
-      ))}
-      {current && (
-        <Typography component="span" variant="body2" aria-current="page" sx={{ color: 'text.primary' }}>
-          {current}
-        </Typography>
-      )}
-    </Breadcrumbs>
-  )
-
   return (
     <>
-      {crumbs}
+      {trail && <PageBreadcrumbs trail={trail} current={current} />}
       <Box
         ref={rowRef}
         className={['oc-index-page-header', sticky && 'oc-index-page-header--sticky'].filter(Boolean).join(' ')}
@@ -104,14 +124,24 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLab
           alignItems: 'flex-start',
           gap: 1,
           mb: 3,
-          // Under the app bar (64px), on the page's surface, over what scrolls under it.
-          ...(sticky && { position: { sm: 'sticky' }, top: { sm: 64 }, zIndex: { sm: 3 }, py: { sm: 1 }, mt: { sm: -1 }, bgcolor: 'var(--oc-page-surface)' }),
+          ...PAGE_HEADER_SX,
+          // Under the app bar (64px), over what scrolls under it: transparent
+          // at its place in the page, the page's surface once stuck (useStuck).
+          ...(sticky && {
+            position: { sm: 'sticky' },
+            top: { sm: 64 },
+            zIndex: { sm: 3 },
+            py: { sm: 1 },
+            mt: { sm: -1 },
+            bgcolor: stuck ? 'var(--oc-page-surface)' : 'transparent',
+            transition: (theme) => theme.transitions.create('background-color', { duration: theme.sys.motion.duration.standard, easing: theme.sys.motion.easing.standard }),
+          }),
         }}
       >
         {backTo && (
           // As tall as the title's first line (1lh in its typography), the
           // arrow centred on it, whatever the title's size or length.
-          <Box sx={{ ...PAGE_TITLE_SX, height: '1lh', display: 'flex', alignItems: 'center', flexShrink: 0, ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
+          <Box sx={{ ...PAGE_TITLE_TYPOGRAPHY_SX, height: '1lh', display: 'flex', alignItems: 'center', flexShrink: 0, ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
             <Tooltip title={tApp('back')}>
               {/* Opened from within the app: a step back (the list where it was,
                   scrolled as it was); otherwise up to backTo. */}
@@ -139,13 +169,13 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLab
             {title}
           </Typography>
           {subtitle && (
-            <Typography component="div" variant="body2" sx={{ mt: 0.5, color: 'text.secondary' }}>
+            <Typography component="div" variant="body2" sx={{ mt: 1.5, color: 'text.secondary' }}>
               {subtitle}
             </Typography>
           )}
         </Box>
-        {isEditor && addTo && <PageFab className="oc-index-page-header--add" to={addTo} label={addLabel} icon={<AddRounded />} />}
-        {isEditor && !addTo && editTo && <PageFab className="oc-index-page-header--edit" to={editTo} label={editLabel} icon={<EditRounded />} />}
+        {isEditor && (addTo || onAdd) && <PageFab className="oc-index-page-header--add" to={addTo} onClick={addTo ? undefined : onAdd} label={addLabel} icon={<AddRounded />} />}
+        {isEditor && !addTo && !onAdd && editTo && <PageFab className="oc-index-page-header--edit" to={editTo} label={editLabel} icon={<EditRounded />} />}
       </Box>
     </>
   )

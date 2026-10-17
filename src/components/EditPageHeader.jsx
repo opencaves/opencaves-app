@@ -1,12 +1,13 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { Box } from '@mui/material'
 import { useSmall } from '@/hooks/useSmall.jsx'
-import { findScrollParent } from '@/utils/scrollParent.js'
+import { useStuck } from '@/hooks/useStuck.js'
 
 /**
  * An edit page's back button + title row. Above phone width it sticks below
- * the app bar while the form scrolls (a shadow once it's actually stuck, like
- * StickyActionBar); on phones it scrolls away and AppBar shows the title in
+ * the app bar while the form scrolls (filled, with a shadow, once it's
+ * actually stuck - {@link useStuck}, like StickyActionBar; transparent
+ * otherwise); on phones it scrolls away and AppBar shows the title in
  * the toolbar instead (its data-appbar-page-title). --oc-edit-header-top is
  * where it sticks: the app bar's height by default, 0 inside a pane with its
  * own scroll area (SistemaEditPane).
@@ -14,38 +15,7 @@ import { findScrollParent } from '@/utils/scrollParent.js'
 export default function EditPageHeader({ children }) {
   const isSmall = useSmall()
   const headerRef = useRef(null)
-  const [isStuck, setIsStuck] = useState(false)
-
-  useEffect(() => {
-    const header = headerRef.current
-    if (!header || isSmall) {
-      setIsStuck(false)
-      return undefined
-    }
-
-    const scrollParent = findScrollParent(header)
-    let animationFrame
-
-    function updateStickyState() {
-      cancelAnimationFrame(animationFrame)
-      animationFrame = requestAnimationFrame(() => {
-        const scrollOffset = scrollParent instanceof Element ? scrollParent.scrollTop : window.scrollY
-        const parentTop = scrollParent instanceof Element ? scrollParent.getBoundingClientRect().top : 0
-        const stickyTop = parentTop + parseFloat(window.getComputedStyle(header).top || '0')
-        setIsStuck(scrollOffset > 0 && Math.abs(header.getBoundingClientRect().top - stickyTop) < 2)
-      })
-    }
-
-    scrollParent.addEventListener('scroll', updateStickyState, { passive: true })
-    window.addEventListener('resize', updateStickyState)
-    updateStickyState()
-
-    return () => {
-      cancelAnimationFrame(animationFrame)
-      scrollParent.removeEventListener('scroll', updateStickyState)
-      window.removeEventListener('resize', updateStickyState)
-    }
-  }, [isSmall])
+  const isStuck = useStuck(headerRef, !isSmall)
 
   return (
     <Box
@@ -66,9 +36,11 @@ export default function EditPageHeader({ children }) {
           // under it is covered edge to edge - same width as StickyActionBar.
           mx: 'calc(-1 * var(--oc-page-bleed, calc(24px + 1rem)))',
           px: 'var(--oc-page-bleed, calc(24px + 1rem))',
-          bgcolor: 'background.paper',
+          // No fill at its place in the page (the title on the page's
+          // surface); the page's surface, and a shadow, once stuck.
+          bgcolor: isStuck ? 'var(--oc-page-surface)' : 'transparent',
           boxShadow: isStuck ? '0 2px 8px rgba(0, 0, 0, 0.12)' : 'none',
-          transition: 'box-shadow 160ms ease',
+          transition: theme.transitions.create(['background-color', 'box-shadow'], { duration: theme.sys.motion.duration.standard, easing: theme.sys.motion.easing.standard }),
         }),
       })}
     >

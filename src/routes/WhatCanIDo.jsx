@@ -22,7 +22,7 @@ import FeedbackRounded from '@mui/icons-material/FeedbackRounded'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { openFeedback } from '@/utils/feedback.js'
-import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
+import { HERO_PAGE_TITLE_SX } from '@/components/pageTitle.js'
 
 // Each card's icon and, for some, where it leads (to) or what it does
 // (onClick) (its text, title and action label in the locale files:
@@ -178,7 +178,7 @@ export default function WhatCanIDo() {
         component="header"
         sx={(theme) => ({ borderRadius: 4, px: { xs: 3, sm: 6 }, py: { xs: 4, sm: 6 }, mb: { xs: 4, sm: 6 }, color: '#fff', backgroundImage: `linear-gradient(120deg, ${theme.vars.palette.primary.dark}, ${theme.vars.palette.primary.main})` })}
       >
-        <Typography component="h1" sx={{ ...PAGE_TITLE_SX, mb: 1.5 }} data-appbar-page-title>
+        <Typography component="h1" sx={{ ...HERO_PAGE_TITLE_SX, mb: 1.5 }} data-appbar-page-title>
           {t('title')}
         </Typography>
         <Typography sx={{ fontSize: { sm: '1.15rem' }, maxWidth: 640, opacity: 0.92, lineHeight: 1.6, mb: 3 }}>{t('lead')}</Typography>

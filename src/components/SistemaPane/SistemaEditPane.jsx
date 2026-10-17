@@ -124,7 +124,7 @@ export default function SistemaEditPane() {
             boxSizing: 'border-box',
           }}
         >
-          <SistemaEditForm sistemaId={sistemaId} onTitleChange={setTitle} onDone={handleBack} onDirtyChange={onDirtyChange} />
+          <SistemaEditForm sistemaId={sistemaId} onTitleChange={setTitle} onDone={handleBack} onDirtyChange={onDirtyChange} inPane />
         </Box>
       </Drawer>
     </Box>

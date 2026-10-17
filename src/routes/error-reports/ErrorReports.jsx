@@ -2,13 +2,13 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { collection, doc, limit, onSnapshot, orderBy, query, writeBatch } from 'firebase/firestore'
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Chip, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Stack, Tooltip, Typography } from '@mui/material'
-import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Chip, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack, Typography } from '@mui/material'
 import ExpandMoreRounded from '@mui/icons-material/ExpandMoreRounded'
 import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
 import { db } from '@/config/firebase.js'
 import { ERROR_REPORTS_COLLECTION } from '@/config/collections.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 import RelativeTime from '@/components/RelativeTime/RelativeTime.jsx'
@@ -179,17 +179,7 @@ export default function ErrorReports() {
 
   return (
     <Box className="oc-error-reports" sx={{ minHeight: '100%', minWidth: 0 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-        <Tooltip title={t('backToDashboard', { ns: 'dashboard' })}>
-          <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard', { ns: 'dashboard' })} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
-            <ArrowBackRounded />
-          </IconButton>
-        </Tooltip>
-        <Typography component="h1" variant="h5">
-          {t('title')}
-        </Typography>
-      </Box>
-      <Typography sx={{ color: 'text.secondary', mb: 2 }}>{t('intro')}</Typography>
+      <IndexPageHeader sticky title={t('title')} subtitle={t('intro')} backTo="/dashboard" />
 
       {failed && (
         <Alert severity="error" sx={{ mb: 2 }}>

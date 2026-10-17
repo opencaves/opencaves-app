@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Alert, Box, Button, Checkbox, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, FormGroup, IconButton, InputAdornment, List, ListItem, ListItemText, TextField, Tooltip, Typography } from '@mui/material'
-import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
+import { Alert, Box, Button, Checkbox, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, FormGroup, IconButton, InputAdornment, List, ListItem, ListItemText, TextField, Tooltip } from '@mui/material'
 import DeleteRounded from '@mui/icons-material/DeleteRounded'
 import AcUnitRounded from '@mui/icons-material/AcUnitRounded'
 import SearchRounded from '@mui/icons-material/SearchRounded'
 import IconButtonGroup from '@/components/IconButtonGroup.jsx'
 import { auth, callable } from '@/config/firebase.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
+import { SearchStatus } from '@/components/IndexPage/IndexSearchField.jsx'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import { DASHBOARD_LIST_SX } from '@/components/dashboardSurface.js'
 import { matchesId } from '@/utils/matchesId.js'
@@ -122,16 +122,7 @@ export default function UsersAdmin() {
 
   return (
     <Box className="oc-users-admin" sx={{ minHeight: '100%' }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-        <Tooltip title={t('backToDashboard', { ns: 'dashboard' })}>
-          <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard', { ns: 'dashboard' })} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
-            <ArrowBackRounded />
-          </IconButton>
-        </Tooltip>
-        <Typography component="h1" variant="h5">
-          {t('title')}
-        </Typography>
-      </Box>
+      <IndexPageHeader title={t('title')} backTo="/dashboard" />
 
       <TextField
         fullWidth
@@ -152,6 +143,7 @@ export default function UsersAdmin() {
           },
         }}
       />
+      {!loading && <SearchStatus>{t('count', { count: filtered.length })}</SearchStatus>}
 
       {error && (
         <Alert className="oc-users-admin--error" severity="error" sx={{ mb: 2 }} onClose={() => setError(null)}>
@@ -163,9 +155,6 @@ export default function UsersAdmin() {
         <ListSkeleton rows={6} leading={null} count card />
       ) : (
         <>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-            {t('count', { count: filtered.length })}
-          </Typography>
           <List disablePadding sx={{ ...DASHBOARD_LIST_SX, maxHeight: '70vh', overflowY: 'auto' }}>
             {filtered.map((user) => (
               <ListItem key={user.uid} divider sx={{ py: 1.5, flexWrap: 'wrap', gap: 1 }}>

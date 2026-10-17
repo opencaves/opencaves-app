@@ -124,8 +124,6 @@ export default function CaveIndex() {
         trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }]}
         current={t('menu.caves', { ns: 'app' })}
         title={t('caves.title')}
-        // Short: its count, by area (the systems' list is in the menu).
-        subtitle={t('caves.subtitle', { count: data.caves.length })}
         addTo={`/caves/${newId}/edit`}
         addLabel={t('caves.add')}
       />
@@ -138,6 +136,9 @@ export default function CaveIndex() {
         placeholder={t('search.cavesShort')}
         label={t('search.caves')}
         status={searching ? (caves.length ? t('search.results', { count: caves.length }) : t('search.none', { query: searchedQuery })) : filtered ? t('caves.filters.count', { count: caves.length }) : null}
+        // The caves' count, by area (short: the systems' list is in the menu),
+        // under the field (not sticky) - a search's or the filters' count instead.
+        count={!searching && !filtered && t('caves.subtitle', { count: data.caves.length })}
       />
 
       <CaveFilterBar filters={filters} options={options} onToggle={onToggle} onClear={() => setFilters(emptyCaveFilters())} countWith={countWith} />

@@ -123,26 +123,30 @@ function useWhatsNew() {
 }
 
 // The list while its data comes (the page's header is already there), shaped
-// as it: the filter chips, then a day's entries on a card (a thumbnail, a
-// name, a line under it).
-function WhatsNewSkeleton() {
+// as it: the filter chips on their card, the intro, then a day's entries on
+// a card (a thumbnail, a name, a line under it).
+function WhatsNewSkeleton({ intro }) {
   const { t } = useTranslation('app')
   return (
     <Box className="oc-whats-new-skeleton" aria-busy="true">
       <Box component="span" role="status" sx={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', clip: 'rect(0 0 0 0)' }}>
         {t('loading')}
       </Box>
-      <Box aria-hidden="true">
-        <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1, mb: 1.5 }}>
+      <Box aria-hidden="true" sx={{ ...DASHBOARD_SURFACE_SX, display: 'grid', rowGap: 1.5, p: 2, mb: 1.5 }}>
+        <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1 }}>
           {[58, 72, 108, 104, 70, 74, 74].map((width, i) => (
             <Skeleton key={i} variant="rounded" sx={{ width, height: 32, borderRadius: 4 }} />
           ))}
         </Stack>
-        <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1, mb: 3 }}>
+        <Box sx={{ borderTop: 1, borderColor: 'divider' }} />
+        <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1 }}>
           {[112, 80, 96, 92].map((width, i) => (
             <Skeleton key={i} variant="rounded" sx={{ width, height: 32, borderRadius: 4 }} />
           ))}
         </Stack>
+      </Box>
+      {intro}
+      <Box aria-hidden="true">
         <Skeleton variant="text" sx={{ fontSize: '1rem', width: 220, mb: 1, ml: 0.5 }} />
         <Box sx={{ ...DASHBOARD_SURFACE_SX, p: 1 }}>
           {[55, 40, 65, 45, 50, 35, 60, 42].map((width, i) => (
@@ -280,12 +284,18 @@ export default function WhatsNew() {
   }, [rows, kinds, changes, i18n.language, t])
 
   // Drawn at once: only the list waits for its data.
-  const header = <IndexPageHeader trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }]} current={t('title')} title={t('title')} subtitle={t('subtitle', { name: APP_NAME })} />
+  const header = <IndexPageHeader sticky trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }]} current={t('title')} title={t('title')} />
+  // What the page lists, under the filters (the header has no subtitle).
+  const intro = (
+    <Typography className="oc-whats-new--intro" variant="body2" sx={{ color: 'text.secondary', mb: 3, mx: 0.5 }}>
+      {t('subtitle', { name: APP_NAME })}
+    </Typography>
+  )
   if (loading) {
     return (
       <div className="oc-whats-new">
         {header}
-        <WhatsNewSkeleton />
+        <WhatsNewSkeleton intro={intro} />
       </div>
     )
   }
@@ -298,8 +308,9 @@ export default function WhatsNew() {
 
       {/* Filters by kind, with their counts. */}
       {/* The two filter groups, a line between them: one group could be
-          taken for both. Their names are for screen readers (aria-label). */}
-      <Box className="oc-whats-new--filter-groups" sx={{ display: 'grid', rowGap: 1.5, mb: 3 }}>
+          taken for both. Their names are for screen readers (aria-label).
+          On an opaque card, the page's photo kept from showing through. */}
+      <Box className="oc-whats-new--filter-groups" sx={{ ...DASHBOARD_SURFACE_SX, display: 'grid', rowGap: 1.5, p: 2, mb: 1.5 }}>
         <Stack direction="row" role="group" aria-label={t('filters.kindsLabel')} className="oc-whats-new--filters" sx={{ flexWrap: 'wrap', gap: 1 }}>
           {/* Several kinds at once; All shows every kind again. */}
           {['all', ...KINDS].map((k) => {
@@ -337,6 +348,7 @@ export default function WhatsNew() {
           })}
         </Stack>
       </Box>
+      {intro}
 
       {days.length === 0 && !failed && <Typography sx={{ color: 'text.secondary' }}>{t('none')}</Typography>}
 

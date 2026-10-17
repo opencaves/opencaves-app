@@ -3,8 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { deleteField, doc, serverTimestamp, updateDoc } from 'firebase/firestore'
-import { Alert, Box, Button, Chip, CircularProgress, IconButton, Link as MuiLink, Stack, Tab, Tabs, Tooltip, Typography } from '@mui/material'
-import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
+import { Alert, Box, Button, Chip, CircularProgress, Link as MuiLink, Stack, Tab, Tabs, Typography } from '@mui/material'
 import CheckRounded from '@mui/icons-material/CheckRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import ImageRounded from '@mui/icons-material/ImageRounded'
@@ -17,6 +16,7 @@ import { MAP_TASK_DUPLICATE_SCENARIOS, MAP_TASK_SCENARIOS } from '@/config/tasks
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import mapsModel from '@/models/MapModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
 import { useAccounts } from '@/routes/audits/useAccounts.js'
 import { useTasks } from './useTasks.js'
 
@@ -217,17 +217,7 @@ export default function Tasks() {
 
   return (
     <Box className="oc-tasks" sx={{ minHeight: '100%', minWidth: 0 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-        <Tooltip title={t('backToDashboard', { ns: 'dashboard' })}>
-          <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard', { ns: 'dashboard' })} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
-            <ArrowBackRounded />
-          </IconButton>
-        </Tooltip>
-        <Typography component="h1" variant="h5">
-          {t('title')}
-        </Typography>
-      </Box>
-      <Typography sx={{ color: 'text.secondary', mb: 2 }}>{t('intro')}</Typography>
+      <IndexPageHeader sticky title={t('title')} subtitle={t('intro')} backTo="/dashboard" />
 
       <Tabs className="oc-tasks--tabs" value={tab} onChange={(_, value) => setSearchParams(value === 'closed' ? { tab: 'closed' } : {}, { replace: true })} sx={{ mb: 2 }}>
         <Tab value="open" label={t('openTab', { count: open.length })} />

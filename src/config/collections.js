@@ -27,7 +27,7 @@ export const POPULARITY_COLLECTION = '_popularity'
 export const AUDIT_LOG_COLLECTION = '_auditLog'
 
 // The members' reports (the Send feedback form): written by their
-// author, read by every registered account (Ideas and fixes), closed by
+// author, read by every registered account (Feedback), closed by
 // admins (the Feedback page), emailed to them.
 export const FEEDBACK_COLLECTION = '_feedback'
 // What of a report only admins read (its browser, the server's reply token),

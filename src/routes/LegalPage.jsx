@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Box, Typography } from '@mui/material'
 import Markdown from '@/components/Markdown/Markdown.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
-import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
+import { PAGE_HEADER_SX, PAGE_TITLE_SX } from '@/components/pageTitle.js'
 
 /**
  * The Privacy policy and Terms of service pages (/privacy, /terms). Their
@@ -34,12 +34,14 @@ export default function LegalPage({ page }) {
         '& a': { color: 'var(--mui-sys-color-primary)' },
       }}
     >
-      <Typography component="h1" sx={{ ...PAGE_TITLE_SX, mb: 1 }} data-appbar-page-title>
-        {t(`${page}.title`)}
-      </Typography>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-        {t('updated')}
-      </Typography>
+      <Box component="header" className="oc-legal-page--header" sx={PAGE_HEADER_SX}>
+        <Typography component="h1" sx={PAGE_TITLE_SX} data-appbar-page-title>
+          {t(`${page}.title`)}
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 1.5 }}>
+          {t('updated')}
+        </Typography>
+      </Box>
       <Markdown>{t(`${page}.body`)}</Markdown>
     </Box>
   )

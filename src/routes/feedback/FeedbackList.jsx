@@ -3,7 +3,6 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
 import { Box, Button, IconButton, InputAdornment, ListItemIcon, ListItemText, Menu, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
-import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import ArrowDropDownRounded from '@mui/icons-material/ArrowDropDownRounded'
 import SearchRounded from '@mui/icons-material/SearchRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
@@ -15,9 +14,10 @@ import { db } from '@/config/firebase.js'
 import { FEEDBACK_COLLECTION } from '@/config/collections.js'
 import { FEEDBACK_KINDS, OPEN_FEEDBACK_STATUSES } from '@/utils/feedback.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
 import { DASHBOARD_LIST_SX } from '@/components/dashboardSurface.js'
 import { SEARCH_FIELD_SX } from '@/components/searchFieldSx.js'
-import { useIndexSearch } from '@/components/IndexPage/IndexSearchField.jsx'
+import { SearchStatus, useIndexSearch } from '@/components/IndexPage/IndexSearchField.jsx'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import { CLOSED_FEEDBACK_STATUSES, KINDS, KindChip, RelativeTime, STATUS, StageChip, StateIcon, activityOf, isOpen, messageCountOf, statusOf, titleOf, toDate, useFeedbackReader } from './feedbackUi.jsx'
 
@@ -137,7 +137,7 @@ function ReportRow({ report, authorName, search }) {
  * and shared links keep them. Each report opens its own page
  * (/feedback/:feedbackId, FeedbackReport). Admins manage them (the new ones
  * were also emailed to them, onFeedbackCreated); every other registered
- * account reads them, as Ideas and fixes - to follow what's coming - with
+ * account reads them, as Feedback - to follow what's coming - with
  * their authors' names only (useFeedbackReader).
  */
 export default function FeedbackList() {
@@ -202,21 +202,7 @@ export default function FeedbackList() {
 
   return (
     <div className="oc-feedback-list">
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-        <Tooltip title={t('admin.back')}>
-          <IconButton component={Link} to="/dashboard" aria-label={t('admin.back')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
-            <ArrowBackRounded />
-          </IconButton>
-        </Tooltip>
-        <Typography component="h1" variant="h5">
-          {title}
-        </Typography>
-      </Box>
-      {!isAdmin && (
-        <Typography className="oc-feedback-list--intro" variant="body2" sx={{ color: 'text.secondary', mt: -1, mb: 2 }}>
-          {t('members.intro')}
-        </Typography>
-      )}
+      <IndexPageHeader title={title} backTo="/dashboard" />
 
       <TextField
         className="oc-feedback-list--search"
@@ -246,6 +232,12 @@ export default function FeedbackList() {
           },
         }}
       />
+      {/* Members: what the page is for, under the search (as the lists' counts). */}
+      {!isAdmin && (
+        <SearchStatus>
+          <span className="oc-feedback-list--intro">{t('members.intro')}</span>
+        </SearchStatus>
+      )}
       {filtered && (
         <Button
           className="oc-feedback-list--clear"

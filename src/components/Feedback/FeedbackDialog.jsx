@@ -82,7 +82,7 @@ function KindCard({ kind, selected, onSelect }) {
  * page it's about (the page it was opened from, editable), and the browser
  * (its user agent, filled in unseen), with the app's language (the email
  * telling the author its outcome is in it). Saved to _feedback - read by
- * every registered account (Ideas and fixes), managed by the admins (the
+ * every registered account (Feedback), managed by the admins (the
  * dashboard's Feedback page), who also get it by email (onFeedbackCreated) -
  * and the browser, which only admins read, to _feedbackPrivate, in the same
  * batch. An account is needed: anyone else is asked to sign up or log in
