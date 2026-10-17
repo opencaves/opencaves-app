@@ -29,7 +29,7 @@ import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
 import { formSectionHeadingProps } from '@/components/formSectionHeading.js'
 import FormSection from '@/components/FormSection.jsx'
 import EditPageHeader from '@/components/EditPageHeader.jsx'
-import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
+import { visuallyHidden } from '@mui/utils'
 import SourceSelect from '@/components/SourceSelect.jsx'
 import { COORDINATE_DECIMALS } from '@/config/map.js'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
@@ -165,7 +165,7 @@ const emptyForm = {
 // it finds the system): the main fields, location, aka, description and
 // direction.
 export const SISTEMA_FORM_SKELETON_SECTIONS = [
-  { title: false, fields: ['100%', 'min(100%, 240px)', { width: '100%', helper: true }, 'calc(50% - 8px)', 'calc(50% - 8px)', 'min(100%, 240px)', 'min(100%, 240px)'] },
+  { title: false, fields: ['min(100%, 240px)', { width: '100%', helper: true }, 'calc(50% - 8px)', 'calc(50% - 8px)', 'min(100%, 240px)', 'min(100%, 240px)'] },
   { title: true, fields: ['min(100%, 340px)'] },
   { title: true, fields: [{ kind: 'button' }] },
   { title: true, fields: [{ kind: 'markdown', height: 140 }] },
@@ -181,8 +181,9 @@ export const SISTEMA_FORM_SKELETON_SECTIONS = [
  * @param {(dirty: boolean) => void} [props.onDirtyChange] - Told whether it has unsaved changes.
  * @param {boolean} [props.showMapPreview=false] - Its location's map beside the coordinates.
  * @param {string} [props.backLabel] - The back arrow's label, where it leads (the systems by default).
+ * @param {boolean} [props.inPane=false] - In the map's pane (SistemaEditPane), whose own header has the back arrow and the name: no arrow, no heading, a smaller name field.
  */
-export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDeleted, onDirtyChange, showMapPreview = false, backLabel }) {
+export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDeleted, onDirtyChange, showMapPreview = false, backLabel, inPane = false }) {
   const isAdmin = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('admin')
   const { t, i18n } = useTranslation('sistemaEditForm')
   const [colors, colorsLoading] = colorsModel.useAll()
@@ -395,12 +396,32 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
   return (
     <Box className="oc-sistema-edit-form">
       <EditPageHeader>
-        <IconButton onClick={onDone} aria-label={backLabel || t('backToSistemas')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
-          <ArrowBackRounded />
-        </IconButton>
-        <Typography component="h1" sx={PAGE_TITLE_SX} data-appbar-page-title>
-          {displayName}
-        </Typography>
+        {/* In the pane, its own header has the back arrow and the name. */}
+        {!inPane && (
+          <IconButton onClick={onDone} aria-label={backLabel || t('backToSistemas')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
+            <ArrowBackRounded />
+          </IconButton>
+        )}
+        {/* The title is the name's field, in its place (as CaveEdit's): the
+            field as any other, its text at the title's size - smaller in the
+            pane. The page's heading, hidden, follows it - for screen readers
+            and the phone's app bar (data-appbar-page-title). */}
+        {!inPane && (
+          <Typography component="h1" variant="h5" data-appbar-page-title sx={visuallyHidden}>
+            {displayName}
+          </Typography>
+        )}
+        <TextField
+          className="oc-sistema-edit-form--name"
+          label={t('name')}
+          fullWidth
+          required
+          {...field('name')}
+          onBlur={() => setNameTouched(true)}
+          error={nameTouched && nameMissing}
+          helperText={nameTouched && nameMissing ? tApp('nameRequired') : undefined}
+          sx={(theme) => ({ flex: 1, minWidth: 0, '& .MuiInputBase-input': { ...theme.typography[inPane ? 'h6' : 'h5'] } })}
+        />
       </EditPageHeader>
 
       {/* Each section on its own opaque card (FormSection), on the dashboard's
@@ -408,9 +429,6 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
         <FormSection>
           <Grid container spacing={2}>
-        <Grid size={12}>
-          <TextField label={t('name')} fullWidth required {...field('name')} onBlur={() => setNameTouched(true)} error={nameTouched && nameMissing} helperText={nameTouched && nameMissing ? tApp('nameRequired') : undefined} />
-        </Grid>
         {/* Wider screens: Color on its own line after Name, then Parent
             sistema on its own, then Area and Source side by side. Phones keep
             Name, Parent sistema, Area, Color, Source. */}
