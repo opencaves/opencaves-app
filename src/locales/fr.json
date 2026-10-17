@@ -1402,7 +1402,6 @@
   "errorReports": {
     "title": "Rapports d'erreurs",
     "intro": "Les erreurs qu'a affichées la page « Un problème est survenu », groupées par erreur, les plus récentes d'abord. Chaque rapport est conservé 90 jours.",
-    "loading": "Chargement des rapports",
     "failed": "Les rapports n'ont pas pu être chargés.",
     "empty": "Aucune erreur signalée.",
     "limited": "seulement les {{count}} derniers rapports",
@@ -1426,7 +1425,15 @@
     "deleteText_other": "Ses {{count}} rapports seront supprimés définitivement.",
     "deleteFailed": "Les rapports n'ont pas pu être supprimés.",
     "cancel": "Annuler",
-    "deleteConfirm": "Supprimer"
+    "deleteConfirm": "Supprimer",
+    "details": "Détails",
+    "selectAll": "Tout sélectionner",
+    "selectGroup_one": "Sélectionner le rapport de cette erreur",
+    "selectGroup_other": "Sélectionner les {{count}} rapports de cette erreur",
+    "deleteSelected": "Supprimer la sélection ({{count}})",
+    "deleteSelectedTitle": "Supprimer les rapports sélectionnés ?",
+    "deleteSelectedText_one": "Le rapport sélectionné sera supprimé définitivement.",
+    "deleteSelectedText_other": "Les {{count}} rapports sélectionnés seront supprimés définitivement."
   },
   "audits": {
     "title": "Audits",

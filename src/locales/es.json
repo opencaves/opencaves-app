@@ -1403,7 +1403,6 @@
   "errorReports": {
     "title": "Informes de errores",
     "intro": "Los errores que mostró la página «Algo salió mal», agrupados por error, los más recientes primero. Cada informe se conserva 90 días.",
-    "loading": "Cargando los informes",
     "failed": "No se pudieron cargar los informes.",
     "empty": "Ningún error informado.",
     "limited": "solo los últimos {{count}} informes",
@@ -1427,7 +1426,15 @@
     "deleteText_other": "Sus {{count}} informes se eliminarán definitivamente.",
     "deleteFailed": "No se pudieron eliminar los informes.",
     "cancel": "Cancelar",
-    "deleteConfirm": "Eliminar"
+    "deleteConfirm": "Eliminar",
+    "details": "Detalles",
+    "selectAll": "Seleccionar todo",
+    "selectGroup_one": "Seleccionar el informe de este error",
+    "selectGroup_other": "Seleccionar los {{count}} informes de este error",
+    "deleteSelected": "Eliminar la selección ({{count}})",
+    "deleteSelectedTitle": "¿Eliminar los informes seleccionados?",
+    "deleteSelectedText_one": "El informe seleccionado se eliminará definitivamente.",
+    "deleteSelectedText_other": "Los {{count}} informes seleccionados se eliminarán definitivamente."
   },
   "audits": {
     "title": "Auditorías",
