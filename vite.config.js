@@ -44,7 +44,7 @@ function appShellName() {
 
 // The pages that aren't rendered on the server but are worth indexing (/map,
 // /about, /privacy, /terms; firebase.json serves each its file): the app's
-// shell with the page's own title (and description: only the map has one),
+// shell with the page's own title and description (the app's, RouteSeo.jsx),
 // and its h1 and text in #root - which the app replaces when it starts, as
 // on the server-rendered pages (functions/js/seo/shared.js) - for search
 // engines that don't run the app (Bing reported them without an h1). Their
@@ -58,9 +58,9 @@ function writeStaticPages(outDir) {
   const html = readFileSync(shell, 'utf8')
   const pages = [
     { file: 'map.html', title: seo.mapTitle, description: seo.mapDescription, heading: seo.mapHeading },
-    { file: 'about.html', title: about.title, heading: about.title },
-    { file: 'privacy.html', title: legal.privacy.title, heading: legal.privacy.title, body: legal.privacy.body },
-    { file: 'terms.html', title: legal.terms.title, heading: legal.terms.title, body: legal.terms.body },
+    { file: 'about.html', title: about.title, description: seo.aboutDescription, heading: about.title },
+    { file: 'privacy.html', title: legal.privacy.title, description: seo.privacyDescription, heading: legal.privacy.title, body: legal.privacy.body },
+    { file: 'terms.html', title: legal.terms.title, description: seo.termsDescription, heading: legal.terms.title, body: legal.terms.body },
   ]
   for (const { file, title, description, heading, body } of pages) {
     const page = html
