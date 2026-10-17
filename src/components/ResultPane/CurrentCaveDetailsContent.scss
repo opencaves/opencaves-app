@@ -29,7 +29,9 @@
         margin-bottom: 0;
       }
 
-      p {
+      // The text's own paragraphs - not the admins' "Source: ..." line under
+      // it (TextSource, in its own small print).
+      p:not(.oc-text-source) {
         font-size: inherit;
         margin-bottom: 1em;
       }
