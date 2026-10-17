@@ -44,7 +44,7 @@ const monthDate = (month) => new Date(Date.UTC(Number(month.slice(0, 4)), Number
  *
  * @param {object} props
  * @param {Cave} props.cave
- * @param {('access'|'directions'|'fees'|'description')[]} props.sections - The card's sections.
+ * @param {('access'|'directions'|'fees')[]} props.sections - The card's sections.
  * @param {Sx} [props.sx]
  */
 export default function SectionReview({ cave, sections, sx }) {

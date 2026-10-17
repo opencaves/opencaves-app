@@ -49,7 +49,7 @@ function DirectionsAction({ point, label, analytics }) {
 /**
  * The map's cave pane, read-only: its open reports' warnings, quick actions,
  * photos and videos, location, systems, access, description, getting
- * there and Further reading - access, description and getting there each with how old its information is ("Still
+ * there and Further reading - access and getting there each with how old its information is ("Still
  * right?") and Report a change for what changed there.
  *
  * @param {object} props
@@ -227,11 +227,6 @@ export default function CurrentCaveDetailsContent({ cave }) {
             <Markdown>{cave.description}</Markdown>
             <TextSource record={cave} field="description" />
           </div>
-        </Box>
-      )}
-      {cave.description && (
-        <Box className="oc-details-review" sx={{ borderTop: 1, borderColor: 'divider', mx: 2, mt: 1, mb: 1, pt: 1.25 }}>
-          <SectionReview cave={cave} sections={['description']} />
         </Box>
       )}
 

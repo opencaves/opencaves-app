@@ -1,9 +1,10 @@
 // "Still right?": the parts of a cave's record people confirm one at a time
 // (Cave.reviewed: the month each was last confirmed, 'YYYY-MM'), in their
 // order on the page. access: the access and its details; directions:
-// getting there (the direction field); fees: the fees and facilities;
-// description. firestore.rules (isValidCave) lists the same keys.
-export const REVIEW_SECTIONS = ['access', 'directions', 'fees', 'description']
+// getting there (the direction field); fees: the fees and facilities.
+// firestore.rules (isValidCave) lists the same keys, and description: the
+// description had its own until 2026-10, whose stamps stay in the data.
+export const REVIEW_SECTIONS = ['access', 'directions', 'fees']
 
 // How long a confirmation counts, in months: past it, a section reads "Last
 // confirmed in <year>" and counts as not confirmed (the caves' "Not
@@ -62,8 +63,8 @@ export function accessProposals(cave, accesses = [], accessibilities = []) {
 // card's Still accurate arrow) - the Access card's are proposed values
 // ({@link accessProposals}), not listed here. And the section's anchor on
 // the cave's page.
-export const SECTION_REPORT_KINDS = { access: [], fees: [], directions: ['road'], description: [] }
-export const SECTION_ANCHORS = { access: 'access', fees: 'access', directions: 'getting-there', description: 'description' }
+export const SECTION_REPORT_KINDS = { access: [], fees: [], directions: ['road'] }
+export const SECTION_ANCHORS = { access: 'access', fees: 'access', directions: 'getting-there' }
 
 // The reports that show a public warning on the cave at once, until an
 // admin resolves them (_caveReports, kept by the server's
