@@ -11,7 +11,9 @@ export default function ManageAppUpdate() {
 
   const appHasUpdate = useCheckForAppUpdates()
 
+  // The message closes at once: the switch can take a moment.
   function onSnackbarBtnClick() {
+    setOpen(false)
     reloadPage()
   }
 
