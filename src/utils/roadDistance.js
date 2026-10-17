@@ -50,9 +50,9 @@ export function sortByRoadDistance(caves) {
 }
 
 /**
- * A cave's road distances in a line ("≈ 120 m from a path · 1.8 km from a
- * road"), in the reader's units; the path left out when it's the road
- * itself. Null without distances.
+ * A cave's road distances in a short line ("≈ path 120 m · road 1.8 km"),
+ * in the reader's units; the path left out when it's the road itself. Null
+ * without distances.
  *
  * @param {RoadDistance|null} distance
  * @param {(key: string, options?: object) => string} t - The indexPages namespace's.

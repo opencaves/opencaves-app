@@ -1670,9 +1670,9 @@
         "gpxRoad": "camino vehicular más cercano: {{name}}",
         "credit": "Distancias a los caminos según los <osm>© colaboradores de OpenStreetMap</osm>, a {{date}}.",
         "distance": {
-          "pathAndRoad": "≈ {{path}} de un sendero · {{road}} de un camino vehicular",
-          "road": "≈ {{road}} de un camino vehicular",
-          "pathOnly": "≈ {{path}} de un sendero · ningún camino vehicular a menos de {{within}}",
+          "pathAndRoad": "≈ sendero {{path}} · camino {{road}}",
+          "road": "≈ camino {{road}}",
+          "pathOnly": "≈ sendero {{path}} · ningún camino a menos de {{within}}",
           "none": "Ningún sendero a menos de {{within}}"
         }
       }

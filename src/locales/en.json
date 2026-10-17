@@ -1670,9 +1670,9 @@
         "gpxRoad": "nearest road: {{name}}",
         "credit": "Distances to roads from <osm>© OpenStreetMap contributors</osm>, as of {{date}}.",
         "distance": {
-          "pathAndRoad": "≈ {{path}} from a path · {{road}} from a road",
-          "road": "≈ {{road}} from a road",
-          "pathOnly": "≈ {{path}} from a path · no road within {{within}}",
+          "pathAndRoad": "≈ path {{path}} · road {{road}}",
+          "road": "≈ road {{road}}",
+          "pathOnly": "≈ path {{path}} · no road within {{within}}",
           "none": "No path within {{within}}"
         }
       }

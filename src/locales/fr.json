@@ -1670,9 +1670,9 @@
         "gpxRoad": "route la plus proche : {{name}}",
         "credit": "Distances aux routes d’après les <osm>© contributeurs d’OpenStreetMap</osm>, en date de {{date}}.",
         "distance": {
-          "pathAndRoad": "≈ {{path}} d’un sentier · {{road}} d’une route",
-          "road": "≈ {{road}} d’une route",
-          "pathOnly": "≈ {{path}} d’un sentier · aucune route à moins de {{within}}",
+          "pathAndRoad": "≈ sentier {{path}} · route {{road}}",
+          "road": "≈ route {{road}}",
+          "pathOnly": "≈ sentier {{path}} · aucune route à moins de {{within}}",
           "none": "Aucun sentier à moins de {{within}}"
         }
       }
