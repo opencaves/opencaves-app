@@ -810,10 +810,13 @@ node scripts/submit-to-search.js --indexnow --urls https://opencaves.org/caves/<
   that variable is set. The key comes from Bing Webmaster Tools, Settings >
   API access; to store a new one, with it in the clipboard:
 
-  ```powershell
+  ```bash
   gcloud secrets create BING_WEBMASTER_API_KEY --replication-policy=automatic --project opencaves   # once
-  (Get-Clipboard).Trim() | gcloud secrets versions add BING_WEBMASTER_API_KEY --data-file=- --project opencaves
+  tr -d '\r\n' < /dev/clipboard | gcloud secrets versions add BING_WEBMASTER_API_KEY --data-file=- --project opencaves
   ```
+
+  (In PowerShell, see [Keys and secrets](keys-and-secrets.md#replacing-a-secret-in-secret-manager):
+  piping into gcloud there adds a byte order mark and a line break to the value.)
 
 - **`--indexnow`: the pages that changed** (after a deploy, after data
   edits): the sitemap's pages whose `lastmod` is on or after `--since`, or the
