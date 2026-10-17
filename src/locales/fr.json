@@ -1100,6 +1100,7 @@
       "done": "Terminé",
       "point": "Point {{index}} sur {{count}}",
       "pointOnCave": "Point {{index}} sur {{count}} : {{cave}}",
+      "segment": "{{length}} · {{bearing}}°",
       "units": "Unités",
       "metric": "Métrique (m, km)",
       "imperial": "Impérial (ft, mi)",

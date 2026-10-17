@@ -33,3 +33,20 @@ export function pathMetres(points) {
   for (let index = 1; index < points.length; index++) total += distanceMetres(points[index - 1], points[index])
   return total
 }
+
+/**
+ * The bearing from one point to another: the great circle's initial
+ * direction at `a`, in whole degrees clockwise from true north (0-359).
+ *
+ * @param {{latitude: number, longitude: number}} a
+ * @param {{latitude: number, longitude: number}} b
+ * @returns {number}
+ */
+export function bearingDegrees(a, b) {
+  const lat1 = toRadians(a.latitude)
+  const lat2 = toRadians(b.latitude)
+  const dLng = toRadians(b.longitude - a.longitude)
+  const y = Math.sin(dLng) * Math.cos(lat2)
+  const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng)
+  return Math.round(((Math.atan2(y, x) * 180) / Math.PI + 360) % 360) % 360
+}
