@@ -1451,6 +1451,7 @@
     "undo": "Undo",
     "undoSelected": "Undo selected ({{count}})",
     "selectEntry": "Select this change",
+    "selectAll": "Select all the changes that can be undone",
     "showChange": "Show the change",
     "hideChange": "Hide the change",
     "photoOf": "Photo of {{cave}}",

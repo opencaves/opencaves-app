@@ -1451,6 +1451,7 @@
     "undo": "Deshacer",
     "undoSelected": "Deshacer la selección ({{count}})",
     "selectEntry": "Seleccionar este cambio",
+    "selectAll": "Seleccionar todos los cambios que se pueden deshacer",
     "showChange": "Ver el cambio",
     "hideChange": "Ocultar el cambio",
     "photoOf": "Foto de {{cave}}",

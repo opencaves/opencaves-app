@@ -1450,6 +1450,8 @@
     "undo": "Défaire",
     "undoSelected": "Défaire la sélection ({{count}})",
     "selectEntry": "Sélectionner cette modification",
+    "selectAll": "Sélectionner toutes les modifications annulables",
+    "selectAll": "Sélectionner toutes les modifications annulables",
     "showChange": "Voir la modification",
     "hideChange": "Masquer la modification",
     "photoOf": "Photo de {{cave}}",
