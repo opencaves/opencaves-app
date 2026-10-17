@@ -175,7 +175,7 @@ check the `_frozenUsers` collection, not only the account's sign-in token.
 From the Users page, an admin can't remove their own admin role (another
 admin must), and nobody can remove the last admin's.
 
-## Who changed what
+## Audits
 
 The `_auditLog` collection, which only admins can read (Firebase console >
 Firestore), records:

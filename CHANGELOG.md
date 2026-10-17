@@ -10,7 +10,7 @@ Caves and cave systems shared with their own picture, distances measured on the 
 * **Share images:** a cave's link shared on WhatsApp, Facebook or elsewhere shows its photo - or, without one, a map of where it is with its name; a cave system's shows the map of its caves. Search engines get them too.
 * **Measure on the map:** the ruler button measures distances - click or tap to add points, each stretch's length and magnetic bearing (as a compass reads it) and the total in metres or feet (a switch, for the measurement alone); the next stretch shows beside the cursor, a double-click ends the line; a point near a cave goes right on it, and points can be moved or deleted.
 * **Error reports:** each error on its own card, a checkbox for each one with Select all, and Delete selected - the reports of several errors gone at once.
-* **Who changed what:** a click anywhere on a change's line opens it; a Select all checkbox before Undo selected; the time right after the author's name.
+* **Audits:** a click anywhere on a change's line opens it; a Select all checkbox before Undo selected; the time right after the author's name.
 * **Breadcrumbs on the dashboard's pages:** Home > Dashboard > the page, always in the same place.
 * **Log in:** the way you signed in last on this device - Google, Microsoft or email - is marked "Last used".
 
