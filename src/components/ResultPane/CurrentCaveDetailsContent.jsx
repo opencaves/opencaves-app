@@ -7,6 +7,7 @@ import ContentCopy from '@mui/icons-material/ContentCopyRounded'
 import DirectionsRounded from '@mui/icons-material/DirectionsRounded'
 import LocationOnRounded from '@mui/icons-material/LocationOnRounded'
 import MyLocationRounded from '@mui/icons-material/MyLocationRounded'
+import UnconfirmedLocationIcon from '@/components/UnconfirmedLocationIcon.jsx'
 import LocationDisabledRounded from '@mui/icons-material/LocationDisabledRounded'
 import { EntranceRounded } from '@/components/icons.jsx'
 import LocalParkingRounded from '@mui/icons-material/LocalParkingRounded'
@@ -88,10 +89,13 @@ export default function CurrentCaveDetailsContent({ cave }) {
   let hasAddressOrCoordinates = false
   let address, addressText, coordinatesText, coordinatesTextCopy, keysTexts, entranceText, parkingText
 
+  // Not confirmed on site (as the map's pin says): any validity but 'valid'.
+  const locationUnconfirmed = Boolean(cave.location) && cave.location.validity !== 'valid'
+
   if (cave.location) {
     address = <Address caveId={cave.id} longitude={cave.location.longitude} latitude={cave.location.latitude} />
     addressText = `${cave.location.latitude}, ${cave.location.longitude}`
-    coordinatesText = `${cave.location.latitude}, ${cave.location.longitude}${cave.location.validity === 'unknown' ? ` (${t('coordinateValidityUnknown')})` : ``}`
+    coordinatesText = `${cave.location.latitude}, ${cave.location.longitude}`
     coordinatesTextCopy = `${cave.location.latitude}, ${cave.location.longitude}`
     hasAddressOrCoordinates = true
   }
@@ -168,7 +172,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
                 </CopyToClipboard>
               )}
 
-              {coordinatesText && <CoordinateRow analytics={{ cave_id: cave.id, point: 'location' }} icon={<MyLocationRounded color="primary" />} text={coordinatesText} copyText={coordinatesTextCopy} copyLabel={t('copyCoordinates')} point={cave.location} directionsLabel={t('directionsToCave')} onCopied={confirmCopied} tooltip={!isSmall} />}
+              {coordinatesText && <CoordinateRow analytics={{ cave_id: cave.id, point: 'location' }} icon={locationUnconfirmed ? <UnconfirmedLocationIcon color="primary" /> : <MyLocationRounded color="primary" />} unconfirmed={locationUnconfirmed} text={coordinatesText} copyText={coordinatesTextCopy} copyLabel={t('copyCoordinates')} point={cave.location} directionsLabel={t('directionsToCave')} onCopied={confirmCopied} tooltip={!isSmall} />}
             </>
           )}
 

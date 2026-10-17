@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Box, Button, ButtonBase, Link, Tooltip, Typography } from '@mui/material'
 import MapRounded from '@mui/icons-material/MapRounded'
 import MyLocationRounded from '@mui/icons-material/MyLocationRounded'
+import UnconfirmedLocationIcon from '@/components/UnconfirmedLocationIcon.jsx'
 import { EntranceRounded } from '@/components/icons.jsx'
 import LocalParkingRounded from '@mui/icons-material/LocalParkingRounded'
 import KeyRounded from '@mui/icons-material/KeyRounded'
@@ -308,7 +309,7 @@ export default function CavePage() {
   const coordinates = (point) => `${Number(point.latitude).toFixed(COORDINATE_DECIMALS)}, ${Number(point.longitude).toFixed(COORDINATE_DECIMALS)}`
   const isPoint = (point) => point?.latitude != null && point?.longitude != null
   const points = [
-    location && { key: 'location', icon: <MyLocationRounded />, text: coordinates(location), copyText: coordinates(location), copyLabel: tPane('copyCoordinates'), point: location, directionsLabel: tPane('directionsToCave') },
+    location && { key: 'location', icon: location.validity === 'valid' ? <MyLocationRounded /> : <UnconfirmedLocationIcon />, unconfirmed: location.validity !== 'valid', text: coordinates(location), copyText: coordinates(location), copyLabel: tPane('copyCoordinates'), point: location, directionsLabel: tPane('directionsToCave') },
     isPoint(cave.parking) && { key: 'parking', icon: <LocalParkingRounded />, text: coordinates(cave.parking), copyText: coordinates(cave.parking), copyLabel: tPane('copyParkingCoordinates'), point: cave.parking, directionsLabel: tPane('directionsToParking') },
     isPoint(cave.entrance) && { key: 'entrance', icon: <EntranceRounded />, text: coordinates(cave.entrance), copyText: coordinates(cave.entrance), copyLabel: tPane('copyEntranceCoordinates'), point: cave.entrance, directionsLabel: tPane('directionsToEntrance') },
     ...(Array.isArray(cave.keys) ? cave.keys.filter(isPoint) : []).map((key, index) => ({ key: `key-${index}`, icon: <KeyRounded />, text: coordinates(key), copyText: coordinates(key), copyLabel: tPane('copyCoordinates'), point: key, directionsLabel: tPane('directionsToKey') })),
