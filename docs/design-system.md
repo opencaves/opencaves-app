@@ -53,6 +53,9 @@ theme is `src/theme/Theme.jsx`; the app's own CSS variables are in
   `PAGE_TITLE_SX` (`src/components/pageTitle.js`); an edit form's section
   heading `formSectionHeadingProps` (`src/components/formSectionHeading.js`).
 - The theme's own variants are declared in `src/theme/mui-theme.d.ts`.
+- **No text under 12px** (0.75rem, M3's label medium / body small) - small
+  print included (the admins' "Source: ..." line is 12px) - unless there's a
+  good reason, written next to it in a comment (e.g. a count in a 16px badge).
 
 ## Shape and spacing
 
