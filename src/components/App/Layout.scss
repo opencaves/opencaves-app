@@ -3,8 +3,8 @@
 // page's colour as its border - on phones without side borders, the photo
 // showing in thin margins instead (margins rather than transparent
 // borders, whose corners would join the top and bottom borders
-// diagonally). The dashboard's home (/dashboard) keeps its own: its photo,
-// and a transparent, square page whose window AdminDashboard draws.
+// diagonally). A route can have another photo (its handle.pageBackground:
+// .oc-layout--background-<name>).
 // Breakpoints: MUI's sm (600px) and md (900px).
 
 .oc-layout {
@@ -46,7 +46,8 @@
     background-image: url('../../images/pages/bg.webp');
   }
 
-  &.oc-layout--dashboard-home {
+  // The dashboard's photo: the feedback pages.
+  &.oc-layout--background-dashboard {
     background-image: url('../../images/dashboard/bg-small.webp');
 
     @media (min-width: 900px) {
@@ -81,21 +82,5 @@
     margin-right: auto;
     width: 100%;
     border-radius: 4px;
-  }
-}
-
-// The dashboard's home: transparent and square, its full border on phones
-// too - AdminDashboard draws the window onto the photo.
-.oc-layout.oc-layout--dashboard-home .oc-layout--main {
-  background-color: transparent;
-  border-left-width: 0.5rem;
-  border-right-width: 0.5rem;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  border-radius: 0;
-
-  @media (min-width: 600px) {
-    border-width: 1rem;
   }
 }

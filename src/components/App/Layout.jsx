@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef } from 'react'
-import { Outlet, useLocation, useNavigate, useNavigationType } from 'react-router-dom'
+import { Outlet, useLocation, useMatches, useNavigate, useNavigationType } from 'react-router-dom'
 import { Box, Container } from '@mui/material'
 import AppBar from './AppBar.jsx'
 import LegalLinks from './LegalLinks.jsx'
@@ -12,8 +12,9 @@ import './Layout.scss'
  * The frame of every page but the map: the app bar, and the page's column on
  * the pages' background photo - translucent, its border the page's colour,
  * the photo in thin side margins on phones (Layout.scss), the Privacy and
- * Terms links at its foot. One frame for all (the error pages too), but for
- * the dashboard's home, whose window onto its own photo AdminDashboard draws.
+ * Terms links at its foot. One frame for all (the error pages too); a route
+ * may set another photo behind it (its `handle.pageBackground`: 'dashboard'
+ * for the feedback pages).
  * The page's scroller: it keeps each page's position in the history, and
  * scrolls to an address's #section.
  */
@@ -23,10 +24,9 @@ export default function Layout() {
   // (A trailing slash aside.) A page's gallery (…/photos/:id,
   // …/maps/:id[/edit]) counts as its page: nothing changes under it.
   const path = (location.pathname.replace(/\/+$/, '') || '/').replace(/\/(photos|maps)\/[^/]+(\/edit)?$/, '')
-  // The dashboard's home: its own photo, and a transparent, square page -
-  // AdminDashboard draws its window onto the photo, and its own Privacy and
-  // Terms links.
-  const isDashboardHome = path === '/dashboard'
+  // Another photo behind the frame: the deepest route's that sets one
+  // (routeTree.jsx; Layout.scss draws it).
+  const pageBackground = /** @type {{ pageBackground?: string } | undefined} */ ([...useMatches()].reverse().find((match) => /** @type {{ pageBackground?: string } | undefined} */ (match.handle)?.pageBackground)?.handle)?.pageBackground
 
   // index.html's splash goes once the page is here: the router renders this
   // with its page already loaded (lazy routes resolve first, under the
@@ -125,15 +125,14 @@ export default function Layout() {
   }, [location, navigate])
 
   return (
-    <Box ref={scrollRef} className={['oc-layout', isDashboardHome && 'oc-layout--dashboard-home'].filter(Boolean).join(' ')}>
+    <Box ref={scrollRef} className={['oc-layout', pageBackground && `oc-layout--background-${pageBackground}`].filter(Boolean).join(' ')}>
       <AppBar />
       {/* Its frame: Layout.scss. */}
       <Container id="main" className="oc-layout--main" component="main">
         <Outlet />
         {/* The Privacy and Terms links at every page's foot - not the landing
-            page's, whose own footer has them, nor the dashboard home's, which
-            has them in its own frame. */}
-        {path !== '/' && !isDashboardHome && <LegalLinks sx={{ mt: 4, alignSelf: 'end' }} />}
+            page's, whose own footer has them. */}
+        {path !== '/' && <LegalLinks sx={{ mt: 4, alignSelf: 'end' }} />}
       </Container>
 
       <Dev sx={{ '--oc-mode-switcher-top': 'calc(64px + 1rem)' }} />
