@@ -10,6 +10,7 @@ import { loadAccountUnits } from '@/services/unitsPreference.js'
 import { loadAccountColorMode } from '@/services/colorModePreference.js'
 import { loadAccountMapLegendOpen } from '@/services/mapLegendPreference.js'
 import { setMapLegendOpen, setUnits } from '@/redux/slices/preferencesSlice.jsx'
+import { rememberAccountMethod } from '@/utils/lastSignInMethod.js'
 
 // The server's callables, once Firebase is loaded.
 const ensureEditorRole = () => loadFirebase().then(({ callable }) => callable('ensureEditorRole')())
@@ -157,6 +158,8 @@ export default function ManageAuth() {
   useEffect(() => {
     return onAuthChange(async (user) => {
       if (!user || user.isAnonymous) return
+      // The log-in page's "Last used", for a session that began before it.
+      rememberAccountMethod(user)
       try {
         const language = await loadAccountLanguage(user.uid)
         if (language) applyLanguage(language)
