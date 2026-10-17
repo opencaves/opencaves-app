@@ -1089,6 +1089,18 @@
       "parkingShort": "Stationnement",
       "keyShort": "Clé"
     },
+    "measure": {
+      "button": "Mesurer une distance",
+      "hintClick": "Cliquez sur la carte pour ajouter des points",
+      "hintTap": "Touchez la carte pour ajouter des points",
+      "total": "Distance totale",
+      "totalShort": "Total",
+      "undo": "Annuler le dernier point",
+      "clear": "Effacer",
+      "done": "Terminé",
+      "point": "Point {{index}} sur {{count}}",
+      "pointOnCave": "Point {{index}} sur {{count}} : {{cave}}"
+    },
     "caveLayer": {
       "button": "Couches de la carte",
       "title": "Galeries",

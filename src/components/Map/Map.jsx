@@ -10,7 +10,7 @@ import { EntranceRounded } from '@/components/icons.jsx'
 import VpnKeyRounded from '@mui/icons-material/VpnKeyRounded'
 import { useTheme } from '@mui/material/styles'
 import { chain, debounce } from 'underscore'
-import { clearViewResetRequest, setViewState, setCurrentCave as setCurrentCaveInStore, clearCurrentCave, setMapData, setPickedCoordinate, setEditFieldCoordinate, clearFlyToCoordinateRequest } from '@/redux/slices/mapSlice.jsx'
+import { clearViewResetRequest, setViewState, setCurrentCave as setCurrentCaveInStore, clearCurrentCave, setMapData, setPickedCoordinate, setEditFieldCoordinate, clearFlyToCoordinateRequest, setMeasuring } from '@/redux/slices/mapSlice.jsx'
 import { MapLoading, MapError } from './MapState.jsx'
 import { useMapUiReady } from './useMapUiReady.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
@@ -28,6 +28,7 @@ import PlaceOnMapOverlay from './PlaceOnMapOverlay.jsx'
 import GeolocateTooltip from './GeolocateTooltip.jsx'
 import CaveMarker from './CaveMarker.jsx'
 import CaveLayer, { caveTileRequest } from './CaveLayer.jsx'
+import MeasureTool from './MeasureTool.jsx'
 
 // Decorative markers (a cave's parking, entrance and keys, edited coordinates) keep
 // Mapbox's role="img", with a real label instead of its "Map marker". Cave
@@ -120,6 +121,10 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   const flyToCoordinateRequest = useSelector((/** @type {RootState} */ state) => state.map.flyToCoordinateRequest)
   const viewResetRequested = useSelector((/** @type {RootState} */ state) => state.map.viewResetRequested)
   const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
+  // The Measure tool on (MeasureButton): clicks on the map and its pins add
+  // its points instead (MeasureTool).
+  const measuring = useSelector((/** @type {RootState} */ state) => state.map.measuring)
+  const measureRef = useRef(/** @type {import('./MeasureTool.jsx').MeasureToolHandle} */ (null))
 
   const { caveId } = useParams()
   const { setTitle: setPageTitle } = useTitle()
@@ -174,6 +179,15 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   const [isDragging, setIsDragging] = useState(false)
 
   const dispatch = useDispatch()
+
+  // Leaving the map ends it: it doesn't open measuring next time.
+  useEffect(
+    () => () => {
+      if (!embedded) dispatch(setMeasuring(false))
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  )
 
   const { t } = useTranslation('map')
   // Mapbox's own control labels (its buttons' names, its hints), in the app's
@@ -344,6 +358,14 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   }, [])
 
   function onMarkerClick(event, cave) {
+    // Measuring: the pin is a point on the cave, not a link to its pane (the
+    // click's default - the link - prevented, as when picking below).
+    if (measuring) {
+      event.originalEvent?.preventDefault()
+      event.originalEvent?.stopPropagation()
+      measureRef.current?.addCave(cave)
+      return
+    }
     if (pickingCoordinateFor) {
       // Don't navigate away to a different cave mid-pick - use this
       // marker's own coordinates as the picked value instead.
@@ -669,7 +691,8 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   }
 
   function onMapClick(event) {
-    if (!pickingCoordinateFor) {
+    // Measuring: MeasureTool takes the click.
+    if (!pickingCoordinateFor || measuring) {
       return
     }
 
@@ -980,8 +1003,9 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
           onDragOver={onMapDragOver}
           onDrop={onMapDrop}
         >
-          <Map ref={mapRef} {...MAP_PROPS} locale={mapLocale} mapboxAccessToken={import.meta.env.VITE_MAPBOX_ACCESS_TOKEN} initialViewState={initialMapViewState} cursor={pickingCoordinateFor ? 'crosshair' : isDragging ? 'grabbing' : 'grab'} onClick={onMapClick} onDragStart={() => setIsDragging(true)} onDragEnd={onDragEnd} onMove={onMove} onMoveEnd={onMoveEnd} onZoom={onZoom} onZoomEnd={onZoomEnd} onLoad={onLoad} transformRequest={caveTileRequest}>
+          <Map ref={mapRef} {...MAP_PROPS} locale={mapLocale} mapboxAccessToken={import.meta.env.VITE_MAPBOX_ACCESS_TOKEN} initialViewState={initialMapViewState} cursor={pickingCoordinateFor || measuring ? 'crosshair' : isDragging ? 'grabbing' : 'grab'} onClick={onMapClick} onDragStart={() => setIsDragging(true)} onDragEnd={onDragEnd} onMove={onMove} onMoveEnd={onMoveEnd} onZoom={onZoom} onZoomEnd={onZoomEnd} onLoad={onLoad} transformRequest={caveTileRequest}>
             <CaveLayer selectedSistemaId={selectedCave?.sistemaId} />
+            {measuring && mapLoaded && !embedded && <MeasureTool ref={measureRef} mapRef={mapRef} caves={displayedCaves} panelContainer={mapContainerRef.current} isSmall={isSmall} insetLeft={!isSmall && caveId ? paneCoverWidth() : 0} />}
             <PlaceOnMapOverlay mapRef={mapRef} />
             <GeolocateControl
               positionOptions={{ enableHighAccuracy: true }}

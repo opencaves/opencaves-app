@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Box, ButtonBase, Collapse, Divider, Paper, Typography, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import ExpandLessRounded from '@mui/icons-material/ExpandLessRounded'
-import { CAVE_LAYER } from '@/config/map.js'
+import { CAVE_LAYER, MEASURE_BUTTON_SLOT } from '@/config/map.js'
 import { useUnits } from '@/hooks/useUnits.jsx'
 import { setMapLegendOpen } from '@/redux/slices/preferencesSlice.jsx'
 import { saveAccountMapLegendOpen } from '@/services/mapLegendPreference.js'
@@ -12,7 +12,7 @@ import { saveAccountMapLegendOpen } from '@/services/mapLegendPreference.js'
 /**
  * What the cave layer's marks mean (CaveLayer's styles), while the passages
  * are shown. Bottom right, over the map's corner buttons (the locate button,
- * and for editors the edit FAB, rising with its actions when it opens:
+ * the ruler button, and for editors the edit FAB, rising with its actions when it opens:
  * EditCaveFab's --oc-edit-fab-actions-height) - not under the layer button,
  * where it read as that button's menu. On phones a chip that opens it, riding
  * above the result pane's sheet and fading with the other map controls as it
@@ -115,14 +115,14 @@ export default function CaveLayerLegend({ isLarge }) {
       elevation={2}
       sx={{
         position: 'absolute',
-        // Over the locate button (16px from the bottom, 56px tall) and, for
-        // editors, the edit FAB (56px, 16px above it) and its open actions;
-        // 16px between each, as between those two.
+        // Over the locate button (16px from the bottom, 56px tall), the ruler
+        // button (MeasureButton) and, for editors, the edit FAB (56px, 16px
+        // above it) and its open actions; 16px between each, as between those.
         right: 'var(--oc-map-control-edge-margin)',
         // Over the map's pins, the picked and the current one included
         // (z-index 1: Marker.scss).
         zIndex: 2,
-        bottom: `calc(var(--oc-result-pane-sm-height, 0px) + var(--oc-map-control-edge-margin) + 56px + 16px${isEditor ? ' + 56px + 16px' : ''} + var(--oc-edit-fab-actions-height, 0px))`,
+        bottom: `calc(var(--oc-result-pane-sm-height, 0px) + var(--oc-map-control-edge-margin) + 56px + 16px + ${MEASURE_BUTTON_SLOT}${isEditor ? ' + 56px + 16px' : ''} + var(--oc-edit-fab-actions-height, 0px))`,
         transition: `bottom 200ms ease, opacity 150ms ease, visibility 150ms ease, width ${foldMs}ms ${easing[fold]}`,
         // Its content, held at the open width while the box narrows, is clipped.
         overflow: 'hidden',

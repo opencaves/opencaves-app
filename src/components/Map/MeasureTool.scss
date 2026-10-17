@@ -1,0 +1,160 @@
+// The map's Measure tool (MeasureTool.jsx): its points and segment labels
+// (Mapbox markers) and its panel at the bottom of the map.
+
+.oc-measure-tool--point {
+  // The line's colour (the theme's secondary, the same in both schemes).
+  --oc-measure-color: var(--mui-palette-secondary-main);
+
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 3px solid var(--oc-measure-color);
+  // A ring: the map shows through its centre. Thin dark edges inside and
+  // out keep it readable on any ground.
+  background: transparent;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.5);
+  cursor: grab;
+  // A larger touch target than the dot, for dragging it.
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+  }
+
+  .mapboxgl-marker-dragging &,
+  &:active {
+    cursor: grabbing;
+  }
+
+  // Focused (Tab, a click, a drag: Delete removes it): a white ring between
+  // two dark ones, readable on any imagery, in either scheme.
+  &:focus {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.7), 0 0 0 6px rgba(0, 0, 0, 0.7);
+  }
+
+  // On a cave: filled, a ring around it.
+  // On a cave: the same ring, larger (the cave's pin under it shows through).
+  &.oc-measure-tool--point-snapped {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.oc-measure-tool--label {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--mui-sys-color-surfaceContainerHigh);
+  color: var(--mui-palette-text-primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  // M3's label medium.
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.03125rem;
+  white-space: nowrap;
+}
+
+.oc-measure-tool--panel {
+  position: absolute;
+  // Over the map's Privacy and Terms links (MapLegalLinks), on phones.
+  z-index: 3;
+  // A computer's: centred in the map the panes leave (--oc-measure-inset-left).
+  bottom: var(--oc-map-control-edge-margin);
+  left: calc(var(--oc-measure-inset-left, 0px) + (100% - var(--oc-measure-inset-left, 0px)) / 2);
+  transform: translateX(-50%);
+  max-width: calc(100% - var(--oc-measure-inset-left, 0px) - 2 * (var(--oc-map-control-edge-margin) + 56px + 16px));
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px 8px 20px;
+  border-radius: 16px;
+
+  // A phone's: above the result sheet (0 when there's none), left of the
+  // locate button's column, fading with the map's controls as the sheet opens.
+  &.oc-measure-tool--panel-sm {
+    left: var(--oc-map-control-edge-margin);
+    right: calc(var(--oc-map-control-edge-margin) + 56px + 16px);
+    bottom: calc(var(--oc-result-pane-sm-height, 0px) + var(--oc-map-control-edge-margin));
+    transform: none;
+    max-width: none;
+    padding-left: 16px;
+    opacity: var(--oc-map-controls-opacity, 1);
+    visibility: var(--oc-map-controls-visibility, visible);
+    transition:
+      opacity 150ms ease,
+      visibility 150ms ease;
+  }
+}
+
+.oc-measure-tool--summary {
+  flex: 1;
+  min-width: 0;
+  margin-right: 4px;
+
+  .oc-measure-tool--panel:not(.oc-measure-tool--panel-sm) & {
+    min-width: 136px;
+  }
+}
+
+.oc-measure-tool--total-label {
+  margin: 0;
+  line-height: 1rem;
+}
+
+.oc-measure-tool--total {
+  margin: 0;
+  // M3's title medium.
+  font-weight: 500;
+  line-height: 1.5rem;
+  white-space: nowrap;
+}
+
+.oc-measure-tool--hint {
+  margin: 0;
+
+  .oc-measure-tool--panel:not(.oc-measure-tool--panel-sm) & {
+    white-space: nowrap;
+  }
+}
+
+.oc-measure-tool--done {
+  margin-left: 4px;
+  flex-shrink: 0;
+}
+
+// Read by screen readers, not drawn.
+.oc-measure-tool--live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// A phone's hint, over the map under the search bar (between it and the
+// layer and ruler buttons' column), until there's a distance.
+.oc-measure-tool--hint-chip {
+  position: absolute;
+  z-index: 2;
+  top: calc(16px + 56px + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: calc(100% - 2 * (16px + 48px + 16px));
+  width: max-content;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-align: center;
+  pointer-events: none;
+  opacity: var(--oc-map-controls-opacity, 1);
+  visibility: var(--oc-map-controls-visibility, visible);
+}
