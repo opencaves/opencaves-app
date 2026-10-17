@@ -1100,7 +1100,12 @@
       "clear": "Clear",
       "done": "Done",
       "point": "Point {{index}} of {{count}}",
-      "pointOnCave": "Point {{index}} of {{count}}: {{cave}}"
+      "pointOnCave": "Point {{index}} of {{count}}: {{cave}}",
+      "units": "Units",
+      "metric": "Metric (m, km)",
+      "imperial": "Imperial (ft, mi)",
+      "metricShort": "m",
+      "imperialShort": "ft"
     },
     "caveLayer": {
       "button": "Map layers",

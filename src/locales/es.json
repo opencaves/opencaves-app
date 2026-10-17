@@ -1100,7 +1100,12 @@
       "clear": "Borrar",
       "done": "Listo",
       "point": "Punto {{index}} de {{count}}",
-      "pointOnCave": "Punto {{index}} de {{count}}: {{cave}}"
+      "pointOnCave": "Punto {{index}} de {{count}}: {{cave}}",
+      "units": "Unidades",
+      "metric": "Métrico (m, km)",
+      "imperial": "Imperial (ft, mi)",
+      "metricShort": "m",
+      "imperialShort": "ft"
     },
     "caveLayer": {
       "button": "Capas del mapa",
