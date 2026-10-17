@@ -1,5 +1,35 @@
 # Changelog
 
+## [1.4.0](https://github.com/opencaves/opencaves-app/compare/v1.3.1...v1.4.0) (2026-10-17)
+
+One look for every page - the same frame, the same titles, breadcrumbs on the dashboard's pages - and quicker tools for the team: error reports deleted in a few clicks, changes opened with a click on their line.
+
+
+### Features
+
+* **Error reports:** each error on its own card, a checkbox for each one with Select all, and Delete selected - the reports of several errors gone at once.
+* **Who changed what:** a click anywhere on a change's line opens it; a Select all checkbox before Undo selected; the time right after the author's name.
+* **Breadcrumbs on the dashboard's pages:** Home > Dashboard > the page, always in the same place.
+
+### Changes
+
+* **One frame for every page:** the same photo behind a see-through page, the same borders and corners - the landing page, About, your account, the edit pages and the dashboard's pages included.
+* **One look for page titles:** larger, with a yellow bar under them. A page with a search keeps its search field in view as you scroll; a page without one, its title.
+* **The error page** sits in the page's frame, under the app bar, with its own title.
+* **Feedback** is called Feedback everywhere, as its address says.
+* **What's new:** its filters on a card, the line saying what it lists under them.
+* **A cave system's edit form:** its name edited in place, as its title.
+* **Cave names:** "Entrada" left out of the names of cenotes that are entrances (the diver icon says so; the old name still finds them), and names that were only a map's labels replaced.
+
+### Fixes
+
+* **Search engines:** the map's page has a shorter description, and About, the privacy policy and the terms have their own.
+
+### For the team
+
+* No first-generation function left among the Node 24 ones (a deploy stopped on them before Hosting); a deleted account's cleanup has its own small Node 22 codebase.
+* `submit-to-search.js` asks Bing (its daily quota) and the IndexNow engines to crawl the pages; `sync-from-production.js` now really deletes the local-only files.
+
 ## [1.3.1](https://github.com/opencaves/opencaves-app/compare/v1.3.0...v1.3.1) (2026-10-16)
 
 Fixes for pages that showed "Something went wrong".
