@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Layer, Marker, Source } from 'react-map-gl/mapbox'
-import { Box, Button, IconButton, Paper, Tooltip, Typography } from '@mui/material'
+import { Box, Button, IconButton, Paper, ToggleButton, ToggleButtonGroup, Tooltip, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import UndoRounded from '@mui/icons-material/UndoRounded'
 import DeleteSweepRounded from '@mui/icons-material/DeleteSweepRounded'
@@ -55,7 +55,9 @@ const LABEL_STYLE = { zIndex: 2, pointerEvents: /** @type {const} */ ('none') }
  * each click or tap on the map adds a point, a line joins them with each
  * segment's great-circle length at its middle ({@link distanceMetres}), and a
  * panel at the bottom gives the total in the reader's units
- * ({@link formatMeasuredDistance}) with Undo, Clear and Done (Escape too).
+ * ({@link formatMeasuredDistance}) with Undo, Clear and Done (Escape too),
+ * and a metric/imperial switch for the measurement alone (the app's units
+ * setting doesn't change, nor is the switch saved).
  * A point put down or dragged near a cave's pin ({@link MEASURE_SNAP_RADIUS_PX})
  * goes exactly on the cave. The points are draggable, the lengths following,
  * and focusable (Tab, a click or a drag): Delete or Backspace removes the
@@ -82,7 +84,11 @@ export default function MeasureTool({ mapRef, caves, panelContainer, isSmall, in
   const { t, i18n } = useTranslation('map', { keyPrefix: 'measure' })
   const theme = useTheme()
   const dispatch = useDispatch()
-  const units = useUnits()
+  // The units the measurement shows: the reader's, until switched in the
+  // panel - for the tool only (the app's own setting doesn't change).
+  const readerUnits = useUnits()
+  const [chosenUnits, setChosenUnits] = useState(/** @type {'metric'|'imperial'|null} */ (null))
+  const units = chosenUnits ?? readerUnits
   const [points, setPoints] = useState(/** @type {MeasurePoint[]} */ ([]))
   const [dragging, setDragging] = useState(false)
   // Re-rendered on zoom: which segments are long enough on screen for a
@@ -302,6 +308,21 @@ export default function MeasureTool({ mapRef, caves, panelContainer, isSmall, in
           {!dragging && points.length > 1 ? `${t('total')} ${format(total)}` : ''}
         </Box>
       </Box>
+      <ToggleButtonGroup
+        className="oc-measure-tool--units"
+        size="small"
+        exclusive
+        value={units}
+        onChange={(event, value) => value && setChosenUnits(value)}
+        aria-label={t('units')}
+      >
+        <ToggleButton value="metric" aria-label={t('metric')}>
+          {t('metricShort')}
+        </ToggleButton>
+        <ToggleButton value="imperial" aria-label={t('imperial')}>
+          {t('imperialShort')}
+        </ToggleButton>
+      </ToggleButtonGroup>
       <Tooltip title={t('undo')}>
         <span>
           <IconButton className="oc-measure-tool--undo" aria-label={t('undo')} disabled={points.length === 0} onClick={() => setPoints((current) => current.slice(0, -1))}>
