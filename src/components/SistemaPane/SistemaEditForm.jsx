@@ -384,6 +384,10 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
   const teamOptions = [...new Set([...sistemas.flatMap((sistema) => (sistema.explorations || []).flatMap((exploration) => teamNames(exploration.team))), ...form.explorations.flatMap((exploration) => teamNames(exploration.team))])].sort((first, second) => first.localeCompare(second))
   const parentSearchQuery = parentSearch.trim().toLowerCase()
   const visibleParentSistemas = parentSearchQuery ? otherSistemas.filter((s) => (s.name || s.id).toLowerCase().includes(parentSearchQuery) || (areasById.get(s.area) || '').toLowerCase().includes(parentSearchQuery) || matchesId(s.id, parentSearchQuery)) : otherSistemas
+  // In the pane, the group under the name (the main fields) lines up with it:
+  // its card is the pane's own white, its side padding only an indent.
+  // (Responsive, as the card's own padding: a plain px loses to its media query.)
+  const titleGroupSx = inPane ? { px: { xs: 0, sm: 0 } } : undefined
   const colorPicker = <ColorPicker label={t('color')} value={form.color} onChange={(hex) => setForm((f) => ({ ...f, color: hex }))} />
   const colorField = isSmall ? (
     <Grid size="auto">{colorPicker}</Grid>
@@ -427,7 +431,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
       {/* Each section on its own opaque card (FormSection), on the dashboard's
           translucent page. */}
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-        <FormSection>
+        <FormSection sx={titleGroupSx}>
           <Grid container spacing={2}>
         {/* Wider screens: Color on its own line after Name, then Parent
             sistema on its own, then Area and Source side by side. Phones keep
