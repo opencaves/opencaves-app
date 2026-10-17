@@ -5,52 +5,28 @@ import AppBar from './AppBar.jsx'
 import LegalLinks from './LegalLinks.jsx'
 import Dev from '../utils/Dev.jsx'
 import { isMapPath } from '@/redux/slices/sessionSlice.jsx'
-import layoutBackground from '@/images/404/bg.webp'
-import dashboardBackground from '@/images/dashboard/bg.webp'
-import pagesBackground from '@/images/pages/bg.webp'
-// Their small copies (1080-1280 px, a few times lighter) for small screens.
-import layoutBackgroundSmall from '@/images/404/bg-small.webp'
-import dashboardBackgroundSmall from '@/images/dashboard/bg-small.webp'
-import pagesBackgroundSmall from '@/images/pages/bg-small.webp'
-import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.js'
-import { isPublicIndexPath } from '@/utils/seo.js'
 import { removeShell } from '@/utils/shell.js'
+import './Layout.scss'
 
-// First URL segment of every dashboard (admin) page - see router.jsx. Some
-// of them also hold public pages (/caves, /sistemas/<id>...),
-// which look like the site's other pages (isPublicIndexPath).
-const DASHBOARD_SECTIONS = new Set(['dashboard', 'caves', 'sistemas', 'connections', 'users', 'audits', 'feedback', ...Object.keys(REFERENCE_DATA_CONFIGS)])
-
+/**
+ * The frame of every page but the map: the app bar, and the page's column on
+ * the pages' background photo - translucent, its border the page's colour,
+ * the photo in thin side margins on phones (Layout.scss), the Privacy and
+ * Terms links at its foot. One frame for all (the error pages too), but for
+ * the dashboard's home, whose window onto its own photo AdminDashboard draws.
+ * The page's scroller: it keeps each page's position in the history, and
+ * scrolls to an address's #section.
+ */
 export default function Layout() {
   const location = useLocation()
   const navigate = useNavigate()
   // (A trailing slash aside.) A page's gallery (…/photos/:id,
   // …/maps/:id[/edit]) counts as its page: nothing changes under it.
   const path = (location.pathname.replace(/\/+$/, '') || '/').replace(/\/(photos|maps)\/[^/]+(\/edit)?$/, '')
-  const isDashboardPage = DASHBOARD_SECTIONS.has(path.split('/')[1]) && !isPublicIndexPath(path)
-  // A cenote entrance's stairs behind About, the cave and cave system lists
-  // and the reference data pages (lists and forms; not the public area pages).
-  const isReferenceDataPage = Object.hasOwn(REFERENCE_DATA_CONFIGS, path.split('/')[1]) && !isPublicIndexPath(path)
-  // The cave and cave system lists and pages too, translucent like them,
-  // their sections on cards.
-  const isSistemaPage = /^\/(sistemas|caves)(\/(?!edit$)[^/]+)?$/.test(path)
-  // A cave's or system's edit page: its page's background.
-  const isItemEditPage = /^\/(sistemas|caves)\/(?!edit$)[^/]+\/edit$/.test(path)
-  // What can I do?, What's new, logging in and signing up (their steps
-  // too: /login/with-email...): on the lists' background, translucent like them.
-  const isContributionPage = ['/what-can-i-do', '/whats-new'].includes(path) || ['login', 'signup'].includes(path.split('/')[1])
-  const hasPagesBackground = ['/about', '/caves', '/sistemas'].includes(path) || isReferenceDataPage || isSistemaPage || isItemEditPage || isContributionPage
-  // The dashboard home's page is transparent: its white margins are drawn by
-  // AdminDashboard itself, around a window onto this background image. The
-  // pages it leads to (the map layers too) are translucent, as its own card.
-  const isDashboardHome = location.pathname === '/dashboard'
-  // ...and a cave system's public page, whose sections stand on cards.
-  const isTranslucentPage = isDashboardPage || location.pathname.split('/')[1] === 'map-layers' || isSistemaPage || isContributionPage
-  // Phones, dashboard sub-pages and the account page: side margins showing
-  // the background image instead of the page's white side borders (margins
-  // rather than transparent borders, whose corners would join the top/bottom
-  // borders diagonally).
-  const sideBordersSeeThrough = (isDashboardPage && !isDashboardHome) || isSistemaPage || isContributionPage || location.pathname === '/account'
+  // The dashboard's home: its own photo, and a transparent, square page -
+  // AdminDashboard draws its window onto the photo, and its own Privacy and
+  // Terms links.
+  const isDashboardHome = path === '/dashboard'
 
   // index.html's splash goes once the page is here: the router renders this
   // with its page already loaded (lazy routes resolve first, under the
@@ -149,53 +125,10 @@ export default function Layout() {
   }, [location, navigate])
 
   return (
-    <Box
-      ref={scrollRef}
-      className="oc-layout"
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        // #root itself is pinned to the viewport with overflow-y hidden
-        // (disable-pull-to-refresh.scss, needed for the full-screen /map
-        // page's own internal scroll areas) - so any Layout-based page
-        // taller than the viewport needs to be its own scroll container,
-        // not rely on the document/body to scroll.
-        height: '100%',
-        overflowY: 'auto',
-        // Never sideways: every page fits the width (wide content, like the
-        // connections table, scrolls within itself), and anything poking a
-        // few pixels past the edge brought a horizontal scrollbar - which,
-        // with the vertical one, shrank the background image.
-        overflowX: 'hidden',
-        // Keep the scrollbar's room even when there's nothing to scroll: a
-        // page's height changes as it loads (skeleton, then content), and a
-        // scrollbar coming and going resized this box - rescaling and
-        // shifting its cover background image with it.
-        scrollbarGutter: 'stable',
-        // Scrolling to a section (#photos...) glides there - unless the
-        // system asks for less motion.
-        scrollBehavior: 'smooth',
-        '@media (prefers-reduced-motion: reduce)': { scrollBehavior: 'auto' },
-        backgroundColor: '#000',
-        // Only the one for the screen's size is downloaded.
-        backgroundImage: {
-          xs: `url(${hasPagesBackground ? pagesBackgroundSmall : isDashboardPage ? dashboardBackgroundSmall : layoutBackgroundSmall})`,
-          md: `url(${hasPagesBackground ? pagesBackground : isDashboardPage ? dashboardBackground : layoutBackground})`,
-        },
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-        // An error shown in the page (NoMatch marks it): no side photo.
-        'html[data-oc-error-page] &': { backgroundImage: 'none', backgroundColor: 'var(--oc-page-surface)' },
-      }}
-    >
+    <Box ref={scrollRef} className={['oc-layout', isDashboardHome && 'oc-layout--dashboard-home'].filter(Boolean).join(' ')}>
       <AppBar />
-      {/* One column, never wider than the page (sized by its content, a
-          wide form pushed the page past the screen's edge on phones). */}
-      <Container id="main" className="oc-layout--main" component="main" sx={{ py: 2, display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', flexGrow: '1', bgcolor: isDashboardHome ? 'transparent' : isTranslucentPage ? 'var(--oc-page-surface-translucent)' : 'var(--oc-page-surface)', border: { xs: '0.5rem solid var(--oc-page-surface)', sm: '1rem solid var(--oc-page-surface)' }, ...(sideBordersSeeThrough && { borderLeftWidth: { xs: 0, sm: '1rem' }, borderRightWidth: { xs: 0, sm: '1rem' }, mx: { xs: '0.5rem', sm: 'auto' }, width: { xs: 'auto', sm: '100%' } }), // Square on the dashboard home, whose frame AdminDashboard draws.
-        borderRadius: isDashboardHome ? 0 : sideBordersSeeThrough ? { xs: 0, sm: '4px' } : '4px',
-        // An error shown in the page: no column, no frame - its picture the
-        // whole width, edge to edge (NoMatch).
-        'html[data-oc-error-page] &': { maxWidth: 'none', width: '100%', mx: 0, p: 0, border: 0, borderRadius: 0, bgcolor: 'var(--oc-page-surface)' } }}>
+      {/* Its frame: Layout.scss. */}
+      <Container id="main" className="oc-layout--main" component="main">
         <Outlet />
         {/* The Privacy and Terms links at every page's foot - not the landing
             page's, whose own footer has them, nor the dashboard home's, which

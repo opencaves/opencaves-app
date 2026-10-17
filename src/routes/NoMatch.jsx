@@ -14,6 +14,8 @@ import { removeShell } from '@/utils/shell.js'
 import { isFirestoreFailure, isFirestoreOffline, recoverFromFirestoreFailure } from '@/utils/firestoreRecovery.js'
 import { isStaleBuildError, reloadForNewBuild } from '@/utils/staleBuild.js'
 import { reportError } from '@/utils/errorReports.js'
+import notFoundPicture from '@/images/404/bg-small.webp'
+import errorPicture from '@/images/404/error-bg.webp'
 import './NoMatch.scss'
 
 // The catch-all route's page, and every route's errorElement: a page that
@@ -70,7 +72,10 @@ ${reason}`)
 }
 
 /**
- * A bad cave or system address offers its list too.
+ * The page not found, failed or offline (see above). A bad cave or system
+ * address offers its list too. In the layout, a page like the others in its
+ * frame, its photo as a picture above the message; on its own, the whole
+ * window, the message on its photo.
  *
  * @param {object} props
  * @param {boolean} [props.inLayout=false] - Inside the pages' layout (app bar, search kept), not the whole
@@ -118,16 +123,6 @@ export default function NoMatch({ inLayout = false }) {
     if (firestoreFailed) recoverFromFirestoreFailure()
   }, [firestoreFailed])
 
-  // An error inside the layout (not a missing page): the page marked, so the
-  // layout drops its side photo and its column's frame (Layout.jsx) - the
-  // error's own picture fills the space between the app bar and the footer.
-  const errorInLayout = inLayout && kind !== 'notFound'
-  useEffect(() => {
-    if (!errorInLayout) return undefined
-    document.documentElement.setAttribute('data-oc-error-page', '')
-    return () => document.documentElement.removeAttribute('data-oc-error-page')
-  }, [errorInLayout])
-
   // An error page outside Layout (a route failing, the map's): index.html's
   // splash goes, as no page will remove it.
   useEffect(() => {
@@ -155,14 +150,19 @@ export default function NoMatch({ inLayout = false }) {
     <Helmet>
       <title>{`${kind === 'notFound' ? tSeo('notFoundTitle') : t(`${kind}.header`)} / ${TITLE_NAME}`}</title>
     </Helmet>
-    <Grid container className={`oc-no-match no-match--container${kind === 'notFound' ? '' : ' no-match--error'}${kind === 'offline' ? ' no-match--with-back' : ''}${inLayout ? ' no-match--in-layout' : ''}`} sx={{ flexDirection: 'column', height: inLayout ? 'auto' : '100dvh', py: inLayout ? 6 : 0, ...(errorInLayout && { minHeight: '100%', px: 2 }), justifyContent: 'center', alignItems: 'center', flexWrap: 'nowrap' }}>
-      {/* Offline: a way back to what's on the device (MD3: a full-screen
-          view's back arrow at its top left), on a light disc over the photo. */}
-      {kind === 'offline' && (
+    <Grid container className={`oc-no-match no-match--container${kind === 'notFound' ? '' : ' no-match--error'}${kind === 'offline' && !inLayout ? ' no-match--with-back' : ''}${inLayout ? ' no-match--in-layout' : ''}`} sx={{ flexDirection: 'column', height: inLayout ? 'auto' : '100dvh', py: inLayout ? { xs: 2, sm: 4 } : 0, justifyContent: 'center', alignItems: 'center', flexWrap: 'nowrap' }}>
+      {/* Offline, on its own (no app bar): a way back to what's on the
+          device (MD3: a full-screen view's back arrow at its top left), on a
+          light disc over the photo. In the layout, a Back button instead. */}
+      {kind === 'offline' && !inLayout && (
         <IconButton className="no-match--back" onClick={goBack} aria-label={tApp('back')} sx={{ position: 'fixed', top: 'calc(8px + env(safe-area-inset-top, 0px))', left: 8, width: 48, height: 48, bgcolor: 'var(--oc-page-surface)', '&:hover': { bgcolor: 'var(--oc-page-surface)' }, boxShadow: 2 }}>
           <ArrowBackRounded />
         </IconButton>
       )}
+      {/* In the layout, a page like the others in its frame: the photo the
+          page shows on its own (a cave's entrance; a dead end's for a
+          failure) as its picture, above the message. */}
+      {inLayout && <img className="no-match--picture" src={kind === 'notFound' ? notFoundPicture : errorPicture} alt="" />}
       <Grid className="no-match--box">
         <h1 className="no-match--header">{kind === 'notFound' ? t('header') : t(`${kind}.header`)}</h1>
         <p>{kind === 'notFound' ? t('description') : t(`${kind}.description`)}</p>
@@ -178,9 +178,16 @@ export default function NoMatch({ inLayout = false }) {
             </Button>
           </Grid>
         ) : (
-          <Button variant="contained" disableElevation onClick={() => (firestoreFailed ? window.location.reload() : revalidator.revalidate())} loading={revalidator.state === 'loading'}>
-            {t('retryBtn')}
-          </Button>
+          <Grid container sx={{ gap: 1.5, justifyContent: 'center' }}>
+            {kind === 'offline' && inLayout && (
+              <Button className="no-match--back" variant="outlined" startIcon={<ArrowBackRounded />} onClick={goBack}>
+                {tApp('back')}
+              </Button>
+            )}
+            <Button variant="contained" disableElevation onClick={() => (firestoreFailed ? window.location.reload() : revalidator.revalidate())} loading={revalidator.state === 'loading'}>
+              {t('retryBtn')}
+            </Button>
+          </Grid>
         )}
         {import.meta.env.DEV && <DevDetails error={error} />}
       </Grid>
