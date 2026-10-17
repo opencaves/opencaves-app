@@ -12,7 +12,30 @@
  */
 
 /**
- * A cave (`caves`), as the server-rendered pages read it (seo/).
+ * A cave's or a system's share image (og:image), written by share/shareImages.js.
+ *
+ * @typedef {object} ShareImage
+ * @property {'photo'|'map'} kind - Its cover photo cropped, or its map card.
+ * @property {string} url - Its public address in Storage (share/<caves|sistemas>/<id>/<key>.jpg).
+ * @property {number} width
+ * @property {number} height
+ * @property {string} key - A hash of what it shows (shareImageKey).
+ */
+
+/**
+ * Where the share images read the records around one (share/shareImages.js'
+ * firestoreLookup, memoryLookup).
+ *
+ * @typedef {object} ShareLookup
+ * @property {(sistemaId: string) => Promise<string[]>} ancestors - The systems it joined, upward, itself first.
+ * @property {(sistemaId: string) => Promise<string[]>} descendants - The systems that joined it, every level, itself first.
+ * @property {(id: string) => Promise<Sistema|null>} sistema
+ * @property {(sistemaIds: string[]) => Promise<Cave[]>} cavesOf - The caves of these systems, with their id.
+ * @property {(caveId: string) => Promise<object|null>} cover - Its cover photo outside the trash (cavesAssets), with its id.
+ */
+
+/**
+ * A cave (`caves`), as the server-rendered pages and the share images read it.
  *
  * @typedef {object} Cave
  * @property {string} id
@@ -21,12 +44,24 @@
  * @property {string} [area] - Its area's name.
  * @property {string} [description] - Markdown.
  * @property {string} [direction] - Markdown: getting there.
- * @property {{latitude: number, longitude: number}} [location]
+ * @property {{latitude: number, longitude: number, validity?: string}} [location] - validity 'valid': confirmed.
  * @property {string} [sistemaId]
  * @property {string[]} [photoOrder] - Its photos' order after the cover (cavesAssets ids; assets/photoOrder.js).
  * @property {string[]} [videos] - Video URLs, in the order shown.
  * @property {Record<string, string>} [reviewed] - The month ('YYYY-MM') each section (access, directions, fees,
  *   description) was last confirmed still accurate, by editors from the app.
+ * @property {ShareImage} [shareImage] - Its share image (share/shareImages.js).
+ */
+
+/**
+ * A cave system (`sistemas`), as the share images read it.
+ *
+ * @typedef {object} Sistema
+ * @property {string} [name]
+ * @property {string} [area]
+ * @property {string} [color] - "#rrggbb".
+ * @property {{latitude: number, longitude: number}} [location]
+ * @property {ShareImage} [shareImage] - Its share image (share/shareImages.js).
  */
 
 /**

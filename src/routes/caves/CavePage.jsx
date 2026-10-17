@@ -275,7 +275,8 @@ export default function CavePage() {
   const summary = cave ? markdownToPlainText(cave.description) : ''
   // The description's sentence names it without the parentheses.
   const description = cave ? truncate(summary ? `${t('cave.descriptionPrefix', { name: name || t('unnamedCavePlain') })} ${summary}` : t('cave.description', { name: name || t('unnamedCavePlain') })) : null
-  useIndexPageHead({ title: cave ? label : null, description })
+  // Its share image: its cover photo or its map card (the server's shareImage).
+  useIndexPageHead({ title: cave ? label : null, description, share: cave ? { record: cave, name: name || label } : null })
 
   // Its system and the systems that one joined, for the history (as the
   // details pane).
