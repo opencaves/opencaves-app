@@ -12,6 +12,7 @@ Caves and cave systems shared with their own picture, distances measured on the 
 * **Error reports:** each error on its own card, a checkbox for each one with Select all, and Delete selected - the reports of several errors gone at once.
 * **Who changed what:** a click anywhere on a change's line opens it; a Select all checkbox before Undo selected; the time right after the author's name.
 * **Breadcrumbs on the dashboard's pages:** Home > Dashboard > the page, always in the same place.
+* **Log in:** the way you signed in last on this device - Google, Microsoft or email - is marked "Last used".
 
 ### Changes
 
