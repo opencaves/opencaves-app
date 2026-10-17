@@ -7,6 +7,7 @@ import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
 import AddRounded from '@mui/icons-material/AddRounded'
 import PageFab from '@/components/PageFab.jsx'
+import { useStuck } from '@/hooks/useStuck.js'
 import { PAGE_HEADER_SX, PAGE_TITLE_SX, PAGE_TITLE_TYPOGRAPHY_SX } from '@/components/pageTitle.js'
 
 // An index page's heading row: a back arrow to the page above it (backTo),
@@ -89,6 +90,7 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, onAdd,
   // The /edit pages are behind RequireEditor (router.jsx).
   const isEditor = roles.includes('editor')
   const rowRef = useRef(null)
+  const stuck = useStuck(rowRef, sticky)
 
   // Sticky: its height on the page (main), which the anchored sections'
   // scroll margin adds (IndexSection) - from 600px up, 0 below.
@@ -123,8 +125,17 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, onAdd,
           gap: 1,
           mb: 3,
           ...PAGE_HEADER_SX,
-          // Under the app bar (64px), on the page's surface, over what scrolls under it.
-          ...(sticky && { position: { sm: 'sticky' }, top: { sm: 64 }, zIndex: { sm: 3 }, py: { sm: 1 }, mt: { sm: -1 }, bgcolor: 'var(--oc-page-surface)' }),
+          // Under the app bar (64px), over what scrolls under it: transparent
+          // at its place in the page, the page's surface once stuck (useStuck).
+          ...(sticky && {
+            position: { sm: 'sticky' },
+            top: { sm: 64 },
+            zIndex: { sm: 3 },
+            py: { sm: 1 },
+            mt: { sm: -1 },
+            bgcolor: stuck ? 'var(--oc-page-surface)' : 'transparent',
+            transition: (theme) => theme.transitions.create('background-color', { duration: theme.sys.motion.duration.standard, easing: theme.sys.motion.easing.standard }),
+          }),
         }}
       >
         {backTo && (
