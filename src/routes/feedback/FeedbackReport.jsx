@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { PAGE_HEADER_SX, PAGE_TITLE_SX } from '@/components/pageTitle.js'
 import { doc, onSnapshot, serverTimestamp, updateDoc } from 'firebase/firestore'
 import { useSelector } from 'react-redux'
 import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, Skeleton, Tooltip, Typography } from '@mui/material'
@@ -219,10 +220,10 @@ export default function FeedbackReport() {
 
   return (
     <div className="oc-feedback-report">
-      <Box className="oc-feedback-report--header" sx={{ display: 'flex', gap: 1, mb: 1 }}>
+      <Box className="oc-feedback-report--header" sx={{ display: 'flex', gap: 1, ...PAGE_HEADER_SX }}>
         {header}
         <Box sx={{ minWidth: 0 }}>
-          <Typography component="h1" variant="h5" sx={{ overflowWrap: 'anywhere', pt: 0.5 }}>
+          <Typography component="h1" sx={{ ...PAGE_TITLE_SX, overflowWrap: 'anywhere' }}>
             {titleOf(report) || t('admin.list.untitled')}
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1, mt: 1 }}>

@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { Box } from '@mui/material'
+import { PAGE_HEADER_SX } from '@/components/pageTitle.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { findScrollParent } from '@/utils/scrollParent.js'
 
 /**
- * An edit page's back button + title row. Above phone width it sticks below
+ * An edit page's back button + title row, a divider under it (as every
+ * page's heading, PAGE_HEADER_SX). Above phone width it sticks below
  * the app bar while the form scrolls (a shadow once it's actually stuck, like
  * StickyActionBar); on phones it scrolls away and AppBar shows the title in
  * the toolbar instead (its data-appbar-page-title). --oc-edit-header-top is
@@ -55,6 +57,8 @@ export default function EditPageHeader({ children }) {
         display: 'flex',
         alignItems: 'center',
         gap: 1,
+        // The divider under a page's heading (PAGE_HEADER_SX), its margin the form's.
+        ...PAGE_HEADER_SX,
         mb: 2,
         ...(!isSmall && {
           position: 'sticky',

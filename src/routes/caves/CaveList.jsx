@@ -71,7 +71,7 @@ export default function CaveList() {
   return (
     <div className="oc-cave-list">
       {/* Its arrow: back to the public list of the caves, this list's /edit counterpart. */}
-      <IndexPageHeader dashboard title={t('caves')} subtitle={!loading && t('caveCount', { count: filtered.length })} backTo="/caves" addTo={`/caves/${newId}/edit`} addLabel={t('newCave')} />
+      <IndexPageHeader title={t('caves')} subtitle={!loading && t('caveCount', { count: filtered.length })} backTo="/caves" addTo={`/caves/${newId}/edit`} addLabel={t('newCave')} />
 
       {loading ? (
         <ListSkeleton rows={10} leading="square" count search grouped card />

@@ -29,6 +29,7 @@ import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
 import { formSectionHeadingProps } from '@/components/formSectionHeading.js'
 import FormSection from '@/components/FormSection.jsx'
 import EditPageHeader from '@/components/EditPageHeader.jsx'
+import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 import SourceSelect from '@/components/SourceSelect.jsx'
 import { COORDINATE_DECIMALS } from '@/config/map.js'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
@@ -397,7 +398,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
         <IconButton onClick={onDone} aria-label={backLabel || t('backToSistemas')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
           <ArrowBackRounded />
         </IconButton>
-        <Typography component="h1" variant="h5" data-appbar-page-title>
+        <Typography component="h1" sx={PAGE_TITLE_SX} data-appbar-page-title>
           {displayName}
         </Typography>
       </EditPageHeader>

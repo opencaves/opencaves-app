@@ -217,7 +217,7 @@ export default function Tasks() {
 
   return (
     <Box className="oc-tasks" sx={{ minHeight: '100%', minWidth: 0 }}>
-      <IndexPageHeader dashboard title={t('title')} subtitle={t('intro')} backTo="/dashboard" />
+      <IndexPageHeader title={t('title')} subtitle={t('intro')} backTo="/dashboard" />
 
       <Tabs className="oc-tasks--tabs" value={tab} onChange={(_, value) => setSearchParams(value === 'closed' ? { tab: 'closed' } : {}, { replace: true })} sx={{ mb: 2 }}>
         <Tab value="open" label={t('openTab', { count: open.length })} />

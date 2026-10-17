@@ -54,7 +54,7 @@ export default function ConnectionList() {
 
   return (
     <div className="oc-connection-list">
-      <IndexPageHeader dashboard title={t('manageSistemaConnections')} subtitle={!loading && t('sistemaConnectionCount', { count: filtered.length })} backTo="/dashboard" addTo="/connections/new/edit" addLabel={t('newSistemaConnection')} />
+      <IndexPageHeader title={t('manageSistemaConnections')} subtitle={!loading && t('sistemaConnectionCount', { count: filtered.length })} backTo="/dashboard" addTo="/connections/new/edit" addLabel={t('newSistemaConnection')} />
 
       {loading ? (
         <ListSkeleton rows={12} leading={null} count search card columns={3} />

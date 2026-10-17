@@ -179,7 +179,7 @@ export default function ErrorReports() {
 
   return (
     <Box className="oc-error-reports" sx={{ minHeight: '100%', minWidth: 0 }}>
-      <IndexPageHeader dashboard title={t('title')} subtitle={t('intro')} backTo="/dashboard" />
+      <IndexPageHeader title={t('title')} subtitle={t('intro')} backTo="/dashboard" />
 
       {failed && (
         <Alert severity="error" sx={{ mb: 2 }}>

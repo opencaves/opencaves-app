@@ -15,6 +15,7 @@ import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import PartialDateField, { isValidPartialDate } from '@/components/PartialDateField.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import EditPageHeader from '@/components/EditPageHeader.jsx'
+import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 import SourceSelect from '@/components/SourceSelect.jsx'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
@@ -177,7 +178,7 @@ export default function ConnectionEdit() {
           </IconButton>
         </Tooltip>
         {/* No "Edit" here (nor in the phone app bar, which shows this): only the document title says it. */}
-        <Typography component="h1" variant="h5" data-appbar-page-title>
+        <Typography component="h1" sx={PAGE_TITLE_SX} data-appbar-page-title>
           {t(isNew ? 'newSistemaConnection' : 'sistemaConnection')}
         </Typography>
       </EditPageHeader>

@@ -17,6 +17,7 @@ import ColorPicker from '@/components/ColorPicker/ColorPicker.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { REFERENCE_DATA_CONFIGS } from './referenceDataConfigs.js'
 import EditPageHeader from '@/components/EditPageHeader.jsx'
+import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import { slugify } from '@/utils/slug.js'
@@ -184,7 +185,7 @@ export default function ReferenceDataItemEdit() {
         <IconButton onClick={goBack} aria-label={t('back')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
           <ArrowBackRounded />
         </IconButton>
-        <Typography component="h1" variant="h5" data-appbar-page-title>
+        <Typography component="h1" sx={PAGE_TITLE_SX} data-appbar-page-title>
           {t(`collections.${collectionName}.${isNew ? 'newItem' : 'title'}`)}
         </Typography>
       </EditPageHeader>

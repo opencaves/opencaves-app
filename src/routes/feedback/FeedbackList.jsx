@@ -203,7 +203,7 @@ export default function FeedbackList() {
   return (
     <div className="oc-feedback-list">
       {/* Members: what the page is for. */}
-      <IndexPageHeader dashboard title={title} subtitle={!isAdmin && <span className="oc-feedback-list--intro">{t('members.intro')}</span>} backTo="/dashboard" />
+      <IndexPageHeader title={title} subtitle={!isAdmin && <span className="oc-feedback-list--intro">{t('members.intro')}</span>} backTo="/dashboard" />
 
       <TextField
         className="oc-feedback-list--search"

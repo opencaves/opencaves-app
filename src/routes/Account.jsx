@@ -171,7 +171,7 @@ export default function Account() {
               {displayName || t('profile')}
             </Typography>
             {user?.email && (
-              <Typography color="text.secondary" sx={{ overflowWrap: 'anywhere' }}>
+              <Typography color="text.secondary" sx={{ overflowWrap: 'anywhere', mt: 1.5 }}>
                 {user.email}
               </Typography>
             )}

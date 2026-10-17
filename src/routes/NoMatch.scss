@@ -142,12 +142,19 @@
 
   .no-match--header {
     text-transform: none;
-    // The page title's size (PAGE_TITLE_SX, components/pageTitle.js): the h5
-    // font on phones, h4 from 600px up.
-    font: var(--mui-font-h5);
+    // Every page's title (PAGE_TITLE_SX, components/pageTitle.js): the h4,
+    // medium weight, its accent bar under it (centred, as the message).
+    font: var(--mui-font-h4);
+    font-weight: 500;
 
-    @media (min-width: 600px) {
-      font: var(--mui-font-h4);
+    &::after {
+      content: '';
+      display: block;
+      width: 56px;
+      height: 4px;
+      margin: 12px auto 0;
+      border-radius: 2px;
+      background-color: var(--mui-palette-secondary-main);
     }
   }
 

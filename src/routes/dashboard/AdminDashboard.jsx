@@ -75,8 +75,8 @@ export default function AdminDashboard() {
   return (
     // In Layout's frame, as every page; its own photo behind it (Layout).
     <Box className="oc-admin-dashboard">
-      {/* The dashboard's title, as its pages' (IndexPageHeader's dashboard look). */}
-      <IndexPageHeader dashboard title={t('title')} />
+      {/* Its title, as every page's (IndexPageHeader). */}
+      <IndexPageHeader title={t('title')} />
 
       {/* Caves with Admin under it, Reference data beside them (one column on a phone: caves, admin, reference data). */}
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, minmax(0, 1fr))' }, gridTemplateAreas: { xs: '"caves" "admin" "reference"', md: '"caves reference" "admin reference"' }, gridTemplateRows: { md: 'auto 1fr' }, gap: 3, alignItems: 'start' }}>
