@@ -57,8 +57,10 @@ export default function SistemaIndex() {
         setQuery={setQuery}
         placeholder={t('search.sistemasShort')}
         label={t('search.sistemas')}
-        // Its count, by area (the caves' list is in the menu), under the field until a search's results.
-        status={searching ? (sistemas.length ? t('search.results', { count: sistemas.length }) : t('search.none', { query: searchedQuery })) : t('sistemas.subtitle', { count: data.sistemas.length })}
+        status={searching ? (sistemas.length ? t('search.results', { count: sistemas.length }) : t('search.none', { query: searchedQuery })) : null}
+        // Its count, by area (the caves' list is in the menu), under the field
+        // (not sticky) - a search's results instead while searching.
+        count={!searching && t('sistemas.subtitle', { count: data.sistemas.length })}
       />
 
       {groups.slice(0, shownGroups).map(({ area, items, rows: groupRows }) => (

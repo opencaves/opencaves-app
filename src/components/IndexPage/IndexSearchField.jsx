@@ -115,21 +115,24 @@ export function SearchStatus({ children }) {
 }
 
 /**
- * The search field above an index page's list, and its result line
- * (status), kept in view below the app bar while the list scrolls by. Only
+ * The search field above an index page's list, kept in view below the app
+ * bar while the list scrolls by; under it, in the page's flow (scrolling
+ * away with the list), its result line (status) or else the list's count
+ * ({@link SearchStatus}). Only
  * the field itself is opaque (the list passes under it around the field).
  *
  * @param {object} props
  * @param {string} props.query
  * @param {(query: string) => void} props.setQuery
  * @param {string} [props.placeholder]
- * @param {import('react').ReactNode} [props.status] - The results line under it.
+ * @param {import('react').ReactNode} [props.status] - The results line under it (a search's, the filters').
+ * @param {import('react').ReactNode} [props.count] - The list's count, shown there when there's no status.
  * @param {string} [props.label] - Its accessible name, when the placeholder is shorter (cut on phones).
  */
-export default function IndexSearchField({ query, setQuery, placeholder, label, status }) {
+export default function IndexSearchField({ query, setQuery, placeholder, label, status, count }) {
   const { t } = useTranslation('indexPages')
   // Its height, for what sticks under it (IndexSection's stickyTitle):
-  // --oc-index-search-height, with the result line when it shows.
+  // --oc-index-search-height (the field alone: its result line scrolls away).
   const barRef = useRef(null)
   useEffect(() => {
     const bar = barRef.current
@@ -143,6 +146,7 @@ export default function IndexSearchField({ query, setQuery, placeholder, label, 
     }
   }, [])
   return (
+    <>
     <Box
       ref={barRef}
       className="oc-index-search-field--bar"
@@ -184,11 +188,8 @@ export default function IndexSearchField({ query, setQuery, placeholder, label, 
         },
       }}
     />
-    {status && (
-      <Typography className="oc-index-search-field--status" variant="body2" sx={{ mt: 1, color: 'text.secondary' }}>
-        {status}
-      </Typography>
-    )}
     </Box>
+    {(status || count) && <SearchStatus>{status || count}</SearchStatus>}
+    </>
   )
 }

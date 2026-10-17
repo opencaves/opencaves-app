@@ -135,9 +135,10 @@ export default function CaveIndex() {
         setQuery={setQuery}
         placeholder={t('search.cavesShort')}
         label={t('search.caves')}
-        // A search's results, the filters' count, else the caves' count, by area
-        // (short: the systems' list is in the menu) - under the field.
-        status={searching ? (caves.length ? t('search.results', { count: caves.length }) : t('search.none', { query: searchedQuery })) : filtered ? t('caves.filters.count', { count: caves.length }) : t('caves.subtitle', { count: data.caves.length })}
+        status={searching ? (caves.length ? t('search.results', { count: caves.length }) : t('search.none', { query: searchedQuery })) : filtered ? t('caves.filters.count', { count: caves.length }) : null}
+        // The caves' count, by area (short: the systems' list is in the menu),
+        // under the field (not sticky) - a search's or the filters' count instead.
+        count={!searching && !filtered && t('caves.subtitle', { count: data.caves.length })}
       />
 
       <CaveFilterBar filters={filters} options={options} onToggle={onToggle} onClear={() => setFilters(emptyCaveFilters())} countWith={countWith} />
