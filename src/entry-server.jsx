@@ -13,6 +13,7 @@ import { createServerStore } from './redux/store.server.jsx'
 import { setServerContext } from './ssr/ssrContext.js'
 import { buildPageState, fullPageData, pageOf } from './ssr/pageState.js'
 import { monthOf } from './utils/caveReview.js'
+import HERO_PHOTOS from './config/heroPhotos.json'
 import { converter as caveAssetConverter } from './models/CaveAsset.js'
 import { isTrashed } from './utils/trash.js'
 
@@ -36,14 +37,32 @@ const attribute = (value) => String(value).replace(/&/g, '&amp;').replace(/"/g, 
  * A cave's page: its cover photo's <link rel="preload">, as its <picture>
  * asks for it (CavePage's CaveCover: the same sources, CORS, high priority) -
  * the page's largest paint, fetched before the page's stylesheets and code
- * are in. '' for another page, or a cave without a cover.
+ * are in; the landing page: its header photo's (heroPhoto, from
+ * config/heroPhotos.json: Home.jsx's
+ * <picture>, 1024 px below MUI's md, 1536 from it). '' for another page, or
+ * none to preload.
  *
  * @param {{kind: string, id?: string}} page - {@link pageOf}'s.
  * @param {object} queries - buildPageState's query results.
  * @param {string} hostname - The request's (the emulators' file addresses on localhost).
+ * @param {string} [heroPhoto] - The landing page's header photo: an id of config/heroPhotos.json.
  * @returns {string}
  */
-export function coverPreload(page, queries, hostname) {
+export function coverPreload(page, queries, hostname, heroPhoto) {
+  if (page.kind === 'home') {
+    const hero = heroPhoto && HERO_PHOTOS.find(({ id }) => id === heroPhoto)
+    if (!hero) return ''
+    setServerContext({ hostname })
+    try {
+      const asset = caveAssetConverter.fromFirestore({ id: hero.id, data: () => ({ type: 'image', ...hero }) })
+      return [
+        ['1024', '(max-width: 899.98px)'],
+        ['1536', '(min-width: 900px)'],
+      ].map(([size, media]) => `<link rel="preload" as="image" href="${attribute(asset.getThumbnailUrl(size))}" media="${media}" fetchpriority="high" crossorigin="anonymous">`).join('')
+    } finally {
+      setServerContext(null)
+    }
+  }
   if (page.kind !== 'cave') return ''
   const cover = (queries[`cover:${page.id}`] || []).find(({ data }) => !isTrashed(data))
   if (!cover) return ''
@@ -106,6 +125,10 @@ export async function render({ url, raw, maps, documents, assets, covers, caveRe
   // The month the caves' confirmations' age is counted in (useReviewMonth):
   // the browser hydrates with the same.
   const month = monthOf()
+  // The landing page's header photo, one of config/heroPhotos.json at random
+  // (Home.jsx's useHeroPhoto): the browser hydrates with the same, preloaded
+  // (coverPreload). It changes with the page's cache (an hour).
+  const heroPhoto = page.kind === 'home' && HERO_PHOTOS.length ? HERO_PHOTOS[Math.floor(Math.random() * HERO_PHOTOS.length)].id : undefined
 
   // The page drawn with pageData (state.data's shape, useCaveData), and the
   // Emotion styles it used.
@@ -118,7 +141,7 @@ export async function render({ url, raw, maps, documents, assets, covers, caveRe
     // extracting (compat), instead of writing them in the HTML.
     const emotionServer = createEmotionServer(cache)
     // One page at a time: rendering is synchronous, the context set around it.
-    setServerContext({ hostname, queries, month, data: { path: pathname, data: pageData } })
+    setServerContext({ hostname, queries, month, heroPhoto, data: { path: pathname, data: pageData } })
     try {
       return {
         emotionServer,
@@ -165,7 +188,7 @@ export async function render({ url, raw, maps, documents, assets, covers, caveRe
     html,
     styles,
     // Resource hints for the page's <head> (functions/js/seo/shared.js).
-    preloads: coverPreload(page, queries, hostname),
+    preloads: coverPreload(page, queries, hostname, heroPhoto),
     status: context.statusCode,
     // How long each part took (ms), for the function's logs.
     timings: { data: Math.round(dataReady - started), render: Math.round(rendered - renderStarted), check: Math.round(checked - rendered), styles: Math.round(performance.now() - checked) },
@@ -176,6 +199,7 @@ export async function render({ url, raw, maps, documents, assets, covers, caveRe
       data: pageData,
       queries,
       month,
+      heroPhoto,
       router: { loaderData: context.loaderData, actionData: context.actionData, errors: context.errors },
     },
   }

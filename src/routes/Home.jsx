@@ -16,7 +16,8 @@ import { homeFeatured, homeFigures } from '@/utils/indexData.js'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 import SiteSearch from '@/components/IndexPage/SiteSearch.jsx'
 import CaveAsset, { converter as caveAssetConverter } from '@/models/CaveAsset.js'
-import { ssrQuerySnapshot } from '@/ssr/ssrContext.js'
+import { isHydrating, ssrHeroPhoto, ssrQuerySnapshot } from '@/ssr/ssrContext.js'
+import HERO_PHOTOS from '@/config/heroPhotos.json'
 import { prefetchMap } from '@/routes/mapRoute.js'
 import { resetView } from '@/redux/slices/mapSlice.jsx'
 import { LanguageButton } from '@/components/LanguagePicker.jsx'
@@ -24,8 +25,6 @@ import CaveIcon from '@/images/map/cave.svg?react'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
 // The logo's version for dark backgrounds (the header's photo).
 import Logo from '@/images/logo/brand_dark.svg?react'
-import heroBackground from '@/images/404/bg.webp'
-import heroBackgroundSmall from '@/images/404/bg-small.webp'
 import { openAboutDialog } from '@/utils/aboutDialog.js'
 import './Home.scss'
 import { CHANGELOG_URL, GITHUB_URL } from '@/config/app.js'
@@ -66,31 +65,43 @@ function IconBadge({ children, size = 48 }) {
   )
 }
 
-// The caves' cover photos (Discover's cards), and one of them at random for
-// the header's background, picked once the page is in the browser. On the
-// page the server rendered, the covers it sent (ssr/pageState.js), there from
-// the first render: no Firestore, which the page doesn't load until the
-// person does something (utils/loadFirebase.js).
+// The caves' cover photos (Discover's cards). On the page the server
+// rendered, the covers it sent (ssr/pageState.js), there from the first
+// render: no Firestore, which the page doesn't load until the person does
+// something (utils/loadFirebase.js).
 function useCovers() {
   // Read while the page hydrates (offered then only).
   const [serverCovers] = useState(() => ssrQuerySnapshot('covers', caveAssetConverter)?.docs.map((d) => d.data()))
   const [covers, setCovers] = useState(serverCovers || null)
-  const [heroPhoto, setHeroPhoto] = useState(null)
   useEffect(() => {
     let cancelled = false
     const load = serverCovers ? Promise.resolve(serverCovers) : CaveAsset.getAllCoverImages()
     load
       .then((all) => {
-        if (cancelled) return
-        setCovers(all)
-        setHeroPhoto(all[Math.floor(Math.random() * all.length)] || null)
+        if (!cancelled) setCovers(all)
       })
       .catch((error) => console.error(error))
     return () => {
       cancelled = true
     }
   }, [])
-  return { covers, heroPhoto }
+  return covers
+}
+
+// The header's photo: one of the list built into the app
+// (config/heroPhotos.json, scripts/hero-photos.js), known from the first
+// render - so it's never swapped for another once shown. The server's page:
+// the one the server picked (ssrHeroPhoto), the browser hydrating with the
+// same; the app's own copy (a visit after the first, offline): one at random,
+// at once. Null with an empty list (the header keeps its dark tone).
+function useHeroPhoto() {
+  const [photo] = useState(() => {
+    if (!HERO_PHOTOS.length) return null
+    const picked = HERO_PHOTOS.find(({ id }) => id === ssrHeroPhoto())
+    if (picked || import.meta.env.SSR || isHydrating()) return picked || null
+    return HERO_PHOTOS[Math.floor(Math.random() * HERO_PHOTOS.length)]
+  })
+  return photo ? caveAssetConverter.fromFirestore({ id: photo.id, data: () => ({ type: 'image', ...photo }) }) : null
 }
 
 // The landing page's featured caves and systems (homeFeatured): the server's,
@@ -128,7 +139,8 @@ export default function Home() {
   // every cave: src/ssr/pageState.js), until the store has the data.
   const { figures: serverFigures } = useCaveData()
   const figures = useMemo(() => serverFigures || homeFigures(data), [serverFigures, data])
-  const { covers, heroPhoto } = useCovers()
+  const covers = useCovers()
+  const heroPhoto = useHeroPhoto()
   const featured = useFeatured(data, partial, covers)
   const coversById = useMemo(() => new Map((covers || []).map((cover) => [cover.id, cover])), [covers])
   const discover = (featured?.discover || []).filter(({ assetId }) => coversById.has(assetId))
@@ -161,11 +173,9 @@ export default function Home() {
           borderRadius: 3,
           overflow: 'hidden',
           color: '#fff',
-          // The site's own photo until the cave's loads; smaller on small
-          // screens (the 4160 px backdrop on a phone).
-          backgroundImage: { xs: `url(${heroBackgroundSmall})`, md: `url(${heroBackground})` },
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          // A dark tone, painted at once, under its photo (useHeroPhoto) as
+          // it loads: never the light page showing through the shade.
+          backgroundColor: '#1c1e1f',
           px: { xs: 3, sm: 6, md: 8 },
           py: { xs: 6, sm: 9, md: 11 },
           // The content above the photo and its shade.
@@ -175,11 +185,12 @@ export default function Home() {
         {/* The cave's photo as an image, not a CSS background: a background is
             fetched without CORS, and that copy (kept by the service worker)
             broke the same file in the photo viewer, which asks for it with
-            CORS. 1024 on small screens, 1536 from md (900 px) up. */}
+            CORS. 1024 on small screens, 1536 from md (900 px) up; the server's
+            page preloads it (entry-server.jsx's coverPreload). */}
         {heroPhoto && (
           <picture className="oc-home--hero-photo" aria-hidden="true">
             <source media="(min-width: 900px)" srcSet={heroPhoto.getThumbnailUrl('1536')} />
-            <Box component="img" src={heroPhoto.getThumbnailUrl('1024')} alt="" crossOrigin="anonymous" sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+            <Box component="img" src={heroPhoto.getThumbnailUrl('1024')} alt="" crossOrigin="anonymous" fetchPriority="high" sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
           </picture>
         )}
         <Box className="oc-home--hero-shade" aria-hidden="true" sx={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(110deg, rgba(4, 22, 32, 0.92) 0%, rgba(4, 22, 32, 0.7) 45%, rgba(4, 22, 32, 0.25) 100%)' }} />
