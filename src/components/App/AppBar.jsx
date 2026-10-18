@@ -58,6 +58,12 @@ const MAP_ICON_SX = (theme) => ({ '& .MuiButton-startIcon': { color: theme.vars.
 // container color once the page scrolls under it (M3's on-scroll state).
 const APP_BAR_TOOLBAR_SX = { '&&': { minHeight: 64 }, px: { xs: 0.5, sm: 3 } }
 
+// What only phones and small tablets show (below MUI's md: the drawer's
+// layout), and what only wider screens do - by CSS, so the server's page is
+// right on any screen.
+const PHONE_ONLY = { display: { md: 'none' } }
+const WIDE_ONLY_FLEX = { xs: 'none', md: 'flex' }
+
 /**
  * The app bar: the logo and the app's name (or, on phones, a page's title
  * scrolled away, with its back arrow), the site's links on wider screens -
@@ -81,7 +87,11 @@ export default function AppBar() {
   const { t: tApp } = useTranslation('app')
   const { t: tTours } = useTranslation('tours')
   const theme = useTheme()
-  const isSmall = useSmall(theme.breakpoints.down('md'))
+  // Phones and small tablets (below MUI's md) get the drawer's layout: a menu
+  // button, one account button; wider screens the links and the auth
+  // buttons. Both are in the page, CSS showing one (PHONE_ONLY, WIDE_ONLY_FLEX):
+  // the server can't know the screen, and drew the wide bar on phones until
+  // the app had measured it.
   // Phones only: once the page's heading scrolls under the bar, the bar shows
   // it. Wider screens keep an edit page's own header in view instead
   // (EditPageHeader, sticky).
@@ -169,11 +179,9 @@ export default function AppBar() {
         })}
       >
         <Toolbar sx={APP_BAR_TOOLBAR_SX}>
-          {isSmall && (
-            <IconButton className="oc-app-bar--menu" color="inherit" aria-label={t('drawer.ariaLabel')} onClick={handleDrawerToggle} sx={{ p: 1.5, mr: { xs: 0.5, sm: 2 } }}>
-              <MenuRounded />
-            </IconButton>
-          )}
+          <IconButton className="oc-app-bar--menu" color="inherit" aria-label={t('drawer.ariaLabel')} onClick={handleDrawerToggle} sx={{ ...PHONE_ONLY, p: 1.5, mr: { xs: 0.5, sm: 2 } }}>
+            <MenuRounded />
+          </IconButton>
 
           {/* Same destination as the title link beside it: hidden from
               assistive tech and the tab order instead of a second,
@@ -237,8 +245,8 @@ export default function AppBar() {
           {/* Centred on the bar's height, links and buttons alike (the links
               sat 4 px higher than the buttons on the right). */}
           <Grid container sx={{ flexWrap: 'nowrap', flex: '1 1 auto', minWidth: 'fit-content', alignItems: 'center' }}>
-            {!isSmall && (
-              <Grid className="oc-app-bar--nav" sx={{ mr: 1, display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            {(
+              <Grid className="oc-app-bar--nav" sx={{ mr: 1, display: WIDE_ONLY_FLEX, alignItems: 'center', gap: 0.5 }}>
                 {barItems.map(({ key, to, icon, onClick }) => (
                   <Fragment key={key}>
                     {/* The guided tours (a dialog listing them), before
@@ -266,12 +274,12 @@ export default function AppBar() {
               }}
             >
               <AppBarSearch />
-              {!isLoggedIn && isSmall && (
+              {!isLoggedIn && (
                 // Phones and small tablets (the drawer's layout): one account
                 // button opening Log in and Sign up, beside the search.
                 <>
                   <Tooltip title={t('signInMenu')}>
-                    <IconButton color="inherit" aria-label={t('signInMenu')} aria-haspopup="menu" aria-expanded={signInMenuAnchor ? 'true' : undefined} aria-controls={signInMenuAnchor ? 'oc-app-bar-sign-in-menu' : undefined} onClick={(event) => setSignInMenuAnchor(event.currentTarget)} sx={{ p: 1.5 }}>
+                    <IconButton className="oc-app-bar--sign-in" color="inherit" aria-label={t('signInMenu')} aria-haspopup="menu" aria-expanded={signInMenuAnchor ? 'true' : undefined} aria-controls={signInMenuAnchor ? 'oc-app-bar-sign-in-menu' : undefined} onClick={(event) => setSignInMenuAnchor(event.currentTarget)} sx={{ ...PHONE_ONLY, p: 1.5 }}>
                       <AccountCircleRounded />
                     </IconButton>
                   </Tooltip>
@@ -287,8 +295,8 @@ export default function AppBar() {
                   </Menu>
                 </>
               )}
-              {!isLoggedIn && !isSmall && (
-                <Box className="oc-app-bar--auth" sx={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+              {!isLoggedIn && (
+                <Box className="oc-app-bar--auth" sx={{ display: WIDE_ONLY_FLEX, alignItems: 'center', flexShrink: 0 }}>
                   {/* MD3's 40dp buttons; the last 12px from the bar's end. */}
                   {/* MD3's text and outlined buttons, in the bar's action color. */}
                   <Button variant="text" component={Link} to="/login" onClick={captureContinueUrl} sx={{ height: 40, whiteSpace: 'nowrap', color: 'var(--oc-app-bar-action)' }}>
@@ -299,8 +307,8 @@ export default function AppBar() {
                   </Button>
                 </Box>
               )}
-              {canAccessDashboard && !isSmall && (
-                <Button className="oc-app-bar--dashboard" component={Link} to="/dashboard" startIcon={dashboardItem.icon} aria-current={current('/dashboard')} sx={[NAV_LINK_SX, { mr: 1 }]}>
+              {canAccessDashboard && (
+                <Button className="oc-app-bar--dashboard" component={Link} to="/dashboard" startIcon={dashboardItem.icon} aria-current={current('/dashboard')} sx={[NAV_LINK_SX, { mr: 1, display: WIDE_ONLY_FLEX }]}>
                   {t('admin', { name: APP_NAME })}
                 </Button>
               )}
@@ -324,7 +332,8 @@ export default function AppBar() {
           </Grid>
         </Toolbar>
       </MUIAppBar>
-      {isSmall && <NavDrawer open={mobileOpen} onClose={() => setMobileOpen(false)} />}
+      {/* Opened by the menu button only (phones). */}
+      <NavDrawer open={mobileOpen} onClose={() => setMobileOpen(false)} />
       {/* The bar's room at the top of the page. */}
       <Toolbar sx={APP_BAR_TOOLBAR_SX} />
     </>
