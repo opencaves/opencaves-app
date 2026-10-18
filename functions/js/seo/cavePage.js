@@ -1,6 +1,7 @@
 import { onRequest } from 'firebase-functions/v2/https'
 import { logger } from 'firebase-functions/v2'
-import { REGION, CAVES_COLL_NAME, CAVE_RATINGS_COLL_NAME } from '../constants.js'
+import { REGION, CAVES_ASSETS_COLL_NAME, CAVES_COLL_NAME, CAVE_RATINGS_COLL_NAME } from '../constants.js'
+import { emptyCave } from '../sitemap/sitemap.js'
 import { db } from '../init.js'
 import { REGION_BBOX, SITE_URL, TITLE_NAME } from '../constants.js'
 import { TITLE_WORDS, escapeHtml, jsonLdScript, plainParagraphs, renderPage, sendHtml, shareImageOf, shellFor, truncate } from './shared.js'
@@ -167,7 +168,9 @@ export const cavePage = onRequest({ region: REGION }, async (req, res) => {
   res.set('Cache-Control', 'public, max-age=300, s-maxage=3600')
   const cave = snapshot.data()
   let sistema = null
-  const [rating, sistemaSlugs] = await Promise.all([readCaveRating(id), cave.sistemaId ? loadSistemaSlugs() : null])
+  const [rating, sistemaSlugs, photos] = await Promise.all([readCaveRating(id), cave.sistemaId ? loadSistemaSlugs() : null, db.collection(CAVES_ASSETS_COLL_NAME).where('caveId', '==', id).limit(20).get()])
+  // A cave with nothing on it: not for search engines (emptyCave).
+  if (emptyCave(cave, photos.docs.some((doc) => !doc.get('deletedAt')))) res.set('X-Robots-Tag', 'noindex')
   if (sistemaSlugs?.names.has(cave.sistemaId)) sistema = { name: sistemaSlugs.names.get(cave.sistemaId), slug: sistemaSlugs.slugs.get(cave.sistemaId) }
   sendHtml(req, res, cavePageHtml(shell, cave, id, sistema, `/map/${id}`, rating))
 })

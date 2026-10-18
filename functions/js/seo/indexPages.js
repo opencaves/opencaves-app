@@ -3,7 +3,8 @@ import { logger } from 'firebase-functions/v2'
 import { REGION, GITHUB_URL, SITE_URL, TITLE_NAME } from '../constants.js'
 import { cavePageMeta, readCaveRating } from './cavePage.js'
 import { sistemaJsonLd } from './structuredData.js'
-import { loadPageIndex, loadSsr, renderWithApp } from './ssr.js'
+import { caveHasPhoto, loadPageIndex, loadSsr, renderWithApp } from './ssr.js'
+import { emptyCave } from '../sitemap/sitemap.js'
 import { TITLE_WORDS, decodeSegment, plainParagraphs, renderPage, sendHtml, shareImageOf, shellFor, truncate } from './shared.js'
 import { sistemaPageTitle } from './pageTitles.js'
 import { answerWarmPing, isWarmPing } from './keepWarm.js'
@@ -237,6 +238,8 @@ export const indexPages = onRequest({ region: REGION, memory: '512MiB' }, async 
       sendHtml(req, res, await notFoundShell(req), 404)
       return
     }
+    // A cave's page with nothing on it: not for search engines (emptyCave).
+    if (page?.cave && emptyCave(data.cavesById.get(page.cave), await caveHasPhoto(page.cave))) res.set('X-Robots-Tag', 'noindex')
     const { html, rendered } = await pageHtml(req, meta)
     // As the cave page: short in browsers, an hour at the CDN edge. A page
     // the app couldn't render isn't kept: during a deploy (the functions and

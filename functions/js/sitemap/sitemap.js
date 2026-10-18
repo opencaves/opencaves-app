@@ -63,17 +63,35 @@ const hasItems = (value) => Array.isArray(value) && value.length > 0
 
 /**
  * Whether a cave's page is listed in the sitemap: documented - a photo, a
- * description, directions or Further reading. The others (a name and coordinates at most)
- * stay reachable by links (the lists, the home page, Nearby caves) and
- * indexable, but search engines' first reads go to the pages that can rank;
- * a cave enters the sitemap as soon as one of these is added.
+ * description or Further reading (a line of directions alone isn't enough:
+ * Google turned such near-empty pages down). The others stay reachable by
+ * links (the lists, the home page, Nearby caves) and indexable - found by
+ * their own names - but search engines' first reads go to the pages that can
+ * rank; a cave enters the sitemap as soon as one of these is added.
  *
- * @param {{description?: string, direction?: string, documents?: string[]}} cave
+ * @param {{description?: string, documents?: string[]}} cave
  * @param {boolean} hasPhoto - It has a photo outside the trash.
  * @returns {boolean}
  */
 export function listedCave(cave, hasPhoto) {
-  return hasPhoto || hasText(cave.description) || hasText(cave.direction) || hasItems(cave.documents)
+  return hasPhoto || hasText(cave.description) || hasItems(cave.documents)
+}
+
+/**
+ * Whether a cave's page has nothing for anyone: no coordinates, no text (a
+ * description, directions, access details), no photo, no Further reading -
+ * a name known from a map or a book. Its pages (/caves/<id>, /map/<id>) are
+ * sent with an X-Robots-Tag: noindex header (an HTTP header: the app's own
+ * robots tag can't take it back); it's lifted as soon as one of these is
+ * added.
+ *
+ * @param {{location?: {latitude?: number}, description?: string, direction?: string, accessDetails?: string, accessibilityDetails?: string, documents?: string[]}} cave
+ * @param {boolean} hasPhoto - It has a photo outside the trash.
+ * @returns {boolean}
+ */
+export function emptyCave(cave, hasPhoto) {
+  if (hasPhoto || cave.location?.latitude != null) return false
+  return ![cave.description, cave.direction, cave.accessDetails, cave.accessibilityDetails].some(hasText) && !hasItems(cave.documents)
 }
 
 /**

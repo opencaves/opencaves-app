@@ -111,6 +111,18 @@ let dataCache = null
 const RENDERED_MAX = 40
 const rendered = new Map()
 
+/**
+ * Whether a cave has a photo outside the trash: its cover (every cave with
+ * photos has one), from the data the renderer reads (cached).
+ *
+ * @param {string} caveId
+ * @returns {Promise<boolean>}
+ */
+export async function caveHasPhoto(caveId) {
+  const { covers } = await readData()
+  return covers.some(({ data }) => data.caveId === caveId && !data.deletedAt)
+}
+
 async function readData() {
   if (dataCache && Date.now() - dataCache.at < DATA_TTL_MS) return dataCache.data
   const [entries, mapsSnap, documentsSnap, coversSnap, popularitySnap] = await Promise.all([
