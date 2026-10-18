@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.4.2](https://github.com/opencaves/opencaves-app/compare/v1.4.1...v1.4.2) (2026-10-18)
+
+A steadier first look on phones, and search engines pointed at the pages worth reading.
+
+
+### Changes
+
+* **The landing page's header photo** shows from the first moment and stays: a cave's photo built into the site (a new one each release), no longer a placeholder replaced a few seconds later. Returning visitors get it at once, offline too.
+* **On phones**, the app bar has its phone layout from the start, instead of the computer one for a few seconds.
+* **Search engines:** the sitemap lists the caves with a photo, a description or Further reading; a cave with nothing on it yet (no position, text or photo) isn't offered to them until it has something.
+
+### For the team
+
+* `scripts/hero-photo.js` picks the release's header photo (run before each release's build); the maintenance guide says "Audits", the page's title.
+
 ## [1.4.1](https://github.com/opencaves/opencaves-app/compare/v1.4.0...v1.4.1) (2026-10-17)
 
 A fix for the app's update message.
