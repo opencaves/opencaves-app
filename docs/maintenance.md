@@ -735,16 +735,17 @@ firebase deploy --only firestore:rules,firestore:indexes   # security rules, ind
 
 A deploy uploads the working copy, including uncommitted changes.
 
-Before a release's build, refresh the landing page's header photos: the
-most visited caves' landscape cover photos, built into the app so the
-header shows one at random from its first paint and never swaps it
-(`src/config/heroPhotos.json`, read by `Home.jsx`; the server picks one for
-its page, the browser hydrates with the same). Commit the file if it
-changed:
+Before a release's build, pick the landing page's header photo for that
+release: one of the most visited caves' landscape cover photos, at random
+(`--id=<photo id>` for a given one), downloaded into the app
+(`src/images/hero/`: `hero-small.webp` 1024 px, `hero.webp` 1536 px,
+`hero.json` naming the photo). It's part of the site itself: preloaded with
+the server's page and stored with the app by the service worker, so it shows
+from the first paint and is never swapped. Commit the files:
 
 ```
-node scripts/hero-photos.js -p --dry-run    # the 12 photos production would give
-node scripts/hero-photos.js -p --write      # write them into src/config/heroPhotos.json
+node scripts/hero-photo.js -p --dry-run    # the candidates, and the pick
+node scripts/hero-photo.js -p --write      # download it into src/images/hero/
 ```
 
 `npm run build` also builds the server rendering of the public pages (`/`,

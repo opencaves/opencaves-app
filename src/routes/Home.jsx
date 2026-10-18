@@ -16,8 +16,9 @@ import { homeFeatured, homeFigures } from '@/utils/indexData.js'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 import SiteSearch from '@/components/IndexPage/SiteSearch.jsx'
 import CaveAsset, { converter as caveAssetConverter } from '@/models/CaveAsset.js'
-import { isHydrating, ssrHeroPhoto, ssrQuerySnapshot } from '@/ssr/ssrContext.js'
-import HERO_PHOTOS from '@/config/heroPhotos.json'
+import { ssrQuerySnapshot } from '@/ssr/ssrContext.js'
+import heroPhotoSmall from '@/images/hero/hero-small.webp'
+import heroPhoto from '@/images/hero/hero.webp'
 import { prefetchMap } from '@/routes/mapRoute.js'
 import { resetView } from '@/redux/slices/mapSlice.jsx'
 import { LanguageButton } from '@/components/LanguagePicker.jsx'
@@ -88,22 +89,6 @@ function useCovers() {
   return covers
 }
 
-// The header's photo: one of the list built into the app
-// (config/heroPhotos.json, scripts/hero-photos.js), known from the first
-// render - so it's never swapped for another once shown. The server's page:
-// the one the server picked (ssrHeroPhoto), the browser hydrating with the
-// same; the app's own copy (a visit after the first, offline): one at random,
-// at once. Null with an empty list (the header keeps its dark tone).
-function useHeroPhoto() {
-  const [photo] = useState(() => {
-    if (!HERO_PHOTOS.length) return null
-    const picked = HERO_PHOTOS.find(({ id }) => id === ssrHeroPhoto())
-    if (picked || import.meta.env.SSR || isHydrating()) return picked || null
-    return HERO_PHOTOS[Math.floor(Math.random() * HERO_PHOTOS.length)]
-  })
-  return photo ? caveAssetConverter.fromFirestore({ id: photo.id, data: () => ({ type: 'image', ...photo }) }) : null
-}
-
 // The landing page's featured caves and systems (homeFeatured): the server's,
 // on the page it rendered; else picked here from the cave data, the covers
 // and the caves' visit counts (the server's while its check render runs,
@@ -140,7 +125,6 @@ export default function Home() {
   const { figures: serverFigures } = useCaveData()
   const figures = useMemo(() => serverFigures || homeFigures(data), [serverFigures, data])
   const covers = useCovers()
-  const heroPhoto = useHeroPhoto()
   const featured = useFeatured(data, partial, covers)
   const coversById = useMemo(() => new Map((covers || []).map((cover) => [cover.id, cover])), [covers])
   const discover = (featured?.discover || []).filter(({ assetId }) => coversById.has(assetId))
@@ -173,8 +157,8 @@ export default function Home() {
           borderRadius: 3,
           overflow: 'hidden',
           color: '#fff',
-          // A dark tone, painted at once, under its photo (useHeroPhoto) as
-          // it loads: never the light page showing through the shade.
+          // A dark tone, painted at once, under its photo as it loads:
+          // never the light page showing through the shade.
           backgroundColor: '#1c1e1f',
           px: { xs: 3, sm: 6, md: 8 },
           py: { xs: 6, sm: 9, md: 11 },
@@ -182,17 +166,16 @@ export default function Home() {
           '& > :not(.oc-home--hero-photo, .oc-home--hero-shade)': { position: 'relative', zIndex: 1 },
         }}
       >
-        {/* The cave's photo as an image, not a CSS background: a background is
-            fetched without CORS, and that copy (kept by the service worker)
-            broke the same file in the photo viewer, which asks for it with
-            CORS. 1024 on small screens, 1536 from md (900 px) up; the server's
-            page preloads it (entry-server.jsx's coverPreload). */}
-        {heroPhoto && (
-          <picture className="oc-home--hero-photo" aria-hidden="true">
-            <source media="(min-width: 900px)" srcSet={heroPhoto.getThumbnailUrl('1536')} />
-            <Box component="img" src={heroPhoto.getThumbnailUrl('1024')} alt="" crossOrigin="anonymous" fetchPriority="high" sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-          </picture>
-        )}
+        {/* Its photo, a cave's, built into the app (src/images/hero/,
+            scripts/hero-photo.js: picked at each release): the same on every
+            path, preloaded with the server's page (functions/js/seo/ssr.js'
+            PAGE_IMAGES) and stored with the app by the service worker
+            (vite.config.js) - from the first paint, never swapped. 1024 px on
+            small screens, 1536 from md (900 px) up. */}
+        <picture className="oc-home--hero-photo" aria-hidden="true">
+          <source media="(min-width: 900px)" srcSet={heroPhoto} />
+          <Box component="img" src={heroPhotoSmall} alt="" fetchPriority="high" sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+        </picture>
         <Box className="oc-home--hero-shade" aria-hidden="true" sx={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(110deg, rgba(4, 22, 32, 0.92) 0%, rgba(4, 22, 32, 0.7) 45%, rgba(4, 22, 32, 0.25) 100%)' }} />
         {/* The logo reads "Open Caves": its name, for screen readers and search engines. */}
         <Box className="oc-home--logo" role="img" aria-label={t('logoAlt')} sx={{ width: { xs: 140, sm: 180 }, mb: 3, filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.4))', '& svg': { display: 'block', width: '100%', height: 'auto' } }}>

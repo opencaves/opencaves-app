@@ -390,7 +390,7 @@ export default defineConfig(({ isSsrBuild }) => ({
         // And the pages' background photos (the layout's, the dashboard's,
         // the lists', the error pages' - ~1.4 MB): every page, the "You're
         // offline" one included, shows its photo offline, even never seen.
-        globPatterns: ['**/*.{js,css,html,woff,woff2}', '**/{error-bg,bg}-*.webp'],
+        globPatterns: ['**/*.{js,css,html,woff,woff2}', '**/{error-bg,bg,hero,hero-small}-*.webp'],
         // The source maps (build.sourcemap): for the browser's tools only.
         // And pdf.js with its worker: only for editors adding a PDF, online.
         globIgnores: ['**/*.map', '**/pdfjs-*.js', '**/pdf.worker*'],

@@ -60,18 +60,6 @@ export function ssrMonth() {
 }
 
 /**
- * The landing page's header photo the server picked (entry-server.jsx: an id
- * of config/heroPhotos.json, at random), or undefined (not a server-rendered landing
- * page): the browser hydrates with the same, from the first paint.
- *
- * @returns {string|undefined}
- */
-export function ssrHeroPhoto() {
-  if (import.meta.env.SSR) return serverContext?.heroPhoto
-  return window.__OC_SSR__?.heroPhoto
-}
-
-/**
  * Whether the address pathname is the server-rendered page at path, or one of
  * its galleries over it (/caves/<id>/photos/<mediaId>, .../maps/<mapId>) -
  * the page stays drawn under them. Not its edit forms (.../edit), which need

@@ -42,11 +42,24 @@ export function loadSsr() {
   return loaded
 }
 
+// The images a page shows at once, preloaded at high priority before its
+// stylesheets (by its route's source file; each by its source in the build's
+// manifest, for its built address, and the screens it's for): the landing
+// page's header photo (Home.jsx's <picture>: 1024 px below MUI's md, 1536
+// from it).
+const PAGE_IMAGES = {
+  'src/routes/Home.jsx': [
+    { src: 'src/images/hero/hero-small.webp', media: '(max-width: 899.98px)' },
+    { src: 'src/images/hero/hero.webp', media: '(min-width: 900px)' },
+  ],
+}
+
 // The <link>s a page needs from the start, by its kind (entry-server.jsx's
-// ROUTE_MODULES: its route's source file): the app's stylesheets (render
-// blocking: the page shows styled at once - the app's shell otherwise adds
-// them after its first paint, vite.config.js) and its route's code, preloaded
-// with the app's so hydration doesn't wait for it after the app's own code.
+// ROUTE_MODULES: its route's source file): the images it shows at once
+// (PAGE_IMAGES), the app's stylesheets (render blocking: the page shows
+// styled at once - the app's shell otherwise adds them after its first
+// paint, vite.config.js) and its route's code, preloaded with the app's so
+// hydration doesn't wait for it after the app's own code.
 function pageLinks(manifest, routeModules) {
   const cssOf = (key, seen = new Set()) => {
     const chunk = manifest[key]
@@ -64,7 +77,9 @@ function pageLinks(manifest, routeModules) {
       // The route's code: preloaded with the app's own, after the page's
       // first paint (the shell's loader, vite.config.js: __ocPagePreloads).
       const preloads = route ? [`/${route.file}`, ...(route.imports || []).filter((imported) => imported !== 'index.html' && manifest[imported]).map((imported) => `/${manifest[imported].file}`)] : []
+      const images = (PAGE_IMAGES[key] || []).filter(({ src }) => manifest[src]?.file)
       cache.set(kind, [
+        ...images.map(({ src, media }) => `<link rel="preload" as="image" href="/${manifest[src].file}" media="${media}" fetchpriority="high">`),
         ...css.map((href) => `<link rel="stylesheet" crossorigin href="/${href}">`),
         `<script>window.__ocPagePreloads = ${JSON.stringify(preloads)}</script>`,
       ].join('\n  '))
