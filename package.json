@@ -115,7 +115,7 @@
     "@vitejs/plugin-react": "^6.1.2",
     "concurrently": "^10.0.6",
     "eslint": "^10.13.0",
-    "eslint-plugin-jsdoc": "^65.2.4",
+    "eslint-plugin-jsdoc": "^65.3.8",
     "exceljs": "^4.4.0",
     "firebase-admin": "^14.5.0",
     "patch-package": "^8.0.1",
