@@ -95,7 +95,7 @@
     "react-zoom-pan-pinch": "^4.2.0",
     "redux-persist": "^6.0.0",
     "remark-gfm": "^4.0.1",
-    "sass": "^1.105.2",
+    "sass": "^1.106.1",
     "swiper": "^14.3.0",
     "swr": "^2.5.1",
     "underscore": "^1.13.8",
