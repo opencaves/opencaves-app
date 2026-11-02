@@ -45,7 +45,7 @@
     "@emotion/styled": "^11.14.1",
     "@fontsource/roboto": "^5.3.0",
     "@milkdown/core": "^7.23.0",
-    "@milkdown/plugin-clipboard": "^7.22.3",
+    "@milkdown/plugin-clipboard": "^7.23.0",
     "@milkdown/plugin-history": "^7.22.3",
     "@milkdown/plugin-listener": "^7.22.3",
     "@milkdown/preset-commonmark": "^7.22.3",
