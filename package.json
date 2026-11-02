@@ -47,7 +47,7 @@
     "@milkdown/core": "^7.23.0",
     "@milkdown/plugin-clipboard": "^7.23.0",
     "@milkdown/plugin-history": "^7.22.3",
-    "@milkdown/plugin-listener": "^7.22.3",
+    "@milkdown/plugin-listener": "^7.23.0",
     "@milkdown/preset-commonmark": "^7.23.0",
     "@milkdown/preset-gfm": "^7.22.3",
     "@milkdown/prose": "^7.22.3",
