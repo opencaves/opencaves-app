@@ -51,7 +51,7 @@
     "@milkdown/preset-commonmark": "^7.22.3",
     "@milkdown/preset-gfm": "^7.22.3",
     "@milkdown/prose": "^7.22.3",
-    "@milkdown/utils": "^7.22.2",
+    "@milkdown/utils": "^7.23.0",
     "@mui/icons-material": "^9.5.0",
     "@mui/material": "^9.5.0",
     "@photo-sphere-viewer/core": "^5.15.1",
