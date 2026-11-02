@@ -89,7 +89,7 @@
     "react-page-visibility": "github:ice-cream-club/react-page-visibility#master",
     "react-password-strength-bar": "^0.4.1",
     "react-photo-sphere-viewer": "^6.2.3",
-    "react-redux": "^9.3.0",
+    "react-redux": "^9.3.1",
     "react-router-dom": "^7.18.5",
     "react-transition-group": "^4.4.5",
     "react-zoom-pan-pinch": "^4.2.0",
