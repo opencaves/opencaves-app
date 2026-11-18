@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises'
 import { logger } from 'firebase-functions/v2'
 import { db } from '../init.js'
 import { CAVE_REPORTS_COLL_NAME, CAVES_ASSETS_COLL_NAME, CAVES_COLL_NAME, DOCUMENTS_COLL_NAME, POPULARITY_COLL_NAME } from '../constants.js'
-import { renderSsrPage, shellFor } from './shared.js'
+import { renderSsrPage, shellFor, withTimeout } from './shared.js'
 import { groupIndexData } from './indexData.js'
 
 // The public pages rendered by the app itself (src/entry-server.jsx), for
@@ -18,6 +18,11 @@ const SSR_DIR = new URL('../ssr/', import.meta.url)
 // The cave data, read once per instance and kept a few minutes (as
 // indexData.js): the CDN keeps each page an hour anyway.
 const DATA_TTL_MS = 5 * 60 * 1000
+// How long reading it may take (a few seconds as a rule) before it's given up.
+const DATA_READ_TIMEOUT_MS = 20 * 1000
+// How long the app may take to render a page, its reads included (100-300 ms
+// as a rule): past it, the site's shell, drawn in the browser (indexPages.js).
+export const RENDER_TIMEOUT_MS = 10 * 1000
 
 let loaded = null
 
@@ -123,8 +128,32 @@ export async function caveHasPhoto(caveId) {
   return covers.some(({ data }) => data.caveId === caveId && !data.deletedAt)
 }
 
-async function readData() {
-  if (dataCache && Date.now() - dataCache.at < DATA_TTL_MS) return dataCache.data
+// The read under way, shared by the requests that come meanwhile (each
+// started its own before).
+let dataReading = null
+
+// The data, read every DATA_TTL_MS. Once read, a request never waits for it
+// again: past the TTL it gets the data it has while a new read goes on (a
+// read hung for minutes on 2026-11-11, and every page waited for it until
+// Cloud Run's 60 s timeout). A read that takes over DATA_READ_TIMEOUT_MS is
+// given up, so the next request starts another.
+function readData() {
+  if (dataCache && Date.now() - dataCache.at < DATA_TTL_MS) return Promise.resolve(dataCache.data)
+  if (!dataReading) {
+    dataReading = withTimeout(readDataNow(), DATA_READ_TIMEOUT_MS, 'the cave data')
+      .catch((error) => {
+        logger.warn('[ssr] reading the cave data failed', { error: error.message })
+        throw error
+      })
+      .finally(() => { dataReading = null })
+  }
+  if (!dataCache) return dataReading
+  // Not awaited here: the request goes on with the data it has.
+  dataReading.catch(() => {})
+  return Promise.resolve(dataCache.data)
+}
+
+async function readDataNow() {
   const [entries, mapsSnap, documentsSnap, coversSnap, popularitySnap] = await Promise.all([
     Promise.all(Object.entries(DATA_COLLECTIONS).map(async ([key, name]) => [key, (await db.collection(name).get()).docs.map((doc) => ({ id: doc.id, ...plain(doc.data()) }))])),
     db.collection('maps').get(),

@@ -3,9 +3,9 @@ import { logger } from 'firebase-functions/v2'
 import { REGION, GITHUB_URL, SITE_URL, TITLE_NAME } from '../constants.js'
 import { cavePageMeta, readCaveRating } from './cavePage.js'
 import { sistemaJsonLd } from './structuredData.js'
-import { caveHasPhoto, loadPageIndex, loadSsr, renderWithApp } from './ssr.js'
+import { RENDER_TIMEOUT_MS, caveHasPhoto, loadPageIndex, loadSsr, renderWithApp } from './ssr.js'
 import { emptyCave } from '../sitemap/sitemap.js'
-import { TITLE_WORDS, decodeSegment, plainParagraphs, renderPage, sendHtml, shareImageOf, shellFor, truncate } from './shared.js'
+import { TITLE_WORDS, decodeSegment, plainParagraphs, renderPage, sendHtml, shareImageOf, shellFor, truncate, withTimeout } from './shared.js'
 import { sistemaPageTitle } from './pageTitles.js'
 import { answerWarmPing, isWarmPing } from './keepWarm.js'
 
@@ -19,6 +19,10 @@ import { answerWarmPing, isWarmPing } from './keepWarm.js'
 // these addresses (/caves/edit, /sistemas/edit, .../<id>/edit) are not
 // rewritten here (firebase.json).
 const CAVE_ID_PATTERN = /^[-_A-Za-z0-9]{1,64}$/
+
+// How long a cave's rating (one document) may take to read before the page
+// goes without it.
+const RATING_TIMEOUT_MS = 3000
 
 // A cave's name for structured data: as its own page's (cavePage.js).
 const caveName = (cave) => cave.name || '(Unnamed cave)'
@@ -177,13 +181,16 @@ function pageFor(path, data) {
 // { html, rendered }: the page as the app renders it (ssr.js), or - no
 // server build, a build other than the site's (a deploy under way), or the
 // rendering failing - the site's shell with the page's <head> (and, for a
-// cave, its text: cavePage.js's), which the app renders in the browser.
+// cave, its text: cavePage.js's), which the app renders in the browser. So
+// does a render that takes over RENDER_TIMEOUT_MS (a read that hangs): the
+// visitor gets the page drawn in the browser, not a 504 a minute later.
 async function pageHtml(req, meta) {
   try {
-    const html = await renderWithApp(req, meta)
+    const html = await withTimeout(renderWithApp(req, meta), RENDER_TIMEOUT_MS, `rendering ${req.path}`)
     if (html) return { html, rendered: true }
   } catch (error) {
-    logger.error('[indexPages] the app could not render the page', { path: req.path, error: error.stack || error.message })
+    if (error.timeout) logger.warn('[indexPages] the app took too long to render the page: served drawn in the browser', { path: req.path })
+    else logger.error('[indexPages] the app could not render the page', { path: req.path, error: error.stack || error.message })
   }
   return { html: renderPage(await shellFor(req), meta), rendered: false }
 }
@@ -223,7 +230,8 @@ export const indexPages = onRequest({ region: REGION, memory: '512MiB' }, async 
       const cave = data.cavesById.get(page.cave)
       const sistema = cave?.sistemaId && data.sistemasById.get(cave.sistemaId)
       // Its rating (structured data's aggregateRating): read fresh, a document.
-      const rating = cave ? await readCaveRating(page.cave) : null
+      // None when the read hangs: the page matters more.
+      const rating = cave ? await withTimeout(readCaveRating(page.cave), RATING_TIMEOUT_MS, 'the rating').catch(() => null) : null
       meta = cave ? cavePageMeta(cave, page.cave, sistema ? { name: sistema.name, slug: sistema.slug } : null, `/caves/${page.cave}`, rating) : null
     }
     if (page?.redirect) {
