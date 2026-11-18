@@ -28,6 +28,31 @@ const ALLOWED_HOST_PATTERN = /^(opencaves\.org|www\.opencaves\.org|opencaves(--[
 // The last shell fetched from each origin: used only when fetching fails.
 const shells = new Map()
 
+// How long fetching the shell may take (~80 ms as a rule): past it, the copy
+// fetched before. With no limit, a hung fetch held every page until Cloud
+// Run's 60 s timeout (504s, 2026-11-11).
+const SHELL_TIMEOUT_MS = 5000
+
+/**
+ * The promise's value, or a rejection once ms have passed without one. The
+ * work itself goes on (a Firestore read can't be cancelled): only the wait
+ * for it ends.
+ *
+ * @template T
+ * @param {Promise<T>} promise
+ * @param {number} ms
+ * @param {string} label - What is awaited, for the error's message.
+ * @returns {Promise<T>}
+ * @throws {Error} When ms pass first (`error.timeout` is true).
+ */
+export function withTimeout(promise, ms, label) {
+  let timer
+  const timeout = new Promise((resolve, reject) => {
+    timer = setTimeout(() => reject(Object.assign(new Error(`${label}: no answer within ${ms} ms`), { timeout: true })), ms)
+  })
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timer))
+}
+
 /**
  * The served site's app shell - app.html, the build's index.html renamed so
  * Hosting doesn't serve it as a static file for / (vite.config.js) - or
@@ -38,16 +63,19 @@ const shells = new Map()
  * hasn't the page): a shell kept for minutes outlived a deploy - pages drawn
  * on the old build's shell named files Hosting no longer had, and the CDN
  * kept them an hour. (Hosting ignores If-None-Match: no cheaper check.)
+ * A fetch that fails or takes over 5 s gives the copy fetched before.
  *
  * @param {Request} req
  * @returns {Promise<string>}
+ * @throws {Error} When the fetch fails and no copy was fetched before.
  */
 export async function shellFor(req) {
   const host = (req.get('x-forwarded-host') || req.hostname || '').toLowerCase()
   const origin = ALLOWED_HOST_PATTERN.test(host) ? `https://${host}` : SITE_URL
   try {
-    let response = await fetch(`${origin}/app.html`, { cache: 'no-store' })
-    if (response.status === 404) response = await fetch(`${origin}/index.html`, { cache: 'no-store' })
+    const options = { cache: /** @type {RequestCache} */ ('no-store'), signal: AbortSignal.timeout(SHELL_TIMEOUT_MS) }
+    let response = await fetch(`${origin}/app.html`, options)
+    if (response.status === 404) response = await fetch(`${origin}/index.html`, options)
     if (!response.ok) throw new Error(`app shell from ${origin}: ${response.status}`)
     const html = await response.text()
     shells.set(origin, html)
