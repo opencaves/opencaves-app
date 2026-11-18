@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.4.3](https://github.com/opencaves/opencaves-app/compare/v1.4.2...v1.4.3) (2026-11-18)
+
+Steadier public pages.
+
+
+### Fixes
+
+* **Cave and cave system pages** no longer fail when a database read hangs on the server: they're shown within seconds, drawn in the browser, instead of an error after a minute (a few pages failed that way for three minutes on 11 November).
+
+### For the team
+
+* The landing page's header photo for this release; the dependencies brought up to date; notes on what the OpenDives dive log would read from an OpenCaves API (`docs/opendives-data-needs.md`), and the photos' `author` and `licence` fields.
+
 ## [1.4.2](https://github.com/opencaves/opencaves-app/compare/v1.4.1...v1.4.2) (2026-10-18)
 
 A steadier first look on phones, and search engines pointed at the pages worth reading.
