@@ -11,7 +11,7 @@ Steadier public pages.
 
 ### For the team
 
-* The landing page's header photo for this release; the dependencies brought up to date; notes on what the OpenDives dive log would read from an OpenCaves API (`docs/opendives-data-needs.md`), and the photos' `author` and `licence` fields.
+* The landing page's header photo for this release; the dependencies brought up to date, with their known security flaws fixed (`npm audit` clean in the app and both functions codebases; workbox-build's `glob` held at a fixed version by an override); notes on what the OpenDives dive log would read from an OpenCaves API (`docs/opendives-data-needs.md`), and the photos' `author` and `licence` fields.
 
 ## [1.4.2](https://github.com/opencaves/opencaves-app/compare/v1.4.1...v1.4.2) (2026-10-18)
 
