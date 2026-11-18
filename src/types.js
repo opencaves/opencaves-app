@@ -256,6 +256,9 @@
  * @property {number} [thumbnailRevision] - Its copies redone: part of their names past 1.
  * @property {number} [viewThumbnailRevision] - A panorama's small copies made from a view (setViewThumbnail).
  * @property {{yaw: number, pitch: number, zoom: number}} [thumbnailView] - That view.
+ * @property {string} [author] - Who took it, its public credit (set by script, `scripts/apply-edits.js`; none for a
+ *   photo uploaded since).
+ * @property {string} [licence] - Its licence, an SPDX id (`CC-BY-SA-4.0`, the terms' licence for contributions).
  * @property {Timestamp} [_created] - Stamped by the server (onAssetCreated).
  */
 

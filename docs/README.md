@@ -26,6 +26,9 @@ the project.
   map author's conventions.
 - [Importing cave photos](photos-import.md): bulk-import cave photos from the
   `_data` folder and attach them to their caves.
+- [OpenDives data needs](opendives-data-needs.md): what the OpenDives dive
+  log would read from an OpenCaves API (fields, requests, licence), against
+  what OpenCaves holds today - input for the API's design.
 - [App Check](app-check.md): letting only the app itself use Firestore,
   Storage and the functions - registering it, watching its metrics, then
   enforcing it.
