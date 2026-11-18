@@ -55,7 +55,7 @@
     "@mui/icons-material": "^9.5.0",
     "@mui/material": "^9.5.0",
     "@photo-sphere-viewer/core": "^5.15.1",
-    "@reduxjs/toolkit": "^2.13.0",
+    "@reduxjs/toolkit": "^2.14.0",
     "browser-fs-access": "^0.38.0",
     "driver.js": "^1.10.2",
     "exifr": "^7.1.3",
